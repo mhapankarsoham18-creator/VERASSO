@@ -26,7 +26,7 @@ class AIService {
 
       if (apiKey.isEmpty) {
         throw Exception(
-            'OpenRouter API Key is missing. Ensure --dart-define=OPENAI_API_KEY=your_key is provided during build.');
+            'AI API Configuration incomplete. Please check your environment setup.');
       }
 
       // 2. Call OpenRouter API

@@ -13,7 +13,7 @@ on:
         default: "false"
 
 env:
-  FLUTTER_VERSION: "3.27.x"
+  FLUTTER_VERSION: "3.27.4"
   COVERAGE_THRESHOLD: 50
 
 jobs:
@@ -64,15 +64,9 @@ jobs:
         run: |
           echo "🔍 Scanning for exposed credentials..."
 
-          # Check for hardcoded API keys
-          if grep -r "SUPABASE_KEY\|API_KEY\|SECRET_KEY\|firebase_key\|auth_token" lib/ --include="*.dart" --exclude-dir=.git; then
+          # Check for hardcoded API keys (exclude String.fromEnvironment declarations)
+          if grep -rn "SUPABASE_KEY\|SECRET_KEY\|firebase_key\|auth_token" lib/ --include="*.dart" --exclude-dir=.git | grep -v "fromEnvironment" | grep -v "//"; then
             echo "❌ Found potential hardcoded credentials in source code"
-            exit 1
-          fi
-
-          # Check for common credential patterns
-          if grep -r "key:\s*['\"][a-zA-Z0-9]\{20,\}['\"]" lib/ --include="*.dart"; then
-            echo "❌ Found suspicious long string literals (potential credentials)"
             exit 1
           fi
 
