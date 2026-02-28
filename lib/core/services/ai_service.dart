@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:verasso/core/config/app_config.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
 
 /// Provider for the [AIService] instance.
@@ -22,30 +21,12 @@ class AIService {
   /// Sends a message to the AI and retrieves a response via OpenRouter.
   Future<String> sendMessage(String userMessage) async {
     try {
-      // 1. Load API Key from .env
-      final envFile = File('.env');
-      if (!await envFile.exists()) {
-        throw Exception('.env file not found');
-      }
-
-      final envContent = await envFile.readAsString();
-      final lines = envContent.split('\n');
-
-      String apiKey = '';
-      for (final line in lines) {
-        final trimmed = line.trim();
-        if (trimmed.startsWith('OPENAI_API_KEY=')) {
-          apiKey = trimmed
-              .split('=')[1]
-              .trim()
-              .replaceAll('"', '')
-              .replaceAll("'", '');
-          break;
-        }
-      }
+      // 1. Load API Key from AppConfig (environment variables)
+      final apiKey = AppConfig.openaiApiKey;
 
       if (apiKey.isEmpty) {
-        throw Exception('OpenRouter API Key is missing in .env');
+        throw Exception(
+            'OpenRouter API Key is missing. Ensure --dart-define=OPENAI_API_KEY=your_key is provided during build.');
       }
 
       // 2. Call OpenRouter API

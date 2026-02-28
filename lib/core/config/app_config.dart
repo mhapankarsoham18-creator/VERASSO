@@ -6,14 +6,20 @@ class AppConfig {
   /// The base URL for the Supabase API.
   static const String supabaseUrl = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://fdsxklbqjgxfkxebybrn.supabase.co',
+    defaultValue: '',
   );
 
   /// The anonymous public key for Supabase authentication.
   static const String supabaseAnonKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
+    defaultValue: '',
+  );
+
+  /// The API key for OpenAI/OpenRouter services.
+  static const String openaiApiKey = String.fromEnvironment(
+    'OPENAI_API_KEY',
     defaultValue:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkc3hrbGJxamd4Zmt4ZWJ5YnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMzU4NDMsImV4cCI6MjA4NzcxMTg0M30.k_sD0IJdqCI9dIMX-zQHqfg2wFnrOJ7KiFwa8RkMMuI',
+        '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',
   );
 
   /// The API key for Google Gemini AI services.

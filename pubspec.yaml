@@ -45,7 +45,7 @@ dependencies:
     path: packages/codemaster_odyssey
 
   # Handlers
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^3.0.0
   web: ^1.1.0
 
   # Icons
