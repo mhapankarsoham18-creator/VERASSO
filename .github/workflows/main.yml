@@ -76,8 +76,8 @@ jobs:
         run: |
           echo "🔍 Scanning for dangerous code patterns..."
 
-          # Check for dangerous functions
-          if grep -r "eval(\|exec(\|system(" lib/ --include="*.dart"; then
+          # Check for dangerous functions (exclude sandbox blocklists)
+          if grep -r "eval(\|exec(\|system(" lib/ --include="*.dart" --exclude-dir=sandbox; then
             echo "❌ Found dangerous function calls"
             exit 1
           fi
@@ -173,16 +173,19 @@ jobs:
 
       - name: 🏗️ Build Android App Bundle (Release)
         if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          flutter build appbundle --release --no-pub \
-            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
-            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
-            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
         env:
+          CI_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          CI_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          CI_GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PATH: ${{ secrets.KEY_PATH }}
+        run: |
+          flutter build appbundle --release --no-pub \
+            --dart-define=SUPABASE_URL=$CI_SUPABASE_URL \
+            --dart-define=SUPABASE_ANON_KEY=$CI_SUPABASE_ANON_KEY \
+            --dart-define=GEMINI_API_KEY=$CI_GEMINI_KEY
 
       - name: 📤 Upload App Bundle artifact
         if: startsWith(github.ref, 'refs/tags/v')
@@ -212,11 +215,15 @@ jobs:
         run: flutter pub get
 
       - name: 🏗️ Build iOS IPA (No Codesign)
+        env:
+          CI_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          CI_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          CI_GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           flutter build ipa --release --no-codesign \
-            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
-            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
-            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+            --dart-define=SUPABASE_URL=$CI_SUPABASE_URL \
+            --dart-define=SUPABASE_ANON_KEY=$CI_SUPABASE_ANON_KEY \
+            --dart-define=GEMINI_API_KEY=$CI_GEMINI_KEY
 
       - name: 📤 Upload IPA artifact
         uses: actions/upload-artifact@v4

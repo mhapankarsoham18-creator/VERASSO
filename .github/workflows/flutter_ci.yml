@@ -13,10 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SUPABASE_URL: "${{ secrets.SUPABASE_URL }}"
-      SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
-      SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
 
     steps:
       - name: Checkout repository
@@ -30,10 +26,14 @@ jobs:
           cache: true
 
       - name: Create .env from secrets
+        env:
+          CI_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          CI_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          CI_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |
-          echo "SUPABASE_URL=$SUPABASE_URL" > .env
-          echo "SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY" >> .env
-          echo "SENTRY_DSN=$SENTRY_DSN" >> .env
+          echo "SUPABASE_URL=$CI_SUPABASE_URL" > .env
+          echo "SUPABASE_ANON_KEY=$CI_SUPABASE_ANON_KEY" >> .env
+          echo "SENTRY_DSN=$CI_SENTRY_DSN" >> .env
 
       - name: Install dependencies
         run: flutter pub get

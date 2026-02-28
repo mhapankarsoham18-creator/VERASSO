@@ -124,8 +124,8 @@ dependencies:
   razorpay_flutter: ^1.3.7
 
   # Forced updates to resolve outdated package warnings
-  webview_flutter: ^4.13.1
-  webview_flutter_android: ^4.10.11
+  webview_flutter: ^4.10.0
+  webview_flutter_android: ^4.10.0
 
   flutter_native_splash: ^2.4.4
 
