@@ -13,16 +13,16 @@ dependencies:
     sdk: flutter
 
   # State Management
-  flutter_riverpod: ^3.2.1
-  riverpod_annotation: ^4.0.2
-  json_annotation: ^4.11.0
+  flutter_riverpod: ^3.1.0
+  riverpod_annotation: ^4.0.0
+  json_annotation: ^4.9.0
 
   # Navigation
   go_router: ^17.1.0
 
   # Backend (Supabase)
-  supabase_flutter: ^2.8.0
-  supabase: ^2.4.0
+  supabase_flutter: ^2.3.0
+  supabase: ^2.0.0
 
   # Logging
   logger: ^2.6.2
@@ -55,16 +55,16 @@ dependencies:
 
   # Utilities
   intl: ^0.20.2
-  url_launcher: ^6.3.1
+  url_launcher: ^6.2.4
   flutter_stripe: ^12.3.0
   shared_preferences: ^2.3.5
   uuid: ^4.5.1
   timeago: ^3.7.0
 
-  image_picker: ^1.1.2
+  image_picker: ^1.0.7
   encrypt: ^5.0.3
   flutter_secure_storage: ^10.0.0
-  pointycastle: ^4.0.0
+  pointycastle: ^3.9.1
 
   # AR & Hand Gesture Recognition
   camera: ^0.12.0
@@ -75,7 +75,7 @@ dependencies:
   google_mlkit_pose_detection: ^0.14.1
   ar_flutter_plugin_plus: ^1.1.2
   flutter_3d_controller: ^2.3.0
-  vector_math: ^2.2.0
+  vector_math: any
 
   # Messaging
   file_picker: ^10.3.10
@@ -86,7 +86,7 @@ dependencies:
   image_cropper: ^11.0.0
   photo_view: ^0.15.0
   photofilters: ^3.0.1
-  image: ^4.8.0
+  image: ^4.1.7
 
   # Security & Utils
   bcrypt: ^1.1.3
@@ -94,7 +94,7 @@ dependencies:
 
   # Error Reporting & Analytics
   sentry_flutter: ^9.12.0
-  flutter_jailbreak_detection: ^1.1.1
+  flutter_jailbreak_detection: ^1.0.0
 
   # Biometric Authentication
   local_auth: ^3.0.1
@@ -128,21 +128,20 @@ dependencies:
   webview_flutter_android: ^4.10.0
 
   flutter_native_splash: ^2.4.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.4.4
   hive_test: ^1.0.1
   flutter_lints: ^6.0.0
-  build_runner: ^2.4.13
-  freezed: ^3.2.5
-  riverpod_generator: ^4.0.3
+  build_runner: ^2.4.7
+  freezed: ^3.2.3
+  riverpod_generator: ^4.0.0+1
   custom_lint: ^0.8.1
-  riverpod_lint: ^3.1.3
-  json_serializable: ^6.13.0
+  riverpod_lint: ^3.1.0
+  json_serializable: ^6.9.0
   flutter_launcher_icons: ^0.14.4
-  local_auth_android: ^2.0.5
-  local_auth_darwin: ^2.0.3
   integration_test:
     sdk: flutter
 
@@ -166,3 +165,10 @@ flutter:
     - assets/images/
     - assets/models/
     - assets/docs/
+
+dependency_overrides:
+  image: ^4.1.7
+  intl: ^0.20.2
+  geolocator: ^14.0.2
+  permission_handler: ^12.0.1
+  vector_math: ^2.2.0

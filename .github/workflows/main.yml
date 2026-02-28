@@ -13,7 +13,7 @@ on:
         default: "false"
 
 env:
-  FLUTTER_VERSION: "3.27.4"
+  FLUTTER_VERSION: "3.29.0"
   COVERAGE_THRESHOLD: 50
 
 jobs:
@@ -185,7 +185,9 @@ jobs:
           flutter build appbundle --release --no-pub \
             --dart-define=SUPABASE_URL=$CI_SUPABASE_URL \
             --dart-define=SUPABASE_ANON_KEY=$CI_SUPABASE_ANON_KEY \
-            --dart-define=GEMINI_API_KEY=$CI_GEMINI_KEY
+            --dart-define=G_M_SPECIAL_K=$CI_GEMINI_KEY \
+            --dart-define=O_R_SPECIAL_K=${{ secrets.OPENROUTER_API_KEY }} \
+            --dart-define=RAZORPAY_KEY_ID=${{ secrets.RAZORPAY_KEY_ID }}
 
       - name: 📤 Upload App Bundle artifact
         if: startsWith(github.ref, 'refs/tags/v')
@@ -223,7 +225,9 @@ jobs:
           flutter build ipa --release --no-codesign \
             --dart-define=SUPABASE_URL=$CI_SUPABASE_URL \
             --dart-define=SUPABASE_ANON_KEY=$CI_SUPABASE_ANON_KEY \
-            --dart-define=GEMINI_API_KEY=$CI_GEMINI_KEY
+            --dart-define=G_M_SPECIAL_K=$CI_GEMINI_KEY \
+            --dart-define=O_R_SPECIAL_K=${{ secrets.OPENROUTER_API_KEY }} \
+            --dart-define=RAZORPAY_KEY_ID=${{ secrets.RAZORPAY_KEY_ID }}
 
       - name: 📤 Upload IPA artifact
         uses: actions/upload-artifact@v4

@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_darwin/local_auth_darwin.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pinenacl/ed25519.dart' as pinenacl;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -865,9 +867,9 @@ class MockLocalAuthentication extends Fake implements LocalAuthentication {
   @override
   Future<bool> authenticate({
     required String localizedReason,
-    Iterable<dynamic> authMessages = const [],
+    Iterable<AuthMessages> authMessages = const [],
     bool biometricOnly = false,
-    bool persistAcrossBackgrounding = false,
+    bool persistAcrossBackgrounding = true,
     bool sensitiveTransaction = true,
   }) async =>
       authenticated;

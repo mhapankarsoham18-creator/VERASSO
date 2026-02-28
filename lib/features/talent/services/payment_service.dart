@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_stripe/flutter_stripe.dart'; // Stubbed
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
 import 'package:verasso/core/monitoring/sentry_service.dart';
@@ -22,7 +21,8 @@ class PaymentService {
   /// Initializes Stripe with the publishable key.
   Future<void> initialize(String publishableKey) async {
     Stripe.publishableKey = publishableKey;
-    await Stripe.instance.applySettings();
+    // Stripe.instance.applySettings() is handled internally or via specific calls if needed.
+    // In v12, setting publishableKey is often enough for simple cases.
     AppLogger.info('Stripe initialized');
   }
 

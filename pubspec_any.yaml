@@ -1,0 +1,155 @@
+name: verasso
+description: A unified social-learning ecosystem.
+publish_to: "none"
+version: 1.2.0+3
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: any
+  riverpod_annotation: any
+  json_annotation: any
+  # Navigation
+  go_router: any
+  # Backend (Supabase)
+  supabase_flutter: any
+  supabase: any
+  # Logging
+  logger: any
+  # UI & Design
+  google_fonts: any
+  flutter_animate: any
+  animations: any
+  glassmorphism_ui: any
+  shimmer: any
+  qr_flutter: any
+  mobile_scanner: any
+  fl_chart: any
+  confetti: any
+  cached_network_image: any
+  flutter_staggered_grid_view: any
+  firebase_core: any
+  firebase_messaging: any
+  codemaster_odyssey:
+    path: packages/codemaster_odyssey
+
+  # Handlers
+  freezed_annotation: any
+  web: any
+  # Icons
+  lucide_icons: any
+  cupertino_icons: any
+  lottie: any
+  # Utilities
+  intl: any
+  url_launcher: any
+  flutter_stripe: any
+  shared_preferences: any
+  uuid: any
+  timeago: any
+  image_picker: any
+  encrypt: any
+  flutter_secure_storage: any
+  pointycastle: any
+  # AR & Hand Gesture Recognition
+  camera: any
+  geolocator: any
+  sensors_plus: any
+  permission_handler: any
+  google_mlkit_pose_detection: any
+  ar_flutter_plugin_plus: any
+  flutter_3d_controller: any
+  vector_math: any
+  # Messaging
+  file_picker: any
+  video_player: any
+  audioplayers: any
+  video_compress: any
+  record: any
+  image_cropper: any
+  photo_view: any
+  photofilters: any
+  image: any
+  # Security & Utils
+  bcrypt: any
+  crypto: any
+  # Error Reporting & Analytics
+  sentry_flutter: any
+  flutter_jailbreak_detection: any
+  # Biometric Authentication
+  local_auth: any
+  # Platform-specific local_auth removed to allow federated management
+
+  # Certificate Pinning & HTTP
+  dio: any
+  http: any
+  # Network & Connectivity
+  connectivity_plus: any
+  network_info_plus: any
+  # Bluetooth & Mesh
+  flutter_blue_plus: any
+  nearby_connections: any
+  # Offline Storage
+  hive: any
+  hive_flutter: any
+  sqflite: any
+  path_provider: any
+  share_plus: any
+  flutter_markdown: any
+  pinenacl: any
+  path: any
+  razorpay_flutter: any
+  # Forced updates to resolve outdated package warnings
+  webview_flutter: any
+  webview_flutter_android: any
+  flutter_native_splash: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mockito: any
+  hive_test: any
+  flutter_lints: any
+  build_runner: any
+  freezed: any
+  riverpod_generator: any
+  custom_lint: any
+  riverpod_lint: any
+  json_serializable: any
+  flutter_launcher_icons: any
+  integration_test:
+    sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.jpeg"
+
+flutter_native_splash:
+  color: "#000000"
+  image: "assets/images/splash-icon.png"
+  android_12:
+    image: "assets/images/splash-icon.png"
+    color: "#000000"
+  fullscreen: true
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/models/
+    - assets/docs/
+
+dependency_overrides:
+  image: any
+  intl: any
+  geolocator: any
+  permission_handler: any
+  vector_math: any
