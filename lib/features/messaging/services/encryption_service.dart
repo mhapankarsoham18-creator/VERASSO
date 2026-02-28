@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pinenacl/tweetnacl.dart';
 import 'package:pinenacl/x25519.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/sentry_service.dart';
@@ -35,33 +36,64 @@ class EncryptionService {
       {bool isGroup = false}) async {
     try {
       final myId = _client.auth.currentUser?.id;
-      if (myId == null) throw Exception('Not logged in');
+      if (myId == null) {
+        throw Exception('Not logged in');
+      }
 
       // 1. Get my Private Key
       final myPrivKeyBase64 = await _storage.read(key: _privateKeyKey);
       if (myPrivKeyBase64 == null) throw Exception('Local private key missing');
       final myPrivKey = PrivateKey(base64Decode(myPrivKeyBase64));
 
-      // 2. Determine who the peer is
-      final String peerId;
-      if (isGroup) {
-        peerId = messageRow['sender_id'];
-      } else {
-        peerId = messageRow['sender_id'] == myId
-            ? messageRow['receiver_id']
-            : messageRow['sender_id'];
+      final senderId = messageRow['sender_id'];
+      final String scheme = messageRow['scheme'] ?? 'pinenacl_v1';
+
+      if (scheme == 'hybrid_pinenacl_v1' && isGroup) {
+        // --- Hybrid Decryption for Group Chat ---
+        final encryptedKeys =
+            messageRow['encrypted_keys'] as Map<String, dynamic>?;
+        if (encryptedKeys == null || !encryptedKeys.containsKey(myId)) {
+          throw Exception('Session key not found for current user');
+        }
+
+        // a. Get Sender's Public Key
+        final senderPubKeyBase64 = await _getPublicKey(senderId);
+        if (senderPubKeyBase64 == null) {
+          throw Exception('Sender public key missing');
+        }
+        final senderPubKey = PublicKey(base64Decode(senderPubKeyBase64));
+
+        // b. Decrypt Session Key using NaCl Box
+        final box = Box(myPrivateKey: myPrivKey, theirPublicKey: senderPubKey);
+        final encryptedSessionKey = base64Decode(encryptedKeys[myId]);
+        final sessionKey = box.decrypt(ByteList(encryptedSessionKey));
+
+        // c. Decrypt Content using NaCl SecretBox
+        final secretBox = SecretBox(sessionKey);
+        final cipherText = base64Decode(messageRow['encrypted_content']);
+        final nonce = base64Decode(messageRow['iv_text']);
+
+        final decryptedBytes = secretBox.decrypt(
+          ByteList(cipherText),
+          nonce: nonce,
+        );
+        return utf8.decode(decryptedBytes);
       }
 
-      // 3. Get peer's Public Key
+      // --- Legacy / Direct Decryption ---
+      final String peerId = (isGroup)
+          ? senderId
+          : (messageRow['sender_id'] == myId
+              ? messageRow['receiver_id']
+              : messageRow['sender_id']);
+
       final peerPubKeyBase64 = await _getPublicKey(peerId);
       if (peerPubKeyBase64 == null) {
         throw Exception('Peer public key not found');
       }
       final peerPubKey = PublicKey(base64Decode(peerPubKeyBase64));
 
-      // 4. Decrypt using Box
       final box = Box(myPrivateKey: myPrivKey, theirPublicKey: peerPubKey);
-
       final cipherText = base64Decode(messageRow['encrypted_content']);
       final nonce = base64Decode(messageRow['iv_text']);
 
@@ -79,31 +111,48 @@ class EncryptionService {
   }
 
   /// Encrypts content for multiple receivers (Group Chat).
-  /// Returns [encryptedContent, iv, keysPerUser, keyForSender]
+  /// Returns [encryptedContent, iv, encryptedKeysPerUser]
   Future<Map<String, dynamic>> encryptGroupMessage(
       String content, List<String> receiverIds) async {
-    // For Signal-style group encryption in v1, we encrypt for each recipient.
-    // In v2, we would use Sender Keys.
-    // For Signal-style group encryption in v1, we encrypt for each recipient.
+    try {
+      // 1. Generate a random 32-byte session key
+      final sessionKey = TweetNaCl.randombytes(32);
+      final secretBox = SecretBox(sessionKey);
 
-    // We'll generate a random session key if we were doing hybrid,
-    // but with NaCl Box, it's simpler to just encrypt for each.
-    // However, the existing DB schema expects 'encrypted_content' and 'iv_text' to be shared,
-    // and keys to be per-user. To fit this without a major schema change:
-    // 1. Generate a random AES key.
-    // 2. Encrypt content once with AES.
-    // 3. Encrypt the AES key for each NaCl public key.
+      // 2. Encrypt content once with this session key
+      final encryptedBytes = secretBox.encrypt(utf8.encode(content));
 
-    // For now, to keep it simple and compatible with the call sites:
-    final result = await encryptMessage(content, receiverIds.first);
-    return {
-      'content': result['content'],
-      'iv': result['iv'],
-      'keys_per_user': {receiverIds.first: result['key_receiver']},
-      'key_sender': result['key_sender'],
-    };
-    // Note: This is an interim "shim" to fix compilation.
-    // Proper multi-recipient NaCl encryption should be implemented if group chat is core.
+      // 3. Encrypt the session key for each recipient using their public key (NaCl Box)
+      final myPrivKeyBase64 = await _storage.read(key: _privateKeyKey);
+      if (myPrivKeyBase64 == null) {
+        throw Exception('Local private key missing');
+      }
+      final myPrivKey = PrivateKey(base64Decode(myPrivKeyBase64));
+
+      final Map<String, String> encryptedKeys = {};
+      for (final receiverId in receiverIds) {
+        final theirPubKeyBase64 = await _getPublicKey(receiverId);
+        if (theirPubKeyBase64 != null) {
+          final box = Box(
+              myPrivateKey: myPrivKey,
+              theirPublicKey: PublicKey(base64Decode(theirPubKeyBase64)));
+          final encryptedSessionKey = box.encrypt(sessionKey);
+          // Combine nonce + cipher for transmission
+          encryptedKeys[receiverId] = base64Encode(encryptedSessionKey);
+        }
+      }
+
+      return {
+        'content': base64Encode(encryptedBytes.cipherText),
+        'iv': base64Encode(encryptedBytes.nonce),
+        'encrypted_keys': encryptedKeys,
+        'scheme': 'hybrid_pinenacl_v1',
+      };
+    } catch (e, stack) {
+      AppLogger.error('Group encryption failed', error: e);
+      SentryService.captureException(e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   // --- Encryption / Decryption ---
@@ -198,7 +247,9 @@ class EncryptionService {
           .eq('user_id', userId)
           .maybeSingle();
 
-      if (response == null) return null;
+      if (response == null) {
+        return null;
+      }
       return response['public_key'] as String;
     } catch (e, stack) {
       AppLogger.error('Failed to fetch public key for $userId', error: e);

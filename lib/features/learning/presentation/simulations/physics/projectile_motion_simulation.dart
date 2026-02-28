@@ -157,9 +157,34 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
     }
   }
 
-  void _stopSimulation() {
+  void _stopSimulation() async {
     _controller.stop();
     setState(() => _isAnimating = false);
+
+    // Phase 2: Persist Simulation Results
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null && _trajectoryPoints.isNotEmpty) {
+        final lastPoint = _trajectoryPoints.last;
+        // Calculate final distance (simple scaling reverse)
+        final distance = lastPoint.dx / 2;
+
+        await Supabase.instance.client.from('user_simulation_results').insert({
+          'user_id': userId,
+          'sim_id': 'projectile_motion',
+          'parameters': {
+            'angle': _angle,
+            'velocity': _velocity,
+          },
+          'results': {
+            'distance': distance,
+            'duration': _time,
+          },
+        });
+      }
+    } catch (e) {
+      debugPrint('Error persisting simulation results: $e');
+    }
   }
 
   void _updatePhysics() {

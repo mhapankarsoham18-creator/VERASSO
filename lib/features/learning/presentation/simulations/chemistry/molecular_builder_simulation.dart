@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
@@ -274,6 +275,23 @@ class _MolecularBuilderSimulationState
     } else {
       _result = "Unstable / Unknown";
       _resultColor = Colors.white54;
+    }
+
+    if (_result != "Unstable / Unknown" && _result != "Empty") {
+      // Phase 2: Persist Simulation Result
+      try {
+        final userId = Supabase.instance.client.auth.currentUser?.id;
+        if (userId != null) {
+          Supabase.instance.client.from('user_simulation_results').insert({
+            'user_id': userId,
+            'sim_id': 'molecular_builder',
+            'parameters': {'atoms': _atoms},
+            'results': {'molecule': _result},
+          }).then((_) => debugPrint('Molecular builder result saved'));
+        }
+      } catch (e) {
+        debugPrint('Error persisting molecular builder result: $e');
+      }
     }
   }
 

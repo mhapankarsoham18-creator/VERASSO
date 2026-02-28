@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:codemaster_odyssey/codemaster_odyssey.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -30,6 +31,7 @@ import 'features/auth/presentation/auth_screen.dart';
 import 'features/auth/presentation/screen_lock_overlay.dart';
 import 'features/home/presentation/home_screen.dart';
 import 'features/learning/presentation/cognitive_dashboard.dart';
+import 'features/messaging/presentation/group_chat_screen.dart';
 import 'features/news/presentation/article_detail_screen.dart';
 import 'features/notifications/data/notification_service.dart';
 import 'features/settings/presentation/privacy_settings_controller.dart';
@@ -94,7 +96,14 @@ void main() async {
 
       // Initialize Offline Storage
       final container = ProviderContainer(
-        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
+          // Odyssey Backend Overrides
+          odysseySupabaseClientProvider
+              .overrideWithValue(SupabaseService.client),
+          odysseyUserIdProvider
+              .overrideWith((ref) => ref.watch(currentUserProvider)?.id),
+        ],
       );
       await container
           .read(offlineStorageServiceProvider)
@@ -192,6 +201,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/feedback',
         builder: (context, state) => const FeedbackScreen(),
+      ),
+      GoRoute(
+        path: '/group-chat/:groupId/:name',
+        builder: (context, state) => GroupChatScreen(
+          groupId: state.pathParameters['groupId']!,
+          groupName: state.pathParameters['name']!,
+        ),
       ),
     ],
     errorBuilder: (context, state) => RouteErrorScreen(state: state),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
@@ -398,6 +399,21 @@ class _CellStructureSimulationState extends State<CellStructureSimulation> {
       _selectedOrganelle = name;
       _description = _info[name] ?? "Unknown part";
     });
+
+    // Phase 2: Persist Selection
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null) {
+        Supabase.instance.client.from('user_simulation_results').insert({
+          'user_id': userId,
+          'sim_id': 'cell_structure',
+          'parameters': {'action': 'select_organelle'},
+          'results': {'organelle': name},
+        }).then((_) => debugPrint('Cell organelle selection saved'));
+      }
+    } catch (e) {
+      debugPrint('Error persisting cell organelle selection: $e');
+    }
   }
 
   void _zoomIn() {

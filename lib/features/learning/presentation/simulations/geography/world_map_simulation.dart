@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
@@ -327,5 +328,20 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
     setState(() {
       _selectedRegionId = id;
     });
+
+    // Phase 2: Persist Region Selection
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null) {
+        Supabase.instance.client.from('user_simulation_results').insert({
+          'user_id': userId,
+          'sim_id': 'world_map',
+          'parameters': {'action': 'select_region'},
+          'results': {'region_id': id},
+        }).then((_) => debugPrint('World map region selection saved'));
+      }
+    } catch (e) {
+      debugPrint('Error persisting world map selection: $e');
+    }
   }
 }

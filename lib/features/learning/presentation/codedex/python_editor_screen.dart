@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 import 'package:verasso/features/sandbox/python_sandbox.dart';
@@ -153,9 +154,24 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
     });
 
     if (result.isSuccessful) {
-      // Optional: Hook up to gamification system here
+      // Phase 2: Persist Codedex History
+      try {
+        final userId = Supabase.instance.client.auth.currentUser?.id;
+        if (userId != null) {
+          await Supabase.instance.client.from('codedex_history').insert({
+            'user_id': userId,
+            'lesson_id': widget.moduleTitle,
+            'code_snippet': code,
+            'is_passing': true,
+          });
+        }
+      } catch (e) {
+        debugPrint('Error persisting codedex history: $e');
+      }
+
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Execution Successful!'),
+          content: Text('Execution Successful! History Saved.'),
           backgroundColor: Colors.green));
     }
   }

@@ -14,8 +14,10 @@ import '../../editor/presentation/odyssey_editor.dart';
 import '../../quest/data/quest_repository.dart';
 import '../../quest/domain/quest_model.dart';
 import '../data/adaptive_difficulty_service.dart';
+import '../data/history_providers.dart';
 import '../data/lesson_repository.dart';
 import '../domain/lesson_model.dart';
+import '../domain/snippet_history.dart';
 
 /// A screen that displays an interactive micro-lesson for a specific realm.
 class LessonScreen extends ConsumerStatefulWidget {
@@ -63,7 +65,20 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
     final lesson = lessons.first; // Mock: always get first lesson for now
 
     if (_currentCode.isEmpty) {
-      _currentCode = lesson.starterCode;
+      final latestSnippetAsync = ref.watch(
+        latestSnippetProvider(widget.lessonId),
+      );
+      latestSnippetAsync.whenData((snippet) {
+        if (snippet != null && _currentCode.isEmpty) {
+          setState(() {
+            _currentCode = snippet.codeSnippet;
+          });
+        }
+      });
+
+      if (_currentCode.isEmpty) {
+        _currentCode = lesson.starterCode;
+      }
     }
 
     return Scaffold(
@@ -307,10 +322,34 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
         ref
             .read(questRepositoryProvider.notifier)
             .incrementProgress(QuestType.lessonCompletion);
+
+        // Save to Snippet History (Phase 2 Requirement)
+        final userId = ref.read(odysseyUserIdProvider);
+        if (userId != null) {
+          final history = SnippetHistory(
+            userId: userId,
+            lessonId: widget.lessonId,
+            codeSnippet: _currentCode,
+            isPassing: true,
+          );
+          ref.read(historyRepositoryProvider).saveSnippet(history);
+        }
       } else {
         _isSuccess = false;
         _feedbackMessage = 'Oops! The output didn\'t match. Try again.';
         ref.read(adaptiveDifficultyProvider.notifier).recordFailure();
+
+        // Save failed attempt too (optional, but good for tracking)
+        final userId = ref.read(odysseyUserIdProvider);
+        if (userId != null) {
+          final history = SnippetHistory(
+            userId: userId,
+            lessonId: widget.lessonId,
+            codeSnippet: _currentCode,
+            isPassing: false,
+          );
+          ref.read(historyRepositoryProvider).saveSnippet(history);
+        }
         // Auto-show tutor if failed?
         // _showTutor = true;
         // _analyzeCode();

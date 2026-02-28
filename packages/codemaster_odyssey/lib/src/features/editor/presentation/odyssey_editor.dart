@@ -221,6 +221,15 @@ class _OdysseyEditorState extends State<OdysseyEditor> {
   }
 
   @override
+  void didUpdateWidget(OdysseyEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialCode != oldWidget.initialCode &&
+        widget.initialCode != _controller.text) {
+      _controller.text = widget.initialCode;
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     _scrollController.dispose();

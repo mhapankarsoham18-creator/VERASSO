@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/features/learning/presentation/classroom/ai_assistant/ai_assistant_screen.dart';
 
@@ -536,10 +537,25 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
 
   void _triggerSuccess() {
     setState(() {
-      _score += 10;
       _message = "Correct! +10 Points";
       _messageColor = Colors.greenAccent;
     });
+
+    // Phase 2: Persist Simulation Result
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null) {
+        Supabase.instance.client.from('user_simulation_results').insert({
+          'user_id': userId,
+          'sim_id': 'solar_system_game',
+          'parameters': {'target': _targetPlanetName},
+          'results': {'score': _score, 'status': 'success'},
+        }).then((_) => debugPrint('Solar system game result saved'));
+      }
+    } catch (e) {
+      debugPrint('Error persisting solar system result: $e');
+    }
+
     Future.delayed(const Duration(seconds: 1), () {
       if (mounted && _gameActive) {
         setState(() => _pickNewTarget());
