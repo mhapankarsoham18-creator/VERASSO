@@ -1,0 +1,50 @@
+# dependencies
+node_modules/
+.pub-cache/
+.dart_tool/
+
+# native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+/ios
+/android
+
+# build outputs
+dist/
+build/
+*.log
+*.tsbuildinfo
+
+# environment files
+.env
+.env.*
+!.env.example
+!.env.production.template
+key.properties
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# temporary files
+*.tmp
+*.temp
+.cache/
+hs_err_pid*
+/tmp/
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts

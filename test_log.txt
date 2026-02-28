@@ -1,0 +1,832 @@
+00:00 +0: loading D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart
+00:00 +0: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Should select a peer when peers are available
+[INFO] MeshRouteOptimizer: Exploiting best peer peer1 (Score: 0.50)
+00:00 +1: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Should return null when no peers are available
+00:00 +2: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Exploitation: Should favor high-success, low-latency nodes
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+00:01 +3: D:/Games/VERASSO/test/core/security/audit_log_service_test.dart: AuditLogService Tests logEvent inserts correct data into security_audit_logs table
+00:02 +4: D:/Games/VERASSO/test/core/security/biometric_auth_service_test.dart: BiometricAuthService Tests isBiometricAvailable returns a boolean
+00:02 +5: D:/Games/VERASSO/test/core/security/biometric_auth_service_test.dart: BiometricAuthService Tests getBiometricTypeString returns a string
+00:03 +6: D:/Games/VERASSO/test/core/security/e2e_key_exchange_test.dart: E2EKeyExchangeService Tests generateKeyPair returns valid keys
+00:03 +7: D:/Games/VERASSO/test/core/security/e2e_key_exchange_test.dart: E2EKeyExchangeService Tests deriveSharedSecret returns same secret for both parties
+00:04 +8: D:/Games/VERASSO/test/core/security/offline_security_service_test.dart: OfflineSecurityService Tests setIdentityHint stores email and hint flag
+[INFO] Offline identity hint established for test@example.com
+00:04 +9: D:/Games/VERASSO/test/core/security/offline_security_service_test.dart: OfflineSecurityService Tests clearIdentityHint removes all data
+[INFO] Offline identity hint established for test@example.com
+[INFO] Offline identity hint cleared
+00:04 +10: D:/Games/VERASSO/test/core/security/offline_security_service_test.dart: OfflineSecurityService Tests hasIdentityHint returns false by default
+00:05 +11: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:07 +11: D:/Games/VERASSO/test/core/security/password_storage_verification_test.dart: Password Storage Verification Password MUST be transformed into a hash before storage
+--- Verification Step 1: Input ---
+User Input: "MySecretPassword123!"
+
+--- Verification Step 2: Output for Database ---
+Stored Value: "$2a$12$sNaQ1JpP9Y/LdOndhnd3ZeSyzw1AJtaEex397W9uErwofz2UIiP0i"
+
+--- Verification Step 3: Analysis ---
+??? Check A Passed: Stored value differs from input.
+??? Check B Passed: Input does not appear in stored value.
+??? Check C Passed: Format is valid Bcrypt hash.
+00:07 +12: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:07 +13: D:/Games/VERASSO/test/core/security/password_storage_verification_test.dart: Password Storage Verification Two identical passwords MUST produce different hashes (Salting)
+
+--- Verification Step 4: Salting Check ---
+Input 1: "SamePassword123!"
+Input 2: "SamePassword123!"
+Hash 1: "$2a$12$FRq/cttQIhSUthgfE4pQR.GuVA7QGpiZB0JHNL45rTap6Qd0Uylxe"
+Hash 2: "$2a$12$iR2kcVDAprR2ohVeJcPpJebQPKkzwYWrNoxrTN697RzIZZOi5wJrS"
+??? Check D Passed: Identical passwords produced unique hashes (Salt is working).
+00:08 +14: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should return true for correct password
+00:08 +15: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should return false for incorrect password
+00:10 +16: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:10 +17: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:10 +18: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:10 +19: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:10 +20: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:10 +21: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:11 +22: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be long enough (bcrypt standard)
+00:11 +23: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should start with bcrypt identifier
+00:12 +24: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText maintains length and character count (excluding spaces)
+00:12 +25: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText maintains length and character count (excluding spaces)
+00:12 +26: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText maintains length and character count (excluding spaces)
+[INFO] ShieldService: Session keys initialized
+00:12 +27: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require lowercase
+00:12 +28: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText returns empty string for empty input
+00:12 +29: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText returns empty string for empty input
+[INFO] ShieldService: Session keys initialized
+00:12 +30: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require special characters
+00:12 +31: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+00:12 +32: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+00:12 +33: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+00:12 +34: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+00:12 +35: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+[INFO] ShieldService: Session keys initialized
+00:12 +36: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:12 +36: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests decryptPayload returns error marker on invalid input
+[INFO] ShieldService: Session keys initialized
+00:12 +37: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:12 +37: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests rotateSessionKeys makes previous data unreadable
+[INFO] ShieldService: Session keys initialized
+[WARNING] ShieldService: Session keys rotated! Previous data encrypted with old keys will be unreadable.
+00:12 +38: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:13 +39: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle invalid hash gracefully
+00:13 +40: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:14 +40: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests saveRefreshToken securely stores the token
+[DEBUG] Refresh token saved securely
+00:14 +41: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:14 +41: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests isSessionValid returns true for valid future expiry
+[DEBUG] Session expiry time saved
+[DEBUG] Refresh token saved securely
+00:14 +42: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:14 +42: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests isSessionValid returns false and clears tokens for passed expiry
+[DEBUG] Session expiry time saved
+[DEBUG] Session has expired
+[INFO] All tokens cleared
+00:14 +43: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:14 +43: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests clearTokens removes all authentication data
+[DEBUG] Refresh token saved securely
+[INFO] All tokens cleared
+00:14 +44: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:16 +45: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:17 +46: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:17 +47: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:19 +48: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts returns recommendations from similar users
+00:19 +49: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts returns recommendations from followed users
+00:19 +50: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts does not recommend already-liked posts
+00:19 +51: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts respects limit parameter
+00:19 +52: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts deduplicates by keeping highest score
+00:19 +53: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendPosts returns empty list when no data available
+00:19 +54: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendUsers recommends friend-of-friend users
+00:19 +55: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendUsers recommends users with similar interests
+00:19 +56: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendUsers does not recommend self or already followed users
+00:19 +57: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendUsers ignores users with low interest overlap
+00:19 +58: D:/Games/VERASSO/test/core/services/content_recommendation_service_test.dart: ContentRecommendationService - recommendUsers respects limit parameter
+00:21 +59: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests generates a valid signed transcript
+[INFO] MasterySignature: Generated signed transcript for test-user-123
+00:21 +60: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests verifies a valid transcript successfully
+[INFO] MasterySignature: Generated signed transcript for secure-user
+[INFO] MasterySignature: Successfully verified transcript for secure-user
+00:21 +61: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests fails verification for tampered transcript
+[INFO] MasterySignature: Generated signed transcript for student-1
+[ERROR] MasterySignature: Verification error
+[ERROR] Exception: Exception: The message is forged or malformed or the signature is invalid
+00:21 +62: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests handles invalid JSON gracefully
+[ERROR] MasterySignature: Verification error
+[ERROR] Exception: FormatException: Unexpected character (at character 1)
+invalid-json
+^
+
+00:22 +63: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Collision Detection: Prevents immediate duplicate requests
+[INFO] Mesh Sync: Requesting 1 missing packets from Peer 1
+00:22 +64: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+[INFO] Mesh Sync: Fulfilling packet request for stored-packet-1 to Trusted Peer (Delay: 50ms)
+00:23 +65: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+00:23 +66: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+[INFO] Mesh Sync: Fulfilling packet request for stored-packet-2 to Newbie Peer (Delay: 800ms)
+00:24 +67: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests cleanupOldAttempts calls delete with correct filters
+00:24 +68: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests isLimited returns true when server-side limit hit
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+[WARNING] Server-side rate limit hit for login
+00:24 +69: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests isLimited returns false when allowed
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:24 +70: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests recordAttempt inserts correct data
+[INFO] Recorded attempt for test-user (login)
+00:25 +71: D:/Games/VERASSO/test/core/services/sync_strategy_service_test.dart: SyncStrategyService Tests Priority Queue should process critical items first
+00:25 +72: D:/Games/VERASSO/test/core/services/sync_strategy_service_test.dart: SyncStrategyService Tests Should retry failed sync actions
+00:26 +73: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode prioritizes Mesh if active
+00:26 +74: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode returns Realtime if WiFi connected
+00:26 +75: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode returns Offline if no connection
+00:26 +76: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions does nothing if offline
+00:26 +77: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions processes via Mesh if Mesh active
+00:26 +78: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions processes via Realtime (Supabase) if Online
+00:27 +79: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation valid email returns null
+00:27 +80: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation invalid email returns error message
+00:27 +81: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation empty email returns required error
+00:27 +82: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation strong password returns null
+00:27 +83: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation weak password returns error message
+00:27 +84: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation password without special char returns error
+00:27 +85: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation valid username returns null
+00:27 +86: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation invalid username returns error message
+00:27 +87: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation username starting with number returns error
+00:27 +88: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation valid post returns null
+00:27 +89: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation empty post returns error
+00:27 +90: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation whitespace only post returns error
+00:27 +91: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Registration Validation valid registration returns null
+00:27 +92: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Registration Validation invalid email in registration returns error
+00:29 +93: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeString should escape HTML special characters
+00:29 +94: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeString should trim whitespace
+00:29 +95: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeUsername should remove invalid characters
+00:29 +96: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeUsername should allow dots and underscores
+00:29 +97: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeList should sanitize all items in the list
+00:29 +98: D:/Games/VERASSO/test/core/zero_knowledge_service_test.dart: ZeroKnowledgeService Tests Skill Commitment should be deterministic with same salt but unique with unique secrets
+00:29 +99: D:/Games/VERASSO/test/core/zero_knowledge_service_test.dart: ZeroKnowledgeService Tests Blinded ID should be deterministic for same session
+00:30 +100: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getContentStats returns configured result
+00:30 +101: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getContentStats returns null when not configured
+00:30 +102: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getTopContent respects limit
+00:30 +103: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getUserStats returns configured result
+00:30 +104: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService trackEvent records the event
+00:30 +105: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getUserEngagement returns configured data
+00:31 +106: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getContentStats fetches from content_stats table
+00:31 +107: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getTopContent fetches ordered list
+00:31 +108: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getUserStats fetches user stats
+00:31 +109: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService refreshUserStats calls RPC
+00:31 +110: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService trackEvent inserts into analytics_events
+00:31 +111: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService updateContentStats inserts new record if not exists
+00:31 +112: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getUserEngagement calls RPC
+00:32 +113: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats fromJson creates instance with all fields
+00:32 +114: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats fromJson handles null/missing fields with defaults
+00:32 +115: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats totalEngagement sums likes + comments + shares
+00:32 +116: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats totalEngagement is zero when all interaction counts are zero
+00:32 +117: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData fromJson creates instance with all fields
+00:32 +118: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData fromJson handles null fields with defaults
+00:32 +119: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData totalEngagement sums posts + likes + comments
+00:32 +120: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: UserStats fromJson creates instance with all fields
+00:32 +121: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: UserStats fromJson handles null/missing fields with defaults
+00:34 +122: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signIn should update state to loading then success on valid credentials
+00:34 +123: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signIn should update state to error on invalid credentials
+[WARNING] Signin failed
+[WARNING] Error: AuthException(message: Invalid login credentials, statusCode: null, code: null)
+00:34 +124: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signUp should call repository signUp with correct parameters
+[INFO] Signup successful - refresh token saved in repository
+00:34 +125: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController resetPassword should call repository resetPassword
+00:34 +126: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signOut should call repository signOut
+[INFO] Offline identity hint cleared
+00:35 +127: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should throw if track_failed_login returns false (account locked)
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:35 +128: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should succeed and clear failed attempts if track_failed_login allows
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:35 +129: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should catch exceptions and log attempts in local RateLimitService
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:36 +130: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignUp signUpWithEmail throws for weak password
+00:36 +131: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignUp signUpWithEmail succeeds with strong password
+00:36 +132: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignIn signInWithOAuth initiates flow
+00:36 +133: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - MFA enrollMFA initiates enrollment
+00:36 +134: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - MFA challengeAndVerify flow
+00:37 +135: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should succeed with valid credentials
+[INFO] Refresh token saved for signup user
+00:37 +136: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should fail with invalid email
+00:37 +137: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should fail with weak password
+00:37 +138: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should handle duplicate email
+00:37 +139: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should succeed with valid credentials
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +140: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should fail with incorrect password
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +141: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should fail with non-existent email
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +142: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should handle rate limiting
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +143: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow resetPasswordForEmail should send reset email
+00:37 +144: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow resetPasswordForEmail should fail with non-existent email
+00:37 +145: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow updateUserPassword should change password
+00:37 +146: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow updateUserPassword should fail with weak password
+00:37 +147: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow signInWithOtp should send OTP to email
+00:37 +148: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should succeed with valid token
+00:37 +149: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should fail with invalid token
+[ERROR] Error in AuthRepository.verifyOtp
+[ERROR] Exception: AppException: Invalid or expired OTP 
+[ERROR] Stack Trace:
+#0      AuthRepository.verifyOtp.<anonymous closure> (package:verasso/features/auth/data/auth_repository.dart:430:13)
+<asynchronous suspension>
+#1      ErrorHandlerMixin.handleError (package:verasso/core/exceptions/error_handler_mixin.dart:21:14)
+<asynchronous suspension>
+#2      AuthRepository.verifyOtp (package:verasso/features/auth/data/auth_repository.dart:410:12)
+<asynchronous suspension>
+#3      main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/auth/auth_service_test.dart:472:11)
+<asynchronous suspension>
+#4      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:9)
+<asynchronous suspension>
+#5      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)
+<asynchronous suspension>
+#6      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)
+<asynchronous suspension>
+
+00:37 +150: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should fail with expired token
+[ERROR] Error in AuthRepository.verifyOtp
+[ERROR] Exception: AppException: OTP has expired 
+[ERROR] Stack Trace:
+#0      AuthRepository.verifyOtp.<anonymous closure> (package:verasso/features/auth/data/auth_repository.dart:430:13)
+<asynchronous suspension>
+#1      ErrorHandlerMixin.handleError (package:verasso/core/exceptions/error_handler_mixin.dart:21:14)
+<asynchronous suspension>
+#2      AuthRepository.verifyOtp (package:verasso/features/auth/data/auth_repository.dart:410:12)
+<asynchronous suspension>
+#3      main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/auth/auth_service_test.dart:496:11)
+<asynchronous suspension>
+#4      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:9)
+<asynchronous suspension>
+#5      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)
+<asynchronous suspension>
+#6      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)
+<asynchronous suspension>
+
+00:37 +151: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle network errors gracefully
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +152: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle empty email gracefully
+00:37 +153: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle server errors (5xx) gracefully
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:38 +154: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests initial state is AsyncData(null)
+00:38 +155: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests signIn success updates state to AsyncData
+[INFO] Signin successful - refresh token saved in repository
+00:38 +156: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests signIn failure updates state to AsyncError
+[WARNING] Signin failed
+[WARNING] Error: Exception: Login failed
+00:39 +157: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +158: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +159: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +160: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +161: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +162: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:41 +163: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to signup view
+00:42 +164: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +165: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +166: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +167: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +168: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +169: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +170: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +171: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +172: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +173: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +174: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +175: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +176: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +177: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +178: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +179: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +180: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +181: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +182: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +183: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests shows reset password view
+00:44 +184: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:45 +185: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:45 +186: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:45 +187: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders dashboard when authenticated
+00:46 +188: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen shows simple transaction history
+00:47 +189: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 1 for 0 XP
+00:47 +190: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 1 for 99 XP
+00:47 +191: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 2 for 100 XP
+00:47 +192: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 5 for 400 XP
+00:47 +193: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel handles large XP values
+00:47 +194: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak same day does not change streak
+00:47 +195: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak next day increments streak
+00:47 +196: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak two+ days gap breaks streak
+00:47 +197: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor common returns gray
+00:47 +198: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor rare returns blue
+00:47 +199: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor epic returns purple
+00:47 +200: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor legendary returns orange
+00:47 +201: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard returns empty list for empty input
+00:47 +202: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard sorts by XP descending
+00:47 +203: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard assigns correct ranks
+00:47 +204: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService checkUnlockedBadges unlocks first_steps badge after 1 simulation
+00:47 +205: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService checkUnlockedBadges does not unlock already unlocked badge
+00:48 +206: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +207: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +208: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +209: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +210: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +211: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +212: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +213: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +214: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +215: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +216: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +217: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +218: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +219: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +220: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +221: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +222: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +223: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests navigates between tabs correctly
+00:50 +224: D:/Games/VERASSO/test/features/home/home_screen_test.dart: Navigation Tests bottom nav maintains state across tab switches
+00:51 +225: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +226: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +226: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests getArticles falls back to cache on Supabase failure
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: Exception: Network error
+00:53 +227: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +227: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests getArticles falls back to mesh if cache is empty
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: Exception: Network error
+00:53 +228: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +229: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +230: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +231: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:53 +232: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:54 +233: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders active daily challenge when available
+00:54 +234: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders in-progress enrollments
+00:56 +235: D:/Games/VERASSO/test/features/notifications/notification_service_test.dart: NotificationService markAllAsRead should call rpc
+00:56 +236: D:/Games/VERASSO/test/features/notifications/notification_service_test.dart: NotificationService getNotifications should return a list
+00:56 +237: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository getProfile returns profile on success
+00:56 +238: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository searchUsers uses textSearch
+00:56 +239: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository updateProfile calls upsert
+00:58 +240: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserProgress should retrieve user progress data
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~1: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests logActivity should increment user points
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~2: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~2: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserMilestones should return user milestones
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~3: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~3: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserAchievements should return user achievements
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~4: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~4: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests updateLoginStreak should increment streak for consecutive login
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~5: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~5: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getLeaderboard should return sorted list of top users
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~6: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~6: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserRank should return user position in leaderboard
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~7: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~7: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests checkAndAwardMilestones should handle milestone completion
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~8: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~8: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests awardAchievement should add achievement to user
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~9: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~9: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests createMilestone should create new milestone for user
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~10: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~10: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests streamUserProgress should emit progress updates
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~11: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~11: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests RLS policies should prevent unauthorized access
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~12: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~12: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Progress triggers should automatically update level on XP threshold
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~13: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~13: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Activity log should record all activities
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~14: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~14: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getNextMilestone should return incomplete milestone
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~15: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~15: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Leaderboard view should be performant
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~16: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~16: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Progress calculations should be accurate
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~17: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+00:58 +240 ~17: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Multiple concurrent log activities should handle race conditions
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+00:58 +240 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:00 +241 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:00 +242 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays stats correctly
+01:00 +243 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests shows edit profile button
+01:01 +244 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests export transcript requires interaction
+????????? EXCEPTION CAUGHT BY GESTURE ????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+The following UnimplementedError was thrown while handling a gesture:
+getGlobalSigningKey
+
+When the exception was thrown, this was the stack:
+#0      Fake.noSuchMethod (package:test_api/src/frontend/fake.dart:50:5)
+#1      MockMasterySignatureService.getGlobalSigningKey (file:///D:/Games/VERASSO/test/mocks.dart:571:7)
+#2      ProfileScreen._exportTranscript (package:verasso/features/profile/presentation/profile_screen.dart:243:51)
+#3      ProfileScreen.build.<anonymous closure>.<anonymous closure> (package:verasso/features/profile/presentation/profile_screen.dart:183:21)
+#4      _InkResponseState.handleTap (package:flutter/src/material/ink_well.dart:1222:21)
+#5      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#6      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#7      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#8      BaseTapGestureRecognizer.acceptGesture (package:flutter/src/gestures/tap.dart:353:7)
+#9      GestureArenaManager.sweep (package:flutter/src/gestures/arena.dart:173:27)
+#10     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:532:20)
+#11     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#12     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#13     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#14     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#15     TestWidgetsFlutterBinding.handlePointerEventForSource.<anonymous closure> (package:flutter_test/src/binding.dart:678:42)
+#16     TestWidgetsFlutterBinding.withPointerEventSource (package:flutter_test/src/binding.dart:688:11)
+#17     TestWidgetsFlutterBinding.handlePointerEventForSource (package:flutter_test/src/binding.dart:678:5)
+#18     WidgetTester.sendEventToBinding.<anonymous closure> (package:flutter_test/src/widget_tester.dart:869:15)
+#21     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#22     WidgetTester.sendEventToBinding (package:flutter_test/src/widget_tester.dart:868:27)
+#23     TestGesture.up.<anonymous closure> (package:flutter_test/src/test_pointer.dart:538:26)
+#26     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#27     TestGesture.up (package:flutter_test/src/test_pointer.dart:531:27)
+#28     WidgetController.tapAt.<anonymous closure> (package:flutter_test/src/controller.dart:1117:21)
+<asynchronous suspension>
+#29     TestAsyncUtils.guard.<anonymous closure> (package:flutter_test/src/test_async_utils.dart:130:27)
+<asynchronous suspension>
+#30     main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:138:7)
+<asynchronous suspension>
+#31     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#32     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+Handler: "onTap"
+Recognizer:
+  TapGestureRecognizer#3c97f
+????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+????????? EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Verified Transcript": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:142:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart line 142
+The test description was:
+  export transcript requires interaction
+????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+????????? EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+01:01 +244 ~18 -1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests export transcript requires interaction [E]
+  Test failed. See exception logs above.
+  The test description was: export transcript requires interaction
+  
+01:01 +244 ~18 -1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Accessibility semantic labels are present
+01:02 +245 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests (setUpAll)
+01:02 +245 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search returns results for valid query
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:03 +246 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search with post filter filters results
+01:03 +247 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search respects pagination
+[INFO] Search hashtags error: UnimplementedError: ilike
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:03 +248 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality getTrendingHashtags returns hashtags
+01:03 +249 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality getSearchSuggestions returns suggestions
+[ERROR] Get suggestions error
+[ERROR] Exception: UnimplementedError: ilike
+01:03 +250 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality invalid query throws exception
+[ERROR] Full-text search error
+[ERROR] Exception: Exception: Search query must be 1-500 characters
+01:03 +251 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search History getUserSearchHistory returns history
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:03 +252 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search History clearSearchHistory clears all history
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:03 +253 ~18 -1: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests (tearDownAll)
+01:03 +253 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation accepts valid queries
+01:03 +254 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation rejects empty queries
+01:03 +255 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation handles long queries correctly
+01:03 +256 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation preserves hashtags and mentions
+01:03 +257 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters creates filter with all parameters
+01:03 +258 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters creates filter with null type (mixed results)
+01:03 +259 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters date range validation
+01:03 +260 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Pagination calculates correct offset for page number
+01:03 +261 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Pagination limits results to page size
+01:03 +262 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Security query length limit prevents DoS
+01:03 +263 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Security empty query rejected
+01:03 +264 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Error Handling handles null response gracefully
+01:04 +265 ~18 -1: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Error Handling handles empty response list
+01:05 +266 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:06 +267 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:07 +268 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:07 +269 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:07 +270 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:07 +271 ~18 -1: D:/Games/VERASSO/test/features/social/feed_screen_test.dart: Post Interactions like button responds to tap
+01:08 +272 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Power Save Mode switch
+01:08 +273 ~18 -1: D:/Games/VERASSO/test/features/social/feed_screen_test.dart: Post Interactions comment button responds to tap
+01:08 +274 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Private Account switch with correct state
+01:08 +275 ~18 -1: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests sign out button is present
+01:10 +276 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests renders feed screen and displays post
+01:13 +277 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:13 +278 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:13 +279 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:14 +280 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:14 +281 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:14 +282 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:15 +283 ~18 -1: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests entering text in search bar triggers search
+01:17 +284 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +285 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +286 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +287 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +288 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +289 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +290 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:18 +291 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:19 +292 ~18 -1: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders stories when available
+01:20 +293 ~18 -1: D:/Games/VERASSO/test/features/talent/presentation/talent_dashboard_test.dart: localization works
+01:22 +294 ~18 -1: D:/Games/VERASSO/test/features/talent/presentation/talent_dashboard_test.dart: TalentDashboard Widget Tests renders TalentDashboard and shows Talent tab by default
+01:23 +295 ~18 -1: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:24 +296 ~18 -1: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:24 +297 ~18 -1: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:25 +298 ~18 -1: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests App starts at Login when unauthenticated
+01:26 +299 ~18 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should create a new post in posts table
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~19 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should enforce NOT NULL constraints on required fields
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~20 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should apply default timestamp values on insert
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~21 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should retrieve posts from posts table
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~22 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should filter posts by user_id
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~23 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should order posts by created_at (DESC)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~24 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should paginate results correctly
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~25 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should update post content
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~26 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should only allow owner to update post (RLS)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~27 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should update timestamp on modification
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~28 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should delete post by id
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~29 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should enforce RLS on delete (owner only)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~30 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should cascade delete related data on post delete
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~31 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Foreign Key Constraints should enforce user_id foreign key
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~32 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Foreign Key Constraints should handle circular references gracefully
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~33 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should execute audit trigger on post creation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~34 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should update search index on post creation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~35 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should track is_edited flag automatically
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~36 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should rollback on error during multi-step operation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~37 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should maintain data consistency across operations
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~38 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should handle concurrent writes correctly
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~39 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) authenticated users should only see own posts
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~40 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) should enforce column-level security if configured
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~41 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) public users should see published posts only
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~42 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) should prevent reading other users private data
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~43 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should validate email format in profiles
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~44 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should enforce unique constraints
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~45 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should prevent NULL in NOT NULL columns
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:26 +299 ~46 -1: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should validate check constraints
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:27 +299 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization validates email format correctly
+01:27 +300 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization rejects invalid email formats
+01:27 +301 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization enforces strong password requirements
+01:28 +302 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization rejects weak passwords
+01:28 +303 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization prevents SQL injection attempts
+01:28 +304 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization prevents XSS attacks
+01:28 +305 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization validates phone number format
+01:28 +306 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Input Validation & Sanitization sanitizes user input by removing dangerous tags
+01:28 +307 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Encryption & Password Security hashes passwords consistently using SHA256
+01:28 +308 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Encryption & Password Security produces different hashes for different passwords
+01:28 +309 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Encryption & Password Security uses salt for password hashing
+01:28 +310 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Encryption & Password Security prevents hash collision attacks
+01:28 +311 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Encryption & Password Security validates encryption key strength
+01:28 +312 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Rate Limiting enforces API rate limit threshold
+01:28 +313 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Rate Limiting allows requests under the limit
+01:28 +314 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Rate Limiting blocks requests exceeding limit
+01:28 +315 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Rate Limiting enforces login attempt limits
+01:28 +316 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Rate Limiting implements exponential backoff
+01:28 +317 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security requires non-empty credentials
+01:28 +318 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security rejects empty username
+01:28 +319 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security validates JWT token format
+01:28 +320 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security rejects malformed tokens
+01:28 +321 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security enforces session timeout
+01:28 +322 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Authentication & Session Security validates session tokens are unique
+01:28 +323 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks prevents non-admin access to admin panel
+01:28 +324 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks allows admin access to admin panel
+01:28 +325 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks prevents users from accessing others data
+01:28 +326 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks allows users to access their own data
+01:28 +327 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks enforces role-based access control
+01:28 +328 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Permission & Authorization Checks validates user permissions before operations
+01:28 +329 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Data Protection & Validation rejects null values in required fields
+01:28 +330 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Data Protection & Validation accepts valid data types
+01:28 +331 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Data Protection & Validation validates positive numbers
+01:28 +332 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Data Protection & Validation validates date ranges
+01:28 +333 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Data Protection & Validation prevents data type mismatch
+01:28 +334 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests HTTPS/TLS Security enforces HTTPS URLs
+01:28 +335 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests HTTPS/TLS Security rejects HTTP URLs in production
+01:28 +336 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests HTTPS/TLS Security validates certificate validity
+01:28 +337 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests HTTPS/TLS Security requires valid domain in certificate
+01:28 +338 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests HTTPS/TLS Security prevents certificate pinning bypass
+01:28 +339 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Content Security & Moderation detects profanity in user content
+01:28 +340 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Content Security & Moderation allows clean content
+01:28 +341 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Content Security & Moderation limits content length
+01:28 +342 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Content Security & Moderation validates image file types
+01:28 +343 ~47 -1: D:/Games/VERASSO/test/integration/security_integration_test.dart: Security Integration Tests Content Security & Moderation prevents malicious file uploads
+01:29 +344 ~47 -1: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles caches data when fetch is successful
+01:29 +345 ~47 -1: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles fetches from cache when Supabase fails
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: AppException: Offline 
+01:29 +346 ~47 -1: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles returns empty if Supabase fails and Cache is empty
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: AppException: Offline 
+01:30 +347 ~47 -1: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns list of badge IDs when successful
+01:30 +348 ~47 -1: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns empty list on error
+[WARNING] Failed to get unlocked badges
+[WARNING] Error: Exception: DB Error
+01:32 +349 ~47 -1: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Retrieval getActiveStories returns empty list by default
+01:32 +350 ~47 -1: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Retrieval getMyStories returns empty list by default
+01:32 +351 ~47 -1: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Interactions viewStory should not throw
+01:32 +352 ~47 -1: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Interactions reactToStory should not throw
+01:33 +353 ~47 -1: D:/Games/VERASSO/test/widget_test.dart: App smoke test - verifies login screen structure
+01:36 +354 ~47 -1: Some tests failed.

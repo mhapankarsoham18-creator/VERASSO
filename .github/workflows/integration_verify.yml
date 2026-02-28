@@ -1,0 +1,48 @@
+name: Integration Test Verification
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+    name: 🧪 Supabase Integration Tests
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🛠️ Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: 🚀 Start Supabase Local
+        run: supabase start
+
+      - name: 🔑 Get Local Credentials
+        id: supabase_keys
+        run: |
+          echo "URL=$(supabase status -o json | jq -r '.API_URL')" >> $GITHUB_OUTPUT
+          echo "ANON=$(supabase status -o json | jq -r '.ANON_KEY')" >> $GITHUB_OUTPUT
+          echo "SERVICE=$(supabase status -o json | jq -r '.SERVICE_ROLE_KEY')" >> $GITHUB_OUTPUT
+
+      - name: 🧪 Run Integration Tests
+        run: |
+          flutter test \
+            --dart-define=SUPABASE_TEST_MODE=true \
+            --dart-define=SUPABASE_URL=${{ steps.supabase_keys.outputs.URL }} \
+            --dart-define=SUPABASE_ANON_KEY=${{ steps.supabase_keys.outputs.ANON }} \
+            --dart-define=SUPABASE_SERVICE_ROLE_KEY=${{ steps.supabase_keys.outputs.SERVICE }}

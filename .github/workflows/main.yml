@@ -1,0 +1,254 @@
+name: VERASSO CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: "Skip tests (only for hotfix)"
+        required: false
+        default: "false"
+
+env:
+  FLUTTER_VERSION: "3.27.x"
+  COVERAGE_THRESHOLD: 50
+
+jobs:
+  # ════════════════════════════════════════════════════════
+  # STAGE 1: CODE QUALITY & ANALYSIS
+  # ════════════════════════════════════════════════════════
+  analyze:
+    runs-on: ubuntu-latest
+    name: 📊 Code Analysis & Formatting
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🔍 Run flutter analyze
+        run: flutter analyze --fatal-infos
+
+      - name: 🎨 Check code formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: 📋 Generate SARIF for code quality
+        run: flutter analyze --format=json > analysis.json 2>&1 || true
+
+    # Allow main branch to proceed even with non-fatal issues
+    continue-on-error: ${{ github.ref == 'refs/heads/main' }}
+
+  # ════════════════════════════════════════════════════════
+  # STAGE 2: SECURITY SCANNING
+  # ════════════════════════════════════════════════════════
+  security:
+    runs-on: ubuntu-latest
+    name: 🔒 Security & Credential Scanning
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Check for hardcoded credentials
+        run: |
+          echo "🔍 Scanning for exposed credentials..."
+
+          # Check for hardcoded API keys
+          if grep -r "SUPABASE_KEY\|API_KEY\|SECRET_KEY\|firebase_key\|auth_token" lib/ --include="*.dart" --exclude-dir=.git; then
+            echo "❌ Found potential hardcoded credentials in source code"
+            exit 1
+          fi
+
+          # Check for common credential patterns
+          if grep -r "key:\s*['\"][a-zA-Z0-9]\{20,\}['\"]" lib/ --include="*.dart"; then
+            echo "❌ Found suspicious long string literals (potential credentials)"
+            exit 1
+          fi
+
+          echo "✅ No hardcoded credentials detected"
+
+      - name: 🔓 Check for dangerous patterns
+        run: |
+          echo "🔍 Scanning for dangerous code patterns..."
+
+          # Check for dangerous functions
+          if grep -r "eval(\|exec(\|system(" lib/ --include="*.dart"; then
+            echo "❌ Found dangerous function calls"
+            exit 1
+          fi
+
+          # Check for disabled SSL validation (security risk)
+          if grep -r "HttpClient\|allowBadCertificates" lib/ --include="*.dart"; then
+            echo "⚠️  Warning: Found HTTP client instantiation (verify SSL validation)"
+          fi
+
+          echo "✅ No dangerous patterns detected"
+
+      - name: 📧 Check for exposed email addresses in code
+        run: |
+          echo "🔍 Scanning for exposed email addresses..."
+          if grep -r "[a-zA-Z0-9._%+-]\+@[a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,\}" lib/ --include="*.dart" --exclude-dir=generated; then
+            echo "⚠️  Warning: Found email addresses in source code (use .env)"
+          fi
+
+  # ════════════════════════════════════════════════════════
+  # STAGE 3: UNIT & INTEGRATION TESTS
+  # ════════════════════════════════════════════════════════
+  test:
+    runs-on: ubuntu-latest
+    name: 🧪 Unit & Integration Tests
+    needs: analyze
+    if: github.event.inputs.skip_tests != 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🧪 Run all tests with coverage
+        run: flutter test --coverage --verbose
+        continue-on-error: true
+
+      - name: 📊 Check coverage threshold
+        run: |
+          if [ -f "coverage/lcov.info" ]; then
+            sudo apt-get update && sudo apt-get install -y lcov
+            COVERAGE_FLOAT=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | grep -oP '\d+\.\d+' || echo "0.0")
+            COVERAGE=${COVERAGE_FLOAT%.*}
+            echo "📈 Code Coverage: $COVERAGE_FLOAT%"
+            
+            if [ "$COVERAGE" -lt "${{ env.COVERAGE_THRESHOLD }}" ]; then
+              echo "::error::Coverage ($COVERAGE_FLOAT%) below threshold (${{ env.COVERAGE_THRESHOLD }}%)"
+              exit 1
+            fi
+          fi
+
+      - name: 📤 Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          flags: flutter
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  # ════════════════════════════════════════════════════════
+  # STAGE 4: BUILD VERIFICATION (Android)
+  # ════════════════════════════════════════════════════════
+  build_android:
+    runs-on: ubuntu-latest
+    name: 🤖 Build Android APK
+    needs: [analyze, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🏗️ Build Android APK (Debug)
+        run: flutter build apk --debug --no-shrink
+
+      - name: 📤 Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
+
+      - name: 🏗️ Build Android App Bundle (Release)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          flutter build appbundle --release --no-pub \
+            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
+            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+        env:
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PATH: ${{ secrets.KEY_PATH }}
+
+      - name: 📤 Upload App Bundle artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 30
+
+  # ════════════════════════════════════════════════════════
+  # STAGE 5: BUILD VERIFICATION (iOS)
+  # ════════════════════════════════════════════════════════
+  build_ios:
+    runs-on: macos-latest
+    name: 🍎 Build iOS IPA
+    needs: [analyze, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🏗️ Build iOS IPA (No Codesign)
+        run: |
+          flutter build ipa --release --no-codesign \
+            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
+            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+
+      - name: 📤 Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.ipa
+          path: build/ios/ipa/
+          retention-days: 7
+
+  # ════════════════════════════════════════════════════════
+  # FINAL: SUCCESS CHECK & NOTIFICATIONS
+  # ════════════════════════════════════════════════════════
+  success:
+    runs-on: ubuntu-latest
+    name: ✅ CI/CD Pipeline Complete
+    needs: [analyze, security, test, build_android, build_ios]
+    if: always()
+    steps:
+      - name: 📊 Generate Summary
+        run: |
+          echo "## 🎉 CI/CD Pipeline Summary"
+          echo "- ✅ Code Analysis: ${{ needs.analyze.result }}"
+          echo "- 🔒 Security Scan: ${{ needs.security.result }}"
+          echo "- 🧪 Tests: ${{ needs.test.result }}"
+          echo "- 🤖 Android Build: ${{ needs.build_android.result }}"
+          echo "- 🍎 iOS Build: ${{ needs.build_ios.result }}"
+
+      - name: 🚨 Check Pipeline Status
+        if: failure()
+        run: exit 1

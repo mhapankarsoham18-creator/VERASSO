@@ -1,0 +1,2 @@
+C:\Users\flutter\bin\flutter
+C:\Users\flutter\bin\flutter.bat

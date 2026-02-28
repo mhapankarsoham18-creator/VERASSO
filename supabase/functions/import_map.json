@@ -1,0 +1,9 @@
+{
+    "imports": {
+        "std/": "https://deno.land/std@0.168.0/",
+        "http/": "https://deno.land/std@0.168.0/http/",
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.38.4",
+        "edge-runtime": "https://esm.sh/@supabase/functions-js@2.4.1/src/edge-runtime.d.ts",
+        "google-auth-library": "https://esm.sh/google-auth-library@9.4.1"
+    }
+}

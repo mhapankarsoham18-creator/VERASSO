@@ -1,0 +1,154 @@
+
+D:\Games\VERASSO>flutter build apk --release
+Auto-set namespace for ar_flutter_plugin: io.carius.lars.ar_flutter_plugin
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+A problem occurred configuring project ':audioplayers_android'.
+> Could not resolve all artifacts for configuration 'classpath'.
+   > Could not download stream-1.2.1.jar (com.annimon:stream:1.2.1)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/com/annimon/stream/1.2.1/stream-1.2.1.jar'.
+         > There is not enough space on the disk
+   > Could not download junit-platform-commons-1.7.1.jar (org.junit.platform:junit-platform-commons:1.7.1)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.7.1/junit-platform-commons-1.7.1.jar'.
+         > Failed to move file 'C:\Users\mhapa\.gradle\.tmp\gradle_download1131404406508291083bin' into filestore at 'org.junit.platform/junit-platform-commons/1.7.1/7c49f0074842d07f4335de2389d624a7437d1407/junit-platform-commons-1.7.1.jar' 
+            > java.nio.file.FileSystemException: C:\Users\mhapa\.gradle\.tmp\gradle_download1131404406508291083bin -> C:\Users\mhapa\.gradle\caches\modules-2\files-2.1\org.junit.platform\junit-platform-commons\1.7.1\7c49f0074842d07f4335de2389d624a7437d1407\junit-platform-commons-1.7.1.jar: There is not enough space on the disk
+   > Could not download grpc-protobuf-lite-1.39.0.jar (io.grpc:grpc-protobuf-lite:1.39.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.39.0/grpc-protobuf-lite-1.39.0.jar'.
+         > There is not enough space on the disk
+   > Could not download grpc-api-1.39.0.jar (io.grpc:grpc-api:1.39.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.39.0/grpc-api-1.39.0.jar'.
+         > There is not enough space on the disk
+   > Could not download guava-30.1-jre.jar (com.google.guava:guava:30.1-jre)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/com/google/guava/guava/30.1-jre/guava-30.1-jre.jar'.
+         > There is not enough space on the disk
+   > Could not download trove4j-1.0.20181211.jar (org.jetbrains.intellij.deps:trove4j:1.0.20181211)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/intellij/deps/trove4j/1.0.20181211/trove4j-1.0.20181211.jar'.
+         > There is not enough space on the disk
+   > Could not download kotlin-reflect-1.5.31.jar (org.jetbrains.kotlin:kotlin-reflect:1.5.31)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/1.5.31/kotlin-reflect-1.5.31.jar'.
+         > There is not enough space on the disk
+   > Could not download commons-compress-1.20.jar (org.apache.commons:commons-compress:1.20)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.20/commons-compress-1.20.jar'.
+         > There is not enough space on the disk
+   > Could not download httpclient-4.5.13.jar (org.apache.httpcomponents:httpclient:4.5.13)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar'.
+         > There is not enough space on the disk
+   > Could not download httpcore-4.4.13.jar (org.apache.httpcomponents:httpcore:4.4.13)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download signflinger-7.3.1.jar (com.android:signflinger:7.3.1)
+      > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/signflinger/7.3.1/signflinger-7.3.1.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download zipflinger-7.3.1.jar (com.android:zipflinger:7.3.1)
+      > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/zipflinger/7.3.1/zipflinger-7.3.1.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download annotations-30.3.1.jar (com.android.tools:annotations:30.3.1)
+      > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/annotations/30.3.1/annotations-30.3.1.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download kotlin-stdlib-jdk7-1.5.31.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.5.31/kotlin-stdlib-jdk7-1.5.31.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download kotlin-stdlib-1.5.31.jar (org.jetbrains.kotlin:kotlin-stdlib:1.5.31)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.5.31/kotlin-stdlib-1.5.31.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download error_prone_annotations-2.4.0.jar (com.google.errorprone:error_prone_annotations:2.4.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.4.0/error_prone_annotations-2.4.0.jar'.    
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-codec-http2-4.1.52.Final.jar (io.netty:netty-codec-http2:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-codec-http2/4.1.52.Final/netty-codec-http2-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-handler-proxy-4.1.52.Final.jar (io.netty:netty-handler-proxy:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-handler-proxy/4.1.52.Final/netty-handler-proxy-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download json-20180813.jar (org.json:json:20180813)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/json/json/20180813/json-20180813.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download checker-qual-3.5.0.jar (org.checkerframework:checker-qual:3.5.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download fastutil-8.4.0.jar (it.unimi.dsi:fastutil:8.4.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/it/unimi/dsi/fastutil/8.4.0/fastutil-8.4.0.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download json-simple-1.1.jar (com.googlecode.json-simple:json-simple:1.1)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download apksig-7.3.1.jar (com.android.tools.build:apksig:7.3.1)
+      > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/7.3.1/apksig-7.3.1.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download apiguardian-api-1.1.0.jar (org.apiguardian:apiguardian-api:1.1.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download kotlin-stdlib-common-1.5.31.jar (org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.5.31/kotlin-stdlib-common-1.5.31.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download grpc-context-1.39.0.jar (io.grpc:grpc-context:1.39.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.39.0/grpc-context-1.39.0.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-codec-http-4.1.52.Final.jar (io.netty:netty-codec-http:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-codec-http/4.1.52.Final/netty-codec-http-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-handler-4.1.52.Final.jar (io.netty:netty-handler:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.52.Final/netty-handler-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-codec-socks-4.1.52.Final.jar (io.netty:netty-codec-socks:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-codec-socks/4.1.52.Final/netty-codec-socks-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-codec-4.1.52.Final.jar (io.netty:netty-codec:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.52.Final/netty-codec-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-transport-4.1.52.Final.jar (io.netty:netty-transport:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.52.Final/netty-transport-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-buffer-4.1.52.Final.jar (io.netty:netty-buffer:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.52.Final/netty-buffer-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-resolver-4.1.52.Final.jar (io.netty:netty-resolver:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.52.Final/netty-resolver-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+   > Could not download netty-common-4.1.52.Final.jar (io.netty:netty-common:4.1.52.Final)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.52.Final/netty-common-4.1.52.Final.jar'.
+         > java.io.IOException: There is not enough space on the disk
+> Failed to notify project evaluation listener.
+   > java.lang.NullPointerException (no error message)
+   > java.lang.NullPointerException (no error message)
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+java.io.IOException: There is not enough space on the disk
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 4m 7s
+Running Gradle task 'assembleRelease'...                          249.7s
+[!] Gradle threw an error while downloading artifacts from the network.
+Retrying Gradle Build: #1, wait time: 100ms
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not write cache value to 'C:\Users\mhapa\.gradle\daemon\8.13\registry.bin'.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+Running Gradle task 'assembleRelease'...                            3.1s
+Gradle task assembleRelease failed with exit code 1

@@ -1,0 +1,12 @@
+﻿Running Gradle task 'assembleRelease'...                        
+Auto-set namespace for ar_flutter_plugin: io.carius.lars.ar_flutter_plugin
+Auto-set namespace for flutter_jailbreak_detection: appmire.be.flutterjailbreakdetection
+Running Gradle task 'assembleRelease'...                           65.4s
+flutter : Gradle build failed to produce an .apk file. It's likely that this file was generated under 
+D:\Games\VERASSO\build, but the tool couldn't find it.
+At line:1 char:1
++ flutter build apk --release > build_log.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Gradle build fa...uldn't find it.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

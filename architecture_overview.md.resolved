@@ -1,0 +1,110 @@
+# 🌌 Verasso Architecture Overview
+
+Verasso is a **Decentralized Cognitive Ecosystem** built with a hybrid Cloud/P2P architecture. It is designed to function seamlessly in both online (Cloud-connected) and offline (Mesh-connected) environments.
+
+## 🏗️ System Architecture
+
+The application follows a **Signal-driven architecture** using **Riverpod** for state management and **Supabase** as the primary backend.
+
+```mermaid
+graph TD
+    subgraph "Client Layer (Mobile App)"
+        UI["Flutter UI (Widgets)"]
+        Controllers["Riverpod Controllers"]
+        Services["Core Services"]
+        LocalDB["Hive / SQLite (Offline Store)"]
+    end
+
+    subgraph "Network Layer"
+        CloudSync["Sync Bridge"]
+        MeshNet["Neural Mesh (P2P Connectivity)"]
+    end
+
+    subgraph "Backend Layer (Cloud)"
+        Supabase["Supabase (Auth, DB, Storage)"]
+        EdgeFuncs["Supabase Edge Functions"]
+        FCM["Firebase Cloud Messaging"]
+    end
+
+    UI --> Controllers
+    Controllers --> Services
+    Services --> LocalDB
+    Services --> CloudSync
+    Services --> MeshNet
+    CloudSync --> Supabase
+    CloudSync --> EdgeFuncs
+    FCM --> UI
+```
+
+---
+
+## 🧬 Tech Stack
+
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend** | Flutter (Dart) | Cross-platform mobile foundation |
+| **State** | Riverpod | Reactive, testable state management |
+| **Local Storage** | Hive & SQLite | Encrypted caching and offline queueing |
+| **P2P Mesh** | Nearby Connections | Data propagation without internet |
+| **Backend** | Supabase | Identity, PostgreSQL, Storage, Realtime |
+| **Cloud Ops** | GitHub Actions | CI/CD pipeline |
+| **Monitoring** | Sentry & Firebase | Crash reporting and analytics |
+
+---
+
+## 🛣️ Core Flows
+
+### 1. App Initialization & Security
+
+Every startup involves a multi-stage security check before granting access.
+
+```mermaid
+sequenceDiagram
+    participant App as Verasso App
+    participant Sec as Security Service
+    participant Auth as Auth Controller
+    participant Home as Home Screen
+
+    App->>Sec: Check Device Integrity (Root/Jailbreak)
+    Alt Device Compromised
+        Sec-->>App: Alert & Block
+    Else Device Secure
+        App->>Sec: Initialize Biometrics & Encryption
+        App->>Auth: Check Session State
+        Alt Session Valid
+            Auth->>Home: Navigate to Home
+        Else Session Invalid
+            Auth->>App: Show Login Screen
+        End
+    End
+```
+
+### 2. Hybrid Data Synchronization
+
+Data is persisted locally first, then bridged to the available network.
+
+```mermaid
+flowchart LR
+    Start([User Action]) --> Local[Save to Hive/SQLite]
+    Local --> NetCheck{Network?}
+    NetCheck -- Cloud --> Bridge[Sync Bridge] --> Supabase[(Supabase Cloud)]
+    NetCheck -- Mesh --> P2P[Mesh Manager] --> Peer[(Nearby Peers)]
+    NetCheck -- Offline --> Queue[Action Queue]
+```
+
+### 3. Feature Ecosystem
+
+The app is divided into specialized modules managed by the `features/` directory.
+
+- **Social**: Feed, Stories, Messaging (Real-time).
+- **Learning**: Cognitive Dashboard, 3D/AR Simulations.
+- **Talent**: Workforce ledger, Reputation tracking.
+- **Gamification**: XP, Levels, and Achievements.
+```
+
+## 🛡️ Security Layers
+
+1. **Zero-Knowledge Identity**: Skill verification without exposing private data.
+2. **E2E Encryption**: Messages are encrypted via X25519/AES-256.
+3. **RLS Policies**: Row Level Security ensures users only access their data on the server.
+4. **Secrecy Filters**: UI components that blur content when the app is backgrounded.

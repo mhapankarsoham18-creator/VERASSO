@@ -1,0 +1,1918 @@
+﻿00:00 +0: loading D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart
+00:00 +0: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Should select a peer when peers are available
+[INFO] MeshRouteOptimizer: Exploring random peer peer1
+00:00 +1: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Should return null when no peers are available
+00:00 +2: D:/Games/VERASSO/test/core/mesh_route_optimizer_test.dart: MeshRouteOptimizer Tests Exploitation: Should favor high-success, low-latency nodes
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploring random peer best_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploring random peer bad_peer
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+[INFO] MeshRouteOptimizer: Exploiting best peer best_peer (Score: 1.00)
+00:01 +3: D:/Games/VERASSO/test/core/security/audit_log_service_test.dart: AuditLogService Tests logEvent inserts correct data into security_audit_logs table
+00:02 +4: D:/Games/VERASSO/test/core/security/biometric_auth_service_test.dart: BiometricAuthService Tests isBiometricAvailable returns a boolean
+00:02 +5: D:/Games/VERASSO/test/core/security/biometric_auth_service_test.dart: BiometricAuthService Tests getBiometricTypeString returns a string
+00:02 +6: D:/Games/VERASSO/test/core/security/e2e_key_exchange_test.dart: E2EKeyExchangeService Tests generateKeyPair returns valid keys
+00:02 +7: D:/Games/VERASSO/test/core/security/e2e_key_exchange_test.dart: E2EKeyExchangeService Tests deriveSharedSecret returns same secret for both parties
+00:04 +8: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Initialization should generate keys if not present
+00:04 +9: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Encrypt and decrypt should return original text
+00:04 +10: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Password-based encryption/decryption should work
+00:04 +10: D:/Games/VERASSO/test/core/security/offline_security_service_test.dart: OfflineSecurityService Tests setIdentityHint stores email and hint flag
+[INFO] Offline identity hint established for test@example.com
+00:04 +11: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Password-based encryption/decryption should work
+00:05 +11: D:/Games/VERASSO/test/core/security/offline_security_service_test.dart: OfflineSecurityService Tests clearIdentityHint removes all data
+[INFO] Offline identity hint established for test@example.com
+[INFO] Offline identity hint cleared
+00:05 +12: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Password-based encryption/decryption should work
+00:05 +13: D:/Games/VERASSO/test/core/security/encryption_service_test.dart: EncryptionService Password-based encryption/decryption should work
+00:06 +14: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:06 +15: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:06 +16: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:09 +16: D:/Games/VERASSO/test/core/security/password_storage_verification_test.dart: Password Storage Verification Password MUST be transformed into a hash before storage
+--- Verification Step 1: Input ---
+User Input: "MySecretPassword123!"
+
+--- Verification Step 2: Output for Database ---
+Stored Value: "$2a$12$CeD75z87Zp4/8oQ0tE.s6Ojz6TGJkYPkj2rgzBCZVMAgylm8242Lm"
+
+--- Verification Step 3: Analysis ---
+Γ£à Check A Passed: Stored value differs from input.
+Γ£à Check B Passed: Input does not appear in stored value.
+Γ£à Check C Passed: Format is valid Bcrypt hash.
+00:09 +17: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash password should generate unique hashes for same password
+00:09 +18: D:/Games/VERASSO/test/core/security/password_storage_verification_test.dart: Password Storage Verification Two identical passwords MUST produce different hashes (Salting)
+
+--- Verification Step 4: Salting Check ---
+Input 1: "SamePassword123!"
+Input 2: "SamePassword123!"
+Hash 1: "$2a$12$WMp.8O6Xoq.bW3mQWK9wCO3F0emeVncs58ll0WX7iLZEFeBObHpjK"
+Hash 2: "$2a$12$V0fkSpOqeNrFtYrm4rPSmulDiF8UN3jsu0PTXJ7gIUYhPEguAB5NO"
+Γ£à Check D Passed: Identical passwords produced unique hashes (Salt is working).
+00:10 +19: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should return true for correct password
+00:10 +20: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should return false for incorrect password
+00:11 +21: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +22: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +23: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +24: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +25: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +26: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be different with random padding
+00:12 +27: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should be long enough (bcrypt standard)
+00:13 +28: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash should start with bcrypt identifier
+00:14 +29: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should enforce minimum length
+00:14 +30: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require uppercase
+00:14 +31: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require lowercase
+00:14 +32: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require numbers
+00:14 +33: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should require special characters
+00:14 +34: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Password validation should accept strong password
+00:14 +35: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Generate secure token should create random tokens
+00:14 +36: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash data should be consistent for same input
+00:14 +37: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Hash data should be different for different input
+00:14 +38: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:14 +38: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText maintains length and character count (excluding spaces)
+[INFO] ShieldService: Session keys initialized
+00:14 +39: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:14 +39: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests scrambleText returns empty string for empty input
+[INFO] ShieldService: Session keys initialized
+00:14 +40: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:14 +40: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests encryptPayload and decryptPayload are consistent
+[INFO] ShieldService: Session keys initialized
+00:14 +41: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:14 +41: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests decryptPayload returns error marker on invalid input
+[INFO] ShieldService: Session keys initialized
+00:14 +42: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:14 +42: D:/Games/VERASSO/test/core/security/shield_service_test.dart: ShieldService Tests rotateSessionKeys makes previous data unreadable
+[INFO] ShieldService: Session keys initialized
+[WARNING] ShieldService: Session keys rotated! Previous data encrypted with old keys will be unreadable.
+00:14 +43: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle empty password gracefully
+00:15 +44: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Verify password should handle invalid hash gracefully
+00:15 +45: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:16 +45: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests saveRefreshToken securely stores the token
+[DEBUG] Refresh token saved securely
+00:16 +46: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:16 +46: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests isSessionValid returns true for valid future expiry
+[DEBUG] Session expiry time saved
+[DEBUG] Refresh token saved securely
+00:16 +47: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:16 +47: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests isSessionValid returns false and clears tokens for passed expiry
+[DEBUG] Session expiry time saved
+[DEBUG] Session has expired
+[INFO] All tokens cleared
+00:16 +48: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:16 +48: D:/Games/VERASSO/test/core/security/token_storage_service_test.dart: TokenStorageService Tests clearTokens removes all authentication data
+[DEBUG] Refresh token saved securely
+[INFO] All tokens cleared
+00:16 +49: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:17 +50: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:18 +51: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:18 +52: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +53: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +54: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +55: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +56: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +57: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +58: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +59: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +60: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +61: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +62: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:20 +63: D:/Games/VERASSO/test/core/security/password_hashing_test.dart: Password Hashing Service Tests Multiple hashes should all be verifiable
+00:22 +64: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests generates a valid signed transcript
+[INFO] MasterySignature: Generated signed transcript for test-user-123
+00:22 +65: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests verifies a valid transcript successfully
+[INFO] MasterySignature: Generated signed transcript for secure-user
+[INFO] MasterySignature: Successfully verified transcript for secure-user
+00:22 +66: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests fails verification for tampered transcript
+[INFO] MasterySignature: Generated signed transcript for student-1
+[ERROR] MasterySignature: Verification error
+[ERROR] Exception: Exception: The message is forged or malformed or the signature is invalid
+00:22 +67: D:/Games/VERASSO/test/core/services/mastery_signature_service_test.dart: MasterySignatureService Tests handles invalid JSON gracefully
+[ERROR] MasterySignature: Verification error
+[ERROR] Exception: FormatException: Unexpected character (at character 1)
+invalid-json
+^
+
+00:23 +68: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Collision Detection: Prevents immediate duplicate requests
+[INFO] Mesh Sync: Requesting 1 missing packets from Peer 1
+00:23 +69: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+[INFO] Mesh Sync: Fulfilling packet request for stored-packet-1 to Trusted Peer (Delay: 50ms)
+00:23 +70: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+00:23 +71: D:/Games/VERASSO/test/core/services/mesh_sync_stress_test.dart: MeshSyncManager Stress & Reliability Tests Expertise-Aware Prioritization: High trust peers get faster responses
+[INFO] Mesh Sync: Fulfilling packet request for stored-packet-2 to Newbie Peer (Delay: 800ms)
+00:25 +72: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests cleanupOldAttempts calls delete with correct filters
+00:25 +73: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests isLimited returns true when server-side limit hit
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+[WARNING] Server-side rate limit hit for login
+00:25 +74: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests isLimited returns false when allowed
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:25 +75: D:/Games/VERASSO/test/core/services/rate_limit_service_test.dart: RateLimitService Tests recordAttempt inserts correct data
+[INFO] Recorded attempt for test-user (login)
+00:25 +76: D:/Games/VERASSO/test/core/services/sync_strategy_service_test.dart: SyncStrategyService Tests Priority Queue should process critical items first
+00:25 +77: D:/Games/VERASSO/test/core/services/sync_strategy_service_test.dart: SyncStrategyService Tests Should retry failed sync actions
+00:27 +78: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode prioritizes Mesh if active
+00:27 +79: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode returns Realtime if WiFi connected
+00:27 +80: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService determineSyncMode returns Offline if no connection
+00:27 +81: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions does nothing if offline
+00:27 +82: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions processes via Mesh if Mesh active
+00:27 +83: D:/Games/VERASSO/test/core/services/sync_strategy_test.dart: SyncStrategyService syncPendingActions processes via Realtime (Supabase) if Online
+00:27 +84: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation valid email returns null
+00:27 +85: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation invalid email returns error message
+00:27 +86: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Email Validation empty email returns required error
+00:27 +87: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation strong password returns null
+00:27 +88: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation weak password returns error message
+00:27 +89: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Password Validation password without special char returns error
+00:27 +90: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation valid username returns null
+00:27 +91: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation invalid username returns error message
+00:27 +92: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Username Validation username starting with number returns error
+00:27 +93: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation valid post returns null
+00:27 +94: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation empty post returns error
+00:27 +95: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Post Content Validation whitespace only post returns error
+00:27 +96: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Registration Validation valid registration returns null
+00:27 +97: D:/Games/VERASSO/test/core/services/validation_service_test.dart: ValidationService Registration Validation invalid email in registration returns error
+00:28 +98: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeString should escape HTML special characters
+00:28 +99: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeString should trim whitespace
+00:28 +100: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeUsername should remove invalid characters
+00:28 +101: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeUsername should allow dots and underscores
+00:28 +102: D:/Games/VERASSO/test/core/utils/sanitizer_utils_test.dart: SanitizerUtils sanitizeList should sanitize all items in the list
+00:29 +103: D:/Games/VERASSO/test/core/zero_knowledge_service_test.dart: ZeroKnowledgeService Tests Skill Commitment should be deterministic with same salt but unique with unique secrets
+00:29 +104: D:/Games/VERASSO/test/core/zero_knowledge_service_test.dart: ZeroKnowledgeService Tests Blinded ID should be deterministic for same session
+00:30 +105: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getContentStats returns configured result
+00:30 +106: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getContentStats returns null when not configured
+00:30 +107: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getTopContent respects limit
+00:30 +108: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getUserStats returns configured result
+00:30 +109: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService trackEvent records the event
+00:30 +110: D:/Games/VERASSO/test/features/analytics/data/analytics_service_test.dart: FakeAnalyticsService getUserEngagement returns configured data
+00:31 +111: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getContentStats fetches from content_stats table
+00:31 +112: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getTopContent fetches ordered list
+00:31 +113: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getUserStats fetches user stats
+00:31 +114: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService refreshUserStats calls RPC
+00:31 +115: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService trackEvent inserts into analytics_events
+00:31 +116: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService updateContentStats inserts new record if not exists
+00:31 +117: D:/Games/VERASSO/test/features/analytics/data/real_analytics_service_test.dart: AnalyticsService getUserEngagement calls RPC
+00:32 +118: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats fromJson creates instance with all fields
+00:32 +119: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats fromJson handles null/missing fields with defaults
+00:32 +120: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats totalEngagement sums likes + comments + shares
+00:32 +121: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: ContentStats totalEngagement is zero when all interaction counts are zero
+00:32 +122: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData fromJson creates instance with all fields
+00:32 +123: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData fromJson handles null fields with defaults
+00:32 +124: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: EngagementData totalEngagement sums posts + likes + comments
+00:32 +125: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: UserStats fromJson creates instance with all fields
+00:32 +126: D:/Games/VERASSO/test/features/analytics/models/analytics_models_test.dart: UserStats fromJson handles null/missing fields with defaults
+00:33 +127: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signIn should update state to loading then success on valid credentials
+00:33 +128: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signIn should update state to error on invalid credentials
+[WARNING] Signin failed
+[WARNING] Error: AuthException(message: Invalid login credentials, statusCode: null, code: null)
+00:33 +129: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signUp should call repository signUp with correct parameters
+[INFO] Signup successful - refresh token saved in repository
+00:33 +130: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController resetPassword should call repository resetPassword
+00:33 +131: D:/Games/VERASSO/test/features/auth/auth_controller_test.dart: AuthController signOut should call repository signOut
+[INFO] Offline identity hint cleared
+00:34 +132: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should throw if track_failed_login returns false (account locked)
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:34 +133: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should succeed and clear failed attempts if track_failed_login allows
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:34 +134: D:/Games/VERASSO/test/features/auth/auth_repository_security_test.dart: AuthRepository - Security Hardening (Phase 4) signInWithEmail should catch exceptions and log attempts in local RateLimitService
+[WARNING] Could not determine device IP
+[WARNING] Error: MissingPluginException(No implementation found for method wifiIPAddress on channel dev.fluttercommunity.plus/network_info)
+00:35 +135: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignUp signUpWithEmail throws for weak password
+00:35 +136: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignUp signUpWithEmail succeeds with strong password
+00:35 +137: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - SignIn signInWithOAuth initiates flow
+00:35 +138: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - MFA enrollMFA initiates enrollment
+00:35 +139: D:/Games/VERASSO/test/features/auth/auth_repository_test.dart: AuthRepository - MFA challengeAndVerify flow
+00:36 +140: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should succeed with valid credentials
+[INFO] Refresh token saved for signup user
+00:36 +141: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should fail with invalid email
+00:36 +142: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should fail with weak password
+00:36 +143: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign Up Flow signUpWithEmail should handle duplicate email
+00:36 +144: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should succeed with valid credentials
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +145: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should fail with incorrect password
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +146: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should fail with non-existent email
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +147: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Sign In Flow signInWithEmail should handle rate limiting
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +148: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow resetPasswordForEmail should send reset email
+00:37 +149: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow resetPasswordForEmail should fail with non-existent email
+00:37 +150: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow updateUserPassword should change password
+00:37 +151: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Password Reset Flow updateUserPassword should fail with weak password
+00:37 +152: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow signInWithOtp should send OTP to email
+00:37 +153: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should succeed with valid token
+00:37 +154: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should fail with invalid token
+[ERROR] Error in AuthRepository.verifyOtp
+[ERROR] Exception: AppException: Invalid or expired OTP 
+[ERROR] Stack Trace:
+#0      AuthRepository.verifyOtp.<anonymous closure> (package:verasso/features/auth/data/auth_repository.dart:430:13)
+<asynchronous suspension>
+#1      ErrorHandlerMixin.handleError (package:verasso/core/exceptions/error_handler_mixin.dart:21:14)
+<asynchronous suspension>
+#2      AuthRepository.verifyOtp (package:verasso/features/auth/data/auth_repository.dart:410:12)
+<asynchronous suspension>
+#3      main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/auth/auth_service_test.dart:472:11)
+<asynchronous suspension>
+#4      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:9)
+<asynchronous suspension>
+#5      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)
+<asynchronous suspension>
+#6      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)
+<asynchronous suspension>
+
+00:37 +155: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests OTP Flow verifyOtp should fail with expired token
+[ERROR] Error in AuthRepository.verifyOtp
+[ERROR] Exception: AppException: OTP has expired 
+[ERROR] Stack Trace:
+#0      AuthRepository.verifyOtp.<anonymous closure> (package:verasso/features/auth/data/auth_repository.dart:430:13)
+<asynchronous suspension>
+#1      ErrorHandlerMixin.handleError (package:verasso/core/exceptions/error_handler_mixin.dart:21:14)
+<asynchronous suspension>
+#2      AuthRepository.verifyOtp (package:verasso/features/auth/data/auth_repository.dart:410:12)
+<asynchronous suspension>
+#3      main.<anonymous closure>.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/auth/auth_service_test.dart:496:11)
+<asynchronous suspension>
+#4      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:242:9)
+<asynchronous suspension>
+#5      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:240:7)
+<asynchronous suspension>
+#6      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:282:9)
+<asynchronous suspension>
+
+00:37 +156: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle network errors gracefully
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +157: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle empty email gracefully
+00:37 +158: D:/Games/VERASSO/test/features/auth/auth_service_test.dart: AuthRepository - Authentication Tests Edge Cases & Error Handling should handle server errors (5xx) gracefully
+[WARNING] Could not determine device IP
+[WARNING] Error: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+00:37 +159: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests initial state is AsyncData(null)
+00:37 +160: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests signIn success updates state to AsyncData
+[INFO] Signin successful - refresh token saved in repository
+00:37 +161: D:/Games/VERASSO/test/features/auth/presentation/auth_controller_test.dart: AuthController Tests signIn failure updates state to AsyncError
+[WARNING] Signin failed
+[WARNING] Error: Exception: Login failed
+00:39 +162: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +163: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +164: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +165: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +166: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:40 +167: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests renders initial login state correctly
+00:41 +168: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to signup view
+00:41 +169: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests switches to OTP login view
+00:42 +170: D:/Games/VERASSO/test/features/auth/presentation/auth_screen_test.dart: AuthScreen Widget Tests shows reset password view
+00:42 +171: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns 0 for no matching tags and no popularity
+00:42 +172: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns matchWeight for exact tag match
+00:42 +173: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching accumulates matchWeight for multiple exact matches
+00:42 +174: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching is case-insensitive for item tags
+00:42 +175: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching trims whitespace from item tags
+00:42 +176: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns secondaryMatchWeight for partial match (tag contains interest)
+00:42 +177: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns secondaryMatchWeight for partial match (interest contains tag)
+00:42 +178: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns 0 when both lists are empty
+00:42 +179: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - tag matching returns 0 when item tags is empty
+00:42 +180: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - popularity boost adds popularity boost proportional to popularityScore
+00:42 +181: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - popularity boost combines tag match with popularity boost
+00:42 +182: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - popularity boost zero popularity adds nothing
+00:42 +183: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - recency decay applies recency decay based on age in days
+00:42 +184: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - recency decay score does not go below zero with old content
+00:42 +185: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - recency decay no decay when createdAt is null
+00:42 +186: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - recency decay minimal decay for very recent content
+00:42 +187: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - combined scenarios full scoring with multiple matches, popularity, and recency
+00:42 +188: D:/Games/VERASSO/test/features/discovery/domain/weighted_tag_scorer_test.dart: WeightedTagScorer score - combined scenarios static constants have expected values
+00:45 +189: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:46 +190: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:46 +191: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders "Please log in" when unauthenticated
+00:46 +192: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen renders dashboard when authenticated
+00:47 +193: D:/Games/VERASSO/test/features/finance/finance_dashboard_screen_test.dart: FinanceDashboardScreen shows simple transaction history
+00:48 +194: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 1 for 0 XP
+00:48 +195: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 1 for 99 XP
+00:48 +196: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 2 for 100 XP
+00:48 +197: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel returns level 5 for 400 XP
+00:48 +198: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService calculateLevel handles large XP values
+00:48 +199: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak same day does not change streak
+00:48 +200: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak next day increments streak
+00:48 +201: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService updateStreak two+ days gap breaks streak
+00:48 +202: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor common returns gray
+00:48 +203: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor rare returns blue
+00:48 +204: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor epic returns purple
+00:48 +205: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getBadgeColor legendary returns orange
+00:48 +206: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard returns empty list for empty input
+00:48 +207: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard sorts by XP descending
+00:48 +208: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService getLeaderboard assigns correct ranks
+00:48 +209: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService checkUnlockedBadges unlocks first_steps badge after 1 simulation
+00:48 +210: D:/Games/VERASSO/test/features/gamification/gamification_service_test.dart: GamificationService checkUnlockedBadges does not unlock already unlocked badge
+00:49 +211: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +212: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +213: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +214: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +215: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +216: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +217: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +218: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +219: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +220: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +221: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +222: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +223: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +224: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +225: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +226: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:49 +227: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests renders bottom navigation bar with 5 items
+00:50 +228: D:/Games/VERASSO/test/features/home/home_screen_test.dart: HomeScreen Widget Tests navigates between tabs correctly
+00:51 +229: D:/Games/VERASSO/test/features/home/home_screen_test.dart: Navigation Tests bottom nav maintains state across tab switches
+00:53 +230: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:54 +231: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:55 +232: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders Learning Hub title and main sections
+00:55 +233: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders active daily challenge when available
+00:55 +234: D:/Games/VERASSO/test/features/learning/learning_dashboard_test.dart: LearningDashboard Widget Tests renders in-progress enrollments
+00:57 +235: D:/Games/VERASSO/test/features/messaging/message_repository_test.dart: MessageRepository sendMessage should encrypt and insert message
+[ERROR] Failed to create message notification
+[ERROR] Exception: [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+00:57 +236: D:/Games/VERASSO/test/features/messaging/message_repository_test.dart: MessageRepository getConversations should return list of conversations
+00:57 +237: D:/Games/VERASSO/test/features/messaging/message_repository_test.dart: MessageRepository markAsRead should call update
+00:58 +238: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests getArticles fetches from Supabase and caches featured
+00:58 +239: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests getArticles falls back to cache on Supabase failure
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: Exception: Network error
+00:58 +240: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests getArticles falls back to mesh if cache is empty
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: Exception: Network error
+00:58 +241: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests publishArticle inserts into Supabase
+00:58 +242: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests upvoteArticle calls upsert and rewards XP
+00:58 +243: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests vouchArticle restricted to Senior/Editor
+00:58 +244: D:/Games/VERASSO/test/features/news/data/news_repository_test.dart: NewsRepository Unit Tests MeshNewsService Unit Tests broadcastArticle notifies mesh network
+00:59 +245: D:/Games/VERASSO/test/features/notifications/notification_service_test.dart: NotificationService markAllAsRead should call rpc
+00:59 +246: D:/Games/VERASSO/test/features/notifications/notification_service_test.dart: NotificationService getNotifications should return a list
+01:00 +247: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository getProfile returns profile on success
+01:00 +248: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository searchUsers uses textSearch
+01:00 +249: D:/Games/VERASSO/test/features/profile/profile_repository_test.dart: ProfileRepository updateProfile calls upsert
+01:01 +250: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserProgress should retrieve user progress data
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~1: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests logActivity should increment user points
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~2: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~2: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserMilestones should return user milestones
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~3: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~3: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserAchievements should return user achievements
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~4: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~4: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests updateLoginStreak should increment streak for consecutive login
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~5: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~5: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getLeaderboard should return sorted list of top users
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~6: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~6: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getUserRank should return user position in leaderboard
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~7: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~7: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests checkAndAwardMilestones should handle milestone completion
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~8: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~8: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests awardAchievement should add achievement to user
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~9: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~9: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests createMilestone should create new milestone for user
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~10: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~10: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests streamUserProgress should emit progress updates
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~11: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~11: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests RLS policies should prevent unauthorized access
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~12: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~12: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Progress triggers should automatically update level on XP threshold
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~13: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~13: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Activity log should record all activities
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~14: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~14: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests getNextMilestone should return incomplete milestone
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~15: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~15: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Leaderboard view should be performant
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~16: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~16: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Progress calculations should be accurate
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~17: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+01:02 +250 ~17: D:/Games/VERASSO/test/features/progress/integration/progress_integration_test.dart: ProgressTrackingService Integration Tests Multiple concurrent log activities should handle race conditions
+  Skip: Skipping integration tests: SUPABASE_ANON_KEY not set
+01:02 +250 ~18: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building ProfileScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#cdb92]], state: _ConsumerState#084a8):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  ProfileScreen
+  ProfileScreen:file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:54:15
+
+When the exception was thrown, this was the stack:
+#0      ProfileScreen.build (package:verasso/features/profile/presentation/profile_screen.dart:37:46)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:65:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Test User": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:69:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart line 69
+The test description was:
+  displays user profile data correctly
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:03 +250 ~18 -1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays user profile data correctly [E]
+  Test failed. See exception logs above.
+  The test description was: displays user profile data correctly
+  
+01:03 +250 ~18 -1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays stats correctly
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building ProfileScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#598ae]], state: _ConsumerState#12540):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  ProfileScreen
+  ProfileScreen:file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:54:15
+
+When the exception was thrown, this was the stack:
+#0      ProfileScreen.build (package:verasso/features/profile/presentation/profile_screen.dart:37:46)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:81:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "100": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:86:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart line 86
+The test description was:
+  displays stats correctly
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:03 +250 ~18 -2: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests displays stats correctly [E]
+  Test failed. See exception logs above.
+  The test description was: displays stats correctly
+  
+01:03 +250 ~18 -2: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests shows edit profile button
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building ProfileScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#53a4d]], state: _ConsumerState#a8f43):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  ProfileScreen
+  ProfileScreen:file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:54:15
+
+When the exception was thrown, this was the stack:
+#0      ProfileScreen.build (package:verasso/features/profile/presentation/profile_screen.dart:37:46)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:99:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Edit Profile": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:103:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart line 103
+The test description was:
+  shows edit profile button
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:03 +250 ~18 -3: D:/Games/VERASSO/test/features/progress/services/progress_tracking_service_test.dart: ProgressTrackingService service uses integration tests for validation
+01:03 +250 ~18 -3: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests shows edit profile button [E]
+  Test failed. See exception logs above.
+  The test description was: shows edit profile button
+  
+01:03 +251 ~18 -3: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests export transcript requires interaction
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building ProfileScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#1a345]], state: _ConsumerState#f0e91):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  ProfileScreen
+  ProfileScreen:file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:54:15
+
+When the exception was thrown, this was the stack:
+#0      ProfileScreen.build (package:verasso/features/profile/presentation/profile_screen.dart:37:46)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:111:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.single (dart:core/iterable.dart:694:25)
+#1      WidgetController.element (package:flutter_test/src/controller.dart:868:30)
+#2      WidgetController.ensureVisible (package:flutter_test/src/controller.dart:2305:32)
+#3      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/profile/profile_screen_test.dart:116:20)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  export transcript requires interaction
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:03 +251 ~18 -4: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: ProfileScreen Widget Tests export transcript requires interaction [E]
+  Test failed. See exception logs above.
+  The test description was: export transcript requires interaction
+  
+01:05 +251 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests (setUpAll)
+01:05 +251 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search returns results for valid query
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:05 +252 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search with post filter filters results
+01:05 +253 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality search respects pagination
+[INFO] Search hashtags error: UnimplementedError: ilike
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:05 +254 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality getTrendingHashtags returns hashtags
+01:05 +255 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality getSearchSuggestions returns suggestions
+[INFO] Get suggestions error: UnimplementedError: ilike
+01:05 +256 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search Functionality invalid query throws exception
+[INFO] Full-text search error: Exception: Search query must be 1-500 characters
+01:05 +257 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search History getUserSearchHistory returns history
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:05 +258 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests Search History clearSearchHistory clears all history
+[INFO] Search hashtags error: UnimplementedError: ilike
+01:05 +259 ~18 -4: D:/Games/VERASSO/test/features/search/integration/search_integration_test.dart: FullTextSearchService Integration Tests (tearDownAll)
+01:05 +259 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation accepts valid queries
+01:05 +260 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation rejects empty queries
+01:05 +261 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation handles long queries correctly
+01:05 +262 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Query Validation preserves hashtags and mentions
+01:05 +263 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters creates filter with all parameters
+01:05 +264 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters creates filter with null type (mixed results)
+01:05 +265 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Search Filters date range validation
+01:05 +266 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Pagination calculates correct offset for page number
+01:05 +267 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Pagination limits results to page size
+01:05 +268 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Security query length limit prevents DoS
+01:05 +269 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Security empty query rejected
+01:05 +270 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Error Handling handles null response gracefully
+01:05 +271 ~18 -4: D:/Games/VERASSO/test/features/search/services/full_text_search_service_test.dart: FullTextSearchService Unit Tests Error Handling handles empty response list
+01:07 +272 ~18 -4: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:09 +273 ~18 -4: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:09 +274 ~18 -4: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+01:09 +275 ~18 -4: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building SettingsScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#34e87], _UncontrolledProviderScope], state:
+_ConsumerState#ce627):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  SettingsScreen
+  SettingsScreen:file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:57:15
+
+When the exception was thrown, this was the stack:
+#0      SettingsScreen.build (package:verasso/features/settings/presentation/settings_screen.dart:32:62)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:67:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Settings": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:71:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart line 71
+The test description was:
+  renders all settings sections
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:09 +275 ~18 -5: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders all settings sections [E]
+  Test failed. See exception logs above.
+  The test description was: renders all settings sections
+  
+01:09 +275 ~18 -5: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Power Save Mode switch
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building SettingsScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#eb806], _UncontrolledProviderScope], state:
+_ConsumerState#c7dc5):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  SettingsScreen
+  SettingsScreen:file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:57:15
+
+When the exception was thrown, this was the stack:
+#0      SettingsScreen.build (package:verasso/features/settings/presentation/settings_screen.dart:32:62)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:85:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Power Save Mode": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:89:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart line 89
+The test description was:
+  renders Power Save Mode switch
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:09 +275 ~18 -6: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Power Save Mode switch [E]
+  Test failed. See exception logs above.
+  The test description was: renders Power Save Mode switch
+  
+01:09 +275 ~18 -6: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Private Account switch with correct state
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building SettingsScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#77f96], _UncontrolledProviderScope], state:
+_ConsumerState#58500):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  SettingsScreen
+  SettingsScreen:file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:57:15
+
+When the exception was thrown, this was the stack:
+#0      SettingsScreen.build (package:verasso/features/settings/presentation/settings_screen.dart:32:62)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:98:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _AncestorWidgetFinder:<Found 0 widgets with type "SwitchListTile" that are ancestors of
+widgets with text "Private Account": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:103:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart line 103
+The test description was:
+  renders Private Account switch with correct state
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:09 +275 ~18 -7: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests renders Private Account switch with correct state [E]
+  Test failed. See exception logs above.
+  The test description was: renders Private Account switch with correct state
+  
+01:09 +275 ~18 -7: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests sign out button is present
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY WIDGETS LIBRARY Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following _TypeError was thrown building SettingsScreen(dirty, dependencies:
+[_EffectiveTickerMode, _LocalizationsScope-[GlobalKey#2d473], _UncontrolledProviderScope], state:
+_ConsumerState#66b30):
+Null check operator used on a null value
+
+The relevant error-causing widget was:
+  SettingsScreen
+  SettingsScreen:file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:57:15
+
+When the exception was thrown, this was the stack:
+#0      SettingsScreen.build (package:verasso/features/settings/presentation/settings_screen.dart:32:62)
+#1      _ConsumerState.build (package:flutter_riverpod/src/core/consumer.dart:283:48)
+#2      StatefulElement.build (package:flutter/src/widgets/framework.dart:5934:27)
+#3      ConsumerStatefulElement.build (package:flutter_riverpod/src/core/consumer.dart:421:20)
+#4      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5820:15)
+#5      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#6      Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#7      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5802:5)
+#8      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5976:11)
+#9      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5796:5)
+...     Normal element mounting (260 frames)
+#269    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#270    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7269:36)
+#271    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7285:32)
+...     Normal element mounting (487 frames)
+#758    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4590:20)
+#759    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#760    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#761    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#762    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#763    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#764    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#765    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#766    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#767    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#768    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#769    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#770    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#771    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#772    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#773    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#774    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#775    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#776    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#777    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#778    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#779    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#780    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#781    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#782    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#783    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#785    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#786    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#787    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#788    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#789    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#790    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#791    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#792    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#793    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#794    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#795    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#796    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#797    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#798    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#799    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#800    ProxyElement.update (package:flutter/src/widgets/framework.dart:6152:5)
+#801    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#802    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#803    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#804    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#805    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#806    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#807    StatelessElement.update (package:flutter/src/widgets/framework.dart:5898:5)
+#808    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#809    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5844:16)
+#810    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5985:11)
+#811    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#812    StatefulElement.update (package:flutter/src/widgets/framework.dart:6010:5)
+#813    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#814    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1782:16)
+#815    RootElement.update (package:flutter/src/widgets/binding.dart:1760:5)
+#816    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1774:7)
+#817    Element.rebuild (package:flutter/src/widgets/framework.dart:5532:7)
+#818    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#819    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#820    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#821    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1506:19)
+#822    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#823    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1434:15)
+#824    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1347:9)
+#825    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1335:9)
+#828    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#829    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1324:27)
+#830    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#833    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#834    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#835    main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:113:20)
+<asynchronous suspension>
+#836    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#837    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 5 frames from dart:async and package:stack_trace)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.first (dart:core/iterable.dart:663:7)
+#1      _FirstFinderMixin.filter (package:flutter_test/src/finders.dart:1332:28)
+#3      Iterable.single (dart:core/iterable.dart:694:13)
+#4      WidgetController.widget (package:flutter_test/src/controller.dart:808:30)
+#5      WidgetController.scrollUntilVisible.<anonymous closure> (package:flutter_test/src/controller.dart:2345:15)
+#8      TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#9      WidgetController.scrollUntilVisible (package:flutter_test/src/controller.dart:2343:27)
+#10     main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/features/settings/settings_screen_test.dart:120:20)
+<asynchronous suspension>
+#11     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#12     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 4 frames from dart:async, dart:async-patch, and package:stack_trace)
+
+The test description was:
+  sign out button is present
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:09 +275 ~18 -8: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: SettingsScreen Widget Tests sign out button is present [E]
+  Test failed. See exception logs above.
+  The test description was: sign out button is present
+  
+01:10 +275 ~18 -8: D:/Games/VERASSO/test/features/social/feed_screen_test.dart: FeedScreen Widget Tests displays loading state initially
+01:11 +276 ~18 -8: D:/Games/VERASSO/test/features/social/feed_screen_test.dart: FeedScreen Widget Tests displays posts when loaded
+01:12 +277 ~18 -8: D:/Games/VERASSO/test/features/social/feed_screen_test.dart: FeedScreen Widget Tests displays empty state when no posts
+01:12 +278 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests renders feed screen and displays post
+01:12 +279 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests renders feed screen and displays post
+01:12 +280 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests renders feed screen and displays post
+01:12 +281 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests renders feed screen and displays post
+01:14 +282 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests shows feed tab buttons
+01:14 +283 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests displays like count
+01:15 +284 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests displays comment count
+01:15 +285 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/feed_screen_test.dart: FeedScreen Widget Tests has create post FAB
+01:15 +286 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:15 +287 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests renders search bar and initial sections
+01:17 +288 ~18 -8: D:/Games/VERASSO/test/features/social/presentation/search_screen_test.dart: DiscoverScreen (SearchScreen) Widget Tests entering text in search bar triggers search
+01:18 +289 ~18 -8: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders empty state when no stories
+01:19 +290 ~18 -8: D:/Games/VERASSO/test/features/stories/presentation/story_feed_screen_test.dart: StoryFeedScreen Widget Tests renders stories when available
+01:20 +291 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository getJobRequests returns list from network when online
+01:20 +292 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository getJobRequests returns list from cache when offline
+01:20 +293 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository applyForJob inserts to network when online
+01:20 +294 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository applyForJob queues action when offline
+01:20 +295 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository applyForJob broadcasts via mesh when mesh is active
+01:20 +296 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository createJobRequest inserts to network when online
+01:20 +297 ~18 -8: D:/Games/VERASSO/test/features/talent/data/job_repository_test.dart: JobRepository completeJobAndProcessPayment throws exception when offline
+01:22 +298 ~18 -8: D:/Games/VERASSO/test/features/talent/presentation/talent_dashboard_test.dart: localization works
+01:23 +299 ~18 -8: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:25 +300 ~18 -8: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:25 +301 ~18 -8: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:26 +302 ~18 -8: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests Complete login flow from AuthScreen to generic routing
+01:26 +303 ~18 -8: D:/Games/VERASSO/test/integration/auth_flow_test.dart: Auth Flow Integration Tests App starts at Login when unauthenticated
+01:28 +304 ~18 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should create a new post in posts table
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~19 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should enforce NOT NULL constraints on required fields
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~20 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Create Operations (INSERT) should apply default timestamp values on insert
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~21 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should retrieve posts from posts table
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~22 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should filter posts by user_id
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~23 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should order posts by created_at (DESC)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~24 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Read Operations (SELECT) should paginate results correctly
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~25 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should update post content
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~26 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should only allow owner to update post (RLS)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~27 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Update Operations (UPDATE) should update timestamp on modification
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~28 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should delete post by id
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~29 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should enforce RLS on delete (owner only)
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~30 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Delete Operations (DELETE) should cascade delete related data on post delete
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~31 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Foreign Key Constraints should enforce user_id foreign key
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~32 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Foreign Key Constraints should handle circular references gracefully
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~33 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should execute audit trigger on post creation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~34 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should update search index on post creation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~35 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Triggers should track is_edited flag automatically
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~36 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should rollback on error during multi-step operation
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~37 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should maintain data consistency across operations
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~38 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Database Transactions should handle concurrent writes correctly
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~39 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) authenticated users should only see own posts
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~40 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) should enforce column-level security if configured
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~41 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) public users should see published posts only
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~42 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Row Level Security (RLS) should prevent reading other users private data
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~43 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should validate email format in profiles
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~44 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should enforce unique constraints
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~45 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should prevent NULL in NOT NULL columns
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:28 +304 ~46 -8: D:/Games/VERASSO/test/integration/database_integration_test.dart: Database Integration Tests Data Integrity should validate check constraints
+  Skip: Requires SUPABASE_TEST_MODE=true
+01:29 +304 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:29 +305 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:29 +306 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:29 +307 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:29 +308 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +309 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +310 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +311 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +312 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +313 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +314 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +315 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +316 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +317 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +318 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +319 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +320 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +321 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +322 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +323 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +324 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +325 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +326 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +327 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +328 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +329 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +330 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +331 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +332 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +333 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +334 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +335 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +336 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +337 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +338 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +339 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +340 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +341 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +342 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +343 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +344 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +345 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +346 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +347 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +348 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+01:30 +349 ~47 -8: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data
+ΓòÉΓòÉΓòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Γò₧ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Portfolio Simulator": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///D:/Games/VERASSO/test/integration/finance_sim_test.dart:62:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///D:/Games/VERASSO/test/integration/finance_sim_test.dart line 62
+The test description was:
+  PortfolioTracker renders with initial cash and receives market data
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+01:31 +349 ~47 -9: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data [E]
+  Test failed. See exception logs above.
+  The test description was: PortfolioTracker renders with initial cash and receives market data
+  
+01:32 +349 ~47 -9: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles caches data when fetch is successful
+01:32 +350 ~47 -9: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles fetches from cache when Supabase fails
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: AppException: Offline 
+01:32 +351 ~47 -9: D:/Games/VERASSO/test/services/news_offline_test.dart: NewsRepository Offline Caching getArticles returns empty if Supabase fails and Cache is empty
+[WARNING] Supabase fetch failed, falling back to cache/mesh
+[WARNING] Error: AppException: Offline 
+01:33 +352 ~47 -9: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns list of badge IDs when successful
+01:33 +352 ~47 -10: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns list of badge IDs when successful [E]
+  Used on a non-mockito object
+  package:matcher                                          fail
+  package:mockito/src/mock.dart 1156:7                     _makeVerify.<fn>
+  test\services\progress_tracking_service_test.dart 39:13  main.<fn>.<fn>
+  
+01:33 +352 ~47 -10: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns empty list on error
+01:34 +352 ~47 -11: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: getUnlockedBadges returns empty list on error [E]
+  Bad state: No method stub was called from within `when()`. Was a real method called, or perhaps an extension method?
+  package:mockito/src/mock.dart 611:7                      PostExpectation._completeWhen
+  package:mockito/src/mock.dart 597:12                     PostExpectation.thenThrow
+  test\services\progress_tracking_service_test.dart 45:12  main.<fn>.<fn>
+  
+01:34 +352 ~47 -11: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Retrieval getActiveStories returns empty list by default
+01:34 +353 ~47 -11: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Retrieval getMyStories returns empty list by default
+01:34 +354 ~47 -11: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Interactions viewStory should not throw
+01:34 +355 ~47 -11: D:/Games/VERASSO/test/services/stories_service_test.dart: StoriesService - Interactions reactToStory should not throw
+01:36 +356 ~47 -11: D:/Games/VERASSO/test/widget_test.dart: App smoke test - verifies login screen structure
+01:38 +357 ~47 -11: Some tests failed.

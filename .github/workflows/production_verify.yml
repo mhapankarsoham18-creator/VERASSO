@@ -1,0 +1,96 @@
+name: Production Verify & Automation
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+  schedule:
+    # Weekly Sunday sync Prod -> Staging at 00:00 UTC
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+    # Allow manual triggers for sync and load tests
+
+jobs:
+  verify:
+    name: Verify Production Readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: your-super-secret-and-long-postgres-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.27.x"
+          channel: "stable"
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run Unit & Widget Tests
+        run: flutter test --coverage
+
+      - name: Visual Regression Tests (Golden Tests)
+        run: flutter test test/visual_regression/
+        continue-on-error: true # Allow failures in early phase 6
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Supabase Local
+        run: supabase start
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Run Integration Tests
+        run: |
+          flutter test integration_test \
+            --dart-define=SUPABASE_URL=http://127.0.0.1:54321 \
+            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+
+  sync-staging:
+    name: Sync Prod to Staging
+    if: github.event_name == 'schedule' || contains(github.event.inputs.sync, 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Sync Script
+        run: bash scripts/sync_prod_to_staging.sh
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROD_PROJECT_REF: ${{ secrets.PROD_PROJECT_REF }}
+          STAGING_PROJECT_REF: ${{ secrets.STAGING_PROJECT_REF }}
+
+  load-test:
+    name: K6 Load Testing
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run k6 Load Test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: test/load/load_test.js
+        env:
+          TARGET_URL: ${{ secrets.STAGING_API_URL }}

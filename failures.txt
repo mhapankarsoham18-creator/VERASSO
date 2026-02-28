@@ -1,0 +1,25 @@
+﻿
+test_report_utf8.txt:716:01:03 +250 ~18 -1: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: 
+ProfileScreen Widget Tests displays user profile data correctly [E]
+test_report_utf8.txt:855:01:03 +250 ~18 -2: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: 
+ProfileScreen Widget Tests displays stats correctly [E]
+test_report_utf8.txt:995:01:03 +250 ~18 -3: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: 
+ProfileScreen Widget Tests shows edit profile button [E]
+test_report_utf8.txt:1133:01:03 +251 ~18 -4: D:/Games/VERASSO/test/features/profile/profile_screen_test.dart: 
+ProfileScreen Widget Tests export transcript requires interaction [E]
+test_report_utf8.txt:1306:01:09 +275 ~18 -5: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: 
+SettingsScreen Widget Tests renders all settings sections [E]
+test_report_utf8.txt:1446:01:09 +275 ~18 -6: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: 
+SettingsScreen Widget Tests renders Power Save Mode switch [E]
+test_report_utf8.txt:1587:01:09 +275 ~18 -7: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: 
+SettingsScreen Widget Tests renders Private Account switch with correct state [E]
+test_report_utf8.txt:1730:01:09 +275 ~18 -8: D:/Games/VERASSO/test/features/settings/settings_screen_test.dart: 
+SettingsScreen Widget Tests sign out button is present [E]
+test_report_utf8.txt:1888:01:31 +349 ~47 -9: D:/Games/VERASSO/test/integration/finance_sim_test.dart: Finance 
+Simulator Integration Tests PortfolioTracker renders with initial cash and receives market data [E]
+test_report_utf8.txt:1900:01:33 +352 ~47 -10: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: 
+getUnlockedBadges returns list of badge IDs when successful [E]
+test_report_utf8.txt:1907:01:34 +352 ~47 -11: D:/Games/VERASSO/test/services/progress_tracking_service_test.dart: 
+getUnlockedBadges returns empty list on error [E]
+
+

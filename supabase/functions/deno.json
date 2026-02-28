@@ -1,0 +1,25 @@
+{
+    "importMap": "import_map.json",
+    "compilerOptions": {
+        "allowJs": true,
+        "lib": [
+            "deno.window",
+            "deno.ns"
+        ]
+    },
+    "lint": {
+        "rules": {
+            "tags": [
+                "recommended"
+            ]
+        }
+    },
+    "fmt": {
+        "options": {
+            "useTabs": false,
+            "lineWidth": 100,
+            "indentWidth": 2,
+            "singleQuote": true
+        }
+    }
+}

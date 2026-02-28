@@ -1,0 +1,66 @@
+name: VERASSO CI
+
+on:
+    push:
+        branches: [main, develop]
+    pull_request:
+        branches: [main, develop]
+
+jobs:
+    analyze-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  channel: "stable"
+                  cache: true
+
+            - name: Install dependencies
+              run: flutter pub get
+
+            - name: Check formatting
+              run: dart format --output=none --set-exit-if-changed .
+
+            - name: Analyze code
+              run: flutter analyze
+
+            - name: Run tests
+              run: flutter test --coverage
+
+            - name: Upload coverage
+              uses: codecov/codecov-action@v3
+              with:
+                  file: coverage/lcov.info
+
+    build-android:
+        needs: analyze-and-test
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  channel: "stable"
+                  cache: true
+
+            - name: Build APK
+              run: |
+                  # Create placeholder .env file to prevent build failure
+                  echo "SUPABASE_URL=https://placeholder.supabase.co" > .env
+                  echo "SUPABASE_ANON_KEY=placeholder" >> .env
+                  echo "GEMINI_API_KEY=placeholder" >> .env
+
+                  flutter build apk --release --dart-define=IS_CI=true
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: verasso-apk
+                  path: build/app/outputs/flutter-apk/app-release.apk

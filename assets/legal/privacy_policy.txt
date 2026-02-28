@@ -1,0 +1,34 @@
+Verasso Privacy Policy
+Last Updated: February 15, 2026
+
+1. Introduction
+Welcome to Verasso. We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.
+
+2. Data We Collect
+- Profile Information: Name, username, profile picture, and bio.
+- Contact Information: Email address.
+- Usage Data: Information about how you use the app, including learning progress and social interactions.
+- Device Information: Device model, operating system, and unique device identifiers.
+- Security Logs: We collect logs of security-relevant events to ensure the integrity of the ecosystem.
+
+3. How We Use Your Data
+- To provide and maintain our service.
+- To personalize your experience.
+- To facilitate social interactions and learning progress.
+- To ensure security and prevent fraud.
+- To comply with legal obligations.
+
+4. Data Sharing
+We do not sell your personal data. We may share information with service providers who assist us in operating the app (e.g., Supabase for backend services, Sentry for error tracking) under strict confidentiality agreements.
+
+5. Your Rights
+- Access: You can request a copy of your personal data.
+- Correction: You can update your information in the app settings.
+- Deletion: You can request the deletion of your account and associated data.
+- Portability: You can export your data into a machine-readable format.
+
+6. Security
+We implement industry-standard security measures, including end-to-end encryption for messaging and multi-factor authentication, to protect your data.
+
+7. Contact Us
+If you have any questions about this Privacy Policy, please contact us at privacy@verasso.io.

@@ -1,0 +1,9 @@
+{
+  "odysseyTitle": "CodeMaster Odyssey",
+  "@odysseyTitle": {
+    "description": "The title of the CodeMaster Odyssey feature"
+  },
+  "continueJourney": "Continue Journey",
+  "newGame": "New Game",
+  "settings": "Settings"
+}

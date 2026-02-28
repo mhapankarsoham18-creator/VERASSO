@@ -1,0 +1,70 @@
+ Volume in drive D is Soham
+ Volume Serial Number is EEF0-0EB4
+
+ Directory of d:\
+
+08-03-2025  00:08             9,883 0.jpg
+21-05-2025  19:00            59,760 0df939c88f395ad94afed1d03a9ef3b2.jpg
+19-08-2025  23:10    <DIR>          4.3
+07-02-2026  11:34           336,349 9394077.jpg
+11-02-2025  19:29            96,610 AD.jpg
+13-01-2026  18:38    <DIR>          ANDROID STUDIO
+13-01-2026  18:34     1,438,662,704 android-studio-2025.2.2.8-windows.exe
+27-02-2026  09:56    <DIR>          Antigravity
+15-05-2024  14:51    <DIR>          Aseprite.v1.3.4
+19-03-2023  13:32    <DIR>          Assassins Creed II
+21-05-2025  18:57            20,498 ben-10-as-an-anime-classic-10000-and-uaf-art-made-using-v0-piyr0itj3zia1.webp
+26-06-2025  00:33    <DIR>          BHUSHAN
+07-11-2007  08:00            17,734 eula.1028.txt
+07-11-2007  08:00            17,734 eula.1031.txt
+07-11-2007  08:00            10,134 eula.1033.txt
+07-11-2007  08:00            17,734 eula.1036.txt
+07-11-2007  08:00            17,734 eula.1040.txt
+07-11-2007  08:00               118 eula.1041.txt
+07-11-2007  08:00            17,734 eula.1042.txt
+07-11-2007  08:00            17,734 eula.2052.txt
+07-11-2007  08:00            17,734 eula.3082.txt
+27-02-2026  20:35    <DIR>          flutter_pub_cache
+05-02-2023  17:59    <DIR>          fonts
+26-02-2026  16:48    <DIR>          Games
+07-11-2007  08:00             1,110 globdata.ini
+07-10-2018  15:20            17,978 Grand Theft Auto San Andreas PC game MP-SP ^^nosTEAM^^.torrent
+08-09-2024  21:08    <DIR>          GRAPE
+07-08-2025  20:45    <DIR>          gta
+07-11-2007  08:03           562,688 install.exe
+07-11-2007  08:00               843 install.ini
+07-11-2007  08:03            76,304 install.res.1028.dll
+07-11-2007  08:03            96,272 install.res.1031.dll
+07-11-2007  08:03            91,152 install.res.1033.dll
+07-11-2007  08:03            97,296 install.res.1036.dll
+07-11-2007  08:03            95,248 install.res.1040.dll
+07-11-2007  08:03            81,424 install.res.1041.dll
+07-11-2007  08:03            79,888 install.res.1042.dll
+07-11-2007  08:03            75,792 install.res.2052.dll
+07-11-2007  08:03            96,272 install.res.3082.dll
+03-02-2026  23:01       161,394,296 jdk-17.0.12_windows-x64_bin.exe
+07-08-2025  20:44    <DIR>          LA Noire
+26-02-2026  18:50    <DIR>          Microsoft VS Code
+07-02-2026  01:01    <DIR>          NEW
+10-10-2024  08:21    <DIR>          pendrive
+26-05-2025  17:34    <DIR>          Program Files
+24-02-2026  14:43    <DIR>          RADIANCE
+24-11-2024  14:04            35,669 Red Dead Redemption [FitGirl Repack].torrent
+12-12-2024  19:54            26,529 saints-row-the-third.SteamGG.net.Torrent.rar
+17-03-2024  17:19            26,388 saints-row-the-third.SteamGG.net.Torrent.torrent
+07-02-2026  17:49    <DIR>          SDK
+25-02-2026  12:17    <DIR>          SteamLibrary
+08-06-2025  13:16    <DIR>          teamviewer
+24-02-2026  12:26    <DIR>          tmp
+02-10-2025  23:44         7,375,402 Turbo.C.3.2.zip
+23-02-2026  11:20         8,113,926 Unconfirmed 241897.crdownload
+23-02-2026  11:27         9,980,334 Unconfirmed 903125.crdownload
+07-11-2007  08:00             5,686 vcredist.bmp
+07-11-2007  08:09         1,442,522 VC_RED.cab
+07-11-2007  08:12           232,960 VC_RED.MSI
+27-02-2026  01:34    <DIR>          WindowsApps
+27-02-2026  01:08       179,607,648 WindsurfUserSetup-x64-1.9566.11.exe
+10-01-2026  16:58    <DIR>          WpSystem
+10-01-2026  16:58    <DIR>          XboxGames
+              39 File(s)  1,808,933,821 bytes
+              24 Dir(s)  15,078,625,280 bytes free
