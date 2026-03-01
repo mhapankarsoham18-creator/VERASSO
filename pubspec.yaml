@@ -75,7 +75,7 @@ dependencies:
   google_mlkit_pose_detection: ^0.14.1
   ar_flutter_plugin_plus: ^1.1.2
   flutter_3d_controller: ^2.3.0
-  vector_math: ^2.2.0
+  vector_math: 2.1.4
 
   # Messaging
   file_picker: ^10.3.10
@@ -145,6 +145,9 @@ dev_dependencies:
   local_auth_darwin: ^2.0.3
   integration_test:
     sdk: flutter
+
+dependency_overrides:
+  vector_math: 2.1.4
 
 flutter_icons:
   android: true
