@@ -60,11 +60,22 @@ export 'src/features/quest/quest.dart';
 /// Can be embedded into the main app or run standalone for testing.
 /// When embedded, assumes the parent provides a [ProviderScope].
 class CodemasterOdysseyApp extends StatelessWidget {
+  /// Whether to wrap the app in a [ProviderScope].
+  /// Set to true for standalone runs, false when embedding in an app
+  /// that already has a [ProviderScope].
+  final bool useStandaloneScope;
+
   /// Creates a [CodemasterOdysseyApp] instance.
-  const CodemasterOdysseyApp({super.key});
+  const CodemasterOdysseyApp({super.key, this.useStandaloneScope = true});
 
   @override
   Widget build(BuildContext context) {
+    Widget content = const OdysseyMapScreen();
+
+    if (useStandaloneScope) {
+      content = ProviderScope(child: content);
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
@@ -74,7 +85,7 @@ class CodemasterOdysseyApp extends StatelessWidget {
           secondary: Color(0xFF00E5FF),
         ),
       ),
-      home: const ProviderScope(child: OdysseyMapScreen()),
+      home: content,
     );
   }
 }

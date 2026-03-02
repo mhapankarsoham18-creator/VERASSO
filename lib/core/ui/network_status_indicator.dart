@@ -52,8 +52,8 @@ class NetworkStatusIndicator extends ConsumerWidget {
               Text(
                 isOffline
                     ? (meshCount > 0
-                        ? 'Offline (Mesh Active: $meshCount)'
-                        : 'Offline')
+                          ? 'Offline (Mesh Active: $meshCount)'
+                          : 'Offline')
                     : 'Mesh: $meshCount Devices',
                 style: const TextStyle(
                   color: Colors.white,
@@ -66,7 +66,7 @@ class NetworkStatusIndicator extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }

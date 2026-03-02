@@ -79,8 +79,10 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                               hintText: 'Discover people & ideas...',
                               hintStyle: TextStyle(color: Colors.white54),
                               border: InputBorder.none,
-                              icon: Icon(LucideIcons.compass,
-                                  color: Colors.white54),
+                              icon: Icon(
+                                LucideIcons.compass,
+                                color: Colors.white54,
+                              ),
                             ),
                             onChanged: (val) {
                               ref
@@ -94,10 +96,12 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: Icon(LucideIcons.sliders,
-                          color: (_filterOnlyFree || _filterTopRated)
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.white54),
+                      icon: Icon(
+                        LucideIcons.sliders,
+                        color: (_filterOnlyFree || _filterTopRated)
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.white54,
+                      ),
                       onPressed: () => _showFilterModal(),
                     ),
                   ],
@@ -125,14 +129,15 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                     .getRecommendedCommunities(),
                                 builder: (context, snapshot) =>
                                     _buildCommunityCarousel(
-                                        snapshot.data ?? []),
+                                      snapshot.data ?? [],
+                                    ),
                               ),
                               FutureBuilder<List<Course>>(
                                 future: ref
                                     .read(courseRepositoryProvider)
                                     .getPublishedCourses(),
-                                builder: (context, snapshot) => snapshot
-                                            .hasData &&
+                                builder: (context, snapshot) =>
+                                    snapshot.hasData &&
                                         snapshot.data!.isNotEmpty
                                     ? TrendingCarousel(courses: snapshot.data!)
                                     : const SizedBox.shrink(),
@@ -140,11 +145,16 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                               _buildRecommendedUsers(exploreAsync),
                               const Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 16),
-                                child: Text('Explore Community',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                  horizontal: 16,
+                                  vertical: 16,
+                                ),
+                                child: Text(
+                                  'Explore Community',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               _buildExploreGrid(ref, exploreAsync),
                             ],
@@ -179,21 +189,30 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
               label: 'Global Pulse News',
               button: true,
               child: ActionChip(
-                avatar: const Icon(LucideIcons.newspaper,
-                    size: 14, color: Colors.orangeAccent),
+                avatar: const Icon(
+                  LucideIcons.newspaper,
+                  size: 14,
+                  color: Colors.orangeAccent,
+                ),
                 label: const Text('Global Pulse'),
                 onPressed: () {
                   HapticFeedback.lightImpact();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const NewsScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const NewsScreen()),
+                  );
                 },
                 backgroundColor: Colors.orangeAccent.withValues(alpha: 0.1),
-                labelStyle:
-                    const TextStyle(color: Colors.orangeAccent, fontSize: 12),
+                labelStyle: const TextStyle(
+                  color: Colors.orangeAccent,
+                  fontSize: 12,
+                ),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(
-                        color: Colors.orangeAccent.withValues(alpha: 0.3))),
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                    color: Colors.orangeAccent.withValues(alpha: 0.3),
+                  ),
+                ),
               ),
             ),
           ),
@@ -218,9 +237,13 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
             children: [
               const Icon(LucideIcons.users, color: Colors.cyanAccent, size: 18),
               const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.subjectCommunities,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                AppLocalizations.of(context)!.subjectCommunities,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),
@@ -244,27 +267,43 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(community.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14)),
+                        Text(
+                          community.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text(community.description,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 11, color: Colors.white70)),
+                        Text(
+                          community.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white70,
+                          ),
+                        ),
                         const Spacer(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${community.memberCount} nodes',
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.cyanAccent)),
-                            Text(community.subject,
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.white54)),
+                            Text(
+                              '${community.memberCount} nodes',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.cyanAccent,
+                              ),
+                            ),
+                            Text(
+                              community.subject,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.white54,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -302,10 +341,13 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
             ),
             child: const Icon(LucideIcons.users, color: Colors.cyanAccent),
           ),
-          title: Text(community.name,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          subtitle:
-              Text('${community.subject} • ${community.memberCount} nodes'),
+          title: Text(
+            community.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            '${community.subject} • ${community.memberCount} nodes',
+          ),
           onTap: () {
             HapticFeedback.selectionClick();
             // Go to community detail view
@@ -336,16 +378,23 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
       itemBuilder: (context, index) {
         final course = filtered[index];
         return ListTile(
-          leading: Icon(LucideIcons.bookOpen,
-              color: Theme.of(context).colorScheme.primary),
-          title: Text(course.title,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          leading: Icon(
+            LucideIcons.bookOpen,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          title: Text(
+            course.title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           subtitle: Text(
-              '${course.price > 0 ? "\$${course.price.toStringAsFixed(0)}" : "FREE"} • Expert Course'),
+            '${course.price > 0 ? "\$${course.price.toStringAsFixed(0)}" : "FREE"} • Expert Course',
+          ),
           onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => CoursePlayerScreen(course: course))),
+            context,
+            MaterialPageRoute(
+              builder: (_) => CoursePlayerScreen(course: course),
+            ),
+          ),
         );
       },
     );
@@ -358,12 +407,14 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         final filtered = _selectedCategory == 'All'
             ? posts
             : posts
-                .where((p) =>
-                    p.content
-                        ?.toLowerCase()
-                        .contains(_selectedCategory.toLowerCase()) ??
-                    false)
-                .toList();
+                  .where(
+                    (p) =>
+                        p.content?.toLowerCase().contains(
+                          _selectedCategory.toLowerCase(),
+                        ) ??
+                        false,
+                  )
+                  .toList();
 
         if (filtered.isEmpty) {
           return const EmptyStateWidget(
@@ -387,73 +438,93 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           itemBuilder: (context, index) {
             final post = filtered[index];
             return GestureDetector(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => UserProfileScreen(userId: post.userId))),
-              child: GlassContainer(
-                padding: EdgeInsets.zero,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(16)),
-                        child: post.mediaUrls.isNotEmpty
-                            ? Image.network(post.mediaUrls.first,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Icon(Icons.broken_image,
-                                        size: 40, color: Colors.white24))
-                            : Container(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withValues(alpha: 0.05),
-                                padding: const EdgeInsets.all(12),
-                                child: Text(post.content ?? '',
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Colors.white70),
-                                    overflow: TextOverflow.fade),
-                              ),
-                      ),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => UserProfileScreen(userId: post.userId),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 10,
-                            backgroundImage: post.authorAvatar != null
-                                ? NetworkImage(post.authorAvatar!)
-                                : null,
-                            child: post.authorAvatar == null
-                                ? const Icon(LucideIcons.user, size: 10)
-                                : null,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              post.authorName ?? 'User',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 11),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                  ),
+                  child: GlassContainer(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(16),
                             ),
+                            child: post.mediaUrls.isNotEmpty
+                                ? Image.network(
+                                    post.mediaUrls.first,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                              Icons.broken_image,
+                                              size: 40,
+                                              color: Colors.white24,
+                                            ),
+                                  )
+                                : Container(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary
+                                        .withValues(alpha: 0.05),
+                                    padding: const EdgeInsets.all(12),
+                                    child: Text(
+                                      post.content ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                      ),
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                  ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 10,
+                                backgroundImage: post.authorAvatar != null
+                                    ? NetworkImage(post.authorAvatar!)
+                                    : null,
+                                child: post.authorAvatar == null
+                                    ? const Icon(LucideIcons.user, size: 10)
+                                    : null,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  post.authorName ?? 'User',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
                 .animate()
                 .fadeIn(
-                    delay: (index * 30).ms,
-                    duration: DesignSystem.durationMedium,
-                    curve: DesignSystem.easingStandard)
+                  delay: (index * 30).ms,
+                  duration: DesignSystem.durationMedium,
+                  curve: DesignSystem.easingStandard,
+                )
                 .slideY(
-                    begin: 0.05, end: 0, curve: DesignSystem.easingDecelerate);
+                  begin: 0.05,
+                  end: 0,
+                  curve: DesignSystem.easingDecelerate,
+                );
           },
         );
       },
@@ -493,14 +564,17 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                 ? const Icon(LucideIcons.graduationCap)
                 : null,
           ),
-          title: Text(mentor.fullName ?? 'Mentor',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(
+            mentor.fullName ?? 'Mentor',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           subtitle: Text(mentor.headline ?? 'Expert Professional'),
           onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) =>
-                      ProfessionalProfileScreen(userId: mentor.id))),
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProfessionalProfileScreen(userId: mentor.id),
+            ),
+          ),
         );
       },
     );
@@ -516,19 +590,23 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         selected: isSelected,
         onSelected: (val) => setState(() => _selectedCategory = cat),
         backgroundColor: Colors.white.withValues(alpha: 0.05),
-        selectedColor:
-            Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+        selectedColor: Theme.of(
+          context,
+        ).colorScheme.primary.withValues(alpha: 0.2),
         labelStyle: TextStyle(
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Colors.white70,
+          fontSize: 12,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
             color: isSelected
                 ? Theme.of(context).colorScheme.primary
-                : Colors.white70,
-            fontSize: 12),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: BorderSide(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.white12)),
+                : Colors.white12,
+          ),
+        ),
       ),
     );
   }
@@ -551,27 +629,37 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           leading: post.mediaUrls.isNotEmpty
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.network(post.mediaUrls.first,
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.broken_image,
-                          size: 20,
-                          color: Colors.white24)),
+                  child: Image.network(
+                    post.mediaUrls.first,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.broken_image,
+                      size: 20,
+                      color: Colors.white24,
+                    ),
+                  ),
                 )
               : const Icon(LucideIcons.fileText, color: Colors.white24),
-          title: Text(post.content ?? '',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14)),
-          subtitle: Text('by ${post.authorName ?? "User"}',
-              style: const TextStyle(fontSize: 12, color: Colors.white54)),
+          title: Text(
+            post.content ?? '',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 14),
+          ),
+          subtitle: Text(
+            'by ${post.authorName ?? "User"}',
+            style: const TextStyle(fontSize: 12, color: Colors.white54),
+          ),
           onTap: () {
             HapticFeedback.selectionClick();
             // Typically would go to post detail, but for now we follow the existing pattern
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => UserProfileScreen(userId: post.userId)));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => UserProfileScreen(userId: post.userId),
+              ),
+            );
           },
         );
       },
@@ -595,9 +683,13 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(AppLocalizations.of(context)!.suggestedForYou,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                AppLocalizations.of(context)!.suggestedForYou,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(
               height: 120,
@@ -609,9 +701,12 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                   final user = recommended[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
                           builder: (_) =>
-                              UserProfileScreen(userId: user.userId)));
+                              UserProfileScreen(userId: user.userId),
+                        ),
+                      );
                     },
                     child: Container(
                       width: 90,
@@ -645,7 +740,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         );
       },
       loading: () => const SizedBox(height: 120),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 
@@ -675,8 +770,10 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
               Tab(text: 'Mentors'),
             ],
             indicatorColor: Theme.of(context).colorScheme.primary,
-            labelStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
           ),
           Expanded(
             child: TabBarView(
@@ -705,12 +802,16 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Advanced Filters',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                'Advanced Filters',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 24),
               SwitchListTile(
-                title: const Text('Only Free Content',
-                    style: TextStyle(fontSize: 14)),
+                title: const Text(
+                  'Only Free Content',
+                  style: TextStyle(fontSize: 14),
+                ),
                 value: _filterOnlyFree,
                 activeThumbColor: Theme.of(context).colorScheme.primary,
                 onChanged: (val) {
@@ -719,8 +820,10 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                 },
               ),
               SwitchListTile(
-                title: const Text('Top Rated Only (4.5+)',
-                    style: TextStyle(fontSize: 14)),
+                title: const Text(
+                  'Top Rated Only (4.5+)',
+                  style: TextStyle(fontSize: 14),
+                ),
                 value: _filterTopRated,
                 activeThumbColor: Colors.blueAccent,
                 onChanged: (val) {
@@ -734,7 +837,8 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent),
+                    backgroundColor: Colors.blueAccent,
+                  ),
                   child: const Text('Apply Filters'),
                 ),
               ),

@@ -30,11 +30,9 @@ class ProfileRepository {
   final GamificationEventBus? _eventBus;
 
   /// Creates a [ProfileRepository] with an optional [SupabaseClient].
-  ProfileRepository({
-    SupabaseClient? client,
-    GamificationEventBus? eventBus,
-  })  : _client = client ?? SupabaseService.client,
-        _eventBus = eventBus;
+  ProfileRepository({SupabaseClient? client, GamificationEventBus? eventBus})
+    : _client = client ?? SupabaseService.client,
+      _eventBus = eventBus;
 
   /// Alias for [updateProfile] for test compatibility.
   /// Supports both a full [profile] object or individual fields.
@@ -93,8 +91,11 @@ class ProfileRepository {
   /// Fetches a profile by [userId].
   Future<Profile?> getProfile(String userId) async {
     try {
-      final response =
-          await _client.from('profiles').select().eq('id', userId).single();
+      final response = await _client
+          .from('profiles')
+          .select()
+          .eq('id', userId)
+          .single();
       return Profile.fromJson(response);
     } catch (e, stack) {
       AppLogger.error('Get profile error', error: e);
@@ -108,8 +109,10 @@ class ProfileRepository {
   Future<List<Profile>> getProfiles([List<String>? userIds]) async {
     if (userIds == null || userIds.isEmpty) return [];
     try {
-      final response =
-          await _client.from('profiles').select().inFilter('id', userIds);
+      final response = await _client
+          .from('profiles')
+          .select()
+          .inFilter('id', userIds);
       return (response as List).map((e) => Profile.fromJson(e)).toList();
     } catch (e, stack) {
       AppLogger.error('Get profiles error', error: e);
@@ -121,8 +124,10 @@ class ProfileRepository {
   /// Fetches social and engagement statistics for a [userId].
   Future<Map<String, dynamic>> getProfileStats(String userId) async {
     try {
-      final response = await _client
-          .rpc('get_profile_stats', params: {'target_user_id': userId});
+      final response = await _client.rpc(
+        'get_profile_stats',
+        params: {'target_user_id': userId},
+      );
       return response as Map<String, dynamic>;
     } catch (e, stack) {
       AppLogger.error('Get profile stats error', error: e);
@@ -205,8 +210,9 @@ class ProfileRepository {
       final imageFile = File(path);
 
       // Compress image before upload
-      final compressedImage =
-          await ImageCompressionService.compressImage(imageFile);
+      final compressedImage = await ImageCompressionService.compressImage(
+        imageFile,
+      );
 
       final fileName =
           'avatars/$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
@@ -216,7 +222,8 @@ class ProfileRepository {
       // Update profile with new avatar URL
       await _client
           .from('profiles')
-          .update({'avatar_url': url}).eq('id', userId);
+          .update({'avatar_url': url})
+          .eq('id', userId);
 
       AppLogger.info('Avatar updated successfully for $userId');
     } catch (e, stack) {
@@ -237,9 +244,11 @@ class ProfileRepository {
     try {
       if (profile != null) {
         await _client.from('profiles').upsert(profile.toJson());
-        
+
         // Gamification check: if profile has bio and avatar, track completion
-        if (profile.bio != null && profile.bio!.isNotEmpty && profile.avatarUrl != null) {
+        if (profile.bio != null &&
+            profile.bio!.isNotEmpty &&
+            profile.avatarUrl != null) {
           _eventBus?.track(GamificationAction.profileCompleted, profile.id);
         }
         return;
@@ -249,12 +258,15 @@ class ProfileRepository {
         throw ArgumentError('userId is required if profile is null');
       }
 
-      await _client.from('profiles').update({
-        if (fullName != null) 'full_name': fullName,
-        if (bio != null) 'bio': bio,
-        if (avatarUrl != null) 'avatar_url': avatarUrl,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', userId);
+      await _client
+          .from('profiles')
+          .update({
+            'full_name': ?fullName,
+            'bio': ?bio,
+            'avatar_url': ?avatarUrl,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', userId);
 
       // We don't have the full profile to check completeness robustly here, but we can do a naive check:
       if (bio != null && bio.isNotEmpty && avatarUrl != null) {

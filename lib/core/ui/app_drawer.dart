@@ -39,7 +39,9 @@ class AppDrawer extends ConsumerWidget {
       backgroundColor: Colors.transparent, // Important for glass effect
       child: GlassContainer(
         borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
+          topRight: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
         padding: EdgeInsets.zero,
         child: Column(
           children: [
@@ -47,7 +49,9 @@ class AppDrawer extends ConsumerWidget {
             // Header
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ref.watch(userProfileProvider).when(
+              child: ref
+                  .watch(userProfileProvider)
+                  .when(
                     data: (profile) => Row(
                       children: [
                         ClipOval(
@@ -59,20 +63,26 @@ class AppDrawer extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) =>
                                       Shimmer.fromColors(
-                                    baseColor: Colors.white10,
-                                    highlightColor: Colors.white24,
-                                    child: Container(color: Colors.white),
-                                  ),
+                                        baseColor: Colors.white10,
+                                        highlightColor: Colors.white24,
+                                        child: Container(color: Colors.white),
+                                      ),
                                   errorWidget: (context, url, error) =>
-                                      const Icon(LucideIcons.user,
-                                          color: Colors.white, size: 30),
+                                      const Icon(
+                                        LucideIcons.user,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                                 )
                               : Container(
                                   width: 60,
                                   height: 60,
                                   color: Colors.white10,
-                                  child: const Icon(LucideIcons.user,
-                                      color: Colors.white, size: 30),
+                                  child: const Icon(
+                                    LucideIcons.user,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
                                 ),
                         ),
                         const SizedBox(width: 15),
@@ -80,20 +90,26 @@ class AppDrawer extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(profile?.displayName ?? l10n.verassoUser,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis),
                               Text(
-                                  '@${profile?.username ?? l10n.defaultUsername}',
-                                  style: const TextStyle(
-                                      color: Colors.white70, fontSize: 14),
-                                  overflow: TextOverflow.ellipsis),
+                                profile?.displayName ?? l10n.verassoUser,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                '@${profile?.username ?? l10n.defaultUsername}',
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                     loading: () => Shimmer.fromColors(
@@ -107,240 +123,306 @@ class AppDrawer extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  width: 100, height: 15, color: Colors.white),
+                                width: 100,
+                                height: 15,
+                                color: Colors.white,
+                              ),
                               const SizedBox(height: 5),
                               Container(
-                                  width: 60, height: 12, color: Colors.white),
+                                width: 60,
+                                height: 12,
+                                color: Colors.white,
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    error: (_, __) => const Icon(LucideIcons.user),
+                    error: (_, _) => const Icon(LucideIcons.user),
                   ),
             ),
             const Divider(color: Colors.white24),
             // Menu Items
             Expanded(
               child: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 20,
+                ),
                 children: [
                   _DrawerItem(
-                      icon: LucideIcons.users,
-                      title: l10n.community,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const FriendsListScreen()));
-                      }),
+                    icon: LucideIcons.users,
+                    title: l10n.community,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const FriendsListScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   _DrawerItem(
-                      icon: LucideIcons.bell,
-                      title: l10n.notifications,
-                      trailing: ref.watch(unreadNotificationCountProvider).when(
-                            data: (count) => count > 0
-                                ? Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 2),
-                                    decoration: BoxDecoration(
-                                        color: Colors.redAccent,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Text('$count',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                : null,
-                            loading: () => null,
-                            error: (_, __) => null,
-                          ),
-                      onTap: () {
-                        Navigator.pop(context); // Close drawer
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const NotificationsScreen()));
-                      }),
+                    icon: LucideIcons.bell,
+                    title: l10n.notifications,
+                    trailing: ref
+                        .watch(unreadNotificationCountProvider)
+                        .when(
+                          data: (count) => count > 0
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '$count',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              : null,
+                          loading: () => null,
+                          error: (_, _) => null,
+                        ),
+                    onTap: () {
+                      Navigator.pop(context); // Close drawer
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const NotificationsScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   _DrawerItem(
-                      icon: LucideIcons.sparkles,
-                      title: l10n.forYou,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ForYouScreen()));
-                      }),
+                    icon: LucideIcons.sparkles,
+                    title: l10n.forYou,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ForYouScreen()),
+                      );
+                    },
+                  ),
                   if (AppConfig.enableBetaModules)
                     _DrawerItem(
-                        icon: LucideIcons.palette,
-                        title: l10n.talentShowcase,
-                        trailing: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.orangeAccent.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text('BETA',
-                              style: TextStyle(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orangeAccent)),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('🎨 Talent Showcase coming soon!'),
-                                duration: Duration(seconds: 2)),
-                          );
-                        }),
-                  _DrawerItem(
-                      icon: LucideIcons.messageCircle,
-                      title: l10n.messages,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ChatsScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.bookmark,
-                      title: l10n.savedContent,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const SavedPostsScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.testTube,
-                      title: l10n.physicsLab,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const PhysicsMenuScreen()));
-                      }),
-                  if (AppConfig.enableBetaModules)
-                    _DrawerItem(
-                        icon: LucideIcons.calculator,
-                        title: l10n.financeHub,
-                        trailing: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.orangeAccent.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text('BETA',
-                              style: TextStyle(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orangeAccent)),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('💰 Finance Hub coming soon!'),
-                                duration: Duration(seconds: 2)),
-                          );
-                        }),
-                  const Divider(color: Colors.white24, height: 30),
-                  _DrawerItem(
-                      icon: LucideIcons.award,
-                      title: l10n.achievements,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const AchievementsScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.trophy,
-                      title: l10n.leaderboard,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const LeaderboardScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.newspaper,
-                      title: l10n.newsFeed,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const NewsScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.presentation,
-                      title: l10n.classroomLabs,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const MeshLabsScreen()));
-                      }),
-                  const Divider(color: Colors.white24, height: 30),
-                  _DrawerItem(
-                      icon: LucideIcons.settings,
-                      title: l10n.settings,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const SettingsScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.helpCircle,
-                      title: l10n.helpAndSupport,
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const HelpSupportScreen()));
-                      }),
-                  _DrawerItem(
-                      icon: LucideIcons.messageSquare,
-                      title: 'Beta Feedback',
+                      icon: LucideIcons.palette,
+                      title: l10n.talentShowcase,
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withValues(alpha: 0.3),
+                          color: Colors.orangeAccent.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text('NEW',
-                            style: TextStyle(
-                                fontSize: 9,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.greenAccent)),
+                        child: const Text(
+                          'BETA',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orangeAccent,
+                          ),
+                        ),
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const FeedbackScreen()));
-                      }),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('🎨 Talent Showcase coming soon!'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                    ),
+                  _DrawerItem(
+                    icon: LucideIcons.messageCircle,
+                    title: l10n.messages,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ChatsScreen()),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.bookmark,
+                    title: l10n.savedContent,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SavedPostsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.testTube,
+                    title: l10n.physicsLab,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PhysicsMenuScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  if (AppConfig.enableBetaModules)
+                    _DrawerItem(
+                      icon: LucideIcons.calculator,
+                      title: l10n.financeHub,
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.orangeAccent.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          'BETA',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orangeAccent,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('💰 Finance Hub coming soon!'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                    ),
+                  const Divider(color: Colors.white24, height: 30),
+                  _DrawerItem(
+                    icon: LucideIcons.award,
+                    title: l10n.achievements,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AchievementsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.trophy,
+                    title: l10n.leaderboard,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LeaderboardScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.newspaper,
+                    title: l10n.newsFeed,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const NewsScreen()),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.presentation,
+                    title: l10n.classroomLabs,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MeshLabsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  const Divider(color: Colors.white24, height: 30),
+                  _DrawerItem(
+                    icon: LucideIcons.settings,
+                    title: l10n.settings,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.helpCircle,
+                    title: l10n.helpAndSupport,
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HelpSupportScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: LucideIcons.messageSquare,
+                    title: 'Beta Feedback',
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Text(
+                        'NEW',
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.greenAccent,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const FeedbackScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -349,14 +431,15 @@ class AppDrawer extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: _DrawerItem(
-                  icon: LucideIcons.logOut,
-                  title: l10n.signOut,
-                  textColor: Colors.redAccent,
-                  iconColor: Colors.redAccent,
-                  onTap: () {
-                    Navigator.pop(context);
-                    ref.read(authControllerProvider.notifier).signOut();
-                  }),
+                icon: LucideIcons.logOut,
+                title: l10n.signOut,
+                textColor: Colors.redAccent,
+                iconColor: Colors.redAccent,
+                onTap: () {
+                  Navigator.pop(context);
+                  ref.read(authControllerProvider.notifier).signOut();
+                },
+              ),
             ),
             const SizedBox(height: 20),
           ],
@@ -388,8 +471,10 @@ class _DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: iconColor ?? Colors.white, size: 24),
-      title: Text(title,
-          style: TextStyle(color: textColor ?? Colors.white, fontSize: 16)),
+      title: Text(
+        title,
+        style: TextStyle(color: textColor ?? Colors.white, fontSize: 16),
+      ),
       trailing: trailing,
       onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

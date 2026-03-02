@@ -54,8 +54,10 @@ class UpcomingEventsCarousel extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox(
-          height: 160, child: Center(child: CircularProgressIndicator())),
-      error: (_, __) => const SizedBox.shrink(),
+        height: 160,
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 
@@ -77,8 +79,10 @@ class UpcomingEventsCarousel extends ConsumerWidget {
               Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.purple.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(4),
@@ -86,14 +90,18 @@ class UpcomingEventsCarousel extends ConsumerWidget {
                     child: Text(
                       event.subject ?? 'GENERAL',
                       style: const TextStyle(
-                          color: Colors.purpleAccent,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.purpleAccent,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const Spacer(),
-                  const Icon(LucideIcons.calendar,
-                      size: 14, color: Colors.white54),
+                  const Icon(
+                    LucideIcons.calendar,
+                    size: 14,
+                    color: Colors.white54,
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -101,8 +109,10 @@ class UpcomingEventsCarousel extends ConsumerWidget {
                 event.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -117,13 +127,17 @@ class UpcomingEventsCarousel extends ConsumerWidget {
                   Text(
                     dateStr,
                     style: const TextStyle(
-                        fontSize: 11,
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 11,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const Spacer(),
-                  const Icon(LucideIcons.arrowRight,
-                      size: 14, color: Colors.blueAccent),
+                  const Icon(
+                    LucideIcons.arrowRight,
+                    size: 14,
+                    color: Colors.blueAccent,
+                  ),
                 ],
               ),
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
 /// Screen displaying the application's privacy policy.
@@ -21,21 +21,30 @@ class PrivacyPolicyScreen extends StatelessWidget {
             }
             if (snapshot.hasError) {
               return Center(
-                  child: Text('Error loading privacy policy.',
-                      style: const TextStyle(color: Colors.white)));
+                child: Text(
+                  'Error loading privacy policy.',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
             }
             return Markdown(
               data: snapshot.data ?? '',
-              styleSheet:
-                  MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                p: const TextStyle(color: Colors.white70, fontSize: 16),
-                h1: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-                h2: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-                h3: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                  .copyWith(
+                    p: const TextStyle(color: Colors.white70, fontSize: 16),
+                    h1: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    h2: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    h3: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
             );
           },
         ),

@@ -27,14 +27,18 @@ import 'widgets/talent_profile_header.dart';
 import 'widgets/talent_skills_chips.dart';
 
 /// Provider that fetches certificates for a given user.
-final certificatesProvider =
-    FutureProvider.family<List<Certificate>, String>((ref, userId) {
+final certificatesProvider = FutureProvider.family<List<Certificate>, String>((
+  ref,
+  userId,
+) {
   return AssessmentRepository().getStudentCertificates(userId);
 });
 
 /// Provider that fetches student karma score.
-final karmaProvider =
-    FutureProvider.family<StudentScore?, String>((ref, userId) async {
+final karmaProvider = FutureProvider.family<StudentScore?, String>((
+  ref,
+  userId,
+) async {
   final response = await Supabase.instance.client
       .from('student_scores')
       .select('*')
@@ -45,14 +49,18 @@ final karmaProvider =
 });
 
 /// Provider that fetches reviews for a user.
-final reviewsProvider =
-    FutureProvider.family<List<JobReview>, String>((ref, userId) {
+final reviewsProvider = FutureProvider.family<List<JobReview>, String>((
+  ref,
+  userId,
+) {
   return ref.watch(jobRepositoryProvider).getReviewsForUser(userId);
 });
 
 /// Provider that fetches the detailed talent profile for a user.
-final talentProfileProvider =
-    FutureProvider.family<TalentProfile?, String>((ref, userId) {
+final talentProfileProvider = FutureProvider.family<TalentProfile?, String>((
+  ref,
+  userId,
+) {
   return ref.watch(talentProfileRepositoryProvider).getTalentProfile(userId);
 });
 
@@ -146,53 +154,58 @@ class _ProfessionalProfileScreenState
                   ),
                   const SizedBox(height: 16),
                   _buildSection(
-                      'About',
-                      TalentBioSection(
-                        bio: profile.bio,
-                        isEditing: _isEditing,
-                        bioController: _bioController,
-                      )),
+                    'About',
+                    TalentBioSection(
+                      bio: profile.bio,
+                      isEditing: _isEditing,
+                      bioController: _bioController,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   _buildSection(
-                      'Skills',
-                      TalentSkillsChips(
-                        skills: profile.skills,
-                        isEditing: _isEditing,
-                        skillsController: _skillsController,
-                      )),
+                    'Skills',
+                    TalentSkillsChips(
+                      skills: profile.skills,
+                      isEditing: _isEditing,
+                      skillsController: _skillsController,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   _buildSection(
-                      'Portfolio',
-                      TalentPortfolioList(
-                        portfolioUrls: profile.portfolioUrls,
-                        isEditing: _isEditing,
-                        onRemove: (idx) => _removePortfolio(idx),
-                      ),
-                      onAdd: isMe && _isEditing
-                          ? () => _showPortfolioDialog()
-                          : null),
+                    'Portfolio',
+                    TalentPortfolioList(
+                      portfolioUrls: profile.portfolioUrls,
+                      isEditing: _isEditing,
+                      onRemove: (idx) => _removePortfolio(idx),
+                    ),
+                    onAdd: isMe && _isEditing
+                        ? () => _showPortfolioDialog()
+                        : null,
+                  ),
                   const SizedBox(height: 16),
                   _buildSection(
-                      'Experience',
-                      TalentExperienceList(
-                        experience: profile.experience,
-                        isEditing: _isEditing,
-                        onRemove: (idx) => _removeExperience(idx),
-                      ),
-                      onAdd: isMe && _isEditing
-                          ? () => _showExperienceDialog()
-                          : null),
+                    'Experience',
+                    TalentExperienceList(
+                      experience: profile.experience,
+                      isEditing: _isEditing,
+                      onRemove: (idx) => _removeExperience(idx),
+                    ),
+                    onAdd: isMe && _isEditing
+                        ? () => _showExperienceDialog()
+                        : null,
+                  ),
                   const SizedBox(height: 16),
                   _buildSection(
-                      'Education',
-                      TalentEducationList(
-                        education: profile.education,
-                        isEditing: _isEditing,
-                        onRemove: (idx) => _removeEducation(idx),
-                      ),
-                      onAdd: isMe && _isEditing
-                          ? () => _showEducationDialog()
-                          : null),
+                    'Education',
+                    TalentEducationList(
+                      education: profile.education,
+                      isEditing: _isEditing,
+                      onRemove: (idx) => _removeEducation(idx),
+                    ),
+                    onAdd: isMe && _isEditing
+                        ? () => _showEducationDialog()
+                        : null,
+                  ),
                   const SizedBox(height: 16),
                   if (isMe) ...[
                     _buildSection('Business & Finance', _buildFinanceSection()),
@@ -238,15 +251,21 @@ class _ProfessionalProfileScreenState
                   color: Colors.blueAccent.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(LucideIcons.rocket,
-                    size: 40, color: Colors.blueAccent),
+                child: const Icon(
+                  LucideIcons.rocket,
+                  size: 40,
+                  color: Colors.blueAccent,
+                ),
               ),
               const SizedBox(height: 20),
-              const Text('Scale Your Professional Impact',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              const Text(
+                'Scale Your Professional Impact',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               const SizedBox(height: 12),
               const Text(
                 'Create a professional profile to get discovered by recruiters and mentors in the Verasso ecosystem.',
@@ -260,17 +279,22 @@ class _ProfessionalProfileScreenState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Profile Strength',
-                          style: TextStyle(
-                              color: Colors.white60,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Profile Strength',
+                        style: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(
-                          '${(_calculateProfileStrength(null) * 100).toInt()}%',
-                          style: const TextStyle(
-                              color: Colors.blueAccent,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold)),
+                        '${(_calculateProfileStrength(null) * 100).toInt()}%',
+                        style: const TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -295,11 +319,13 @@ class _ProfessionalProfileScreenState
                     backgroundColor: Colors.blueAccent,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  child: const Text('Initialize Talent Profile',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Initialize Talent Profile',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
@@ -314,48 +340,67 @@ class _ProfessionalProfileScreenState
     return certificatesAsync.when(
       data: (certs) {
         if (certs.isEmpty) {
-          return const Text('No verified credentials yet.',
-              style: TextStyle(color: Colors.white38));
+          return const Text(
+            'No verified credentials yet.',
+            style: TextStyle(color: Colors.white38),
+          );
         }
         return Column(
           children: certs
-              .map((c) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [
-                        const Icon(LucideIcons.award,
-                            color: Colors.amber, size: 20),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(c.courseTitle ?? 'Professional Certificate',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13)),
-                              Text(
-                                  'Issued: ${c.issuedAt.day}/${c.issuedAt.month}/${c.issuedAt.year}',
-                                  style: const TextStyle(
-                                      color: Colors.white54, fontSize: 11)),
-                            ],
+              .map(
+                (c) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        LucideIcons.award,
+                        color: Colors.amber,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              c.courseTitle ?? 'Professional Certificate',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            Text(
+                              'Issued: ${c.issuedAt.day}/${c.issuedAt.month}/${c.issuedAt.year}',
+                              style: const TextStyle(
+                                color: Colors.white54,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          c.verificationCode,
+                          style: const TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 10,
+                            color: Colors.blueAccent,
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                              color: Colors.blueAccent.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(4)),
-                          child: Text(c.verificationCode,
-                              style: const TextStyle(
-                                  fontFamily: 'monospace',
-                                  fontSize: 10,
-                                  color: Colors.blueAccent)),
-                        ),
-                      ],
-                    ),
-                  ))
+                      ),
+                    ],
+                  ),
+                ),
+              )
               .toList(),
         );
       },
@@ -365,7 +410,11 @@ class _ProfessionalProfileScreenState
   }
 
   Widget _buildFinanceItem(
-      IconData icon, String title, String subtitle, VoidCallback onTap) {
+    IconData icon,
+    String title,
+    String subtitle,
+    VoidCallback onTap,
+  ) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
@@ -376,13 +425,23 @@ class _ProfessionalProfileScreenState
         ),
         child: Icon(icon, color: Colors.blueAccent, size: 18),
       ),
-      title: Text(title,
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-      subtitle: Text(subtitle,
-          style: const TextStyle(fontSize: 11, color: Colors.white54)),
-      trailing:
-          const Icon(LucideIcons.chevronRight, color: Colors.white24, size: 16),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(fontSize: 11, color: Colors.white54),
+      ),
+      trailing: const Icon(
+        LucideIcons.chevronRight,
+        color: Colors.white24,
+        size: 16,
+      ),
       onTap: onTap,
     );
   }
@@ -391,22 +450,24 @@ class _ProfessionalProfileScreenState
     return Column(
       children: [
         _buildFinanceItem(
-            LucideIcons.wallet,
-            'Earnings & Wallet',
-            'Track your revenue and invoices',
-            () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const EarningsWalletScreen()))),
+          LucideIcons.wallet,
+          'Earnings & Wallet',
+          'Track your revenue and invoices',
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const EarningsWalletScreen()),
+          ),
+        ),
         const SizedBox(height: 12),
         _buildFinanceItem(
-            LucideIcons.lineChart,
-            'Detailed Analytics',
-            'Deep dive into your performance data',
-            () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const AnalyticsDashboardScreen()))),
+          LucideIcons.lineChart,
+          'Detailed Analytics',
+          'Deep dive into your performance data',
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AnalyticsDashboardScreen()),
+          ),
+        ),
       ],
     );
   }
@@ -429,41 +490,50 @@ class _ProfessionalProfileScreenState
             Text(
               '${score?.karmaPoints ?? 0} KARMA',
               style: const TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 10),
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
             ),
           ],
         ),
       ),
       loading: () => const SizedBox(height: 20),
-      error: (_, __) => const SizedBox(height: 20),
+      error: (_, _) => const SizedBox(height: 20),
     );
   }
 
   Widget _buildRatingRow(String userId) {
-    return ref.watch(reviewsProvider(userId)).when(
+    return ref
+        .watch(reviewsProvider(userId))
+        .when(
           data: (reviews) {
             if (reviews.isEmpty) return const SizedBox.shrink();
-            final avg = reviews.fold<double>(0, (sum, r) => sum + r.rating) /
+            final avg =
+                reviews.fold<double>(0, (sum, r) => sum + r.rating) /
                 reviews.length;
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(LucideIcons.star, color: Colors.amber, size: 16),
                 const SizedBox(width: 4),
-                Text(avg.toStringAsFixed(1),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(
+                  avg.toStringAsFixed(1),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
                 const SizedBox(width: 4),
-                Text('(${reviews.length})',
-                    style:
-                        const TextStyle(color: Colors.white38, fontSize: 12)),
+                Text(
+                  '(${reviews.length})',
+                  style: const TextStyle(color: Colors.white38, fontSize: 12),
+                ),
               ],
             );
           },
           loading: () => const SizedBox.shrink(),
-          error: (_, __) => const SizedBox.shrink(),
+          error: (_, _) => const SizedBox.shrink(),
         );
   }
 
@@ -472,14 +542,16 @@ class _ProfessionalProfileScreenState
     return reviewsAsync.when(
       data: (reviews) {
         if (reviews.isEmpty) {
-          return const Text('No reviews yet.',
-              style: TextStyle(color: Colors.white38));
+          return const Text(
+            'No reviews yet.',
+            style: TextStyle(color: Colors.white38),
+          );
         }
         return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: reviews.length,
-          separatorBuilder: (_, __) =>
+          separatorBuilder: (_, _) =>
               const Divider(color: Colors.white10, height: 24),
           itemBuilder: (context, index) {
             final r = reviews[index];
@@ -491,27 +563,31 @@ class _ProfessionalProfileScreenState
                   children: [
                     Row(
                       children: List.generate(
-                          5,
-                          (i) => Icon(
-                                i < r.rating
-                                    ? LucideIcons.star
-                                    : LucideIcons.starHalf,
-                                color: Colors.amber,
-                                size: 14,
-                              )),
+                        5,
+                        (i) => Icon(
+                          i < r.rating
+                              ? LucideIcons.star
+                              : LucideIcons.starHalf,
+                          color: Colors.amber,
+                          size: 14,
+                        ),
+                      ),
                     ),
                     Text(
                       '${r.createdAt.day}/${r.createdAt.month}/${r.createdAt.year}',
-                      style:
-                          const TextStyle(color: Colors.white38, fontSize: 10),
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 10,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 if (r.comment != null)
-                  Text(r.comment!,
-                      style:
-                          const TextStyle(fontSize: 13, color: Colors.white70)),
+                  Text(
+                    r.comment!,
+                    style: const TextStyle(fontSize: 13, color: Colors.white70),
+                  ),
               ],
             );
           },
@@ -531,15 +607,21 @@ class _ProfessionalProfileScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white70)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white70,
+                ),
+              ),
               if (onAdd != null)
                 IconButton(
-                  icon: const Icon(LucideIcons.plusCircle,
-                      size: 20, color: Colors.blueAccent),
+                  icon: const Icon(
+                    LucideIcons.plusCircle,
+                    size: 20,
+                    color: Colors.blueAccent,
+                  ),
                   onPressed: onAdd,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -636,42 +718,51 @@ class _ProfessionalProfileScreenState
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title:
-            const Text('Add Education', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Add Education',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-                controller: schoolC,
-                decoration: const InputDecoration(labelText: 'School'),
-                style: const TextStyle(color: Colors.white)),
+              controller: schoolC,
+              decoration: const InputDecoration(labelText: 'School'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: degreeC,
-                decoration: const InputDecoration(labelText: 'Degree'),
-                style: const TextStyle(color: Colors.white)),
+              controller: degreeC,
+              decoration: const InputDecoration(labelText: 'Degree'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: startC,
-                decoration: const InputDecoration(labelText: 'Start Date'),
-                style: const TextStyle(color: Colors.white)),
+              controller: startC,
+              decoration: const InputDecoration(labelText: 'Start Date'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: endC,
-                decoration: const InputDecoration(labelText: 'End Date'),
-                style: const TextStyle(color: Colors.white)),
+              controller: endC,
+              decoration: const InputDecoration(labelText: 'End Date'),
+              style: const TextStyle(color: Colors.white),
+            ),
           ],
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.cancel)),
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
           ElevatedButton(
             onPressed: () {
               setState(() {
-                _tempEducation.add(EducationEntry(
-                  school: schoolC.text,
-                  degree: degreeC.text,
-                  startDate: startC.text,
-                  endDate: endC.text,
-                ));
+                _tempEducation.add(
+                  EducationEntry(
+                    school: schoolC.text,
+                    degree: degreeC.text,
+                    startDate: startC.text,
+                    endDate: endC.text,
+                  ),
+                );
               });
               Navigator.pop(context);
             },
@@ -693,52 +784,64 @@ class _ProfessionalProfileScreenState
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title:
-            const Text('Add Experience', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Add Experience',
+          style: TextStyle(color: Colors.white),
+        ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                  controller: titleC,
-                  decoration: const InputDecoration(labelText: 'Job Title'),
-                  style: const TextStyle(color: Colors.white)),
+                controller: titleC,
+                decoration: const InputDecoration(labelText: 'Job Title'),
+                style: const TextStyle(color: Colors.white),
+              ),
               TextField(
-                  controller: companyC,
-                  decoration: const InputDecoration(labelText: 'Company'),
-                  style: const TextStyle(color: Colors.white)),
+                controller: companyC,
+                decoration: const InputDecoration(labelText: 'Company'),
+                style: const TextStyle(color: Colors.white),
+              ),
               TextField(
-                  controller: startC,
-                  decoration: const InputDecoration(
-                      labelText: 'Start Date (e.g. Jan 2023)'),
-                  style: const TextStyle(color: Colors.white)),
+                controller: startC,
+                decoration: const InputDecoration(
+                  labelText: 'Start Date (e.g. Jan 2023)',
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
               TextField(
-                  controller: endC,
-                  decoration:
-                      const InputDecoration(labelText: 'End Date (or Present)'),
-                  style: const TextStyle(color: Colors.white)),
+                controller: endC,
+                decoration: const InputDecoration(
+                  labelText: 'End Date (or Present)',
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
               TextField(
-                  controller: descC,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                  maxLines: 3,
-                  style: const TextStyle(color: Colors.white)),
+                controller: descC,
+                decoration: const InputDecoration(labelText: 'Description'),
+                maxLines: 3,
+                style: const TextStyle(color: Colors.white),
+              ),
             ],
           ),
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.cancel)),
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
           ElevatedButton(
             onPressed: () {
               setState(() {
-                _tempExperience.add(ExperienceEntry(
-                  title: titleC.text,
-                  company: companyC.text,
-                  startDate: startC.text,
-                  endDate: endC.text,
-                  description: descC.text,
-                ));
+                _tempExperience.add(
+                  ExperienceEntry(
+                    title: titleC.text,
+                    company: companyC.text,
+                    startDate: startC.text,
+                    endDate: endC.text,
+                    description: descC.text,
+                  ),
+                );
               });
               Navigator.pop(context);
             },
@@ -755,18 +858,22 @@ class _ProfessionalProfileScreenState
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: const Text('Add Portfolio Link',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Add Portfolio Link',
+          style: TextStyle(color: Colors.white),
+        ),
         content: TextField(
           controller: urlC,
-          decoration:
-              const InputDecoration(hintText: 'https://github.com/yourstack'),
+          decoration: const InputDecoration(
+            hintText: 'https://github.com/yourstack',
+          ),
           style: const TextStyle(color: Colors.white),
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.cancel)),
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
           ElevatedButton(
             onPressed: () {
               if (urlC.text.isNotEmpty) {

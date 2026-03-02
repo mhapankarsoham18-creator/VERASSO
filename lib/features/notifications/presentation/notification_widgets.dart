@@ -77,7 +77,7 @@ class NotificationCenterScreen extends ConsumerWidget {
             )
           : ListView.separated(
               itemCount: notifications.length,
-              separatorBuilder: (_, __) => const Divider(),
+              separatorBuilder: (_, _) => const Divider(),
               itemBuilder: (context, index) {
                 final notification = notifications[index];
                 return NotificationItem(
@@ -127,8 +127,9 @@ class NotificationItem extends ConsumerWidget {
         title: Text(
           notification.title,
           style: TextStyle(
-            fontWeight:
-                notification.isRead ? FontWeight.normal : FontWeight.bold,
+            fontWeight: notification.isRead
+                ? FontWeight.normal
+                : FontWeight.bold,
           ),
         ),
         subtitle: Column(
@@ -207,15 +208,14 @@ class NotificationSettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final preferencesAsync = ref.watch(notificationPreferencesProvider);
-    final preferencesNotifier =
-        ref.read(notificationPreferencesStateProvider.notifier);
+    final preferencesNotifier = ref.read(
+      notificationPreferencesStateProvider.notifier,
+    );
 
     return preferencesAsync.when(
       data: (preferences) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Notification Settings'),
-          ),
+          appBar: AppBar(title: const Text('Notification Settings')),
           body: ListView(
             children: [
               // Notification Types Section
@@ -409,7 +409,8 @@ class NotificationSettingsScreen extends ConsumerWidget {
                       builder: (ctx) => AlertDialog(
                         title: const Text('Reset to Defaults'),
                         content: const Text(
-                            'Are you sure you want to reset all notification settings?'),
+                          'Are you sure you want to reset all notification settings?',
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(ctx, false),
@@ -527,9 +528,9 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }

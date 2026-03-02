@@ -30,28 +30,33 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Alumni Network'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Alumni Network'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: SafeArea(
           child: Column(
             children: [
               _buildVolunteerToggle(),
               Expanded(
-                child: ref.watch(alumniMentorsProvider).when(
+                child: ref
+                    .watch(alumniMentorsProvider)
+                    .when(
                       data: (alumni) {
                         if (alumni.isEmpty) {
                           return const Center(
-                              child: Text(
-                                  'No alumni mentors yet. Be the first!',
-                                  style: TextStyle(color: Colors.white70)));
+                            child: Text(
+                              'No alumni mentors yet. Be the first!',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          );
                         }
 
                         return ListView.separated(
                           padding: const EdgeInsets.all(16),
                           itemCount: alumni.length,
-                          separatorBuilder: (_, __) =>
+                          separatorBuilder: (_, _) =>
                               const SizedBox(height: 16),
                           itemBuilder: (context, index) {
                             return _buildAlumniCard(alumni[index]);
@@ -79,35 +84,47 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
       child: Row(
         children: [
           CircleAvatar(
-              backgroundImage: mentor.avatarUrl != null
-                  ? NetworkImage(mentor.avatarUrl!)
-                  : null,
-              radius: 24),
+            backgroundImage: mentor.avatarUrl != null
+                ? NetworkImage(mentor.avatarUrl!)
+                : null,
+            radius: 24,
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(mentor.fullName ?? 'Anonymous',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16)),
-                Text(mentor.mentorTitle ?? mentor.role,
-                    style:
-                        const TextStyle(color: Colors.white54, fontSize: 12)),
+                Text(
+                  mentor.fullName ?? 'Anonymous',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  mentor.mentorTitle ?? mentor.role,
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
-                          color: Colors.greenAccent.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: const Text('ALUMNI MENTOR',
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.greenAccent,
-                              fontWeight: FontWeight.bold)),
+                        color: Colors.greenAccent.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        'ALUMNI MENTOR',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -115,8 +132,10 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
             ),
           ),
           IconButton(
-            icon:
-                const Icon(LucideIcons.messageCircle, color: Colors.cyanAccent),
+            icon: const Icon(
+              LucideIcons.messageCircle,
+              color: Colors.cyanAccent,
+            ),
             onPressed: () {}, // Navigate to chat
           ),
         ],
@@ -132,19 +151,24 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
         color: Colors.amber.withValues(alpha: 0.1),
         child: Row(
           children: [
-            const Icon(LucideIcons.heartHandshake,
-                color: Colors.amber, size: 32),
+            const Icon(
+              LucideIcons.heartHandshake,
+              color: Colors.amber,
+              size: 32,
+            ),
             const SizedBox(width: 16),
             const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Give Back',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   Text(
-                      'Toggle this to appear in the directory as available for quick questions.',
-                      style: TextStyle(color: Colors.white70, fontSize: 12)),
+                    'Give Back',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Text(
+                    'Toggle this to appear in the directory as available for quick questions.',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
                 ],
               ),
             ),
@@ -160,7 +184,8 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
                   ref.invalidate(userProfileProvider);
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Status Updated!')));
+                      const SnackBar(content: Text('Status Updated!')),
+                    );
                   }
                 }
               },

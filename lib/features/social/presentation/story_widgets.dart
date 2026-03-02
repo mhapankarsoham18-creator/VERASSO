@@ -58,7 +58,7 @@ class StoryCarousel extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox(height: 110),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 
@@ -67,9 +67,7 @@ class StoryCarousel extends ConsumerWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const StoryCreationScreen(),
-          ),
+          MaterialPageRoute(builder: (context) => const StoryCreationScreen()),
         );
       },
       child: Container(
@@ -93,8 +91,11 @@ class StoryCarousel extends ConsumerWidget {
                       color: AppColors.accent,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(LucideIcons.plus,
-                        size: 14, color: Colors.white),
+                    child: const Icon(
+                      LucideIcons.plus,
+                      size: 14,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -150,8 +151,9 @@ class _StoryAvatar extends StatelessWidget {
               child: CircleAvatar(
                 radius: 28,
                 backgroundColor: AppColors.spaceIndigo,
-                backgroundImage:
-                    imageUrl != null ? NetworkImage(imageUrl!) : null,
+                backgroundImage: imageUrl != null
+                    ? NetworkImage(imageUrl!)
+                    : null,
                 child: imageUrl == null ? const Icon(LucideIcons.user) : null,
               ),
             ),

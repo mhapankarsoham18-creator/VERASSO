@@ -73,9 +73,7 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => const ArCircuitBuilderScreen(),
-            ),
+            MaterialPageRoute(builder: (_) => const ArCircuitBuilderScreen()),
           );
         },
         icon: const Icon(LucideIcons.plus),
@@ -133,13 +131,17 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
       );
     }
 
-    return _buildProjectGrid(_myProjects
-        .map((p) => _ProjectGridItem(
+    return _buildProjectGrid(
+      _myProjects
+          .map(
+            (p) => _ProjectGridItem(
               project: p,
               onTap: () => _openProject(p),
               onDelete: () => _deleteProject(p),
-            ))
-        .toList());
+            ),
+          )
+          .toList(),
+    );
   }
 
   Widget _buildProjectGrid(List<Widget> items) {
@@ -166,14 +168,18 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
       );
     }
 
-    return _buildProjectGrid(_publicProjects
-        .map((p) => _ProjectGridItem(
+    return _buildProjectGrid(
+      _publicProjects
+          .map(
+            (p) => _ProjectGridItem(
               project: p,
               onTap: () => _viewPublicProject(p),
               showRemix: true,
               onRemix: () => _remixProject(p),
-            ))
-        .toList());
+            ),
+          )
+          .toList(),
+    );
   }
 
   Widget _buildSharedProjectsTab() {
@@ -185,15 +191,19 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
       );
     }
 
-    return _buildProjectGrid(_sharedProjects
-        .map((sp) => _ProjectGridItem(
+    return _buildProjectGrid(
+      _sharedProjects
+          .map(
+            (sp) => _ProjectGridItem(
               project: sp.project,
               sharedBy: sp.sharedByUsername,
               onTap: () => _viewSharedProject(sp),
               showRemix: sp.canRemix,
               onRemix: () => _remixProject(sp.project),
-            ))
-        .toList());
+            ),
+          )
+          .toList(),
+    );
   }
 
   Future<void> _deleteProject(ArProject project) async {
@@ -222,9 +232,9 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
         _loadProjects();
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error deleting project: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error deleting project: $e')));
         }
       }
     }
@@ -254,9 +264,9 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load projects: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load projects: $e')));
       }
     }
   }
@@ -272,8 +282,9 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
 
   Future<void> _remixProject(ArProject project) async {
     try {
-      final remixed =
-          await ref.read(arProjectRepositoryProvider).remixProject(project.id);
+      final remixed = await ref
+          .read(arProjectRepositoryProvider)
+          .remixProject(project.id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Project remixed: ${remixed.title}')),
@@ -282,9 +293,9 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to remix: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to remix: $e')));
       }
     }
   }
@@ -347,7 +358,7 @@ class _ProjectGridItem extends StatelessWidget {
                         child: Image.network(
                           project.thumbnailUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _buildPlaceholder(),
+                          errorBuilder: (_, _, _) => _buildPlaceholder(),
                         ),
                       )
                     : _buildPlaceholder(),
@@ -413,11 +424,7 @@ class _ProjectGridItem extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return const Center(
-      child: Icon(
-        LucideIcons.box,
-        size: 48,
-        color: Colors.white24,
-      ),
+      child: Icon(LucideIcons.box, size: 48, color: Colors.white24),
     );
   }
 }

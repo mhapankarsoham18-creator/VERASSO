@@ -26,13 +26,8 @@ import 'package:verasso/core/services/bluetooth_mesh_service.dart' as _i3;
 // ignore_for_file: invalid_use_of_internal_member
 
 class _FakeMeshPacket_0 extends _i1.SmartFake implements _i2.MeshPacket {
-  _FakeMeshPacket_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeMeshPacket_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [BluetoothMeshService].
@@ -45,40 +40,46 @@ class MockBluetoothMeshService extends _i1.Mock
   }
 
   @override
-  _i4.Stream<List<String>> get connectedDevicesStream => (super.noSuchMethod(
-        Invocation.getter(#connectedDevicesStream),
-        returnValue: _i4.Stream<List<String>>.empty(),
-      ) as _i4.Stream<List<String>>);
+  _i4.Stream<List<String>> get connectedDevicesStream =>
+      (super.noSuchMethod(
+            Invocation.getter(#connectedDevicesStream),
+            returnValue: _i4.Stream<List<String>>.empty(),
+          )
+          as _i4.Stream<List<String>>);
 
   @override
-  int get connectedEndpointsCount => (super.noSuchMethod(
-        Invocation.getter(#connectedEndpointsCount),
-        returnValue: 0,
-      ) as int);
+  int get connectedEndpointsCount =>
+      (super.noSuchMethod(
+            Invocation.getter(#connectedEndpointsCount),
+            returnValue: 0,
+          )
+          as int);
 
   @override
-  List<String> get expertise => (super.noSuchMethod(
-        Invocation.getter(#expertise),
-        returnValue: <String>[],
-      ) as List<String>);
+  List<String> get expertise =>
+      (super.noSuchMethod(
+            Invocation.getter(#expertise),
+            returnValue: <String>[],
+          )
+          as List<String>);
 
   @override
-  bool get isMeshActive => (super.noSuchMethod(
-        Invocation.getter(#isMeshActive),
-        returnValue: false,
-      ) as bool);
+  bool get isMeshActive =>
+      (super.noSuchMethod(Invocation.getter(#isMeshActive), returnValue: false)
+          as bool);
 
   @override
-  _i4.Stream<_i2.MeshPacket> get meshStream => (super.noSuchMethod(
-        Invocation.getter(#meshStream),
-        returnValue: _i4.Stream<_i2.MeshPacket>.empty(),
-      ) as _i4.Stream<_i2.MeshPacket>);
+  _i4.Stream<_i2.MeshPacket> get meshStream =>
+      (super.noSuchMethod(
+            Invocation.getter(#meshStream),
+            returnValue: _i4.Stream<_i2.MeshPacket>.empty(),
+          )
+          as _i4.Stream<_i2.MeshPacket>);
 
   @override
-  int get trustThreshold => (super.noSuchMethod(
-        Invocation.getter(#trustThreshold),
-        returnValue: 0,
-      ) as int);
+  int get trustThreshold =>
+      (super.noSuchMethod(Invocation.getter(#trustThreshold), returnValue: 0)
+          as int);
 
   @override
   _i4.Future<void> broadcastPacket(
@@ -88,29 +89,21 @@ class MockBluetoothMeshService extends _i1.Mock
     _i2.MeshPriority? priority,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #broadcastPacket,
-          [
-            type,
-            payload,
-          ],
-          {
-            #targetSubject: targetSubject,
-            #priority: priority,
-          },
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(
+              #broadcastPacket,
+              [type, payload],
+              {#targetSubject: targetSubject, #priority: priority},
+            ),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i4.Future<void> initialize(
@@ -119,91 +112,73 @@ class MockBluetoothMeshService extends _i1.Mock
     List<String>? expertise = const [],
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #initialize,
-          [
-            userName,
-            userId,
-          ],
-          {#expertise: expertise},
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(
+              #initialize,
+              [userName, userId],
+              {#expertise: expertise},
+            ),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   void setExpertise(List<String>? areas) => super.noSuchMethod(
-        Invocation.method(
-          #setExpertise,
-          [areas],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setExpertise, [areas]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setPulsedMode(bool? enabled) => super.noSuchMethod(
-        Invocation.method(
-          #setPulsedMode,
-          [enabled],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setPulsedMode, [enabled]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setTrustThreshold(int? threshold) => super.noSuchMethod(
-        Invocation.method(
-          #setTrustThreshold,
-          [threshold],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setTrustThreshold, [threshold]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i4.Future<bool> startAdvertising() => (super.noSuchMethod(
-        Invocation.method(
-          #startAdvertising,
-          [],
-        ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+  _i4.Future<bool> startAdvertising() =>
+      (super.noSuchMethod(
+            Invocation.method(#startAdvertising, []),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
 
   @override
-  _i4.Future<bool> startDiscovery() => (super.noSuchMethod(
-        Invocation.method(
-          #startDiscovery,
-          [],
-        ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+  _i4.Future<bool> startDiscovery() =>
+      (super.noSuchMethod(
+            Invocation.method(#startDiscovery, []),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
 
   @override
-  _i4.Future<void> stopAdvertising() => (super.noSuchMethod(
-        Invocation.method(
-          #stopAdvertising,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> stopAdvertising() =>
+      (super.noSuchMethod(
+            Invocation.method(#stopAdvertising, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   void stopAll() => super.noSuchMethod(
-        Invocation.method(
-          #stopAll,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#stopAll, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i4.Future<void> stopDiscovery() => (super.noSuchMethod(
-        Invocation.method(
-          #stopDiscovery,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> stopDiscovery() =>
+      (super.noSuchMethod(
+            Invocation.method(#stopDiscovery, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }
 
 /// A class which mocks [MeshPacket].
@@ -215,76 +190,83 @@ class MockMeshPacket extends _i1.Mock implements _i2.MeshPacket {
   }
 
   @override
-  String get id => (super.noSuchMethod(
-        Invocation.getter(#id),
-        returnValue: _i5.dummyValue<String>(
-          this,
-          Invocation.getter(#id),
-        ),
-      ) as String);
+  String get id =>
+      (super.noSuchMethod(
+            Invocation.getter(#id),
+            returnValue: _i5.dummyValue<String>(this, Invocation.getter(#id)),
+          )
+          as String);
 
   @override
-  String get senderId => (super.noSuchMethod(
-        Invocation.getter(#senderId),
-        returnValue: _i5.dummyValue<String>(
-          this,
-          Invocation.getter(#senderId),
-        ),
-      ) as String);
+  String get senderId =>
+      (super.noSuchMethod(
+            Invocation.getter(#senderId),
+            returnValue: _i5.dummyValue<String>(
+              this,
+              Invocation.getter(#senderId),
+            ),
+          )
+          as String);
 
   @override
-  String get senderName => (super.noSuchMethod(
-        Invocation.getter(#senderName),
-        returnValue: _i5.dummyValue<String>(
-          this,
-          Invocation.getter(#senderName),
-        ),
-      ) as String);
+  String get senderName =>
+      (super.noSuchMethod(
+            Invocation.getter(#senderName),
+            returnValue: _i5.dummyValue<String>(
+              this,
+              Invocation.getter(#senderName),
+            ),
+          )
+          as String);
 
   @override
-  _i2.MeshPayloadType get type => (super.noSuchMethod(
-        Invocation.getter(#type),
-        returnValue: _i2.MeshPayloadType.handshake,
-      ) as _i2.MeshPayloadType);
+  _i2.MeshPayloadType get type =>
+      (super.noSuchMethod(
+            Invocation.getter(#type),
+            returnValue: _i2.MeshPayloadType.handshake,
+          )
+          as _i2.MeshPayloadType);
 
   @override
-  Map<String, dynamic> get payload => (super.noSuchMethod(
-        Invocation.getter(#payload),
-        returnValue: <String, dynamic>{},
-      ) as Map<String, dynamic>);
+  Map<String, dynamic> get payload =>
+      (super.noSuchMethod(
+            Invocation.getter(#payload),
+            returnValue: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
 
   @override
-  int get trustScore => (super.noSuchMethod(
-        Invocation.getter(#trustScore),
-        returnValue: 0,
-      ) as int);
+  int get trustScore =>
+      (super.noSuchMethod(Invocation.getter(#trustScore), returnValue: 0)
+          as int);
 
   @override
-  String get timestamp => (super.noSuchMethod(
-        Invocation.getter(#timestamp),
-        returnValue: _i5.dummyValue<String>(
-          this,
-          Invocation.getter(#timestamp),
-        ),
-      ) as String);
+  String get timestamp =>
+      (super.noSuchMethod(
+            Invocation.getter(#timestamp),
+            returnValue: _i5.dummyValue<String>(
+              this,
+              Invocation.getter(#timestamp),
+            ),
+          )
+          as String);
 
   @override
-  List<String> get seenBy => (super.noSuchMethod(
-        Invocation.getter(#seenBy),
-        returnValue: <String>[],
-      ) as List<String>);
+  List<String> get seenBy =>
+      (super.noSuchMethod(Invocation.getter(#seenBy), returnValue: <String>[])
+          as List<String>);
 
   @override
-  int get ttl => (super.noSuchMethod(
-        Invocation.getter(#ttl),
-        returnValue: 0,
-      ) as int);
+  int get ttl =>
+      (super.noSuchMethod(Invocation.getter(#ttl), returnValue: 0) as int);
 
   @override
-  _i2.MeshPriority get priority => (super.noSuchMethod(
-        Invocation.getter(#priority),
-        returnValue: _i2.MeshPriority.low,
-      ) as _i2.MeshPriority);
+  _i2.MeshPriority get priority =>
+      (super.noSuchMethod(
+            Invocation.getter(#priority),
+            returnValue: _i2.MeshPriority.low,
+          )
+          as _i2.MeshPriority);
 
   @override
   _i2.MeshPacket copyWith({
@@ -295,39 +277,31 @@ class MockMeshPacket extends _i1.Mock implements _i2.MeshPacket {
     String? identityProof,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #copyWith,
-          [],
-          {
-            #signature: signature,
-            #publicKey: publicKey,
-            #ttl: ttl,
-            #seenBy: seenBy,
-            #identityProof: identityProof,
-          },
-        ),
-        returnValue: _FakeMeshPacket_0(
-          this,
-          Invocation.method(
-            #copyWith,
-            [],
-            {
+            Invocation.method(#copyWith, [], {
               #signature: signature,
               #publicKey: publicKey,
               #ttl: ttl,
               #seenBy: seenBy,
               #identityProof: identityProof,
-            },
-          ),
-        ),
-      ) as _i2.MeshPacket);
+            }),
+            returnValue: _FakeMeshPacket_0(
+              this,
+              Invocation.method(#copyWith, [], {
+                #signature: signature,
+                #publicKey: publicKey,
+                #ttl: ttl,
+                #seenBy: seenBy,
+                #identityProof: identityProof,
+              }),
+            ),
+          )
+          as _i2.MeshPacket);
 
   @override
-  Map<String, dynamic> toMap() => (super.noSuchMethod(
-        Invocation.method(
-          #toMap,
-          [],
-        ),
-        returnValue: <String, dynamic>{},
-      ) as Map<String, dynamic>);
+  Map<String, dynamic> toMap() =>
+      (super.noSuchMethod(
+            Invocation.method(#toMap, []),
+            returnValue: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
 }

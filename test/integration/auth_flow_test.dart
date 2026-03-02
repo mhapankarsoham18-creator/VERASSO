@@ -23,20 +23,22 @@ void main() {
     setUp(() {
       mockAuthRepository = MockAuthRepository();
 
-      testUser = DomainAuthUser(
-        id: 'test-user-id',
-        email: 'test@example.com',
-      );
+      testUser = DomainAuthUser(id: 'test-user-id', email: 'test@example.com');
     });
 
-    testWidgets('Complete login flow from AuthScreen to generic routing',
-        (tester) async {
-      when(mockAuthRepository.authStateChanges)
-          .thenAnswer((_) => Stream.value(null));
+    testWidgets('Complete login flow from AuthScreen to generic routing', (
+      tester,
+    ) async {
+      when(
+        mockAuthRepository.authStateChanges,
+      ).thenAnswer((_) => Stream.value(null));
 
-      when(mockAuthRepository.signInWithEmail(
-              email: anyNamed('email'), password: anyNamed('password')))
-          .thenAnswer((_) async {
+      when(
+        mockAuthRepository.signInWithEmail(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+        ),
+      ).thenAnswer((_) async {
         return AuthResult(user: testUser);
       });
 
@@ -45,7 +47,8 @@ void main() {
           overrides: [
             authRepositoryProvider.overrideWithValue(mockAuthRepository),
             themeControllerProvider.overrideWith(
-                (ref) => ThemeController()..togglePowerSaveMode(true)),
+              (ref) => ThemeController()..togglePowerSaveMode(true),
+            ),
           ],
           child: const MaterialApp(
             localizationsDelegates: [
@@ -54,9 +57,7 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
-              Locale('en', ''),
-            ],
+            supportedLocales: [Locale('en', '')],
             home: AuthScreen(),
           ),
         ),
@@ -69,37 +70,46 @@ void main() {
       expect(find.text('Welcome Back, Pioneer'), findsOneWidget);
 
       await tester.enterText(
-          find.byKey(const Key('email_field')), 'test@example.com');
+        find.byKey(const Key('email_field')),
+        'test@example.com',
+      );
       await tester.enterText(
-          find.byKey(const Key('password_field')), 'password123');
+        find.byKey(const Key('password_field')),
+        'password123',
+      );
       await tester.pump();
 
       await tester.tap(find.byKey(const Key('login_button')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      verify(mockAuthRepository.signInWithEmail(
-              email: 'test@example.com', password: 'password123'))
-          .called(1);
+      verify(
+        mockAuthRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'password123',
+        ),
+      ).called(1);
     });
 
     testWidgets('App starts at Login when unauthenticated', (tester) async {
-      when(mockAuthRepository.authStateChanges)
-          .thenAnswer((_) => Stream.value(null));
+      when(
+        mockAuthRepository.authStateChanges,
+      ).thenAnswer((_) => Stream.value(null));
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             authRepositoryProvider.overrideWithValue(mockAuthRepository),
             themeControllerProvider.overrideWith(
-                (ref) => ThemeController()..togglePowerSaveMode(true)),
+              (ref) => ThemeController()..togglePowerSaveMode(true),
+            ),
           ],
           child: MaterialApp.router(
             routerConfig: GoRouter(
               initialLocation: '/login',
               routes: [
-                GoRoute(path: '/login', builder: (_, __) => const AuthScreen()),
-                GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
+                GoRoute(path: '/login', builder: (_, _) => const AuthScreen()),
+                GoRoute(path: '/', builder: (_, _) => const HomeScreen()),
               ],
             ),
             localizationsDelegates: const [
@@ -108,9 +118,7 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en', ''),
-            ],
+            supportedLocales: const [Locale('en', '')],
           ),
         ),
       );

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 /// Represents a history record of a code snippet submitted by a user for a lesson.
 /// Maps to the `codedex_history` table in Supabase.

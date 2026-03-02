@@ -33,8 +33,10 @@ class _DoubtCard extends StatelessWidget {
             Row(
               children: [
                 Chip(
-                  label:
-                      Text(doubt.subject, style: const TextStyle(fontSize: 10)),
+                  label: Text(
+                    doubt.subject,
+                    style: const TextStyle(fontSize: 10),
+                  ),
                   visualDensity: VisualDensity.compact,
                   backgroundColor: Colors.white10,
                 ),
@@ -50,10 +52,12 @@ class _DoubtCard extends StatelessWidget {
             ),
             if (doubt.questionDescription != null) ...[
               const SizedBox(height: 4),
-              Text(doubt.questionDescription!,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.8))),
+              Text(
+                doubt.questionDescription!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
+              ),
             ],
             const SizedBox(height: 12),
             Row(
@@ -61,17 +65,23 @@ class _DoubtCard extends StatelessWidget {
                 Text(
                   'Asked by ${doubt.authorName ?? 'Student'}',
                   style: TextStyle(
-                      fontSize: 12, color: Colors.white.withValues(alpha: 0.6)),
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
                 ),
                 const Spacer(),
-                const Icon(LucideIcons.messageSquare,
-                    size: 16, color: Colors.white70),
+                const Icon(
+                  LucideIcons.messageSquare,
+                  size: 16,
+                  color: Colors.white70,
+                ),
                 const SizedBox(width: 4),
-                Text('${doubt.answerCount}',
-                    style: TextStyle(
-                        color: Colors.white70)), // Answer count from DB
+                Text(
+                  '${doubt.answerCount}',
+                  style: TextStyle(color: Colors.white70),
+                ), // Answer count from DB
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -87,7 +97,7 @@ class _DoubtsScreenState extends ConsumerState<DoubtsScreen> {
     'Chemistry',
     'Biology',
     'Math',
-    'General'
+    'General',
   ];
 
   @override
@@ -114,7 +124,7 @@ class _DoubtsScreenState extends ConsumerState<DoubtsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     scrollDirection: Axis.horizontal,
                     itemCount: _subjects.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    separatorBuilder: (_, _) => const SizedBox(width: 10),
                     itemBuilder: (context, index) {
                       final subject = _subjects[index];
                       final isSelected = subject == _selectedSubject;
@@ -126,7 +136,8 @@ class _DoubtsScreenState extends ConsumerState<DoubtsScreen> {
                         selectedColor: Theme.of(context).colorScheme.primary,
                         backgroundColor: Colors.white.withValues(alpha: 0.1),
                         labelStyle: TextStyle(
-                            color: isSelected ? Colors.white : Colors.white70),
+                          color: isSelected ? Colors.white : Colors.white70,
+                        ),
                       );
                     },
                   ),
@@ -153,14 +164,15 @@ class _DoubtsScreenState extends ConsumerState<DoubtsScreen> {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, s) => Center(child: Text('Error: $e')),
               ),
-            )
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const AskDoubtScreen()));
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const AskDoubtScreen()));
         },
         label: const Text('Ask Question'),
         icon: const Icon(LucideIcons.helpCircle),

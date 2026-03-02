@@ -62,15 +62,18 @@ class LearningDashboard extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
           children: [
-            Text(AppLocalizations.of(context)!.learningHub,
-                style:
-                    const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+            Text(
+              AppLocalizations.of(context)!.learningHub,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 20),
 
             const UpcomingEventsCarousel(),
 
             // Progress Section
-            ref.watch(myEnrollmentsProvider).when(
+            ref
+                .watch(myEnrollmentsProvider)
+                .when(
                   data: (enrollments) {
                     if (enrollments.isEmpty) return const SizedBox.shrink();
                     final inProgress = enrollments
@@ -84,9 +87,12 @@ class LearningDashboard extends ConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
-                              AppLocalizations.of(context)!.continueLearning,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                            AppLocalizations.of(context)!.continueLearning,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: 100,
@@ -109,23 +115,30 @@ class LearningDashboard extends ConsumerWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(enroll.courseTitle ?? 'Course',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                          enroll.courseTitle ?? 'Course',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         const SizedBox(height: 8),
                                         LinearProgressIndicator(
                                           value: enroll.progressPercent / 100,
                                           backgroundColor: Colors.white10,
-                                          borderRadius:
-                                              BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
                                         ),
-                                        Text('${enroll.progressPercent}%',
-                                            style: const TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.white54)),
+                                        Text(
+                                          '${enroll.progressPercent}%',
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.white54,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -139,11 +152,13 @@ class LearningDashboard extends ConsumerWidget {
                     );
                   },
                   loading: () => const SizedBox.shrink(),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                 ),
 
             // Daily Challenge Widget
-            ref.watch(activeChallengesProvider).when(
+            ref
+                .watch(activeChallengesProvider)
+                .when(
                   data: (challenges) {
                     if (challenges.isEmpty) return const SizedBox.shrink();
                     final challenge = challenges.first;
@@ -160,25 +175,38 @@ class LearningDashboard extends ConsumerWidget {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(LucideIcons.zap,
-                                      color: Colors.amber, size: 20),
+                                  const Icon(
+                                    LucideIcons.zap,
+                                    color: Colors.amber,
+                                    size: 20,
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text('DAILY CHALLENGE - ${challenge.subject}',
-                                      style: const TextStyle(
-                                          color: Colors.amber,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12)),
+                                  Text(
+                                    'DAILY CHALLENGE - ${challenge.subject}',
+                                    style: const TextStyle(
+                                      color: Colors.amber,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 12),
-                              Text(challenge.title,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                challenge.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text(challenge.content,
-                                  style: const TextStyle(
-                                      color: Colors.white70, fontSize: 13)),
+                              Text(
+                                challenge.content,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 13,
+                                ),
+                              ),
                               const SizedBox(height: 16),
                               SizedBox(
                                 width: double.infinity,
@@ -188,20 +216,28 @@ class LearningDashboard extends ConsumerWidget {
                                     // Mark as complete and award karma
                                     await ref
                                         .read(collaborationRepositoryProvider)
-                                        .completeChallenge(challenge.id,
-                                            challenge.rewardPoints);
+                                        .completeChallenge(
+                                          challenge.id,
+                                          challenge.rewardPoints,
+                                        );
                                     if (context.mounted) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  'Challenge Complete! +${challenge.rewardPoints} Karma')));
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Challenge Complete! +${challenge.rewardPoints} Karma',
+                                          ),
+                                        ),
+                                      );
                                       // Refresh challenges
                                       ref.invalidate(activeChallengesProvider);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.amber,
-                                      foregroundColor: Colors.black),
+                                    backgroundColor: Colors.amber,
+                                    foregroundColor: Colors.black,
+                                  ),
                                   child: const Text('Complete & Earn 20 Karma'),
                                 ),
                               ),
@@ -212,7 +248,7 @@ class LearningDashboard extends ConsumerWidget {
                     );
                   },
                   loading: () => const DashboardSkeleton(),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                 ),
 
             _ModuleCard(
@@ -221,7 +257,8 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.users,
               color: Colors.blueAccent,
               onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const StudyGroupsScreen())),
+                MaterialPageRoute(builder: (_) => const StudyGroupsScreen()),
+              ),
             ),
             const SizedBox(height: 16),
             _ModuleCard(
@@ -229,8 +266,11 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Shared notes & study guides',
               icon: LucideIcons.library,
               color: Colors.indigo,
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => const ResourceLibraryScreen())),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ResourceLibraryScreen(),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             _ModuleCard(
@@ -254,9 +294,7 @@ class LearningDashboard extends ConsumerWidget {
                 color: Colors.cyanAccent,
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const MeshLabsScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const MeshLabsScreen()),
                 ),
               ),
 
@@ -266,9 +304,11 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.graduationCap,
               color: Colors.purpleAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const MentorDirectoryScreen())),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const MentorDirectoryScreen(),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             _ModuleCard(
@@ -277,9 +317,11 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.calendarCheck,
               color: Colors.blueAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const MentorshipManagementScreen())),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const MentorshipManagementScreen(),
+                ),
+              ),
             ),
 
             _ModuleCard(
@@ -287,8 +329,9 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Ask & answer questions',
               icon: LucideIcons.helpCircle,
               color: Colors.orange,
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const DoubtsScreen())),
+              onTap: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const DoubtsScreen())),
             ),
             const SizedBox(height: 16),
             _ModuleCard(
@@ -297,8 +340,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.library,
               color: Colors.blue,
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const DecksScreen()));
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const DecksScreen()));
               },
             ),
             const SizedBox(height: 16),
@@ -308,8 +352,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.atom,
               color: Colors.purple,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const PhysicsMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const PhysicsMenuScreen()),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -319,8 +364,11 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.flaskConical,
               color: Colors.green,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const ChemistryMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const ChemistryMenuScreen(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -330,8 +378,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.microscope,
               color: Colors.lightGreen,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const BiologyMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const BiologyMenuScreen()),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -341,8 +390,11 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.moon,
               color: Colors.deepPurple,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const AstronomyMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const AstronomyMenuScreen(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -352,8 +404,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.trendingUp,
               color: Colors.amber,
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const FinanceHub()));
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const FinanceHub()));
               },
             ),
             const SizedBox(height: 16),
@@ -363,8 +416,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.pill,
               color: Colors.redAccent,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const PharmacyMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const PharmacyMenuScreen()),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -374,8 +428,11 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.globe,
               color: Colors.blueAccent,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const GeographyMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const GeographyMenuScreen(),
+                  ),
+                );
               },
             ),
             _ModuleCard(
@@ -384,8 +441,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.landmark,
               color: Colors.amber,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const HistoryMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const HistoryMenuScreen()),
+                );
               },
             ),
             _ModuleCard(
@@ -394,8 +452,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.users,
               color: Colors.indigoAccent,
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const CSMenuScreen()));
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const CSMenuScreen()));
               },
             ),
             const SizedBox(height: 16),
@@ -405,8 +464,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.terminal,
               color: Colors.lightBlueAccent,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const CodedexMenuScreen()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const CodedexMenuScreen()),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -417,7 +477,8 @@ class LearningDashboard extends ConsumerWidget {
               color: Colors.redAccent,
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const TalentDashboard()));
+                  MaterialPageRoute(builder: (_) => const TalentDashboard()),
+                );
               },
             ),
           ],
@@ -434,12 +495,13 @@ class _ModuleCard extends StatelessWidget {
   final Color color;
   final VoidCallback onTap;
 
-  const _ModuleCard(
-      {required this.title,
-      required this.subtitle,
-      required this.icon,
-      required this.color,
-      required this.onTap});
+  const _ModuleCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -467,9 +529,13 @@ class _ModuleCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Text(subtitle, style: const TextStyle(color: Colors.white70)),
                 ],
               ),

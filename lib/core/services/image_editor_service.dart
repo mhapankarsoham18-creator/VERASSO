@@ -51,14 +51,13 @@ class ImageEditorService {
         sourcePath: imageFile.path,
         uiSettings: [
           AndroidUiSettings(
-              toolbarTitle: 'Crop Image',
-              toolbarColor: Colors.black,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Crop Image',
+            toolbarTitle: 'Crop Image',
+            toolbarColor: Colors.black,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
           ),
+          IOSUiSettings(title: 'Crop Image'),
         ],
       );
 

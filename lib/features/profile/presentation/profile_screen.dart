@@ -22,9 +22,9 @@ import 'profile_controller.dart';
 /// Future provider that fetches profile statistics (e.g., friend count) for a given [userId].
 final profileStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
-  final repo = ref.watch(profileRepositoryProvider);
-  return repo.getProfileStats(userId);
-});
+      final repo = ref.watch(profileRepositoryProvider);
+      return repo.getProfileStats(userId);
+    });
 
 /// The user's main profile screen displaying their information, stats, and interests.
 class ProfileScreen extends ConsumerWidget {
@@ -49,10 +49,11 @@ class ProfileScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(LucideIcons.settings),
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()));
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const SettingsScreen()));
             },
-          )
+          ),
         ],
       ),
       body: LiquidBackground(
@@ -63,7 +64,11 @@ class ProfileScreen extends ConsumerWidget {
             }
             return ListView(
               padding: const EdgeInsets.only(
-                  top: 100, left: 16, right: 16, bottom: 20),
+                top: 100,
+                left: 16,
+                right: 16,
+                bottom: 20,
+              ),
               children: [
                 // Header Card
                 GlassContainer(
@@ -76,8 +81,11 @@ class ProfileScreen extends ConsumerWidget {
                             ? NetworkImage(profile.avatarUrl!)
                             : null,
                         child: profile.avatarUrl == null
-                            ? const Icon(LucideIcons.user,
-                                size: 50, color: Colors.white)
+                            ? const Icon(
+                                LucideIcons.user,
+                                size: 50,
+                                color: Colors.white,
+                              )
                             : null,
                       ),
                       const SizedBox(height: 16),
@@ -87,42 +95,52 @@ class ProfileScreen extends ConsumerWidget {
                         child: Text(
                           profile.fullName ?? l10n.student,
                           style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Text(
                         '@${profile.username ?? l10n.defaultUsername}',
                         style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.7)),
+                          color: Colors.white.withValues(alpha: 0.7),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildStatItem(
-                              l10n.trustScore, '${profile.trustScore}'),
+                            l10n.trustScore,
+                            '${profile.trustScore}',
+                          ),
                           // Show Friend Count dynamically
                           statsAsync.when(
                             data: (stats) => _buildStatItem(
-                                l10n.friends, '${stats['friends_count'] ?? 0}'),
+                              l10n.friends,
+                              '${stats['friends_count'] ?? 0}',
+                            ),
                             loading: () => _buildStatItem(l10n.friends, '...'),
-                            error: (_, __) => _buildStatItem(l10n.friends, '0'),
+                            error: (_, _) => _buildStatItem(l10n.friends, '0'),
                           ),
                           _buildStatItem(
-                              l10n.following, '${profile.followingCount}'),
+                            l10n.following,
+                            '${profile.followingCount}',
+                          ),
                           _buildStatItem(
-                              l10n.followers, '${profile.followersCount}'),
+                            l10n.followers,
+                            '${profile.followersCount}',
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
                       if (profile.role != 'student')
                         Chip(
                           label: Text(profile.role.toUpperCase()),
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.8),
-                        )
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.8),
+                        ),
                     ],
                   ),
                 ),
@@ -133,36 +151,51 @@ class ProfileScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(l10n.about,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(
+                        l10n.about,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         profile.bio?.isNotEmpty == true
                             ? profile.bio!
                             : l10n.noBioYet,
                         style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.8)),
+                          color: Colors.white.withValues(alpha: 0.8),
+                        ),
                       ),
                       const SizedBox(height: 16),
-                      Text(l10n.interests,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(
+                        l10n.interests,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Wrap(
                         spacing: 8,
                         children: profile.interests
-                            .map((interest) => Chip(
-                                  label: Text(interest),
-                                  backgroundColor:
-                                      Colors.white.withValues(alpha: 0.1),
-                                ))
+                            .map(
+                              (interest) => Chip(
+                                label: Text(interest),
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.1,
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
                       if (profile.interests.isEmpty)
-                        Text(l10n.noInterestsYet,
-                            style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.6))),
+                        Text(
+                          l10n.noInterestsYet,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.6),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -179,9 +212,14 @@ class ProfileScreen extends ConsumerWidget {
                   onPressed: () {
                     final certificates =
                         ref.read(userCertificatesProvider(profile.id)).value ??
-                            [];
+                        [];
                     _exportTranscript(
-                        context, ref, profile, certificates, l10n);
+                      context,
+                      ref,
+                      profile,
+                      certificates,
+                      l10n,
+                    );
                   },
                   icon: const Icon(LucideIcons.fileSignature),
                   label: Text(l10n.exportTranscript),
@@ -205,20 +243,25 @@ class ProfileScreen extends ConsumerWidget {
   Widget _buildStatItem(String label, String value) {
     return Column(
       children: [
-        Text(value,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
       ],
     );
   }
 
   Future<void> _exportTranscript(
-      BuildContext context,
-      WidgetRef ref,
-      dynamic profile,
-      List<Certificate> certificates,
-      AppLocalizations l10n) async {
+    BuildContext context,
+    WidgetRef ref,
+    dynamic profile,
+    List<Certificate> certificates,
+    AppLocalizations l10n,
+  ) async {
     if (certificates.isEmpty) {
       showDialog(
         context: context,
@@ -242,8 +285,9 @@ class ProfileScreen extends ConsumerWidget {
     };
 
     // Mastery transcript signing requires a persistent secure key.
-    final signingKey =
-        await ref.read(masterySignatureServiceProvider).getGlobalSigningKey();
+    final signingKey = await ref
+        .read(masterySignatureServiceProvider)
+        .getGlobalSigningKey();
     if (!context.mounted) return;
     if (signingKey == null) {
       showDialog(
@@ -251,23 +295,26 @@ class ProfileScreen extends ConsumerWidget {
         builder: (context) => AlertDialog(
           title: const Text('Export Unavailable'),
           content: const Text(
-              'Cryptographic signing service is currently offline. Please try again later.'),
+            'Cryptographic signing service is currently offline. Please try again later.',
+          ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(l10n.gotIt)),
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.gotIt),
+            ),
           ],
         ),
       );
       return;
     }
 
-    final transcript =
-        ref.read(masterySignatureServiceProvider).generateSignedTranscript(
-              userId: profile.id,
-              skills: realSkills,
-              signingKey: signingKey,
-            );
+    final transcript = ref
+        .read(masterySignatureServiceProvider)
+        .generateSignedTranscript(
+          userId: profile.id,
+          skills: realSkills,
+          signingKey: signingKey,
+        );
 
     showDialog(
       context: context,
@@ -302,9 +349,9 @@ class ProfileScreen extends ConsumerWidget {
               await Clipboard.setData(ClipboardData(text: transcript));
               if (context.mounted) {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.transcriptCopied)),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(l10n.transcriptCopied)));
               }
             },
             child: Text(l10n.share),
@@ -315,7 +362,10 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   void _showEditProfileDialog(
-      BuildContext context, WidgetRef ref, dynamic profile) {
+    BuildContext context,
+    WidgetRef ref,
+    dynamic profile,
+  ) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => EditProfileScreen(profile: profile),

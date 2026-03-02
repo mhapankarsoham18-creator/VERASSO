@@ -86,40 +86,37 @@ class SentryService {
     if (sentryDsn.isEmpty && kDebugMode) {
       if (kDebugMode) {
         AppLogger.warning(
-            'Sentry DSN not provided, skipping Sentry initialization');
+          'Sentry DSN not provided, skipping Sentry initialization',
+        );
       }
       appRunner();
       return;
     }
 
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = sentryDsn;
-        options.environment = kDebugMode ? 'development' : environment;
-        options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
-        options.profilesSampleRate = kDebugMode ? 1.0 : 0.1;
+    await SentryFlutter.init((options) {
+      options.dsn = sentryDsn;
+      options.environment = kDebugMode ? 'development' : environment;
+      options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
 
-        // Capture failed HTTP requests
-        options.captureFailedRequests = true;
+      // Capture failed HTTP requests
+      options.captureFailedRequests = true;
 
-        // Report errors in debug mode
-        options.debug = kDebugMode;
+      // Report errors in debug mode
+      options.debug = kDebugMode;
 
-        // Attach screenshots on errors (mobile only)
-        options.attachScreenshot = true;
+      // Attach screenshots on errors (mobile only)
+      options.attachScreenshot = true;
 
-        // Set release version
-        options.release = 'verasso@1.2.0+3';
+      // Set release version
+      options.release = 'verasso@1.2.0+3';
 
-        // Attach stack trace for all messages
-        options.attachStacktrace = true;
+      // Attach stack trace for all messages
+      options.attachStacktrace = true;
 
-        // Filter out personally identifiable information
-        // Filter out personally identifiable information
-        options.beforeSend = (event, hint) => event;
-      },
-      appRunner: appRunner,
-    );
+      // Filter out personally identifiable information
+      // Filter out personally identifiable information
+      options.beforeSend = (event, hint) => event;
+    }, appRunner: appRunner);
   }
 
   /// Set custom context
@@ -144,11 +141,7 @@ class SentryService {
     String? username,
   }) async {
     await Sentry.configureScope((scope) {
-      scope.setUser(SentryUser(
-        id: userId,
-        email: email,
-        username: username,
-      ));
+      scope.setUser(SentryUser(id: userId, email: email, username: username));
     });
   }
 
@@ -195,11 +188,7 @@ class SentryService {
 
       return result;
     } catch (e, stackTrace) {
-      await captureException(
-        e,
-        stackTrace: stackTrace,
-        hint: operationName,
-      );
+      await captureException(e, stackTrace: stackTrace, hint: operationName);
       return null;
     }
   }

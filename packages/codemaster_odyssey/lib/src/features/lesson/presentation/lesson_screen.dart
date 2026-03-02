@@ -2,7 +2,7 @@ import 'package:codemaster_odyssey/src/features/ai_tutor/data/ai_tutor_repositor
 import 'package:codemaster_odyssey/src/features/ai_tutor/domain/tutor_hint_model.dart';
 import 'package:codemaster_odyssey/src/features/ai_tutor/presentation/ai_tutor_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 

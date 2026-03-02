@@ -22,8 +22,9 @@ final activeEventsProvider = FutureProvider((ref) {
 });
 
 /// Provider for the [SeasonalChallengeService].
-final seasonalChallengeServiceProvider =
-    Provider<SeasonalChallengeService>((ref) {
+final seasonalChallengeServiceProvider = Provider<SeasonalChallengeService>((
+  ref,
+) {
   return SeasonalChallengeService();
 });
 
@@ -64,14 +65,17 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
             Colors.transparent, // Glass effect covered by background
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize:
-              const Size.fromHeight(110), // Increased height for search/filter
+          preferredSize: const Size.fromHeight(
+            110,
+          ), // Increased height for search/filter
           child: Column(
             children: [
               // Search & Sort Row
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -85,8 +89,10 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
                           decoration: const InputDecoration(
                             hintText: 'Search achievements...',
                             border: InputBorder.none,
-                            prefixIcon:
-                                Icon(LucideIcons.search, color: Colors.white70),
+                            prefixIcon: Icon(
+                              LucideIcons.search,
+                              color: Colors.white70,
+                            ),
                             contentPadding: EdgeInsets.symmetric(vertical: 8),
                           ),
                           style: const TextStyle(color: Colors.white),
@@ -135,7 +141,9 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
         child: Column(
           children: [
             // Seasonal Events Banner
-            ref.watch(activeEventsProvider).when(
+            ref
+                .watch(activeEventsProvider)
+                .when(
                   data: (events) {
                     if (events.isEmpty) return const SizedBox.shrink();
                     final event = events.first;
@@ -161,8 +169,11 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
                         children: [
                           Row(
                             children: [
-                              const Icon(LucideIcons.sparkles,
-                                  color: Colors.white, size: 20),
+                              const Icon(
+                                LucideIcons.sparkles,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -181,14 +192,16 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
                             event.description ??
                                 'Exclusive seasonal rewards available!',
                             style: const TextStyle(
-                                color: Colors.white70, fontSize: 13),
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       ),
                     );
                   },
                   loading: () => const SizedBox.shrink(),
-                  error: (e, __) {
+                  error: (e, _) {
                     debugPrint('Events error: $e');
                     return const SizedBox.shrink();
                   },
@@ -199,20 +212,22 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
                   return userAsync.when(
                     data: (userBadges) {
                       // Map earned badge IDs
-                      final earnedIds =
-                          userBadges.map((ub) => ub.achievementId).toSet();
+                      final earnedIds = userBadges
+                          .map((ub) => ub.achievementId)
+                          .toSet();
                       final Map<String, UserAchievementModel> earnedMap = {
-                        for (var ub in userBadges) ub.achievementId: ub
+                        for (var ub in userBadges) ub.achievementId: ub,
                       };
 
                       // --- FILTERING LOGIC ---
                       var filtered = allBadges.where((b) {
-                        final matchesSearch = b.name
-                                .toLowerCase()
-                                .contains(_searchQuery.toLowerCase()) ||
-                            b.description
-                                .toLowerCase()
-                                .contains(_searchQuery.toLowerCase());
+                        final matchesSearch =
+                            b.name.toLowerCase().contains(
+                              _searchQuery.toLowerCase(),
+                            ) ||
+                            b.description.toLowerCase().contains(
+                              _searchQuery.toLowerCase(),
+                            );
                         return matchesSearch;
                       }).toList();
 
@@ -250,8 +265,9 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
                               return dateB.compareTo(dateA); // Newest first
                             case 'Rarity':
                             default:
-                              return _getRarityWeight(b.rarity)
-                                  .compareTo(_getRarityWeight(a.rarity));
+                              return _getRarityWeight(
+                                b.rarity,
+                              ).compareTo(_getRarityWeight(a.rarity));
                           }
                         });
 
@@ -308,15 +324,20 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
             width: 60,
             child: isUnlocked
                 ? Center(
-                    child: Text(badge.icon,
-                        style: const TextStyle(
-                            fontSize:
-                                40))) // Use simple icon for grid to save perf
+                    child: Text(
+                      badge.icon,
+                      style: const TextStyle(fontSize: 40),
+                    ),
+                  ) // Use simple icon for grid to save perf
                 : Opacity(
                     opacity: 0.2,
                     child: Center(
-                        child: Text(badge.icon,
-                            style: const TextStyle(fontSize: 40)))),
+                      child: Text(
+                        badge.icon,
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                    ),
+                  ),
           ),
           const SizedBox(height: 12),
           Text(
@@ -339,8 +360,10 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
             ),
             child: Text(
               badge.rarity.name.toUpperCase(),
-              style:
-                  TextStyle(fontSize: 8, color: _getRarityColor(badge.rarity)),
+              style: TextStyle(
+                fontSize: 8,
+                color: _getRarityColor(badge.rarity),
+              ),
             ),
           ),
         ],
@@ -348,12 +371,15 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
     );
   }
 
-  Widget _buildGrid(List<AchievementModel> badges, Set<String> earnedIds,
-      Map<String, UserAchievementModel> earnedMap) {
+  Widget _buildGrid(
+    List<AchievementModel> badges,
+    Set<String> earnedIds,
+    Map<String, UserAchievementModel> earnedMap,
+  ) {
     if (badges.isEmpty) {
       return const Center(
-          child:
-              Text('No badges found', style: TextStyle(color: Colors.white54)));
+        child: Text('No badges found', style: TextStyle(color: Colors.white54)),
+      );
     }
 
     return GridView.builder(
@@ -377,23 +403,25 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
 
         // MAPPING logic:
         final uiBadge = Badge(
-            id: badge.id,
-            name: badge.name,
-            description: badge.description,
-            icon: badge.iconUrl ?? '🏆', // Fallback icon
-            rarity: _parseRarity(badge.rarity),
-            category: BadgeCategory.special, // Default
-            requiredPoints: badge.pointsReward);
+          id: badge.id,
+          name: badge.name,
+          description: badge.description,
+          icon: badge.iconUrl ?? '🏆', // Fallback icon
+          rarity: _parseRarity(badge.rarity),
+          category: BadgeCategory.special, // Default
+          requiredPoints: badge.pointsReward,
+        );
 
         return GestureDetector(
           onTap: () {
             showDialog(
-                context: context,
-                builder: (_) => AchievementDetailDialog(
-                      badge: uiBadge,
-                      isUnlocked: isUnlocked,
-                      unlockedAt: userBadge?.earnedAt,
-                    ));
+              context: context,
+              builder: (_) => AchievementDetailDialog(
+                badge: uiBadge,
+                isUnlocked: isUnlocked,
+                unlockedAt: userBadge?.earnedAt,
+              ),
+            );
           },
           child: _buildBadgeCard(uiBadge, isUnlocked),
         );
@@ -430,8 +458,9 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
   BadgeRarity _parseRarity(String rarityStr) {
     try {
       return BadgeRarity.values.firstWhere(
-          (e) => e.name == rarityStr.toLowerCase(),
-          orElse: () => BadgeRarity.common);
+        (e) => e.name == rarityStr.toLowerCase(),
+        orElse: () => BadgeRarity.common,
+      );
     } catch (_) {
       return BadgeRarity.common;
     }

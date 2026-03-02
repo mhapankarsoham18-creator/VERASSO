@@ -25,11 +25,7 @@ class EncryptionStatusBadge extends StatelessWidget {
     if (!isEncrypted) {
       return const Tooltip(
         message: 'Message is not encrypted',
-        child: Icon(
-          Icons.lock_open,
-          color: Colors.orange,
-          size: 16,
-        ),
+        child: Icon(Icons.lock_open, color: Colors.orange, size: 16),
       );
     }
 
@@ -101,8 +97,10 @@ class MessageBubble extends ConsumerWidget {
                       : Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -155,13 +153,17 @@ class MessageBubble extends ConsumerWidget {
 
   Widget _buildReadReceiptIcon(WidgetRef ref, String messageId) {
     return FutureBuilder<MessageReadStatus?>(
-      future:
-          ref.read(messageReadReceiptProvider).getMessageReadStatus(messageId),
+      future: ref
+          .read(messageReadReceiptProvider)
+          .getMessageReadStatus(messageId),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isRead) {
-            return const Icon(LucideIcons.checkCheck,
-                size: 12, color: Colors.white70);
+            return const Icon(
+              LucideIcons.checkCheck,
+              size: 12,
+              color: Colors.white70,
+            );
           }
         }
         return const Icon(LucideIcons.check, size: 12, color: Colors.white70);
@@ -176,10 +178,7 @@ class MessageStatisticsPanel extends ConsumerWidget {
   final String conversationId;
 
   /// Creates a [MessageStatisticsPanel] instance.
-  const MessageStatisticsPanel({
-    super.key,
-    required this.conversationId,
-  });
+  const MessageStatisticsPanel({super.key, required this.conversationId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -245,27 +244,20 @@ class ReadReceiptIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<MessageReadStatus?>(
-      future:
-          ref.read(messageReadReceiptProvider).getMessageReadStatus(messageId),
+      future: ref
+          .read(messageReadReceiptProvider)
+          .getMessageReadStatus(messageId),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final status = snapshot.data!;
           if (status.isRead) {
             return Tooltip(
               message: 'Read at ${DateFormat('HH:mm').format(status.readAt!)}',
-              child: Icon(
-                Icons.done_all,
-                color: readColor,
-                size: 16,
-              ),
+              child: Icon(Icons.done_all, color: readColor, size: 16),
             );
           }
         }
-        return Icon(
-          Icons.done,
-          color: unreadColor,
-          size: 16,
-        );
+        return Icon(Icons.done, color: unreadColor, size: 16);
       },
     );
   }
@@ -311,8 +303,9 @@ class UnreadBadge extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final unreadCount =
-        ref.watch(conversationUnreadCountProvider(conversationId));
+    final unreadCount = ref.watch(
+      conversationUnreadCountProvider(conversationId),
+    );
 
     return unreadCount.when(
       data: (count) {
@@ -326,7 +319,8 @@ class UnreadBadge extends ConsumerWidget {
           padding: const EdgeInsets.all(6),
           child: Text(
             count > 99 ? '99+' : count.toString(),
-            style: textStyle ??
+            style:
+                textStyle ??
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -347,7 +341,7 @@ class UnreadBadge extends ConsumerWidget {
           child: CircularProgressIndicator(strokeWidth: 1),
         ),
       ),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }
@@ -365,15 +359,12 @@ class _StatRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          Text(label, style: Theme.of(context).textTheme.bodySmall),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

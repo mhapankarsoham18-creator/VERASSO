@@ -67,8 +67,11 @@ class PostCard extends ConsumerWidget {
             // Header
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => UserProfileScreen(userId: post.userId)));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => UserProfileScreen(userId: post.userId),
+                  ),
+                );
               },
               child: Row(
                 children: [
@@ -79,8 +82,10 @@ class PostCard extends ConsumerWidget {
                           ? CachedImage(
                               imageUrl: post.authorAvatar!,
                               fit: BoxFit.cover,
-                              errorWidget:
-                                  const Icon(LucideIcons.user, size: 20),
+                              errorWidget: const Icon(
+                                LucideIcons.user,
+                                size: 20,
+                              ),
                             )
                           : const Icon(LucideIcons.user, size: 20),
                     ),
@@ -89,20 +94,27 @@ class PostCard extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(post.authorName ?? l10n.defaultUsername,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        post.authorName ?? l10n.defaultUsername,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Text(
                         DateFormat.yMMMd().format(post.createdAt),
                         style: const TextStyle(
-                            fontSize: 12, color: Colors.white70),
+                          fontSize: 12,
+                          color: Colors.white70,
+                        ),
                       ),
                     ],
                   ),
                   const Spacer(),
                   IconButton(
                     onPressed: () => _showModerationOptions(context, ref, l10n),
-                    icon: const Icon(LucideIcons.moreHorizontal,
-                        size: 20, color: Colors.white70),
+                    icon: const Icon(
+                      LucideIcons.moreHorizontal,
+                      size: 20,
+                      color: Colors.white70,
+                    ),
                   ),
                 ],
               ),
@@ -130,27 +142,32 @@ class PostCard extends ConsumerWidget {
             Row(
               children: [
                 _PostAction(
-                  icon: LucideIcons.heart,
-                  label: '${post.likesCount}',
-                  color: AppColors.accent,
-                  onTap: () {
-                    HapticFeedback.selectionClick();
-                    ref.read(feedProvider.notifier).toggleLike(post.id);
-                  },
-                )
+                      icon: LucideIcons.heart,
+                      label: '${post.likesCount}',
+                      color: AppColors.accent,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        ref.read(feedProvider.notifier).toggleLike(post.id);
+                      },
+                    )
                     .animate(
-                        onPlay: (controller) =>
-                            controller.repeat(reverse: true))
+                      onPlay: (controller) => controller.repeat(reverse: true),
+                    )
                     .shimmer(
-                        delay: 5.seconds, duration: DesignSystem.durationSlow),
+                      delay: 5.seconds,
+                      duration: DesignSystem.durationSlow,
+                    ),
                 const SizedBox(width: 20),
                 _PostAction(
                   icon: LucideIcons.messageCircle,
                   label: '${post.commentsCount}',
                   color: AppColors.etherealCyan,
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => PostDetailScreen(post: post)));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => PostDetailScreen(post: post),
+                      ),
+                    );
                   },
                 ),
                 _PostAction(
@@ -172,21 +189,33 @@ class PostCard extends ConsumerWidget {
                         .toggleSave(post.id);
                   },
                   icon: isSavedAsync.when(
-                    data: (saved) => Icon(
-                      saved ? LucideIcons.bookmark : LucideIcons.bookmark,
-                      size: 22,
-                      color: saved ? AppColors.etherealCyan : Colors.white70,
-                    ).animate(target: saved ? 1 : 0).scale(
-                        begin: const Offset(1, 1),
-                        end: const Offset(1.1, 1.1),
-                        curve: DesignSystem.easingStandard,
-                        duration: DesignSystem.durationFast),
+                    data: (saved) =>
+                        Icon(
+                              saved
+                                  ? LucideIcons.bookmark
+                                  : LucideIcons.bookmark,
+                              size: 22,
+                              color: saved
+                                  ? AppColors.etherealCyan
+                                  : Colors.white70,
+                            )
+                            .animate(target: saved ? 1 : 0)
+                            .scale(
+                              begin: const Offset(1, 1),
+                              end: const Offset(1.1, 1.1),
+                              curve: DesignSystem.easingStandard,
+                              duration: DesignSystem.durationFast,
+                            ),
                     loading: () => const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2)),
-                    error: (_, __) => const Icon(LucideIcons.bookmark,
-                        size: 22, color: Colors.white70),
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    error: (_, _) => const Icon(
+                      LucideIcons.bookmark,
+                      size: 22,
+                      color: Colors.white70,
+                    ),
                   ),
                 ),
                 // Collection Picker Button
@@ -194,11 +223,14 @@ class PostCard extends ConsumerWidget {
                   onPressed: () {
                     _showCollectionPicker(context, ref, collectionsAsync, l10n);
                   },
-                  icon: const Icon(LucideIcons.folderPlus,
-                      size: 22, color: Colors.white70),
+                  icon: const Icon(
+                    LucideIcons.folderPlus,
+                    size: 22,
+                    color: Colors.white70,
+                  ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -207,8 +239,12 @@ class PostCard extends ConsumerWidget {
 
   /// Opens a bottom sheet to choose a collection or collaboration to save
   /// the current post into.
-  void _showCollectionPicker(BuildContext context, WidgetRef ref,
-      AsyncValue<List<Collection>> collectionsAsync, AppLocalizations l10n) {
+  void _showCollectionPicker(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<List<Collection>> collectionsAsync,
+    AppLocalizations l10n,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -219,9 +255,13 @@ class PostCard extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(l10n.saveToCollection,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                l10n.saveToCollection,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             collectionsAsync.when(
               data: (collections) => Expanded(
@@ -231,20 +271,27 @@ class PostCard extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final coll = collections[index];
                     return ListTile(
-                      leading: Icon(coll.isCollaboration
-                          ? LucideIcons.users
-                          : LucideIcons.folder),
+                      leading: Icon(
+                        coll.isCollaboration
+                            ? LucideIcons.users
+                            : LucideIcons.folder,
+                      ),
                       title: Text(coll.name),
-                      subtitle: Text(coll.isCollaboration
-                          ? l10n.collaboration
-                          : l10n.privateCollection),
+                      subtitle: Text(
+                        coll.isCollaboration
+                            ? l10n.collaboration
+                            : l10n.privateCollection,
+                      ),
                       onTap: () {
                         ref
                             .read(savedPostsControllerProvider.notifier)
                             .saveToCollection(coll.id, post.id);
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(l10n.savedToCollection(coll.name))));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.savedToCollection(coll.name)),
+                          ),
+                        );
                       },
                     );
                   },
@@ -252,13 +299,17 @@ class PostCard extends ConsumerWidget {
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, _) => Center(
-                  child: Text(
-                      '${AppLocalizations.of(context)!.failedLoadSettings}: $err')),
+                child: Text(
+                  '${AppLocalizations.of(context)!.failedLoadSettings}: $err',
+                ),
+              ),
             ),
             ListTile(
               leading: const Icon(LucideIcons.plus, color: Colors.blue),
-              title: Text(l10n.createNewCollection,
-                  style: const TextStyle(color: Colors.blue)),
+              title: Text(
+                l10n.createNewCollection,
+                style: const TextStyle(color: Colors.blue),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 _showCreateCollectionDialog(context, ref, l10n);
@@ -272,7 +323,10 @@ class PostCard extends ConsumerWidget {
 
   /// Displays a dialog for creating a new collection used to group posts.
   void _showCreateCollectionDialog(
-      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     final nameController = TextEditingController();
     showDialog(
       context: context,
@@ -284,8 +338,9 @@ class PostCard extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () {
               if (nameController.text.isNotEmpty) {
@@ -303,7 +358,10 @@ class PostCard extends ConsumerWidget {
   }
 
   void _showModerationOptions(
-      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -322,21 +380,27 @@ class PostCard extends ConsumerWidget {
             ),
             ListTile(
               leading: const Icon(LucideIcons.userX, color: Colors.redAccent),
-              title:
-                  Text(l10n.muteUser(post.authorName ?? l10n.defaultUsername)),
+              title: Text(
+                l10n.muteUser(post.authorName ?? l10n.defaultUsername),
+              ),
               onTap: () async {
                 final myId = ref.read(currentUserProvider)?.id;
                 if (myId != null) {
-                  await ref.read(moderationServiceProvider).muteUser(
-                        userId: myId,
-                        mutedUserId: post.userId,
-                      );
+                  await ref
+                      .read(moderationServiceProvider)
+                      .muteUser(userId: myId, mutedUserId: post.userId);
                   if (context.mounted) {
                     Navigator.pop(context);
                     ref.invalidate(feedProvider);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(l10n.userMuted(
-                            post.authorName ?? l10n.defaultUsername))));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          l10n.userMuted(
+                            post.authorName ?? l10n.defaultUsername,
+                          ),
+                        ),
+                      ),
+                    );
                   }
                 }
               },
@@ -348,7 +412,10 @@ class PostCard extends ConsumerWidget {
   }
 
   void _showReportDialog(
-      BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     final reasonController = TextEditingController();
     showDialog(
       context: context,
@@ -360,13 +427,16 @@ class PostCard extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () async {
               final myId = ref.read(currentUserProvider)?.id;
               if (myId != null && reasonController.text.isNotEmpty) {
-                await ref.read(moderationServiceProvider).reportContent(
+                await ref
+                    .read(moderationServiceProvider)
+                    .reportContent(
                       reporterId: myId,
                       targetId: post.id,
                       targetType: 'post',
@@ -374,8 +444,9 @@ class PostCard extends ConsumerWidget {
                     );
                 if (context.mounted) {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.reportSubmitted)));
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(l10n.reportSubmitted)));
                 }
               }
             },
@@ -408,8 +479,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
             children: [
               _buildTab(l10n.feedGlobal, FeedType.global, feedType),
               _buildTab(l10n.feedFollowing, FeedType.following, feedType),
-              _buildTab(l10n.feedLabs, FeedType.global, feedType,
-                  isVideo: true),
+              _buildTab(
+                l10n.feedLabs,
+                FeedType.global,
+                feedType,
+                isVideo: true,
+              ),
             ],
           ),
         ),
@@ -453,7 +528,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
               return ListView.builder(
                 padding: const EdgeInsets.only(
-                    top: 100, bottom: 80, left: 16, right: 16),
+                  top: 100,
+                  bottom: 80,
+                  left: 16,
+                  right: 16,
+                ),
                 cacheExtent: 1000,
                 itemCount: itemCount + 1, // +1 for StoryCarousel
                 itemBuilder: (context, index) {
@@ -481,13 +560,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                   return PostCard(post: posts[postIndex])
                       .animate()
                       .fadeIn(
-                          duration: DesignSystem.durationMedium,
-                          delay: (postIndex * 50).ms,
-                          curve: DesignSystem.easingStandard)
+                        duration: DesignSystem.durationMedium,
+                        delay: (postIndex * 50).ms,
+                        curve: DesignSystem.easingStandard,
+                      )
                       .slideY(
-                          begin: 0.05,
-                          end: 0,
-                          curve: DesignSystem.easingDecelerate);
+                        begin: 0.05,
+                        end: 0,
+                        curve: DesignSystem.easingDecelerate,
+                      );
                 },
               );
             },
@@ -504,8 +585,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => const EnhancedCreatePostScreen()));
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const EnhancedCreatePostScreen()),
+          );
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(LucideIcons.plus, color: Colors.white),
@@ -522,10 +604,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   }
 
   /// Builds a single tab pill for switching between feed variants.
-  Widget _buildTab(String label, FeedType type, FeedType activeType,
-      {bool isVideo = false}) {
+  Widget _buildTab(
+    String label,
+    FeedType type,
+    FeedType activeType, {
+    bool isVideo = false,
+  }) {
     final isVideoTabActive = ref.watch(isVideoFeedProvider);
-    final isActive = (isVideo == isVideoTabActive) &&
+    final isActive =
+        (isVideo == isVideoTabActive) &&
         (isVideo || (type == activeType && !isVideoTabActive));
 
     return GestureDetector(
@@ -555,8 +642,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
   /// Shows the feed feature tutorial overlay for first-time users.
   void _checkTutorial(BuildContext context) async {
-    final isCompleted =
-        await TutorialService.isTutorialCompleted(TutorialIds.feedFeature);
+    final isCompleted = await TutorialService.isTutorialCompleted(
+      TutorialIds.feedFeature,
+    );
     if (!isCompleted && context.mounted) {
       showDialog(
         context: context,
@@ -578,8 +666,12 @@ class _PostAction extends StatelessWidget {
   final String label;
   final Color? color;
   final VoidCallback? onTap;
-  const _PostAction(
-      {required this.icon, required this.label, this.color, this.onTap});
+  const _PostAction({
+    required this.icon,
+    required this.label,
+    this.color,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

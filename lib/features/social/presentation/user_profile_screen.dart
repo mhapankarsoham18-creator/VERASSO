@@ -21,8 +21,10 @@ import 'post_detail_screen.dart';
 import 'relationship_controller.dart';
 
 /// Provider family to fetch a user profile by [userId].
-final otherUserProfileProvider =
-    FutureProvider.family<Profile?, String>((ref, userId) async {
+final otherUserProfileProvider = FutureProvider.family<Profile?, String>((
+  ref,
+  userId,
+) async {
   final repo = ref.watch(profileRepositoryProvider);
   return repo.getProfile(userId);
 });
@@ -35,13 +37,15 @@ final otherUserProfileProvider =
 /// Provider family to fetch profile statistics (friends, posts, etc.) for a [userId].
 final otherUserStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
-  final repo = ref.watch(profileRepositoryProvider);
-  return repo.getProfileStats(userId);
-});
+      final repo = ref.watch(profileRepositoryProvider);
+      return repo.getProfileStats(userId);
+    });
 
 /// Provider family to fetch all posts created by a specific [userId].
-final userPostsProvider =
-    FutureProvider.family<List<Post>, String>((ref, userId) async {
+final userPostsProvider = FutureProvider.family<List<Post>, String>((
+  ref,
+  userId,
+) async {
   final repo = ref.watch(feedRepositoryProvider);
   return repo.getUserPosts(userId);
 });
@@ -70,12 +74,14 @@ class UserProfileScreen extends ConsumerWidget {
             itemBuilder: (context) => [
               const PopupMenuItem(
                 value: 'block',
-                child: Row(children: [
-                  Icon(LucideIcons.ban, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Block')
-                ]),
-              )
+                child: Row(
+                  children: [
+                    Icon(LucideIcons.ban, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text('Block'),
+                  ],
+                ),
+              ),
             ],
             onSelected: (val) {
               if (val == 'block') {
@@ -84,7 +90,7 @@ class UserProfileScreen extends ConsumerWidget {
                     .blockUser(userId);
               }
             },
-          )
+          ),
         ],
       ),
       body: LiquidBackground(
@@ -118,22 +124,35 @@ class UserProfileScreen extends ConsumerWidget {
                                   ? CachedImage(
                                       imageUrl: profile.avatarUrl!,
                                       fit: BoxFit.cover,
-                                      errorWidget: const Icon(LucideIcons.user,
-                                          size: 40),
+                                      errorWidget: const Icon(
+                                        LucideIcons.user,
+                                        size: 40,
+                                      ),
                                     )
                                   : const Icon(LucideIcons.user, size: 40),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(profile.fullName ?? 'Unknown',
-                              style: const TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                          Text('@${profile.username ?? "user"}',
-                              style: const TextStyle(color: Colors.white70)),
+                          Text(
+                            profile.fullName ?? 'Unknown',
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '@${profile.username ?? "user"}',
+                            style: const TextStyle(color: Colors.white70),
+                          ),
                           const SizedBox(height: 16),
                           if (!isMe) ...[
                             _buildActionButton(
-                                ref, status, userId, context, profile),
+                              ref,
+                              status,
+                              userId,
+                              context,
+                              profile,
+                            ),
                             const SizedBox(height: 8),
                             _buildFollowButton(ref, userId),
                           ],
@@ -150,57 +169,81 @@ class UserProfileScreen extends ConsumerWidget {
                         _buildStatItem('Trust Score', '${profile.trustScore}'),
                         statsAsync.when(
                           data: (stats) => _buildStatItem(
-                              'Friends', '${stats['friends_count'] ?? 0}'),
+                            'Friends',
+                            '${stats['friends_count'] ?? 0}',
+                          ),
                           loading: () => _buildStatItem('Friends', '...'),
-                          error: (_, __) => _buildStatItem('Friends', '0'),
+                          error: (_, _) => _buildStatItem('Friends', '0'),
                         ),
                         _buildStatItem(
-                            'Following', '${profile.followingCount}'),
+                          'Following',
+                          '${profile.followingCount}',
+                        ),
                         _buildStatItem(
-                            'Followers', '${profile.followersCount}'),
+                          'Followers',
+                          '${profile.followersCount}',
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
 
                     if (isBlockedByMe)
                       const Center(
-                          child: Text('You have blocked this user.',
-                              style: TextStyle(color: Colors.red))),
+                        child: Text(
+                          'You have blocked this user.',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
 
                     if (!canViewContent && !isBlockedByMe) ...[
                       const SizedBox(height: 40),
-                      const Icon(LucideIcons.lock,
-                          size: 60, color: Colors.white54),
+                      const Icon(
+                        LucideIcons.lock,
+                        size: 60,
+                        color: Colors.white54,
+                      ),
                       const SizedBox(height: 16),
                       const Center(
-                          child: Text('This account is private',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold))),
+                        child: Text(
+                          'This account is private',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                       const Center(
-                          child: Text('Follow to see their photos and videos.',
-                              style: TextStyle(color: Colors.white70))),
+                        child: Text(
+                          'Follow to see their photos and videos.',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      ),
                     ] else if (!isBlockedByMe) ...[
                       // CONTENT (Bio, Interests, Posts)
                       GlassContainer(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(profile.bio ?? 'No bio.',
-                              style: const TextStyle(color: Colors.white)),
-                          const SizedBox(height: 10),
-                          Wrap(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              profile.bio ?? 'No bio.',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const SizedBox(height: 10),
+                            Wrap(
                               spacing: 8,
                               children: profile.interests
                                   .map((i) => Chip(label: Text(i)))
-                                  .toList())
-                        ],
-                      )),
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: 16),
                       HighlightsBar(userId: userId, isOwner: isMe),
                       const SizedBox(height: 20),
                       _buildUserPostsGrid(ref, userId),
                       const SizedBox(height: 40),
-                    ]
+                    ],
                   ],
                 );
               },
@@ -222,8 +265,13 @@ class UserProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButton(WidgetRef ref, String status, String targetId,
-      BuildContext context, Profile profile) {
+  Widget _buildActionButton(
+    WidgetRef ref,
+    String status,
+    String targetId,
+    BuildContext context,
+    Profile profile,
+  ) {
     if (status == 'friends') {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -233,13 +281,18 @@ class UserProfileScreen extends ConsumerWidget {
             label: const Text('Message'),
             onPressed: () {
               HapticFeedback.lightImpact();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (_) => ChatScreen(
-                      targetUserId: targetId,
-                      targetUserName: profile.fullName ?? 'User')));
+                    targetUserId: targetId,
+                    targetUserName: profile.fullName ?? 'User',
+                  ),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+            ),
           ),
           const SizedBox(width: 8),
           OutlinedButton(
@@ -278,7 +331,7 @@ class UserProfileScreen extends ConsumerWidget {
                 .read(relationshipControllerProvider.notifier)
                 .unfriendOrCancel(targetId),
             child: const Text('Decline'),
-          )
+          ),
         ],
       );
     } else if (status == 'blocked_by_me') {
@@ -287,7 +340,8 @@ class UserProfileScreen extends ConsumerWidget {
         onPressed: () => ref
             .read(relationshipControllerProvider.notifier)
             .unfriendOrCancel(
-                targetId), // Unfriend acts as unblock in current repo logic or add specific unblock
+              targetId,
+            ), // Unfriend acts as unblock in current repo logic or add specific unblock
         child: const Text('Unblock'),
       );
     } else {
@@ -328,7 +382,7 @@ class UserProfileScreen extends ConsumerWidget {
         width: 20,
         child: CircularProgressIndicator(strokeWidth: 2),
       ),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 
@@ -338,9 +392,9 @@ class UserProfileScreen extends ConsumerWidget {
         imageUrl: post.mediaUrls.first,
         fit: BoxFit.cover,
         errorWidget: Container(
-            color: Colors.white10,
-            child:
-                const Icon(LucideIcons.alertTriangle, color: Colors.white24)),
+          color: Colors.white10,
+          child: const Icon(LucideIcons.alertTriangle, color: Colors.white24),
+        ),
       );
     } else {
       // Text-only post visualization
@@ -363,10 +417,14 @@ class UserProfileScreen extends ConsumerWidget {
   Widget _buildStatItem(String label, String value) {
     return Column(
       children: [
-        Text(value,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
       ],
     );
   }
@@ -389,22 +447,30 @@ class UserProfileScreen extends ConsumerWidget {
                       color: Colors.white.withValues(alpha: 0.05),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(LucideIcons.cameraOff,
-                        size: 48, color: Colors.white.withValues(alpha: 0.2)),
+                    child: Icon(
+                      LucideIcons.cameraOff,
+                      size: 48,
+                      color: Colors.white.withValues(alpha: 0.2),
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  const Text('No moments shared yet',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white70)),
+                  const Text(
+                    'No moments shared yet',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white70,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Text(
-                      'Capture your first breakthrough and share it with the community.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.4))),
+                    'Capture your first breakthrough and share it with the community.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white.withValues(alpha: 0.4),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -423,8 +489,11 @@ class UserProfileScreen extends ConsumerWidget {
             final post = posts[index];
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => PostDetailScreen(post: post)));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => PostDetailScreen(post: post),
+                  ),
+                );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
@@ -443,8 +512,11 @@ class UserProfileScreen extends ConsumerWidget {
   }
 
   void _showFriendActionDialog(
-      BuildContext context, WidgetRef ref, String targetId,
-      {required bool isAccept}) {
+    BuildContext context,
+    WidgetRef ref,
+    String targetId, {
+    required bool isAccept,
+  }) {
     bool allowsPersonal =
         ref.read(userProfileProvider).value?.defaultPersonalVisibility ?? false;
 
@@ -452,13 +524,15 @@ class UserProfileScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title:
-              Text(isAccept ? 'Accept Friend Request' : 'Send Friend Request'),
+          title: Text(
+            isAccept ? 'Accept Friend Request' : 'Send Friend Request',
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                  'Would you like to let this friend see your personal posts?'),
+                'Would you like to let this friend see your personal posts?',
+              ),
               const SizedBox(height: 16),
               SwitchListTile(
                 title: const Text('Allow Personal Posts'),
@@ -470,8 +544,9 @@ class UserProfileScreen extends ConsumerWidget {
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: const Text('Cancel')),
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
             ElevatedButton(
               onPressed: () {
                 if (isAccept) {
@@ -494,25 +569,30 @@ class UserProfileScreen extends ConsumerWidget {
   }
 
   void _showUnfriendDialog(
-      BuildContext context, WidgetRef ref, String targetId) {
+    BuildContext context,
+    WidgetRef ref,
+    String targetId,
+  ) {
     showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: const Text('Unfriend?'),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () {
-                      ref
-                          .read(relationshipControllerProvider.notifier)
-                          .unfriendOrCancel(targetId);
-                      Navigator.pop(ctx);
-                    },
-                    child: const Text('Unfriend',
-                        style: TextStyle(color: Colors.red))),
-              ],
-            ));
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Unfriend?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              ref
+                  .read(relationshipControllerProvider.notifier)
+                  .unfriendOrCancel(targetId);
+              Navigator.pop(ctx);
+            },
+            child: const Text('Unfriend', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 }

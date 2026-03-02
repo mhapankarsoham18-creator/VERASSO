@@ -42,10 +42,7 @@ class NotificationBadge extends ConsumerWidget {
                   color: Colors.redAccent,
                   shape: BoxShape.circle,
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 16,
-                  minHeight: 16,
-                ),
+                constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
                 child: Text(
                   count > 9 ? '9+' : count.toString(),
                   style: const TextStyle(
@@ -59,7 +56,7 @@ class NotificationBadge extends ConsumerWidget {
             );
           },
           loading: () => const SizedBox.shrink(),
-          error: (_, __) => const SizedBox.shrink(),
+          error: (_, _) => const SizedBox.shrink(),
         ),
       ],
     );

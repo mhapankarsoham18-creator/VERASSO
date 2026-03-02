@@ -9,8 +9,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:local_auth_android/local_auth_android.dart';
-import 'package:local_auth_darwin/local_auth_darwin.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pinenacl/ed25519.dart' as pinenacl;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,10 +124,7 @@ class FakeSession extends Fake implements Session {
 
 class FakeSupabaseStorageFileApi extends Fake implements StorageFileApi {
   @override
-  String getPublicUrl(
-    String path, {
-    TransformOptions? transform,
-  }) {
+  String getPublicUrl(String path, {TransformOptions? transform}) {
     final transformQuery = transform != null ? '?transform=true' : '';
     return 'https://fake.url/$path$transformQuery';
   }
@@ -141,8 +136,7 @@ class FakeSupabaseStorageFileApi extends Fake implements StorageFileApi {
     FileOptions? fileOptions,
     int? retryAttempts,
     StorageRetryController? retryController,
-  }) async =>
-      path;
+  }) async => path;
 }
 
 class MockAnalyticsRepository extends Fake implements AnalyticsRepository {
@@ -150,7 +144,8 @@ class MockAnalyticsRepository extends Fake implements AnalyticsRepository {
     required String eventType,
     required String targetType,
     required String targetId,
-  })? trackEventStub;
+  })?
+  trackEventStub;
 
   @override
   Future<void> trackEvent({
@@ -172,7 +167,8 @@ class MockAuditLogService extends Fake implements AuditLogService {
     required String action,
     required String severity,
     Map<String, dynamic>? metadata,
-  })? logEventStub;
+  })?
+  logEventStub;
 
   @override
   Future<void> logEvent({
@@ -205,8 +201,10 @@ class MockAuthRepository extends Fake implements AuthRepository {
   SupabaseClient get supabaseClient => MockSupabaseClient();
 
   @override
-  Future<void> challengeAndVerify(
-      {required String factorId, required String code}) async {}
+  Future<void> challengeAndVerify({
+    required String factorId,
+    required String code,
+  }) async {}
 
   @override
   Future<MfaChallenge> challengeMFA({required String factorId}) async =>
@@ -216,10 +214,8 @@ class MockAuthRepository extends Fake implements AuthRepository {
   Future<void> deleteAccount() async {}
 
   @override
-  Future<MfaEnrollment?> enrollMFA() async => MfaEnrollment(
-        id: 'test-factor-id',
-        type: 'totp',
-      );
+  Future<MfaEnrollment?> enrollMFA() async =>
+      MfaEnrollment(id: 'test-factor-id', type: 'totp');
 
   @override
   Future<List<dynamic>> listFactors() async => [];
@@ -235,17 +231,18 @@ class MockAuthRepository extends Fake implements AuthRepository {
   }
 
   @override
-  Future<AuthResult> signInWithEmail(
-          {required String email, required String password}) async =>
-      AuthResult(
-          user: DomainAuthUser(
-        id: 'test-user-id',
-        email: email,
-      ));
+  Future<AuthResult> signInWithEmail({
+    required String email,
+    required String password,
+  }) async => AuthResult(
+    user: DomainAuthUser(id: 'test-user-id', email: email),
+  );
 
   @override
-  Future<void> signInWithOtp(
-      {required String email, bool isWeb = false}) async {}
+  Future<void> signInWithOtp({
+    required String email,
+    bool isWeb = false,
+  }) async {}
 
   @override
   Future<void> signOut() async {}
@@ -256,8 +253,9 @@ class MockAuthRepository extends Fake implements AuthRepository {
     required String password,
     String? username,
     Map<String, dynamic>? data,
-  }) async =>
-      AuthResult(user: DomainAuthUser(id: 'test-new-user', email: email));
+  }) async => AuthResult(
+    user: DomainAuthUser(id: 'test-new-user', email: email),
+  );
 
   @override
   Future<void> unenrollMFA({required String factorId}) async {}
@@ -270,8 +268,7 @@ class MockAuthRepository extends Fake implements AuthRepository {
     required String factorId,
     required String challengeId,
     required String code,
-  }) async =>
-      AuthResult(user: DomainAuthUser(id: 'test-user-id'));
+  }) async => AuthResult(user: DomainAuthUser(id: 'test-user-id'));
 
   @override
   Future<AuthResult?> verifyOtp({
@@ -279,8 +276,9 @@ class MockAuthRepository extends Fake implements AuthRepository {
     required dynamic type,
     String? email,
     String? phone,
-  }) async =>
-      AuthResult(user: DomainAuthUser(id: 'test-otp-user', email: email));
+  }) async => AuthResult(
+    user: DomainAuthUser(id: 'test-otp-user', email: email),
+  );
 }
 
 class MockBiometricAuthService extends Fake implements BiometricAuthService {
@@ -385,9 +383,9 @@ class MockCommentRepository extends Fake implements CommentRepository {
   final List<String> addCommentCalls = [];
   Future<List<Comment>> Function(String postId)? getCommentsStub;
   Future<Comment> Function({required String postId, required String content})?
-      addCommentStub;
+  addCommentStub;
   RealtimeChannel Function(String postId, void Function(Comment) onNewComment)?
-      subscribeToCommentsStub;
+  subscribeToCommentsStub;
 
   @override
   Future<Comment> addComment({
@@ -397,14 +395,16 @@ class MockCommentRepository extends Fake implements CommentRepository {
   }) {
     addCommentCalls.add(content);
     return addCommentStub?.call(postId: postId, content: content) ??
-        Future.value(Comment(
-          id: 'new',
-          postId: postId,
-          userId: 'current-user',
-          content: content,
-          createdAt: DateTime.now(),
-          authorName: 'Current User',
-        ));
+        Future.value(
+          Comment(
+            id: 'new',
+            postId: postId,
+            userId: 'current-user',
+            content: content,
+            createdAt: DateTime.now(),
+            authorName: 'Current User',
+          ),
+        );
   }
 
   @override
@@ -413,7 +413,9 @@ class MockCommentRepository extends Fake implements CommentRepository {
 
   @override
   RealtimeChannel subscribeToComments(
-          String postId, void Function(Comment) onNewComment) =>
+    String postId,
+    void Function(Comment) onNewComment,
+  ) =>
       subscribeToCommentsStub?.call(postId, onNewComment) ??
       MockRealtimeChannel();
 }
@@ -458,8 +460,7 @@ class MockContentRecommendationService extends ContentRecommendationService {
     required Map<String, int> categoryProgress,
     required List<String> interests,
     int limit = 5,
-  }) async =>
-      [];
+  }) async => [];
 }
 
 class MockCourseRepository extends Fake implements CourseRepository {
@@ -515,8 +516,12 @@ class MockEncryptionService extends Fake
 }
 
 class MockFeedRepository extends Fake implements FeedRepository {
-  Future<List<Post>> Function(
-      {List<String> userInterests, int limit, int offset})? getFeedStub;
+  Future<List<Post>> Function({
+    List<String> userInterests,
+    int limit,
+    int offset,
+  })?
+  getFeedStub;
   Future<List<Post>> Function({String? userId})? getFollowingFeedStub;
   Stream<List<Post>> Function()? watchFeedStub;
   Future<void> Function(String postId)? likePostStub;
@@ -545,7 +550,10 @@ class MockFeedRepository extends Fake implements FeedRepository {
     int offset = 0,
   }) =>
       getFeedStub?.call(
-          userInterests: userInterests, limit: limit, offset: offset) ??
+        userInterests: userInterests,
+        limit: limit,
+        offset: offset,
+      ) ??
       Future.value([]);
   // Legacy or renamed methods
   @override
@@ -553,8 +561,7 @@ class MockFeedRepository extends Fake implements FeedRepository {
     int limit = 20,
     int offset = 0,
     List<String> userInterests = const [],
-  }) =>
-      getFeed(limit: limit, offset: offset, userInterests: userInterests);
+  }) => getFeed(limit: limit, offset: offset, userInterests: userInterests);
   @override
   Future<List<Post>> getFollowingFeed({String? userId}) =>
       getFollowingFeedStub?.call(userId: userId) ?? Future.value([]);
@@ -580,10 +587,7 @@ class MockFeedRepository extends Fake implements FeedRepository {
   Future<void> unlikePost(String postId) async {}
 
   @override
-  Future<void> updatePost(
-    String postId, [
-    String? content,
-  ]) async {}
+  Future<void> updatePost(String postId, [String? content]) async {}
 
   @override
   Stream<List<Post>> watchFeed() => watchFeedStub?.call() ?? Stream.value([]);
@@ -729,8 +733,11 @@ class MockGamificationEventBus extends Fake implements GamificationEventBus {
   }
 
   @override
-  void track(GamificationAction action, String userId,
-      {Map<String, dynamic> metadata = const {}}) {
+  void track(
+    GamificationAction action,
+    String userId, {
+    Map<String, dynamic> metadata = const {},
+  }) {
     emit(GamificationEvent(action: action, userId: userId, metadata: metadata));
   }
 }
@@ -778,8 +785,7 @@ class MockGoTrueClient extends Fake implements GoTrueClient {
     String? redirectTo,
     String? scopes,
     Map<String, String>? queryParams,
-  }) async =>
-      OAuthResponse(provider: provider, url: 'https://fake.url/oauth');
+  }) async => OAuthResponse(provider: provider, url: 'https://fake.url/oauth');
 
   void setCurrentUser(User? user) => _currentUser = user;
 
@@ -802,8 +808,7 @@ class MockGoTrueClient extends Fake implements GoTrueClient {
     String? tokenHash,
     String? redirectTo,
     String? captchaToken,
-  }) async =>
-      AuthResponse(user: TestSupabaseUser());
+  }) async => AuthResponse(user: TestSupabaseUser());
 }
 
 class MockGoTrueMFAApi extends Fake implements GoTrueMFAApi {
@@ -817,8 +822,7 @@ class MockGoTrueMFAApi extends Fake implements GoTrueMFAApi {
     String? friendlyName,
     String? issuer,
     String? phone,
-  }) async =>
-      FakeAuthMFAEnrollResponse();
+  }) async => FakeAuthMFAEnrollResponse();
 
   @override
   Future<AuthMFAListFactorsResponse> listFactors() async =>
@@ -833,15 +837,14 @@ class MockGoTrueMFAApi extends Fake implements GoTrueMFAApi {
     String? factorId,
     String? challengeId,
     String? code,
-  }) async =>
-      FakeAuthMFAVerifyResponse();
+  }) async => FakeAuthMFAVerifyResponse();
 }
 
 class MockJobRepository extends Fake implements JobRepository {
   Future<List<JobRequest>> Function({int limit, int offset})?
-      getJobRequestsStub;
+  getJobRequestsStub;
   Future<void> Function(String jobId, String userId, String message)?
-      applyForJobStub;
+  applyForJobStub;
 
   @override
   Future<void> applyForJob(String jobId, String userId, String message) async {
@@ -849,8 +852,10 @@ class MockJobRepository extends Fake implements JobRepository {
   }
 
   @override
-  Future<List<JobRequest>> getJobRequests(
-      {int limit = 20, int offset = 0}) async {
+  Future<List<JobRequest>> getJobRequests({
+    int limit = 20,
+    int offset = 0,
+  }) async {
     return getJobRequestsStub?.call(limit: limit, offset: offset) ??
         Future.value([]);
   }
@@ -867,12 +872,11 @@ class MockLocalAuthentication extends Fake implements LocalAuthentication {
   @override
   Future<bool> authenticate({
     required String localizedReason,
-    Iterable<AuthMessages> authMessages = const [],
+    Iterable authMessages = const [],
     bool biometricOnly = false,
     bool persistAcrossBackgrounding = true,
     bool sensitiveTransaction = true,
-  }) async =>
-      authenticated;
+  }) async => authenticated;
   @override
   Future<List<BiometricType>> getAvailableBiometrics() async => biometrics;
   @override
@@ -922,14 +926,19 @@ class MockMeshNewsService extends StateNotifier<List<NewsArticle>>
 
 class MockMessageRepository extends Fake implements MessageRepository {
   Future<List<Message>> Function(String)? getMessagesListStub;
-  Future<void> Function(
-      {required String senderId,
-      required String receiverId,
-      required String content})? sendMessageStub;
+  Future<void> Function({
+    required String senderId,
+    required String receiverId,
+    required String content,
+  })?
+  sendMessageStub;
   Future<void> Function(String)? markAsReadStub;
   Future<int> Function(String?)? getUnreadCountStub;
-  Future<List<Message>> Function(
-      {String? conversationId, required String query})? searchMessagesStub;
+  Future<List<Message>> Function({
+    String? conversationId,
+    required String query,
+  })?
+  searchMessagesStub;
   Future<void> Function(String)? archiveConversationStub;
   Future<void> Function(String)? unarchiveConversationStub;
 
@@ -955,10 +964,14 @@ class MockMessageRepository extends Fake implements MessageRepository {
   }
 
   @override
-  Future<List<Message>> searchMessages(
-      {String? conversationId, required String query}) async {
+  Future<List<Message>> searchMessages({
+    String? conversationId,
+    required String query,
+  }) async {
     return searchMessagesStub?.call(
-            conversationId: conversationId, query: query) ??
+          conversationId: conversationId,
+          query: query,
+        ) ??
         Future.value([]);
   }
 
@@ -993,15 +1006,19 @@ class MockMessagingEncryptionService extends Fake
   Exception? decryptThrow;
 
   @override
-  Future<String> decryptMessage(Map<String, dynamic> messageRow,
-      {bool isGroup = false}) async {
+  Future<String> decryptMessage(
+    Map<String, dynamic> messageRow, {
+    bool isGroup = false,
+  }) async {
     if (decryptThrow != null) throw decryptThrow!;
     return decryptResult ?? 'decrypted_content';
   }
 
   @override
   Future<Map<String, dynamic>> encryptGroupMessage(
-      String content, List<String> receiverIds) async {
+    String content,
+    List<String> receiverIds,
+  ) async {
     if (encryptThrow != null) throw encryptThrow!;
     return {
       'content': encryptResult ?? 'encrypted_$content',
@@ -1013,7 +1030,9 @@ class MockMessagingEncryptionService extends Fake
 
   @override
   Future<Map<String, String>> encryptMessage(
-      String content, String receiverId) async {
+    String content,
+    String receiverId,
+  ) async {
     if (encryptThrow != null) throw encryptThrow!;
     return {
       'content': encryptResult ?? 'encrypted_content',
@@ -1086,19 +1105,22 @@ class MockNetworkConnectivityService extends Fake
 
 class MockNewsRepository extends Fake implements NewsRepository {
   Future<void> Function(String articleId, String content, {String? parentId})?
-      addCommentStub;
+  addCommentStub;
   Future<NewsArticle> Function(String articleId)? getArticleByIdStub;
   Future<List<NewsArticle>> Function({String? subject, bool featuredOnly})?
-      getArticlesStub;
+  getArticlesStub;
   Future<void> Function(NewsArticle article)? publishArticleStub;
   Future<void> Function(String articleId)? upvoteArticleStub;
   Future<void> Function(String articleId)? vouchArticleStub;
   Stream<List<NewsArticle>> Function({String? subject, bool featuredOnly})?
-      watchArticlesStub;
+  watchArticlesStub;
 
   @override
-  Future<void> addComment(String articleId, String content,
-          {String? parentId}) =>
+  Future<void> addComment(
+    String articleId,
+    String content, {
+    String? parentId,
+  }) =>
       addCommentStub?.call(articleId, content, parentId: parentId) ??
       Future.value();
 
@@ -1111,8 +1133,10 @@ class MockNewsRepository extends Fake implements NewsRepository {
   }
 
   @override
-  Future<List<NewsArticle>> getArticles(
-          {String? subject, bool featuredOnly = false}) =>
+  Future<List<NewsArticle>> getArticles({
+    String? subject,
+    bool featuredOnly = false,
+  }) =>
       getArticlesStub?.call(subject: subject, featuredOnly: featuredOnly) ??
       Future.value([]);
 
@@ -1129,8 +1153,10 @@ class MockNewsRepository extends Fake implements NewsRepository {
       vouchArticleStub?.call(articleId) ?? Future.value();
 
   @override
-  Stream<List<NewsArticle>> watchArticles(
-          {String? subject, bool featuredOnly = false}) =>
+  Stream<List<NewsArticle>> watchArticles({
+    String? subject,
+    bool featuredOnly = false,
+  }) =>
       watchArticlesStub?.call(subject: subject, featuredOnly: featuredOnly) ??
       Stream.value([]);
 }
@@ -1155,7 +1181,8 @@ class MockNotificationService extends Fake implements NotificationService {
     required String title,
     required String body,
     Map<String, dynamic>? data,
-  })? createNotificationStub;
+  })?
+  createNotificationStub;
 
   @override
   Future<void> createNotification({
@@ -1204,11 +1231,15 @@ class MockOfflineStorageService extends Fake implements OfflineStorageService {
 
   @override
   Future<void> initialize(
-      verasso_encryption.EncryptionService encryptionService) async {}
+    verasso_encryption.EncryptionService encryptionService,
+  ) async {}
 
   @override
-  Future<void> queueAction(String actionType, Map<String, dynamic> data,
-      {String? id}) async {
+  Future<void> queueAction(
+    String actionType,
+    Map<String, dynamic> data, {
+    String? id,
+  }) async {
     queueActionRawCalls.add({'actionType': actionType, 'data': data, 'id': id});
   }
 }
@@ -1221,23 +1252,27 @@ class MockPostgrestFilterBuilder<T> extends Fake
   int _count = 0;
 
   @override
-  ResponsePostgrestBuilder<PostgrestResponse<T>, T, T> count(
-      [CountOption count = CountOption.exact]) {
+  ResponsePostgrestBuilder<PostgrestResponse<T>, T, T> count([
+    CountOption count = CountOption.exact,
+  ]) {
     _isCountCalled = true;
     return this as dynamic;
   }
 
-  PostgrestFilterBuilder<T> delete(
-          {bool returning = true, bool count = false}) =>
-      this;
+  PostgrestFilterBuilder<T> delete({
+    bool returning = true,
+    bool count = false,
+  }) => this;
 
   @override
   PostgrestFilterBuilder<T> eq(String column, Object value) => this;
 
   @override
   PostgrestFilterBuilder<T> filter(
-          String column, String operator, Object? value) =>
-      this;
+    String column,
+    String operator,
+    Object? value,
+  ) => this;
 
   @override
   PostgrestFilterBuilder<T> gt(String column, Object value) => this;
@@ -1275,26 +1310,36 @@ class MockPostgrestFilterBuilder<T> extends Fake
 
   @override
   PostgrestFilterBuilder<T> not(
-          String column, String operator, Object? value) =>
-      this;
+    String column,
+    String operator,
+    Object? value,
+  ) => this;
 
   @override
-  PostgrestFilterBuilder<T> or(String filters,
-          {String? foreignTable, String? referencedTable}) =>
-      this;
+  PostgrestFilterBuilder<T> or(
+    String filters, {
+    String? foreignTable,
+    String? referencedTable,
+  }) => this;
 
   @override
-  PostgrestTransformBuilder<T> order(String column,
-          {bool? ascending, bool? nullsFirst, String? referencedTable}) =>
-      this;
+  PostgrestTransformBuilder<T> order(
+    String column, {
+    bool? ascending,
+    bool? nullsFirst,
+    String? referencedTable,
+  }) => this;
 
   @override
-  PostgrestTransformBuilder<T> range(int from, int to,
-          {String? referencedTable}) =>
-      this;
+  PostgrestTransformBuilder<T> range(
+    int from,
+    int to, {
+    String? referencedTable,
+  }) => this;
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     final builder = MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
     builder.shouldThrow = shouldThrow;
     if (_response is Map) {
@@ -1327,21 +1372,25 @@ class MockPostgrestFilterBuilder<T> extends Fake
   }
 
   @override
-  PostgrestFilterBuilder<T> textSearch(String column, String query,
-          {String? config, TextSearchType? type}) =>
-      this;
+  PostgrestFilterBuilder<T> textSearch(
+    String column,
+    String query, {
+    String? config,
+    TextSearchType? type,
+  }) => this;
 
   @override
   Future<R> then<R>(FutureOr<R> Function(T) onValue, {Function? onError}) {
     if (shouldThrow) {
-      return Future<R>.error(PostgrestException(message: 'Mock Error'))
-          .then((_) => null as dynamic, onError: onError);
+      return Future<R>.error(
+        PostgrestException(message: 'Mock Error'),
+      ).then((_) => null as dynamic, onError: onError);
     }
 
     if (_isCountCalled) {
       return Future.value(
-              PostgrestResponse<T>(data: _response as T, count: _count))
-          .then(onValue as dynamic, onError: onError);
+        PostgrestResponse<T>(data: _response as T, count: _count),
+      ).then(onValue as dynamic, onError: onError);
     }
 
     final T res = _response as T;
@@ -1359,8 +1408,9 @@ class MockPostgrestTransformBuilder<T> extends Fake
   @override
   Future<R> then<R>(FutureOr<R> Function(T) onValue, {Function? onError}) {
     if (shouldThrow) {
-      return Future<R>.error(Exception('Mock Error'))
-          .then((_) => null as dynamic, onError: onError);
+      return Future<R>.error(
+        Exception('Mock Error'),
+      ).then((_) => null as dynamic, onError: onError);
     }
     return Future<T>.value(response as T).then<R>(onValue, onError: onError);
   }
@@ -1449,8 +1499,9 @@ class MockRateLimitService extends Fake
 
   @override
   Future<bool> isLimited(
-          String key, verasso_rate_limit.RateLimitType type) async =>
-      _isLimited;
+    String key,
+    verasso_rate_limit.RateLimitType type,
+  ) async => _isLimited;
 
   @override
   Future<void> logAttempt({
@@ -1472,20 +1523,19 @@ class MockRateLimitService extends Fake
 
 class MockRealtimeChannel extends Fake implements RealtimeChannel {
   @override
-  RealtimeChannel onPostgresChanges(
-          {required PostgresChangeEvent event,
-          String? schema,
-          String? table,
-          PostgresChangeFilter? filter,
-          required void Function(PostgresChangePayload payload) callback}) =>
-      this;
+  RealtimeChannel onPostgresChanges({
+    required PostgresChangeEvent event,
+    String? schema,
+    String? table,
+    PostgresChangeFilter? filter,
+    required void Function(PostgresChangePayload payload) callback,
+  }) => this;
 
   @override
-  RealtimeChannel subscribe(
-          [void Function(RealtimeSubscribeStatus status, Object? error)?
-              callback,
-          Duration? timeout]) =>
-      this;
+  RealtimeChannel subscribe([
+    void Function(RealtimeSubscribeStatus status, Object? error)? callback,
+    Duration? timeout,
+  ]) => this;
 
   @override
   Future<String> unsubscribe([Duration? timeout]) async => 'unsubscribed';
@@ -1513,7 +1563,8 @@ class MockSecureAuthService extends Fake implements SecureAuthService {
   Future<AuthResponse> Function({
     required String email,
     required String password,
-  })? signInWithPasswordStub;
+  })?
+  signInWithPasswordStub;
 
   Future<AuthResponse> Function({
     required String email,
@@ -1521,7 +1572,8 @@ class MockSecureAuthService extends Fake implements SecureAuthService {
     required String username,
     String? fullName,
     Map<String, dynamic>? metadata,
-  })? signUpWithPasswordStub;
+  })?
+  signUpWithPasswordStub;
 
   Future<void> Function(String email)? resetPasswordForEmailStub;
   Future<void> Function(String newPassword)? setNewPasswordStub;
@@ -1531,7 +1583,8 @@ class MockSecureAuthService extends Fake implements SecureAuthService {
     required String email,
     required String token,
     required OtpType type,
-  })? verifyOTPStub;
+  })?
+  verifyOTPStub;
 
   Future<void> Function()? signOutStub;
 
@@ -1711,8 +1764,11 @@ class MockSupabaseClient extends Mock implements SupabaseClient {
   }
 
   @override
-  PostgrestFilterBuilder<T> rpc<T>(String fn,
-      {dynamic get, Map<String, dynamic>? params}) {
+  PostgrestFilterBuilder<T> rpc<T>(
+    String fn, {
+    dynamic get,
+    Map<String, dynamic>? params,
+  }) {
     lastRpcName = fn;
     final builder = MockPostgrestFilterBuilder<T>();
     if (_rpcShouldThrow[fn] == true) {
@@ -1751,7 +1807,9 @@ class MockSupabaseClient extends Mock implements SupabaseClient {
   }
 
   void setStreamResponse(
-      String table, Stream<List<Map<String, dynamic>>> stream) {
+    String table,
+    Stream<List<Map<String, dynamic>>> stream,
+  ) {
     _streamOverrides[table] = stream;
   }
 }
@@ -1773,13 +1831,13 @@ class MockSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
     Map<String, PostgrestFilterBuilder>? stubs,
     this.shouldThrow = false,
     this.countResponse = 0,
-  })  : _selectResponse = (selectResponse is Map)
-            ? [Map<String, dynamic>.from(selectResponse)]
-            : (selectResponse as List?)
-                    ?.map((e) => Map<String, dynamic>.from(e as Map))
-                    .toList() ??
-                [],
-        _stubs = stubs ?? {};
+  }) : _selectResponse = (selectResponse is Map)
+           ? [Map<String, dynamic>.from(selectResponse)]
+           : (selectResponse as List?)
+                     ?.map((e) => Map<String, dynamic>.from(e as Map))
+                     .toList() ??
+                 [],
+       _stubs = stubs ?? {};
 
   @override
   PostgrestFilterBuilder delete({bool returning = true, bool count = false}) {
@@ -1792,8 +1850,12 @@ class MockSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
   }
 
   @override
-  PostgrestFilterBuilder insert(Object values,
-      {Object? count, String? defaultTo, bool defaultToNull = false}) {
+  PostgrestFilterBuilder insert(
+    Object values, {
+    Object? count,
+    String? defaultTo,
+    bool defaultToNull = false,
+  }) {
     if (client != null && table != null) client!.lastInsertTable = table;
     if (_stubs.containsKey('insert')) return _stubs['insert']!;
     final builder = MockPostgrestFilterBuilder();
@@ -1803,8 +1865,9 @@ class MockSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
   }
 
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     if (_stubs.containsKey('select')) {
       return _stubs['select']!
           as PostgrestFilterBuilder<List<Map<String, dynamic>>>;
@@ -1828,10 +1891,12 @@ class MockSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
   SupabaseStreamFilterBuilder stream({required List<String> primaryKey}) {
     if (client != null && client!._streamOverrides.containsKey(table)) {
       return MockSupabaseStreamFilterBuilder(
-          streamOverride: client!._streamOverrides[table]);
+        streamOverride: client!._streamOverrides[table],
+      );
     }
     return MockSupabaseStreamFilterBuilder(
-        streamOverride: Stream.value(_selectResponse));
+      streamOverride: Stream.value(_selectResponse),
+    );
   }
 
   @override
@@ -1845,12 +1910,14 @@ class MockSupabaseQueryBuilder extends Fake implements SupabaseQueryBuilder {
   }
 
   @override
-  PostgrestFilterBuilder upsert(Object values,
-      {String? onConflict,
-      bool ignoreDuplicates = false,
-      Object? count,
-      String? defaultTo,
-      bool defaultToNull = false}) {
+  PostgrestFilterBuilder upsert(
+    Object values, {
+    String? onConflict,
+    bool ignoreDuplicates = false,
+    Object? count,
+    String? defaultTo,
+    bool defaultToNull = false,
+  }) {
     if (client != null && table != null) {
       client!.lastInsertTable = table;
       client!.lastUpdateTable = table;
@@ -1875,8 +1942,7 @@ class MockSupabaseStorageBucket extends Fake implements StorageFileApi {
     FileOptions? fileOptions,
     int? retryAttempts,
     StorageRetryController? retryController,
-  }) async =>
-      'https://fake-storage.com/$path';
+  }) async => 'https://fake-storage.com/$path';
 }
 
 class MockSupabaseStorageClient extends Fake implements SupabaseStorageClient {
@@ -1892,24 +1958,29 @@ class MockSupabaseStorageClient extends Fake implements SupabaseStorageClient {
 
 class MockSupabaseStreamBuilder extends Fake implements SupabaseStreamBuilder {
   final Stream<List<Map<String, dynamic>>>? _streamOverride;
-  MockSupabaseStreamBuilder(
-      {Stream<List<Map<String, dynamic>>>? streamOverride})
-      : _streamOverride = streamOverride;
+  MockSupabaseStreamBuilder({
+    Stream<List<Map<String, dynamic>>>? streamOverride,
+  }) : _streamOverride = streamOverride;
 
   @override
   Stream<S> asyncMap<S>(
-          FutureOr<S> Function(List<Map<String, dynamic>> event) convert) =>
-      (_streamOverride ?? Stream.value(<Map<String, dynamic>>[]))
-          .asyncMap(convert);
+    FutureOr<S> Function(List<Map<String, dynamic>> event) convert,
+  ) => (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).asyncMap(
+    convert,
+  );
 
   @override
   StreamSubscription<List<Map<String, dynamic>>> listen(
-          void Function(List<Map<String, dynamic>> event)? onData,
-          {Function? onError,
-          void Function()? onDone,
-          bool? cancelOnError}) =>
-      (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).listen(onData,
-          onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+    void Function(List<Map<String, dynamic>> event)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) => (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).listen(
+    onData,
+    onError: onError,
+    onDone: onDone,
+    cancelOnError: cancelOnError,
+  );
 
   @override
   Stream<S> map<S>(S Function(List<Map<String, dynamic>> event) convert) {
@@ -1921,15 +1992,16 @@ class MockSupabaseStreamBuilder extends Fake implements SupabaseStreamBuilder {
 class MockSupabaseStreamFilterBuilder extends Fake
     implements SupabaseStreamFilterBuilder {
   final Stream<List<Map<String, dynamic>>>? _streamOverride;
-  MockSupabaseStreamFilterBuilder(
-      {Stream<List<Map<String, dynamic>>>? streamOverride})
-      : _streamOverride = streamOverride;
+  MockSupabaseStreamFilterBuilder({
+    Stream<List<Map<String, dynamic>>>? streamOverride,
+  }) : _streamOverride = streamOverride;
 
   @override
   Stream<S> asyncMap<S>(
-          FutureOr<S> Function(List<Map<String, dynamic>> event) convert) =>
-      (_streamOverride ?? Stream.value(<Map<String, dynamic>>[]))
-          .asyncMap(convert);
+    FutureOr<S> Function(List<Map<String, dynamic>> event) convert,
+  ) => (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).asyncMap(
+    convert,
+  );
   @override
   SupabaseStreamBuilder eq(String column, Object value) =>
       MockSupabaseStreamBuilder(streamOverride: _streamOverride);
@@ -1939,12 +2011,16 @@ class MockSupabaseStreamFilterBuilder extends Fake
 
   @override
   StreamSubscription<List<Map<String, dynamic>>> listen(
-          void Function(List<Map<String, dynamic>> event)? onData,
-          {Function? onError,
-          void Function()? onDone,
-          bool? cancelOnError}) =>
-      (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).listen(onData,
-          onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+    void Function(List<Map<String, dynamic>> event)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) => (_streamOverride ?? Stream.value(<Map<String, dynamic>>[])).listen(
+    onData,
+    onError: onError,
+    onDone: onDone,
+    cancelOnError: cancelOnError,
+  );
 
   @override
   SupabaseStreamBuilder order(String column, {bool ascending = true}) =>
@@ -1974,13 +2050,15 @@ class MockTalentRepository extends Fake implements TalentRepository {
 class MockThemeController extends StateNotifier<AppThemeState>
     implements ThemeController {
   MockThemeController([AppThemeState? initialState])
-      : super(initialState ??
+    : super(
+        initialState ??
             AppThemeState(
               mode: ThemeMode.dark,
               primaryColor: const Color(0xFF9D50BB),
               accentColor: const Color(0xFFE91E63),
               isPowerSaveMode: true, // Disable animations for tests
-            ));
+            ),
+      );
 
   @override
   bool get hasListeners => false;
@@ -2027,11 +2105,14 @@ class MockTokenStorageService extends Fake implements TokenStorageService {
 
 class MockTransactionService extends Fake implements TransactionService {
   Future<bool> Function(String userId, String courseId, double price)?
-      processCoursePurchaseStub;
+  processCoursePurchaseStub;
 
   @override
   Future<bool> processCoursePurchase(
-      String userId, String courseId, double price) async {
+    String userId,
+    String courseId,
+    double price,
+  ) async {
     return processCoursePurchaseStub?.call(userId, courseId, price) ??
         Future.value(true);
   }

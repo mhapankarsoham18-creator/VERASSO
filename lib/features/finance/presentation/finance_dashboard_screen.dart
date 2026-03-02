@@ -38,22 +38,30 @@ class _FinanceDashboardScreenState
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.pieChart),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const AnalyticsScreen())),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AnalyticsScreen()),
+            ),
           ),
         ],
       ),
       body: LiquidBackground(
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 80),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 80,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildNetWorthCard(userId),
               const SizedBox(height: 24),
-              const Text('Recent Transactions',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                'Recent Transactions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 16),
               _buildTransactionHistory(userId),
             ],
@@ -80,17 +88,20 @@ class _FinanceDashboardScreenState
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                const Text('Total Net Earnings',
-                    style: TextStyle(color: Colors.white70)),
+                const Text(
+                  'Total Net Earnings',
+                  style: TextStyle(color: Colors.white70),
+                ),
                 const SizedBox(height: 8),
                 Semantics(
                   label: 'Total net earnings: \$${netWorth.toStringAsFixed(2)}',
                   child: Text(
                     '\$${netWorth.toStringAsFixed(2)}',
                     style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.greenAccent),
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.greenAccent,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -100,18 +111,20 @@ class _FinanceDashboardScreenState
                     Semantics(
                       label: 'Total income: \$${income.toStringAsFixed(2)}',
                       child: _buildQuickStat(
-                          LucideIcons.arrowUpRight,
-                          ' Income',
-                          '\$${income.toStringAsFixed(2)}',
-                          Colors.green),
+                        LucideIcons.arrowUpRight,
+                        ' Income',
+                        '\$${income.toStringAsFixed(2)}',
+                        Colors.green,
+                      ),
                     ),
                     Semantics(
                       label: 'Total expenses: \$${expense.toStringAsFixed(2)}',
                       child: _buildQuickStat(
-                          LucideIcons.arrowDownLeft,
-                          ' Expenses',
-                          '\$${expense.toStringAsFixed(2)}',
-                          Colors.redAccent),
+                        LucideIcons.arrowDownLeft,
+                        ' Expenses',
+                        '\$${expense.toStringAsFixed(2)}',
+                        Colors.redAccent,
+                      ),
                     ),
                   ],
                 ),
@@ -125,7 +138,11 @@ class _FinanceDashboardScreenState
 
   /// Small label/value pair used for summary stats within the dashboard.
   Widget _buildQuickStat(
-      IconData icon, String label, String value, Color color) {
+    IconData icon,
+    String label,
+    String value,
+    Color color,
+  ) {
     return Column(
       children: [
         Row(
@@ -135,8 +152,10 @@ class _FinanceDashboardScreenState
           ],
         ),
         const SizedBox(height: 4),
-        Text(value,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }
@@ -152,8 +171,10 @@ class _FinanceDashboardScreenState
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No transactions yet.',
-              style: TextStyle(color: Colors.white54));
+          return const Text(
+            'No transactions yet.',
+            style: TextStyle(color: Colors.white54),
+          );
         }
 
         return Semantics(
@@ -162,7 +183,7 @@ class _FinanceDashboardScreenState
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: snapshot.data!.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
               final tx = snapshot.data![index];
               final txText =
@@ -196,12 +217,19 @@ class _FinanceDashboardScreenState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(tx.description ?? tx.category,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                            Text(DateFormat.yMMMd().format(tx.createdAt),
-                                style: const TextStyle(
-                                    color: Colors.white54, fontSize: 12)),
+                            Text(
+                              tx.description ?? tx.category,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              DateFormat.yMMMd().format(tx.createdAt),
+                              style: const TextStyle(
+                                color: Colors.white54,
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -209,8 +237,9 @@ class _FinanceDashboardScreenState
                         '${tx.isCredit ? '+' : '-'} \$${tx.amount.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color:
-                              tx.isCredit ? Colors.greenAccent : Colors.white70,
+                          color: tx.isCredit
+                              ? Colors.greenAccent
+                              : Colors.white70,
                         ),
                       ),
                     ],

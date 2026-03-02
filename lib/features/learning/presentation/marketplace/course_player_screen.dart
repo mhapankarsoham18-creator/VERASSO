@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart' as md_plus;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
@@ -17,20 +17,26 @@ import 'package:verasso/features/progress/services/progress_tracking_service.dar
 import 'package:video_player/video_player.dart';
 
 /// Future provider for fetching chapters of a specific course.
-final chaptersProvider =
-    FutureProvider.family<List<Chapter>, String>((ref, courseId) {
+final chaptersProvider = FutureProvider.family<List<Chapter>, String>((
+  ref,
+  courseId,
+) {
   return ref.watch(courseRepositoryProvider).getChapters(courseId);
 });
 
 /// Future provider for fetching the final quiz associated with a course.
-final courseQuizProvider =
-    FutureProvider.family<Quiz?, String>((ref, courseId) {
+final courseQuizProvider = FutureProvider.family<Quiz?, String>((
+  ref,
+  courseId,
+) {
   return ref.watch(assessmentRepositoryProvider).getQuizForCourse(courseId);
 });
 
 /// Future provider for fetching the enrollment status of the current user for a course.
-final enrollmentProvider =
-    FutureProvider.family<Enrollment?, String>((ref, courseId) {
+final enrollmentProvider = FutureProvider.family<Enrollment?, String>((
+  ref,
+  courseId,
+) {
   return ref.watch(courseRepositoryProvider).getEnrollmentForCourse(courseId);
 });
 
@@ -57,12 +63,9 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
     final enrollmentAsync = ref.watch(enrollmentProvider(widget.course.id));
 
     return chaptersAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (err, stack) => Scaffold(
-        body: Center(child: Text('Error: $err')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
       data: (chapters) {
         if (chapters.isEmpty) {
           return Scaffold(
@@ -109,7 +112,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: _videoController != null &&
+                        child:
+                            _videoController != null &&
                                 _videoController!.value.isInitialized
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
@@ -128,8 +132,11 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                 ),
                               )
                             : const Center(
-                                child: Icon(LucideIcons.playCircle,
-                                    color: Colors.white, size: 64),
+                                child: Icon(
+                                  LucideIcons.playCircle,
+                                  color: Colors.white,
+                                  size: 64,
+                                ),
                               ),
                       ),
                     ),
@@ -145,23 +152,26 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                 child: Text(
                                   currentChapter.title,
                                   style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               if (isEnrolled)
                                 IconButton(
                                   icon: Icon(
-                                    enrollment.completedChapters
-                                            .contains(currentChapter.id)
+                                    enrollment.completedChapters.contains(
+                                          currentChapter.id,
+                                        )
                                         ? LucideIcons.checkCircle2
                                         : LucideIcons.circle,
                                     color: Colors.greenAccent,
                                   ),
                                   onPressed: () => _toggleChapterCompletion(
-                                      currentChapter,
-                                      enrollment,
-                                      chapters.length),
+                                    currentChapter,
+                                    enrollment,
+                                    chapters.length,
+                                  ),
                                 ),
                             ],
                           ),
@@ -178,68 +188,88 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                       padding: const EdgeInsets.all(16),
                                       margin: const EdgeInsets.only(bottom: 24),
                                       border: Border.all(
-                                        color: Colors.blueAccent
-                                            .withValues(alpha: 0.3),
+                                        color: Colors.blueAccent.withValues(
+                                          alpha: 0.3,
+                                        ),
                                       ),
                                       child: Row(
                                         children: [
-                                          const Icon(LucideIcons.graduationCap,
-                                              color: Colors.blueAccent),
+                                          const Icon(
+                                            LucideIcons.graduationCap,
+                                            color: Colors.blueAccent,
+                                          ),
                                           const SizedBox(width: 12),
                                           const Expanded(
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text('Final Assessment',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
                                                 Text(
-                                                    'Pass to earn your official certificate',
-                                                    style: TextStyle(
-                                                        fontSize: 11,
-                                                        color: Colors.white54)),
+                                                  'Final Assessment',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Pass to earn your official certificate',
+                                                  style: TextStyle(
+                                                    fontSize: 11,
+                                                    color: Colors.white54,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
                                           ElevatedButton(
                                             onPressed: () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        QuizPlayerScreen(
-                                                            quiz: quiz))),
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    QuizPlayerScreen(
+                                                      quiz: quiz,
+                                                    ),
+                                              ),
+                                            ),
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.blueAccent,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16)),
-                                            child: const Text('Start Quiz',
-                                                style: TextStyle(fontSize: 12)),
+                                              backgroundColor:
+                                                  Colors.blueAccent,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                  ),
+                                            ),
+                                            child: const Text(
+                                              'Start Quiz',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     );
                                   },
                                   loading: () => const SizedBox.shrink(),
-                                  error: (_, __) => const SizedBox.shrink(),
+                                  error: (_, _) => const SizedBox.shrink(),
                                 ),
-                          MarkdownBody(
-                            data: currentChapter.contentMarkdown ??
+                          md_plus.Markdown(
+                            data:
+                                currentChapter.contentMarkdown ??
                                 'No content for this chapter.',
-                            styleSheet: MarkdownStyleSheet(
+                            styleSheet: md_plus.MarkdownStyleSheet(
                               p: const TextStyle(
-                                  color: Colors.white70, height: 1.6),
+                                color: Colors.white70,
+                                height: 1.6,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 32),
                           const Divider(color: Colors.white10),
-                          const Text('Course Syllabus',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54)),
+                          const Text(
+                            'Course Syllabus',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white54,
+                            ),
+                          ),
                           const SizedBox(height: 12),
                           ...chapters.asMap().entries.map((entry) {
                             final idx = entry.key;
@@ -251,26 +281,36 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                 });
                                 _initializeVideo(ch.videoUrl);
                               },
-                              leading: Text('${idx + 1}',
-                                  style: TextStyle(
-                                      color: _currentChapterIndex == idx
-                                          ? Colors.blueAccent
-                                          : Colors.white30)),
-                              title: Text(ch.title,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: _currentChapterIndex == idx
-                                        ? Colors.white
-                                        : Colors.white60,
-                                    fontWeight: _currentChapterIndex == idx
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  )),
-                              trailing: enrollment?.completedChapters
-                                          .contains(ch.id) ==
+                              leading: Text(
+                                '${idx + 1}',
+                                style: TextStyle(
+                                  color: _currentChapterIndex == idx
+                                      ? Colors.blueAccent
+                                      : Colors.white30,
+                                ),
+                              ),
+                              title: Text(
+                                ch.title,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: _currentChapterIndex == idx
+                                      ? Colors.white
+                                      : Colors.white60,
+                                  fontWeight: _currentChapterIndex == idx
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                              trailing:
+                                  enrollment?.completedChapters.contains(
+                                        ch.id,
+                                      ) ==
                                       true
-                                  ? const Icon(LucideIcons.check,
-                                      color: Colors.greenAccent, size: 16)
+                                  ? const Icon(
+                                      LucideIcons.check,
+                                      color: Colors.greenAccent,
+                                      size: 16,
+                                    )
                                   : null,
                             );
                           }),
@@ -290,9 +330,11 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                             ),
                             child: _isEnrolling
                                 ? const CircularProgressIndicator(
-                                    color: Colors.white)
+                                    color: Colors.white,
+                                  )
                                 : Text(
-                                    'Enroll for \$${widget.course.price.toStringAsFixed(0)}'),
+                                    'Enroll for \$${widget.course.price.toStringAsFixed(0)}',
+                                  ),
                           ),
                         ),
                       ),
@@ -349,8 +391,10 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(
-                  'Enrollment failed: ${e.toString().replaceAll('Exception: ', '')}')),
+            content: Text(
+              'Enrollment failed: ${e.toString().replaceAll('Exception: ', '')}',
+            ),
+          ),
         );
       }
     } finally {
@@ -373,7 +417,10 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
   }
 
   void _toggleChapterCompletion(
-      Chapter chapter, Enrollment enrollment, int totalChapters) async {
+    Chapter chapter,
+    Enrollment enrollment,
+    int totalChapters,
+  ) async {
     final completed = List<String>.from(enrollment.completedChapters);
     final isCompleting = !completed.contains(chapter.id);
 

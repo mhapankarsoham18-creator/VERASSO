@@ -19,7 +19,6 @@ class DashboardSkeleton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 80), // AppBar space
-
             // Header Text
             const SkeletonBox(width: 150, height: 24),
             const SizedBox(height: 8),
@@ -34,21 +33,22 @@ class DashboardSkeleton extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: List.generate(
-                  4,
-                  (index) => const GlassContainer(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SkeletonBox(width: 30, height: 30, radius: 15),
-                              SizedBox(height: 10),
-                              SkeletonBox(width: 60, height: 20),
-                              SizedBox(height: 5),
-                              SkeletonBox(width: 80, height: 12),
-                            ],
-                          ),
-                        ),
-                      )),
+                4,
+                (index) => const GlassContainer(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SkeletonBox(width: 30, height: 30, radius: 15),
+                        SizedBox(height: 10),
+                        SkeletonBox(width: 60, height: 20),
+                        SizedBox(height: 5),
+                        SkeletonBox(width: 80, height: 12),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
 
             const SizedBox(height: 24),
@@ -60,7 +60,7 @@ class DashboardSkeleton extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 3,
-              itemBuilder: (_, __) => const Padding(
+              itemBuilder: (_, _) => const Padding(
                 padding: EdgeInsets.only(bottom: 12),
                 child: GlassContainer(
                   height: 100,
@@ -78,11 +78,12 @@ class DashboardSkeleton extends StatelessWidget {
                             SkeletonBox(width: 100, height: 12),
                             SizedBox(height: 12),
                             SkeletonBox(
-                                width: double.infinity,
-                                height: 6), // Progress bar
+                              width: double.infinity,
+                              height: 6,
+                            ), // Progress bar
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

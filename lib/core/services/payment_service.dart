@@ -37,12 +37,10 @@ class PaymentService {
     try {
       // 1. Create order on server side (Supabase RPC)
       // This ensures we have a record before the transaction starts
-      final orderResponse =
-          await SupabaseService.client.rpc('create_payment_order', params: {
-        'amount': amount,
-        'currency': 'INR',
-        'metadata': metadata,
-      });
+      final orderResponse = await SupabaseService.client.rpc(
+        'create_payment_order',
+        params: {'amount': amount, 'currency': 'INR', 'metadata': metadata},
+      );
 
       final String? orderId =
           orderResponse['sdk_order_id']; // ID from Razorpay server-side API
@@ -59,7 +57,7 @@ class PaymentService {
           'email': '', // To be filled from user profile
         },
         'external': {
-          'wallets': ['paytm']
+          'wallets': ['paytm'],
         },
         'notes': metadata ?? {},
       };
@@ -91,11 +89,14 @@ class PaymentService {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Verify payment on server side
     try {
-      await SupabaseService.client.rpc('verify_payment', params: {
-        'payment_id': response.paymentId,
-        'order_id': response.orderId,
-        'signature': response.signature,
-      });
+      await SupabaseService.client.rpc(
+        'verify_payment',
+        params: {
+          'payment_id': response.paymentId,
+          'order_id': response.orderId,
+          'signature': response.signature,
+        },
+      );
       // Trigger UI update or navigation via a state provider if needed
     } catch (e, stack) {
       _errorService.logError('Payment verification failed', e, stack);
