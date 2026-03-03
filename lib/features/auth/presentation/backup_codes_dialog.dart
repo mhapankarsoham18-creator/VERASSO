@@ -14,10 +14,7 @@ class BackupCodesDialog extends StatefulWidget {
   final List<String>? initialCodes;
 
   /// Creates a [BackupCodesDialog].
-  const BackupCodesDialog({
-    super.key,
-    this.initialCodes,
-  });
+  const BackupCodesDialog({super.key, this.initialCodes});
 
   @override
   State<BackupCodesDialog> createState() => _BackupCodesDialogState();
@@ -75,8 +72,11 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
                 child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(LucideIcons.alertTriangle,
-                        color: Colors.orange, size: 20),
+                    Icon(
+                      LucideIcons.alertTriangle,
+                      color: Colors.orange,
+                      size: 20,
+                    ),
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -168,8 +168,9 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
                             ? const SizedBox(
                                 width: 18,
                                 height: 18,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Icon(LucideIcons.refreshCw, size: 18),
                         label: const Text('Regenerate'),
@@ -204,8 +205,9 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
                               ? const SizedBox(
                                   width: 18,
                                   height: 18,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Icon(LucideIcons.plus),
                           label: const Text('Generate Backup Codes'),
@@ -293,9 +295,9 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error generating codes: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error generating codes: $e')));
       }
     } finally {
       if (mounted) setState(() => _isGenerating = false);
@@ -313,9 +315,9 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -361,9 +363,9 @@ class _BackupCodesDialogState extends State<BackupCodesDialog> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isGenerating = false);

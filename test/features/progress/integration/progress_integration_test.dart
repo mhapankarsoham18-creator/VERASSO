@@ -12,8 +12,10 @@ void main() {
     mockSupabaseClient = MockSupabaseClient();
 
     // Mock authenticated user
-    final mockUser =
-        TestSupabaseUser(id: testUserId, email: 'test@example.com');
+    final mockUser = TestSupabaseUser(
+      id: testUserId,
+      email: 'test@example.com',
+    );
     final mockGoTrue = MockGoTrueClient();
     mockGoTrue.setCurrentUser(mockUser);
     mockSupabaseClient.setAuth(mockGoTrue);
@@ -70,13 +72,13 @@ void main() {
           'rank': 1,
           'user_id': 'user1',
           'total_points': 2000,
-          'username': 'User 1'
+          'username': 'User 1',
         },
         {
           'rank': 2,
           'user_id': 'user2',
           'total_points': 1500,
-          'username': 'User 2'
+          'username': 'User 2',
         },
       ];
 
@@ -105,7 +107,7 @@ void main() {
           'points_awarded': 10,
           'earned_at': DateTime.now().toIso8601String(),
           'is_pinned': false,
-        }
+        },
       ];
 
       mockSupabaseClient.setQueryBuilder(
@@ -127,7 +129,9 @@ void main() {
 
       // Act
       await service.logActivity(
-          userId: testUserId, activityType: 'post_created');
+        userId: testUserId,
+        activityType: 'post_created',
+      );
 
       // Assert
       // Verification is implicit via no exception thrown

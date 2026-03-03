@@ -22,11 +22,7 @@ class GeospatialDiscoveryService {
       // Uses the PostGIS radial search function
       final response = await SupabaseService.client.rpc(
         'find_nearby_users',
-        params: {
-          'user_lat': lat,
-          'user_lng': lng,
-          'radius_km': radiusKm,
-        },
+        params: {'user_lat': lat, 'user_lng': lng, 'radius_km': radiusKm},
       );
 
       return List<Map<String, dynamic>>.from(response);
@@ -43,10 +39,13 @@ class GeospatialDiscoveryService {
   Future<void> updateMyLocation(double lat, double lng) async {
     try {
       // Send location to Supabase - the backend column is a 'geography(POINT, 4326)'
-      await SupabaseService.client.from('profiles').update({
-        'last_location': 'POINT($lng $lat)',
-        'location_updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', SupabaseService.client.auth.currentUser?.id ?? '');
+      await SupabaseService.client
+          .from('profiles')
+          .update({
+            'last_location': 'POINT($lng $lat)',
+            'location_updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', SupabaseService.client.auth.currentUser?.id ?? '');
 
       AppLogger.info('Geospatial: Location updated successfully');
     } catch (e) {

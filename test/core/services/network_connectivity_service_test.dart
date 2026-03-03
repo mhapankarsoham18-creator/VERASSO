@@ -16,8 +16,9 @@ void main() {
       streamController = StreamController<List<ConnectivityResult>>.broadcast();
 
       // Mock onConnectivityChanged to return our stream controller's stream
-      when(mockConnectivity.onConnectivityChanged)
-          .thenAnswer((_) => streamController.stream);
+      when(
+        mockConnectivity.onConnectivityChanged,
+      ).thenAnswer((_) => streamController.stream);
 
       service = NetworkConnectivityService(connectivity: mockConnectivity);
     });
@@ -62,15 +63,17 @@ void main() {
     });
 
     test('isConnected getter returns true when connected', () async {
-      when(mockConnectivity.checkConnectivity())
-          .thenAnswer((_) async => [ConnectivityResult.wifi]);
+      when(
+        mockConnectivity.checkConnectivity(),
+      ).thenAnswer((_) async => [ConnectivityResult.wifi]);
 
       expect(await service.isConnected, isTrue);
     });
 
     test('isConnected getter returns false when disconnected', () async {
-      when(mockConnectivity.checkConnectivity())
-          .thenAnswer((_) async => [ConnectivityResult.none]);
+      when(
+        mockConnectivity.checkConnectivity(),
+      ).thenAnswer((_) async => [ConnectivityResult.none]);
 
       expect(await service.isConnected, isFalse);
     });
@@ -88,7 +91,7 @@ class MockConnectivity extends Mock implements Connectivity {
 
   @override
   Future<List<ConnectivityResult>> checkConnectivity() => super.noSuchMethod(
-        Invocation.method(#checkConnectivity, []),
-        returnValue: Future.value([ConnectivityResult.none]),
-      );
+    Invocation.method(#checkConnectivity, []),
+    returnValue: Future.value([ConnectivityResult.none]),
+  );
 }

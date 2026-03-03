@@ -40,23 +40,26 @@ class ErrorStateWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(LucideIcons.alertTriangle,
-                  size: 64, color: Colors.redAccent),
+              const Icon(
+                LucideIcons.alertTriangle,
+                size: 64,
+                color: Colors.redAccent,
+              ),
               const SizedBox(height: 24),
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white60,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white60),
               ),
               if (errorDetails != null) ...[
                 const SizedBox(height: 16),
@@ -69,9 +72,10 @@ class ErrorStateWidget extends StatelessWidget {
                   child: Text(
                     errorDetails!,
                     style: const TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 12,
-                        color: Colors.white38),
+                      fontFamily: 'monospace',
+                      fontSize: 12,
+                      color: Colors.white38,
+                    ),
                   ),
                 ),
               ],
@@ -84,9 +88,12 @@ class ErrorStateWidget extends StatelessWidget {
                   backgroundColor: Colors.redAccent.withValues(alpha: 0.2),
                   foregroundColor: Colors.white,
                   side: BorderSide(
-                      color: Colors.redAccent.withValues(alpha: 0.5)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    color: Colors.redAccent.withValues(alpha: 0.5),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

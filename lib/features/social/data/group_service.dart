@@ -20,10 +20,11 @@ class GroupService {
   final EncryptionService _encryptionService;
 
   /// Creates a [GroupService] instance.
-  GroupService(
-      {SupabaseClient? client, required EncryptionService encryptionService})
-      : _client = client ?? SupabaseService.client,
-        _encryptionService = encryptionService;
+  GroupService({
+    SupabaseClient? client,
+    required EncryptionService encryptionService,
+  }) : _client = client ?? SupabaseService.client,
+       _encryptionService = encryptionService;
 
   /// Creates a new group with the given [name] and [description].
   Future<Group> createGroup({
@@ -109,23 +110,26 @@ class GroupService {
                     ...row,
                     'my_encrypted_key': keyResponse['encrypted_key'],
                   };
-                  content = await _encryptionService
-                      .decryptMessage(messageWithKey, isGroup: true);
+                  content = await _encryptionService.decryptMessage(
+                    messageWithKey,
+                    isGroup: true,
+                  );
                 } else if (row['sender_id'] == myId) {
-                  content = await _encryptionService.decryptMessage(row,
-                      isGroup: true);
+                  content = await _encryptionService.decryptMessage(
+                    row,
+                    isGroup: true,
+                  );
                 }
               } catch (e, stack) {
-                AppLogger.error('Decryption failed for group msg ${row['id']}',
-                    error: e);
+                AppLogger.error(
+                  'Decryption failed for group msg ${row['id']}',
+                  error: e,
+                );
                 SentryService.captureException(e, stackTrace: stack);
               }
             }
 
-            messages.add(GroupMessage.fromJson({
-              ...row,
-              'content': content,
-            }));
+            messages.add(GroupMessage.fromJson({...row, 'content': content}));
           }
           return messages;
         });
@@ -227,12 +231,16 @@ class GroupService {
 
       // 1. Get all member IDs to encrypt for them
       final members = await getGroupMembers(groupId);
-      final receiverIds =
-          members.map((m) => m.userId).where((id) => id != userId).toList();
+      final receiverIds = members
+          .map((m) => m.userId)
+          .where((id) => id != userId)
+          .toList();
 
       // 2. Encrypt
-      final encryptedData =
-          await _encryptionService.encryptGroupMessage(content, receiverIds);
+      final encryptedData = await _encryptionService.encryptGroupMessage(
+        content,
+        receiverIds,
+      );
 
       // 3. Insert Message
       final messageResponse = await _client
@@ -252,13 +260,14 @@ class GroupService {
 
       // 4. Insert Keys for members
       final keysToInsert =
-          (encryptedData['keys_per_user'] as Map<String, String>)
-              .entries
-              .map((e) => {
-                    'message_id': messageId,
-                    'user_id': e.key,
-                    'encrypted_key': e.value,
-                  })
+          (encryptedData['keys_per_user'] as Map<String, String>).entries
+              .map(
+                (e) => {
+                  'message_id': messageId,
+                  'user_id': e.key,
+                  'encrypted_key': e.value,
+                },
+              )
               .toList();
 
       if (keysToInsert.isNotEmpty) {

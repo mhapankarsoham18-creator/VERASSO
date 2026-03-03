@@ -6,8 +6,8 @@ import 'package:verasso/features/messaging/data/message_repository.dart';
 /// Provider for the [ChatController] instance.
 final chatControllerProvider =
     StateNotifierProvider<ChatController, AsyncValue<void>>((ref) {
-  return ChatController(ref.watch(messageRepositoryProvider), ref);
-});
+      return ChatController(ref.watch(messageRepositoryProvider), ref);
+    });
 
 // Since decryption is async, we might need a FutureProvider for each message content
 // OR simpler: we fetch messages and decode them in the UI logic or a transform stream.
@@ -25,8 +25,11 @@ class ChatController extends StateNotifier<AsyncValue<void>> {
   }
 
   /// Sends a message to a recipient and updates the state.
-  Future<void> sendMessage(String receiverId, String content,
-      {String mediaType = 'text'}) async {
+  Future<void> sendMessage(
+    String receiverId,
+    String content, {
+    String mediaType = 'text',
+  }) async {
     state = const AsyncLoading();
     final user = _ref.read(currentUserProvider);
     if (user == null) {
@@ -34,10 +37,13 @@ class ChatController extends StateNotifier<AsyncValue<void>> {
       return;
     }
 
-    state = await AsyncValue.guard(() => _repo.sendMessage(
+    state = await AsyncValue.guard(
+      () => _repo.sendMessage(
         senderId: user.id,
         receiverId: receiverId,
         content: content,
-        mediaType: mediaType));
+        mediaType: mediaType,
+      ),
+    );
   }
 }

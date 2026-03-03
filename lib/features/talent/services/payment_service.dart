@@ -16,7 +16,7 @@ class PaymentService {
 
   /// Creates a [PaymentService] instance.
   PaymentService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Initializes Stripe with the publishable key.
   Future<void> initialize(String publishableKey) async {

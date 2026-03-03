@@ -116,17 +116,11 @@ void main() {
 
   group('MessageService — archiveMessage', () {
     test('archives without error', () async {
-      await expectLater(
-        messageService.archiveMessage('msg-1'),
-        completes,
-      );
+      await expectLater(messageService.archiveMessage('msg-1'), completes);
     });
 
     test('unarchives without error', () async {
-      await expectLater(
-        messageService.unarchiveMessage('msg-1'),
-        completes,
-      );
+      await expectLater(messageService.unarchiveMessage('msg-1'), completes);
     });
   });
 
@@ -179,8 +173,10 @@ void main() {
         sentAt: DateTime.now(),
       );
 
-      final read =
-          msg.copyWith(status: MessageStatus.read, readAt: DateTime.now());
+      final read = msg.copyWith(
+        status: MessageStatus.read,
+        readAt: DateTime.now(),
+      );
       expect(read.status, MessageStatus.read);
       expect(read.readAt, isNotNull);
       expect(read.content, 'Test'); // Unchanged
@@ -249,8 +245,10 @@ class MockMessageRepository extends Fake implements MessageRepository {
   }
 
   @override
-  Future<List<Message>> searchMessages(
-      {String? conversationId, required String query}) async {
+  Future<List<Message>> searchMessages({
+    String? conversationId,
+    required String query,
+  }) async {
     if (shouldThrow) throw Exception('Search failed');
     return _messages.where((m) => m.content.contains(query)).toList();
   }
@@ -265,17 +263,19 @@ class MockMessageRepository extends Fake implements MessageRepository {
     String mediaType = 'text',
   }) async {
     if (shouldThrow) throw Exception('Send failed');
-    _messages.add(Message(
-      id: 'msg-${_messages.length + 1}',
-      conversationId:
-          conversationId ?? 'conv_${[senderId, receiverId]..sort()}',
-      senderId: senderId,
-      receiverId: receiverId,
-      content: content,
-      type: MessageType.text,
-      status: MessageStatus.sent,
-      sentAt: DateTime.now(),
-    ));
+    _messages.add(
+      Message(
+        id: 'msg-${_messages.length + 1}',
+        conversationId:
+            conversationId ?? 'conv_${[senderId, receiverId]..sort()}',
+        senderId: senderId,
+        receiverId: receiverId,
+        content: content,
+        type: MessageType.text,
+        status: MessageStatus.sent,
+        sentAt: DateTime.now(),
+      ),
+    );
   }
 
   @override

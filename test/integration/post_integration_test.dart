@@ -10,10 +10,7 @@ void main() {
   late FeedRepository feedRepository;
   late CommentRepository commentRepository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -36,40 +33,43 @@ void main() {
 
   group('Post Integration Tests', () {
     test(
-        'complete create post flow: content → media → publish → appear in feed',
-        () async {
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('posts', postsBuilder);
+      'complete create post flow: content → media → publish → appear in feed',
+      () async {
+        final postsBuilder = MockSupabaseQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('posts', postsBuilder);
 
-      const postContent = 'Hello VERASSO!';
-      const mediaUrl = 'https://example.com/image.jpg';
+        const postContent = 'Hello VERASSO!';
+        const mediaUrl = 'https://example.com/image.jpg';
 
-      // Create post with media
-      await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: postContent,
-          mediaUrls: [mediaUrl],
-        ),
-        completes,
-      );
+        // Create post with media
+        await expectLater(
+          feedRepository.createPost(
+            userId: testUser.id,
+            content: postContent,
+            mediaUrls: [mediaUrl],
+          ),
+          completes,
+        );
 
-      expect(mockSupabase.lastInsertTable, 'posts');
-    });
+        expect(mockSupabase.lastInsertTable, 'posts');
+      },
+    );
 
     test('post appears in user feed after creation', () async {
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': testUser.id,
-          'content': 'Test post',
-          'created_at': DateTime.now().toIso8601String(),
-          'profiles': {
-            'full_name': 'Test User',
-            'avatar_url': 'https://example.com/avatar.jpg',
-          }
-        }
-      ]);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': testUser.id,
+            'content': 'Test post',
+            'created_at': DateTime.now().toIso8601String(),
+            'profiles': {
+              'full_name': 'Test User',
+              'avatar_url': 'https://example.com/avatar.jpg',
+            },
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       final posts = await feedRepository.getFeed();
@@ -81,37 +81,38 @@ void main() {
     test('like post updates like count', () async {
       final likesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('likes', likesBuilder);
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': testUser.id,
-          'content': 'Test post',
-          'likes_count': 1,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final postsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': testUser.id,
+            'content': 'Test post',
+            'likes_count': 1,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
-      await expectLater(
-        feedRepository.likePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.likePost('post-1'), completes);
 
       expect(mockSupabase.lastRpcName, 'toggle_post_like');
     });
 
     test('add comment to post creates comment record', () async {
-      final commentBuilder = MockSupabaseQueryBuilder(selectResponse: {
-        'id': 'comment-1',
-        'post_id': 'post-1',
-        'user_id': testUser.id,
-        'content': 'Great post!',
-        'created_at': DateTime.now().toIso8601String(),
-        'profiles': {
-          'full_name': 'Test User',
-          'avatar_url': 'https://example.com/avatar.jpg',
-        }
-      });
+      final commentBuilder = MockSupabaseQueryBuilder(
+        selectResponse: {
+          'id': 'comment-1',
+          'post_id': 'post-1',
+          'user_id': testUser.id,
+          'content': 'Great post!',
+          'created_at': DateTime.now().toIso8601String(),
+          'profiles': {
+            'full_name': 'Test User',
+            'avatar_url': 'https://example.com/avatar.jpg',
+          },
+        },
+      );
       mockSupabase.setQueryBuilder('comments', commentBuilder);
 
       await expectLater(
@@ -127,19 +128,21 @@ void main() {
     });
 
     test('comments appear on post after creation', () async {
-      final commentsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'comment-1',
-          'post_id': 'post-1',
-          'user_id': testUser.id,
-          'content': 'Great post!',
-          'created_at': DateTime.now().toIso8601String(),
-          'profiles': {
-            'full_name': 'Test User',
-            'avatar_url': 'https://example.com/avatar.jpg',
-          }
-        }
-      ]);
+      final commentsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'comment-1',
+            'post_id': 'post-1',
+            'user_id': testUser.id,
+            'content': 'Great post!',
+            'created_at': DateTime.now().toIso8601String(),
+            'profiles': {
+              'full_name': 'Test User',
+              'avatar_url': 'https://example.com/avatar.jpg',
+            },
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('comments', commentsBuilder);
 
       final comments = await commentRepository.getPostComments('post-1');
@@ -152,10 +155,7 @@ void main() {
       final likesBuilder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('likes', likesBuilder);
 
-      await expectLater(
-        feedRepository.unlikePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.unlikePost('post-1'), completes);
 
       expect(mockSupabase.lastRpcName, 'toggle_post_like');
     });
@@ -164,10 +164,7 @@ void main() {
       final postsBuilder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
-      await expectLater(
-        feedRepository.deletePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.deletePost('post-1'), completes);
 
       expect(mockSupabase.lastDeleteTable, 'posts');
     });
@@ -199,16 +196,18 @@ void main() {
 
   group('Post Integration - Data Consistency', () {
     test('post statistics updated atomically', () async {
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': testUser.id,
-          'likes_count': 5,
-          'comments_count': 3,
-          'share_count': 1,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final postsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': testUser.id,
+            'likes_count': 5,
+            'comments_count': 3,
+            'share_count': 1,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       final posts = await feedRepository.getFeed();
@@ -217,17 +216,19 @@ void main() {
     });
 
     test('media attachments preserved with post', () async {
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': testUser.id,
-          'media_urls': [
-            'https://example.com/img1.jpg',
-            'https://example.com/img2.jpg',
-          ],
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final postsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': testUser.id,
+            'media_urls': [
+              'https://example.com/img1.jpg',
+              'https://example.com/img2.jpg',
+            ],
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       final posts = await feedRepository.getFeed();
@@ -236,19 +237,21 @@ void main() {
     });
 
     test('comment author information preserved', () async {
-      final commentsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'comment-1',
-          'post_id': 'post-1',
-          'user_id': testUser.id,
-          'content': 'Test',
-          'profiles': {
-            'full_name': 'Test User',
-            'avatar_url': 'https://example.com/avatar.jpg',
+      final commentsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'comment-1',
+            'post_id': 'post-1',
+            'user_id': testUser.id,
+            'content': 'Test',
+            'profiles': {
+              'full_name': 'Test User',
+              'avatar_url': 'https://example.com/avatar.jpg',
+            },
+            'created_at': DateTime.now().toIso8601String(),
           },
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+        ],
+      );
       mockSupabase.setQueryBuilder('comments', commentsBuilder);
 
       final comments = await commentRepository.getPostComments('post-1');
@@ -269,12 +272,13 @@ void main() {
           'profiles': {
             'full_name': 'User ${i % 100}',
             'avatar_url': 'https://example.com/avatar.jpg',
-          }
+          },
         },
       );
 
-      final feedBuilder =
-          MockSupabaseQueryBuilder(selectResponse: largePostList);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: largePostList,
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       final stopwatch = Stopwatch()..start();
@@ -294,10 +298,7 @@ void main() {
         (_) => feedRepository.likePost('post-1'),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
   });
 

@@ -73,14 +73,22 @@ void main() {
       expect(encrypted1 != encrypted2 || encrypted1 == encrypted2, isTrue);
     });
 
-    test('encryption with different recipients produces different outputs',
-        () async {
-      const plaintext = 'Same message';
-      final encrypted1 = await service.encryptMessage(plaintext, 'recipient-1');
-      final encrypted2 = await service.encryptMessage(plaintext, 'recipient-2');
-      expect(encrypted1, isNotNull);
-      expect(encrypted2, isNotNull);
-    });
+    test(
+      'encryption with different recipients produces different outputs',
+      () async {
+        const plaintext = 'Same message';
+        final encrypted1 = await service.encryptMessage(
+          plaintext,
+          'recipient-1',
+        );
+        final encrypted2 = await service.encryptMessage(
+          plaintext,
+          'recipient-2',
+        );
+        expect(encrypted1, isNotNull);
+        expect(encrypted2, isNotNull);
+      },
+    );
   });
 
   group('Encryption Service - Message Decryption', () {
@@ -102,10 +110,7 @@ void main() {
     });
 
     test('decryption handles empty encrypted data', () async {
-      expect(
-        () => service.decryptMessage('', 'user-id'),
-        throwsException,
-      );
+      expect(() => service.decryptMessage('', 'user-id'), throwsException);
     });
   });
 

@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late EncryptionService service;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -25,10 +22,7 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('user_keys', builder);
 
-      await expectLater(
-        service.initializeKeys(),
-        completes,
-      );
+      await expectLater(service.initializeKeys(), completes);
     });
 
     test('encryptMessage creates valid encrypted output', () async {
@@ -57,10 +51,11 @@ void main() {
 
       await service.initializeKeys();
 
-      final encrypted = await service.encryptGroupMessage(
-        'Hello Group',
-        ['user-2', 'user-3', 'user-4'],
-      );
+      final encrypted = await service.encryptGroupMessage('Hello Group', [
+        'user-2',
+        'user-3',
+        'user-4',
+      ]);
 
       expect(encrypted['content'], isNotNull);
       expect(encrypted['iv'], isNotNull);
@@ -102,10 +97,7 @@ void main() {
         'iv_text': 'base64_iv',
       };
 
-      expect(
-        () => service.decryptMessage(messageRow),
-        throwsException,
-      );
+      expect(() => service.decryptMessage(messageRow), throwsException);
     });
 
     test('decryptMessage handles missing private key gracefully', () async {
@@ -121,24 +113,23 @@ void main() {
       expect(result, contains('Decryption Error'));
     });
 
-    test('encryptGroupMessage handles key generation for known users',
-        () async {
-      final keyBuilder = MockSupabaseQueryBuilder(
-        selectResponse: {
-          'public_key': 'base64_curve25519_key_here',
-        },
-      );
-      mockSupabase.setQueryBuilder('user_keys', keyBuilder);
+    test(
+      'encryptGroupMessage handles key generation for known users',
+      () async {
+        final keyBuilder = MockSupabaseQueryBuilder(
+          selectResponse: {'public_key': 'base64_curve25519_key_here'},
+        );
+        mockSupabase.setQueryBuilder('user_keys', keyBuilder);
 
-      await service.initializeKeys();
+        await service.initializeKeys();
 
-      final encrypted = await service.encryptGroupMessage(
-        'Group message',
-        ['user-2'],
-      );
+        final encrypted = await service.encryptGroupMessage('Group message', [
+          'user-2',
+        ]);
 
-      expect(encrypted['keys_per_user'], isNotNull);
-    });
+        expect(encrypted['keys_per_user'], isNotNull);
+      },
+    );
 
     test('encryptGroupMessage continues on key fetch failure', () async {
       final keyBuilder = MockSupabaseQueryBuilder(shouldThrow: true);
@@ -147,8 +138,9 @@ void main() {
       await service.initializeKeys();
 
       // Should not throw, but may have empty keys_per_user
-      final encrypted =
-          await service.encryptGroupMessage('Message', ['user-2']);
+      final encrypted = await service.encryptGroupMessage('Message', [
+        'user-2',
+      ]);
 
       expect(encrypted['content'], isNotNull);
     });

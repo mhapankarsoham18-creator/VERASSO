@@ -68,15 +68,17 @@ void main() {
     });
 
     group('sendJobNotification', () {
-      test('should create a job notification using createNotification',
-          () async {
-        await service.sendJobNotification(
-          userId: 'user-789',
-          title: 'New Job Match',
-          message: 'A new job matching your skills is available',
-          jobId: 'job-001',
-        );
-      });
+      test(
+        'should create a job notification using createNotification',
+        () async {
+          await service.sendJobNotification(
+            userId: 'user-789',
+            title: 'New Job Match',
+            message: 'A new job matching your skills is available',
+            jobId: 'job-001',
+          );
+        },
+      );
     });
   });
 
@@ -86,8 +88,10 @@ void main() {
     });
 
     test('has social type', () {
-      expect(NotificationType.values.map((e) => e.name),
-          contains('socialInteraction'));
+      expect(
+        NotificationType.values.map((e) => e.name),
+        contains('socialInteraction'),
+      );
     });
 
     test('has system type', () {

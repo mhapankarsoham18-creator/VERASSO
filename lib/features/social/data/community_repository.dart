@@ -17,7 +17,7 @@ class CommunityRepository {
   /// Creates a [CommunityRepository] that uses the provided Supabase [client] or
   /// falls back to the global [SupabaseService.client].
   CommunityRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Returns a list of communities recommended for the user.
   Future<List<Community>> getRecommendedCommunities() async {
@@ -40,10 +40,10 @@ class CommunityRepository {
   /// Joins a specific community for the given [userId].
   Future<void> joinCommunity(String communityId, String userId) async {
     try {
-      await _client.rpc('join_community', params: {
-        'p_community_id': communityId,
-        'p_user_id': userId,
-      });
+      await _client.rpc(
+        'join_community',
+        params: {'p_community_id': communityId, 'p_user_id': userId},
+      );
     } catch (e) {
       AppLogger.error('Failed to join community', error: e);
       rethrow;
@@ -56,7 +56,9 @@ class CommunityRepository {
       final response = await _client
           .from('communities')
           .select()
-          .or('name.ilike.%$query%,description.ilike.%$query%,subject.ilike.%$query%')
+          .or(
+            'name.ilike.%$query%,description.ilike.%$query%,subject.ilike.%$query%',
+          )
           .order('member_count', ascending: false);
 
       return (response as List)

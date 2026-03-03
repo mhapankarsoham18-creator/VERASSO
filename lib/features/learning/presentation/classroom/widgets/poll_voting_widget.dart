@@ -33,8 +33,10 @@ class _PollVotingWidgetState extends State<PollVotingWidget> {
   @override
   Widget build(BuildContext context) {
     // Calculate total votes
-    int totalVotes =
-        widget.poll.votes.values.fold(0, (sum, count) => sum + count);
+    int totalVotes = widget.poll.votes.values.fold(
+      0,
+      (sum, count) => sum + count,
+    );
 
     return GlassContainer(
       child: Column(
@@ -44,22 +46,30 @@ class _PollVotingWidgetState extends State<PollVotingWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                  child: Text(widget.poll.question,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold))),
+                child: Text(
+                  widget.poll.question,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               if (widget.isTeacher)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Text("Live: $totalVotes votes",
-                      style:
-                          const TextStyle(color: Colors.white, fontSize: 12)),
-                )
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "Live: $totalVotes votes",
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
             ],
           ),
           const SizedBox(height: 16),
@@ -93,14 +103,17 @@ class _PollVotingWidgetState extends State<PollVotingWidget> {
                           ),
                         ),
                       ).animate().scaleX(
-                          duration: 500.ms, alignment: Alignment.centerLeft),
+                        duration: 500.ms,
+                        alignment: Alignment.centerLeft,
+                      ),
 
                     // Button Frame
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color:
-                              isSelected ? Colors.blueAccent : Colors.white24,
+                          color: isSelected
+                              ? Colors.blueAccent
+                              : Colors.white24,
                           width: isSelected ? 2 : 1,
                         ),
                         borderRadius: BorderRadius.circular(12),
@@ -113,11 +126,15 @@ class _PollVotingWidgetState extends State<PollVotingWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(option,
-                              style: const TextStyle(color: Colors.white)),
+                          Text(
+                            option,
+                            style: const TextStyle(color: Colors.white),
+                          ),
                           if (widget.isTeacher || _selectedOption != null)
-                            Text("${(percentage * 100).toStringAsFixed(1)}%",
-                                style: const TextStyle(color: Colors.white70)),
+                            Text(
+                              "${(percentage * 100).toStringAsFixed(1)}%",
+                              style: const TextStyle(color: Colors.white70),
+                            ),
                         ],
                       ),
                     ),

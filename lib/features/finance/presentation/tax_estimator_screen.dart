@@ -46,7 +46,9 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
                     Text(
                       'Estimated Tax Bill',
                       style: GoogleFonts.outfit(
-                          color: Colors.white70, fontSize: 16),
+                        color: Colors.white70,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -61,7 +63,9 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
                     Text(
                       'Effective Rate: ${_effectiveRate.toStringAsFixed(1)}%',
                       style: const TextStyle(
-                          color: Colors.amber, fontWeight: FontWeight.bold),
+                        color: Colors.amber,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -72,23 +76,37 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Financial Details',
-                        style: GoogleFonts.outfit(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                    Text(
+                      'Financial Details',
+                      style: GoogleFonts.outfit(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    _buildInput('Annual Income', _incomeController,
-                        LucideIcons.briefcase),
+                    _buildInput(
+                      'Annual Income',
+                      _incomeController,
+                      LucideIcons.briefcase,
+                    ),
                     const SizedBox(height: 16),
-                    _buildInput('Short Term Gains (< 1yr)',
-                        _shortTermGainsController, LucideIcons.timer),
+                    _buildInput(
+                      'Short Term Gains (< 1yr)',
+                      _shortTermGainsController,
+                      LucideIcons.timer,
+                    ),
                     const SizedBox(height: 16),
-                    _buildInput('Long Term Gains (> 1yr)',
-                        _longTermGainsController, LucideIcons.calendarCheck),
+                    _buildInput(
+                      'Long Term Gains (> 1yr)',
+                      _longTermGainsController,
+                      LucideIcons.calendarCheck,
+                    ),
                     const SizedBox(height: 16),
-                    const Text('Filing Status',
-                        style: TextStyle(color: Colors.white70)),
+                    const Text(
+                      'Filing Status',
+                      style: TextStyle(color: Colors.white70),
+                    ),
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -104,10 +122,13 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
                           style: const TextStyle(color: Colors.white),
                           items: const [
                             DropdownMenuItem(
-                                value: 'single', child: Text('Single')),
+                              value: 'single',
+                              child: Text('Single'),
+                            ),
                             DropdownMenuItem(
-                                value: 'married',
-                                child: Text('Married Filing Jointly')),
+                              value: 'married',
+                              child: Text('Married Filing Jointly'),
+                            ),
                           ],
                           onChanged: (val) {
                             if (val != null) {
@@ -155,7 +176,10 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
   }
 
   Widget _buildInput(
-      String label, TextEditingController controller, IconData icon) {
+    String label,
+    TextEditingController controller,
+    IconData icon,
+  ) {
     return TextField(
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -184,20 +208,22 @@ class _TaxEstimatorScreenState extends State<TaxEstimatorScreen> {
     // Calculate tax on ordinary income (simplified using same PnL logic)
     // We treat 'gain' as the whole income for estimation
     final ordinaryTax = PnLCalculator.estimateTax(
-        gain: ordinaryInc,
-        annualIncome: ordinaryInc,
-        isLongTerm: false,
-        filingStatus: _filingStatus);
+      gain: ordinaryInc,
+      annualIncome: ordinaryInc,
+      isLongTerm: false,
+      filingStatus: _filingStatus,
+    );
 
     // Long Term Capital Gains Tax
     // This is stacked on top of ordinary income for bracket determination usually,
     // but simplified logic in PnLCalculator handles rate lookup based on total income.
     final totalIncome = ordinaryInc + longTerm;
     final capitalGainsTax = PnLCalculator.estimateTax(
-        gain: longTerm,
-        annualIncome: totalIncome, // Use total to find bracket
-        isLongTerm: true,
-        filingStatus: _filingStatus);
+      gain: longTerm,
+      annualIncome: totalIncome, // Use total to find bracket
+      isLongTerm: true,
+      filingStatus: _filingStatus,
+    );
 
     setState(() {
       _estimatedTax = ordinaryTax + capitalGainsTax;

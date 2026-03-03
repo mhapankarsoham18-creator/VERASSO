@@ -38,7 +38,7 @@ class TalentPost {
 
   /// The billing period (e.g., 'hourly', 'fixed').
   final String
-      billingPeriod; // 'hourly', 'monthly', 'quarterly', 'yearly', 'free', 'one-off'
+  billingPeriod; // 'hourly', 'monthly', 'quarterly', 'yearly', 'free', 'one-off'
 
   /// Whether this post is a mentorship package.
   final bool isMentorPackage;

@@ -17,11 +17,13 @@ import 'article_editor_screen.dart';
 import 'widgets/badge_unlock_overlay.dart';
 
 /// Provider for streaming news articles.
-final newsStreamProvider =
-    StreamProvider.family<List<NewsArticle>, bool>((ref, featuredOnly) {
-  return ref.watch(newsRepositoryProvider).watchArticles(
-        featuredOnly: featuredOnly,
-      );
+final newsStreamProvider = StreamProvider.family<List<NewsArticle>, bool>((
+  ref,
+  featuredOnly,
+) {
+  return ref
+      .watch(newsRepositoryProvider)
+      .watchArticles(featuredOnly: featuredOnly);
 });
 
 /// Main screen for browsing and discovering news articles, including P2P mesh content.
@@ -47,10 +49,14 @@ class _MeshNewsFeedView extends ConsumerWidget {
           children: [
             Icon(LucideIcons.radio, size: 48, color: Colors.white24),
             SizedBox(height: 16),
-            Text('No P2P articles discovered yet.',
-                style: TextStyle(color: Colors.white54)),
-            Text('Connect to neighbors to sync news.',
-                style: TextStyle(color: Colors.white38, fontSize: 12)),
+            Text(
+              'No P2P articles discovered yet.',
+              style: TextStyle(color: Colors.white54),
+            ),
+            Text(
+              'Connect to neighbors to sync news.',
+              style: TextStyle(color: Colors.white38, fontSize: 12),
+            ),
           ],
         ),
       );
@@ -80,9 +86,11 @@ class _NewsCard extends StatelessWidget {
       onTap: () {
         HapticFeedback.mediumImpact();
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ArticleDetailScreen(article: article)));
+          context,
+          MaterialPageRoute(
+            builder: (_) => ArticleDetailScreen(article: article),
+          ),
+        );
       },
       child: Semantics(
         label:
@@ -96,8 +104,9 @@ class _NewsCard extends StatelessWidget {
             children: [
               if (article.imageUrl != null)
                 ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                   child: CachedImage(
                     imageUrl: article.imageUrl!,
                     height: 150,
@@ -119,91 +128,143 @@ class _NewsCard extends StatelessWidget {
                                 ? CachedImage(
                                     imageUrl: article.authorAvatar!,
                                     fit: BoxFit.cover,
-                                    errorWidget:
-                                        const Icon(LucideIcons.user, size: 12),
+                                    errorWidget: const Icon(
+                                      LucideIcons.user,
+                                      size: 12,
+                                    ),
                                   )
                                 : const Icon(LucideIcons.user, size: 12),
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(article.authorName ?? 'Anonymous',
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(
+                          article.authorName ?? 'Anonymous',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         if (article.authorBadge != null) ...[
                           const SizedBox(width: 4),
                           _buildBadgeIcon(article.authorBadge!),
                         ],
                         const Spacer(),
-                        Text(article.subject.toUpperCase(),
-                            style: const TextStyle(
-                                fontSize: 10, color: Colors.orangeAccent)),
+                        Text(
+                          article.subject.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.orangeAccent,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
-                    Text(article.title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      article.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     if (article.description != null) ...[
                       const SizedBox(height: 8),
-                      Text(article.description!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.white70)),
+                      Text(
+                        article.description!,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                      ),
                     ],
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Icon(LucideIcons.heart,
-                            size: 16, color: Colors.white38),
+                        const Icon(
+                          LucideIcons.heart,
+                          size: 16,
+                          color: Colors.white38,
+                        ),
                         const SizedBox(width: 4),
-                        Text('${article.upvotesCount}',
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.white38)),
+                        Text(
+                          '${article.upvotesCount}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.white38,
+                          ),
+                        ),
                         const SizedBox(width: 16),
-                        const Icon(LucideIcons.messageSquare,
-                            size: 16, color: Colors.white38),
+                        const Icon(
+                          LucideIcons.messageSquare,
+                          size: 16,
+                          color: Colors.white38,
+                        ),
                         const SizedBox(width: 4),
-                        Text('${article.commentsCount}',
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.white38)),
+                        Text(
+                          '${article.commentsCount}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.white38,
+                          ),
+                        ),
                         const Spacer(),
-                        Consumer(builder: (context, ref, _) {
-                          final meshArticles =
-                              ref.watch(meshNewsServiceProvider);
-                          final isMesh =
-                              meshArticles.any((a) => a.id == article.id);
-                          if (isMesh) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.blueAccent.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(
-                                    color: Colors.blueAccent
-                                        .withValues(alpha: 0.5)),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(LucideIcons.radio,
-                                      size: 10, color: Colors.blueAccent),
-                                  SizedBox(width: 4),
-                                  Text('P2P',
-                                      style: TextStyle(
-                                          fontSize: 9,
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
+                        Consumer(
+                          builder: (context, ref, _) {
+                            final meshArticles = ref.watch(
+                              meshNewsServiceProvider,
                             );
-                          }
-                          return const SizedBox.shrink();
-                        }),
+                            final isMesh = meshArticles.any(
+                              (a) => a.id == article.id,
+                            );
+                            if (isMesh) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blueAccent.withValues(
+                                    alpha: 0.2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: Colors.blueAccent.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                  ),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      LucideIcons.radio,
+                                      size: 10,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'P2P',
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        color: Colors.blueAccent,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
                         const SizedBox(width: 8),
-                        Text('${article.readingTime} min read',
-                            style: const TextStyle(
-                                fontSize: 10, color: Colors.white24)),
+                        Text(
+                          '${article.readingTime} min read',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white24,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -234,7 +295,8 @@ class _NewsFeedView extends ConsumerWidget {
       data: (articles) {
         if (articles.isEmpty) {
           return const Center(
-              child: Text('No articles found. Be the first to publish!'));
+            child: Text('No articles found. Be the first to publish!'),
+          );
         }
         return ListView.builder(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 80),
@@ -248,7 +310,8 @@ class _NewsFeedView extends ConsumerWidget {
         );
       },
       loading: () => const Center(
-          child: CircularProgressIndicator(color: Colors.orangeAccent)),
+        child: CircularProgressIndicator(color: Colors.orangeAccent),
+      ),
       error: (e, stack) => Center(child: Text('Error: $e')),
     );
   }
@@ -262,16 +325,13 @@ class _NewsScreenState extends ConsumerState<NewsScreen>
   @override
   Widget build(BuildContext context) {
     // Listen for level up (Optimized: only triggers on level changes)
-    ref.listen<AsyncValue<Profile?>>(
-      userProfileProvider,
-      (prev, next) {
-        final prevLevel = prev?.value?.journalistLevel;
-        final nextLevel = next.value?.journalistLevel;
-        if (nextLevel != null && prevLevel != nextLevel && prevLevel != null) {
-          setState(() => _newLevel = nextLevel);
-        }
-      },
-    );
+    ref.listen<AsyncValue<Profile?>>(userProfileProvider, (prev, next) {
+      final prevLevel = prev?.value?.journalistLevel;
+      final nextLevel = next.value?.journalistLevel;
+      if (nextLevel != null && prevLevel != nextLevel && prevLevel != null) {
+        setState(() => _newLevel = nextLevel);
+      }
+    });
 
     return Stack(
       children: [
@@ -308,9 +368,9 @@ class _NewsScreenState extends ConsumerState<NewsScreen>
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const ArticleEditorScreen()));
+                context,
+                MaterialPageRoute(builder: (_) => const ArticleEditorScreen()),
+              );
             },
             backgroundColor: Colors.orangeAccent,
             icon: const Icon(LucideIcons.penTool),

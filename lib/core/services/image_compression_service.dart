@@ -58,11 +58,13 @@ class ImageCompressionService {
       // Write to temporary file
       final tempDir = await Directory.systemTemp.createTemp('verasso_');
       final compressedFile = File(
-          '${tempDir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        '${tempDir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
       await compressedFile.writeAsBytes(finalBytes);
 
       AppLogger.info(
-          'Image compressed: ${bytes.length} → ${finalBytes.length} bytes (${(finalBytes.length / bytes.length * 100).toStringAsFixed(1)}%)');
+        'Image compressed: ${bytes.length} → ${finalBytes.length} bytes (${(finalBytes.length / bytes.length * 100).toStringAsFixed(1)}%)',
+      );
 
       return compressedFile;
     } catch (e, stack) {

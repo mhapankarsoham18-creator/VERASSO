@@ -43,14 +43,14 @@ class Quest {
 
   /// Creates from JSON.
   factory Quest.fromJson(Map<String, dynamic> json) => Quest(
-        id: json['id'],
-        name: json['name'] ?? '',
-        description: json['description'] ?? '',
-        questType: json['quest_type'] ?? 'daily',
-        actionType: json['action_type'] ?? '',
-        targetCount: json['target_count'] ?? 1,
-        xpReward: json['xp_reward'] ?? 0,
-      );
+    id: json['id'],
+    name: json['name'] ?? '',
+    description: json['description'] ?? '',
+    questType: json['quest_type'] ?? 'daily',
+    actionType: json['action_type'] ?? '',
+    targetCount: json['target_count'] ?? 1,
+    xpReward: json['xp_reward'] ?? 0,
+  );
 
   /// Icon for quest type.
   String get typeIcon {
@@ -148,8 +148,11 @@ class QuestService {
       final now = DateTime.now();
       final resetAt = type == 'daily'
           ? DateTime(now.year, now.month, now.day).toIso8601String()
-          : DateTime(now.year, now.month, now.day - now.weekday + 1)
-              .toIso8601String();
+          : DateTime(
+              now.year,
+              now.month,
+              now.day - now.weekday + 1,
+            ).toIso8601String();
 
       // Get user progress for these quests
       final questIds = (quests as List).map((q) => q['id'] as String).toList();

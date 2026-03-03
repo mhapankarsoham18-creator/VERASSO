@@ -32,16 +32,8 @@ void main() {
       });
 
       test('search respects pagination', () async {
-        final page1 = await searchService.search(
-          'test',
-          page: 1,
-          pageSize: 5,
-        );
-        final page2 = await searchService.search(
-          'test',
-          page: 2,
-          pageSize: 5,
-        );
+        final page1 = await searchService.search('test', page: 1, pageSize: 5);
+        final page2 = await searchService.search('test', page: 2, pageSize: 5);
         expect(page1, isA<List<SearchResult>>());
         expect(page2, isA<List<SearchResult>>());
       });
@@ -60,10 +52,7 @@ void main() {
       });
 
       test('invalid query throws exception', () async {
-        expect(
-          () => searchService.search(''),
-          throwsException,
-        );
+        expect(() => searchService.search(''), throwsException);
       });
     });
 

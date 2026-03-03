@@ -13,13 +13,14 @@ class StoriesService {
 
   /// Creates a [StoriesService].
   StoriesService({SupabaseClient? client})
-      : _supabase = client ?? Supabase.instance.client;
+    : _supabase = client ?? Supabase.instance.client;
 
   /// Compress video using video_compress package
   Future<File?> compressVideo(File file, {Function(double)? onProgress}) async {
     try {
-      final subscription =
-          VideoCompress.compressProgress$.subscribe((progress) {
+      final subscription = VideoCompress.compressProgress$.subscribe((
+        progress,
+      ) {
         if (onProgress != null) onProgress(progress / 100);
       });
 
@@ -57,8 +58,9 @@ class StoriesService {
         await _supabase.storage
             .from('user-stories')
             .upload(fileName, coverImage);
-        coverUrl =
-            _supabase.storage.from('user-stories').getPublicUrl(fileName);
+        coverUrl = _supabase.storage
+            .from('user-stories')
+            .getPublicUrl(fileName);
       } else if (storyIds.isNotEmpty) {
         // Use first story's thumbnail/image as cover if none provided
         // This logic mimics Instagram where you pick a story as cover
@@ -102,8 +104,10 @@ class StoriesService {
 
       // Compress video if needed
       if (mediaType == 'video') {
-        final compressedFile =
-            await compressVideo(mediaFile, onProgress: onProgress);
+        final compressedFile = await compressVideo(
+          mediaFile,
+          onProgress: onProgress,
+        );
         if (compressedFile != null) {
           fileToUpload = compressedFile;
         }
@@ -119,8 +123,9 @@ class StoriesService {
           .upload(filePath, fileToUpload);
 
       // Get public URL
-      final mediaUrl =
-          _supabase.storage.from('user-stories').getPublicUrl(filePath);
+      final mediaUrl = _supabase.storage
+          .from('user-stories')
+          .getPublicUrl(filePath);
 
       // Create story record
       final response = await _supabase
@@ -131,8 +136,9 @@ class StoriesService {
             'media_type': mediaType,
             'caption': caption,
             'duration': duration,
-            'expires_at':
-                DateTime.now().add(const Duration(hours: 24)).toIso8601String(),
+            'expires_at': DateTime.now()
+                .add(const Duration(hours: 24))
+                .toIso8601String(),
           })
           .select()
           .single();
@@ -289,7 +295,8 @@ class StoriesService {
       final response = await _supabase
           .from('story_views')
           .select(
-              'viewer_id, viewed_at, auth.users!viewer_id(username, avatar_url)')
+            'viewer_id, viewed_at, auth.users!viewer_id(username, avatar_url)',
+          )
           .eq('story_id', storyId)
           .order('viewed_at', ascending: false);
 
@@ -372,7 +379,7 @@ class StoriesService {
           'data': {
             'story_id': storyId,
             'reaction_type': reactionType,
-            'reactor_id': userId
+            'reactor_id': userId,
           },
         });
       }
@@ -389,10 +396,10 @@ class StoriesService {
       final userId = currentUser.id;
 
       // Call the increment function
-      await _supabase.rpc('increment_story_views', params: {
-        'p_story_id': storyId,
-        'p_viewer_id': userId,
-      });
+      await _supabase.rpc(
+        'increment_story_views',
+        params: {'p_story_id': storyId, 'p_viewer_id': userId},
+      );
 
       // Notify story owner (if not self)
       // First get story owner

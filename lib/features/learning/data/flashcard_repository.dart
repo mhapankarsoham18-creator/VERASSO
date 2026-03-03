@@ -9,7 +9,7 @@ class FlashcardRepository {
 
   /// Creates a [FlashcardRepository] instance.
   FlashcardRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Adds a new card to a flashcard deck.
   Future<void> addCard(Flashcard card) async {

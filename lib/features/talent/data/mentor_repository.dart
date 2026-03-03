@@ -16,7 +16,7 @@ class MentorRepository {
 
   /// Creates a [MentorRepository].
   MentorRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   // --- Mentor Onboarding & Verification ---
 
@@ -69,6 +69,7 @@ class MentorRepository {
     // Update profile is_mentor flag
     await _client
         .from('profiles')
-        .update({'is_mentor': true}).eq('id', profile.userId);
+        .update({'is_mentor': true})
+        .eq('id', profile.userId);
   }
 }

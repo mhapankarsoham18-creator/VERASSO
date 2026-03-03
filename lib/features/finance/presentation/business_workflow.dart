@@ -85,7 +85,8 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final completed = await TutorialService.isTutorialCompleted(
-          TutorialIds.businessWorkflow);
+        TutorialIds.businessWorkflow,
+      );
       if (!completed && mounted) {
         _showTutorial();
       }
@@ -103,7 +104,8 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
 
   void _advanceMonth() {
     final revenue = _business.monthlyRevenue;
-    final expenses = _business.totalFixedCosts +
+    final expenses =
+        _business.totalFixedCosts +
         _business.totalVariableCosts +
         _business.totalPayroll;
     final netCashFlow = revenue - expenses;
@@ -153,18 +155,26 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
           Text(name, style: const TextStyle(fontWeight: FontWeight.w500)),
           Row(
             children: [
-              Text('\$${amount.toStringAsFixed(0)}',
-                  style: const TextStyle(color: Colors.orangeAccent)),
+              Text(
+                '\$${amount.toStringAsFixed(0)}',
+                style: const TextStyle(color: Colors.orangeAccent),
+              ),
               PopupMenuButton<double>(
-                icon: const Icon(LucideIcons.moreVertical,
-                    color: Colors.white54, size: 18),
+                icon: const Icon(
+                  LucideIcons.moreVertical,
+                  color: Colors.white54,
+                  size: 18,
+                ),
                 onSelected: (value) => _updateCost(category, name, value),
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                      value: amount + 100, child: const Text('+\$100')),
+                    value: amount + 100,
+                    child: const Text('+\$100'),
+                  ),
                   PopupMenuItem(
-                      value: (amount - 100).clamp(0, double.infinity),
-                      child: const Text('-\$100')),
+                    value: (amount - 100).clamp(0, double.infinity),
+                    child: const Text('-\$100'),
+                  ),
                 ],
               ),
             ],
@@ -187,10 +197,11 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
                 Text(
                   _getStageName(_business.stage).toUpperCase(),
                   style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                      color: Colors.blueAccent),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 2,
+                    color: Colors.blueAccent,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -198,8 +209,10 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 4),
-                Text('Month ${_business.monthsInBusiness}',
-                    style: const TextStyle(color: Colors.white54)),
+                Text(
+                  'Month ${_business.monthsInBusiness}',
+                  style: const TextStyle(color: Colors.white54),
+                ),
               ],
             ),
           ),
@@ -209,33 +222,44 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
           Row(
             children: [
               Expanded(
-                  child: _buildKPICard(
-                      'Cash',
-                      '\$${_business.cash.toStringAsFixed(0)}',
-                      LucideIcons.dollarSign,
-                      Colors.greenAccent)),
+                child: _buildKPICard(
+                  'Cash',
+                  '\$${_business.cash.toStringAsFixed(0)}',
+                  LucideIcons.dollarSign,
+                  Colors.greenAccent,
+                ),
+              ),
               const SizedBox(width: 12),
               Expanded(
-                  child: _buildKPICard(
-                      'Revenue',
-                      '\$${_business.monthlyRevenue.toStringAsFixed(0)}',
-                      LucideIcons.trendingUp,
-                      Colors.blueAccent)),
+                child: _buildKPICard(
+                  'Revenue',
+                  '\$${_business.monthlyRevenue.toStringAsFixed(0)}',
+                  LucideIcons.trendingUp,
+                  Colors.blueAccent,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
-                  child: _buildKPICard(
-                      'Expenses',
-                      '\$${_business.monthlyExpenses.toStringAsFixed(0)}',
-                      LucideIcons.trendingDown,
-                      Colors.redAccent)),
+                child: _buildKPICard(
+                  'Expenses',
+                  '\$${_business.monthlyExpenses.toStringAsFixed(0)}',
+                  LucideIcons.trendingDown,
+                  Colors.redAccent,
+                ),
+              ),
               const SizedBox(width: 12),
               Expanded(
-                  child: _buildKPICard('Team', '${_business.employees.length}',
-                      LucideIcons.users, Colors.purpleAccent)),
+                child: _buildKPICard(
+                  'Team',
+                  '${_business.employees.length}',
+                  LucideIcons.users,
+                  Colors.purpleAccent,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -246,9 +270,10 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 8, bottom: 8),
-                child: Text('Cash Flow History',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Cash Flow History',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             GlassContainer(
@@ -263,7 +288,9 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
                     LineChartBarData(
                       spots: _business.cashFlowHistory.asMap().entries.map((e) {
                         return FlSpot(
-                            e.key.toDouble(), e.value.endingBalance / 1000);
+                          e.key.toDouble(),
+                          e.value.endingBalance / 1000,
+                        );
                       }).toList(),
                       isCurved: true,
                       color: Colors.greenAccent,
@@ -291,52 +318,58 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(decision.title,
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(
+            decision.title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
-          Text(decision.description,
-              style: const TextStyle(color: Colors.white70)),
+          Text(
+            decision.description,
+            style: const TextStyle(color: Colors.white70),
+          ),
           const SizedBox(height: 16),
-          ...decision.options.map((option) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _business = _business.copyWith(
-                        cash: _business.cash + option.cashImpact,
-                        monthlyRevenue:
-                            _business.monthlyRevenue + option.revenueImpact,
-                      );
-                    });
-                    _saveState();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(option.outcome)),
+          ...decision.options.map(
+            (option) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    _business = _business.copyWith(
+                      cash: _business.cash + option.cashImpact,
+                      monthlyRevenue:
+                          _business.monthlyRevenue + option.revenueImpact,
                     );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary),
-                    padding: const EdgeInsets.all(16),
+                  });
+                  _saveState();
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(option.outcome)));
+                },
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: Text(option.label)),
-                      if (option.revenueImpact != 0)
-                        Text(
-                          '${option.revenueImpact > 0 ? '+' : ''}\$${option.revenueImpact.toStringAsFixed(0)}/mo',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: option.revenueImpact > 0
-                                ? Colors.greenAccent
-                                : Colors.redAccent,
-                          ),
-                        ),
-                    ],
-                  ),
+                  padding: const EdgeInsets.all(16),
                 ),
-              )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(child: Text(option.label)),
+                    if (option.revenueImpact != 0)
+                      Text(
+                        '${option.revenueImpact > 0 ? '+' : ''}\$${option.revenueImpact.toStringAsFixed(0)}/mo',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: option.revenueImpact > 0
+                              ? Colors.greenAccent
+                              : Colors.redAccent,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -353,14 +386,18 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
         children: [
           if (availableDecisions.isEmpty)
             const Center(
-                child: Padding(
-              padding: EdgeInsets.all(40),
-              child: Text('No decisions available at this stage.',
-                  style: TextStyle(color: Colors.white54)),
-            ))
+              child: Padding(
+                padding: EdgeInsets.all(40),
+                child: Text(
+                  'No decisions available at this stage.',
+                  style: TextStyle(color: Colors.white54),
+                ),
+              ),
+            )
           else
-            ...availableDecisions
-                .map((decision) => _buildDecisionCard(decision)),
+            ...availableDecisions.map(
+              (decision) => _buildDecisionCard(decision),
+            ),
         ],
       ),
     );
@@ -373,27 +410,37 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-            child: Text(employee.name[0],
-                style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+            backgroundColor: Theme.of(
+              context,
+            ).colorScheme.primary.withValues(alpha: 0.2),
+            child: Text(
+              employee.name[0],
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(employee.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(employee.role,
-                    style:
-                        const TextStyle(fontSize: 12, color: Colors.white54)),
+                Text(
+                  employee.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  employee.role,
+                  style: const TextStyle(fontSize: 12, color: Colors.white54),
+                ),
               ],
             ),
           ),
-          Text('\$${employee.monthlySalary.toStringAsFixed(0)}/mo',
-              style: const TextStyle(
-                  color: Colors.orangeAccent, fontWeight: FontWeight.bold)),
+          Text(
+            '\$${employee.monthlySalary.toStringAsFixed(0)}/mo',
+            style: const TextStyle(
+              color: Colors.orangeAccent,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -411,13 +458,18 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Monthly Revenue',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Monthly Revenue',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
-                Text('\$${_business.monthlyRevenue.toStringAsFixed(0)}',
-                    style: const TextStyle(
-                        fontSize: 24, color: Colors.greenAccent)),
+                Text(
+                  '\$${_business.monthlyRevenue.toStringAsFixed(0)}',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    color: Colors.greenAccent,
+                  ),
+                ),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -426,15 +478,17 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
                       icon: const Icon(LucideIcons.plus, size: 16),
                       label: const Text('+\$1000'),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green),
+                        backgroundColor: Colors.green,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(
                       onPressed: () => _adjustRevenue(-1000),
                       icon: const Icon(LucideIcons.minus, size: 16),
                       label: const Text('-\$1000'),
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
                     ),
                   ],
                 ),
@@ -446,22 +500,28 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
           // Fixed Costs
           const Padding(
             padding: EdgeInsets.only(left: 8, bottom: 8),
-            child: Text('Fixed Costs',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text(
+              'Fixed Costs',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
-          ..._business.fixedCosts.entries
-              .map((e) => _buildCostItem(e.key, e.value, 'fixed')),
+          ..._business.fixedCosts.entries.map(
+            (e) => _buildCostItem(e.key, e.value, 'fixed'),
+          ),
 
           const SizedBox(height: 16),
 
           // Variable Costs
           const Padding(
             padding: EdgeInsets.only(left: 8, bottom: 8),
-            child: Text('Variable Costs',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text(
+              'Variable Costs',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
-          ..._business.variableCosts.entries
-              .map((e) => _buildCostItem(e.key, e.value, 'variable')),
+          ..._business.variableCosts.entries.map(
+            (e) => _buildCostItem(e.key, e.value, 'variable'),
+          ),
 
           const SizedBox(height: 16),
 
@@ -470,21 +530,34 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                _buildSummaryRow('Total Revenue', _business.monthlyRevenue,
-                    Colors.greenAccent),
-                _buildSummaryRow('Fixed Costs', _business.totalFixedCosts,
-                    Colors.orangeAccent),
-                _buildSummaryRow('Variable Costs', _business.totalVariableCosts,
-                    Colors.orangeAccent),
                 _buildSummaryRow(
-                    'Payroll', _business.totalPayroll, Colors.orangeAccent),
+                  'Total Revenue',
+                  _business.monthlyRevenue,
+                  Colors.greenAccent,
+                ),
+                _buildSummaryRow(
+                  'Fixed Costs',
+                  _business.totalFixedCosts,
+                  Colors.orangeAccent,
+                ),
+                _buildSummaryRow(
+                  'Variable Costs',
+                  _business.totalVariableCosts,
+                  Colors.orangeAccent,
+                ),
+                _buildSummaryRow(
+                  'Payroll',
+                  _business.totalPayroll,
+                  Colors.orangeAccent,
+                ),
                 const Divider(color: Colors.white24),
                 _buildSummaryRow(
-                    'Net Income',
-                    _business.netIncome,
-                    _business.netIncome >= 0
-                        ? Colors.greenAccent
-                        : Colors.redAccent),
+                  'Net Income',
+                  _business.netIncome,
+                  _business.netIncome >= 0
+                      ? Colors.greenAccent
+                      : Colors.redAccent,
+                ),
               ],
             ),
           ),
@@ -500,11 +573,18 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
         children: [
           Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
-          Text(value,
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: color)),
-          Text(label,
-              style: const TextStyle(fontSize: 12, color: Colors.white54)),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white54),
+          ),
         ],
       ),
     );
@@ -517,8 +597,10 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(color: Colors.white70)),
-          Text('\$${amount.toStringAsFixed(0)}',
-              style: TextStyle(fontWeight: FontWeight.bold, color: color)),
+          Text(
+            '\$${amount.toStringAsFixed(0)}',
+            style: TextStyle(fontWeight: FontWeight.bold, color: color),
+          ),
         ],
       ),
     );
@@ -537,23 +619,34 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Total Employees',
-                        style: TextStyle(color: Colors.white70)),
-                    Text('${_business.employees.length}',
-                        style: const TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Total Employees',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    Text(
+                      '${_business.employees.length}',
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text('Monthly Payroll',
-                        style: TextStyle(color: Colors.white70)),
-                    Text('\$${_business.totalPayroll.toStringAsFixed(0)}',
-                        style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orangeAccent)),
+                    const Text(
+                      'Monthly Payroll',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    Text(
+                      '\$${_business.totalPayroll.toStringAsFixed(0)}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orangeAccent,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -562,11 +655,14 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
           const SizedBox(height: 16),
           if (_business.employees.isEmpty)
             const Center(
-                child: Padding(
-              padding: EdgeInsets.all(40),
-              child: Text('No employees yet. Hire your first team member!',
-                  style: TextStyle(color: Colors.white54)),
-            ))
+              child: Padding(
+                padding: EdgeInsets.all(40),
+                child: Text(
+                  'No employees yet. Hire your first team member!',
+                  style: TextStyle(color: Colors.white54),
+                ),
+              ),
+            )
           else
             ..._business.employees.map((e) => _buildEmployeeCard(e)),
           const SizedBox(height: 16),
@@ -620,8 +716,9 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
   }
 
   Future<void> _loadBusinessState() async {
-    final savedState =
-        await ref.read(businessServiceProvider).loadBusinessState();
+    final savedState = await ref
+        .read(businessServiceProvider)
+        .loadBusinessState();
     if (savedState != null && mounted) {
       setState(() {
         _business = savedState;
@@ -639,10 +736,14 @@ class _BusinessWorkflowState extends ConsumerState<BusinessWorkflow>
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: const Text('Business Failed!',
-            style: TextStyle(color: Colors.redAccent)),
-        content: const Text('You ran out of cash. Better luck next time!',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Business Failed!',
+          style: TextStyle(color: Colors.redAccent),
+        ),
+        content: const Text(
+          'You ran out of cash. Better luck next time!',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           ElevatedButton(
             onPressed: () {

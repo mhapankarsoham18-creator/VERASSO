@@ -34,9 +34,10 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Projectile Motion'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Projectile Motion'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: Column(
           children: [
@@ -67,10 +68,22 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    _buildSlider('Launch Angle', _angle, 0, 90,
-                        (v) => setState(() => _angle = v), '°'),
-                    _buildSlider('Initial Velocity', _velocity, 10, 100,
-                        (v) => setState(() => _velocity = v), ' m/s'),
+                    _buildSlider(
+                      'Launch Angle',
+                      _angle,
+                      0,
+                      90,
+                      (v) => setState(() => _angle = v),
+                      '°',
+                    ),
+                    _buildSlider(
+                      'Initial Velocity',
+                      _velocity,
+                      10,
+                      100,
+                      (v) => setState(() => _velocity = v),
+                      ' m/s',
+                    ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: _isAnimating ? null : _fire,
@@ -101,13 +114,21 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 5));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    );
     _controller.addListener(_updatePhysics);
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      ValueChanged<double> onChanged, String unit) {
+  Widget _buildSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    ValueChanged<double> onChanged,
+    String unit,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -115,8 +136,10 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-            Text('${value.toStringAsFixed(1)}$unit',
-                style: const TextStyle(color: Colors.cyanAccent)),
+            Text(
+              '${value.toStringAsFixed(1)}$unit',
+              style: const TextStyle(color: Colors.cyanAccent),
+            ),
           ],
         ),
         Slider(
@@ -137,7 +160,8 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
       _trajectoryPoints = [];
     });
     _controller.repeat(
-        period: const Duration(milliseconds: 16)); // ~60 FPS loop
+      period: const Duration(milliseconds: 16),
+    ); // ~60 FPS loop
 
     // Hook: Log Activity
     try {
@@ -146,10 +170,7 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
         await ProgressTrackingService().logActivity(
           userId: userId,
           activityType: 'simulation_run',
-          metadata: {
-            'simulation': 'projectile_motion',
-            'category': 'learning',
-          },
+          metadata: {'simulation': 'projectile_motion', 'category': 'learning'},
         );
       }
     } catch (e) {
@@ -172,14 +193,8 @@ class _ProjectileMotionSimulationState extends State<ProjectileMotionSimulation>
         await Supabase.instance.client.from('user_simulation_results').insert({
           'user_id': userId,
           'sim_id': 'projectile_motion',
-          'parameters': {
-            'angle': _angle,
-            'velocity': _velocity,
-          },
-          'results': {
-            'distance': distance,
-            'duration': _time,
-          },
+          'parameters': {'angle': _angle, 'velocity': _velocity},
+          'results': {'distance': distance, 'duration': _time},
         });
       }
     } catch (e) {
@@ -231,8 +246,11 @@ class _ProjectilePainter extends CustomPainter {
     canvas.drawCircle(Offset(0, size.height - 20), 10, paint);
 
     // Ground
-    canvas.drawLine(Offset(0, size.height), Offset(size.width, size.height),
-        paint..color = Colors.white54);
+    canvas.drawLine(
+      Offset(0, size.height),
+      Offset(size.width, size.height),
+      paint..color = Colors.white54,
+    );
 
     // Trajectory
     if (points.isNotEmpty) {
@@ -248,11 +266,12 @@ class _ProjectilePainter extends CustomPainter {
       }
 
       canvas.drawPath(
-          path,
-          Paint()
-            ..color = Colors.amber
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 3);
+        path,
+        Paint()
+          ..color = Colors.amber
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3,
+      );
 
       // Projectile
       final lastPoint = adjustedPoints.last;

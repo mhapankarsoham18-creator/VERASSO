@@ -4,8 +4,8 @@ import 'package:verasso/core/monitoring/app_logger.dart';
 /// Provider for the [FinancialSandboxService] state notifier.
 final financialSandboxProvider =
     StateNotifierProvider<FinancialSandboxService, FinancialState>((ref) {
-  return FinancialSandboxService();
-});
+      return FinancialSandboxService();
+    });
 
 /// Service managing simulated sovereign financial transactions within the app sandbox.
 class FinancialSandboxService extends StateNotifier<FinancialState> {
@@ -20,7 +20,7 @@ class FinancialSandboxService extends StateNotifier<FinancialState> {
       balance: state.balance + amount,
       transactionHistory: [
         ...state.transactionHistory,
-        'Added \$$amount to wallet'
+        'Added \$$amount to wallet',
       ],
       isProcessing: false,
     );
@@ -30,7 +30,8 @@ class FinancialSandboxService extends StateNotifier<FinancialState> {
   Future<bool> processPayment(double amount, String description) async {
     if (state.balance < amount) {
       AppLogger.warning(
-          'FinancialSandbox: Insufficient funds for $description');
+        'FinancialSandbox: Insufficient funds for $description',
+      );
       return false;
     }
 
@@ -43,13 +44,14 @@ class FinancialSandboxService extends StateNotifier<FinancialState> {
       balance: state.balance - amount,
       transactionHistory: [
         ...state.transactionHistory,
-        'Paid \$$amount for $description'
+        'Paid \$$amount for $description',
       ],
       isProcessing: false,
     );
 
     AppLogger.info(
-        'FinancialSandbox: Successfully processed payment: $description (\$$amount)');
+      'FinancialSandbox: Successfully processed payment: $description (\$$amount)',
+    );
     return true;
   }
 }

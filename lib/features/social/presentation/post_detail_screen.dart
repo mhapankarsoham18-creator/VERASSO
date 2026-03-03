@@ -22,7 +22,7 @@ class PostDetailScreen extends ConsumerStatefulWidget {
 
   /// Creates a [PostDetailScreen] instance.
   const PostDetailScreen({super.key, this.post, this.postId})
-      : assert(post != null || postId != null);
+    : assert(post != null || postId != null);
 
   @override
   ConsumerState<PostDetailScreen> createState() => _PostDetailScreenState();
@@ -58,14 +58,17 @@ class _CommentTile extends StatelessWidget {
                     Text(
                       comment.authorName ?? 'User',
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 13),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       DateFormat.yMMMd().format(comment.createdAt),
                       style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.white.withValues(alpha: 0.5)),
+                        fontSize: 11,
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
                     ),
                   ],
                 ),
@@ -115,21 +118,24 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
               child: CustomScrollView(
                 slivers: [
                   const SliverToBoxAdapter(
-                      child: SizedBox(height: kToolbarHeight + 20)),
+                    child: SizedBox(height: kToolbarHeight + 20),
+                  ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    sliver: SliverToBoxAdapter(
-                      child: PostCard(post: post),
-                    ),
+                    sliver: SliverToBoxAdapter(child: PostCard(post: post)),
                   ),
                   const SliverToBoxAdapter(
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       child: Text(
                         'Comments',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -145,8 +151,9 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                       child: Center(child: CircularProgressIndicator()),
                     ),
                     error: (err, _) => SliverFillRemaining(
-                      child:
-                          Center(child: Text('Error loading comments: $err')),
+                      child: Center(
+                        child: Text('Error loading comments: $err'),
+                      ),
                     ),
                   ),
                 ],
@@ -154,8 +161,9 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
             ),
             // Comment Input
             GlassContainer(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: SafeArea(
                 child: Row(
@@ -167,7 +175,8 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                           hintText: 'Add a thought...',
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5)),
+                            color: Colors.white.withValues(alpha: 0.5),
+                          ),
                         ),
                         style: const TextStyle(color: Colors.white),
                         maxLines: null,
@@ -175,8 +184,10 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
                     ),
                     IconButton(
                       onPressed: _submitComment,
-                      icon:
-                          const Icon(LucideIcons.send, color: AppColors.accent),
+                      icon: const Icon(
+                        LucideIcons.send,
+                        color: AppColors.accent,
+                      ),
                     ),
                   ],
                 ),
@@ -207,8 +218,9 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
   Future<void> _fetchPost() async {
     setState(() => _isLoading = true);
     try {
-      final fetchedPost =
-          await ref.read(feedRepositoryProvider).getPostById(_postId);
+      final fetchedPost = await ref
+          .read(feedRepositoryProvider)
+          .getPostById(_postId);
       setState(() {
         _post = fetchedPost;
         _isLoading = false;

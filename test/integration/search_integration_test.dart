@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late SearchService searchService;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -22,15 +19,17 @@ void main() {
 
   group('Search Integration Tests', () {
     test('complete search flow: index content → full-text query', () async {
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'user-2',
-          'type': 'user',
-          'full_name': 'John Developer',
-          'bio': 'Flutter enthusiast',
-          'relevance_score': 98,
-        }
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'user-2',
+            'type': 'user',
+            'full_name': 'John Developer',
+            'bio': 'Flutter enthusiast',
+            'relevance_score': 98,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final results = await searchService.search('developer');
@@ -40,22 +39,24 @@ void main() {
     });
 
     test('search across users returns matching profiles', () async {
-      final usersBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'user-2',
-          'full_name': 'John Developer',
-          'email': 'john@example.com',
-          'avatar_url': 'https://example.com/avatar.jpg',
-          'relevance': 95,
-        },
-        {
-          'id': 'user-3',
-          'full_name': 'Jane Dev',
-          'email': 'jane@example.com',
-          'avatar_url': 'https://example.com/avatar2.jpg',
-          'relevance': 85,
-        }
-      ]);
+      final usersBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'user-2',
+            'full_name': 'John Developer',
+            'email': 'john@example.com',
+            'avatar_url': 'https://example.com/avatar.jpg',
+            'relevance': 95,
+          },
+          {
+            'id': 'user-3',
+            'full_name': 'Jane Dev',
+            'email': 'jane@example.com',
+            'avatar_url': 'https://example.com/avatar2.jpg',
+            'relevance': 85,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', usersBuilder);
 
       final users = await searchService.searchUsers('dev');
@@ -65,28 +66,26 @@ void main() {
     });
 
     test('search across posts by content', () async {
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': 'user-2',
-          'content': 'Flutter is awesome',
-          'created_at': DateTime.now().toIso8601String(),
-          'relevance': 92,
-          'profiles': {
-            'full_name': 'John Developer',
-          }
-        },
-        {
-          'id': 'post-2',
-          'user_id': 'user-3',
-          'content': 'Just learned Flutter',
-          'created_at': DateTime.now().toIso8601String(),
-          'relevance': 88,
-          'profiles': {
-            'full_name': 'Jane Dev',
-          }
-        }
-      ]);
+      final postsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': 'user-2',
+            'content': 'Flutter is awesome',
+            'created_at': DateTime.now().toIso8601String(),
+            'relevance': 92,
+            'profiles': {'full_name': 'John Developer'},
+          },
+          {
+            'id': 'post-2',
+            'user_id': 'user-3',
+            'content': 'Just learned Flutter',
+            'created_at': DateTime.now().toIso8601String(),
+            'relevance': 88,
+            'profiles': {'full_name': 'Jane Dev'},
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       final posts = await searchService.searchPosts('Flutter');
@@ -96,22 +95,24 @@ void main() {
     });
 
     test('search across groups by name and description', () async {
-      final groupsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'group-1',
-          'name': 'Flutter Developers',
-          'description': 'Community for Flutter enthusiasts',
-          'member_count': 150,
-          'relevance': 94,
-        },
-        {
-          'id': 'group-2',
-          'name': 'Web Developers',
-          'description': 'For Flutter web developers',
-          'member_count': 85,
-          'relevance': 78,
-        }
-      ]);
+      final groupsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'group-1',
+            'name': 'Flutter Developers',
+            'description': 'Community for Flutter enthusiasts',
+            'member_count': 150,
+            'relevance': 94,
+          },
+          {
+            'id': 'group-2',
+            'name': 'Web Developers',
+            'description': 'For Flutter web developers',
+            'member_count': 85,
+            'relevance': 78,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('groups', groupsBuilder);
 
       final groups = await searchService.searchGroups('Flutter');
@@ -121,35 +122,37 @@ void main() {
     });
 
     test('search results ranked by relevance score', () async {
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'result-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'title': 'Flutter Tutorial',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-          'relevance_score': 99,
-        },
-        {
-          'id': 'result-2',
-          'type': 'post',
-          'user_id': 'user-2',
-          'title': 'Flutter Google I/O 2023',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-          'relevance_score': 95,
-        },
-        {
-          'id': 'result-3',
-          'type': 'post',
-          'user_id': 'user-2',
-          'title': 'Fluttering Leaves Animation',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-          'relevance_score': 65,
-        }
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'result-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'title': 'Flutter Tutorial',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+            'relevance_score': 99,
+          },
+          {
+            'id': 'result-2',
+            'type': 'post',
+            'user_id': 'user-2',
+            'title': 'Flutter Google I/O 2023',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+            'relevance_score': 95,
+          },
+          {
+            'id': 'result-3',
+            'type': 'post',
+            'user_id': 'user-2',
+            'title': 'Fluttering Leaves Animation',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+            'relevance_score': 65,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final results = await searchService.search('Flutter');
@@ -173,7 +176,8 @@ void main() {
       );
 
       final searchBuilder = MockSupabaseQueryBuilder(
-          selectResponse: largeResultSet.take(20).toList());
+        selectResponse: largeResultSet.take(20).toList(),
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final page1 = await searchService.search('query', page: 1, pageSize: 20);
@@ -182,29 +186,31 @@ void main() {
     });
 
     test('next page pagination works correctly', () async {
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'result-21',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': 'result-22',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': 'result-40',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Content',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'result-21',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': 'result-22',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': 'result-40',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final page2 = await searchService.search('query', page: 2, pageSize: 20);
@@ -213,15 +219,17 @@ void main() {
     });
 
     test('search with filters applied correctly', () async {
-      final filteredBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Filtered content',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final filteredBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Filtered content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', filteredBuilder);
 
       final results = await searchService.searchWithFilters(
@@ -240,15 +248,17 @@ void main() {
       final startDate = DateTime.now().subtract(Duration(days: 7));
       final endDate = DateTime.now();
 
-      final resultsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Date range content',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final resultsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Date range content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', resultsBuilder);
 
       final results = await searchService.searchByDateRange(
@@ -261,15 +271,17 @@ void main() {
     });
 
     test('search with user filter shows results from specific users', () async {
-      final userResultsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Flutter post',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final userResultsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Flutter post',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', userResultsBuilder);
 
       final results = await searchService.searchByUser(
@@ -281,11 +293,13 @@ void main() {
     });
 
     test('search suggestion/autocomplete on partial query', () async {
-      final suggestionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'term': 'Flutter'},
-        {'term': 'Fluttering'},
-        {'term': 'Flutter plugin'},
-      ]);
+      final suggestionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'term': 'Flutter'},
+          {'term': 'Fluttering'},
+          {'term': 'Flutter plugin'},
+        ],
+      );
       mockSupabase.setQueryBuilder('search_suggestions', suggestionsBuilder);
 
       final suggestions = await searchService.getSuggestions('Flut');
@@ -295,15 +309,17 @@ void main() {
     });
 
     test('special characters in search query handled safely', () async {
-      final specialBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'C++ and Java',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final specialBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'C++ and Java',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', specialBuilder);
 
       final results = await searchService.search('C++');
@@ -312,15 +328,17 @@ void main() {
     });
 
     test('search with quoted phrase matches exact phrase', () async {
-      final exactBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Flutter web development',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final exactBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Flutter web development',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', exactBuilder);
 
       final results = await searchService.searchExactPhrase('Flutter web');
@@ -351,7 +369,7 @@ void main() {
         (i) => {
           'id': 'post-$i',
           'title': 'Post $i',
-          'body': 'Content for post $i'
+          'body': 'Content for post $i',
         },
       );
 
@@ -367,17 +385,16 @@ void main() {
         );
       }).toList();
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('search returns results within acceptable latency', () async {
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'result-1'},
-        {'id': 'result-2'},
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'result-1'},
+          {'id': 'result-2'},
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final stopwatch = Stopwatch()..start();
@@ -397,10 +414,7 @@ void main() {
         (i) => searchService.search('query-$i'),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
   });
 
@@ -419,8 +433,9 @@ void main() {
         },
       );
 
-      final indexBuilder =
-          MockSupabaseQueryBuilder(selectResponse: hugeIndex.take(50).toList());
+      final indexBuilder = MockSupabaseQueryBuilder(
+        selectResponse: hugeIndex.take(50).toList(),
+      );
       mockSupabase.setQueryBuilder('search_index', indexBuilder);
 
       final stopwatch = Stopwatch()..start();
@@ -432,15 +447,17 @@ void main() {
     });
 
     test('concurrent search operations handled safely', () async {
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'result-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Result content',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'result-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Result content',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', searchBuilder);
 
       final futures = List.generate(
@@ -448,22 +465,21 @@ void main() {
         (i) => searchService.search('query-$i'),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('search with complex multi-filter on large dataset', () async {
-      final complexResults = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': 'Flutter is great',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final complexResults = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': 'Flutter is great',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', complexResults);
 
       final results = await searchService.searchWithFilters(
@@ -514,15 +530,17 @@ void main() {
     });
 
     test('XSS prevention in search results display', () async {
-      final xssBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'type': 'post',
-          'user_id': 'user-2',
-          'content': '&lt;script&gt;alert("xss")&lt;/script&gt;',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final xssBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'type': 'post',
+            'user_id': 'user-2',
+            'content': '&lt;script&gt;alert("xss")&lt;/script&gt;',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('search_index', xssBuilder);
 
       final results = await searchService.search('script');

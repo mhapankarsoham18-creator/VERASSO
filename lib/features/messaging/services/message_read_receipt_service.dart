@@ -7,17 +7,20 @@ import '../../../core/services/supabase_service.dart';
 // Stream conversation read receipts
 /// Stream provider for conversation read receipts.
 final conversationReadReceiptsStreamProvider =
-    StreamProvider.family<List<MessageReadStatus>, String>(
-  (ref, conversationId) {
-    final service = ref.watch(messageReadReceiptProvider);
-    return service.streamConversationReadReceipts(conversationId);
-  },
-);
+    StreamProvider.family<List<MessageReadStatus>, String>((
+      ref,
+      conversationId,
+    ) {
+      final service = ref.watch(messageReadReceiptProvider);
+      return service.streamConversationReadReceipts(conversationId);
+    });
 
 // Watch unread count for a conversation
 /// Future provider for the unread message count of a specific conversation.
-final conversationUnreadCountProvider =
-    FutureProvider.family<int, String>((ref, conversationId) {
+final conversationUnreadCountProvider = FutureProvider.family<int, String>((
+  ref,
+  conversationId,
+) {
   final service = ref.watch(messageReadReceiptProvider);
   return service.getUnreadCount(conversationId);
 });
@@ -37,8 +40,9 @@ final totalUnreadCountProvider = FutureProvider<int>((ref) {
 
 // Watch unread counts per conversation
 /// Future provider for a map of unread counts keyed by conversation ID.
-final unreadCountsByConversationProvider =
-    FutureProvider<Map<String, int>>((ref) {
+final unreadCountsByConversationProvider = FutureProvider<Map<String, int>>((
+  ref,
+) {
   final service = ref.watch(messageReadReceiptProvider);
   return service.getUnreadCountsByConversation();
 });
@@ -89,12 +93,13 @@ class MessageReadReceiptService {
 
   /// Creates a [MessageReadReceiptService] instance.
   MessageReadReceiptService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Get delivery and read statistics for a conversation
   /// Returns delivery and read statistics for a specific conversation.
   Future<ConversationReadStats?> getConversationReadStats(
-      String conversationId) async {
+    String conversationId,
+  ) async {
     try {
       final response = await _client
           .from('messages')
@@ -112,8 +117,9 @@ class MessageReadReceiptService {
         totalMessages: totalMessages,
         readMessages: readMessages,
         unreadMessages: totalMessages - readMessages,
-        readPercentage:
-            totalMessages > 0 ? (readMessages / totalMessages) * 100 : 0,
+        readPercentage: totalMessages > 0
+            ? (readMessages / totalMessages) * 100
+            : 0,
       );
     } catch (e) {
       AppLogger.info('Get conversation read stats error: $e');
@@ -150,7 +156,8 @@ class MessageReadReceiptService {
   /// Get read status for multiple messages
   /// Returns read status for a batch of messages.
   Future<List<MessageReadStatus>> getMessagesReadStatus(
-      List<String> messageIds) async {
+    List<String> messageIds,
+  ) async {
     try {
       final responses = await _client
           .from('messages')
@@ -158,14 +165,16 @@ class MessageReadReceiptService {
           .inFilter('id', messageIds);
 
       return (responses as List)
-          .map((r) => MessageReadStatus(
-                messageId: r['id'] as String,
-                readAt: r['read_at'] != null
-                    ? DateTime.parse(r['read_at'] as String)
-                    : null,
-                receiverId: r['receiver_id'] as String,
-                createdAt: DateTime.parse(r['created_at'] as String),
-              ))
+          .map(
+            (r) => MessageReadStatus(
+              messageId: r['id'] as String,
+              readAt: r['read_at'] != null
+                  ? DateTime.parse(r['read_at'] as String)
+                  : null,
+              receiverId: r['receiver_id'] as String,
+              createdAt: DateTime.parse(r['created_at'] as String),
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.info('Get messages read status error: $e');
@@ -246,10 +255,12 @@ class MessageReadReceiptService {
         throw Exception('User not authenticated');
       }
 
-      final response = await _client.rpc(
-        'get_unread_message_count',
-        params: {'p_user_id': userId},
-      ) as List;
+      final response =
+          await _client.rpc(
+                'get_unread_message_count',
+                params: {'p_user_id': userId},
+              )
+              as List;
 
       final counts = <String, int>{};
       for (var item in response) {
@@ -321,21 +332,24 @@ class MessageReadReceiptService {
   /// Stream read receipt updates for a conversation
   /// Returns a stream of read receipt updates for a specific conversation.
   Stream<List<MessageReadStatus>> streamConversationReadReceipts(
-      String conversationId) {
+    String conversationId,
+  ) {
     return _client
         .from('messages')
         .stream(primaryKey: ['id'])
         .eq('conversation_id', conversationId)
         .map((records) {
           return (records as List)
-              .map((r) => MessageReadStatus(
-                    messageId: r['id'] as String,
-                    readAt: r['read_at'] != null
-                        ? DateTime.parse(r['read_at'] as String)
-                        : null,
-                    receiverId: r['receiver_id'] as String,
-                    createdAt: DateTime.parse(r['created_at'] as String),
-                  ))
+              .map(
+                (r) => MessageReadStatus(
+                  messageId: r['id'] as String,
+                  readAt: r['read_at'] != null
+                      ? DateTime.parse(r['read_at'] as String)
+                      : null,
+                  receiverId: r['receiver_id'] as String,
+                  createdAt: DateTime.parse(r['created_at'] as String),
+                ),
+              )
               .toList();
         });
   }

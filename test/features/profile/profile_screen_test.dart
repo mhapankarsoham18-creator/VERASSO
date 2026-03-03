@@ -20,8 +20,10 @@ void main() {
   late MockProfileController mockProfileController;
   late MockPrivacySettingsNotifier mockPrivacySettingsNotifier;
   late MockMasterySignatureService mockMasterySignatureService;
-  final testUser =
-      DomainAuthUser(id: 'test-user-id', email: 'test@example.com');
+  final testUser = DomainAuthUser(
+    id: 'test-user-id',
+    email: 'test@example.com',
+  );
   final testProfile = Profile(
     id: 'test-user-id',
     username: 'valid_user',
@@ -58,15 +60,19 @@ void main() {
       overrides: [
         currentUserProvider.overrideWith((ref) => testUser),
         profileControllerProvider.overrideWith((ref) => mockProfileController),
-        privacySettingsProvider
-            .overrideWith((ref) => mockPrivacySettingsNotifier),
-        masterySignatureServiceProvider
-            .overrideWithValue(mockMasterySignatureService),
+        privacySettingsProvider.overrideWith(
+          (ref) => mockPrivacySettingsNotifier,
+        ),
+        masterySignatureServiceProvider.overrideWithValue(
+          mockMasterySignatureService,
+        ),
         userProfileProvider.overrideWithValue(AsyncValue.data(testProfile)),
-        profileStatsProvider('test-user-id')
-            .overrideWithValue(const AsyncValue.data({'friends_count': 42})),
-        userCertificatesProvider('test-user-id')
-            .overrideWithValue(AsyncValue.data(testCertificates)),
+        profileStatsProvider(
+          'test-user-id',
+        ).overrideWithValue(const AsyncValue.data({'friends_count': 42})),
+        userCertificatesProvider(
+          'test-user-id',
+        ).overrideWithValue(AsyncValue.data(testCertificates)),
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
       ],
       child: const MaterialApp(
@@ -78,8 +84,9 @@ void main() {
   }
 
   group('ProfileScreen Widget Tests', () {
-    testWidgets('displays user profile data correctly',
-        (WidgetTester tester) async {
+    testWidgets('displays user profile data correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(800, 2000));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 
@@ -124,8 +131,9 @@ void main() {
       expect(find.text('Edit Profile'), findsOneWidget);
     });
 
-    testWidgets('export transcript requires interaction',
-        (WidgetTester tester) async {
+    testWidgets('export transcript requires interaction', (
+      WidgetTester tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(800, 2000));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 

@@ -48,17 +48,19 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
                 ),
                 child: TextField(
                   controller: _codeController,
                   maxLines: null,
                   expands: true,
                   style: const TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      color: Colors.greenAccent),
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                    color: Colors.greenAccent,
+                  ),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(16),
@@ -81,15 +83,21 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2, color: Colors.black))
+                            strokeWidth: 2,
+                            color: Colors.black,
+                          ),
+                        )
                       : const Icon(LucideIcons.play),
-                  label: const Text('RUN CODE',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  label: const Text(
+                    'RUN CODE',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.greenAccent,
                     foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                 ),
               ),
@@ -170,9 +178,12 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
       }
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
           content: Text('Execution Successful! History Saved.'),
-          backgroundColor: Colors.green));
+          backgroundColor: Colors.green,
+        ),
+      );
     }
   }
 }

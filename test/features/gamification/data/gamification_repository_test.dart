@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late GamificationRepository repository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();

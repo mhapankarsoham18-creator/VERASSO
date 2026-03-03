@@ -22,9 +22,10 @@ class AnalyticsScreen extends ConsumerWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Growth Analytics'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Growth Analytics'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: SafeArea(
           child: userId == null
@@ -56,8 +57,11 @@ class AnalyticsScreen extends ConsumerWidget {
           return const GlassContainer(
             padding: EdgeInsets.all(24),
             child: Center(
-                child: Text('No income data available',
-                    style: TextStyle(color: Colors.white54))),
+              child: Text(
+                'No income data available',
+                style: TextStyle(color: Colors.white54),
+              ),
+            ),
           );
         }
 
@@ -67,7 +71,7 @@ class AnalyticsScreen extends ConsumerWidget {
           Colors.blueAccent,
           Colors.orangeAccent,
           Colors.greenAccent,
-          Colors.redAccent
+          Colors.redAccent,
         ];
 
         return GlassContainer(
@@ -75,8 +79,10 @@ class AnalyticsScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Income Breakdown',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                'Income Breakdown',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 height: 200,
@@ -87,12 +93,14 @@ class AnalyticsScreen extends ConsumerWidget {
                         PieChartData(
                           sectionsSpace: 0,
                           centerSpaceRadius: 40,
-                          sections:
-                              data.entries.toList().asMap().entries.map((e) {
+                          sections: data.entries.toList().asMap().entries.map((
+                            e,
+                          ) {
                             final index = e.key;
                             final entry = e.value;
                             final color = colors[index % colors.length];
-                            final isLarge = entry.value / total >
+                            final isLarge =
+                                entry.value / total >
                                 0.2; // Highlight big chunks
 
                             return PieChartSectionData(
@@ -102,9 +110,10 @@ class AnalyticsScreen extends ConsumerWidget {
                                   '${((entry.value / total) * 100).toInt()}%',
                               radius: isLarge ? 60 : 50,
                               titleStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             );
                           }).toList(),
                         ),
@@ -114,13 +123,17 @@ class AnalyticsScreen extends ConsumerWidget {
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                            data.entries.toList().asMap().entries.map((e) {
+                        children: data.entries.toList().asMap().entries.map((
+                          e,
+                        ) {
                           final index = e.key;
                           final entry = e.value;
                           final color = colors[index % colors.length];
                           return _RowStat(
-                              entry.key, '\$${entry.value.toInt()}', color);
+                            entry.key,
+                            '\$${entry.value.toInt()}',
+                            color,
+                          );
                         }).toList(),
                       ),
                     ),
@@ -151,8 +164,10 @@ class AnalyticsScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Monthly Earnings',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                'Monthly Earnings',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 height: 200,
@@ -165,9 +180,13 @@ class AnalyticsScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (e.value > 0)
-                          Text('\$${e.value.toInt()}',
-                              style: const TextStyle(
-                                  fontSize: 10, color: Colors.greenAccent)),
+                          Text(
+                            '\$${e.value.toInt()}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.greenAccent,
+                            ),
+                          ),
                         const SizedBox(height: 4),
                         Container(
                           width: 20,
@@ -178,9 +197,13 @@ class AnalyticsScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(e.key,
-                            style: const TextStyle(
-                                color: Colors.white54, fontSize: 12)),
+                        Text(
+                          e.key,
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: 12,
+                          ),
+                        ),
                       ],
                     );
                   }).toList(),

@@ -60,8 +60,10 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
               const Center(
                 child: GlassContainer(
                   padding: EdgeInsets.all(16),
-                  child: Text('Tap floor to set up Boardroom Table',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Tap floor to set up Boardroom Table',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
 
@@ -78,21 +80,27 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            const Text('Select Resolution to Propose',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Text(
+                              'Select Resolution to Propose',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             const SizedBox(height: 12),
-                            ...agendaItems.map((item) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.indigoAccent,
-                                      minimumSize:
-                                          const Size(double.infinity, 40),
+                            ...agendaItems.map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.indigoAccent,
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      40,
                                     ),
-                                    onPressed: () => _startResolution(item),
-                                    child: Text(item),
                                   ),
-                                )),
+                                  onPressed: () => _startResolution(item),
+                                  child: Text(item),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -101,22 +109,27 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            Text('Resolution: $currentAgenda',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.amber)),
+                            Text(
+                              'Resolution: $currentAgenda',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.amber,
+                              ),
+                            ),
                             const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 _VoteCounter(
-                                    label: 'For',
-                                    count: votesFor,
-                                    color: Colors.greenAccent),
+                                  label: 'For',
+                                  count: votesFor,
+                                  color: Colors.greenAccent,
+                                ),
                                 _VoteCounter(
-                                    label: 'Against',
-                                    count: votesAgainst,
-                                    color: Colors.redAccent),
+                                  label: 'Against',
+                                  count: votesAgainst,
+                                  color: Colors.redAccent,
+                                ),
                               ],
                             ),
                             const SizedBox(height: 16),
@@ -128,7 +141,8 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
                                     icon: const Icon(LucideIcons.check),
                                     label: const Text('Vote For'),
                                     style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.greenAccent),
+                                      foregroundColor: Colors.greenAccent,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -138,7 +152,8 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
                                     icon: const Icon(LucideIcons.x),
                                     label: const Text('Vote Against'),
                                     style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.redAccent),
+                                      foregroundColor: Colors.redAccent,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -147,8 +162,10 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
                             TextButton(
                               onPressed: () =>
                                   setState(() => isMeetingActive = false),
-                              child: const Text('End Resolution',
-                                  style: TextStyle(color: Colors.white54)),
+                              child: const Text(
+                                'End Resolution',
+                                style: TextStyle(color: Colors.white54),
+                              ),
                             ),
                           ],
                         ),
@@ -169,18 +186,19 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
   }
 
   void onARViewCreated(
-      ARSessionManager arSessionManager,
-      ARObjectManager arObjectManager,
-      ARAnchorManager arAnchorManager,
-      ARLocationManager arLocationManager) {
+    ARSessionManager arSessionManager,
+    ARObjectManager arObjectManager,
+    ARAnchorManager arAnchorManager,
+    ARLocationManager arLocationManager,
+  ) {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: true,
-          handleTaps: true,
-        );
+      showFeaturePoints: false,
+      showPlanes: true,
+      handleTaps: true,
+    );
     this.arObjectManager!.onInitialize();
     this.arSessionManager!.onPlaneOrPointTap = onPlaneTap;
   }
@@ -190,7 +208,8 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
 
     try {
       final singleHitTestResult = hitTestResults.firstWhere(
-          (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane,
+      );
 
       final newNode = ARNode(
         type: NodeType.localGLTF2,
@@ -214,7 +233,8 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text(
-                  '3D model could not be loaded. AR asset pack may be missing.'),
+                '3D model could not be loaded. AR asset pack may be missing.',
+              ),
               backgroundColor: Colors.orange,
             ),
           );
@@ -225,7 +245,8 @@ class _ARBoardroomScreenState extends State<ARBoardroomScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'AR Error: ${e.toString().length > 80 ? e.toString().substring(0, 80) : e}'),
+              'AR Error: ${e.toString().length > 80 ? e.toString().substring(0, 80) : e}',
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -258,18 +279,28 @@ class _VoteCounter extends StatelessWidget {
   final int count;
   final Color color;
 
-  const _VoteCounter(
-      {required this.label, required this.count, required this.color});
+  const _VoteCounter({
+    required this.label,
+    required this.count,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
-        Text('$count',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: color)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
+        Text(
+          '$count',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
       ],
     );
   }

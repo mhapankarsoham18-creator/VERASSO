@@ -9,22 +9,24 @@ void main() {
     // Mock SharedPreferences channel
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/shared_preferences'),
-      (methodCall) async {
-        if (methodCall.method == 'getAll') {
-          return <String, dynamic>{};
-        }
-        return null;
-      },
-    );
+          const MethodChannel('plugins.flutter.io/shared_preferences'),
+          (methodCall) async {
+            if (methodCall.method == 'getAll') {
+              return <String, dynamic>{};
+            }
+            return null;
+          },
+        );
   });
 
   group('SupabaseService Tests', () {
-    test('client access before initialization should throw assertion error',
-        () {
-      // Supabase.instance.client throws if not initialized
-      expect(() => SupabaseService.client, throwsA(isA<AssertionError>()));
-    });
+    test(
+      'client access before initialization should throw assertion error',
+      () {
+        // Supabase.instance.client throws if not initialized
+        expect(() => SupabaseService.client, throwsA(isA<AssertionError>()));
+      },
+    );
 
     test('initialize should set up Supabase instance', () async {
       // We use dummy values since we're just checking if initialize() calls Supabase.initialize correctly

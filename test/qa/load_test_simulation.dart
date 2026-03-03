@@ -18,12 +18,15 @@ void main() {
       final duration = endTime.difference(startTime);
 
       debugPrint(
-          'Load Test: $concurrency requests completed in ${duration.inMilliseconds}ms');
+        'Load Test: $concurrency requests completed in ${duration.inMilliseconds}ms',
+      );
       debugPrint('Average latency: ${duration.inMilliseconds / concurrency}ms');
 
       expect(results.length, concurrency);
-      expect(duration.inMilliseconds,
-          lessThan(2000)); // Target: < 2s for 100 concurrent requests
+      expect(
+        duration.inMilliseconds,
+        lessThan(2000),
+      ); // Target: < 2s for 100 concurrent requests
     });
 
     test('Simulate rapid guild role updates', () async {

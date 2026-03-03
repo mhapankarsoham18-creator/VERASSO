@@ -53,8 +53,9 @@ class Event {
       description: json['description'],
       subject: json['subject'],
       startTime: DateTime.parse(json['start_time']),
-      endTime:
-          json['end_time'] != null ? DateTime.parse(json['end_time']) : null,
+      endTime: json['end_time'] != null
+          ? DateTime.parse(json['end_time'])
+          : null,
       linkUrl: json['link_url'],
       maxAttendees: json['max_attendees'],
       createdAt: DateTime.parse(json['created_at']),

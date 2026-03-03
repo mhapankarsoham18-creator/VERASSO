@@ -23,8 +23,8 @@ void main() {
       'profiles': {
         'username': 'dev_guru',
         'full_name': 'Dev Guru',
-        'avatar_url': 'https://example.com/avatar.png'
-      }
+        'avatar_url': 'https://example.com/avatar.png',
+      },
     };
 
     test('getTalentProfile should return profile when found', () async {

@@ -67,12 +67,7 @@ void main() {
           expect(response[0]['content'], equals(content));
           expect(response[0]['user_id'], equals(userId));
         } catch (e) {
-          expect(
-            e,
-            isNot(
-              isA<DatabaseException>(),
-            ),
-          );
+          expect(e, isNot(isA<DatabaseException>()));
         }
       });
 
@@ -98,10 +93,7 @@ void main() {
         const content = 'Another test post';
 
         try {
-          await feedRepository.createPost(
-            userId: userId,
-            content: content,
-          );
+          await feedRepository.createPost(userId: userId, content: content);
 
           final response = await client
               .from('posts')
@@ -165,8 +157,10 @@ void main() {
           );
 
           // Query posts by user
-          final response =
-              await client.from('posts').select().eq('user_id', testUserId);
+          final response = await client
+              .from('posts')
+              .select()
+              .eq('user_id', testUserId);
 
           // Verify filtering works
           expect(response, isNotEmpty);
@@ -239,14 +233,14 @@ void main() {
           final postId = createdPost['id'];
 
           // Update post
-          await feedRepository.updatePost(
-            postId,
-            updatedContent,
-          );
+          await feedRepository.updatePost(postId, updatedContent);
 
           // Verify update
-          final updatedPost =
-              await client.from('posts').select().eq('id', postId).single();
+          final updatedPost = await client
+              .from('posts')
+              .select()
+              .eq('id', postId)
+              .single();
 
           expect(updatedPost['content'], equals(updatedContent));
           expect(updatedPost['is_edited'], equals(true));
@@ -287,10 +281,7 @@ void main() {
         const content = 'Content with timestamp';
 
         try {
-          await feedRepository.createPost(
-            userId: userId,
-            content: content,
-          );
+          await feedRepository.createPost(userId: userId, content: content);
 
           final originalPost = await client
               .from('posts')
@@ -338,10 +329,7 @@ void main() {
         const content = 'To be deleted';
 
         try {
-          await feedRepository.createPost(
-            userId: userId,
-            content: content,
-          );
+          await feedRepository.createPost(userId: userId, content: content);
 
           final post = await client
               .from('posts')
@@ -505,7 +493,8 @@ void main() {
 
           // Search should find the newly created post
           await Future.delayed(
-              const Duration(milliseconds: 500)); // Wait for index
+            const Duration(milliseconds: 500),
+          ); // Wait for index
 
           final searchResults = await feedRepository.searchPosts(uniqueContent);
 
@@ -522,10 +511,7 @@ void main() {
         try {
           const userId = 'test-edited-flag-user';
 
-          await feedRepository.createPost(
-            userId: userId,
-            content: 'Original',
-          );
+          await feedRepository.createPost(userId: userId, content: 'Original');
 
           final post = await client
               .from('posts')
@@ -537,13 +523,13 @@ void main() {
           expect(post['is_edited'], anyOf(false, null));
 
           // After update, trigger should set is_edited = true
-          await feedRepository.updatePost(
-            post['id'],
-            'Updated',
-          );
+          await feedRepository.updatePost(post['id'], 'Updated');
 
-          final updatedPost =
-              await client.from('posts').select().eq('id', post['id']).single();
+          final updatedPost = await client
+              .from('posts')
+              .select()
+              .eq('id', post['id'])
+              .single();
 
           expect(updatedPost['is_edited'], equals(true));
         } catch (e) {
@@ -570,8 +556,10 @@ void main() {
           );
 
           // Verify post exists
-          final posts =
-              await client.from('posts').select().eq('user_id', userId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', userId);
 
           expect(posts, isNotEmpty);
 
@@ -590,24 +578,21 @@ void main() {
           const content1 = 'Post 1';
           const content2 = 'Post 2';
 
-          await feedRepository.createPost(
-            userId: userId,
-            content: content1,
-          );
+          await feedRepository.createPost(userId: userId, content: content1);
 
-          await feedRepository.createPost(
-            userId: userId,
-            content: content2,
-          );
+          await feedRepository.createPost(userId: userId, content: content2);
 
-          final posts =
-              await client.from('posts').select().eq('user_id', userId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', userId);
 
           // Verify both posts exist and state is consistent
           expect(posts.length, equals(2));
 
-          final contents =
-              (posts as List).map((p) => p['content'] as String).toList();
+          final contents = (posts as List)
+              .map((p) => p['content'] as String)
+              .toList();
 
           expect(contents, containsAll([content1, content2]));
         } catch (e) {
@@ -632,8 +617,10 @@ void main() {
 
           await Future.wait(futures);
 
-          final posts =
-              await client.from('posts').select().eq('user_id', userId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', userId);
 
           // All posts should be created
           expect(posts.length, equals(3));
@@ -660,8 +647,10 @@ void main() {
           );
 
           // Query as authenticated user should see own posts
-          final posts =
-              await client.from('posts').select().eq('user_id', userId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', userId);
 
           expect(posts, isNotEmpty);
         } catch (e) {
@@ -675,8 +664,10 @@ void main() {
         try {
           const userId = 'test-column-rls';
 
-          final posts =
-              await client.from('posts').select().eq('user_id', userId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', userId);
 
           // Verify response structure
           expect(posts, isA<List>());
@@ -713,8 +704,10 @@ void main() {
 
           // Attempt to query posts by another user
           // With proper RLS, this should be blocked
-          final posts =
-              await client.from('posts').select().eq('user_id', otherUserId);
+          final posts = await client
+              .from('posts')
+              .select()
+              .eq('user_id', otherUserId);
 
           // RLS should filter results based on auth state
           expect(posts, isA<List>());

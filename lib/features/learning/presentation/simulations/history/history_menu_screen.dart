@@ -31,7 +31,8 @@ class HistoryMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const HistoricalAtlasScreen()),
+                  builder: (_) => const HistoricalAtlasScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -42,7 +43,8 @@ class HistoryMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const TimelineReconstructorScreen()),
+                  builder: (_) => const TimelineReconstructorScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -53,7 +55,8 @@ class HistoryMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const ARTempleReconstructionScreen()),
+                  builder: (_) => const ARTempleReconstructionScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -109,12 +112,20 @@ class _HistoryCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(subtitle,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.white60)),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white60,
+                      ),
+                    ),
                   ],
                 ),
               ),

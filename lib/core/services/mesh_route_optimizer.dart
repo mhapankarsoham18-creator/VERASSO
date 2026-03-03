@@ -43,13 +43,17 @@ class MeshRouteOptimizer {
     }
 
     AppLogger.info(
-        'MeshRouteOptimizer: Exploiting best peer $bestPeer (Score: ${highestScore.toStringAsFixed(2)})');
+      'MeshRouteOptimizer: Exploiting best peer $bestPeer (Score: ${highestScore.toStringAsFixed(2)})',
+    );
     return bestPeer;
   }
 
   /// Updates the performance statistics for a specific [nodeId].
-  void updateNodeStats(String nodeId,
-      {required bool success, double? latencyMs}) {
+  void updateNodeStats(
+    String nodeId, {
+    required bool success,
+    double? latencyMs,
+  }) {
     final stats = _nodeRegistry.putIfAbsent(nodeId, () => NodeStats());
 
     if (success) {

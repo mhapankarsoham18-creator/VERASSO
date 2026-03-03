@@ -34,23 +34,30 @@ class EarningsWalletScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
               children: [
                 GlassContainer(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 32,
+                    horizontal: 24,
+                  ),
                   child: Column(
                     children: [
-                      const Text('TOTAL EARNINGS',
-                          style: TextStyle(
-                              color: Colors.white54,
-                              letterSpacing: 1.2,
-                              fontSize: 12)),
+                      const Text(
+                        'TOTAL EARNINGS',
+                        style: TextStyle(
+                          color: Colors.white54,
+                          letterSpacing: 1.2,
+                          fontSize: 12,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       balanceAsync.when(
                         data: (balance) => Text(
-                            '\$${balance.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.greenAccent)),
+                          '\$${balance.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
                         loading: () => const CircularProgressIndicator(),
                         error: (e, _) =>
                             const Icon(Icons.error, color: Colors.red),
@@ -60,7 +67,9 @@ class EarningsWalletScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildActionButton(
-                              LucideIcons.arrowUpRight, 'Withdraw'),
+                            LucideIcons.arrowUpRight,
+                            'Withdraw',
+                          ),
                           _buildActionButton(LucideIcons.fileText, 'Invoices'),
                         ],
                       ),
@@ -68,16 +77,29 @@ class EarningsWalletScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text('Recent Activity',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Recent Activity',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 16),
-                _buildTransactionTile('UI Design - Verasso', '+\$250.00',
-                    '2 days ago', Colors.greenAccent),
                 _buildTransactionTile(
-                    'Logo Pack', '+\$50.00', '5 days ago', Colors.greenAccent),
+                  'UI Design - Verasso',
+                  '+\$250.00',
+                  '2 days ago',
+                  Colors.greenAccent,
+                ),
                 _buildTransactionTile(
-                    'Bank Transfer', '-\$200.00', '1 week ago', Colors.white38),
+                  'Logo Pack',
+                  '+\$50.00',
+                  '5 days ago',
+                  Colors.greenAccent,
+                ),
+                _buildTransactionTile(
+                  'Bank Transfer',
+                  '-\$200.00',
+                  '1 week ago',
+                  Colors.white38,
+                ),
               ],
             );
           },
@@ -104,14 +126,20 @@ class EarningsWalletScreen extends ConsumerWidget {
           child: Icon(icon, color: Colors.white, size: 20),
         ),
         const SizedBox(height: 8),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
       ],
     );
   }
 
   Widget _buildTransactionTile(
-      String title, String amount, String time, Color amountColor) {
+    String title,
+    String amount,
+    String time,
+    Color amountColor,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -122,13 +150,16 @@ class EarningsWalletScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(time,
-                  style: const TextStyle(fontSize: 12, color: Colors.white38)),
+              Text(
+                time,
+                style: const TextStyle(fontSize: 12, color: Colors.white38),
+              ),
             ],
           ),
-          Text(amount,
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: amountColor)),
+          Text(
+            amount,
+            style: TextStyle(fontWeight: FontWeight.bold, color: amountColor),
+          ),
         ],
       ),
     );

@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late RateLimitService rateLimitService;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -51,7 +48,8 @@ void main() {
         10,
       );
       expect(
-        RateLimitService.configs[RateLimitType.uploadAttachment]!
+        RateLimitService
+            .configs[RateLimitType.uploadAttachment]!
             .lockoutMinutes,
         10,
       );
@@ -69,17 +67,11 @@ void main() {
     test('apiCall limit handles 5k daily users', () async {
       // 5000 users * 300 calls/min = 1.5M calls/min max
       // This scales linearly
-      expect(
-        RateLimitService.configs[RateLimitType.apiCall]!.maxAttempts,
-        300,
-      );
+      expect(RateLimitService.configs[RateLimitType.apiCall]!.maxAttempts, 300);
     });
 
     test('apiCall window is 1 minute for granular control', () async {
-      expect(
-        RateLimitService.configs[RateLimitType.apiCall]!.windowMinutes,
-        1,
-      );
+      expect(RateLimitService.configs[RateLimitType.apiCall]!.windowMinutes, 1);
     });
 
     test('globalSearch limits per-user searches', () async {
@@ -166,14 +158,16 @@ void main() {
     });
 
     test('getAttemptHistory retrieves recent failed attempts', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'identifier': 'user-1',
-          'type': 'sendMessage',
-          'reason': 'rate_limit_exceeded',
-          'attempted_at': '2025-01-15T10:00:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'identifier': 'user-1',
+            'type': 'sendMessage',
+            'reason': 'rate_limit_exceeded',
+            'attempted_at': '2025-01-15T10:00:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('rate_limit_attempts', builder);
 
       final history = await rateLimitService.getAttemptHistory(
@@ -200,11 +194,7 @@ void main() {
     test('isLimited returns false on database error (fail open)', () async {
       final builder = MockSupabaseQueryBuilder(shouldThrow: true);
       mockSupabase.setQueryBuilder('rate_limit_attempts', builder);
-      mockSupabase.setRpcResponse(
-        'check_rate_limit',
-        null,
-        shouldThrow: true,
-      );
+      mockSupabase.setRpcResponse('check_rate_limit', null, shouldThrow: true);
 
       final isLimited = await rateLimitService.isLimited(
         'user-1',

@@ -20,13 +20,14 @@ class _Ball {
   final double radius;
   final Color color;
 
-  _Ball(
-      {required this.x,
-      required this.y,
-      required this.radius,
-      required this.color,
-      this.vx = 0,
-      this.vy = 0});
+  _Ball({
+    required this.x,
+    required this.y,
+    required this.radius,
+    required this.color,
+    this.vx = 0,
+    this.vy = 0,
+  });
 }
 
 class _BallsPainter extends CustomPainter {
@@ -43,9 +44,10 @@ class _BallsPainter extends CustomPainter {
       // Shine
       final shinePaint = Paint()..color = Colors.white.withValues(alpha: 0.4);
       canvas.drawCircle(
-          Offset(ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3),
-          ball.radius * 0.3,
-          shinePaint);
+        Offset(ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3),
+        ball.radius * 0.3,
+        shinePaint,
+      );
     }
   }
 
@@ -92,8 +94,10 @@ class _PhysicsLabScreenState extends State<PhysicsLabScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Simulation Controls',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Simulation Controls',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       const Text('Gravity'),
@@ -122,12 +126,14 @@ class _PhysicsLabScreenState extends State<PhysicsLabScreen>
                       Text(_bounceFactor.toStringAsFixed(1)),
                     ],
                   ),
-                  const Text('Tap anywhere to spawn objects',
-                      style: TextStyle(fontSize: 12, color: Colors.white70))
+                  const Text(
+                    'Tap anywhere to spawn objects',
+                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -147,13 +153,16 @@ class _PhysicsLabScreenState extends State<PhysicsLabScreen>
   }
 
   void _addBall(double x, double y) {
-    _balls.add(_Ball(
+    _balls.add(
+      _Ball(
         x: x,
         y: y,
         radius: Random().nextDouble() * 20 + 10,
         color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
         vx: (Random().nextDouble() - 0.5) * 10,
-        vy: (Random().nextDouble() - 0.5) * 10));
+        vy: (Random().nextDouble() - 0.5) * 10,
+      ),
+    );
   }
 
   void _onTick(Duration elapsed) {

@@ -26,10 +26,7 @@ void main() {
     });
 
     test('fromJson handles null/missing fields with defaults', () {
-      final json = {
-        'content_id': 'post-2',
-        'content_type': 'story',
-      };
+      final json = {'content_id': 'post-2', 'content_type': 'story'};
 
       final stats = ContentStats.fromJson(json);
 
@@ -87,9 +84,7 @@ void main() {
     });
 
     test('fromJson handles null fields with defaults', () {
-      final json = {
-        'date': '2026-01-01T00:00:00.000Z',
-      };
+      final json = {'date': '2026-01-01T00:00:00.000Z'};
 
       final data = EngagementData.fromJson(json);
 

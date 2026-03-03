@@ -22,7 +22,7 @@ void main() {
         'get-deps',
         'analyze',
         'test',
-        'coverage'
+        'coverage',
       ];
       expect(expectedJobs.length, greaterThan(0));
     });
@@ -39,7 +39,7 @@ void main() {
         'build-apk',
         'build-ios',
         'monkey-test',
-        'deploy-firebase'
+        'deploy-firebase',
       ];
 
       expect(productionSteps.length, 4);
@@ -57,7 +57,7 @@ void main() {
         'run-migrations',
         'run-integration-tests',
         'report-results',
-        'cleanup'
+        'cleanup',
       ];
 
       expect(integrationSteps.length, 5);
@@ -101,7 +101,7 @@ void main() {
       const notificationEvents = [
         'workflow_failure',
         'coverage_drop',
-        'performance_regression'
+        'performance_regression',
       ];
 
       expect(notificationEvents.length, 3);
@@ -118,7 +118,7 @@ void main() {
         'test_reports': '30 days',
         'coverage': '90 days',
         'builds': '7 days',
-        'distributable': 'firebase'
+        'distributable': 'firebase',
       };
 
       expect(arcPolicy.isNotEmpty, true);
@@ -368,7 +368,7 @@ void main() {
       const rollbackCriteria = {
         'crash_rate': '> 0.5%',
         'anr_rate': '> 0.1%',
-        'error_rate': '> 200%'
+        'error_rate': '> 200%',
       };
 
       expect(rollbackCriteria.isNotEmpty, true);

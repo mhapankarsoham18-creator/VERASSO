@@ -53,8 +53,10 @@ class _ARTempleReconstructionScreenState
               const Center(
                 child: GlassContainer(
                   padding: EdgeInsets.all(16),
-                  child: Text('Tap on a flat floor to place the Temple',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Tap on a flat floor to place the Temple',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
 
@@ -67,25 +69,33 @@ class _ARTempleReconstructionScreenState
                 children: [
                   GlassContainer(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Reconstructed',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Reconstructed',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         Switch(
                           value: isRuins,
                           onChanged: toggleReconstruction,
                           activeThumbColor: Colors.amber,
                         ),
-                        const Text('Ruins',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Ruins',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text('Move your device to explore different angles',
-                      style: TextStyle(color: Colors.white70, fontSize: 12)),
+                  const Text(
+                    'Move your device to explore different angles',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
                 ],
               ),
             ),
@@ -102,18 +112,19 @@ class _ARTempleReconstructionScreenState
   }
 
   void onARViewCreated(
-      ARSessionManager arSessionManager,
-      ARObjectManager arObjectManager,
-      ARAnchorManager arAnchorManager,
-      ARLocationManager arLocationManager) {
+    ARSessionManager arSessionManager,
+    ARObjectManager arObjectManager,
+    ARAnchorManager arAnchorManager,
+    ARLocationManager arLocationManager,
+  ) {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: true,
-          handleTaps: true,
-        );
+      showFeaturePoints: false,
+      showPlanes: true,
+      handleTaps: true,
+    );
     this.arObjectManager!.onInitialize();
     this.arSessionManager!.onPlaneOrPointTap = onPlaneTap;
   }
@@ -122,7 +133,8 @@ class _ARTempleReconstructionScreenState
     if (currentTempleNode != null) return; // Only one temple at a time
 
     final singleHitTestResult = hitTestResults.firstWhere(
-        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+      (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane,
+    );
 
     final newNode = ARNode(
       type: NodeType.localGLTF2,

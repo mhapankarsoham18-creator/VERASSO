@@ -14,7 +14,7 @@ class AnalyticsRepository {
 
   /// Creates an [AnalyticsRepository].
   AnalyticsRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Fetches aggregated stats (views, impressions) for a specific target.
   Future<Map<String, int>> getStats(String targetId) async {
@@ -35,7 +35,7 @@ class AnalyticsRepository {
 
       return {
         'views': viewsResponse.count,
-        'impressions': impressionsResponse.count
+        'impressions': impressionsResponse.count,
       };
     } catch (e) {
       return {'views': 0, 'impressions': 0};

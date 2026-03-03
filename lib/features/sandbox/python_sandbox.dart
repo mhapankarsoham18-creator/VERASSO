@@ -167,7 +167,7 @@ class PythonSandbox {
               'language': 'python',
               'version': '3.10',
               'files': [
-                {'content': code}
+                {'content': code},
               ],
             }),
           )
@@ -195,8 +195,9 @@ class PythonSandbox {
       }
 
       return PythonExecutionResult(
-        status:
-            hasError ? ExecutionStatus.runtimeError : ExecutionStatus.success,
+        status: hasError
+            ? ExecutionStatus.runtimeError
+            : ExecutionStatus.success,
         output: stdout,
         error: stderr,
         executionTime: stopwatch.elapsed,

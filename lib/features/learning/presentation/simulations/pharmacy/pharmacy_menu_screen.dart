@@ -84,7 +84,8 @@ class PharmacyMenuScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const FormulationLabScreen()),
+                    builder: (context) => const FormulationLabScreen(),
+                  ),
                 );
               },
             ),
@@ -98,7 +99,8 @@ class PharmacyMenuScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PKPDSimulatorScreen()),
+                    builder: (context) => const PKPDSimulatorScreen(),
+                  ),
                 );
               },
             ),
@@ -112,7 +114,8 @@ class PharmacyMenuScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EnzymeKineticsScreen()),
+                    builder: (context) => const EnzymeKineticsScreen(),
+                  ),
                 );
               },
             ),
@@ -159,17 +162,25 @@ class _MenuCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text(subtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white60)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 12, color: Colors.white60),
+                  ),
                 ],
               ),
             ),
-            const Icon(LucideIcons.chevronRight,
-                size: 16, color: Colors.white38),
+            const Icon(
+              LucideIcons.chevronRight,
+              size: 16,
+              color: Colors.white38,
+            ),
           ],
         ),
       ),

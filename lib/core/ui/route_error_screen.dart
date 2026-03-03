@@ -18,7 +18,8 @@ class RouteErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = state.error?.toString() ??
+    final errorMessage =
+        state.error?.toString() ??
         'The page you requested could not be found or is no longer available.';
 
     return Scaffold(
@@ -36,4 +37,3 @@ class RouteErrorScreen extends StatelessWidget {
     );
   }
 }
-

@@ -8,8 +8,9 @@ import 'package:pinenacl/ed25519.dart' as pinenacl;
 import 'package:verasso/core/monitoring/app_logger.dart';
 
 /// Provider for the [MasterySignatureService] instance.
-final masterySignatureServiceProvider =
-    Provider((ref) => MasterySignatureService());
+final masterySignatureServiceProvider = Provider(
+  (ref) => MasterySignatureService(),
+);
 
 /// Service that handles generating and verifying cryptographically signed mastery transcripts.
 class MasterySignatureService {
@@ -68,10 +69,7 @@ class MasterySignatureService {
         seed[i] = random.nextInt(256);
       }
 
-      await _secureStorage.write(
-        key: _storageKey,
-        value: base64Encode(seed),
-      );
+      await _secureStorage.write(key: _storageKey, value: base64Encode(seed));
 
       _cachedKey = pinenacl.SigningKey.fromSeed(seed);
       AppLogger.info('MasterySignature: Generated and stored new signing key');
@@ -102,10 +100,12 @@ class MasterySignatureService {
 
       if (isValid) {
         AppLogger.info(
-            'MasterySignature: Successfully verified transcript for ${payload['uid']}');
+          'MasterySignature: Successfully verified transcript for ${payload['uid']}',
+        );
       } else {
         AppLogger.warning(
-            'MasterySignature: Verification FAILED for transcript');
+          'MasterySignature: Verification FAILED for transcript',
+        );
       }
 
       return isValid;

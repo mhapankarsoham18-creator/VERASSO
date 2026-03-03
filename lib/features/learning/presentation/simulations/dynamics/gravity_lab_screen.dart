@@ -57,7 +57,10 @@ class _BallsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (var ball in balls) {
       canvas.drawCircle(
-          Offset(ball.x, ball.y), ball.radius, Paint()..color = ball.color);
+        Offset(ball.x, ball.y),
+        ball.radius,
+        Paint()..color = ball.color,
+      );
     }
   }
 
@@ -97,17 +100,20 @@ class _GravityLabScreenState extends State<GravityLabScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Controls',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Controls',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       const Text('Gravity'),
                       Expanded(
                         child: Slider(
-                            value: _gravity,
-                            min: 0.0,
-                            max: 2.0,
-                            onChanged: (v) => setState(() => _gravity = v)),
+                          value: _gravity,
+                          min: 0.0,
+                          max: 2.0,
+                          onChanged: (v) => setState(() => _gravity = v),
+                        ),
                       ),
                     ],
                   ),
@@ -116,18 +122,18 @@ class _GravityLabScreenState extends State<GravityLabScreen>
                       const Text('Bounce'),
                       Expanded(
                         child: Slider(
-                            value: _bounceFactor,
-                            min: 0.1,
-                            max: 1.5,
-                            onChanged: (v) =>
-                                setState(() => _bounceFactor = v)),
+                          value: _bounceFactor,
+                          min: 0.1,
+                          max: 1.5,
+                          onChanged: (v) => setState(() => _bounceFactor = v),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -147,13 +153,16 @@ class _GravityLabScreenState extends State<GravityLabScreen>
   }
 
   void _addBall(double x, double y) {
-    _balls.add(_Ball(
+    _balls.add(
+      _Ball(
         x: x,
         y: y,
         radius: Random().nextDouble() * 20 + 10,
         color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
         vx: (Random().nextDouble() - 0.5) * 10,
-        vy: (Random().nextDouble() - 0.5) * 10));
+        vy: (Random().nextDouble() - 0.5) * 10,
+      ),
+    );
   }
 
   void _onTick(Duration elapsed) {

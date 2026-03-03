@@ -29,7 +29,7 @@ class EncryptionService {
   /// Creates an [EncryptionService].
   /// Optionally accepts a custom [FlutterSecureStorage] instance for testing.
   EncryptionService({FlutterSecureStorage? storage})
-      : _secureStorage = storage ?? const FlutterSecureStorage();
+    : _secureStorage = storage ?? const FlutterSecureStorage();
 
   /// Clear all encryption keys (logout/reset)
   Future<void> clearKeys() async {
@@ -47,7 +47,8 @@ class EncryptionService {
 
       final key = encrypt_lib.Key(base64Decode(keyString));
       final encrypter = encrypt_lib.Encrypter(
-          encrypt_lib.AES(key, mode: encrypt_lib.AESMode.cbc));
+        encrypt_lib.AES(key, mode: encrypt_lib.AESMode.cbc),
+      );
 
       // Check for new format (IV:Ciphertext)
       if (encryptedText.contains(':')) {
@@ -79,7 +80,9 @@ class EncryptionService {
 
   /// Decrypt with custom password
   Future<String> decryptWithPassword(
-      String encryptedData, String password) async {
+    String encryptedData,
+    String password,
+  ) async {
     try {
       final parts = encryptedData.split(':');
       if (parts.length != 3) {
@@ -118,7 +121,8 @@ class EncryptionService {
       final iv = encrypt_lib.IV.fromLength(ivLength);
 
       final encrypter = encrypt_lib.Encrypter(
-          encrypt_lib.AES(key, mode: encrypt_lib.AESMode.cbc));
+        encrypt_lib.AES(key, mode: encrypt_lib.AESMode.cbc),
+      );
       final encrypted = encrypter.encrypt(plainText, iv: iv);
 
       // Return format: base64(IV):base64(Ciphertext)
@@ -158,15 +162,18 @@ class EncryptionService {
 
   /// Get encryption key for Hive boxes (32 bytes)
   Future<Uint8List> getHiveKey() async {
-    String? keyStr =
-        await _secureStorage.read(key: _hiveEncryptionKeyStorageKey);
+    String? keyStr = await _secureStorage.read(
+      key: _hiveEncryptionKeyStorageKey,
+    );
 
     if (keyStr == null) {
       // Lazy initialization if not present
       final key = _generateSecureKey(keyLength);
       keyStr = base64Encode(key);
       await _secureStorage.write(
-          key: _hiveEncryptionKeyStorageKey, value: keyStr);
+        key: _hiveEncryptionKeyStorageKey,
+        value: keyStr,
+      );
     }
 
     return base64Decode(keyStr);
@@ -205,11 +212,14 @@ class EncryptionService {
 
   /// Derive encryption key from password using PBKDF2
   Future<Uint8List> _deriveKeyFromPassword(
-      String password, Uint8List salt) async {
+    String password,
+    Uint8List salt,
+  ) async {
     final pbkdf2 = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64));
 
-    pbkdf2.init(Pbkdf2Parameters(salt, 100000,
-        keyLength)); // 100,000 iterations for stronger key derivation
+    pbkdf2.init(
+      Pbkdf2Parameters(salt, 100000, keyLength),
+    ); // 100,000 iterations for stronger key derivation
 
     final passwordBytes = Uint8List.fromList(utf8.encode(password));
     return pbkdf2.process(passwordBytes);

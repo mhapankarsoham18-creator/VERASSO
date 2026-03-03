@@ -40,7 +40,7 @@ void main() {
           'title': 'Test 1',
           'body': 'Body 1',
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
       final builder = MockSupabaseQueryBuilder(selectResponse: responseData);
       mockSupabase.setQueryBuilder('notifications', builder);

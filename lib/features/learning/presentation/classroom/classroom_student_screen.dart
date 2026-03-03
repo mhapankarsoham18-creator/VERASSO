@@ -25,8 +25,9 @@ class _ClassroomStudentScreenState
 
   @override
   Widget build(BuildContext context) {
-    final sessionStream =
-        ref.watch(classroomSessionServiceProvider).sessionStream;
+    final sessionStream = ref
+        .watch(classroomSessionServiceProvider)
+        .sessionStream;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Classroom')),
@@ -44,12 +45,15 @@ class _ClassroomStudentScreenState
                     children: [
                       CircularProgressIndicator(),
                       SizedBox(height: 16),
-                      Text('Listening for Class Session...',
-                          textAlign: TextAlign.center),
+                      Text(
+                        'Listening for Class Session...',
+                        textAlign: TextAlign.center,
+                      ),
                       SizedBox(height: 8),
-                      Text('Make sure you are near the teacher',
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.white70)),
+                      Text(
+                        'Make sure you are near the teacher',
+                        style: TextStyle(fontSize: 12, color: Colors.white70),
+                      ),
                     ],
                   ),
                 ),
@@ -62,18 +66,25 @@ class _ClassroomStudentScreenState
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(LucideIcons.school,
-                          size: 48, color: Colors.white),
+                      const Icon(
+                        LucideIcons.school,
+                        size: 48,
+                        color: Colors.white,
+                      ),
                       const SizedBox(height: 16),
-                      Text('Join ${session.subject}?',
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text(
+                        'Join ${session.subject}?',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Text(session.topic),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: _joinSession,
                         child: const Text('Join Class'),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -87,12 +98,15 @@ class _ClassroomStudentScreenState
                   // Session Info
                   GlassContainer(
                     child: ListTile(
-                      title: Text(session.subject,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      title: Text(
+                        session.subject,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       subtitle: Text(session.topic),
                       trailing: const Chip(
-                          label: Text('LIVE'),
-                          backgroundColor: Colors.redAccent),
+                        label: Text('LIVE'),
+                        backgroundColor: Colors.redAccent,
+                      ),
                     ),
                   ),
 
@@ -100,8 +114,9 @@ class _ClassroomStudentScreenState
 
                   // Active Poll
                   StreamBuilder<SessionPoll?>(
-                    stream:
-                        ref.watch(classroomSessionServiceProvider).pollStream,
+                    stream: ref
+                        .watch(classroomSessionServiceProvider)
+                        .pollStream,
                     builder: (context, pollSnap) {
                       final poll = pollSnap.data;
                       if (poll == null) return const SizedBox.shrink();
@@ -110,25 +125,26 @@ class _ClassroomStudentScreenState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(poll.question,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            Text(
+                              poll.question,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             const SizedBox(height: 16),
-                            ...poll.options
-                                .asMap()
-                                .entries
-                                .map((entry) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: OutlinedButton(
-                                          onPressed: () =>
-                                              _vote(poll.id, entry.key),
-                                          child: Text(entry.value),
-                                        ),
-                                      ),
-                                    ))
+                            ...poll.options.asMap().entries.map(
+                              (entry) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: () => _vote(poll.id, entry.key),
+                                    child: Text(entry.value),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       );
@@ -152,22 +168,26 @@ class _ClassroomStudentScreenState
                   ),
 
                   const SizedBox(height: 24),
-                  const Text('Doubt Feed',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Doubt Feed',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
                   StreamBuilder<List<SessionDoubt>>(
                     // Reusing session doubt stream for local feedback
-                    stream:
-                        ref.watch(classroomSessionServiceProvider).doubtsStream,
+                    stream: ref
+                        .watch(classroomSessionServiceProvider)
+                        .doubtsStream,
                     initialData: const [],
                     builder: (ctx, snap) {
                       return Column(
                         children: snap.data!
-                            .map((d) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child:
-                                      GlassContainer(child: Text(d.question)),
-                                ))
+                            .map(
+                              (d) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: GlassContainer(child: Text(d.question)),
+                              ),
+                            )
                             .toList(),
                       );
                     },
@@ -208,19 +228,24 @@ class _ClassroomStudentScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Colors.black87,
-        title:
-            const Text('Ask Question', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Ask Question',
+          style: TextStyle(color: Colors.white),
+        ),
         content: TextField(
           controller: _doubtController,
           maxLines: 3,
           decoration: const InputDecoration(
-              hintText: 'What is your doubt?',
-              hintStyle: TextStyle(color: Colors.white54)),
+            hintText: 'What is your doubt?',
+            hintStyle: TextStyle(color: Colors.white54),
+          ),
           style: const TextStyle(color: Colors.white),
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(onPressed: _raiseDoubt, child: const Text('Ask')),
         ],
       ),
@@ -230,7 +255,8 @@ class _ClassroomStudentScreenState
   void _vote(String pollId, int index) {
     final userId = ref.read(currentUserProvider)?.id ?? 'anon';
     ref.read(classroomSessionServiceProvider).votePoll(pollId, index, userId);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Vote Cast!')));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Vote Cast!')));
   }
 }

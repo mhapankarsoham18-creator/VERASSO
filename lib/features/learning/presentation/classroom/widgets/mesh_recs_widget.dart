@@ -35,9 +35,10 @@ class MeshRecsWidget extends ConsumerWidget {
             Text(
               "Smart Mesh Suggestions",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -49,31 +50,38 @@ class MeshRecsWidget extends ConsumerWidget {
             itemCount: recommendations.length,
             itemBuilder: (context, index) {
               return GlassContainer(
-                margin: const EdgeInsets.only(right: 12),
-                width: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(LucideIcons.bookOpen, color: Colors.blueAccent),
-                    const SizedBox(height: 8),
-                    Text(
-                      recommendations[index],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontSize: 13),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      "Request via Mesh",
-                      style: TextStyle(
+                    margin: const EdgeInsets.only(right: 12),
+                    width: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          LucideIcons.bookOpen,
                           color: Colors.blueAccent,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          recommendations[index],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          "Request via Mesh",
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
+                  )
                   .animate()
                   .fadeIn(delay: (index * 100).ms)
                   .slideX(begin: 0.1, end: 0);

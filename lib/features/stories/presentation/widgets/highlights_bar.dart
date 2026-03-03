@@ -31,7 +31,9 @@ class _HighlightsBarState extends State<HighlightsBar> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const SizedBox(
-          height: 100, child: Center(child: CircularProgressIndicator()));
+        height: 100,
+        child: Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (_highlights.isEmpty && !widget.isOwner) {
@@ -49,8 +51,9 @@ class _HighlightsBarState extends State<HighlightsBar> {
             return _buildAddButton();
           }
 
-          final highlight =
-              widget.isOwner ? _highlights[index - 1] : _highlights[index];
+          final highlight = widget.isOwner
+              ? _highlights[index - 1]
+              : _highlights[index];
 
           return _buildHighlightData(highlight);
         },
@@ -111,8 +114,10 @@ class _HighlightsBarState extends State<HighlightsBar> {
                       )
                     : Container(
                         color: Colors.grey[200],
-                        child:
-                            const Icon(LucideIcons.image, color: Colors.grey),
+                        child: const Icon(
+                          LucideIcons.image,
+                          color: Colors.grey,
+                        ),
                       ),
               ),
             ),
@@ -161,8 +166,9 @@ class _HighlightsBarState extends State<HighlightsBar> {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Loading highlight: ${highlight.title}...'),
-            duration: const Duration(seconds: 1)),
+          content: Text('Loading highlight: ${highlight.title}...'),
+          duration: const Duration(seconds: 1),
+        ),
       );
 
       final stories = await _storiesService.getStoriesByIds(highlight.storyIds);
@@ -171,7 +177,8 @@ class _HighlightsBarState extends State<HighlightsBar> {
         if (stories.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content: Text('This highlight has no active stories.')),
+              content: Text('This highlight has no active stories.'),
+            ),
           );
           return;
         }
@@ -188,9 +195,9 @@ class _HighlightsBarState extends State<HighlightsBar> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load highlight: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load highlight: $e')));
       }
     }
   }

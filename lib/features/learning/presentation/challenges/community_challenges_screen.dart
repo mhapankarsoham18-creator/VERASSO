@@ -46,20 +46,20 @@ class _CommunityChallengesScreenState
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const CreateChallengeScreen())),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CreateChallengeScreen()),
+        ),
         label: const Text('Create Challenge'),
         icon: const Icon(
-            LucideIcons.swords), // If swords fails, I'll try LucideIcons.sword
+          LucideIcons.swords,
+        ), // If swords fails, I'll try LucideIcons.sword
         backgroundColor: Colors.purpleAccent,
       ),
       body: LiquidBackground(
         child: TabBarView(
           controller: _tabController,
-          children: [
-            _buildActiveChallengesList(),
-            _buildMyChallengesList(),
-          ],
+          children: [_buildActiveChallengesList(), _buildMyChallengesList()],
         ),
       ),
     );
@@ -103,8 +103,12 @@ class _CommunityChallengesScreenState
         }
 
         return ListView.builder(
-          padding:
-              const EdgeInsets.only(top: 100, bottom: 80, left: 16, right: 16),
+          padding: const EdgeInsets.only(
+            top: 100,
+            bottom: 80,
+            left: 16,
+            right: 16,
+          ),
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
             return _buildChallengeCard(snapshot.data![index], isCreator: false);
@@ -114,8 +118,10 @@ class _CommunityChallengesScreenState
     );
   }
 
-  Widget _buildChallengeCard(CommunityChallenge challenge,
-      {required bool isCreator}) {
+  Widget _buildChallengeCard(
+    CommunityChallenge challenge, {
+    required bool isCreator,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: GlassContainer(
@@ -135,33 +141,43 @@ class _CommunityChallengesScreenState
                       : null,
                 ),
                 const SizedBox(width: 8),
-                Text(challenge.creatorName ?? 'User',
-                    style:
-                        const TextStyle(fontSize: 12, color: Colors.white70)),
+                Text(
+                  challenge.creatorName ?? 'User',
+                  style: const TextStyle(fontSize: 12, color: Colors.white70),
+                ),
                 const Spacer(),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                      color: Colors.purpleAccent.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Text('${challenge.karmaReward} Karma',
-                      style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.purpleAccent,
-                          fontWeight: FontWeight.bold)),
+                    color: Colors.purpleAccent.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    '${challenge.karmaReward} Karma',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.purpleAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Text(challenge.title,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              challenge.title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 4),
-            Text(challenge.description,
-                style: const TextStyle(fontSize: 14, color: Colors.white70),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis),
+            Text(
+              challenge.description,
+              style: const TextStyle(fontSize: 14, color: Colors.white70),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -191,10 +207,13 @@ class _CommunityChallengesScreenState
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        isCreator ? Colors.blueAccent : Colors.white10),
-                child:
-                    Text(isCreator ? 'Manage Submissions' : 'Accept Challenge'),
+                  backgroundColor: isCreator
+                      ? Colors.blueAccent
+                      : Colors.white10,
+                ),
+                child: Text(
+                  isCreator ? 'Manage Submissions' : 'Accept Challenge',
+                ),
               ),
             ),
           ],
@@ -244,8 +263,12 @@ class _CommunityChallengesScreenState
         }
 
         return ListView.builder(
-          padding:
-              const EdgeInsets.only(top: 100, bottom: 80, left: 16, right: 16),
+          padding: const EdgeInsets.only(
+            top: 100,
+            bottom: 80,
+            left: 16,
+            right: 16,
+          ),
           itemCount: snapshot.data!.length,
           itemBuilder: (context, index) {
             return _buildChallengeCard(snapshot.data![index], isCreator: true);
@@ -271,8 +294,10 @@ class _CommunityChallengesScreenState
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.black87,
-        title: const Text('Submit Challenge',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Submit Challenge',
+          style: TextStyle(color: Colors.white),
+        ),
         content: TextField(
           controller: controller,
           style: const TextStyle(color: Colors.white),
@@ -283,25 +308,33 @@ class _CommunityChallengesScreenState
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () async {
               final userId = ref.read(currentUserProvider)?.id;
               if (userId != null && controller.text.isNotEmpty) {
-                await ref.read(challengeRepositoryProvider).submitEntry(
+                await ref
+                    .read(challengeRepositoryProvider)
+                    .submitEntry(
                       challengeId: challengeId,
                       userId: userId,
                       contentUrl: controller.text,
                     );
                 if (!context.mounted) return;
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Submission sent! Waiting for review.')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Submission sent! Waiting for review.'),
+                  ),
+                );
               }
             },
-            child: const Text('Submit',
-                style: TextStyle(color: Colors.purpleAccent)),
+            child: const Text(
+              'Submit',
+              style: TextStyle(color: Colors.purpleAccent),
+            ),
           ),
         ],
       ),

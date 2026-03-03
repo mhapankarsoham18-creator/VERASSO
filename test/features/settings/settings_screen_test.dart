@@ -46,13 +46,17 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         themeControllerProvider.overrideWith((ref) => mockThemeController),
         profileControllerProvider.overrideWith((ref) => mockProfileController),
-        privacySettingsProvider
-            .overrideWith((ref) => mockPrivacySettingsNotifier),
-        authControllerProvider.overrideWith((ref) => AuthController(
+        privacySettingsProvider.overrideWith(
+          (ref) => mockPrivacySettingsNotifier,
+        ),
+        authControllerProvider.overrideWith(
+          (ref) => AuthController(
             mockAuthRepository,
             ref,
             MockTokenStorageService(),
-            MockOfflineSecurityService())),
+            MockOfflineSecurityService(),
+          ),
+        ),
         userProfileProvider.overrideWithValue(AsyncValue.data(testProfile)),
       ],
       child: const MaterialApp(
@@ -98,8 +102,9 @@ void main() {
       expect(find.byType(SwitchListTile), findsWidgets);
     });
 
-    testWidgets('renders Private Account switch with correct state',
-        (WidgetTester tester) async {
+    testWidgets('renders Private Account switch with correct state', (
+      WidgetTester tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(800, 2000));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 

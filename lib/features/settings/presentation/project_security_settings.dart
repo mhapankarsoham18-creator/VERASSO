@@ -228,11 +228,7 @@ class _ProjectSecuritySettingsState
               ],
             ),
           ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: color,
-          ),
+          Switch(value: value, onChanged: onChanged, activeThumbColor: color),
         ],
       ),
     ).animate().fadeIn().slideX(begin: -0.1);
@@ -260,9 +256,9 @@ class _ProjectSecuritySettingsState
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Backup failed: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Backup failed: $e')));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -291,14 +287,14 @@ class _ProjectSecuritySettingsState
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-                Text(enabled ? 'Encryption enabled' : 'Encryption disabled')),
+          content: Text(enabled ? 'Encryption enabled' : 'Encryption disabled'),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -335,15 +331,18 @@ class _ProjectSecuritySettingsState
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(_passwordEnabled
+          content: Text(
+            _passwordEnabled
                 ? 'Password protection enabled'
-                : 'Password protection disabled')),
+                : 'Password protection disabled',
+          ),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

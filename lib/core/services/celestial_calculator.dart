@@ -66,12 +66,14 @@ class CelestialCalculator {
 
         // Only include objects above horizon
         if (coords['altitude']! > 0) {
-          objects.add(CelestialObject(
-            name: '${constellation.name} - ${star.name}',
-            azimuth: coords['azimuth']!,
-            altitude: coords['altitude']!,
-            type: 'star',
-          ));
+          objects.add(
+            CelestialObject(
+              name: '${constellation.name} - ${star.name}',
+              azimuth: coords['azimuth']!,
+              altitude: coords['altitude']!,
+              type: 'star',
+            ),
+          );
         }
       }
     }
@@ -87,12 +89,14 @@ class CelestialCalculator {
       );
 
       if (coords['altitude']! > 0) {
-        objects.add(CelestialObject(
-          name: planet.name,
-          azimuth: coords['azimuth']!,
-          altitude: coords['altitude']!,
-          type: 'planet',
-        ));
+        objects.add(
+          CelestialObject(
+            name: planet.name,
+            azimuth: coords['azimuth']!,
+            altitude: coords['altitude']!,
+            type: 'planet',
+          ),
+        );
       }
     }
 

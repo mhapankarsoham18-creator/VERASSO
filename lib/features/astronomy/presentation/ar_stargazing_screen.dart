@@ -44,60 +44,69 @@ class _ArStargazingScreenState extends State<ArStargazingScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
-              ? Center(
-                  child: Text(_errorMessage!,
-                      style: const TextStyle(color: Colors.red)))
-              : Stack(
-                  children: [
-                    // Camera view
-                    if (_cameraController != null &&
-                        _cameraController!.value.isInitialized)
-                      SizedBox.expand(
-                        child: CameraPreview(_cameraController!),
-                      ),
+          ? Center(
+              child: Text(
+                _errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
+            )
+          : Stack(
+              children: [
+                // Camera view
+                if (_cameraController != null &&
+                    _cameraController!.value.isInitialized)
+                  SizedBox.expand(child: CameraPreview(_cameraController!)),
 
-                    // AR Overlay
-                    CustomPaint(
-                      size: Size.infinite,
-                      painter: _CelestialOverlayPainter(
-                        visibleObjects: _visibleObjects,
-                        deviceAzimuth: _deviceAzimuth,
-                        devicePitch: _devicePitch,
-                        constellations: ConstellationData.constellations,
-                        planets: ConstellationData.planets,
-                        currentPosition: _currentPosition,
-                      ),
-                    ),
-
-                    // Info overlay
-                    Positioned(
-                      bottom: 20,
-                      left: 20,
-                      right: 20,
-                      child: GlassContainer(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                                'Azimuth: ${_deviceAzimuth.toStringAsFixed(1)}°',
-                                style: const TextStyle(fontSize: 12)),
-                            Text('Pitch: ${_devicePitch.toStringAsFixed(1)}°',
-                                style: const TextStyle(fontSize: 12)),
-                            Text('Visible Objects: ${_visibleObjects.length}',
-                                style: const TextStyle(fontSize: 12)),
-                            if (_currentPosition != null)
-                              Text(
-                                  'Location: ${_currentPosition!.latitude.toStringAsFixed(2)}, ${_currentPosition!.longitude.toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Colors.white70)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                // AR Overlay
+                CustomPaint(
+                  size: Size.infinite,
+                  painter: _CelestialOverlayPainter(
+                    visibleObjects: _visibleObjects,
+                    deviceAzimuth: _deviceAzimuth,
+                    devicePitch: _devicePitch,
+                    constellations: ConstellationData.constellations,
+                    planets: ConstellationData.planets,
+                    currentPosition: _currentPosition,
+                  ),
                 ),
+
+                // Info overlay
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: GlassContainer(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Azimuth: ${_deviceAzimuth.toStringAsFixed(1)}°',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          'Pitch: ${_devicePitch.toStringAsFixed(1)}°',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          'Visible Objects: ${_visibleObjects.length}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        if (_currentPosition != null)
+                          Text(
+                            'Location: ${_currentPosition!.latitude.toStringAsFixed(2)}, ${_currentPosition!.longitude.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.white70,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -176,8 +185,8 @@ class _ArStargazingScreenState extends State<ArStargazingScreen> {
     _accelerometerSubscription = accelerometerEventStream().listen((event) {
       final pitch =
           atan2(-event.y, sqrt(event.x * event.x + event.z * event.z)) *
-              180 /
-              pi;
+          180 /
+          pi;
       setState(() => _devicePitch = pitch);
     });
 
@@ -235,8 +244,12 @@ class _CelestialOverlayPainter extends CustomPainter {
     // Draw individual stars
     for (final obj in visibleObjects) {
       if (obj.type == 'star') {
-        final screenPos =
-            _skyToScreen(obj.azimuth, obj.altitude, size, fieldOfView);
+        final screenPos = _skyToScreen(
+          obj.azimuth,
+          obj.altitude,
+          size,
+          fieldOfView,
+        );
         if (screenPos != null) {
           _drawStar(canvas, screenPos);
         }
@@ -248,7 +261,11 @@ class _CelestialOverlayPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 
   void _drawConstellation(
-      Canvas canvas, Size size, Constellation constellation, double fov) {
+    Canvas canvas,
+    Size size,
+    Constellation constellation,
+    double fov,
+  ) {
     if (currentPosition == null) return;
 
     final paint = Paint()
@@ -268,7 +285,8 @@ class _CelestialOverlayPainter extends CustomPainter {
       );
 
       starPositions.add(
-          _skyToScreen(coords['azimuth']!, coords['altitude']!, size, fov));
+        _skyToScreen(coords['azimuth']!, coords['altitude']!, size, fov),
+      );
     }
 
     // Draw lines between connected stars
@@ -292,25 +310,33 @@ class _CelestialOverlayPainter extends CustomPainter {
       time: DateTime.now(),
     );
 
-    final screenPos =
-        _skyToScreen(coords['azimuth']!, coords['altitude']!, size, fov);
+    final screenPos = _skyToScreen(
+      coords['azimuth']!,
+      coords['altitude']!,
+      size,
+      fov,
+    );
     if (screenPos != null) {
       // Draw planet symbol
       final textPainter = TextPainter(
         text: TextSpan(
-            text: planet.symbol,
-            style: const TextStyle(color: Colors.orange, fontSize: 32)),
+          text: planet.symbol,
+          style: const TextStyle(color: Colors.orange, fontSize: 32),
+        ),
         textDirection: TextDirection.ltr,
       );
       textPainter.layout();
-      textPainter.paint(canvas,
-          screenPos - Offset(textPainter.width / 2, textPainter.height / 2));
+      textPainter.paint(
+        canvas,
+        screenPos - Offset(textPainter.width / 2, textPainter.height / 2),
+      );
 
       // Draw name
       final namePainter = TextPainter(
         text: TextSpan(
-            text: planet.name,
-            style: const TextStyle(color: Colors.white, fontSize: 10)),
+          text: planet.name,
+          style: const TextStyle(color: Colors.white, fontSize: 10),
+        ),
         textDirection: TextDirection.ltr,
       );
       namePainter.layout();

@@ -23,9 +23,10 @@ class VerificationGateDialog extends StatelessWidget {
             const Text(
               'Verification Required',
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -39,22 +40,27 @@ class VerificationGateDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const AgeVerificationScreen()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AgeVerificationScreen(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: const Text('Verify Now'),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Maybe Later',
-                  style: TextStyle(color: Colors.white54)),
+              child: const Text(
+                'Maybe Later',
+                style: TextStyle(color: Colors.white54),
+              ),
             ),
           ],
         ),

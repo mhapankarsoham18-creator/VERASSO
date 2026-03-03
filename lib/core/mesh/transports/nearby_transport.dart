@@ -26,10 +26,9 @@ class NearbyTransport implements MeshTransport {
       endpointId,
       onPayLoadRecieved: (id, payload) {
         if (payload.type == PayloadType.BYTES) {
-          _dataController.add(MeshDataPayload(
-            endpointId: id,
-            data: payload.bytes!,
-          ));
+          _dataController.add(
+            MeshDataPayload(endpointId: id, data: payload.bytes!),
+          );
         }
       },
     );
@@ -57,26 +56,32 @@ class NearbyTransport implements MeshTransport {
         name,
         _strategy,
         onConnectionInitiated: (id, info) {
-          _connectionController.add(MeshConnectionEvent(
-            endpointId: id,
-            endpointName: info.endpointName,
-            state: MeshConnectionState.initiated,
-            authenticationToken: info.authenticationToken,
-          ));
+          _connectionController.add(
+            MeshConnectionEvent(
+              endpointId: id,
+              endpointName: info.endpointName,
+              state: MeshConnectionState.initiated,
+              authenticationToken: info.authenticationToken,
+            ),
+          );
         },
         onConnectionResult: (id, status) {
-          _connectionController.add(MeshConnectionEvent(
-            endpointId: id,
-            state: status == Status.CONNECTED
-                ? MeshConnectionState.connected
-                : MeshConnectionState.failed,
-          ));
+          _connectionController.add(
+            MeshConnectionEvent(
+              endpointId: id,
+              state: status == Status.CONNECTED
+                  ? MeshConnectionState.connected
+                  : MeshConnectionState.failed,
+            ),
+          );
         },
         onDisconnected: (id) {
-          _connectionController.add(MeshConnectionEvent(
-            endpointId: id,
-            state: MeshConnectionState.disconnected,
-          ));
+          _connectionController.add(
+            MeshConnectionEvent(
+              endpointId: id,
+              state: MeshConnectionState.disconnected,
+            ),
+          );
         },
         serviceId: _serviceId,
       );
@@ -92,18 +97,22 @@ class NearbyTransport implements MeshTransport {
         name,
         _strategy,
         onEndpointFound: (id, name, serviceId) {
-          _connectionController.add(MeshConnectionEvent(
-            endpointId: id,
-            endpointName: name,
-            state: MeshConnectionState.found,
-          ));
+          _connectionController.add(
+            MeshConnectionEvent(
+              endpointId: id,
+              endpointName: name,
+              state: MeshConnectionState.found,
+            ),
+          );
         },
         onEndpointLost: (id) {
           if (id != null) {
-            _connectionController.add(MeshConnectionEvent(
-              endpointId: id,
-              state: MeshConnectionState.lost,
-            ));
+            _connectionController.add(
+              MeshConnectionEvent(
+                endpointId: id,
+                state: MeshConnectionState.lost,
+              ),
+            );
           }
         },
         serviceId: _serviceId,

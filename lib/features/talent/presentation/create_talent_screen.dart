@@ -36,7 +36,7 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
     'Coding',
     'Design',
     'Writing',
-    'Other'
+    'Other',
   ];
   String _billingPeriod = 'one-off';
   bool _isMentorPackage = false;
@@ -46,7 +46,7 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
     'monthly',
     'quarterly',
     'yearly',
-    'free'
+    'free',
   ];
 
   @override
@@ -54,8 +54,9 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Showcase Talent'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Showcase Talent'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
@@ -71,8 +72,9 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                         controller: _titleController,
                         style: const TextStyle(color: Colors.white),
                         decoration: const InputDecoration(
-                            labelText: 'Title (e.g. Portrait Illustration)',
-                            labelStyle: TextStyle(color: Colors.white70)),
+                          labelText: 'Title (e.g. Portrait Illustration)',
+                          labelStyle: TextStyle(color: Colors.white70),
+                        ),
                         validator: (v) =>
                             v?.isEmpty == true ? 'Required' : null,
                       ),
@@ -82,8 +84,9 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                         style: const TextStyle(color: Colors.white),
                         maxLines: 3,
                         decoration: const InputDecoration(
-                            labelText: 'Description',
-                            labelStyle: TextStyle(color: Colors.white70)),
+                          labelText: 'Description',
+                          labelStyle: TextStyle(color: Colors.white70),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -94,9 +97,10 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                               style: const TextStyle(color: Colors.white),
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
-                                  labelText: 'Price',
-                                  prefixText: '\$',
-                                  labelStyle: TextStyle(color: Colors.white70)),
+                                labelText: 'Price',
+                                prefixText: '\$',
+                                labelStyle: TextStyle(color: Colors.white70),
+                              ),
                               validator: (v) =>
                                   v?.isEmpty == true ? 'Required' : null,
                             ),
@@ -108,11 +112,16 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                               dropdownColor: Colors.grey[900],
                               style: const TextStyle(color: Colors.white),
                               decoration: const InputDecoration(
-                                  labelText: 'Category',
-                                  labelStyle: TextStyle(color: Colors.white70)),
+                                labelText: 'Category',
+                                labelStyle: TextStyle(color: Colors.white70),
+                              ),
                               items: _categories
-                                  .map((c) => DropdownMenuItem(
-                                      value: c, child: Text(c)))
+                                  .map(
+                                    (c) => DropdownMenuItem(
+                                      value: c,
+                                      child: Text(c),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (v) => setState(() => _category = v!),
                             ),
@@ -128,11 +137,16 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                               dropdownColor: Colors.grey[900],
                               style: const TextStyle(color: Colors.white),
                               decoration: const InputDecoration(
-                                  labelText: 'Billing Period',
-                                  labelStyle: TextStyle(color: Colors.white70)),
+                                labelText: 'Billing Period',
+                                labelStyle: TextStyle(color: Colors.white70),
+                              ),
                               items: _billingPeriods
-                                  .map((p) => DropdownMenuItem(
-                                      value: p, child: Text(p)))
+                                  .map(
+                                    (p) => DropdownMenuItem(
+                                      value: p,
+                                      child: Text(p),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (v) =>
                                   setState(() => _billingPeriod = v!),
@@ -147,9 +161,13 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                                 onChanged: (val) =>
                                     setState(() => _isMentorPackage = val!),
                               ),
-                              const Text('Mentor Pkg',
-                                  style: TextStyle(
-                                      color: Colors.white70, fontSize: 12)),
+                              const Text(
+                                'Mentor Pkg',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -163,8 +181,10 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                           labelText: 'Enquiry Details',
                           hintText: 'e.g. DM me on Instagram @user or email me',
                           labelStyle: TextStyle(color: Colors.white70),
-                          hintStyle:
-                              TextStyle(fontSize: 12, color: Colors.white38),
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white38,
+                          ),
                         ),
                         validator: (v) =>
                             v?.isEmpty == true ? 'Required' : null,
@@ -175,19 +195,24 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : _submit,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.all(16),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           child: _isLoading
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
                                   child: CircularProgressIndicator(
-                                      color: Colors.white, strokeWidth: 2))
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
                               : const Text('Post to Showcase'),
                         ),
                       ),
@@ -233,13 +258,15 @@ class _CreateTalentScreenState extends ConsumerState<CreateTalentScreen> {
       if (mounted) {
         ref.invalidate(talentsProvider);
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Talent posted successfully!')));
+          const SnackBar(content: Text('Talent posted successfully!')),
+        );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

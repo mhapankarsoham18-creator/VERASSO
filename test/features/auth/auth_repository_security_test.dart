@@ -37,65 +37,70 @@ void main() {
     const password = 'Password123!';
 
     test(
-        'signInWithEmail should throw if track_failed_login returns false (account locked)',
-        () async {
-      // Mock account locked on server
-      mockSupabase.setRpcResponse('track_failed_login', false);
+      'signInWithEmail should throw if track_failed_login returns false (account locked)',
+      () async {
+        // Mock account locked on server
+        mockSupabase.setRpcResponse('track_failed_login', false);
 
-      expect(
-        () => repository.signInWithEmail(email: email, password: password),
-        throwsA(isA<AppAuthException>().having(
-          (e) => e.message,
-          'message',
-          contains('Too many failed attempts'),
-        )),
-      );
-    });
-
-    test(
-        'signInWithEmail should succeed and clear failed attempts if track_failed_login allows',
-        () async {
-      // Mock allowed on server
-      mockSupabase.setRpcResponse('track_failed_login', true);
-      mockSupabase.setRpcResponse('clear_failed_login_attempts', null);
-
-      mockSecureAuth.signInWithPasswordStub = ({
-        required email,
-        required password,
-      }) async {
-        return AuthResponse(
-          user: TestSupabaseUser(),
-          session: Session(
-            accessToken: 'token',
-            tokenType: 'bearer',
-            user: TestSupabaseUser(),
+        expect(
+          () => repository.signInWithEmail(email: email, password: password),
+          throwsA(
+            isA<AppAuthException>().having(
+              (e) => e.message,
+              'message',
+              contains('Too many failed attempts'),
+            ),
           ),
         );
-      };
-
-      final result =
-          await repository.signInWithEmail(email: email, password: password);
-
-      expect(result.user, isNotNull);
-    });
+      },
+    );
 
     test(
-        'signInWithEmail should catch exceptions and log attempts in local RateLimitService',
-        () async {
-      mockSupabase.setRpcResponse('track_failed_login', true);
+      'signInWithEmail should succeed and clear failed attempts if track_failed_login allows',
+      () async {
+        // Mock allowed on server
+        mockSupabase.setRpcResponse('track_failed_login', true);
+        mockSupabase.setRpcResponse('clear_failed_login_attempts', null);
 
-      mockSecureAuth.signInWithPasswordStub = ({
-        required email,
-        required password,
-      }) async {
-        throw const AuthException('Invalid login credentials');
-      };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              return AuthResponse(
+                user: TestSupabaseUser(),
+                session: Session(
+                  accessToken: 'token',
+                  tokenType: 'bearer',
+                  user: TestSupabaseUser(),
+                ),
+              );
+            };
 
-      expect(
-        () => repository.signInWithEmail(
-            email: email, password: 'wrong_password'),
-        throwsA(isA<AppAuthException>()),
-      );
-    });
+        final result = await repository.signInWithEmail(
+          email: email,
+          password: password,
+        );
+
+        expect(result.user, isNotNull);
+      },
+    );
+
+    test(
+      'signInWithEmail should catch exceptions and log attempts in local RateLimitService',
+      () async {
+        mockSupabase.setRpcResponse('track_failed_login', true);
+
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException('Invalid login credentials');
+            };
+
+        expect(
+          () => repository.signInWithEmail(
+            email: email,
+            password: 'wrong_password',
+          ),
+          throwsA(isA<AppAuthException>()),
+        );
+      },
+    );
   });
 }

@@ -48,11 +48,7 @@ class CachedImage extends StatelessWidget {
         placeholder: (context, url) => Shimmer.fromColors(
           baseColor: Colors.grey.shade800,
           highlightColor: Colors.grey.shade700,
-          child: Container(
-            width: width,
-            height: height,
-            color: Colors.black,
-          ),
+          child: Container(width: width, height: height, color: Colors.black),
         ),
         errorWidget: (context, url, error) =>
             errorWidget ??

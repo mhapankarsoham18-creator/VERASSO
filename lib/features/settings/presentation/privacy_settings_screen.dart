@@ -157,15 +157,23 @@ class _PrivacySettingsScreenState extends ConsumerState<PrivacySettingsScreen> {
                     onTap: () {
                       // Show timeout picker dialog
                     },
-                    leading:
-                        const Icon(LucideIcons.clock, color: Colors.white70),
-                    title: const Text('Session Timeout',
-                        style: TextStyle(color: Colors.white)),
+                    leading: const Icon(
+                      LucideIcons.clock,
+                      color: Colors.white70,
+                    ),
+                    title: const Text(
+                      'Session Timeout',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     subtitle: Text(
-                        '${settings.sessionTimeout.inMinutes} minutes',
-                        style: const TextStyle(color: Colors.white70)),
-                    trailing: const Icon(LucideIcons.chevronRight,
-                        color: Colors.white24, size: 16),
+                      '${settings.sessionTimeout.inMinutes} minutes',
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                    trailing: const Icon(
+                      LucideIcons.chevronRight,
+                      color: Colors.white24,
+                      size: 16,
+                    ),
                   ),
                 ],
               ),
@@ -179,13 +187,18 @@ class _PrivacySettingsScreenState extends ConsumerState<PrivacySettingsScreen> {
                 onTap: () {
                   // Trigger data export
                 },
-                leading:
-                    const Icon(LucideIcons.download, color: Colors.white70),
-                title: const Text('Export My Data',
-                    style: TextStyle(color: Colors.white)),
+                leading: const Icon(
+                  LucideIcons.download,
+                  color: Colors.white70,
+                ),
+                title: const Text(
+                  'Export My Data',
+                  style: TextStyle(color: Colors.white),
+                ),
                 subtitle: const Text(
-                    'Receive a decentralized archive of your profile.',
-                    style: TextStyle(color: Colors.white70)),
+                  'Receive a decentralized archive of your profile.',
+                  style: TextStyle(color: Colors.white70),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -206,7 +219,8 @@ class _PrivacySettingsScreenState extends ConsumerState<PrivacySettingsScreen> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
+                            backgroundColor: Colors.red,
+                          ),
                           onPressed: () => Navigator.pop(context, true),
                           child: const Text('Confirm Deletion'),
                         ),
@@ -228,12 +242,18 @@ class _PrivacySettingsScreenState extends ConsumerState<PrivacySettingsScreen> {
                     }
                   }
                 },
-                leading:
-                    const Icon(LucideIcons.trash2, color: Colors.redAccent),
-                title: const Text('Delete Account',
-                    style: TextStyle(color: Colors.redAccent)),
-                subtitle: const Text('Permanently erase your identity.',
-                    style: TextStyle(color: Colors.redAccent, fontSize: 12)),
+                leading: const Icon(
+                  LucideIcons.trash2,
+                  color: Colors.redAccent,
+                ),
+                title: const Text(
+                  'Delete Account',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+                subtitle: const Text(
+                  'Permanently erase your identity.',
+                  style: TextStyle(color: Colors.redAccent, fontSize: 12),
+                ),
               ),
             ),
             const SizedBox(height: 80),
@@ -271,8 +291,10 @@ class _PrivacySettingsScreenState extends ConsumerState<PrivacySettingsScreen> {
       secondary: Icon(icon, color: Colors.white70),
       title: Text(
         title,
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.normal,
+        ),
       ),
       subtitle: Text(
         subtitle,

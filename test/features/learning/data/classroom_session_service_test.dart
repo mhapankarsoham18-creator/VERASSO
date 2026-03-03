@@ -14,41 +14,46 @@ void main() {
     mockClient = MockSupabaseClient();
     mockMesh = MockBluetoothMeshService();
     mockStorage = MockOfflineStorageService();
-    service =
-        ClassroomSessionService(mockMesh, mockStorage, client: mockClient);
+    service = ClassroomSessionService(
+      mockMesh,
+      mockStorage,
+      client: mockClient,
+    );
   });
 
   group('ClassroomSessionService', () {
-    test('fetchAvailableLabs should return only courses marked as labs',
-        () async {
-      // Arrange
-      final mockResponse = [
-        {
-          'id': 'lab-1',
-          'creator_id': 'user-1',
-          'title': 'Physics Lab',
-          'is_lab': true,
-          'is_published': true,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ];
+    test(
+      'fetchAvailableLabs should return only courses marked as labs',
+      () async {
+        // Arrange
+        final mockResponse = [
+          {
+            'id': 'lab-1',
+            'creator_id': 'user-1',
+            'title': 'Physics Lab',
+            'is_lab': true,
+            'is_published': true,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ];
 
-      final mockFilterBuilder =
-          MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
-      mockFilterBuilder.setResponse(mockResponse);
+        final mockFilterBuilder =
+            MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
+        mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
-      mockClient.setQueryBuilder('courses', qb);
+        final qb = MockSupabaseQueryBuilder(
+          stubs: {'select': mockFilterBuilder},
+        );
+        mockClient.setQueryBuilder('courses', qb);
 
-      // Act
-      final result = await service.fetchAvailableLabs();
+        // Act
+        final result = await service.fetchAvailableLabs();
 
-      // Assert
-      expect(result.length, 1);
-      expect(result.first.isLab, true);
-    });
+        // Assert
+        expect(result.length, 1);
+        expect(result.first.isLab, true);
+      },
+    );
 
     test('fetchClassroomSessions should return sessions from cloud', () async {
       // Arrange
@@ -59,16 +64,14 @@ void main() {
           'subject': 'Math',
           'topic': 'Algebra',
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final mockFilterBuilder =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('classroom_sessions', qb);
 
       // Act
@@ -82,9 +85,7 @@ void main() {
     test('startSession should sync to cloud and mesh', () async {
       // Arrange
       final mockFilterBuilder = MockPostgrestFilterBuilder();
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'insert': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'insert': mockFilterBuilder});
       mockClient.setQueryBuilder('classroom_sessions', qb);
 
       // Act

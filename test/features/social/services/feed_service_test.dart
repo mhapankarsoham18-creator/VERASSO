@@ -20,9 +20,7 @@ void main() {
     });
 
     test('Post.fromJson handles missing optional fields', () {
-      final json = {
-        'id': 'post-minimal',
-      };
+      final json = {'id': 'post-minimal'};
 
       final post = Post.fromJson(json);
       expect(post.id, 'post-minimal');

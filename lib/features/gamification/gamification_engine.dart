@@ -27,14 +27,11 @@ Future<void> addXP(String userId, int xp) async {
 /// Uses upsert with conflict on (user_id, badge_id) to prevent duplicates.
 Future<void> awardBadge(String userId, String badgeId) async {
   try {
-    await database.from('user_badges').upsert(
-      {
-        'user_id': userId,
-        'badge_id': badgeId,
-        'earned_at': DateTime.now().toIso8601String(),
-      },
-      onConflict: 'user_id,badge_id',
-    );
+    await database.from('user_badges').upsert({
+      'user_id': userId,
+      'badge_id': badgeId,
+      'earned_at': DateTime.now().toIso8601String(),
+    }, onConflict: 'user_id,badge_id');
   } catch (e) {
     AppLogger.error('Failed to award badge $badgeId to $userId', error: e);
   }
@@ -50,7 +47,8 @@ Future<Map<String, dynamic>?> fetchUserStats(String userId) async {
     final response = await database
         .from('user_stats')
         .select(
-            '*, profiles:user_id(username, avatar_url), user_badges(badge_id)')
+          '*, profiles:user_id(username, avatar_url), user_badges(badge_id)',
+        )
         .eq('user_id', userId)
         .maybeSingle();
     return response;
@@ -228,13 +226,15 @@ class LeaderboardEngine {
       final response = await database.rpc('get_overall_leaderboard').select();
       final dataList = response as List<dynamic>;
       return dataList
-          .map((data) => LeaderboardEntry(
-                userId: data['user_id'] as String,
-                username: data['username'] as String,
-                avatarUrl: data['avatar_url'] as String? ?? '',
-                score: (data['score'] as num).toInt(),
-                rank: (data['rank'] as num).toInt(),
-              ))
+          .map(
+            (data) => LeaderboardEntry(
+              userId: data['user_id'] as String,
+              username: data['username'] as String,
+              avatarUrl: data['avatar_url'] as String? ?? '',
+              score: (data['score'] as num).toInt(),
+              rank: (data['rank'] as num).toInt(),
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.error('Failed to get overall leaderboard', error: e);
@@ -248,13 +248,15 @@ class LeaderboardEngine {
       final response = await database.rpc('get_weekly_leaderboard').select();
       final dataList = response as List<dynamic>;
       return dataList
-          .map((data) => LeaderboardEntry(
-                userId: data['user_id'] as String,
-                username: data['username'] as String,
-                avatarUrl: data['avatar_url'] as String? ?? '',
-                score: (data['score'] as num).toInt(),
-                rank: (data['rank'] as num).toInt(),
-              ))
+          .map(
+            (data) => LeaderboardEntry(
+              userId: data['user_id'] as String,
+              username: data['username'] as String,
+              avatarUrl: data['avatar_url'] as String? ?? '',
+              score: (data['score'] as num).toInt(),
+              rank: (data['rank'] as num).toInt(),
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.error('Failed to get weekly leaderboard', error: e);
@@ -454,9 +456,7 @@ class XPRewardEngine {
   };
 
   /// Map of XP costs for hints.
-  static const Map<String, int> hintCost = {
-    'hint_used': -2,
-  };
+  static const Map<String, int> hintCost = {'hint_used': -2};
 
   /// Updates user XP in a transaction.
   static Future<void> addUserXP(String userId, int xpGained) async {

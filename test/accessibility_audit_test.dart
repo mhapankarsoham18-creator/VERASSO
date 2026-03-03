@@ -39,7 +39,7 @@ void main() {
         'Create Post',
         'Save Profile',
         'Log Out',
-        'Delete Account'
+        'Delete Account',
       ];
 
       expect(goodLabels.every((l) => l.isNotEmpty), true);
@@ -82,13 +82,7 @@ void main() {
       // Bottom nav should announce destination:
       // "Home Tab, 2 unread", "Messages Tab, 5 unread"
 
-      const navItems = [
-        'Home',
-        'Messages',
-        'Profile',
-        'Settings',
-        'Search',
-      ];
+      const navItems = ['Home', 'Messages', 'Profile', 'Settings', 'Search'];
 
       expect(navItems.length, 5);
       expect(navItems.every((n) => n.isNotEmpty), true);
@@ -200,12 +194,7 @@ void main() {
       // Android accessibility service
       // Each screen should announce its name
 
-      const screenNames = [
-        'Home',
-        'Messages',
-        'Profile',
-        'Settings',
-      ];
+      const screenNames = ['Home', 'Messages', 'Profile', 'Settings'];
 
       expect(screenNames.length, 4);
     });

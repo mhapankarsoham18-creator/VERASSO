@@ -44,18 +44,19 @@ class MessageRepository {
     required EncryptionService encryptionService,
     GamificationEventBus? gamificationEventBus,
     NotificationService? notificationService,
-  })  : _client = client ?? SupabaseService.client,
-        _encryptionService = encryptionService,
-        _gamificationEventBus = gamificationEventBus,
-        _notificationService =
-            notificationService ?? NotificationService(client: client);
+  }) : _client = client ?? SupabaseService.client,
+       _encryptionService = encryptionService,
+       _gamificationEventBus = gamificationEventBus,
+       _notificationService =
+           notificationService ?? NotificationService(client: client);
 
   /// Archives a conversation for the current user.
   Future<void> archiveConversation(String conversationId) async {
     try {
       await _client
           .from('conversations')
-          .update({'is_archived': true}).eq('id', conversationId);
+          .update({'is_archived': true})
+          .eq('id', conversationId);
     } catch (e) {
       AppLogger.error('Archive conversation error', error: e);
     }
@@ -68,9 +69,10 @@ class MessageRepository {
     required List<String> memberIds,
   }) async {
     try {
-      await _client
-          .from('groups')
-          .insert({'name': groupName, 'creator_id': creatorId});
+      await _client.from('groups').insert({
+        'name': groupName,
+        'creator_id': creatorId,
+      });
     } catch (_) {}
     return 'group-id';
   }
@@ -145,32 +147,38 @@ class MessageRepository {
         final parts = [myId, otherId]..sort();
         final convId = 'conv_${parts.join('_')}';
 
-        list.add(Conversation(
-          id: convId,
-          participant1Id: myId,
-          participant2Id: otherId,
-          lastMessage: Message(
-            id: lastRow['id'] as String,
-            conversationId: convId,
-            senderId: lastRow['sender_id'] as String,
-            content: content,
-            type: MessageType.values.firstWhere(
+        list.add(
+          Conversation(
+            id: convId,
+            participant1Id: myId,
+            participant2Id: otherId,
+            lastMessage: Message(
+              id: lastRow['id'] as String,
+              conversationId: convId,
+              senderId: lastRow['sender_id'] as String,
+              content: content,
+              type: MessageType.values.firstWhere(
                 (e) => e.name == (lastRow['media_type'] as String? ?? 'text'),
-                orElse: () => MessageType.text),
-            status: lastRow['read_at'] != null
-                ? MessageStatus.read
-                : MessageStatus.delivered,
-            sentAt: createdAt,
+                orElse: () => MessageType.text,
+              ),
+              status: lastRow['read_at'] != null
+                  ? MessageStatus.read
+                  : MessageStatus.delivered,
+              sentAt: createdAt,
+            ),
+            unreadCount: unreadCount,
+            messageCount: lastRow['message_count'] ?? msgs.length,
+            deletedMessageCount: lastRow['deleted_message_count'] ?? 0,
+            createdAt: createdAt,
+            updatedAt: createdAt,
           ),
-          unreadCount: unreadCount,
-          messageCount: lastRow['message_count'] ?? msgs.length,
-          deletedMessageCount: lastRow['deleted_message_count'] ?? 0,
-          createdAt: createdAt,
-          updatedAt: createdAt,
-        ));
+        );
       }
-      list.sort((a, b) => (b.lastMessage?.sentAt ?? b.createdAt)
-          .compareTo(a.lastMessage?.sentAt ?? a.createdAt));
+      list.sort(
+        (a, b) => (b.lastMessage?.sentAt ?? b.createdAt).compareTo(
+          a.lastMessage?.sentAt ?? a.createdAt,
+        ),
+      );
       return list;
     } catch (e, stack) {
       AppLogger.error('Get conversations error', error: e);
@@ -213,20 +221,24 @@ class MessageRepository {
           SentryService.captureException(e, stackTrace: stack);
         }
 
-        messages.add(Message(
-          id: row['id'],
-          conversationId: row['conversation_id'] ??
-              'conv_${row['sender_id']}_${row['receiver_id']}',
-          senderId: row['sender_id'],
-          content: content,
-          type: MessageType.values.firstWhere(
+        messages.add(
+          Message(
+            id: row['id'],
+            conversationId:
+                row['conversation_id'] ??
+                'conv_${row['sender_id']}_${row['receiver_id']}',
+            senderId: row['sender_id'],
+            content: content,
+            type: MessageType.values.firstWhere(
               (e) => e.name == (row['media_type'] as String? ?? 'text'),
-              orElse: () => MessageType.text),
-          status: row['read_at'] != null
-              ? MessageStatus.read
-              : MessageStatus.delivered,
-          sentAt: DateTime.parse(row['created_at']),
-        ));
+              orElse: () => MessageType.text,
+            ),
+            status: row['read_at'] != null
+                ? MessageStatus.read
+                : MessageStatus.delivered,
+            sentAt: DateTime.parse(row['created_at']),
+          ),
+        );
       }
       messages.sort((a, b) => a.sentAt.compareTo(b.sentAt));
       return messages;
@@ -259,18 +271,22 @@ class MessageRepository {
         content = await _encryptionService.decryptMessage(r);
       } catch (_) {}
 
-      messages.add(Message(
-        id: r['id'],
-        conversationId: conversationId,
-        senderId: r['sender_id'],
-        content: content,
-        type: MessageType.values.firstWhere(
+      messages.add(
+        Message(
+          id: r['id'],
+          conversationId: conversationId,
+          senderId: r['sender_id'],
+          content: content,
+          type: MessageType.values.firstWhere(
             (e) => e.name == (r['media_type'] as String? ?? 'text'),
-            orElse: () => MessageType.text),
-        status:
-            r['read_at'] != null ? MessageStatus.read : MessageStatus.delivered,
-        sentAt: DateTime.parse(r['created_at']),
-      ));
+            orElse: () => MessageType.text,
+          ),
+          status: r['read_at'] != null
+              ? MessageStatus.read
+              : MessageStatus.delivered,
+          sentAt: DateTime.parse(r['created_at']),
+        ),
+      );
     }
     return messages;
   }
@@ -305,8 +321,10 @@ class MessageRepository {
   /// Marks a specific message as read in the database.
   Future<void> markAsRead(String messageId) async {
     try {
-      await _client.from('messages').update(
-          {'read_at': DateTime.now().toIso8601String()}).eq('id', messageId);
+      await _client
+          .from('messages')
+          .update({'read_at': DateTime.now().toIso8601String()})
+          .eq('id', messageId);
     } catch (e, stack) {
       AppLogger.error('Mark as read error', error: e);
       SentryService.captureException(e, stackTrace: stack);
@@ -318,8 +336,10 @@ class MessageRepository {
   Future<void> markMessageAsRead(String messageId) => markAsRead(messageId);
 
   /// Searches for messages matching [query] in the specified [conversationId] or across all user's messages.
-  Future<List<Message>> searchMessages(
-      {String? conversationId, required String query}) async {
+  Future<List<Message>> searchMessages({
+    String? conversationId,
+    required String query,
+  }) async {
     final myId = _client.auth.currentUser?.id;
     if (myId == null) return [];
 
@@ -339,19 +359,22 @@ class MessageRepository {
         try {
           content = await _encryptionService.decryptMessage(r);
           if (content.toLowerCase().contains(query.toLowerCase())) {
-            results.add(Message(
-              id: r['id'],
-              conversationId: r['conversation_id'] ?? '',
-              senderId: r['sender_id'],
-              content: content,
-              type: MessageType.values.firstWhere(
+            results.add(
+              Message(
+                id: r['id'],
+                conversationId: r['conversation_id'] ?? '',
+                senderId: r['sender_id'],
+                content: content,
+                type: MessageType.values.firstWhere(
                   (e) => e.name == (r['media_type'] as String? ?? 'text'),
-                  orElse: () => MessageType.text),
-              status: r['read_at'] != null
-                  ? MessageStatus.read
-                  : MessageStatus.delivered,
-              sentAt: DateTime.parse(r['created_at']),
-            ));
+                  orElse: () => MessageType.text,
+                ),
+                status: r['read_at'] != null
+                    ? MessageStatus.read
+                    : MessageStatus.delivered,
+                sentAt: DateTime.parse(r['created_at']),
+              ),
+            );
           }
         } catch (_) {}
       }
@@ -395,8 +418,10 @@ class MessageRepository {
     receiverId = recipientId ?? receiverId;
     try {
       // Encrypt
-      final encryptedData =
-          await _encryptionService.encryptMessage(content, receiverId);
+      final encryptedData = await _encryptionService.encryptMessage(
+        content,
+        receiverId,
+      );
 
       // Insert
       await _client.from('messages').insert({
@@ -439,7 +464,8 @@ class MessageRepository {
     try {
       await _client
           .from('conversations')
-          .update({'is_archived': false}).eq('id', conversationId);
+          .update({'is_archived': false})
+          .eq('id', conversationId);
     } catch (e) {
       AppLogger.error('Unarchive conversation error', error: e);
     }
@@ -452,11 +478,14 @@ class MessageRepository {
     try {
       // In a real E2E app, we'd re-encrypt for all recipients, but here we just update the flag
       // and potentially the content if it's plaintext in the mock/test environment.
-      await _client.from('messages').update({
-        'content': newContent,
-        'is_edited': true,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', messageId);
+      await _client
+          .from('messages')
+          .update({
+            'content': newContent,
+            'is_edited': true,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', messageId);
     } catch (e) {
       AppLogger.error('Update message error', error: e);
     }

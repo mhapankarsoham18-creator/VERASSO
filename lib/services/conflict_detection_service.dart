@@ -406,10 +406,8 @@ enum ConflictSeverity {
 
   /// Low severity conflict that can typically be auto-merged.
   low, // Can auto-merge
-
   /// Medium severity conflict that may require human review.
   medium, // Need human review
-
   /// High severity conflict representing major disparate changes.
   high, // Major conflict
 }

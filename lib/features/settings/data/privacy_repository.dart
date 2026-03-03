@@ -9,7 +9,7 @@ class PrivacyRepository {
 
   /// Creates a [PrivacyRepository] with an optional [SupabaseClient].
   PrivacyRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Delete user account and all associated data
   Future<void> deleteAccount() async {
@@ -37,8 +37,11 @@ class PrivacyRepository {
     };
 
     // Fetch Profile
-    final profile =
-        await _client.from('profiles').select().eq('id', user.id).maybeSingle();
+    final profile = await _client
+        .from('profiles')
+        .select()
+        .eq('id', user.id)
+        .maybeSingle();
     data['profile'] = profile;
 
     // Fetch Posts
@@ -46,13 +49,17 @@ class PrivacyRepository {
     data['posts'] = posts;
 
     // Fetch Comments
-    final comments =
-        await _client.from('comments').select().eq('user_id', user.id);
+    final comments = await _client
+        .from('comments')
+        .select()
+        .eq('user_id', user.id);
     data['comments'] = comments;
 
     // Fetch Sessions (Security Data)
-    final sessions =
-        await _client.from('auth_sessions').select().eq('user_id', user.id);
+    final sessions = await _client
+        .from('auth_sessions')
+        .select()
+        .eq('user_id', user.id);
     data['sessions'] = sessions;
 
     return const JsonEncoder.withIndent('  ').convert(data);

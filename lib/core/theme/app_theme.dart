@@ -33,8 +33,9 @@ class AppTheme {
       ),
       cardTheme: const CardThemeData(
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(12)), // Standardized to medium
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ), // Standardized to medium
         ),
       ),
     );
@@ -66,8 +67,9 @@ class AppTheme {
       ),
       cardTheme: const CardThemeData(
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(12)), // Standardized to medium
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ), // Standardized to medium
         ),
       ),
     );

@@ -15,14 +15,16 @@ void main() {
 
   group('SearchService Tests', () {
     test('searchUsers should return user results', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'u1',
-          'full_name': 'Alice Smith',
-          'avatar_url': null,
-          'bio': 'Student',
-        },
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'u1',
+            'full_name': 'Alice Smith',
+            'avatar_url': null,
+            'bio': 'Student',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', builder);
 
       final result = await service.searchUsers('Alice');
@@ -39,15 +41,17 @@ void main() {
     });
 
     test('searchGroups should return group results', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'g1',
-          'name': 'Physics Club',
-          'description': 'Advanced physics',
-          'avatar_url': null,
-          'member_count': 42,
-        },
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'g1',
+            'name': 'Physics Club',
+            'description': 'Advanced physics',
+            'avatar_url': null,
+            'member_count': 42,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('groups', builder);
 
       final result = await service.searchGroups('Physics');
@@ -66,17 +70,13 @@ void main() {
 
   group('Search Model Tests', () {
     test('UserSearchResult.fromJson handles missing full_name', () {
-      final result = UserSearchResult.fromJson({
-        'id': 'u1',
-      });
+      final result = UserSearchResult.fromJson({'id': 'u1'});
 
       expect(result.fullName, 'Unknown User');
     });
 
     test('GroupSearchResult.fromJson handles defaults', () {
-      final result = GroupSearchResult.fromJson({
-        'id': 'g1',
-      });
+      final result = GroupSearchResult.fromJson({'id': 'g1'});
 
       expect(result.name, 'Unnamed Group');
       expect(result.memberCount, 0);
@@ -100,9 +100,7 @@ void main() {
       expect(empty.totalCount, 0);
 
       final nonEmpty = SearchResults(
-        users: [
-          UserSearchResult(id: '1', fullName: 'A'),
-        ],
+        users: [UserSearchResult(id: '1', fullName: 'A')],
         posts: [],
         groups: [],
       );

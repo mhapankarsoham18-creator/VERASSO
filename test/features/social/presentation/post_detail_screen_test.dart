@@ -64,8 +64,8 @@ void main() {
 
     // Default stubs
     mockCommentRepo.getCommentsStub = (id) async => testComments;
-    mockCommentRepo.subscribeToCommentsStub =
-        (id, callback) => MockRealtimeChannel();
+    mockCommentRepo.subscribeToCommentsStub = (id, callback) =>
+        MockRealtimeChannel();
     mockSavedPostRepo.isSavedStub = (id) async => false;
     mockSavedPostRepo.watchCollectionsStub = () => Stream.value([]);
     mockModeration.getMutedUserIdsStub = (id) async => [];
@@ -73,8 +73,9 @@ void main() {
 
   Widget createPostDetailScreen({Post? post, String? postId}) {
     final themeController = MockThemeController();
-    themeController.state =
-        themeController.state.copyWith(isPowerSaveMode: true);
+    themeController.state = themeController.state.copyWith(
+      isPowerSaveMode: true,
+    );
 
     return ProviderScope(
       overrides: [
@@ -84,14 +85,16 @@ void main() {
         moderationServiceProvider.overrideWithValue(mockModeration),
         themeControllerProvider.overrideWith((ref) => themeController),
         // Override the family provider for comments
-        commentsProvider(testPost.id).overrideWith(
-            (ref) => CommentsNotifier(mockCommentRepo, testPost.id)),
+        commentsProvider(
+          testPost.id,
+        ).overrideWith((ref) => CommentsNotifier(mockCommentRepo, testPost.id)),
         // PostCard dependencies
         isPostSavedProvider(testPost.id).overrideWith((ref) => false),
         collectionsProvider.overrideWith((ref) => Stream.value([])),
         feedProvider.overrideWith((ref) => FeedNotifier(mockFeedRepo, ref)),
         savedPostsControllerProvider.overrideWith(
-            (ref) => SavedPostsController(mockSavedPostRepo, ref)),
+          (ref) => SavedPostsController(mockSavedPostRepo, ref),
+        ),
         currentUserProvider.overrideWithValue(null),
       ],
       child: MaterialApp(
@@ -146,7 +149,9 @@ void main() {
       await tester.pump();
 
       expect(
-          mockCommentRepo.addCommentCalls.contains('New test comment'), isTrue);
+        mockCommentRepo.addCommentCalls.contains('New test comment'),
+        isTrue,
+      );
 
       // TextField should be cleared
       expect(find.text('New test comment'), findsNothing);

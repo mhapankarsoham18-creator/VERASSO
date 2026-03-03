@@ -65,14 +65,14 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
 
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, bottom: 80, left: 16, right: 16),
+                top: 100,
+                bottom: 80,
+                left: 16,
+                right: 16,
+              ),
               itemCount: submissions.length,
               itemBuilder: (context, index) {
-                return _buildSubmissionCard(
-                  context,
-                  ref,
-                  submissions[index],
-                );
+                return _buildSubmissionCard(context, ref, submissions[index]);
               },
             );
           },
@@ -82,11 +82,17 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
   }
 
   Future<void> _approveSubmission(
-      WidgetRef ref, ChallengeSubmission submission) async {
+    WidgetRef ref,
+    ChallengeSubmission submission,
+  ) async {
     try {
-      await ref.read(challengeRepositoryProvider).reviewSubmission(
-          submission.id, 'Approved',
-          feedback: 'Great work! Your submission has been approved.');
+      await ref
+          .read(challengeRepositoryProvider)
+          .reviewSubmission(
+            submission.id,
+            'Approved',
+            feedback: 'Great work! Your submission has been approved.',
+          );
 
       // Show success message
     } catch (e) {
@@ -205,7 +211,8 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
                   // In a real app, you'd open the URL
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                        content: Text('Opening: ${submission.contentUrl}')),
+                      content: Text('Opening: ${submission.contentUrl}'),
+                    ),
                   );
                 },
                 child: Text(
@@ -232,10 +239,7 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
               const SizedBox(height: 4),
               Text(
                 submission.feedback!,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Colors.white70,
-                ),
+                style: const TextStyle(fontSize: 13, color: Colors.white70),
               ),
               const SizedBox(height: 16),
             ],
@@ -300,8 +304,10 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.black87,
-        title: const Text('Reject Submission',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Reject Submission',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -329,7 +335,9 @@ class ChallengeSubmissionsReviewScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () async {
-              await ref.read(challengeRepositoryProvider).reviewSubmission(
+              await ref
+                  .read(challengeRepositoryProvider)
+                  .reviewSubmission(
                     submission.id,
                     'Rejected',
                     feedback: feedbackController.text.isNotEmpty

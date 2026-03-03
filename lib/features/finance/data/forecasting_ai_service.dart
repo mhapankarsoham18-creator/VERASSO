@@ -8,8 +8,9 @@ class ForecastingAiService {
 
   /// Predict future balance sheet based on historical ledger entries
   Future<Map<String, double>> forecastNextQuarter(
-      Map<String, double> currentAssets,
-      List<double> historicalMonthlyBalances) async {
+    Map<String, double> currentAssets,
+    List<double> historicalMonthlyBalances,
+  ) async {
     // Linear Regression Extrapolation
     double trend = 1.0;
     if (historicalMonthlyBalances.length >= 2) {

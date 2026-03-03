@@ -81,8 +81,12 @@ class VerassoAlgorithms {
   /// Sorts a list of [T] using the Quicksort algorithm.
   ///
   /// [T] must implement [Comparable] or a custom [compare] function must be provided.
-  static void quicksort<T>(List<T> list,
-      [int? left, int? right, int Function(T, T)? compare]) {
+  static void quicksort<T>(
+    List<T> list, [
+    int? left,
+    int? right,
+    int Function(T, T)? compare,
+  ]) {
     left ??= 0;
     right ??= list.length - 1;
     compare ??= (a, b) => (a as Comparable).compareTo(b);
@@ -95,7 +99,11 @@ class VerassoAlgorithms {
   }
 
   static int _partition<T>(
-      List<T> list, int left, int right, int Function(T, T) compare) {
+    List<T> list,
+    int left,
+    int right,
+    int Function(T, T) compare,
+  ) {
     T pivot = list[right];
     int i = left - 1;
 

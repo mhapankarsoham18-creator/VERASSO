@@ -28,7 +28,8 @@ class SharedCounterService {
       return response['current_value'] as int;
     } catch (e) {
       AppLogger.warning(
-          'SharedCounter: Could not fetch value for $counterName, defaulting to 0');
+        'SharedCounter: Could not fetch value for $counterName, defaulting to 0',
+      );
       return 0;
     }
   }
@@ -59,8 +60,10 @@ class SharedCounterService {
       completer.complete(newValue);
       return newValue;
     } catch (e) {
-      AppLogger.error('SharedCounter: Failed to increment $counterName',
-          error: e);
+      AppLogger.error(
+        'SharedCounter: Failed to increment $counterName',
+        error: e,
+      );
       completer.completeError(e);
       rethrow;
     } finally {

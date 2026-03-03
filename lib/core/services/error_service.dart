@@ -10,8 +10,8 @@ final errorServiceProvider = Provider<ErrorService>((ref) {
 /// Provider for error state management
 final errorStateProvider =
     StateNotifierProvider<ErrorStateNotifier, ErrorState>((ref) {
-  return ErrorStateNotifier();
-});
+      return ErrorStateNotifier();
+    });
 
 /// Service for managing error states and error UI across the app
 /// Service for converting raw exceptions into user-friendly error messages.
@@ -105,11 +105,9 @@ class ErrorService {
   void logError(String message, Object error, [StackTrace? stackTrace]) {
     AppLogger.error('$message: $error', error: error, stackTrace: stackTrace);
     // Optionally trigger a state update to show a snackbar or alert
-    ref.read(errorStateProvider.notifier).setError(
-          title: 'Error',
-          message: message,
-          details: error.toString(),
-        );
+    ref
+        .read(errorStateProvider.notifier)
+        .setError(title: 'Error', message: message, details: error.toString());
   }
 }
 
@@ -129,12 +127,7 @@ class ErrorState {
   final DateTime? timestamp;
 
   /// Creates an [ErrorState].
-  ErrorState({
-    this.title,
-    this.message,
-    this.details,
-    this.timestamp,
-  });
+  ErrorState({this.title, this.message, this.details, this.timestamp});
 
   /// Whether an error is currently present in the state.
   bool get hasError => message != null;
@@ -192,11 +185,7 @@ class ErrorStateNotifier extends StateNotifier<ErrorState> {
     String? details,
     Duration clearDelay = const Duration(seconds: 5),
   }) {
-    setError(
-      title: title,
-      message: message,
-      details: details,
-    );
+    setError(title: title, message: message, details: details);
 
     Future.delayed(clearDelay, () {
       if (state.timestamp?.add(clearDelay).isBefore(DateTime.now()) ?? false) {

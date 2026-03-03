@@ -99,10 +99,12 @@ void main() async {
         overrides: [
           sharedPreferencesProvider.overrideWithValue(prefs),
           // Odyssey Backend Overrides
-          odysseySupabaseClientProvider
-              .overrideWithValue(SupabaseService.client),
-          odysseyUserIdProvider
-              .overrideWith((ref) => ref.watch(currentUserProvider)?.id),
+          odysseySupabaseClientProvider.overrideWithValue(
+            SupabaseService.client,
+          ),
+          odysseyUserIdProvider.overrideWith(
+            (ref) => ref.watch(currentUserProvider)?.id,
+          ),
         ],
       );
       await container
@@ -154,11 +156,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           child: const AuthScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) =>
               SharedAxisTransition(
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            child: child,
-          ),
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              ),
         ),
       ),
       GoRoute(
@@ -168,11 +170,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           child: const HomeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) =>
               SharedAxisTransition(
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            child: child,
-          ),
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              ),
         ),
       ),
       GoRoute(
@@ -237,9 +239,7 @@ class CompromisedDeviceApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en', ''),
-      ],
+      supportedLocales: const [Locale('en', '')],
       home: Scaffold(
         backgroundColor: Colors.black,
         body: Center(
@@ -354,7 +354,8 @@ class _VerassoAppState extends ConsumerState<VerassoApp>
       }
     });
 
-    final isBackgrounded = privacySettings.autoBlurInBackground &&
+    final isBackgrounded =
+        privacySettings.autoBlurInBackground &&
         _lastState != AppLifecycleState.resumed;
 
     return Listener(
@@ -383,9 +384,7 @@ class _VerassoAppState extends ConsumerState<VerassoApp>
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en', ''),
-          ],
+          supportedLocales: const [Locale('en', '')],
           routerConfig: router,
           debugShowCheckedModeBanner: false,
           builder: (context, child) {

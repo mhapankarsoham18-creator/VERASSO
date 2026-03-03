@@ -49,10 +49,7 @@ void main() {
 
   group('API Client - Error Handling', () {
     test('404 not found error', () async {
-      expect(
-        () => apiClient.get('/api/v1/nonexistent'),
-        throwsException,
-      );
+      expect(() => apiClient.get('/api/v1/nonexistent'), throwsException);
     });
 
     test('401 unauthorized error', () async {
@@ -63,17 +60,11 @@ void main() {
     });
 
     test('500 server error', () async {
-      expect(
-        () => apiClient.get('/api/v1/broken-endpoint'),
-        throwsException,
-      );
+      expect(() => apiClient.get('/api/v1/broken-endpoint'), throwsException);
     });
 
     test('network timeout error', () async {
-      expect(
-        () => apiClient.get('/api/v1/slow-endpoint'),
-        throwsException,
-      );
+      expect(() => apiClient.get('/api/v1/slow-endpoint'), throwsException);
     });
   });
 
@@ -101,10 +92,7 @@ void main() {
       apiClient.setAuthToken('some-token');
       apiClient.clearAuthToken();
 
-      expect(
-        () => apiClient.get('/api/v1/protected'),
-        throwsException,
-      );
+      expect(() => apiClient.get('/api/v1/protected'), throwsException);
     });
   });
 
@@ -148,7 +136,9 @@ void main() {
 
       expect(responses.length, equals(15));
       expect(
-          responses.every((r) => (r as ApiResponse).statusCode == 200), isTrue);
+        responses.every((r) => (r as ApiResponse).statusCode == 200),
+        isTrue,
+      );
     });
 
     test('exponential backoff on 429', () async {
@@ -193,10 +183,14 @@ void main() {
 
   group('API Client - Caching', () {
     test('cache GET request response', () async {
-      final response1 =
-          await apiClient.get('/api/v1/static-data', useCache: true);
-      final response2 =
-          await apiClient.get('/api/v1/static-data', useCache: true);
+      final response1 = await apiClient.get(
+        '/api/v1/static-data',
+        useCache: true,
+      );
+      final response2 = await apiClient.get(
+        '/api/v1/static-data',
+        useCache: true,
+      );
 
       expect(response1.data, equals(response2.data));
     });
@@ -261,7 +255,7 @@ class ApiClient {
       data = {
         'id': 'user-123',
         'name': 'John Doe',
-        'email': 'john@example.com'
+        'email': 'john@example.com',
       };
     } else if (path.contains('/users')) {
       data = [
@@ -269,10 +263,7 @@ class ApiClient {
         {'id': 'user-2', 'name': 'Bob'},
       ];
     } else {
-      data = {
-        'message': 'ok',
-        'timestamp': DateTime.now().toIso8601String(),
-      };
+      data = {'message': 'ok', 'timestamp': DateTime.now().toIso8601String()};
     }
 
     final response = ApiResponse(
@@ -294,7 +285,7 @@ class ApiClient {
       statusCode: 201,
       data: {
         'id': 'new-resource-${DateTime.now().microsecondsSinceEpoch}',
-        ...?body
+        ...?body,
       },
     );
   }

@@ -6,8 +6,10 @@ import '../../data/flashcard_model.dart';
 import '../../data/flashcard_repository.dart';
 
 /// Future provider for fetching cards within a specific deck.
-final deckCardsProvider =
-    FutureProvider.family<List<Flashcard>, String>((ref, deckId) async {
+final deckCardsProvider = FutureProvider.family<List<Flashcard>, String>((
+  ref,
+  deckId,
+) async {
   final repo = ref.watch(flashcardRepositoryProvider);
   return repo.getCards(deckId);
 });
@@ -21,8 +23,8 @@ final decksProvider = FutureProvider((ref) async {
 /// Provider for the [FlashcardController] instance.
 final flashcardControllerProvider =
     StateNotifierProvider<FlashcardController, AsyncValue<void>>((ref) {
-  return FlashcardController(ref.watch(flashcardRepositoryProvider), ref);
-});
+      return FlashcardController(ref.watch(flashcardRepositoryProvider), ref);
+    });
 
 /// Provider for the [FlashcardRepository] instance.
 final flashcardRepositoryProvider = Provider((ref) => FlashcardRepository());
@@ -40,26 +42,33 @@ class FlashcardController extends StateNotifier<AsyncValue<void>> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await _repo.addCard(
-          Flashcard(id: '', deckId: deckId, frontText: front, backText: back));
+        Flashcard(id: '', deckId: deckId, frontText: front, backText: back),
+      );
       _ref.invalidate(deckCardsProvider(deckId));
     });
   }
 
   /// Creates a new flashcard deck for the current user.
   Future<void> createDeck(
-      String title, String subject, String description) async {
+    String title,
+    String subject,
+    String description,
+  ) async {
     state = const AsyncLoading();
     final user = _ref.read(currentUserProvider);
     if (user == null) return;
 
     state = await AsyncValue.guard(() async {
-      await _repo.createDeck(Deck(
+      await _repo.createDeck(
+        Deck(
           id: '',
           userId: user.id,
           title: title,
           subject: subject,
           description: description,
-          createdAt: DateTime.now()));
+          createdAt: DateTime.now(),
+        ),
+      );
       _ref.invalidate(decksProvider);
     });
   }

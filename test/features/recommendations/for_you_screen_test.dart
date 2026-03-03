@@ -19,19 +19,22 @@ void main() {
     mockRecommendationService = MockContentRecommendationService();
   });
 
-  testWidgets('ForYouScreen shows login prompt when unauthenticated',
-      (tester) async {
+  testWidgets('ForYouScreen shows login prompt when unauthenticated', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           userProfileProvider.overrideWith((ref) => null),
-          themeControllerProvider.overrideWith((ref) => ThemeController()
-            ..state = AppThemeState(
-              mode: ThemeMode.system,
-              primaryColor: Colors.blue,
-              accentColor: Colors.blueAccent,
-              isPowerSaveMode: true,
-            )),
+          themeControllerProvider.overrideWith(
+            (ref) => ThemeController()
+              ..state = AppThemeState(
+                mode: ThemeMode.system,
+                primaryColor: Colors.blue,
+                accentColor: Colors.blueAccent,
+                isPowerSaveMode: true,
+              ),
+          ),
         ],
         child: const MaterialApp(home: ForYouScreen()),
       ),
@@ -53,15 +56,18 @@ void main() {
         overrides: [
           userProfileProvider.overrideWith((ref) => testProfile),
           feedRepositoryProvider.overrideWithValue(mockFeedRepository),
-          contentRecommendationServiceProvider
-              .overrideWithValue(mockRecommendationService),
-          themeControllerProvider.overrideWith((ref) => ThemeController()
-            ..state = AppThemeState(
-              mode: ThemeMode.system,
-              primaryColor: Colors.blue,
-              accentColor: Colors.blueAccent,
-              isPowerSaveMode: true,
-            )),
+          contentRecommendationServiceProvider.overrideWithValue(
+            mockRecommendationService,
+          ),
+          themeControllerProvider.overrideWith(
+            (ref) => ThemeController()
+              ..state = AppThemeState(
+                mode: ThemeMode.system,
+                primaryColor: Colors.blue,
+                accentColor: Colors.blueAccent,
+                isPowerSaveMode: true,
+              ),
+          ),
         ],
         child: const MaterialApp(home: ForYouScreen()),
       ),

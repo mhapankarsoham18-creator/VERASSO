@@ -121,9 +121,10 @@ class AchievementsService {
       final userId = currentUser.id;
 
       // Call the check function
-      await _supabase.rpc('check_user_achievements', params: {
-        'p_user_id': userId,
-      });
+      await _supabase.rpc(
+        'check_user_achievements',
+        params: {'p_user_id': userId},
+      );
 
       // Get newly earned achievements
       final response = await _supabase
@@ -132,10 +133,11 @@ class AchievementsService {
           .eq('user_id', userId)
           .eq('is_completed', true)
           .gte(
-              'earned_at',
-              DateTime.now()
-                  .subtract(const Duration(seconds: 5))
-                  .toIso8601String());
+            'earned_at',
+            DateTime.now()
+                .subtract(const Duration(seconds: 5))
+                .toIso8601String(),
+          );
 
       return (response as List)
           .map((json) => AchievementModel.fromJson(json['achievements']))
@@ -173,7 +175,8 @@ class AchievementsService {
   ///
   /// Throws a [DatabaseException] if the query fails.
   Future<List<AchievementModel>> getAchievementsByCategory(
-      String category) async {
+    String category,
+  ) async {
     try {
       final response = await _supabase
           .from('achievements')
@@ -187,7 +190,10 @@ class AchievementsService {
           .toList();
     } catch (e) {
       throw DatabaseException(
-          'Failed to get achievements by category: $e', null, e);
+        'Failed to get achievements by category: $e',
+        null,
+        e,
+      );
     }
   }
 
@@ -207,7 +213,10 @@ class AchievementsService {
           .toList();
     } catch (e) {
       throw DatabaseException(
-          'Failed to get achievements by rarity: $e', null, e);
+        'Failed to get achievements by rarity: $e',
+        null,
+        e,
+      );
     }
   }
 
@@ -245,12 +254,12 @@ class AchievementsService {
   /// Get global leaderboard.
   ///
   /// Throws a [DatabaseException] if the query fails.
-  Future<List<LeaderboardEntry>> getGlobalLeaderboard({
-    int limit = 100,
-  }) async {
+  Future<List<LeaderboardEntry>> getGlobalLeaderboard({int limit = 100}) async {
     try {
-      final response =
-          await _supabase.from('user_leaderboard').select().limit(limit);
+      final response = await _supabase
+          .from('user_leaderboard')
+          .select()
+          .limit(limit);
 
       return (response as List)
           .map((json) => LeaderboardEntry.fromJson(json))
@@ -263,9 +272,7 @@ class AchievementsService {
   /// Get users around my rank.
   ///
   /// Throws a [DatabaseException] if the query fails.
-  Future<List<LeaderboardEntry>> getLeaderboardAroundMe({
-    int range = 5,
-  }) async {
+  Future<List<LeaderboardEntry>> getLeaderboardAroundMe({int range = 5}) async {
     try {
       final myRank = await getMyRank();
       final startRank = (myRank - range).clamp(1, double.infinity).toInt();
@@ -379,8 +386,9 @@ class UserAchievementModel {
       id: json['id'],
       userId: json['user_id'],
       achievementId: json['achievement_id'],
-      earnedAt:
-          json['earned_at'] != null ? DateTime.parse(json['earned_at']) : null,
+      earnedAt: json['earned_at'] != null
+          ? DateTime.parse(json['earned_at'])
+          : null,
       progress: json['progress'] ?? 0,
       isCompleted: json['is_completed'] ?? false,
       achievement: json['achievement'] != null

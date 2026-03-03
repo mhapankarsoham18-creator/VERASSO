@@ -25,19 +25,19 @@ class TalentExperienceList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (experience.isEmpty) {
-      return const Text('No experience listed.',
-          style: TextStyle(color: Colors.white38));
+      return const Text(
+        'No experience listed.',
+        style: TextStyle(color: Colors.white38),
+      );
     }
     return Column(
       children: experience
           .asMap()
           .entries
-          .map((entry) => _ExperienceItem(
-                entry.value,
-                entry.key,
-                isEditing,
-                onRemove,
-              ))
+          .map(
+            (entry) =>
+                _ExperienceItem(entry.value, entry.key, isEditing, onRemove),
+          )
           .toList(),
     );
   }
@@ -67,30 +67,38 @@ class _ExperienceItem extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: Text(e.title,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold))),
+                      child: Text(
+                        e.title,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     if (isEditing)
                       IconButton(
-                        icon: const Icon(LucideIcons.trash2,
-                            size: 14, color: Colors.redAccent),
+                        icon: const Icon(
+                          LucideIcons.trash2,
+                          size: 14,
+                          color: Colors.redAccent,
+                        ),
                         onPressed: () => onRemove(index),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                       ),
                   ],
                 ),
-                Text(e.company,
-                    style:
-                        const TextStyle(color: Colors.white60, fontSize: 13)),
-                Text('${e.startDate ?? ""} - ${e.endDate ?? "Present"}',
-                    style:
-                        const TextStyle(color: Colors.white38, fontSize: 11)),
+                Text(
+                  e.company,
+                  style: const TextStyle(color: Colors.white60, fontSize: 13),
+                ),
+                Text(
+                  '${e.startDate ?? ""} - ${e.endDate ?? "Present"}',
+                  style: const TextStyle(color: Colors.white38, fontSize: 11),
+                ),
                 if (e.description != null) ...[
                   const SizedBox(height: 4),
-                  Text(e.description!,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white70)),
+                  Text(
+                    e.description!,
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
                 ],
               ],
             ),

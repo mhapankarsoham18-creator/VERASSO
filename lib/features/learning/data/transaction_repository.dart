@@ -79,7 +79,7 @@ class TransactionRepository {
 
   /// Creates a [TransactionRepository] instance.
   TransactionRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Retrieves the transaction history for a specific user.
   Future<List<Transaction>> getTransactionHistory(String userId) async {
@@ -100,8 +100,10 @@ class TransactionRepository {
   /// Retrieves the current balance of a specific user.
   Future<double> getUserBalance(String userId) async {
     try {
-      final response =
-          await _client.rpc('get_user_balance', params: {'user_id': userId});
+      final response = await _client.rpc(
+        'get_user_balance',
+        params: {'user_id': userId},
+      );
       return (response ?? 0.0).toDouble();
     } catch (e) {
       AppLogger.error('TransactionRepository: Balance error', error: e);
@@ -135,5 +137,5 @@ enum TransactionType {
   reward,
 
   /// Credits returned after a transaction reversal.
-  refund
+  refund,
 }

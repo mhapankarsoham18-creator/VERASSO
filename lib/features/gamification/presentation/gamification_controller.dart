@@ -7,8 +7,8 @@ import '../models/badge_model.dart';
 /// Provider for the [GamificationController] instance.
 final gamificationControllerProvider =
     StateNotifierProvider<GamificationController, AsyncValue<void>>((ref) {
-  return GamificationController(ref.watch(gamificationRepositoryProvider));
-});
+      return GamificationController(ref.watch(gamificationRepositoryProvider));
+    });
 
 /// Provider for streaming the global leaderboard.
 final globalLeaderboardProvider = StreamProvider<List<UserStats>>((ref) {

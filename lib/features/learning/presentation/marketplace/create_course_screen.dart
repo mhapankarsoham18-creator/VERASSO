@@ -31,8 +31,9 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Create Course'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Create Course'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 40),
@@ -49,8 +50,9 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                         controller: _titleController,
                         style: const TextStyle(color: Colors.white),
                         decoration: const InputDecoration(
-                            labelText: 'Course Title',
-                            labelStyle: TextStyle(color: Colors.white70)),
+                          labelText: 'Course Title',
+                          labelStyle: TextStyle(color: Colors.white70),
+                        ),
                         validator: (v) =>
                             v?.isEmpty == true ? 'Required' : null,
                       ),
@@ -60,8 +62,9 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                         style: const TextStyle(color: Colors.white),
                         maxLines: 3,
                         decoration: const InputDecoration(
-                            labelText: 'Description',
-                            labelStyle: TextStyle(color: Colors.white70)),
+                          labelText: 'Description',
+                          labelStyle: TextStyle(color: Colors.white70),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
@@ -69,8 +72,9 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                         style: const TextStyle(color: Colors.white),
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                            labelText: 'Price (USD)',
-                            labelStyle: TextStyle(color: Colors.white70)),
+                          labelText: 'Price (USD)',
+                          labelStyle: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ],
                   ),
@@ -79,12 +83,18 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Syllabus / Chapters',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Syllabus / Chapters',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     IconButton(
-                      icon: const Icon(LucideIcons.plusCircle,
-                          color: Colors.blueAccent),
+                      icon: const Icon(
+                        LucideIcons.plusCircle,
+                        color: Colors.blueAccent,
+                      ),
                       onPressed: _addChapter,
                     ),
                   ],
@@ -98,32 +108,42 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                     child: Row(
                       children: [
                         CircleAvatar(
-                            radius: 12,
-                            backgroundColor: Colors.white10,
-                            child: Text('${idx + 1}',
-                                style: const TextStyle(fontSize: 10))),
+                          radius: 12,
+                          backgroundColor: Colors.white10,
+                          child: Text(
+                            '${idx + 1}',
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: TextFormField(
                             initialValue: _chapters[idx].title,
                             style: const TextStyle(
-                                fontSize: 14, color: Colors.white),
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
                             decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Chapter Title'),
+                              border: InputBorder.none,
+                              hintText: 'Chapter Title',
+                            ),
                             onChanged: (v) {
                               _chapters[idx] = Chapter(
-                                  id: '',
-                                  courseId: '',
-                                  title: v,
-                                  orderIndex: idx,
-                                  createdAt: DateTime.now());
+                                id: '',
+                                courseId: '',
+                                title: v,
+                                orderIndex: idx,
+                                createdAt: DateTime.now(),
+                              );
                             },
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(LucideIcons.trash2,
-                              size: 16, color: Colors.redAccent),
+                          icon: const Icon(
+                            LucideIcons.trash2,
+                            size: 16,
+                            color: Colors.redAccent,
+                          ),
                           onPressed: () =>
                               setState(() => _chapters.removeAt(idx)),
                         ),
@@ -140,7 +160,8 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
                       backgroundColor: Colors.blueAccent,
                       padding: const EdgeInsets.all(16),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: _isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
@@ -157,21 +178,24 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
 
   void _addChapter() {
     setState(() {
-      _chapters.add(Chapter(
-        id: '',
-        courseId: '',
-        title: 'New Chapter',
-        orderIndex: _chapters.length,
-        createdAt: DateTime.now(),
-      ));
+      _chapters.add(
+        Chapter(
+          id: '',
+          courseId: '',
+          title: 'New Chapter',
+          orderIndex: _chapters.length,
+          createdAt: DateTime.now(),
+        ),
+      );
     });
   }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_chapters.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Add at least one chapter')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Add at least one chapter')));
       return;
     }
 
@@ -203,14 +227,16 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Course Published!')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Course Published!')));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

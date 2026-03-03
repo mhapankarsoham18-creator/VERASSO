@@ -119,11 +119,7 @@ class DomainAuthSession {
   final DomainAuthUser? user;
 
   /// Creates a [DomainAuthSession] instance.
-  DomainAuthSession({
-    required this.accessToken,
-    this.refreshToken,
-    this.user,
-  });
+  DomainAuthSession({required this.accessToken, this.refreshToken, this.user});
 }
 
 /// Domain representation of an authenticated user.

@@ -46,8 +46,12 @@ class Comment {
       userId: json['user_id'],
       content: json['content'],
       createdAt: DateTime.parse(json['created_at']),
-      authorName: json['profiles'] != null ? json['profiles']['full_name'] : null,
-      authorAvatar: json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      authorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      authorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
       parentCommentId: json['parent_comment_id'],
     );
   }

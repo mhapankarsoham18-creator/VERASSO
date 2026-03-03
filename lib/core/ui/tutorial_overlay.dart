@@ -72,8 +72,10 @@ class _TutorialOverlayState extends State<TutorialOverlay>
             right: 20,
             child: TextButton(
               onPressed: _skip,
-              child: const Text('Skip',
-                  style: TextStyle(color: Colors.white70, fontSize: 16)),
+              child: const Text(
+                'Skip',
+                style: TextStyle(color: Colors.white70, fontSize: 16),
+              ),
             ),
           ),
 
@@ -88,13 +90,14 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.2), width: 1.5),
+                    color: Colors.white.withValues(alpha: 0.2),
+                    width: 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withValues(alpha: 0.3),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.3),
                       blurRadius: 20,
                       spreadRadius: 5,
                     ),
@@ -108,10 +111,9 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.2),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -175,8 +177,10 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                         if (_currentStep > 0)
                           TextButton(
                             onPressed: _previousStep,
-                            child: const Text('Back',
-                                style: TextStyle(fontSize: 16)),
+                            child: const Text(
+                              'Back',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           )
                         else
                           const SizedBox(width: 80),
@@ -185,11 +189,14 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                         ElevatedButton(
                           onPressed: _nextStep,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 32, vertical: 12),
+                              horizontal: 32,
+                              vertical: 12,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -199,7 +206,9 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                                 ? 'Done'
                                 : 'Next',
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
@@ -227,8 +236,10 @@ class _TutorialOverlayState extends State<TutorialOverlay>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _fadeAnimation =
-        Tween<double>(begin: 0, end: 1).animate(_animationController);
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(_animationController);
     _animationController.forward();
   }
 

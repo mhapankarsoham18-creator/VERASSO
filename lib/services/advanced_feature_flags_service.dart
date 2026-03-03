@@ -25,10 +25,10 @@ class AdvancedSharedCounterService {
   /// Atomically decrement counter
   Future<int> atomicDecrement(String counterId, {int amount = 1}) async {
     try {
-      final result = await _supabase.rpc('atomic_decrement_counter', params: {
-        'counter_id': counterId,
-        'decrement_amount': amount,
-      });
+      final result = await _supabase.rpc(
+        'atomic_decrement_counter',
+        params: {'counter_id': counterId, 'decrement_amount': amount},
+      );
 
       final newValue = result as int;
       _invalidateCache(counterId);
@@ -43,10 +43,10 @@ class AdvancedSharedCounterService {
   Future<int> atomicIncrement(String counterId, {int amount = 1}) async {
     try {
       // Use Redis INCR atomically
-      final result = await _supabase.rpc('atomic_increment_counter', params: {
-        'counter_id': counterId,
-        'increment_amount': amount,
-      });
+      final result = await _supabase.rpc(
+        'atomic_increment_counter',
+        params: {'counter_id': counterId, 'increment_amount': amount},
+      );
 
       final newValue = result as int;
       _localCache[counterId] = newValue;
@@ -131,13 +131,15 @@ class AdvancedSharedCounterService {
   }
 
   /// Initialize a counter atomically
-  Future<void> initializeCounter(String counterId,
-      {int initialValue = 0}) async {
+  Future<void> initializeCounter(
+    String counterId, {
+    int initialValue = 0,
+  }) async {
     try {
-      await _supabase.rpc('init_shared_counter_v2', params: {
-        'counter_id': counterId,
-        'initial_value': initialValue,
-      });
+      await _supabase.rpc(
+        'init_shared_counter_v2',
+        params: {'counter_id': counterId, 'initial_value': initialValue},
+      );
       _invalidateCache(counterId);
     } catch (e) {
       AppLogger.error('Error initializing counter', error: e);
@@ -148,9 +150,10 @@ class AdvancedSharedCounterService {
   /// Reset counter
   Future<void> resetCounter(String counterId) async {
     try {
-      await _supabase.rpc('reset_shared_counter', params: {
-        'counter_id': counterId,
-      });
+      await _supabase.rpc(
+        'reset_shared_counter',
+        params: {'counter_id': counterId},
+      );
       _invalidateCache(counterId);
     } catch (e) {
       AppLogger.error('Error resetting counter', error: e);
@@ -164,18 +167,16 @@ class AdvancedSharedCounterService {
     return DateTime.now().add(window);
   }
 
-  String _generateRateLimitKey(
-    String userId,
-    String action,
-    Duration window,
-  ) {
+  String _generateRateLimitKey(String userId, String action, Duration window) {
     final now = DateTime.now();
-    final windowStart = now.subtract(Duration(
-      minutes: now.minute % window.inMinutes,
-      seconds: now.second,
-      milliseconds: now.millisecond,
-      microseconds: now.microsecond,
-    ));
+    final windowStart = now.subtract(
+      Duration(
+        minutes: now.minute % window.inMinutes,
+        seconds: now.second,
+        milliseconds: now.millisecond,
+        microseconds: now.microsecond,
+      ),
+    );
     return 'ratelimit:$userId:$action:${windowStart.millisecondsSinceEpoch}';
   }
 
@@ -187,10 +188,10 @@ class AdvancedSharedCounterService {
   /// Set expiry on counter using Redis (if window-based)
   Future<void> _setCounterExpiry(String counterId, Duration window) async {
     try {
-      await _supabase.rpc('set_counter_expiry', params: {
-        'counter_id': counterId,
-        'ttl_seconds': window.inSeconds,
-      });
+      await _supabase.rpc(
+        'set_counter_expiry',
+        params: {'counter_id': counterId, 'ttl_seconds': window.inSeconds},
+      );
     } catch (e) {
       AppLogger.warning('Error setting counter expiry', error: e);
     }
@@ -254,9 +255,11 @@ class FeatureFlag {
           ? jsonDecode(json['metadata']) as Map<String, dynamic>
           : {},
       createdAt: DateTime.parse(
-          json['created_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       updatedAt: DateTime.parse(
-          json['updated_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['updated_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 }
@@ -357,10 +360,7 @@ class FeatureFlagService {
     // Try cache first
     if (_flagCache.containsKey(featureName)) {
       if (_flagCacheExpiry[featureName]!.isAfter(DateTime.now())) {
-        return _isUserInAudience(
-          _flagCache[featureName]!,
-          userId,
-        );
+        return _isUserInAudience(_flagCache[featureName]!, userId);
       }
     }
 
@@ -416,13 +416,12 @@ class FeatureFlagService {
     bool? enabled,
     int? rolloutPercentage,
     List<String>? allowedUserIds,
-  }) =>
-      updateFeatureFlag(
-        name: name,
-        enabled: enabled,
-        rolloutPercentage: rolloutPercentage,
-        allowedUserIds: allowedUserIds,
-      );
+  }) => updateFeatureFlag(
+    name: name,
+    enabled: enabled,
+    rolloutPercentage: rolloutPercentage,
+    allowedUserIds: allowedUserIds,
+  );
 
   Future<List<FeatureFlag>> _getAllFeatureFlags() async {
     final response = await _supabase.from('feature_flags').select();

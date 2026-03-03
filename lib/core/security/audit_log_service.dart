@@ -13,7 +13,7 @@ class AuditLogService {
 
   /// Creates an [AuditLogService]. If [client] is null, it uses the global [SupabaseService] client.
   AuditLogService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Logs a security event to the audit trail and Sentry.
   ///
@@ -51,8 +51,10 @@ class AuditLogService {
       );
     } catch (e) {
       // Fail silent but log to Sentry
-      SentryService.captureException(e,
-          hint: 'Failed to log audit event: $action');
+      SentryService.captureException(
+        e,
+        hint: 'Failed to log audit event: $action',
+      );
     }
   }
 

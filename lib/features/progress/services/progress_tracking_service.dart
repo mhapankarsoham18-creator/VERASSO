@@ -9,15 +9,18 @@ import '../../notifications/data/notification_service.dart';
 import '../../notifications/models/notification_model.dart';
 
 /// Provider for fetching the global leaderboard.
-final leaderboardProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final leaderboardProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.getLeaderboard();
 });
 
 /// Provider for fetching the user's next uncompleted milestone.
-final nextMilestoneProvider =
-    FutureProvider.family<MilestoneData?, String>((ref, userId) async {
+final nextMilestoneProvider = FutureProvider.family<MilestoneData?, String>((
+  ref,
+  userId,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.getNextMilestone(userId);
 });
@@ -28,8 +31,10 @@ final progressTrackingServiceProvider = Provider((ref) {
 });
 
 /// Provider for estimating the time remaining until the user reaches the next level.
-final timeToNextLevelProvider =
-    FutureProvider.family<Duration?, String>((ref, userId) async {
+final timeToNextLevelProvider = FutureProvider.family<Duration?, String>((
+  ref,
+  userId,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.estimateTimeToNextLevel(userId);
 });
@@ -37,20 +42,22 @@ final timeToNextLevelProvider =
 /// Provider for fetching the list of achievements earned by a user.
 final userAchievementsProvider =
     FutureProvider.family<List<AchievementData>, String>((ref, userId) async {
-  final service = ref.watch(progressTrackingServiceProvider);
-  return service.getUserAchievements(userId);
-});
+      final service = ref.watch(progressTrackingServiceProvider);
+      return service.getUserAchievements(userId);
+    });
 
 /// Provider for fetching the list of milestones for a user.
 final userMilestonesProvider =
     FutureProvider.family<List<MilestoneData>, String>((ref, userId) async {
-  final service = ref.watch(progressTrackingServiceProvider);
-  return service.getUserMilestones(userId);
-});
+      final service = ref.watch(progressTrackingServiceProvider);
+      return service.getUserMilestones(userId);
+    });
 
 /// Provider for fetching the user's progress data (detailed).
-final userProgressProvider =
-    FutureProvider.family<UserProgressData?, String>((ref, userId) async {
+final userProgressProvider = FutureProvider.family<UserProgressData?, String>((
+  ref,
+  userId,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.getUserProgress(userId);
 });
@@ -58,20 +65,23 @@ final userProgressProvider =
 /// Provider for streaming updates to a user's progress data.
 final userProgressStreamProvider =
     StreamProvider.family<UserProgressData?, String>((ref, userId) {
-  final service = ref.watch(progressTrackingServiceProvider);
-  return service.streamUserProgress(userId);
-});
+      final service = ref.watch(progressTrackingServiceProvider);
+      return service.streamUserProgress(userId);
+    });
 
 /// Future provider for the current user's progress summary.
-final userProgressSummaryProvider =
-    FutureProvider<UserProgressModel>((ref) async {
+final userProgressSummaryProvider = FutureProvider<UserProgressModel>((
+  ref,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.getUserProgressSummary();
 });
 
 /// Provider for fetching the user's current rank on the leaderboard.
-final userRankProvider =
-    FutureProvider.family<int?, String>((ref, userId) async {
+final userRankProvider = FutureProvider.family<int?, String>((
+  ref,
+  userId,
+) async {
   final service = ref.watch(progressTrackingServiceProvider);
   return service.getUserRank(userId);
 });
@@ -126,7 +136,8 @@ class AchievementData {
       iconUrl: json['icon_url'],
       pointsAwarded: json['points_awarded'] as int? ?? 0,
       earnedAt: DateTime.parse(
-          json['earned_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['earned_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       isPinned: json['is_pinned'] as bool? ?? false,
     );
   }
@@ -176,7 +187,8 @@ class ActivityModel {
       pointsEarned: json['points_earned'] ?? 0,
       metadata: json['metadata'] ?? {},
       createdAt: DateTime.parse(
-          json['created_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 }
@@ -217,7 +229,8 @@ class DailyProgressModel {
       id: json['id'] ?? '',
       userId: json['user_id'] ?? '',
       date: DateTime.parse(
-          json['date'] as String? ?? DateTime.now().toIso8601String()),
+        json['date'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       pointsEarned: json['points_earned'] ?? 0,
       lessonsCompleted: json['lessons_completed'] ?? 0,
       studyTimeMinutes: json['study_time_minutes'] ?? 0,
@@ -294,7 +307,8 @@ class MilestoneData {
       rewardBadge: json['reward_badge'],
       isCompleted: json['is_completed'] as bool? ?? false,
       createdAt: DateTime.parse(
-          json['created_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       completedAt: json['completed_at'] != null
           ? DateTime.parse(json['completed_at'] as String)
           : null,
@@ -308,7 +322,7 @@ class ProgressTrackingService {
 
   /// Creates a [ProgressTrackingService] with an optional [client].
   ProgressTrackingService({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   /// Awards an achievement to a user.
   Future<void> awardAchievement({
@@ -397,14 +411,16 @@ class ProgressTrackingService {
       final progress = await getUserProgress(userId);
       if (progress == null) return null;
 
-      final daysSinceCreation =
-          DateTime.now().difference(progress.createdAt).inDays;
+      final daysSinceCreation = DateTime.now()
+          .difference(progress.createdAt)
+          .inDays;
       if (daysSinceCreation == 0) return null;
 
       final dailyXpRate = progress.currentXp / daysSinceCreation;
       if (dailyXpRate == 0) return null;
 
-      final xpRemaining = progress.xpToNextLevel -
+      final xpRemaining =
+          progress.xpToNextLevel -
           (progress.currentXp % progress.xpToNextLevel);
       final daysRemaining = xpRemaining / dailyXpRate;
 
@@ -418,7 +434,9 @@ class ProgressTrackingService {
 
   /// Retrieves the user's daily progress for a specific date.
   Future<Map<String, dynamic>> getDailyProgress(
-      String userId, DateTime date) async {
+    String userId,
+    DateTime date,
+  ) async {
     try {
       final response = await _client
           .from('daily_progress')
@@ -453,8 +471,9 @@ class ProgressTrackingService {
           .order('date', ascending: true);
 
       return (response as List)
-          .map((json) =>
-              DailyProgressModel.fromJson(json as Map<String, dynamic>))
+          .map(
+            (json) => DailyProgressModel.fromJson(json as Map<String, dynamic>),
+          )
           .toList();
     } catch (e, stack) {
       AppLogger.error('Error fetching daily progress history', error: e);
@@ -466,8 +485,10 @@ class ProgressTrackingService {
   /// Retrieves the global leaderboard.
   Future<List<Map<String, dynamic>>> getLeaderboard({int limit = 50}) async {
     try {
-      final response =
-          await _client.from('v_leaderboard').select().limit(limit);
+      final response = await _client
+          .from('v_leaderboard')
+          .select()
+          .limit(limit);
       return List<Map<String, dynamic>>.from(response);
     } catch (e, stack) {
       AppLogger.error('Error fetching leaderboard', error: e);
@@ -729,8 +750,10 @@ class ProgressTrackingService {
           .eq('user_progress_id', userProgressId)
           .map((response) {
             return (response as List)
-                .map((json) =>
-                    MilestoneData.fromJson(json as Map<String, dynamic>))
+                .map(
+                  (json) =>
+                      MilestoneData.fromJson(json as Map<String, dynamic>),
+                )
                 .toList();
           });
     } catch (e, stack) {
@@ -758,10 +781,7 @@ class ProgressTrackingService {
   /// Updates the user's daily login streak.
   Future<void> updateLoginStreak(String userId) async {
     try {
-      await _client.rpc(
-        'update_login_streak',
-        params: {'p_user_id': userId},
-      );
+      await _client.rpc('update_login_streak', params: {'p_user_id': userId});
     } catch (e, stack) {
       AppLogger.error('Error updating login streak', error: e);
       SentryService.captureException(e, stackTrace: stack);
@@ -922,9 +942,11 @@ class UserProgressData {
       achievementsEarned: json['achievements_earned'] as int? ?? 0,
       timeSpentMinutes: json['time_spent_minutes'] as int? ?? 0,
       createdAt: DateTime.parse(
-          json['created_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       updatedAt: DateTime.parse(
-          json['updated_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['updated_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
       lastActivityAt: json['last_activity_at'] != null
           ? DateTime.parse(json['last_activity_at'] as String)
           : null,
@@ -1112,7 +1134,8 @@ class WeeklyGoalModel {
       currentValue: json['current_value'] ?? 0,
       isCompleted: json['is_completed'] ?? false,
       createdAt: DateTime.parse(
-          json['created_at'] as String? ?? DateTime.now().toIso8601String()),
+        json['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 }

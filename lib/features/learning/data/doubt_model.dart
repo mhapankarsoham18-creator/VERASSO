@@ -65,10 +65,12 @@ class Doubt {
       isSolved: json['is_solved'] ?? false,
       imageUrls: List<String>.from(json['image_urls'] ?? []),
       createdAt: DateTime.parse(json['created_at']),
-      authorName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      authorAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      authorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      authorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
       answerCount: json['answer_count'] ?? 0,
     );
   }

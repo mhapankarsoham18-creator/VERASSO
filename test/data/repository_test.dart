@@ -19,11 +19,7 @@ void main() {
     test('message repository save message', () async {
       final savedMessages = <Map>[];
 
-      final message = {
-        'id': 'msg-1',
-        'content': 'Hello',
-        'senderId': 'user-1',
-      };
+      final message = {'id': 'msg-1', 'content': 'Hello', 'senderId': 'user-1'};
 
       savedMessages.add(message);
 
@@ -136,10 +132,7 @@ void main() {
       final localCache = <String, dynamic>{};
 
       // Save
-      localCache['user-1'] = {
-        'name': 'John',
-        'email': 'john@example.com',
-      };
+      localCache['user-1'] = {'name': 'John', 'email': 'john@example.com'};
 
       // Retrieve
       final retrieved = localCache['user-1'];
@@ -237,10 +230,10 @@ void main() {
   group('Synchronization Tests', () {
     test('sync local and remote data', () async {
       final localData = {
-        'user-1': {'name': 'John', 'version': 1}
+        'user-1': {'name': 'John', 'version': 1},
       };
       final remoteData = {
-        'user-1': {'name': 'John Smith', 'version': 2}
+        'user-1': {'name': 'John Smith', 'version': 2},
       };
 
       // Remote has newer version, use it
@@ -269,11 +262,11 @@ void main() {
 
       offlineQueue.add({
         'action': 'send_message',
-        'data': {'msg': 'test'}
+        'data': {'msg': 'test'},
       });
       offlineQueue.add({
         'action': 'upload_file',
-        'data': {'file': 'test.jpg'}
+        'data': {'file': 'test.jpg'},
       });
 
       expect(offlineQueue.length, 2);
@@ -342,13 +335,15 @@ void main() {
 
       final searchTerm = 'Flutter';
       final results = items
-          .where((item) =>
-              (item['title'] as String)
-                  .toLowerCase()
-                  .contains(searchTerm.toLowerCase()) ||
-              (item['body'] as String)
-                  .toLowerCase()
-                  .contains(searchTerm.toLowerCase()))
+          .where(
+            (item) =>
+                (item['title'] as String).toLowerCase().contains(
+                  searchTerm.toLowerCase(),
+                ) ||
+                (item['body'] as String).toLowerCase().contains(
+                  searchTerm.toLowerCase(),
+                ),
+          )
           .toList();
 
       expect(results.length, 2);

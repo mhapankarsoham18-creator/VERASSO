@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late FinanceRepository financeRepository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -22,8 +19,9 @@ void main() {
 
   group('Finance Integration Tests', () {
     test('complete create transaction flow: debit → balance update', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       await expectLater(
@@ -41,18 +39,20 @@ void main() {
     });
 
     test('transaction appears after creation', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'user_id': testUser.id,
-          'type': 'debit',
-          'amount': 50.00,
-          'category': 'food',
-          'description': 'Lunch',
-          'created_at': DateTime.now().toIso8601String(),
-          'currency': 'USD',
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'txn-1',
+            'user_id': testUser.id,
+            'type': 'debit',
+            'amount': 50.00,
+            'category': 'food',
+            'description': 'Lunch',
+            'created_at': DateTime.now().toIso8601String(),
+            'currency': 'USD',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactions(testUser.id);
@@ -63,14 +63,16 @@ void main() {
     });
 
     test('balance updates atomically after debit', () async {
-      final accountBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': testUser.id,
-          'balance': 450.00,
-          'currency': 'USD',
-          'updated_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final accountBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': testUser.id,
+            'balance': 450.00,
+            'currency': 'USD',
+            'updated_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('financial_accounts', accountBuilder);
 
       final account = await financeRepository.getAccount(testUser.id);
@@ -80,8 +82,9 @@ void main() {
     });
 
     test('credit transaction increases balance', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       await expectLater(
@@ -102,20 +105,22 @@ void main() {
       final now = DateTime.now();
       final thirtyDaysAgo = now.subtract(Duration(days: 30));
 
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'type': 'debit',
-          'amount': 50.00,
-          'created_at': thirtyDaysAgo.toIso8601String(),
-        },
-        {
-          'id': 'txn-2',
-          'type': 'credit',
-          'amount': 100.00,
-          'created_at': now.toIso8601String(),
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'txn-1',
+            'type': 'debit',
+            'amount': 50.00,
+            'created_at': thirtyDaysAgo.toIso8601String(),
+          },
+          {
+            'id': 'txn-2',
+            'type': 'credit',
+            'amount': 100.00,
+            'created_at': now.toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactionsByDateRange(
@@ -128,50 +133,29 @@ void main() {
     });
 
     test('filter transactions by category', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'category': 'food',
-          'amount': 50.00,
-          'type': 'debit',
-        },
-        {
-          'id': 'txn-2',
-          'category': 'food',
-          'amount': 75.00,
-          'type': 'debit',
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'txn-1', 'category': 'food', 'amount': 50.00, 'type': 'debit'},
+          {'id': 'txn-2', 'category': 'food', 'amount': 75.00, 'type': 'debit'},
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
-      final foodTransactions =
-          await financeRepository.getTransactionsByCategory(
-        userId: testUser.id,
-        category: 'food',
-      );
+      final foodTransactions = await financeRepository
+          .getTransactionsByCategory(userId: testUser.id, category: 'food');
 
       expect(foodTransactions, isNotEmpty);
       expect(foodTransactions.every((t) => t.category == 'food'), true);
     });
 
     test('calculate total spending in period', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'type': 'debit',
-          'amount': 50.00,
-        },
-        {
-          'id': 'txn-2',
-          'type': 'debit',
-          'amount': 75.00,
-        },
-        {
-          'id': 'txn-3',
-          'type': 'credit',
-          'amount': 100.00,
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'txn-1', 'type': 'debit', 'amount': 50.00},
+          {'id': 'txn-2', 'type': 'debit', 'amount': 75.00},
+          {'id': 'txn-3', 'type': 'credit', 'amount': 100.00},
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactions(testUser.id);
@@ -184,15 +168,17 @@ void main() {
     });
 
     test('export transactions to CSV format', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'type': 'debit',
-          'amount': 50.00,
-          'category': 'food',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'txn-1',
+            'type': 'debit',
+            'amount': 50.00,
+            'category': 'food',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactions(testUser.id);
@@ -201,8 +187,9 @@ void main() {
     });
 
     test('transfer money between accounts', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       await expectLater(
@@ -260,14 +247,16 @@ void main() {
 
   group('Finance Integration - Balance & Reconciliation', () {
     test('balance calculated correctly from transactions', () async {
-      final accountBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': testUser.id,
-          'balance': 800.00,
-          'total_debits': 200.00,
-          'total_credits': 1000.00,
-        }
-      ]);
+      final accountBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': testUser.id,
+            'balance': 800.00,
+            'total_debits': 200.00,
+            'total_credits': 1000.00,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('financial_accounts', accountBuilder);
 
       final account = await financeRepository.getAccount(testUser.id);
@@ -276,13 +265,15 @@ void main() {
     });
 
     test('balance reconciliation handles negative balance', () async {
-      final accountBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': testUser.id,
-          'balance': -50.00,
-          'overdraft_allowed': true,
-        }
-      ]);
+      final accountBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': testUser.id,
+            'balance': -50.00,
+            'overdraft_allowed': true,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('financial_accounts', accountBuilder);
 
       final account = await financeRepository.getAccount(testUser.id);
@@ -291,22 +282,24 @@ void main() {
     });
 
     test('generate monthly spending report', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'type': 'debit',
-          'amount': 50.00,
-          'category': 'food',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': 'txn-2',
-          'type': 'debit',
-          'amount': 100.00,
-          'category': 'transport',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'txn-1',
+            'type': 'debit',
+            'amount': 50.00,
+            'category': 'food',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': 'txn-2',
+            'type': 'debit',
+            'amount': 100.00,
+            'category': 'transport',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactions(testUser.id);
@@ -315,14 +308,16 @@ void main() {
     });
 
     test('calculate budget vs actual spending', () async {
-      final budgetBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': testUser.id,
-          'category': 'food',
-          'limit': 300.00,
-          'spent': 200.00,
-        }
-      ]);
+      final budgetBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': testUser.id,
+            'category': 'food',
+            'limit': 300.00,
+            'spent': 200.00,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('budgets', budgetBuilder);
 
       final budget = await financeRepository.getBudget(testUser.id, 'food');
@@ -362,7 +357,8 @@ void main() {
       );
 
       final transactionsBuilder = MockSupabaseQueryBuilder(
-          selectResponse: largeTransactionList.take(1000).toList());
+        selectResponse: largeTransactionList.take(1000).toList(),
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final stopwatch = Stopwatch()..start();
@@ -374,8 +370,9 @@ void main() {
     });
 
     test('concurrent transaction creates handled safely', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final futures = List.generate(
@@ -389,15 +386,13 @@ void main() {
         ),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('bulk transaction import from CSV', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       // Simulating bulk import of 1000 transactions
@@ -412,22 +407,17 @@ void main() {
         ),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
   });
 
   group('Finance Integration - Currency & Conversion', () {
     test('transaction stored with currency code', () async {
-      final transactionsBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'txn-1',
-          'amount': 50.00,
-          'currency': 'USD',
-        }
-      ]);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'txn-1', 'amount': 50.00, 'currency': 'USD'},
+        ],
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       final transactions = await financeRepository.getTransactions(testUser.id);
@@ -445,8 +435,10 @@ void main() {
 
   group('Finance Integration - Error Handling', () {
     test('negative amount validation prevents invalid transactions', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: false);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: false,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       // Should validate amount > 0
@@ -472,8 +464,10 @@ void main() {
     });
 
     test('transaction without required fields rejected', () async {
-      final transactionsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: false);
+      final transactionsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: false,
+      );
       mockSupabase.setQueryBuilder('transactions', transactionsBuilder);
 
       // Should validate all required fields present

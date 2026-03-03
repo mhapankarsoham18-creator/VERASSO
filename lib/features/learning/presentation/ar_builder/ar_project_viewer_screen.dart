@@ -57,10 +57,13 @@ class BlueprintPainter extends CustomPainter {
 
     for (var conn in connections) {
       final startComp = components.firstWhere(
-          (c) => c.id == conn.fromComponentId,
-          orElse: () => components.first);
-      final endComp = components.firstWhere((c) => c.id == conn.toComponentId,
-          orElse: () => components.first);
+        (c) => c.id == conn.fromComponentId,
+        orElse: () => components.first,
+      );
+      final endComp = components.firstWhere(
+        (c) => c.id == conn.toComponentId,
+        orElse: () => components.first,
+      );
 
       final startPos = Offset(
         center.dx + startComp.transform.x * 150,
@@ -196,23 +199,27 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
             ),
             // Component Widgets
             ...widget.project.components.map((component) {
-              return LayoutBuilder(builder: (context, constraints) {
-                final center =
-                    Offset(constraints.maxWidth / 2, constraints.maxHeight / 2);
-                final pos = Offset(
-                  center.dx +
-                      _panOffset.dx +
-                      (component.transform.x * 150 * _scale),
-                  center.dy +
-                      _panOffset.dy +
-                      (component.transform.y * 150 * _scale),
-                );
-                return Positioned(
-                  left: pos.dx - 25,
-                  top: pos.dy - 25,
-                  child: _buildComponentIcon(component),
-                );
-              });
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  final center = Offset(
+                    constraints.maxWidth / 2,
+                    constraints.maxHeight / 2,
+                  );
+                  final pos = Offset(
+                    center.dx +
+                        _panOffset.dx +
+                        (component.transform.x * 150 * _scale),
+                    center.dy +
+                        _panOffset.dy +
+                        (component.transform.y * 150 * _scale),
+                  );
+                  return Positioned(
+                    left: pos.dx - 25,
+                    top: pos.dy - 25,
+                    child: _buildComponentIcon(component),
+                  );
+                },
+              );
             }),
           ],
         ),
@@ -236,7 +243,7 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
                 color: Colors.blueAccent.withValues(alpha: 0.3),
                 blurRadius: 10,
                 spreadRadius: 2,
-              )
+              ),
             ],
           ),
           child: Icon(
@@ -325,8 +332,10 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
         children: [
           Icon(icon, size: 16, color: Colors.white70),
           const SizedBox(width: 6),
-          Text(text,
-              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          Text(
+            text,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
         ],
       ),
     );
@@ -337,11 +346,14 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: const Text('Delete Project?',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Delete Project?',
+          style: TextStyle(color: Colors.white),
+        ),
         content: const Text(
-            'Are you sure you want to delete this project? This cannot be undone.',
-            style: TextStyle(color: Colors.white70)),
+          'Are you sure you want to delete this project? This cannot be undone.',
+          style: TextStyle(color: Colors.white70),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -349,8 +361,10 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child:
-                const Text('Delete', style: TextStyle(color: Colors.redAccent)),
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -362,15 +376,15 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
         await repo.deleteProject(widget.project.id);
         if (mounted) {
           Navigator.pop(context); // Close viewer
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Project deleted')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Project deleted')));
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to delete: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Failed to delete: $e')));
         }
       }
     }
@@ -404,9 +418,9 @@ class _ArProjectViewerScreenState extends ConsumerState<ArProjectViewerScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to remix: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to remix: $e')));
       }
     }
   }

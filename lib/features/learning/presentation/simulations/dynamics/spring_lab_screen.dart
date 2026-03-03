@@ -58,7 +58,9 @@ class _SpringLabScreenState extends State<SpringLabScreen>
                     top: 100, // Anchor point
                     child: CustomPaint(
                       painter: _SpringPainter(
-                          endY: (_equilibriumY + _position) - 100, width: 40),
+                        endY: (_equilibriumY + _position) - 100,
+                        width: 40,
+                      ),
                       size: Size(40, (_equilibriumY + _position) - 100),
                     ),
                   ),
@@ -79,17 +81,19 @@ class _SpringLabScreenState extends State<SpringLabScreen>
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: const [
-                              BoxShadow(blurRadius: 10, color: Colors.black26)
-                            ]),
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 10, color: Colors.black26),
+                          ],
+                        ),
                         child: Center(
                           child: Text(
                             '${_mass.toStringAsFixed(1)} kg',
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -106,10 +110,20 @@ class _SpringLabScreenState extends State<SpringLabScreen>
               child: Column(
                 children: [
                   _buildSlider(
-                      'Spring Constant (k)', _k, 10, 200, (val) => _k = val),
+                    'Spring Constant (k)',
+                    _k,
+                    10,
+                    200,
+                    (val) => _k = val,
+                  ),
                   _buildSlider('Mass (m)', _mass, 1, 20, (val) => _mass = val),
                   _buildSlider(
-                      'Damping (c)', _damping, 0, 5, (val) => _damping = val),
+                    'Damping (c)',
+                    _damping,
+                    0,
+                    5,
+                    (val) => _damping = val,
+                  ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -117,8 +131,9 @@ class _SpringLabScreenState extends State<SpringLabScreen>
                       FloatingActionButton(
                         heroTag: 'play',
                         onPressed: _togglePlay,
-                        child:
-                            Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                        child: Icon(
+                          _isPlaying ? Icons.pause : Icons.play_arrow,
+                        ),
                       ),
                       const SizedBox(width: 20),
                       FloatingActionButton(
@@ -128,7 +143,7 @@ class _SpringLabScreenState extends State<SpringLabScreen>
                         child: const Icon(LucideIcons.refreshCw),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -150,8 +165,13 @@ class _SpringLabScreenState extends State<SpringLabScreen>
     _ticker = createTicker(_onTick);
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -159,9 +179,13 @@ class _SpringLabScreenState extends State<SpringLabScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(label, style: const TextStyle(color: Colors.white70)),
-            Text(value.toStringAsFixed(1),
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
+            Text(
+              value.toStringAsFixed(1),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         Slider(

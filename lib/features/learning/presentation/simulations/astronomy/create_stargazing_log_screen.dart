@@ -34,7 +34,7 @@ class _CreateStargazingLogScreenState
     'Naked Eye',
     'Binoculars',
     'Telescope',
-    'Camera'
+    'Camera',
   ];
 
   @override
@@ -59,8 +59,10 @@ class _CreateStargazingLogScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Celestial Target',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Celestial Target',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         const SizedBox(height: 8),
                         TextFormField(
                           controller: _objectController,
@@ -69,38 +71,49 @@ class _CreateStargazingLogScreenState
                             hintText: 'e.g. Moon, Jupiter, Saturn',
                             hintStyle: TextStyle(color: Colors.white24),
                             border: InputBorder.none,
-                            prefixIcon: Icon(LucideIcons.scanLine,
-                                color: Colors.white54),
+                            prefixIcon: Icon(
+                              LucideIcons.scanLine,
+                              color: Colors.white54,
+                            ),
                           ),
                           validator: (v) =>
                               v?.isEmpty == true ? 'Required' : null,
                         ),
                         const Divider(color: Colors.white10),
                         const SizedBox(height: 16),
-                        const Text('Equipment Used',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Equipment Used',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         Wrap(
                           spacing: 8,
                           children: _equipmentOptions
-                              .map((e) => ChoiceChip(
-                                    label: Text(e),
-                                    selected: _equipment == e,
-                                    onSelected: (v) =>
-                                        setState(() => _equipment = e),
-                                    backgroundColor:
-                                        Colors.white.withValues(alpha: 0.05),
-                                    selectedColor: Colors.purpleAccent
-                                        .withValues(alpha: 0.3),
-                                    labelStyle: TextStyle(
-                                        color: _equipment == e
-                                            ? Colors.purpleAccent
-                                            : Colors.white70),
-                                  ))
+                              .map(
+                                (e) => ChoiceChip(
+                                  label: Text(e),
+                                  selected: _equipment == e,
+                                  onSelected: (v) =>
+                                      setState(() => _equipment = e),
+                                  backgroundColor: Colors.white.withValues(
+                                    alpha: 0.05,
+                                  ),
+                                  selectedColor: Colors.purpleAccent.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: _equipment == e
+                                        ? Colors.purpleAccent
+                                        : Colors.white70,
+                                  ),
+                                ),
+                              )
                               .toList(),
                         ),
                         const SizedBox(height: 24),
-                        const Text('Seeing Conditions (1-5)',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Seeing Conditions (1-5)',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         Slider(
                           value: _rating.toDouble(),
                           min: 1,
@@ -111,8 +124,10 @@ class _CreateStargazingLogScreenState
                           onChanged: (v) => setState(() => _rating = v.toInt()),
                         ),
                         const SizedBox(height: 16),
-                        const Text('Notes',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Notes',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         TextFormField(
                           controller: _notesController,
                           maxLines: 3,
@@ -136,8 +151,9 @@ class _CreateStargazingLogScreenState
                       icon: _isLoading
                           ? const SizedBox.shrink()
                           : const Icon(LucideIcons.rocket),
-                      label:
-                          Text(_isLoading ? 'Logging...' : 'Log Observation'),
+                      label: Text(
+                        _isLoading ? 'Logging...' : 'Log Observation',
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purpleAccent,
                         foregroundColor: Colors.white,
@@ -161,7 +177,9 @@ class _CreateStargazingLogScreenState
       final userId = ref.read(currentUserProvider)?.id;
       if (userId == null) throw Exception('User not logged in');
 
-      await ref.read(astronomyRepositoryProvider).createLog(
+      await ref
+          .read(astronomyRepositoryProvider)
+          .createLog(
             userId: userId,
             celestialObject: _objectController.text,
             equipmentType: _equipment,
@@ -173,12 +191,14 @@ class _CreateStargazingLogScreenState
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Log created successfully! 🌌')));
+          const SnackBar(content: Text('Log created successfully! 🌌')),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

@@ -20,14 +20,11 @@ void main() async {
   }
 
   group('Production Integrity Tests (No Mocks)', () {
-    testWidgets('App renders and handles unavailable services gracefully',
-        (tester) async {
+    testWidgets('App renders and handles unavailable services gracefully', (
+      tester,
+    ) async {
       // 1. Initialize the app without any ProviderScope overrides (Mocking is prohibited in Phase 3)
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: VerassoApp(),
-        ),
-      );
+      await tester.pumpWidget(const ProviderScope(child: VerassoApp()));
       await tester.pumpAndSettle();
 
       // 2. Verify that diagnostic tools are NOT present (Production Gating)
@@ -40,9 +37,7 @@ void main() async {
       // Assuming a navigation item or route exists. For this test, we'll try to push it directly if possible,
       // or navigate via UI.
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(home: PortfolioTracker()),
-        ),
+        const ProviderScope(child: MaterialApp(home: PortfolioTracker())),
       );
       await tester.pumpAndSettle();
 
@@ -53,8 +48,10 @@ void main() async {
       // 5. Verify that market data shows "unavailable" or similar, NOT mock data
       // Based on my remediation in Phase 1, it should show an empty or fallback state
       // that indicates real data is missing.
-      expect(find.text('Verasso Tech'),
-          findsNothing); // Should not see hardcoded VRS anymore
+      expect(
+        find.text('Verasso Tech'),
+        findsNothing,
+      ); // Should not see hardcoded VRS anymore
 
       // 6. Verify AI Service Error Message
       // This is a unit-integration check for the AIService's error handling.
@@ -64,15 +61,13 @@ void main() async {
       // We expect any call to fail if API keys are missing in test env, yielding error message
       final response = await aiService.sendMessage('test');
       expect(
-          response, anyOf([contains('interrupted'), contains('unavailable')]));
+        response,
+        anyOf([contains('interrupted'), contains('unavailable')]),
+      );
     });
 
     testWidgets('Verify Security Gating in Production Mode', (tester) async {
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: VerassoApp(),
-        ),
-      );
+      await tester.pumpWidget(const ProviderScope(child: VerassoApp()));
       await tester.pumpAndSettle();
 
       // The 'debugLogDiagnostics' shouldn't be active if we simulate production.

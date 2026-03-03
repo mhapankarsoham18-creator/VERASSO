@@ -14,9 +14,10 @@ class E2EKeyExchangeService {
 
   /// Creates an [E2EKeyExchangeService] and initializes elliptic curve parameters.
   E2EKeyExchangeService()
-      : _domainParams = ECDomainParameters(
-            'secp256r1'), // Using standard registry lookup if available, or fallback to explicit parameters
-        _secureRandom = _getSecureRandom();
+    : _domainParams = ECDomainParameters(
+        'secp256r1',
+      ), // Using standard registry lookup if available, or fallback to explicit parameters
+      _secureRandom = _getSecureRandom();
 
   /// Derive shared secret from own private key and other's public key
   /// Returns the shared secret as Uint8List
@@ -30,8 +31,12 @@ class E2EKeyExchangeService {
   /// Generate a new key pair (Public & Private)
   AsymmetricKeyPair<PublicKey, PrivateKey> generateKeyPair() {
     final keyGen = ECKeyGenerator();
-    keyGen.init(ParametersWithRandom(
-        ECKeyGeneratorParameters(_domainParams), _secureRandom));
+    keyGen.init(
+      ParametersWithRandom(
+        ECKeyGeneratorParameters(_domainParams),
+        _secureRandom,
+      ),
+    );
     return keyGen.generateKeyPair();
   }
 

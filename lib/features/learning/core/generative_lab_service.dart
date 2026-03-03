@@ -18,7 +18,7 @@ class GenerativeLabService {
       'Ophthalmic Solution',
       'Pediatric Suspension',
       'Topical Gel',
-      'Sustained Release Tablet'
+      'Sustained Release Tablet',
     ];
     final subject = subjects[_random.nextInt(subjects.length)];
 
@@ -41,7 +41,8 @@ class GenerativeLabService {
     );
 
     AppLogger.info(
-        'GenerativeLab: Generated unique scenario: ${scenario.title}');
+      'GenerativeLab: Generated unique scenario: ${scenario.title}',
+    );
     return scenario;
   }
 }

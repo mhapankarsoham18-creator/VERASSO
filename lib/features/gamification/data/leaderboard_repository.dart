@@ -24,8 +24,10 @@ class LeaderboardRepository {
   /// Limits the results to the specified [limit] (default 50).
   Future<List<LeaderboardEntry>> getChallengeChampions({int limit = 50}) async {
     try {
-      final response =
-          await _client.from('view_challenge_champions').select().limit(limit);
+      final response = await _client
+          .from('view_challenge_champions')
+          .select()
+          .limit(limit);
 
       final data = response as List;
       return data.map((json) => LeaderboardEntry.fromJson(json)).toList();
@@ -40,8 +42,10 @@ class LeaderboardRepository {
   /// Limits the results to the specified [limit] (default 50).
   Future<List<LeaderboardEntry>> getTopMentors({int limit = 50}) async {
     try {
-      final response =
-          await _client.from('view_top_mentors').select().limit(limit);
+      final response = await _client
+          .from('view_top_mentors')
+          .select()
+          .limit(limit);
 
       final data = response as List;
       return data.map((json) => LeaderboardEntry.fromJson(json)).toList();
@@ -56,8 +60,10 @@ class LeaderboardRepository {
   /// Limits the results to the specified [limit] (default 50).
   Future<List<LeaderboardEntry>> getTopStudents({int limit = 50}) async {
     try {
-      final response =
-          await _client.from('view_top_students').select().limit(limit);
+      final response = await _client
+          .from('view_top_students')
+          .select()
+          .limit(limit);
 
       final data = response as List;
       return data.map((json) => LeaderboardEntry.fromJson(json)).toList();

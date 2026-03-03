@@ -3,38 +3,38 @@ import 'package:flutter_riverpod/legacy.dart';
 /// Comments pagination provider
 final commentsPaginationProvider =
     StateNotifierProvider<PaginationNotifier, PaginationState>((ref) {
-  return PaginationNotifier(pageSize: 15);
-});
+      return PaginationNotifier(pageSize: 15);
+    });
 
 /// Feed-specific pagination provider
 final feedPaginationProvider =
     StateNotifierProvider<PaginationNotifier, PaginationState>((ref) {
-  return PaginationNotifier(pageSize: 20);
-});
+      return PaginationNotifier(pageSize: 20);
+    });
 
 /// Generic pagination provider factory
 final paginationProvider =
     StateNotifierProvider<PaginationNotifier, PaginationState>((ref) {
-  return PaginationNotifier();
-});
+      return PaginationNotifier();
+    });
 
 /// Profile-specific pagination provider (followers/following)
 final profilePaginationProvider =
     StateNotifierProvider<PaginationNotifier, PaginationState>((ref) {
-  return PaginationNotifier(pageSize: 20);
-});
+      return PaginationNotifier(pageSize: 20);
+    });
 
 /// Search results pagination provider
 final searchPaginationProvider =
     StateNotifierProvider<PaginationNotifier, PaginationState>((ref) {
-  return PaginationNotifier(pageSize: 20);
-});
+      return PaginationNotifier(pageSize: 20);
+    });
 
 /// Notifier for managing pagination state
 class PaginationNotifier extends StateNotifier<PaginationState> {
   /// Creates a [PaginationNotifier] with an optional [pageSize].
   PaginationNotifier({int pageSize = 20})
-      : super(PaginationState(pageSize: pageSize));
+    : super(PaginationState(pageSize: pageSize));
 
   /// Go to specific page
   /// Navigates to a specific [pageNumber].

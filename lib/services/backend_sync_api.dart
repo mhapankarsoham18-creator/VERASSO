@@ -5,7 +5,7 @@
 // This file documents the backend structure for Phase 1
 
 // SUPABASE EDGE FUNCTION: api_v2_sync_delta
-// 
+//
 // Handles incoming delta syncs from clients
 // Performs conflict detection and merging
 // Returns updated version vectors and resolution info

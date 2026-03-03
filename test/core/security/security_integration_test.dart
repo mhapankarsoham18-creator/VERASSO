@@ -7,10 +7,7 @@ void main() {
   late StubSupabaseClient mockSupabase;
   late SecurityInitializer securityInitializer;
 
-  final testUser = StubUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = StubUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = StubSupabaseClient();
@@ -23,10 +20,7 @@ void main() {
       final builder = StubQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('user_keys', builder);
 
-      await expectLater(
-        securityInitializer.initialize(),
-        completes,
-      );
+      await expectLater(securityInitializer.initialize(), completes);
     });
 
     test('certificate pinning prevents MITM attacks', () async {
@@ -45,16 +39,15 @@ void main() {
       expect(encryptionService.isInitialized, isTrue);
     });
 
-    test('security initializer handles initialization errors gracefully',
-        () async {
-      final builder = StubQueryBuilder(shouldThrow: true);
-      mockSupabase.setQueryBuilder('user_keys', builder);
+    test(
+      'security initializer handles initialization errors gracefully',
+      () async {
+        final builder = StubQueryBuilder(shouldThrow: true);
+        mockSupabase.setQueryBuilder('user_keys', builder);
 
-      await expectLater(
-        securityInitializer.initialize(),
-        completes,
-      );
-    });
+        await expectLater(securityInitializer.initialize(), completes);
+      },
+    );
 
     test('encryption keys are unique per user', () async {
       final builder = StubQueryBuilder(selectResponse: null);
@@ -66,13 +59,15 @@ void main() {
       expect(encryptionService1.isInitialized, isTrue);
     });
 
-    test('security check creates audit log entry on suspicious activity',
-        () async {
-      final builder = StubQueryBuilder(selectResponse: []);
-      mockSupabase.setQueryBuilder('audit_logs', builder);
+    test(
+      'security check creates audit log entry on suspicious activity',
+      () async {
+        final builder = StubQueryBuilder(selectResponse: []);
+        mockSupabase.setQueryBuilder('audit_logs', builder);
 
-      expect(true, true);
-    });
+        expect(true, true);
+      },
+    );
   });
 
   group('Certificate Pinning Verification', () {
@@ -138,10 +133,7 @@ void main() {
 
       final secInit = SecurityInitializer(client: mockSupabase);
 
-      await expectLater(
-        secInit.initialize(),
-        completes,
-      );
+      await expectLater(secInit.initialize(), completes);
     });
 
     test('security modules are initialized in correct order', () async {
@@ -162,10 +154,7 @@ void main() {
 
       await secInit.initialize();
 
-      await expectLater(
-        secInit.initialize(),
-        completes,
-      );
+      await expectLater(secInit.initialize(), completes);
     });
 
     test('initialization timeout is handled gracefully', () async {
@@ -174,10 +163,7 @@ void main() {
 
       final secInit = SecurityInitializer(client: mockSupabase);
 
-      await expectLater(
-        secInit.initialize(),
-        completes,
-      );
+      await expectLater(secInit.initialize(), completes);
     });
   });
 
@@ -204,16 +190,18 @@ void main() {
     });
 
     test('security audit logs include proper metadata', () async {
-      final auditBuilder = StubQueryBuilder(selectResponse: [
-        {
-          'user_id': 'user-1',
-          'action': 'login_failed',
-          'reason': 'invalid_credentials',
-          'ip_address': '192.168.1.1',
-          'user_agent': 'Flutter App',
-          'timestamp': '2025-01-15T10:00:00Z',
-        }
-      ]);
+      final auditBuilder = StubQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': 'user-1',
+            'action': 'login_failed',
+            'reason': 'invalid_credentials',
+            'ip_address': '192.168.1.1',
+            'user_agent': 'Flutter App',
+            'timestamp': '2025-01-15T10:00:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('audit_logs', auditBuilder);
 
       expect(true, true);
@@ -221,18 +209,17 @@ void main() {
   });
 
   group('Security Error Handling', () {
-    test('security initialization doesn\'t crash on missing encryption lib',
-        () async {
-      final builder = StubQueryBuilder(shouldThrow: true);
-      mockSupabase.setQueryBuilder('user_keys', builder);
+    test(
+      'security initialization doesn\'t crash on missing encryption lib',
+      () async {
+        final builder = StubQueryBuilder(shouldThrow: true);
+        mockSupabase.setQueryBuilder('user_keys', builder);
 
-      final secInit = SecurityInitializer(client: mockSupabase);
+        final secInit = SecurityInitializer(client: mockSupabase);
 
-      await expectLater(
-        secInit.initialize(),
-        completes,
-      );
-    });
+        await expectLater(secInit.initialize(), completes);
+      },
+    );
 
     test('certificate pinning failure doesn\'t block app launch', () async {
       final client = PinnedHttpClient();
@@ -270,10 +257,7 @@ void main() {
         (_) => Future.microtask(() => expect(client, isNotNull)),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('encryption initialization scales for user count', () async {
@@ -282,13 +266,10 @@ void main() {
 
       final stopwatch = Stopwatch()..start();
 
-      final futures = List.generate(
-        100,
-        (_) {
-          final svc = EncryptionService(client: mockSupabase);
-          return svc.initializeKeys();
-        },
-      );
+      final futures = List.generate(100, (_) {
+        final svc = EncryptionService(client: mockSupabase);
+        return svc.initializeKeys();
+      });
 
       await Future.wait(futures);
       stopwatch.stop();
@@ -299,10 +280,7 @@ void main() {
     test('security audit logging doesn\'t impact performance', () async {
       final stopwatch = Stopwatch()..start();
 
-      final futures = List.generate(
-        1000,
-        (i) => Future.microtask(() => true),
-      );
+      final futures = List.generate(1000, (i) => Future.microtask(() => true));
 
       await Future.wait(futures);
       stopwatch.stop();
@@ -312,23 +290,27 @@ void main() {
   });
 
   group('End-to-End Security Flow', () {
-    test('complete security flow from init to encrypted communication',
-        () async {
-      final keyBuilder = StubQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('user_keys', keyBuilder);
+    test(
+      'complete security flow from init to encrypted communication',
+      () async {
+        final keyBuilder = StubQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('user_keys', keyBuilder);
 
-      final secInit = SecurityInitializer(client: mockSupabase);
-      await secInit.initialize();
+        final secInit = SecurityInitializer(client: mockSupabase);
+        await secInit.initialize();
 
-      final encryptionService = EncryptionService(client: mockSupabase);
-      await encryptionService.initializeKeys();
+        final encryptionService = EncryptionService(client: mockSupabase);
+        await encryptionService.initializeKeys();
 
-      final encrypted =
-          await encryptionService.encryptMessage('Test', 'user-2');
+        final encrypted = await encryptionService.encryptMessage(
+          'Test',
+          'user-2',
+        );
 
-      expect(encrypted['content'], isNotNull);
-      expect(encrypted['iv'], isNotNull);
-    });
+        expect(encrypted['content'], isNotNull);
+        expect(encrypted['iv'], isNotNull);
+      },
+    );
 
     test('security persists across app lifecycle', () async {
       final keyBuilder = StubQueryBuilder(selectResponse: null);
@@ -354,7 +336,9 @@ class EncryptionService {
   bool get isInitialized => _initialized;
 
   Future<Map<String, String>> encryptMessage(
-      String plaintext, String recipientId) async {
+    String plaintext,
+    String recipientId,
+  ) async {
     if (!_initialized) throw Exception('Keys not initialized');
     final encoded = plaintext.codeUnits.map((c) => c.toRadixString(16)).join();
     return {'content': encoded, 'iv': 'stubiv'};

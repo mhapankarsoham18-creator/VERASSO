@@ -26,8 +26,11 @@ class NewsRepository {
   /// [articleId] is the ID of the article to comment on.
   /// [content] is the body of the comment.
   /// [parentId] is optional, used for threading.
-  Future<void> addComment(String articleId, String content,
-      {String? parentId}) async {
+  Future<void> addComment(
+    String articleId,
+    String content, {
+    String? parentId,
+  }) async {
     try {
       final userId = _client.auth.currentUser?.id;
       if (userId == null) return;
@@ -86,13 +89,16 @@ class NewsRepository {
           .eq('is_published', true)
           .order('created_at', ascending: false);
 
-      final articles =
-          (response as List).map((json) => NewsArticle.fromJson(json)).toList();
+      final articles = (response as List)
+          .map((json) => NewsArticle.fromJson(json))
+          .toList();
 
       // OPTIMIZATION: Cache featured articles for offline availability
       if (featuredOnly) {
         storage.cacheData(
-            'featured_news_cache', articles.map((a) => a.toJson()).toList());
+          'featured_news_cache',
+          articles.map((a) => a.toJson()).toList(),
+        );
       }
 
       // GAIN: Each online fetch broadcasts to mesh neighbors (Gossip propagation)
@@ -102,8 +108,10 @@ class NewsRepository {
 
       return articles;
     } catch (e) {
-      AppLogger.warning('Supabase fetch failed, falling back to cache/mesh',
-          error: e);
+      AppLogger.warning(
+        'Supabase fetch failed, falling back to cache/mesh',
+        error: e,
+      );
 
       // FALLBACK 1: Local Cache
       if (featuredOnly) {
@@ -173,7 +181,8 @@ class NewsRepository {
 
       if (level != 'senior' && level != 'editor') {
         throw Exception(
-            'Only Senior Journalists or Editors can vouch for articles.');
+          'Only Senior Journalists or Editors can vouch for articles.',
+        );
       }
 
       await _client.from('article_upvotes').upsert({
@@ -188,8 +197,10 @@ class NewsRepository {
   }
 
   /// Streams articles for real-time updates.
-  Stream<List<NewsArticle>> watchArticles(
-      {String? subject, bool featuredOnly = false}) {
+  Stream<List<NewsArticle>> watchArticles({
+    String? subject,
+    bool featuredOnly = false,
+  }) {
     dynamic query = _client.from('articles').stream(primaryKey: ['id']);
     if (subject != null) {
       query = query.eq('subject', subject);
@@ -197,7 +208,11 @@ class NewsRepository {
     if (featuredOnly) {
       query = query.eq('is_featured', true);
     }
-    return query.order('created_at', ascending: false).map((data) =>
-        (data as List).map((json) => NewsArticle.fromJson(json)).toList());
+    return query
+        .order('created_at', ascending: false)
+        .map(
+          (data) =>
+              (data as List).map((json) => NewsArticle.fromJson(json)).toList(),
+        );
   }
 }

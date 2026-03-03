@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// IndexDB Sync Service - Manages local data persistence and sync
-/// A service that manages local data persistence using IndexDB (via sqflite) 
+/// A service that manages local data persistence using IndexDB (via sqflite)
 /// and coordinates synchronization with a remote backend.
 class IndexDbSyncService {
   static const String _dbName = 'verasso_indexdb.db';
@@ -112,7 +112,8 @@ class IndexDbSyncService {
       documentType: row['document_type'] as String,
       content: jsonDecode(row['content'] as String) as Map<String, dynamic>,
       vectorClock: VectorClock.fromMap(
-          jsonDecode(row['version_vector'] as String) as Map<String, dynamic>),
+        jsonDecode(row['version_vector'] as String) as Map<String, dynamic>,
+      ),
       timestamp: row['timestamp'] as int,
       isDeleted: (row['is_deleted'] as int) == 1,
       createdAt: row['created_at'] as int,
@@ -131,18 +132,20 @@ class IndexDbSyncService {
     );
 
     return rows
-        .map((row) => SyncOperation(
-              id: row['id'] as int,
-              documentId: row['document_id'] as String,
-              operation: row['operation'] as String,
-              payload:
-                  jsonDecode(row['payload'] as String) as Map<String, dynamic>,
-              status: row['status'] as String,
-              retryCount: row['retry_count'] as int,
-              lastError: row['last_error'] as String?,
-              createdAt: row['created_at'] as int,
-              updatedAt: row['updated_at'] as int,
-            ))
+        .map(
+          (row) => SyncOperation(
+            id: row['id'] as int,
+            documentId: row['document_id'] as String,
+            operation: row['operation'] as String,
+            payload:
+                jsonDecode(row['payload'] as String) as Map<String, dynamic>,
+            status: row['status'] as String,
+            retryCount: row['retry_count'] as int,
+            lastError: row['last_error'] as String?,
+            createdAt: row['created_at'] as int,
+            updatedAt: row['updated_at'] as int,
+          ),
+        )
         .toList();
   }
 
@@ -179,20 +182,23 @@ class IndexDbSyncService {
     ''');
 
     return rows
-        .map((row) => StoredDocument(
-              id: row['id'] as String,
-              userId: row['user_id'] as String,
-              documentType: row['document_type'] as String,
-              content:
-                  jsonDecode(row['content'] as String) as Map<String, dynamic>,
-              vectorClock: VectorClock.fromMap(
-                  jsonDecode(row['version_vector'] as String)
-                      as Map<String, dynamic>),
-              timestamp: row['timestamp'] as int,
-              isDeleted: (row['is_deleted'] as int) == 1,
-              createdAt: row['created_at'] as int,
-              updatedAt: row['updated_at'] as int,
-            ))
+        .map(
+          (row) => StoredDocument(
+            id: row['id'] as String,
+            userId: row['user_id'] as String,
+            documentType: row['document_type'] as String,
+            content:
+                jsonDecode(row['content'] as String) as Map<String, dynamic>,
+            vectorClock: VectorClock.fromMap(
+              jsonDecode(row['version_vector'] as String)
+                  as Map<String, dynamic>,
+            ),
+            timestamp: row['timestamp'] as int,
+            isDeleted: (row['is_deleted'] as int) == 1,
+            createdAt: row['created_at'] as int,
+            updatedAt: row['updated_at'] as int,
+          ),
+        )
         .toList();
   }
 
@@ -221,10 +227,7 @@ class IndexDbSyncService {
 
     await db.update(
       'sync_queue',
-      {
-        'status': 'completed',
-        'updated_at': now,
-      },
+      {'status': 'completed', 'updated_at': now},
       where: 'id = ?',
       whereArgs: [operationId],
     );
@@ -246,8 +249,9 @@ class IndexDbSyncService {
       whereArgs: [operationId],
     );
 
-    final currentRetryCount =
-        result.isNotEmpty ? (result.first['retry_count'] as int? ?? 0) : 0;
+    final currentRetryCount = result.isNotEmpty
+        ? (result.first['retry_count'] as int? ?? 0)
+        : 0;
 
     await db.update(
       'sync_queue',
@@ -271,18 +275,15 @@ class IndexDbSyncService {
     final db = await database;
     final now = DateTime.now().millisecondsSinceEpoch;
 
-    return db.insert(
-      'sync_queue',
-      {
-        'document_id': documentId,
-        'operation': operation,
-        'payload': jsonEncode(payload),
-        'status': 'pending',
-        'retry_count': 0,
-        'created_at': now,
-        'updated_at': now,
-      },
-    );
+    return db.insert('sync_queue', {
+      'document_id': documentId,
+      'operation': operation,
+      'payload': jsonEncode(payload),
+      'status': 'pending',
+      'retry_count': 0,
+      'created_at': now,
+      'updated_at': now,
+    });
   }
 
   /// Records a document change in the local log for version tracking and audits.
@@ -295,17 +296,14 @@ class IndexDbSyncService {
     final db = await database;
     final now = DateTime.now().millisecondsSinceEpoch;
 
-    await db.insert(
-      'change_log',
-      {
-        'document_id': documentId,
-        'user_id': userId,
-        'operation': operation,
-        'timestamp': now,
-        'vector_clock': jsonEncode(vectorClock.toMap()),
-        'created_at': now,
-      },
-    );
+    await db.insert('change_log', {
+      'document_id': documentId,
+      'user_id': userId,
+      'operation': operation,
+      'timestamp': now,
+      'vector_clock': jsonEncode(vectorClock.toMap()),
+      'created_at': now,
+    });
   }
 
   /// Stores a document record in the local database with versioning and sync metadata.
@@ -322,21 +320,17 @@ class IndexDbSyncService {
 
     await db.transaction((txn) async {
       // Store document
-      await txn.insert(
-        'documents',
-        {
-          'id': documentId,
-          'user_id': userId,
-          'document_type': documentType,
-          'content': jsonEncode(content),
-          'version_vector': jsonEncode(vectorClock.toMap()),
-          'timestamp': now,
-          'is_deleted': isDeleted ? 1 : 0,
-          'created_at': now,
-          'updated_at': now,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+      await txn.insert('documents', {
+        'id': documentId,
+        'user_id': userId,
+        'document_type': documentType,
+        'content': jsonEncode(content),
+        'version_vector': jsonEncode(vectorClock.toMap()),
+        'timestamp': now,
+        'is_deleted': isDeleted ? 1 : 0,
+        'created_at': now,
+        'updated_at': now,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
 
       // Store version in document_versions
       final currentVersion = await txn.query(
@@ -347,36 +341,30 @@ class IndexDbSyncService {
         limit: 1,
       );
 
-      final nextVersion = (currentVersion.isEmpty
+      final nextVersion =
+          (currentVersion.isEmpty
               ? 0
               : currentVersion.first['version'] as int) +
           1;
 
-      await txn.insert(
-        'document_versions',
-        {
-          'document_id': documentId,
-          'version': nextVersion,
-          'user_id': userId,
-          'content_hash': _hashContent(content),
-          'vector_clock': jsonEncode(vectorClock.toMap()),
-          'timestamp': now,
-          'created_at': now,
-        },
-      );
+      await txn.insert('document_versions', {
+        'document_id': documentId,
+        'version': nextVersion,
+        'user_id': userId,
+        'content_hash': _hashContent(content),
+        'vector_clock': jsonEncode(vectorClock.toMap()),
+        'timestamp': now,
+        'created_at': now,
+      });
 
       // Update sync metadata
-      await txn.insert(
-        'sync_metadata',
-        {
-          'document_id': documentId,
-          'last_synced_version': nextVersion,
-          'is_synced': 0, // Mark as unsynced
-          'sync_status': 'pending',
-          'pending_operations_count': 1,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+      await txn.insert('sync_metadata', {
+        'document_id': documentId,
+        'last_synced_version': nextVersion,
+        'is_synced': 0, // Mark as unsynced
+        'sync_status': 'pending',
+        'pending_operations_count': 1,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
     });
   }
 
@@ -473,16 +461,21 @@ class IndexDbSyncService {
 
     // Create indices
     await db.execute('CREATE INDEX idx_documents_user ON documents(user_id)');
-    await db
-        .execute('CREATE INDEX idx_documents_type ON documents(document_type)');
-    await db
-        .execute('CREATE INDEX idx_sync_queue_status ON sync_queue(status)');
     await db.execute(
-        'CREATE INDEX idx_sync_queue_document ON sync_queue(document_id)');
+      'CREATE INDEX idx_documents_type ON documents(document_type)',
+    );
     await db.execute(
-        'CREATE INDEX idx_change_log_document ON change_log(document_id)');
+      'CREATE INDEX idx_sync_queue_status ON sync_queue(status)',
+    );
     await db.execute(
-        'CREATE INDEX idx_document_versions_document ON document_versions(document_id)');
+      'CREATE INDEX idx_sync_queue_document ON sync_queue(document_id)',
+    );
+    await db.execute(
+      'CREATE INDEX idx_change_log_document ON change_log(document_id)',
+    );
+    await db.execute(
+      'CREATE INDEX idx_document_versions_document ON document_versions(document_id)',
+    );
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -663,9 +656,7 @@ class VectorClock {
 
   /// Creates a [VectorClock] from a map of user IDs to clock values.
   factory VectorClock.fromMap(Map<String, dynamic> map) {
-    return VectorClock(
-      clock: map.cast<String, int>(),
-    );
+    return VectorClock(clock: map.cast<String, int>());
   }
 
   /// Check if this clock happens before another

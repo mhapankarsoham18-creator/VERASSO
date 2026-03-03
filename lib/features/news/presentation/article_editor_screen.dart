@@ -37,14 +37,14 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
     'Biology',
     'Pharmacy',
     'Engineering',
-    'Commerce'
+    'Commerce',
   ];
   final List<String> _audiences = [
     'NEET Aspirants',
     'JEE Aspirants',
     'B.Pharm Students',
     'Engineering Students',
-    'Global Learners'
+    'Global Learners',
   ];
 
   @override
@@ -62,7 +62,8 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
                 ? const SizedBox(
                     width: 16,
                     height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2))
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(LucideIcons.send),
             label: const Text('Publish'),
             style: TextButton.styleFrom(foregroundColor: Colors.orangeAccent),
@@ -83,18 +84,20 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
                   children: [
                     Expanded(
                       child: _buildDropdown(
-                          'Subject',
-                          _selectedSubject,
-                          _subjects,
-                          (val) => setState(() => _selectedSubject = val!)),
+                        'Subject',
+                        _selectedSubject,
+                        _subjects,
+                        (val) => setState(() => _selectedSubject = val!),
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: _buildDropdown(
-                          'Audience',
-                          _selectedAudience,
-                          _audiences,
-                          (val) => setState(() => _selectedAudience = val!)),
+                        'Audience',
+                        _selectedAudience,
+                        _audiences,
+                        (val) => setState(() => _selectedAudience = val!),
+                      ),
                     ),
                   ],
                 ),
@@ -109,21 +112,25 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
                         controller: _titleController,
                         decoration: _inputDecoration('Article Title'),
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                         validator: (v) => v!.isEmpty ? 'Title required' : null,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _descController,
-                        decoration:
-                            _inputDecoration('Brief Description (Abstract)'),
+                        decoration: _inputDecoration(
+                          'Brief Description (Abstract)',
+                        ),
                         maxLines: 2,
                       ),
                       const Divider(color: Colors.white10, height: 32),
                       TextFormField(
                         controller: _contentController,
                         decoration: _inputDecoration(
-                            'Main Content (Markdown supported)'),
+                          'Main Content (Markdown supported)',
+                        ),
                         maxLines: 15,
                         validator: (v) => v!.length < 100
                             ? 'Minimum 100 characters required'
@@ -151,26 +158,36 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
     );
   }
 
-  Widget _buildDropdown(String label, String value, List<String> items,
-      ValueChanged<String?> onChanged) {
+  Widget _buildDropdown(
+    String label,
+    String value,
+    List<String> items,
+    ValueChanged<String?> onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Colors.white54)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: Colors.white54),
+        ),
         const SizedBox(height: 4),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(8)),
+            color: Colors.white.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
               items: items
-                  .map((e) => DropdownMenuItem(
+                  .map(
+                    (e) => DropdownMenuItem(
                       value: e,
-                      child: Text(e, style: const TextStyle(fontSize: 14))))
+                      child: Text(e, style: const TextStyle(fontSize: 14)),
+                    ),
+                  )
                   .toList(),
               onChanged: onChanged,
               dropdownColor: Colors.grey[900],
@@ -183,12 +200,15 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
   }
 
   Widget _buildSectionTitle(String title) {
-    return Text(title.toUpperCase(),
-        style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.white38,
-            letterSpacing: 1.2));
+    return Text(
+      title.toUpperCase(),
+      style: const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+        color: Colors.white38,
+        letterSpacing: 1.2,
+      ),
+    );
   }
 
   InputDecoration _inputDecoration(String hint) {
@@ -221,8 +241,8 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
         subject: _selectedSubject,
         audienceType: _selectedAudience,
         articleType: _selectedType,
-        readingTime:
-            (_contentController.text.length / 500).ceil(), // Rough estimate
+        readingTime: (_contentController.text.length / 500)
+            .ceil(), // Rough estimate
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
@@ -231,8 +251,9 @@ class _ArticleEditorScreenState extends ConsumerState<ArticleEditorScreen> {
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error publishing: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error publishing: $e')));
       }
     } finally {
       if (mounted) {

@@ -9,42 +9,72 @@ void main() {
 
     test('includes social actions', () {
       expect(
-          GamificationAction.values, contains(GamificationAction.postCreated));
-      expect(GamificationAction.values,
-          contains(GamificationAction.commentWritten));
+        GamificationAction.values,
+        contains(GamificationAction.postCreated),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.commentWritten),
+      );
       expect(GamificationAction.values, contains(GamificationAction.likeGiven));
       expect(
-          GamificationAction.values, contains(GamificationAction.messageSent));
+        GamificationAction.values,
+        contains(GamificationAction.messageSent),
+      );
     });
 
     test('includes learning actions', () {
-      expect(GamificationAction.values,
-          contains(GamificationAction.lessonCompleted));
-      expect(GamificationAction.values,
-          contains(GamificationAction.challengeSolved));
       expect(
-          GamificationAction.values, contains(GamificationAction.quizPassed));
-      expect(GamificationAction.values,
-          contains(GamificationAction.courseEnrolled));
+        GamificationAction.values,
+        contains(GamificationAction.lessonCompleted),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.challengeSolved),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.quizPassed),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.courseEnrolled),
+      );
     });
 
     test('includes other actions', () {
-      expect(GamificationAction.values,
-          contains(GamificationAction.streakMaintained));
       expect(
-          GamificationAction.values, contains(GamificationAction.talentListed));
+        GamificationAction.values,
+        contains(GamificationAction.streakMaintained),
+      );
       expect(
-          GamificationAction.values, contains(GamificationAction.friendMade));
-      expect(GamificationAction.values,
-          contains(GamificationAction.profileCompleted));
+        GamificationAction.values,
+        contains(GamificationAction.talentListed),
+      );
       expect(
-          GamificationAction.values, contains(GamificationAction.storyPosted));
-      expect(GamificationAction.values,
-          contains(GamificationAction.arProjectCreated));
+        GamificationAction.values,
+        contains(GamificationAction.friendMade),
+      );
       expect(
-          GamificationAction.values, contains(GamificationAction.bugReported));
-      expect(GamificationAction.values,
-          contains(GamificationAction.doubtAnswered));
+        GamificationAction.values,
+        contains(GamificationAction.profileCompleted),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.storyPosted),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.arProjectCreated),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.bugReported),
+      );
+      expect(
+        GamificationAction.values,
+        contains(GamificationAction.doubtAnswered),
+      );
     });
   });
 
@@ -110,10 +140,7 @@ void main() {
   group('Action configs', () {
     test('all actions have a config', () {
       for (final action in GamificationAction.values) {
-        final event = GamificationEvent(
-          action: action,
-          userId: 'test-user',
-        );
+        final event = GamificationEvent(action: action, userId: 'test-user');
         expect(
           () => event.config,
           returnsNormally,
@@ -124,23 +151,23 @@ void main() {
 
     test('all actions have positive baseXP', () {
       for (final action in GamificationAction.values) {
-        final event = GamificationEvent(
-          action: action,
-          userId: 'test-user',
+        final event = GamificationEvent(action: action, userId: 'test-user');
+        expect(
+          event.config.baseXP,
+          greaterThan(0),
+          reason: '${action.name} should have positive base XP',
         );
-        expect(event.config.baseXP, greaterThan(0),
-            reason: '${action.name} should have positive base XP');
       }
     });
 
     test('all actions have a non-empty dbActionType', () {
       for (final action in GamificationAction.values) {
-        final event = GamificationEvent(
-          action: action,
-          userId: 'test-user',
+        final event = GamificationEvent(action: action, userId: 'test-user');
+        expect(
+          event.config.dbActionType,
+          isNotEmpty,
+          reason: '${action.name} should have a dbActionType',
         );
-        expect(event.config.dbActionType, isNotEmpty,
-            reason: '${action.name} should have a dbActionType');
       }
     });
 
@@ -156,8 +183,11 @@ void main() {
 
       for (final action in zeroCooldownActions) {
         final event = GamificationEvent(action: action, userId: 'test');
-        expect(event.config.cooldown, Duration.zero,
-            reason: '${action.name} should have zero cooldown');
+        expect(
+          event.config.cooldown,
+          Duration.zero,
+          reason: '${action.name} should have zero cooldown',
+        );
       }
     });
 
@@ -177,8 +207,11 @@ void main() {
 
       for (final action in cooldownActions) {
         final event = GamificationEvent(action: action, userId: 'test');
-        expect(event.config.cooldown, greaterThan(Duration.zero),
-            reason: '${action.name} should have a positive cooldown');
+        expect(
+          event.config.cooldown,
+          greaterThan(Duration.zero),
+          reason: '${action.name} should have a positive cooldown',
+        );
       }
     });
   });

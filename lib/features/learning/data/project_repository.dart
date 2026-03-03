@@ -25,8 +25,12 @@ class ProjectRepository {
   final BluetoothMeshService _meshService;
 
   /// Creates a [ProjectRepository] instance.
-  ProjectRepository(this._client, this._networkService, this._storageService,
-      this._meshService);
+  ProjectRepository(
+    this._client,
+    this._networkService,
+    this._storageService,
+    this._meshService,
+  );
 
   // 1. Create Project
   /// Creates a new collaborative project.
@@ -47,15 +51,20 @@ class ProjectRepository {
         ...projectData,
         'temp_id': DateTime.now().millisecondsSinceEpoch.toString(),
       });
-      await _meshService.broadcastPacket(MeshPayloadType.feedPost,
-          {'action': 'create_project', ...projectData});
+      await _meshService.broadcastPacket(MeshPayloadType.feedPost, {
+        'action': 'create_project',
+        ...projectData,
+      });
       return;
     }
 
     if (await _networkService.isConnected) {
       // Fallback: Direct Cloud
-      final response =
-          await _client.from('projects').insert(projectData).select().single();
+      final response = await _client
+          .from('projects')
+          .insert(projectData)
+          .select()
+          .single();
       final projectId = response['id'];
 
       await _client.from('project_members').insert({
@@ -74,16 +83,14 @@ class ProjectRepository {
 
   /// Creates a new task within a project.
   Future<void> createTask(String projectId, String title) async {
-    final data = {
-      'project_id': projectId,
-      'title': title,
-      'status': 'Todo',
-    };
+    final data = {'project_id': projectId, 'title': title, 'status': 'Todo'};
 
     if (_meshService.isMeshActive) {
       await _storageService.queueAction('create_task', data);
-      await _meshService.broadcastPacket(
-          MeshPayloadType.scienceData, {'action': 'create_task', ...data});
+      await _meshService.broadcastPacket(MeshPayloadType.scienceData, {
+        'action': 'create_task',
+        ...data,
+      });
       return;
     }
 
@@ -105,8 +112,9 @@ class ProjectRepository {
             .from('project_members')
             .select('project_id')
             .eq('user_id', userId);
-        final projectIds =
-            (memberships as List).map((e) => e['project_id']).toList();
+        final projectIds = (memberships as List)
+            .map((e) => e['project_id'])
+            .toList();
 
         if (projectIds.isEmpty) {
           await _storageService.cacheData(cacheKey, []);
@@ -120,8 +128,9 @@ class ProjectRepository {
             .neq('status', 'Shipped')
             .order('created_at', ascending: false);
 
-        final projects =
-            (response as List).map((json) => Project.fromJson(json)).toList();
+        final projects = (response as List)
+            .map((json) => Project.fromJson(json))
+            .toList();
         await _storageService.cacheData(cacheKey, response);
         return projects;
       } catch (e) {
@@ -149,8 +158,9 @@ class ProjectRepository {
           .from('project_members')
           .select('project_id')
           .eq('user_id', userId);
-      final myProjectIds =
-          (memberships as List).map((e) => e['project_id'] as String).toList();
+      final myProjectIds = (memberships as List)
+          .map((e) => e['project_id'] as String)
+          .toList();
 
       var query = _client
           .from('projects')
@@ -160,8 +170,9 @@ class ProjectRepository {
           .limit(20);
 
       final response = await query;
-      final allProjects =
-          (response as List).map((json) => Project.fromJson(json)).toList();
+      final allProjects = (response as List)
+          .map((json) => Project.fromJson(json))
+          .toList();
 
       // Filter out projects user is already in
       return allProjects.where((p) => !myProjectIds.contains(p.id)).toList();
@@ -214,24 +225,21 @@ class ProjectRepository {
   // 4. Tasks
   /// Request to join a project team with a specific role.
   Future<void> joinProject(String projectId, String userId, String role) async {
-    final data = {
-      'project_id': projectId,
-      'user_id': userId,
-      'role': role,
-    };
+    final data = {'project_id': projectId, 'user_id': userId, 'role': role};
 
     if (_meshService.isMeshActive) {
       await _storageService.queueAction('join_project', data);
-      await _meshService.broadcastPacket(
-          MeshPayloadType.feedPost, {'action': 'join_project', ...data});
+      await _meshService.broadcastPacket(MeshPayloadType.feedPost, {
+        'action': 'join_project',
+        ...data,
+      });
       return;
     }
 
     if (await _networkService.isConnected) {
-      await _client.from('project_members').upsert(
-            data,
-            onConflict: 'project_id,user_id',
-          );
+      await _client
+          .from('project_members')
+          .upsert(data, onConflict: 'project_id,user_id');
     } else {
       await _storageService.queueAction('join_project', data);
     }
@@ -243,15 +251,18 @@ class ProjectRepository {
 
     if (_meshService.isMeshActive) {
       await _storageService.queueAction('update_task_status', data);
-      await _meshService.broadcastPacket(MeshPayloadType.scienceData,
-          {'action': 'update_task_status', ...data});
+      await _meshService.broadcastPacket(MeshPayloadType.scienceData, {
+        'action': 'update_task_status',
+        ...data,
+      });
       return;
     }
 
     if (await _networkService.isConnected) {
       await _client
           .from('project_tasks')
-          .update({'status': newStatus}).eq('id', taskId);
+          .update({'status': newStatus})
+          .eq('id', taskId);
     } else {
       await _storageService.queueAction('update_task_status', data);
     }

@@ -49,35 +49,41 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
   LabScenario? _currentScenario;
   final List<Excipient> _inventory = [
     Excipient(
-        name: 'Lactose',
-        type: 'Filler',
-        color: Colors.white,
-        stabilityImpact: 0.1),
+      name: 'Lactose',
+      type: 'Filler',
+      color: Colors.white,
+      stabilityImpact: 0.1,
+    ),
     Excipient(
-        name: 'Magnesium Stearate',
-        type: 'Lubricant',
-        color: Colors.grey,
-        stabilityImpact: -0.2),
+      name: 'Magnesium Stearate',
+      type: 'Lubricant',
+      color: Colors.grey,
+      stabilityImpact: -0.2,
+    ),
     Excipient(
-        name: 'Starch',
-        type: 'Binder',
-        color: Colors.yellow.shade100,
-        stabilityImpact: 0.3),
+      name: 'Starch',
+      type: 'Binder',
+      color: Colors.yellow.shade100,
+      stabilityImpact: 0.3,
+    ),
     Excipient(
-        name: 'PVP K30',
-        type: 'Binder',
-        color: Colors.amber.shade200,
-        stabilityImpact: 0.4),
+      name: 'PVP K30',
+      type: 'Binder',
+      color: Colors.amber.shade200,
+      stabilityImpact: 0.4,
+    ),
     Excipient(
-        name: 'Talc',
-        type: 'Glidant',
-        color: Colors.blue.shade100,
-        stabilityImpact: 0.05),
+      name: 'Talc',
+      type: 'Glidant',
+      color: Colors.blue.shade100,
+      stabilityImpact: 0.05,
+    ),
     Excipient(
-        name: 'Cellulose',
-        type: 'Disintegrant',
-        color: Colors.green.shade100,
-        stabilityImpact: 0.2),
+      name: 'Cellulose',
+      type: 'Disintegrant',
+      color: Colors.green.shade100,
+      stabilityImpact: 0.2,
+    ),
   ];
 
   final List<Excipient> _mixture = [];
@@ -113,12 +119,20 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_currentScenario?.title ?? 'Formulation Lab',
-                          style: const TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold)),
-                      Text(_currentScenario?.complexity ?? 'Medium Complexity',
-                          style: const TextStyle(
-                              fontSize: 12, color: Colors.white54)),
+                      Text(
+                        _currentScenario?.title ?? 'Formulation Lab',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _currentScenario?.complexity ?? 'Medium Complexity',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white54,
+                        ),
+                      ),
                     ],
                   ),
                   // Mesh Peer Presence Indicator
@@ -138,8 +152,11 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                   children: [
                     const Expanded(
                       child: Center(
-                        child: Icon(LucideIcons.flaskConical,
-                            size: 100, color: Colors.blueAccent),
+                        child: Icon(
+                          LucideIcons.flaskConical,
+                          size: 100,
+                          color: Colors.blueAccent,
+                        ),
                       ),
                     ),
                     Padding(
@@ -147,8 +164,10 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Precision Scale Upgrade',
-                              style: TextStyle(color: Colors.white70)),
+                          const Text(
+                            'Precision Scale Upgrade',
+                            style: TextStyle(color: Colors.white70),
+                          ),
                           TextButton(
                             onPressed: () => _purchaseUpgrade(),
                             child: const Text('Unlock (\$50)'),
@@ -181,11 +200,14 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                             padding: const EdgeInsets.only(bottom: 12),
                             child: Draggable<Excipient>(
                               data: excipient,
-                              feedback: _buildExcipientCard(excipient,
-                                  isFeedback: true),
+                              feedback: _buildExcipientCard(
+                                excipient,
+                                isFeedback: true,
+                              ),
                               childWhenDragging: Opacity(
-                                  opacity: 0.4,
-                                  child: _buildExcipientCard(excipient)),
+                                opacity: 0.4,
+                                child: _buildExcipientCard(excipient),
+                              ),
                               child: _buildExcipientCard(excipient),
                             ),
                           );
@@ -215,8 +237,9 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                                       ? LucideIcons.beaker
                                       : LucideIcons.testTube,
                                   size: 80,
-                                  color:
-                                      Colors.blueAccent.withValues(alpha: 0.5),
+                                  color: Colors.blueAccent.withValues(
+                                    alpha: 0.5,
+                                  ),
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
@@ -232,16 +255,19 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                                     spacing: 8,
                                     runSpacing: 8,
                                     children: _mixture
-                                        .map((e) => Container(
-                                              width: 12,
-                                              height: 12,
-                                              decoration: BoxDecoration(
-                                                  color: e.color,
-                                                  shape: BoxShape.circle),
-                                            ))
+                                        .map(
+                                          (e) => Container(
+                                            width: 12,
+                                            height: 12,
+                                            decoration: BoxDecoration(
+                                              color: e.color,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                        )
                                         .toList(),
                                   ),
-                                ]
+                                ],
                               ],
                             ),
                           );
@@ -292,9 +318,13 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Stability Prediction',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Stability Prediction',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Text(
                           '${(_stabilityScore * 100).toInt()}%',
                           style: TextStyle(
@@ -303,8 +333,8 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                             color: _stabilityScore > 0.7
                                 ? Colors.greenAccent
                                 : (_stabilityScore < 0.4
-                                    ? Colors.redAccent
-                                    : Colors.amberAccent),
+                                      ? Colors.redAccent
+                                      : Colors.amberAccent),
                           ),
                         ),
                       ],
@@ -331,10 +361,11 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                                 dotData: const FlDotData(show: false),
                                 belowBarData: BarAreaData(
                                   show: true,
-                                  color: (_stabilityScore > 0.7
-                                          ? Colors.greenAccent
-                                          : Colors.blueAccent)
-                                      .withValues(alpha: 0.1),
+                                  color:
+                                      (_stabilityScore > 0.7
+                                              ? Colors.greenAccent
+                                              : Colors.blueAccent)
+                                          .withValues(alpha: 0.1),
                                 ),
                               ),
                             ],
@@ -344,13 +375,19 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                     else
                       const Expanded(
                         child: Center(
-                          child: Text('Graph hidden to save power',
-                              style: TextStyle(
-                                  color: Colors.white24, fontSize: 12)),
+                          child: Text(
+                            'Graph hidden to save power',
+                            style: TextStyle(
+                              color: Colors.white24,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                       ),
-                    const Text('30-Day Stability Projection',
-                        style: TextStyle(fontSize: 10, color: Colors.white38)),
+                    const Text(
+                      '30-Day Stability Projection',
+                      style: TextStyle(fontSize: 10, color: Colors.white38),
+                    ),
                   ],
                 ),
               ),
@@ -384,20 +421,30 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
           Row(
             children: [
               Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                      color: excipient.color, shape: BoxShape.circle)),
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: excipient.color,
+                  shape: BoxShape.circle,
+                ),
+              ),
               const SizedBox(width: 8),
               Expanded(
-                  child: Text(excipient.name,
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis)),
+                child: Text(
+                  excipient.name,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
-          Text(excipient.type,
-              style: const TextStyle(fontSize: 10, color: Colors.white54)),
+          Text(
+            excipient.type,
+            style: const TextStyle(fontSize: 10, color: Colors.white54),
+          ),
         ],
       ),
     );
@@ -417,8 +464,9 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
   }
 
   void _initScenario() {
-    _currentScenario =
-        ref.read(generativeLabServiceProvider).generateScenario();
+    _currentScenario = ref
+        .read(generativeLabServiceProvider)
+        .generateScenario();
   }
 
   Future<void> _purchaseUpgrade() async {
@@ -471,11 +519,14 @@ class _PeerPresenceIndicator extends ConsumerWidget {
         children: [
           const Icon(LucideIcons.users, size: 14, color: Colors.blueAccent),
           const SizedBox(width: 8),
-          Text('$peerCount Peers Nearby',
-              style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent)),
+          Text(
+            '$peerCount Peers Nearby',
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+            ),
+          ),
         ],
       ),
     );

@@ -33,14 +33,15 @@ class HelpSupportScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(LucideIcons.helpCircle,
-                          color: Theme.of(context).colorScheme.primary),
+                      Icon(
+                        LucideIcons.helpCircle,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       const SizedBox(width: 12),
                       Text(
                         'Resources',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -87,14 +88,15 @@ class HelpSupportScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(LucideIcons.info,
-                          color: Theme.of(context).colorScheme.primary),
+                      Icon(
+                        LucideIcons.info,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       const SizedBox(width: 12),
                       Text(
                         'About',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

@@ -38,16 +38,20 @@ class _AuditLogViewerScreenState extends State<AuditLogViewerScreen> {
                 }
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text('Error: ${snapshot.error}',
-                        style: const TextStyle(color: Colors.redAccent)),
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.redAccent),
+                    ),
                   );
                 }
 
                 final logs = snapshot.data ?? [];
                 if (logs.isEmpty) {
                   return const Center(
-                    child: Text('No audit logs found',
-                        style: TextStyle(color: Colors.white70)),
+                    child: Text(
+                      'No audit logs found',
+                      style: TextStyle(color: Colors.white70),
+                    ),
                   );
                 }
 

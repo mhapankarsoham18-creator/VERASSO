@@ -22,9 +22,7 @@ class CurriculumWeights {
 
   /// Creates a [CurriculumWeights] from a JSON-compatible map.
   factory CurriculumWeights.fromJson(Map<String, dynamic> json) {
-    return CurriculumWeights(
-      Map<String, double>.from(json['scores'] ?? {}),
-    );
+    return CurriculumWeights(Map<String, double>.from(json['scores'] ?? {}));
   }
 
   /// Converts the [CurriculumWeights] instance to a JSON-compatible map.
@@ -60,17 +58,16 @@ class FederatedSyncService {
   /// Applies a local [focus] update for the given [category] in `[0, 1]`.
   void updateInterests(String category, double focus) {
     if (_localWeights.containsKey(category)) {
-      _localWeights[category] =
-          (_localWeights[category]! + focus).clamp(0.0, 1.0);
+      _localWeights[category] = (_localWeights[category]! + focus).clamp(
+        0.0,
+        1.0,
+      );
     }
   }
 
   void _broadcastLocalDelta() {
     AppLogger.info('Federated Learning: Broadcasting curriculum deltas');
-    _meshService.broadcastPacket(
-      MeshPayloadType.federatedDelta,
-      _localWeights,
-    );
+    _meshService.broadcastPacket(MeshPayloadType.federatedDelta, _localWeights);
   }
 
   void _handleIncomingDelta(MeshPacket packet) {
@@ -86,7 +83,8 @@ class FederatedSyncService {
     }
 
     AppLogger.info(
-        'Federated Learning: Local weights refined via peer ${packet.senderName}');
+      'Federated Learning: Local weights refined via peer ${packet.senderName}',
+    );
   }
 
   void _init() {

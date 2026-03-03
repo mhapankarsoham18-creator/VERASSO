@@ -69,21 +69,27 @@ class _BiomePainter extends CustomPainter {
 
   void _drawCactus(Canvas canvas, Offset bottom, double height, Paint paint) {
     canvas.drawRRect(
-        RRect.fromRectAndRadius(
-            Rect.fromLTWH(bottom.dx - 4, bottom.dy - height, 8, height),
-            const Radius.circular(4)),
-        paint);
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(bottom.dx - 4, bottom.dy - height, 8, height),
+        const Radius.circular(4),
+      ),
+      paint,
+    );
     // Arms
     canvas.drawRRect(
-        RRect.fromRectAndRadius(
-            Rect.fromLTWH(bottom.dx - 12, bottom.dy - height * 0.7, 8, 4),
-            const Radius.circular(2)),
-        paint);
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(bottom.dx - 12, bottom.dy - height * 0.7, 8, 4),
+        const Radius.circular(2),
+      ),
+      paint,
+    );
     canvas.drawRRect(
-        RRect.fromRectAndRadius(
-            Rect.fromLTWH(bottom.dx + 4, bottom.dy - height * 0.5, 8, 4),
-            const Radius.circular(2)),
-        paint);
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(bottom.dx + 4, bottom.dy - height * 0.5, 8, 4),
+        const Radius.circular(2),
+      ),
+      paint,
+    );
   }
 
   void _drawEnvironmentalEffects(Canvas canvas, Size size) {
@@ -101,7 +107,8 @@ class _BiomePainter extends CustomPainter {
     } else if (biomeKey == 'Tundra') {
       effectPaint.color = Colors.white.withValues(alpha: 0.6);
       for (int i = 0; i < 30; i++) {
-        double x = (random.nextDouble() * size.width +
+        double x =
+            (random.nextDouble() * size.width +
                 sin(animValue * 2 * pi + i) * 10) %
             size.width;
         double y =
@@ -146,10 +153,16 @@ class _BiomePainter extends CustomPainter {
 
     if (biomeKey == 'Desert' || biomeKey == 'Savannah') {
       canvas.drawCircle(
-          Offset(size.width * 0.7, size.height * 0.3), 40, glowPaint);
+        Offset(size.width * 0.7, size.height * 0.3),
+        40,
+        glowPaint,
+      );
       glowPaint.color = Colors.white.withValues(alpha: 0.05);
       canvas.drawCircle(
-          Offset(size.width * 0.7, size.height * 0.3), 70, glowPaint);
+        Offset(size.width * 0.7, size.height * 0.3),
+        70,
+        glowPaint,
+      );
     }
   }
 
@@ -164,15 +177,31 @@ class _BiomePainter extends CustomPainter {
     backHills.lineTo(0, terrainBase - 10);
 
     if (biomeKey == 'Desert') {
-      backHills.quadraticBezierTo(size.width * 0.25, terrainBase - 40,
-          size.width * 0.5, terrainBase - 20);
       backHills.quadraticBezierTo(
-          size.width * 0.75, terrainBase, size.width, terrainBase - 30);
+        size.width * 0.25,
+        terrainBase - 40,
+        size.width * 0.5,
+        terrainBase - 20,
+      );
+      backHills.quadraticBezierTo(
+        size.width * 0.75,
+        terrainBase,
+        size.width,
+        terrainBase - 30,
+      );
     } else {
-      backHills.quadraticBezierTo(size.width * 0.3, terrainBase - 20,
-          size.width * 0.6, terrainBase - 10);
       backHills.quadraticBezierTo(
-          size.width * 0.8, terrainBase - 30, size.width, terrainBase - 15);
+        size.width * 0.3,
+        terrainBase - 20,
+        size.width * 0.6,
+        terrainBase - 10,
+      );
+      backHills.quadraticBezierTo(
+        size.width * 0.8,
+        terrainBase - 30,
+        size.width,
+        terrainBase - 15,
+      );
     }
 
     backHills.lineTo(size.width, size.height);
@@ -187,13 +216,21 @@ class _BiomePainter extends CustomPainter {
 
     if (biomeKey == 'Desert') {
       frontPath.quadraticBezierTo(
-          size.width * 0.5, terrainBase - 10, size.width, terrainBase + 20);
+        size.width * 0.5,
+        terrainBase - 10,
+        size.width,
+        terrainBase + 20,
+      );
     } else if (biomeKey == 'Tundra') {
       frontPath.lineTo(size.width * 0.5, terrainBase + 5);
       frontPath.lineTo(size.width, terrainBase + 15);
     } else {
       frontPath.quadraticBezierTo(
-          size.width * 0.5, terrainBase + 30, size.width, terrainBase + 5);
+        size.width * 0.5,
+        terrainBase + 30,
+        size.width,
+        terrainBase + 5,
+      );
     }
 
     frontPath.lineTo(size.width, size.height);
@@ -214,18 +251,26 @@ class _BiomePainter extends CustomPainter {
   }
 
   void _drawUmbrellaTree(
-      Canvas canvas, Offset bottom, double height, Paint paint) {
+    Canvas canvas,
+    Offset bottom,
+    double height,
+    Paint paint,
+  ) {
     // Trunk
     canvas.drawRect(
-        Rect.fromLTWH(bottom.dx - 2, bottom.dy - height, 4, height), paint);
+      Rect.fromLTWH(bottom.dx - 2, bottom.dy - height, 4, height),
+      paint,
+    );
     // Canopy
     final Paint canopyPaint = Paint()..color = const Color(0xFF2E7D32);
     canvas.drawOval(
-        Rect.fromCenter(
-            center: Offset(bottom.dx, bottom.dy - height),
-            width: height * 1.5,
-            height: height * 0.4),
-        canopyPaint);
+      Rect.fromCenter(
+        center: Offset(bottom.dx, bottom.dy - height),
+        width: height * 1.5,
+        height: height * 0.4,
+      ),
+      canopyPaint,
+    );
   }
 
   void _drawVegetation(Canvas canvas, Size size, double terrainBase) {
@@ -248,9 +293,17 @@ class _BiomePainter extends CustomPainter {
     } else if (biomeKey == 'Savannah') {
       vegPaint.color = const Color(0xFF5D4037);
       _drawUmbrellaTree(
-          canvas, Offset(size.width * 0.4, terrainBase + 20), 45, vegPaint);
+        canvas,
+        Offset(size.width * 0.4, terrainBase + 20),
+        45,
+        vegPaint,
+      );
       _drawUmbrellaTree(
-          canvas, Offset(size.width * 0.7, terrainBase + 10), 35, vegPaint);
+        canvas,
+        Offset(size.width * 0.7, terrainBase + 10),
+        35,
+        vegPaint,
+      );
     }
   }
 }
@@ -387,13 +440,18 @@ class _EcoSphereComparisonScreenState extends State<EcoSphereComparisonScreen>
                 isExpanded: true,
                 dropdownColor: Colors.black87,
                 items: _biomeData.keys
-                    .map((k) => DropdownMenuItem(
-                          value: k,
-                          child: Text(k,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                        ))
+                    .map(
+                      (k) => DropdownMenuItem(
+                        value: k,
+                        child: Text(
+                          k,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (val) {
                   if (val != null) {
@@ -434,25 +492,32 @@ class _EcoSphereComparisonScreenState extends State<EcoSphereComparisonScreen>
                         Positioned(
                           top: 12,
                           right: 12,
-                          child: Icon(data.weatherIcon,
-                              size: 24,
-                              color: Colors.white.withValues(alpha: 0.6)),
+                          child: Icon(
+                            data.weatherIcon,
+                            size: 24,
+                            color: Colors.white.withValues(alpha: 0.6),
+                          ),
                         ),
                         // Biome name badge
                         Positioned(
                           bottom: 12,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black54,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text(data.name,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold)),
+                            child: Text(
+                              data.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -464,9 +529,11 @@ class _EcoSphereComparisonScreenState extends State<EcoSphereComparisonScreen>
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(data.description,
-                style: const TextStyle(fontSize: 12, color: Colors.white60),
-                textAlign: TextAlign.center),
+            child: Text(
+              data.description,
+              style: const TextStyle(fontSize: 12, color: Colors.white60),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
@@ -483,28 +550,32 @@ class _EcoSphereComparisonScreenState extends State<EcoSphereComparisonScreen>
       child: Column(
         children: [
           _MetricRow(
-              icon: LucideIcons.thermometer,
-              label: 'Temperature',
-              valA: dataA.temp,
-              valB: dataB.temp),
+            icon: LucideIcons.thermometer,
+            label: 'Temperature',
+            valA: dataA.temp,
+            valB: dataB.temp,
+          ),
           const Divider(color: Colors.white10),
           _MetricRow(
-              icon: LucideIcons.cloudRain,
-              label: 'Annual Rainfall',
-              valA: dataA.rainfall,
-              valB: dataB.rainfall),
+            icon: LucideIcons.cloudRain,
+            label: 'Annual Rainfall',
+            valA: dataA.rainfall,
+            valB: dataB.rainfall,
+          ),
           const Divider(color: Colors.white10),
           _MetricRow(
-              icon: LucideIcons.layers,
-              label: 'Vegetation',
-              valA: dataA.vegetation,
-              valB: dataB.vegetation),
+            icon: LucideIcons.layers,
+            label: 'Vegetation',
+            valA: dataA.vegetation,
+            valB: dataB.vegetation,
+          ),
           const Divider(color: Colors.white10),
           _MetricRow(
-              icon: LucideIcons.dog,
-              label: 'Key Fauna',
-              valA: dataA.fauna,
-              valB: dataB.fauna),
+            icon: LucideIcons.dog,
+            label: 'Key Fauna',
+            valA: dataA.fauna,
+            valB: dataB.fauna,
+          ),
         ],
       ),
     );
@@ -517,11 +588,12 @@ class _MetricRow extends StatelessWidget {
   final String valA;
   final String valB;
 
-  const _MetricRow(
-      {required this.icon,
-      required this.label,
-      required this.valA,
-      required this.valB});
+  const _MetricRow({
+    required this.icon,
+    required this.label,
+    required this.valA,
+    required this.valB,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -531,19 +603,25 @@ class _MetricRow extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: Colors.white38),
           const SizedBox(width: 12),
-          Text(label,
-              style: const TextStyle(fontSize: 12, color: Colors.white54)),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white54),
+          ),
           const Spacer(),
-          Text(valA,
-              style:
-                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          Text(
+            valA,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(width: 8),
-          const Text('vs',
-              style: TextStyle(fontSize: 10, color: Colors.white24)),
+          const Text(
+            'vs',
+            style: TextStyle(fontSize: 10, color: Colors.white24),
+          ),
           const SizedBox(width: 8),
-          Text(valB,
-              style:
-                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          Text(
+            valB,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );

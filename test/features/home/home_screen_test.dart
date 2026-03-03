@@ -4,8 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('HomeScreen Widget Tests', () {
-    testWidgets('renders bottom navigation bar with 5 items',
-        (WidgetTester tester) async {
+    testWidgets('renders bottom navigation bar with 5 items', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -21,8 +22,9 @@ void main() {
       expect(find.byIcon(Icons.home), findsWidgets);
     });
 
-    testWidgets('navigates between tabs correctly',
-        (WidgetTester tester) async {
+    testWidgets('navigates between tabs correctly', (
+      WidgetTester tester,
+    ) async {
       int currentIndex = 0;
 
       await tester.pumpWidget(
@@ -46,15 +48,25 @@ void main() {
                     onTap: (index) => setState(() => currentIndex = index),
                     items: const [
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.home), label: 'Feed'),
+                        icon: Icon(Icons.home),
+                        label: 'Feed',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.explore), label: 'Discover'),
+                        icon: Icon(Icons.explore),
+                        label: 'Discover',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.camera), label: 'Stories'),
+                        icon: Icon(Icons.camera),
+                        label: 'Stories',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.school), label: 'Learn'),
+                        icon: Icon(Icons.school),
+                        label: 'Learn',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.person), label: 'Profile'),
+                        icon: Icon(Icons.person),
+                        label: 'Profile',
+                      ),
                     ],
                   ),
                 );
@@ -77,8 +89,9 @@ void main() {
   });
 
   group('Navigation Tests', () {
-    testWidgets('bottom nav maintains state across tab switches',
-        (WidgetTester tester) async {
+    testWidgets('bottom nav maintains state across tab switches', (
+      WidgetTester tester,
+    ) async {
       // This test verifies state persistence
       int tapCount = 0;
       int currentIndex = 0;
@@ -100,9 +113,13 @@ void main() {
                     onTap: (index) => setState(() => currentIndex = index),
                     items: const [
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.home), label: 'Home'),
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.explore), label: 'Other'),
+                        icon: Icon(Icons.explore),
+                        label: 'Other',
+                      ),
                     ],
                   ),
                 );

@@ -7,11 +7,12 @@ import '../../../../../core/services/bluetooth_mesh_service.dart';
 
 /// Provider for the [MeshRecommendationService].
 final meshRecommendationServiceProvider =
-    StateNotifierProvider<MeshRecommendationService, List<PeerKnowledge>>(
-        (ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return MeshRecommendationService(mesh);
-});
+    StateNotifierProvider<MeshRecommendationService, List<PeerKnowledge>>((
+      ref,
+    ) {
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      return MeshRecommendationService(mesh);
+    });
 
 /// Service for discoverability and peer-to-peer learning recommendations via mesh.
 class MeshRecommendationService extends StateNotifier<List<PeerKnowledge>> {
@@ -91,7 +92,9 @@ class MeshRecommendationService extends StateNotifier<List<PeerKnowledge>> {
   void _startPeriodicSync() {
     // Broadcast my own "available knowledge" every 30 seconds
     _syncTimer = Timer.periodic(
-        const Duration(seconds: 30), (_) => broadcastMyMetadata());
+      const Duration(seconds: 30),
+      (_) => broadcastMyMetadata(),
+    );
   }
 }
 

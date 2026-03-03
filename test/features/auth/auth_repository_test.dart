@@ -37,22 +37,22 @@ void main() {
     // Mock url_launcher channel to prevent MissingPluginException
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/url_launcher'),
-      (MethodCall methodCall) async {
-        if (methodCall.method == 'launch') {
-          return true;
-        }
-        return null;
-      },
-    );
+          const MethodChannel('plugins.flutter.io/url_launcher'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'launch') {
+              return true;
+            }
+            return null;
+          },
+        );
   });
 
   tearDown(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/url_launcher'),
-      null,
-    );
+          const MethodChannel('plugins.flutter.io/url_launcher'),
+          null,
+        );
   });
 
   group('AuthRepository - SignUp', () {
@@ -200,10 +200,7 @@ void main() {
       mockAuth.setCurrentUser(mockUser);
       mockSupabase.setRpcResult('check_rate_limit', false);
 
-      expect(
-        () => repository.enrollMFA(),
-        throwsA(isA<AppAuthException>()),
-      );
+      expect(() => repository.enrollMFA(), throwsA(isA<AppAuthException>()));
     });
   });
 }

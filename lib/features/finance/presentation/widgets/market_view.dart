@@ -38,8 +38,10 @@ class MarketView extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(left: 8, bottom: 12),
-              child: Text('Available Assets',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Available Assets',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           ...assets.map((asset) => _buildMarketCardWithChart(context, asset)),
@@ -61,39 +63,50 @@ class MarketView extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: Theme.of(context)
-                    .colorScheme
-                    .primary
-                    .withValues(alpha: 0.2),
-                child: Text(asset.symbol[0],
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary)),
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.2),
+                child: Text(
+                  asset.symbol[0],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(asset.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(asset.sector,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.white54)),
+                    Text(
+                      asset.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      asset.sector,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white54,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('\$${asset.price.toStringAsFixed(2)}',
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '\$${asset.price.toStringAsFixed(2)}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Text(
                     '${asset.change > 0 ? '+' : ''}${asset.change}%',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: asset.change > 0
-                            ? Colors.greenAccent
-                            : Colors.redAccent),
+                      fontSize: 12,
+                      color: asset.change > 0
+                          ? Colors.greenAccent
+                          : Colors.redAccent,
+                    ),
                   ),
                 ],
               ),
@@ -136,8 +149,9 @@ class MarketView extends StatelessWidget {
                 icon: const Icon(LucideIcons.plusCircle, size: 16),
                 label: const Text('Buy'),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.greenAccent,
-                    foregroundColor: Colors.black),
+                  backgroundColor: Colors.greenAccent,
+                  foregroundColor: Colors.black,
+                ),
               ),
               const SizedBox(width: 8),
               if (hasOwnership)
@@ -146,8 +160,9 @@ class MarketView extends StatelessWidget {
                   icon: const Icon(LucideIcons.minusCircle, size: 16),
                   label: const Text('Sell'),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.black),
+                    backgroundColor: Colors.redAccent,
+                    foregroundColor: Colors.black,
+                  ),
                 ),
             ],
           ),

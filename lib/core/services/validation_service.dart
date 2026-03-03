@@ -48,8 +48,9 @@ class ValidationService {
     }
 
     // Enhanced email validation (Standard pattern)
-    final emailRegex =
-        RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    final emailRegex = RegExp(
+      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+    );
 
     if (value.length > 254) {
       return 'Email is too long (max 254 characters)';
@@ -81,7 +82,11 @@ class ValidationService {
 
   /// Validates that a string [value] is between [min] and [max] characters.
   static String? validateLength(
-      String? value, int min, int max, String fieldName) {
+    String? value,
+    int min,
+    int max,
+    String fieldName,
+  ) {
     if (value == null || value.isEmpty) {
       return null; // Empty check should be handled by validateRequired if needed
     }
@@ -136,7 +141,12 @@ class ValidationService {
       return 'Password must contain at least one number';
     }
 
-    if (!value.contains(RegExp(r"[!@#$%^&*()_+=\[\]{};:'" r'",.<>?/\\|-]'))) {
+    if (!value.contains(
+      RegExp(
+        r"[!@#$%^&*()_+=\[\]{};:'"
+        r'",.<>?/\\|-]',
+      ),
+    )) {
       return 'Password must contain at least one special character (!@#\$%^&*)';
     }
 

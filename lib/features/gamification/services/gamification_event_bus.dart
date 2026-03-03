@@ -338,11 +338,7 @@ class GamificationEventBus {
         // Use the unified increment RPC
         await _supabase.rpc(
           'increment_guild_xp',
-          params: {
-            'p_guild_id': guildId,
-            'p_user_id': userId,
-            'p_xp': xp,
-          },
+          params: {'p_guild_id': guildId, 'p_user_id': userId, 'p_xp': xp},
         );
       }
     } catch (e) {
@@ -387,11 +383,16 @@ class GamificationEventBus {
         if (existing != null) {
           if (existing['is_completed'] == true) continue; // already done
           final newCount = (existing['current_count'] as int) + 1;
-          await _supabase.from('user_quest_progress').update({
-            'current_count': newCount,
-            'is_completed': newCount >= target,
-            'completed_at': newCount >= target ? now.toIso8601String() : null,
-          }).eq('id', existing['id']);
+          await _supabase
+              .from('user_quest_progress')
+              .update({
+                'current_count': newCount,
+                'is_completed': newCount >= target,
+                'completed_at': newCount >= target
+                    ? now.toIso8601String()
+                    : null,
+              })
+              .eq('id', existing['id']);
 
           // Award quest XP on completion
           if (newCount >= target) {

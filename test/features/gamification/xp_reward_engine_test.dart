@@ -5,10 +5,14 @@ void main() {
   group('XPRewardEngine', () {
     group('activityRewards', () {
       test('contains all lesson activities', () {
-        expect(XPRewardEngine.activityRewards.containsKey('lesson_complete'),
-            isTrue);
-        expect(XPRewardEngine.activityRewards.containsKey('module_complete'),
-            isTrue);
+        expect(
+          XPRewardEngine.activityRewards.containsKey('lesson_complete'),
+          isTrue,
+        );
+        expect(
+          XPRewardEngine.activityRewards.containsKey('module_complete'),
+          isTrue,
+        );
       });
 
       test('contains all challenge tiers', () {
@@ -42,24 +46,15 @@ void main() {
 
     group('calculateActivityXP', () {
       test('returns correct XP for lesson_complete', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('lesson_complete'),
-          5,
-        );
+        expect(XPRewardEngine.calculateActivityXP('lesson_complete'), 5);
       });
 
       test('returns correct XP for module_complete', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('module_complete'),
-          50,
-        );
+        expect(XPRewardEngine.calculateActivityXP('module_complete'), 50);
       });
 
       test('returns 0 for unknown activity type', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('nonexistent_activity'),
-          0,
-        );
+        expect(XPRewardEngine.calculateActivityXP('nonexistent_activity'), 0);
       });
 
       group('quiz scoring', () {
@@ -71,59 +66,35 @@ void main() {
         });
 
         test('quiz with score 95 returns quiz_90_99 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 95),
-            10,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 95), 10);
         });
 
         test('quiz with score 85 returns quiz_80_89 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 85),
-            8,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 85), 8);
         });
 
         test('quiz with score 75 returns quiz_70_79 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 75),
-            5,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 75), 5);
         });
 
         test('quiz with score below 70 returns 0 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 65),
-            0,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 65), 0);
         });
 
         test('quiz with null score returns 0 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz'),
-            0,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz'), 0);
         });
 
         test('quiz with score exactly 90 returns quiz_90_99 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 90),
-            10,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 90), 10);
         });
 
         test('quiz with score exactly 80 returns quiz_80_89 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 80),
-            8,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 80), 8);
         });
 
         test('quiz with score exactly 70 returns quiz_70_79 XP', () {
-          expect(
-            XPRewardEngine.calculateActivityXP('quiz', quizScore: 70),
-            5,
-          );
+          expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 70), 5);
         });
       });
     });
@@ -221,16 +192,24 @@ void main() {
 
       test('advanced_analytics requires Gold (5000 XP)', () {
         expect(
-            TierSystem.hasFeatureUnlocked(4999, 'advanced_analytics'), isFalse);
+          TierSystem.hasFeatureUnlocked(4999, 'advanced_analytics'),
+          isFalse,
+        );
         expect(
-            TierSystem.hasFeatureUnlocked(5000, 'advanced_analytics'), isTrue);
+          TierSystem.hasFeatureUnlocked(5000, 'advanced_analytics'),
+          isTrue,
+        );
       });
 
       test('custom_avatar_frame requires Platinum (10000 XP)', () {
-        expect(TierSystem.hasFeatureUnlocked(9999, 'custom_avatar_frame'),
-            isFalse);
-        expect(TierSystem.hasFeatureUnlocked(10000, 'custom_avatar_frame'),
-            isTrue);
+        expect(
+          TierSystem.hasFeatureUnlocked(9999, 'custom_avatar_frame'),
+          isFalse,
+        );
+        expect(
+          TierSystem.hasFeatureUnlocked(10000, 'custom_avatar_frame'),
+          isTrue,
+        );
       });
 
       test('unknown feature is always unlocked', () {

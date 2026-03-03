@@ -20,14 +20,16 @@ class ResourceService {
 
     final downloadUrl = url ?? 'https://api.verasso.io/v1/assets/$resourceId';
     AppLogger.info(
-        'ResourceService: Starting download for $resourceId from $downloadUrl');
+      'ResourceService: Starting download for $resourceId from $downloadUrl',
+    );
 
     try {
       _downloadProgress[resourceId] = 0.0;
 
       final request = http.Request('GET', Uri.parse(downloadUrl));
-      final response =
-          await _http.send(request).timeout(const Duration(minutes: 5));
+      final response = await _http
+          .send(request)
+          .timeout(const Duration(minutes: 5));
 
       if (response.statusCode != 200) {
         throw Exception('Failed to download resource: ${response.statusCode}');
@@ -47,8 +49,10 @@ class ResourceService {
       _cachedResources.add(resourceId);
       AppLogger.info('ResourceService: $resourceId ready');
     } catch (e) {
-      AppLogger.error('ResourceService: Download failed for $resourceId',
-          error: e);
+      AppLogger.error(
+        'ResourceService: Download failed for $resourceId',
+        error: e,
+      );
       rethrow;
     } finally {
       _downloadProgress.remove(resourceId);

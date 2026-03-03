@@ -9,7 +9,7 @@ class EventRepository {
 
   /// Creates an [EventRepository] instance.
   EventRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Creates a new educational event.
   Future<void> createEvent(Event event) async {

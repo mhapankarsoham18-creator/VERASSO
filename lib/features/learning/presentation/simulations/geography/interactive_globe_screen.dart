@@ -80,11 +80,12 @@ class GlobePainter extends CustomPainter {
 
     // Border
     canvas.drawCircle(
-        center,
-        radius,
-        Paint()
-          ..color = Colors.white12
-          ..style = PaintingStyle.stroke);
+      center,
+      radius,
+      Paint()
+        ..color = Colors.white12
+        ..style = PaintingStyle.stroke,
+    );
   }
 
   @override
@@ -165,8 +166,10 @@ class _InteractiveGlobeScreenState extends State<InteractiveGlobeScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Explore Layers',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Explore Layers',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -191,8 +194,10 @@ class _InteractiveGlobeScreenState extends State<InteractiveGlobeScreen> {
                 child: Column(
                   children: [
                     Icon(LucideIcons.hand, color: Colors.white54, size: 20),
-                    Text('Drag to Rotate',
-                        style: TextStyle(fontSize: 10, color: Colors.white38)),
+                    Text(
+                      'Drag to Rotate',
+                      style: TextStyle(fontSize: 10, color: Colors.white38),
+                    ),
                   ],
                 ),
               ),
@@ -211,10 +216,13 @@ class _InteractiveGlobeScreenState extends State<InteractiveGlobeScreen> {
         children: [
           Icon(icon, color: isActive ? Colors.blueAccent : Colors.white24),
           const SizedBox(height: 4),
-          Text(name,
-              style: TextStyle(
-                  fontSize: 10,
-                  color: isActive ? Colors.white : Colors.white24)),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 10,
+              color: isActive ? Colors.white : Colors.white24,
+            ),
+          ),
         ],
       ),
     );

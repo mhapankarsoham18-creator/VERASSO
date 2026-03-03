@@ -32,10 +32,7 @@ class AchievementBadge extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
-                colors: [
-                  Colors.amber.shade600,
-                  Colors.orange.shade600,
-                ],
+                colors: [Colors.amber.shade600, Colors.orange.shade600],
               ),
               boxShadow: [
                 BoxShadow(
@@ -50,15 +47,13 @@ class AchievementBadge extends StatelessWidget {
                     achievement.iconUrl!,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(
-                        Icons.broken_image,
-                        size: 24,
-                        color: Colors.white24),
+                      Icons.broken_image,
+                      size: 24,
+                      color: Colors.white24,
+                    ),
                   )
                 : Center(
-                    child: Text(
-                      '🏆',
-                      style: TextStyle(fontSize: size * 0.5),
-                    ),
+                    child: Text('🏆', style: TextStyle(fontSize: size * 0.5)),
                   ),
           ),
           if (isLarge) ...[
@@ -200,10 +195,7 @@ class LeaderboardEntry extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   'Level $level',
-                  style: const TextStyle(
-                    color: Colors.white60,
-                    fontSize: 10,
-                  ),
+                  style: const TextStyle(color: Colors.white60, fontSize: 10),
                 ),
               ],
             ),
@@ -223,10 +215,7 @@ class LeaderboardEntry extends StatelessWidget {
               ),
               const Text(
                 'points',
-                style: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 10,
-                ),
+                style: TextStyle(color: Colors.white60, fontSize: 10),
               ),
             ],
           ),
@@ -262,16 +251,13 @@ class LevelBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final levelProgress =
-        (currentXp.toDouble() / xpToNextLevel.toDouble()).clamp(0.0, 1.0);
+    final levelProgress = (currentXp.toDouble() / xpToNextLevel.toDouble())
+        .clamp(0.0, 1.0);
 
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.blue.shade900,
-            Colors.purple.shade900,
-          ],
+          colors: [Colors.blue.shade900, Colors.purple.shade900],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -289,10 +275,7 @@ class LevelBadge extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
-                colors: [
-                  Colors.cyan.shade400,
-                  Colors.blue.shade600,
-                ],
+                colors: [Colors.cyan.shade400, Colors.blue.shade600],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -356,11 +339,7 @@ class MilestoneCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   /// Creates a [MilestoneCard].
-  const MilestoneCard({
-    super.key,
-    required this.milestone,
-    this.onTap,
-  });
+  const MilestoneCard({super.key, required this.milestone, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -399,8 +378,10 @@ class MilestoneCard extends StatelessWidget {
                 ),
                 if (milestone.isCompleted)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.green.shade400.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(4),
@@ -420,10 +401,7 @@ class MilestoneCard extends StatelessWidget {
             if (milestone.description != null)
               Text(
                 milestone.description!,
-                style: const TextStyle(
-                  color: Colors.white60,
-                  fontSize: 11,
-                ),
+                style: const TextStyle(color: Colors.white60, fontSize: 11),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -458,10 +436,7 @@ class ProgressStatistics extends StatelessWidget {
   final UserProgressData progress;
 
   /// Creates a [ProgressStatistics].
-  const ProgressStatistics({
-    super.key,
-    required this.progress,
-  });
+  const ProgressStatistics({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -469,9 +444,7 @@ class ProgressStatistics extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.15),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -535,10 +508,7 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
             if (widget.trailingText != null)
               Text(
                 widget.trailingText!,
-                style: const TextStyle(
-                  color: Colors.white60,
-                  fontSize: 11,
-                ),
+                style: const TextStyle(color: Colors.white60, fontSize: 11),
               ),
           ],
         ),
@@ -596,10 +566,10 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
   void didUpdateWidget(AnimatedProgressBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.progress != widget.progress) {
-      _animation =
-          Tween<double>(begin: _animation.value, end: widget.progress).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-      );
+      _animation = Tween<double>(
+        begin: _animation.value,
+        end: widget.progress,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
       _controller.forward(from: 0);
     }
   }
@@ -617,9 +587,10 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: widget.progress).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: widget.progress,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.forward();
   }
 }
@@ -646,10 +617,7 @@ class _StatRow extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-              ),
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
           ],
         ),

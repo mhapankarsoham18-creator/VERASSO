@@ -42,10 +42,7 @@ void main() {
     });
 
     test('authStateChanges emits user on login', () async {
-      expectLater(
-        authService.authStateChanges,
-        emits(isA<DomainAuthUser>()),
-      );
+      expectLater(authService.authStateChanges, emits(isA<DomainAuthUser>()));
 
       await authService.signInWithEmail(
         email: 'test@verasso.app',
@@ -100,10 +97,7 @@ void main() {
         password: 'Pass123!',
       );
 
-      expectLater(
-        authService.authStateChanges,
-        emits(isNull),
-      );
+      expectLater(authService.authStateChanges, emits(isNull));
 
       await authService.signOut();
       expect(authService.currentUser, isNull);
@@ -186,9 +180,7 @@ void main() {
         email: 'test@verasso.app',
         userMetadata: {'name': 'Test'},
         emailConfirmedAt: '2026-01-01T00:00:00Z',
-        factors: [
-          DomainAuthFactor(id: 'f1', status: 'verified', type: 'totp'),
-        ],
+        factors: [DomainAuthFactor(id: 'f1', status: 'verified', type: 'totp')],
       );
 
       expect(user.id, 'user-1');

@@ -9,13 +9,15 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          themeControllerProvider.overrideWith((ref) => ThemeController()
-            ..state = AppThemeState(
-              mode: ThemeMode.system,
-              primaryColor: Colors.blue,
-              accentColor: Colors.blueAccent,
-              isPowerSaveMode: true,
-            )),
+          themeControllerProvider.overrideWith(
+            (ref) => ThemeController()
+              ..state = AppThemeState(
+                mode: ThemeMode.system,
+                primaryColor: Colors.blue,
+                accentColor: Colors.blueAccent,
+                isPowerSaveMode: true,
+              ),
+          ),
         ],
         child: const MaterialApp(home: InstitutionalDashboard()),
       ),

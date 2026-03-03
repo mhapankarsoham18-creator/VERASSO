@@ -86,8 +86,8 @@ void main() {
 
       const dateFormats = [
         'Medium', // e.g., Mar 18, 2026
-        'Long',   // e.g., March 18, 2026
-        'Short',  // e.g., 3/18/26
+        'Long', // e.g., March 18, 2026
+        'Short', // e.g., 3/18/26
       ];
 
       expect(dateFormats.length, 3);
@@ -175,7 +175,7 @@ void main() {
       // - Responsive font size reduction if needed
 
       const germanWord = 'Geschwindigkeit'; // 15 chars
-      const englishWord = 'Speed';           // 5 chars
+      const englishWord = 'Speed'; // 5 chars
 
       expect(germanWord.length, greaterThan(englishWord.length));
     });
@@ -214,14 +214,17 @@ void main() {
       expect(minLineHeight, greaterThanOrEqualTo(1.5));
     });
 
-    test('Chinese character simplification (Simplified vs Traditional)', () async {
-      // Chinese: Support both simplified (mainland) and traditional (Taiwan/Hong Kong)
-      // app_zh_CN.arb for Simplified
-      // app_zh_TW.arb for Traditional
+    test(
+      'Chinese character simplification (Simplified vs Traditional)',
+      () async {
+        // Chinese: Support both simplified (mainland) and traditional (Taiwan/Hong Kong)
+        // app_zh_CN.arb for Simplified
+        // app_zh_TW.arb for Traditional
 
-      const chineseVariants = ['Simplified', 'Traditional'];
-      expect(chineseVariants.length, 2);
-    });
+        const chineseVariants = ['Simplified', 'Traditional'];
+        expect(chineseVariants.length, 2);
+      },
+    );
 
     test('Thai and Vietnamese tone marks display correctly', () async {
       // Thai: ี่ีูู้่้ etc. tone marks
@@ -247,7 +250,7 @@ void main() {
 
       const contextExamples = [
         'back_direction', // Go back (history)
-        'back_physical',  // Turn your back
+        'back_physical', // Turn your back
       ];
 
       expect(contextExamples.length, 2);

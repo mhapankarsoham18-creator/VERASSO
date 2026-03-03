@@ -84,8 +84,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('User ${widget.otherUserId}',
-                    style: const TextStyle(fontSize: 14)),
+                Text(
+                  'User ${widget.otherUserId}',
+                  style: const TextStyle(fontSize: 14),
+                ),
                 Text(
                   _otherUserTyping
                       ? 'Typing...'
@@ -95,8 +97,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                     color: _otherUserTyping
                         ? Colors.blueAccent
                         : (_otherUserOnline
-                            ? Colors.greenAccent
-                            : AppColors.white34),
+                              ? Colors.greenAccent
+                              : AppColors.white34),
                   ),
                 ),
               ],
@@ -116,9 +118,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                   .setAutoShieldChats(!isShieldedGlobally);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(isShieldedGlobally
-                      ? 'Privacy Shield Deactivated'
-                      : 'Privacy Shield Activated'),
+                  content: Text(
+                    isShieldedGlobally
+                        ? 'Privacy Shield Deactivated'
+                        : 'Privacy Shield Activated',
+                  ),
                   duration: const Duration(seconds: 1),
                 ),
               );
@@ -128,7 +132,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           IconButton(icon: const Icon(LucideIcons.phone), onPressed: () {}),
           IconButton(icon: const Icon(LucideIcons.video), onPressed: () {}),
           IconButton(
-              icon: const Icon(LucideIcons.moreVertical), onPressed: () {}),
+            icon: const Icon(LucideIcons.moreVertical),
+            onPressed: () {},
+          ),
         ],
       ),
       body: Container(
@@ -136,7 +142,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           gradient: LinearGradient(
             colors: [
               Colors.black,
-              Colors.purple.shade900.withValues(alpha: 0.3)
+              Colors.purple.shade900.withValues(alpha: 0.3),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -247,13 +253,25 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildMediaButton(
-              LucideIcons.image, 'Photo', () => _pickMedia(MessageType.image)),
+            LucideIcons.image,
+            'Photo',
+            () => _pickMedia(MessageType.image),
+          ),
           _buildMediaButton(
-              LucideIcons.video, 'Video', () => _pickMedia(MessageType.video)),
+            LucideIcons.video,
+            'Video',
+            () => _pickMedia(MessageType.video),
+          ),
           _buildMediaButton(
-              LucideIcons.mic, 'Audio', () => _pickMedia(MessageType.audio)),
+            LucideIcons.mic,
+            'Audio',
+            () => _pickMedia(MessageType.audio),
+          ),
           _buildMediaButton(
-              LucideIcons.smile, 'Sticker', () => _showStickers()),
+            LucideIcons.smile,
+            'Sticker',
+            () => _showStickers(),
+          ),
           _buildMediaButton(Icons.gif, 'GIF', () => _showGifs()),
         ],
       ),
@@ -265,11 +283,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
         child: Column(
-          crossAxisAlignment:
-              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: isMe
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             GlassContainer(
               padding: const EdgeInsets.all(12),
@@ -287,7 +307,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                       Text(
                         _formatMessageTime(message.sentAt),
                         style: const TextStyle(
-                            fontSize: 10, color: Colors.white54),
+                          fontSize: 10,
+                          color: Colors.white54,
+                        ),
                       ),
                       if (isMe) ...[
                         const SizedBox(width: 4),
@@ -315,8 +337,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         if (isShielded) {
           text = shieldService.scrambleText(text);
         }
-        return Text(text,
-            style: const TextStyle(fontSize: 14, fontFamily: 'monospace'));
+        return Text(
+          text,
+          style: const TextStyle(fontSize: 14, fontFamily: 'monospace'),
+        );
 
       case MessageType.image:
         return SecrecyFilter(
@@ -330,13 +354,18 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                   width: 200,
                   height: 200,
                   color: Colors.grey.shade800,
-                  child: const Icon(LucideIcons.image,
-                      size: 64, color: Colors.white54),
+                  child: const Icon(
+                    LucideIcons.image,
+                    size: 64,
+                    color: Colors.white54,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
-              const Text('📷 Image',
-                  style: TextStyle(fontSize: 12, color: Colors.white70)),
+              const Text(
+                '📷 Image',
+                style: TextStyle(fontSize: 12, color: Colors.white70),
+              ),
             ],
           ),
         );
@@ -353,13 +382,18 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                   width: 200,
                   height: 150,
                   color: Colors.grey.shade800,
-                  child: const Icon(LucideIcons.playCircle,
-                      size: 64, color: Colors.white54),
+                  child: const Icon(
+                    LucideIcons.playCircle,
+                    size: 64,
+                    color: Colors.white54,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
-              const Text('🎥 Video',
-                  style: TextStyle(fontSize: 12, color: Colors.white70)),
+              const Text(
+                '🎥 Video',
+                style: TextStyle(fontSize: 12, color: Colors.white70),
+              ),
             ],
           ),
         );
@@ -395,9 +429,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
       case MessageType.sticker:
         if (isShielded) {
-          return const Text('✨',
-              style:
-                  TextStyle(fontSize: 48)); // Obfuscate stickers with a sparkle
+          return const Text(
+            '✨',
+            style: TextStyle(fontSize: 48),
+          ); // Obfuscate stickers with a sparkle
         }
         return Text(message.content, style: const TextStyle(fontSize: 48));
 
@@ -411,8 +446,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               color: Colors.grey.shade800,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(LucideIcons.stickyNote,
-                size: 64, color: Colors.white54),
+            child: const Icon(
+              LucideIcons.stickyNote,
+              size: 64,
+              color: Colors.white54,
+            ),
           ),
         );
     }
@@ -463,8 +501,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     if (myId != null) {
       _presenceRepo.joinPresence(myId, widget.conversationId, (onlineUsers) {
         if (mounted) {
-          setState(() =>
-              _otherUserOnline = onlineUsers.contains(widget.otherUserId));
+          setState(
+            () => _otherUserOnline = onlineUsers.contains(widget.otherUserId),
+          );
         }
       });
     }
@@ -496,8 +535,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           _sendMediaMessage(video.path, type);
         }
       } else if (type == MessageType.audio) {
-        final result =
-            await FilePicker.platform.pickFiles(type: FileType.audio);
+        final result = await FilePicker.platform.pickFiles(
+          type: FileType.audio,
+        );
         if (result != null) {
           _sendMediaMessage(result.files.first.path!, type);
         }
@@ -527,9 +567,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     } catch (e) {
       AppLogger.error('Error uploading media', error: e);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to upload media')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Failed to upload media')));
       }
     }
   }
@@ -560,14 +600,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
     ref
         .read(chatControllerProvider.notifier)
-        .sendMessage(
-          widget.otherUserId,
-          content,
-          mediaType: mediaType,
-        )
+        .sendMessage(widget.otherUserId, content, mediaType: mediaType)
         .then((_) {
-      if (mounted) _scrollToBottom();
-    });
+          if (mounted) _scrollToBottom();
+        });
   }
 
   void _showGifs() {
@@ -590,8 +626,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Select a GIF',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const Text(
+              'Select a GIF',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             const SizedBox(height: 16),
             SizedBox(
               height: 150,
@@ -649,9 +687,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 Navigator.pop(context);
                 _sendTextMessage(stickers[index], MessageType.sticker);
               },
-              child: Text(stickers[index],
-                  style: const TextStyle(fontSize: 48),
-                  textAlign: TextAlign.center),
+              child: Text(
+                stickers[index],
+                style: const TextStyle(fontSize: 48),
+                textAlign: TextAlign.center,
+              ),
             );
           },
         ),
@@ -662,8 +702,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   void _subscribeToMessages() {
     final repo = ref.read(messageRepositoryProvider);
     final myId = ref.read(currentUserProvider)?.id;
-    _messagesSubscription =
-        repo.getMessages(widget.otherUserId).listen((messages) {
+    _messagesSubscription = repo.getMessages(widget.otherUserId).listen((
+      messages,
+    ) {
       if (mounted) {
         setState(() => _messages = messages);
         _scrollToBottom();

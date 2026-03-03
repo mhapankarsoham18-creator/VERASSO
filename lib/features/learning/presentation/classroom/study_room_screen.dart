@@ -7,14 +7,17 @@ import 'package:verasso/features/learning/data/collaboration_models.dart';
 import 'package:verasso/features/learning/data/collaboration_repository.dart';
 
 /// Provider for the [CollaborationRepository].
-final collaborationRepositoryProvider =
-    Provider((ref) => CollaborationRepository());
+final collaborationRepositoryProvider = Provider(
+  (ref) => CollaborationRepository(),
+);
 
 /// Provider for real-time live sessions within a specific study group.
 final liveSessionsProvider =
     StreamProvider.family<List<StudyRoomSession>, String>((ref, groupId) {
-  return ref.watch(collaborationRepositoryProvider).watchLiveSessions(groupId);
-});
+      return ref
+          .watch(collaborationRepositoryProvider)
+          .watchLiveSessions(groupId);
+    });
 
 /// A screen representing a physical or virtual study room for a group.
 class StudyRoomScreen extends ConsumerWidget {
@@ -25,8 +28,11 @@ class StudyRoomScreen extends ConsumerWidget {
   final String groupName;
 
   /// Creates a [StudyRoomScreen] instance.
-  const StudyRoomScreen(
-      {super.key, required this.groupId, required this.groupName});
+  const StudyRoomScreen({
+    super.key,
+    required this.groupId,
+    required this.groupName,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,11 +59,16 @@ class StudyRoomScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(LucideIcons.volumeX,
-                        size: 64, color: Colors.white24),
+                    const Icon(
+                      LucideIcons.volumeX,
+                      size: 64,
+                      color: Colors.white24,
+                    ),
                     const SizedBox(height: 16),
-                    const Text('No live study rooms yet.',
-                        style: TextStyle(color: Colors.white54)),
+                    const Text(
+                      'No live study rooms yet.',
+                      style: TextStyle(color: Colors.white54),
+                    ),
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () => _startSession(context, ref),
@@ -96,15 +107,20 @@ class StudyRoomScreen extends ConsumerWidget {
         children: [
           const Icon(LucideIcons.fileText, size: 12, color: Colors.blueAccent),
           const SizedBox(width: 6),
-          Text(res.toString(),
-              style: const TextStyle(fontSize: 11, color: Colors.blueAccent)),
+          Text(
+            res.toString(),
+            style: const TextStyle(fontSize: 11, color: Colors.blueAccent),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildSessionCard(
-      BuildContext context, WidgetRef ref, StudyRoomSession session) {
+    BuildContext context,
+    WidgetRef ref,
+    StudyRoomSession session,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
@@ -114,41 +130,56 @@ class StudyRoomScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(session.title ?? 'Interactive Study',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(
+                session.title ?? 'Interactive Study',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                    color: Colors.redAccent.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(4)),
+                  color: Colors.redAccent.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
                 child: const Row(
                   children: [
                     CircleAvatar(radius: 3, backgroundColor: Colors.redAccent),
                     SizedBox(width: 6),
-                    Text('LIVE',
-                        style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      'LIVE',
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text('${session.activeUsers.length} students currently collaborating',
-              style: const TextStyle(color: Colors.white70, fontSize: 13)),
+          Text(
+            '${session.activeUsers.length} students currently collaborating',
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+          ),
           const Divider(color: Colors.white10, height: 32),
-          const Text('Pinned Resources',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent)),
+          const Text(
+            'Pinned Resources',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+            ),
+          ),
           const SizedBox(height: 12),
           if (session.pinnedResources.isEmpty)
-            const Text('No resources pinned yet.',
-                style: TextStyle(color: Colors.white24, fontSize: 12))
+            const Text(
+              'No resources pinned yet.',
+              style: TextStyle(color: Colors.white24, fontSize: 12),
+            )
           else
             Wrap(
               spacing: 8,
@@ -166,7 +197,8 @@ class StudyRoomScreen extends ConsumerWidget {
                   icon: const Icon(LucideIcons.pin, size: 16),
                   label: const Text('Pin Knowledge'),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withValues(alpha: 0.05)),
+                    backgroundColor: Colors.white.withValues(alpha: 0.05),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -174,26 +206,31 @@ class StudyRoomScreen extends ConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {}, // Enter interactive mode
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent),
+                    backgroundColor: Colors.blueAccent,
+                  ),
                   child: const Text('Join Room'),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
   void _pinAResource(
-      BuildContext context, WidgetRef ref, String sessionId) async {
+    BuildContext context,
+    WidgetRef ref,
+    String sessionId,
+  ) async {
     // For demo, we just pin a random text
     await ref
         .read(collaborationRepositoryProvider)
         .pinResource(sessionId, "Formula Sheet V1");
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Resource pinned to room!')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Resource pinned to room!')));
     }
   }
 
@@ -205,14 +242,17 @@ class StudyRoomScreen extends ConsumerWidget {
         backgroundColor: Colors.grey[900],
         title: const Text('Start Study Session'),
         content: TextField(
-            controller: titleC,
-            decoration: const InputDecoration(
-                hintText: 'e.g., Quantum Physics Exam Prep'),
-            style: const TextStyle(color: Colors.white)),
+          controller: titleC,
+          decoration: const InputDecoration(
+            hintText: 'e.g., Quantum Physics Exam Prep',
+          ),
+          style: const TextStyle(color: Colors.white),
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               await ref

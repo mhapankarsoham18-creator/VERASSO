@@ -14,8 +14,9 @@ final arSecurityRepositoryProvider = Provider((ref) {
 });
 
 /// Provider for the [EncryptionService] used by security repositories.
-final encryptionServiceProvider =
-    Provider((ref) => SecurityInitializer.encryptionService);
+final encryptionServiceProvider = Provider(
+  (ref) => SecurityInitializer.encryptionService,
+);
 
 /// Security repository for AR projects
 class ArSecurityRepository {
@@ -52,11 +53,14 @@ class ArSecurityRepository {
       final keyId = PasswordHashingService.generateSecureToken(16);
 
       // Store backup via database function
-      final response = await _supabase.rpc('create_project_backup', params: {
-        'p_project_id': projectId,
-        'p_encrypted_data': encryptedData,
-        'p_encryption_key_id': keyId,
-      });
+      final response = await _supabase.rpc(
+        'create_project_backup',
+        params: {
+          'p_project_id': projectId,
+          'p_encrypted_data': encryptedData,
+          'p_encryption_key_id': keyId,
+        },
+      );
 
       final backupId = response as String;
 
@@ -80,8 +84,10 @@ class ArSecurityRepository {
   }
 
   /// Decrypt project data
-  Future<String> decryptProjectData(String encryptedData,
-      {String? password}) async {
+  Future<String> decryptProjectData(
+    String encryptedData, {
+    String? password,
+  }) async {
     if (password != null) {
       return _encryptionService.decryptWithPassword(encryptedData, password);
     } else {
@@ -90,8 +96,10 @@ class ArSecurityRepository {
   }
 
   /// Encrypt project data
-  Future<String> encryptProjectData(Map<String, dynamic> projectData,
-      {String? password}) async {
+  Future<String> encryptProjectData(
+    Map<String, dynamic> projectData, {
+    String? password,
+  }) async {
     final jsonData = projectData.toString();
 
     if (password != null) {
@@ -123,11 +131,14 @@ class ArSecurityRepository {
     );
 
     // Update project with encrypted fields
-    await _supabase.from('ar_projects').update({
-      ...encryptedProject,
-      'is_encrypted': true,
-      'encrypted_fields': fieldsToEncrypt,
-    }).eq('id', projectId);
+    await _supabase
+        .from('ar_projects')
+        .update({
+          ...encryptedProject,
+          'is_encrypted': true,
+          'encrypted_fields': fieldsToEncrypt,
+        })
+        .eq('id', projectId);
 
     await _logSecurityEvent(
       projectId: projectId,
@@ -168,9 +179,7 @@ class ArSecurityRepository {
   }
 
   /// Get user's security audit log
-  Future<List<Map<String, dynamic>>> getUserAuditLog({
-    int limit = 100,
-  }) async {
+  Future<List<Map<String, dynamic>>> getUserAuditLog({int limit = 100}) async {
     final userId = _supabase.auth.currentUser?.id;
     if (userId == null) throw Exception('User not authenticated');
 
@@ -231,9 +240,12 @@ class ArSecurityRepository {
   }) async {
     try {
       // Verify integrity first
-      final isValid = await _supabase.rpc('verify_backup_integrity', params: {
-        'p_backup_id': backupId,
-      }) as bool;
+      final isValid =
+          await _supabase.rpc(
+                'verify_backup_integrity',
+                params: {'p_backup_id': backupId},
+              )
+              as bool;
 
       if (!isValid) {
         throw Exception('Backup integrity check failed');
@@ -362,10 +374,10 @@ class ArSecurityRepository {
       );
 
       // Update attempt counter via database function
-      await _supabase.rpc('check_password_attempt', params: {
-        'p_project_id': projectId,
-        'p_success': isValid,
-      });
+      await _supabase.rpc(
+        'check_password_attempt',
+        params: {'p_project_id': projectId, 'p_success': isValid},
+      );
 
       // Log attempt
       await _logSecurityEvent(
@@ -394,13 +406,16 @@ class ArSecurityRepository {
     Map<String, dynamic>? metadata,
   }) async {
     try {
-      await _supabase.rpc('log_security_event', params: {
-        'p_user_id': _supabase.auth.currentUser?.id,
-        'p_project_id': projectId,
-        'p_action': action,
-        'p_result': result,
-        'p_metadata': metadata ?? {},
-      });
+      await _supabase.rpc(
+        'log_security_event',
+        params: {
+          'p_user_id': _supabase.auth.currentUser?.id,
+          'p_project_id': projectId,
+          'p_action': action,
+          'p_result': result,
+          'p_metadata': metadata ?? {},
+        },
+      );
     } catch (e) {
       // Don't throw on logging errors
       AppLogger.info('Failed to log security event: $e');

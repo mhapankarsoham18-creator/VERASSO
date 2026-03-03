@@ -8,9 +8,9 @@ import '../../../../../core/services/bluetooth_mesh_service.dart';
 /// Provider for the [ArSyncService] instance.
 final arSyncServiceProvider =
     StateNotifierProvider<ArSyncService, ArExperimentState>((ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return ArSyncService(mesh);
-});
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      return ArSyncService(mesh);
+    });
 
 /// Represents the state of a synchronized AR experiment.
 class ArExperimentState {
@@ -50,7 +50,8 @@ class ArSyncService extends StateNotifier<ArExperimentState> {
 
   /// Sets up a new [ArSyncService] with the provided mesh service.
   ArSyncService(this._meshService)
-      : super(ArExperimentState(
+    : super(
+        ArExperimentState(
           parameters: {
             'temperature': 25.0,
             'phValue': 7.0,
@@ -64,7 +65,8 @@ class ArSyncService extends StateNotifier<ArExperimentState> {
           },
           lastUpdatedBy: 'System',
           timestamp: DateTime.now(),
-        )) {
+        ),
+      ) {
     _initListener();
   }
 
@@ -81,8 +83,9 @@ class ArSyncService extends StateNotifier<ArExperimentState> {
     List<double>? scale,
   }) {
     final newParams = Map<String, dynamic>.from(state.parameters);
-    final transform =
-        Map<String, dynamic>.from(newParams['modelTransform'] ?? {});
+    final transform = Map<String, dynamic>.from(
+      newParams['modelTransform'] ?? {},
+    );
 
     if (position != null) transform['position'] = position;
     if (rotation != null) transform['rotation'] = rotation;

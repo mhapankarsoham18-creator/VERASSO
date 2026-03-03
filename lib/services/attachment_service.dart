@@ -81,19 +81,19 @@ class AttachmentMetadata {
 
   /// Converts the [AttachmentMetadata] to a JSON map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'fileName': fileName,
-        'fileSize': fileSize,
-        'mimeType': mimeType,
-        'sha256': sha256,
-        'uploadedBy': uploadedBy,
-        'uploadedAt': uploadedAt.toIso8601String(),
-        'entityId': entityId,
-        'entityType': entityType,
-        'storageUrl': storageUrl,
-        'chunk_count': chunkCount,
-        'verified': verified,
-      };
+    'id': id,
+    'fileName': fileName,
+    'fileSize': fileSize,
+    'mimeType': mimeType,
+    'sha256': sha256,
+    'uploadedBy': uploadedBy,
+    'uploadedAt': uploadedAt.toIso8601String(),
+    'entityId': entityId,
+    'entityType': entityType,
+    'storageUrl': storageUrl,
+    'chunk_count': chunkCount,
+    'verified': verified,
+  };
 }
 
 /// Service for handling file attachments and chunked uploads.
@@ -189,19 +189,25 @@ class AttachmentService {
         final chunkHash = sha256.convert(chunkData).toString();
         final chunkPath = '${uploadSession.id}/chunk_$chunkIndex';
 
-        await _supabase.storage.from(storageBucket).uploadBinary(
+        await _supabase.storage
+            .from(storageBucket)
+            .uploadBinary(
               chunkPath,
               chunkData,
-              fileOptions:
-                  const FileOptions(cacheControl: '3600', upsert: true),
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: true,
+              ),
             );
 
-        uploadSession.chunks.add(ChunkInfo(
-          index: chunkIndex,
-          size: chunkData.length,
-          hash: chunkHash,
-          uploadedAt: DateTime.now(),
-        ));
+        uploadSession.chunks.add(
+          ChunkInfo(
+            index: chunkIndex,
+            size: chunkData.length,
+            hash: chunkHash,
+            uploadedAt: DateTime.now(),
+          ),
+        );
 
         uploadedBytes = chunkEnd;
         chunkIndex++;
@@ -424,48 +430,51 @@ class FormData {
 
   /// Creates a [FormData] from a JSON map.
   factory FormData.fromJson(Map<String, dynamic> json) => FormData(
-        formId: json['formId'] as String,
-        userId: json['userId'] as String,
-        fields: (json['fields'] as Map).map(
-          (k, v) => MapEntry(
-              k,
-              FormFieldValue(
-                fieldId: k as String,
-                fieldName: v['fieldName'] as String,
-                fieldType: v['fieldType'] as String,
-                value: v['value'],
-                required: v['required'] as bool,
-                validationErrors:
-                    List<String>.from(v['validationErrors'] as List? ?? []),
-                capturedAt: v['capturedAt'] != null
-                    ? DateTime.parse(v['capturedAt'] as String)
-                    : null,
-              )),
+    formId: json['formId'] as String,
+    userId: json['userId'] as String,
+    fields: (json['fields'] as Map).map(
+      (k, v) => MapEntry(
+        k,
+        FormFieldValue(
+          fieldId: k as String,
+          fieldName: v['fieldName'] as String,
+          fieldType: v['fieldType'] as String,
+          value: v['value'],
+          required: v['required'] as bool,
+          validationErrors: List<String>.from(
+            v['validationErrors'] as List? ?? [],
+          ),
+          capturedAt: v['capturedAt'] != null
+              ? DateTime.parse(v['capturedAt'] as String)
+              : null,
         ),
-        attachments: (json['attachments'] as List?)
-                ?.map((a) => AttachmentMetadata.fromJson(a))
-                .toList() ??
-            [],
-        createdAt: DateTime.parse(json['createdAt'] as String),
-        submittedAt: json['submittedAt'] != null
-            ? DateTime.parse(json['submittedAt'] as String)
-            : null,
-        status: json['status'] as String? ?? 'draft',
-      );
+      ),
+    ),
+    attachments:
+        (json['attachments'] as List?)
+            ?.map((a) => AttachmentMetadata.fromJson(a))
+            .toList() ??
+        [],
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    submittedAt: json['submittedAt'] != null
+        ? DateTime.parse(json['submittedAt'] as String)
+        : null,
+    status: json['status'] as String? ?? 'draft',
+  );
 
   /// Whether all fields in the form are valid.
   bool get isValid => fields.values.every((field) => field.isValid);
 
   /// Converts the [FormData] to a JSON map.
   Map<String, dynamic> toJson() => {
-        'formId': formId,
-        'userId': userId,
-        'fields': fields.map((k, v) => MapEntry(k, v.toJson())),
-        'attachments': attachments.map((a) => a.toJson()).toList(),
-        'createdAt': createdAt.toIso8601String(),
-        'submittedAt': submittedAt?.toIso8601String(),
-        'status': status,
-      };
+    'formId': formId,
+    'userId': userId,
+    'fields': fields.map((k, v) => MapEntry(k, v.toJson())),
+    'attachments': attachments.map((a) => a.toJson()).toList(),
+    'createdAt': createdAt.toIso8601String(),
+    'submittedAt': submittedAt?.toIso8601String(),
+    'status': status,
+  };
 }
 
 /// Represents a field value in a form.
@@ -478,7 +487,7 @@ class FormFieldValue {
 
   /// The type of the field.
   final String
-      fieldType; // 'text', 'email', 'number', 'select', 'checkbox', 'date', 'attachment'
+  fieldType; // 'text', 'email', 'number', 'select', 'checkbox', 'date', 'attachment'
 
   /// The current value of the field.
   final dynamic value;
@@ -510,14 +519,14 @@ class FormFieldValue {
 
   /// Converts the [FormFieldValue] to a JSON map.
   Map<String, dynamic> toJson() => {
-        'fieldId': fieldId,
-        'fieldName': fieldName,
-        'fieldType': fieldType,
-        'value': value,
-        'required': required,
-        'validationErrors': validationErrors,
-        'capturedAt': capturedAt?.toIso8601String(),
-      };
+    'fieldId': fieldId,
+    'fieldName': fieldName,
+    'fieldType': fieldType,
+    'value': value,
+    'required': required,
+    'validationErrors': validationErrors,
+    'capturedAt': capturedAt?.toIso8601String(),
+  };
 }
 
 /// Represents an ongoing file upload session.

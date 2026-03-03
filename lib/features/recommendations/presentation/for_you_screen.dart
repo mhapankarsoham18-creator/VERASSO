@@ -45,23 +45,26 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
             }
 
             return FutureBuilder<Map<String, dynamic>>(
-              future: Future.wait([
-                ref
-                    .read(feedRepositoryProvider)
-                    .getFeed(userInterests: profile.interests, limit: 10),
-                ref
-                    .read(contentRecommendationServiceProvider)
-                    .recommendSimulations(
-                      userId: profile.id,
-                      completedSimulations: [],
-                      categoryProgress: {},
-                      interests: profile.interests,
-                      limit: 3,
-                    ),
-              ]).then((results) => {
-                    'posts': results[0] as List<Post>,
-                    'sims': results[1] as List<SimulationRecommendation>,
-                  }),
+              future:
+                  Future.wait([
+                    ref
+                        .read(feedRepositoryProvider)
+                        .getFeed(userInterests: profile.interests, limit: 10),
+                    ref
+                        .read(contentRecommendationServiceProvider)
+                        .recommendSimulations(
+                          userId: profile.id,
+                          completedSimulations: [],
+                          categoryProgress: {},
+                          interests: profile.interests,
+                          limit: 3,
+                        ),
+                  ]).then(
+                    (results) => {
+                      'posts': results[0] as List<Post>,
+                      'sims': results[1] as List<SimulationRecommendation>,
+                    },
+                  ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -77,7 +80,7 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
                 final posts = snapshot.data?['posts'] as List<Post>? ?? [];
                 final simRecs =
                     snapshot.data?['sims'] as List<SimulationRecommendation>? ??
-                        [];
+                    [];
 
                 return RefreshIndicator(
                   onRefresh: () async {
@@ -86,7 +89,11 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
                   },
                   child: ListView(
                     padding: const EdgeInsets.only(
-                        top: 100, left: 16, right: 16, bottom: 20),
+                      top: 100,
+                      left: 16,
+                      right: 16,
+                      bottom: 20,
+                    ),
                     children: [
                       _buildSectionHeader('Sims for You', LucideIcons.sparkles),
                       const SizedBox(height: 12),
@@ -101,7 +108,9 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
                         ...simRecs.map((rec) => _buildSimulationCard(rec)),
                       const SizedBox(height: 24),
                       _buildSectionHeader(
-                          'Trending in Network', LucideIcons.trendingUp),
+                        'Trending in Network',
+                        LucideIcons.trendingUp,
+                      ),
                       const SizedBox(height: 12),
                       if (posts.isEmpty)
                         const EmptyStateWidget(
@@ -113,7 +122,9 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
                         ...posts.take(3).map((post) => _buildPostCard(post)),
                       const SizedBox(height: 24),
                       _buildSectionHeader(
-                          'Connect with Pioneers', LucideIcons.userPlus),
+                        'Connect with Pioneers',
+                        LucideIcons.userPlus,
+                      ),
                       const SizedBox(height: 12),
                       const EmptyStateWidget(
                         title: 'Discovery Zone',
@@ -146,15 +157,20 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
           backgroundImage: post.authorAvatar != null
               ? NetworkImage(post.authorAvatar!)
               : null,
-          child:
-              post.authorAvatar == null ? const Icon(LucideIcons.user) : null,
+          child: post.authorAvatar == null
+              ? const Icon(LucideIcons.user)
+              : null,
         ),
-        title: Text(post.authorName ?? 'Pioneer',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(post.content ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
+        title: Text(
+          post.authorName ?? 'Pioneer',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          post.content ?? '',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
         trailing: const Icon(LucideIcons.chevronRight, size: 16),
       ),
     );
@@ -165,8 +181,10 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
       children: [
         Icon(icon, size: 20, color: Colors.white70),
         const SizedBox(width: 8),
-        Text(title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }
@@ -179,16 +197,23 @@ class _ForYouScreenState extends ConsumerState<ForYouScreen> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-              color: Colors.purple.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(8)),
+            color: Colors.purple.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: const Icon(LucideIcons.flaskConical, size: 20),
         ),
-        title: Text('Simulation: ${rec.simulationId}',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(rec.reason,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
-        trailing: Text('${(rec.score * 100).toInt()}% match',
-            style: const TextStyle(fontSize: 10, color: Colors.greenAccent)),
+        title: Text(
+          'Simulation: ${rec.simulationId}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          rec.reason,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
+        trailing: Text(
+          '${(rec.score * 100).toInt()}% match',
+          style: const TextStyle(fontSize: 10, color: Colors.greenAccent),
+        ),
       ),
     );
   }

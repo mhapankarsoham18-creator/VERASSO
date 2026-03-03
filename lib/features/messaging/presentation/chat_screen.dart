@@ -52,8 +52,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
-                        child: Text(UserFriendlyErrorHandler.getDisplayMessage(
-                            snapshot.error)));
+                      child: Text(
+                        UserFriendlyErrorHandler.getDisplayMessage(
+                          snapshot.error,
+                        ),
+                      ),
+                    );
                   }
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
@@ -62,7 +66,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   final messages = snapshot.data!;
                   if (messages.isEmpty) {
                     return const Center(
-                        child: Text('No messages yet. Say hi!'));
+                      child: Text('No messages yet. Say hi!'),
+                    );
                   }
 
                   return ListView.builder(
@@ -77,7 +82,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       final isMe = message.senderId != widget.targetUserId;
 
                       return _EncryptedMessageBubble(
-                          message: message, isMe: isMe);
+                        message: message,
+                        isMe: isMe,
+                      );
                     },
                   );
                 },
@@ -86,24 +93,26 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
             // Input Area
             GlassContainer(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: _pickAndSendImage,
-                        icon:
-                            const Icon(LucideIcons.image, color: Colors.white)),
+                      onPressed: _pickAndSendImage,
+                      icon: const Icon(LucideIcons.image, color: Colors.white),
+                    ),
                     Expanded(
                       child: TextField(
                         controller: _textController,
                         style: const TextStyle(color: Colors.white),
                         decoration: const InputDecoration(
-                            hintText: 'Type a message...',
-                            hintStyle: TextStyle(color: Colors.white54),
-                            border: InputBorder.none),
+                          hintText: 'Type a message...',
+                          hintStyle: TextStyle(color: Colors.white54),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                     IconButton(
@@ -111,7 +120,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                           ? const SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2))
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
                           : const Icon(LucideIcons.send, color: Colors.white),
                       onPressed: chatState.isLoading
                           ? null
@@ -124,11 +134,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                 _textController.clear();
                               }
                             },
-                    )
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -143,8 +153,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       final repo = ref.read(messageRepositoryProvider);
       try {
         if (!mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Uploading image...')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Uploading image...')));
         final url = await repo.uploadAttachment(file: File(picked.path));
 
         if (!mounted) return;
@@ -153,8 +164,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             .sendMessage(widget.targetUserId, url, mediaType: 'image');
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -183,29 +195,34 @@ class _EncryptedMessageBubble extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         constraints: const BoxConstraints(maxWidth: 280),
         decoration: BoxDecoration(
-            gradient: isMe
-                ? const LinearGradient(
-                    colors: [Color(0xFF6A11CB), Color(0xFF2575FC)])
-                : null,
-            color: isMe ? null : Colors.white.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-              bottomLeft:
-                  isMe ? const Radius.circular(20) : const Radius.circular(4),
-              bottomRight:
-                  isMe ? const Radius.circular(4) : const Radius.circular(20),
-            )),
+          gradient: isMe
+              ? const LinearGradient(
+                  colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                )
+              : null,
+          color: isMe ? null : Colors.white.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(20),
+            topRight: const Radius.circular(20),
+            bottomLeft: isMe
+                ? const Radius.circular(20)
+                : const Radius.circular(4),
+            bottomRight: isMe
+                ? const Radius.circular(4)
+                : const Radius.circular(20),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (mediaType == MessageType.image)
               ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: CachedImage(
-                    imageUrl: content,
-                    errorWidget: const Icon(LucideIcons.imageOff),
-                  ))
+                borderRadius: BorderRadius.circular(12),
+                child: CachedImage(
+                  imageUrl: content,
+                  errorWidget: const Icon(LucideIcons.imageOff),
+                ),
+              )
             else
               Text(
                 content,
@@ -219,15 +236,20 @@ class _EncryptedMessageBubble extends StatelessWidget {
                 Text(
                   DateFormat.jm().format(message.sentAt.toLocal()),
                   style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6), fontSize: 10),
+                    color: Colors.white.withValues(alpha: 0.6),
+                    fontSize: 10,
+                  ),
                 ),
                 if (isMe) ...[
                   const SizedBox(width: 4),
-                  const Icon(LucideIcons.checkCheck,
-                      size: 12, color: Colors.white70)
-                ]
+                  const Icon(
+                    LucideIcons.checkCheck,
+                    size: 12,
+                    color: Colors.white70,
+                  ),
+                ],
               ],
-            )
+            ),
           ],
         ),
       ),

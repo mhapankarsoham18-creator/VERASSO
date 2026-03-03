@@ -15,10 +15,11 @@ class MessageService {
 
   /// Creates a [MessageService] instance.
   MessageService([MessageRepository? repository])
-      : _repository = repository ??
-            // This fallback is only for tests that don't use Riverpod properly
-            // In a real app, it should be provided via the constructor/provider
-            ProviderContainer().read(messageRepositoryProvider);
+    : _repository =
+          repository ??
+          // This fallback is only for tests that don't use Riverpod properly
+          // In a real app, it should be provided via the constructor/provider
+          ProviderContainer().read(messageRepositoryProvider);
 
   /// Archives a specific message/conversation.
   Future<void> archiveMessage(String messageId) async {

@@ -9,14 +9,16 @@ void main() {
   });
 
   group('ShieldService Tests', () {
-    test('scrambleText maintains length and character count (excluding spaces)',
-        () {
-      const input = 'Hello World';
-      final scrambled = shieldService.scrambleText(input);
+    test(
+      'scrambleText maintains length and character count (excluding spaces)',
+      () {
+        const input = 'Hello World';
+        final scrambled = shieldService.scrambleText(input);
 
-      expect(scrambled.length, equals(input.length));
-      expect(scrambled, isNot(equals(input)));
-    });
+        expect(scrambled.length, equals(input.length));
+        expect(scrambled, isNot(equals(input)));
+      },
+    );
 
     test('scrambleText returns empty string for empty input', () {
       expect(shieldService.scrambleText(''), equals(''));

@@ -35,14 +35,20 @@ class _VideoOverlay extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(post.authorName ?? 'Researcher',
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold)),
+          Text(
+            post.authorName ?? 'Researcher',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(post.content ?? '',
-              style: const TextStyle(color: Colors.white70, fontSize: 12),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis),
+          Text(
+            post.content ?? '',
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );
@@ -83,15 +89,17 @@ class _VideoPostCardState extends State<VideoPostCard> {
   void initState() {
     super.initState();
     if (widget.post.mediaUrls.isNotEmpty) {
-      _controller = VideoPlayerController.networkUrl(
-          Uri.parse(widget.post.mediaUrls.first))
-        ..initialize().then((_) {
-          setState(() {
-            _isInitialized = true;
-          });
-          _controller.setLooping(true);
-          _controller.play();
-        });
+      _controller =
+          VideoPlayerController.networkUrl(
+              Uri.parse(widget.post.mediaUrls.first),
+            )
+            ..initialize().then((_) {
+              setState(() {
+                _isInitialized = true;
+              });
+              _controller.setLooping(true);
+              _controller.play();
+            });
     }
   }
 }

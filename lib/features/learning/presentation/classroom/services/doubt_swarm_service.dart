@@ -8,9 +8,9 @@ import '../../../../../core/services/bluetooth_mesh_service.dart';
 /// Provider for the [DoubtSwarmService].
 final doubtSwarmServiceProvider =
     StateNotifierProvider<DoubtSwarmService, List<DoubtRequest>>((ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return DoubtSwarmService(mesh);
-});
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      return DoubtSwarmService(mesh);
+    });
 
 /// Represents a help request shared via the doubt swarm mesh.
 class DoubtRequest {
@@ -57,11 +57,9 @@ class DoubtSwarmService extends StateNotifier<List<DoubtRequest>> {
 
   /// Broadcasts a help request for a specific question and subject.
   Future<void> requestHelp(String question, String subject) async {
-    await _meshService.broadcastPacket(
-      MeshPayloadType.doubtPost,
-      {'question': question},
-      targetSubject: subject,
-    );
+    await _meshService.broadcastPacket(MeshPayloadType.doubtPost, {
+      'question': question,
+    }, targetSubject: subject);
   }
 
   void _handleDoubtForMe(MeshPacket packet) {

@@ -41,12 +41,15 @@ class _AnalysisBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Analysis',
-              style: TextStyle(fontSize: 10, color: Colors.white38)),
+          const Text(
+            'Analysis',
+            style: TextStyle(fontSize: 10, color: Colors.white38),
+          ),
           const SizedBox(height: 4),
-          Text(status,
-              style:
-                  TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
+          Text(
+            status,
+            style: TextStyle(color: statusColor, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
@@ -81,9 +84,14 @@ class _ControlButton extends StatelessWidget {
           children: [
             Icon(icon, color: color, size: 20),
             const SizedBox(width: 12),
-            Text(label,
-                style: TextStyle(
-                    color: color, fontWeight: FontWeight.bold, fontSize: 13)),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
           ],
         ),
       ),
@@ -105,12 +113,17 @@ class _DataRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white54, fontSize: 12)),
-          Text(value,
-              style: TextStyle(
-                  color: valueColor ?? Colors.white,
-                  fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white54, fontSize: 12),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: valueColor ?? Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -177,8 +190,10 @@ class _TitrationLabScreenState extends State<TitrationLabScreen> {
                               height: 100,
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
-                                border:
-                                    Border.all(color: Colors.white24, width: 2),
+                                border: Border.all(
+                                  color: Colors.white24,
+                                  width: 2,
+                                ),
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20),
@@ -214,15 +229,20 @@ class _TitrationLabScreenState extends State<TitrationLabScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Apparatus Control',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.amber)),
+                    const Text(
+                      'Apparatus Control',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.amber,
+                      ),
+                    ),
                     const SizedBox(height: 24),
                     _ControlButton(
                       label: _isTitrating ? 'Close Stopcock' : 'Open Stopcock',
                       icon: _isTitrating ? LucideIcons.pause : LucideIcons.play,
-                      color:
-                          _isTitrating ? Colors.redAccent : Colors.greenAccent,
+                      color: _isTitrating
+                          ? Colors.redAccent
+                          : Colors.greenAccent,
                       onTap: _toggleTitration,
                     ),
                     const SizedBox(height: 12),
@@ -236,16 +256,19 @@ class _TitrationLabScreenState extends State<TitrationLabScreen> {
                     const Divider(color: Colors.white24),
                     const SizedBox(height: 24),
                     _DataRow(
-                        label: 'Titrant (NaOH)',
-                        value: '${_titrantVolume.toStringAsFixed(2)} mL'),
+                      label: 'Titrant (NaOH)',
+                      value: '${_titrantVolume.toStringAsFixed(2)} mL',
+                    ),
                     _DataRow(
-                        label: 'Sample (HCl)',
-                        value: '${_acidVolume.toStringAsFixed(0)} mL'),
+                      label: 'Sample (HCl)',
+                      value: '${_acidVolume.toStringAsFixed(0)} mL',
+                    ),
                     _DataRow(
                       label: 'Current pH',
                       value: currentPH.toStringAsFixed(2),
-                      valueColor:
-                          currentPH > 7 ? Colors.pinkAccent : Colors.blueAccent,
+                      valueColor: currentPH > 7
+                          ? Colors.pinkAccent
+                          : Colors.blueAccent,
                     ),
                     const Spacer(),
                     _AnalysisBox(ph: currentPH),
@@ -291,16 +314,20 @@ class _TitrationLabScreenState extends State<TitrationLabScreen> {
   Color _getIndicatorColor(double ph) {
     if (ph < 8.2) return Colors.blue.withValues(alpha: 25); // 0.1 * 255 approx
     double intensity = ((ph - 8.2) / (10.0 - 8.2)).clamp(0.0, 1.0);
-    return Color.lerp(Colors.blue.withValues(alpha: 25),
-        Colors.pinkAccent.withValues(alpha: 153), intensity)!; // 0.6 * 255
+    return Color.lerp(
+      Colors.blue.withValues(alpha: 25),
+      Colors.pinkAccent.withValues(alpha: 153),
+      intensity,
+    )!; // 0.6 * 255
   }
 
   void _toggleTitration() {
     if (_isTitrating) {
       _titrationTimer?.cancel();
     } else {
-      _titrationTimer =
-          Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      _titrationTimer = Timer.periodic(const Duration(milliseconds: 100), (
+        timer,
+      ) {
         setState(() {
           _titrantVolume += 0.05; // 0.05 mL per 100ms
         });

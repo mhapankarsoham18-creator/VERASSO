@@ -32,25 +32,29 @@ class CodexSearchService {
   CodexSearchService();
   final List<CodexEntry> _index = [
     CodexEntry(
-        id: 'lab_pharmacy',
-        title: 'Pharmacy Formulation Lab',
-        category: 'Medical',
-        type: 'Simulation'),
+      id: 'lab_pharmacy',
+      title: 'Pharmacy Formulation Lab',
+      category: 'Medical',
+      type: 'Simulation',
+    ),
     CodexEntry(
-        id: 'course_fin_101',
-        title: 'Sovereign Finance 101',
-        category: 'Finance',
-        type: 'Course'),
+      id: 'course_fin_101',
+      title: 'Sovereign Finance 101',
+      category: 'Finance',
+      type: 'Course',
+    ),
     CodexEntry(
-        id: 'sim_ar_surg',
-        title: 'AR Surgical Assistant',
-        category: 'Medical',
-        type: 'Simulation'),
+      id: 'sim_ar_surg',
+      title: 'AR Surgical Assistant',
+      category: 'Medical',
+      type: 'Simulation',
+    ),
     CodexEntry(
-        id: 'social_mentor_1',
-        title: 'Senior Mesh Mentor',
-        category: 'Social',
-        type: 'Peer'),
+      id: 'social_mentor_1',
+      title: 'Senior Mesh Mentor',
+      category: 'Social',
+      type: 'Peer',
+    ),
   ];
 
   /// Searches the codex for a given [query].
@@ -59,9 +63,11 @@ class CodexSearchService {
 
     final lowercaseQuery = query.toLowerCase();
     return _index
-        .where((entry) =>
-            entry.title.toLowerCase().contains(lowercaseQuery) ||
-            entry.category.toLowerCase().contains(lowercaseQuery))
+        .where(
+          (entry) =>
+              entry.title.toLowerCase().contains(lowercaseQuery) ||
+              entry.category.toLowerCase().contains(lowercaseQuery),
+        )
         .toList();
   }
 }

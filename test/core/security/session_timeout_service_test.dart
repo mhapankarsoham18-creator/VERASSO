@@ -14,8 +14,9 @@ void main() {
       expect(service.isLocked, isTrue);
     });
 
-    testWidgets('unlock() resets isLocked and notifies listeners',
-        (WidgetTester tester) async {
+    testWidgets('unlock() resets isLocked and notifies listeners', (
+      WidgetTester tester,
+    ) async {
       final service = SessionTimeoutService();
       service.lock();
       expect(service.isLocked, isTrue);
@@ -44,8 +45,9 @@ void main() {
       expect(service.isLocked, isTrue);
     });
 
-    testWidgets('resetTimer cancels pending timeout',
-        (WidgetTester tester) async {
+    testWidgets('resetTimer cancels pending timeout', (
+      WidgetTester tester,
+    ) async {
       final service = SessionTimeoutService();
       service.setTimeoutDuration(const Duration(milliseconds: 500));
 

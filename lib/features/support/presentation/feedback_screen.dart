@@ -30,10 +30,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
             )
           else
-            IconButton(
-              onPressed: _submit,
-              icon: const Icon(LucideIcons.send),
-            ),
+            IconButton(onPressed: _submit, icon: const Icon(LucideIcons.send)),
         ],
       ),
       body: SingleChildScrollView(
@@ -46,8 +43,8 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               Text(
                 'Help us improve Verasso',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -55,14 +52,17 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                 style: TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 32),
-              const Text('Category',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Category',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               DropdownButtonFormField<FeedbackType>(
                 initialValue: _selectedType,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
                 items: FeedbackType.values.map((type) {
@@ -94,8 +94,10 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                 },
               ),
               const SizedBox(height: 24),
-              const Text('Details',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Details',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _controller,
@@ -103,7 +105,8 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                 decoration: InputDecoration(
                   hintText: 'What\'s on your mind?',
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -139,10 +142,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
     setState(() => _isSubmitting = true);
 
     try {
-      await ref.read(feedbackServiceProvider).submitFeedback(
-            type: _selectedType,
-            content: _controller.text,
-          );
+      await ref
+          .read(feedbackServiceProvider)
+          .submitFeedback(type: _selectedType, content: _controller.text);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -152,9 +154,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to submit: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to submit: $e')));
       }
     } finally {
       if (mounted) setState(() => _isSubmitting = false);

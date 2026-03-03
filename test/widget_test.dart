@@ -19,8 +19,9 @@ import 'package:verasso/main.dart';
 import 'mocks.dart';
 
 void main() {
-  testWidgets('App smoke test - verifies login screen structure',
-      (WidgetTester tester) async {
+  testWidgets('App smoke test - verifies login screen structure', (
+    WidgetTester tester,
+  ) async {
     // Mock data
     final mockPrefs = MockSharedPreferences();
 
@@ -29,12 +30,15 @@ void main() {
         overrides: [
           // Infrastructure overrides
           sharedPreferencesProvider.overrideWithValue(mockPrefs),
-          tokenStorageServiceProvider
-              .overrideWithValue(MockTokenStorageService()),
-          offlineSecurityServiceProvider
-              .overrideWithValue(MockOfflineSecurityService()),
-          offlineStorageServiceProvider
-              .overrideWithValue(MockOfflineStorageService()),
+          tokenStorageServiceProvider.overrideWithValue(
+            MockTokenStorageService(),
+          ),
+          offlineSecurityServiceProvider.overrideWithValue(
+            MockOfflineSecurityService(),
+          ),
+          offlineStorageServiceProvider.overrideWithValue(
+            MockOfflineStorageService(),
+          ),
 
           // Auth overrides
           authRepositoryProvider.overrideWithValue(MockAuthRepository()),
@@ -42,8 +46,9 @@ void main() {
 
           // Controller overrides
           themeControllerProvider.overrideWith((ref) => MockThemeController()),
-          privacySettingsProvider
-              .overrideWith((ref) => PrivacySettingsNotifier(mockPrefs, ref)),
+          privacySettingsProvider.overrideWith(
+            (ref) => PrivacySettingsNotifier(mockPrefs, ref),
+          ),
         ],
         child: const VerassoApp(),
       ),
@@ -54,7 +59,9 @@ void main() {
     // Verify presence of Verasso branding or login elements
     expect(find.byType(MaterialApp), findsOneWidget);
     // Adjust this to match your actual home/login screen text
-    expect(find.textContaining('Verasso'),
-        findsNothing); // It's usually empty or logo
+    expect(
+      find.textContaining('Verasso'),
+      findsNothing,
+    ); // It's usually empty or logo
   });
 }

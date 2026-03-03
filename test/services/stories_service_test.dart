@@ -38,9 +38,11 @@ void main() {
       mockAuth.setCurrentUser(TestSupabaseUser(id: 'my-id'));
 
       // Mock user_stories response for owner check
-      final userStoriesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'user_id': 'owner-id'}
-      ]);
+      final userStoriesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'user_id': 'owner-id'},
+        ],
+      );
       mockSupabase.setQueryBuilder('user_stories', userStoriesBuilder);
 
       await service.reactToStory(storyId: 'story-1', reactionType: 'heart');

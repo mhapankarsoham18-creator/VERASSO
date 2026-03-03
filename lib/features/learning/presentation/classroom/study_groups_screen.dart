@@ -40,7 +40,8 @@ class StudyGroupsScreen extends ConsumerWidget {
           data: (groups) {
             if (groups.isEmpty) {
               return const Center(
-                  child: Text('No study groups found. Create one!'));
+                child: Text('No study groups found. Create one!'),
+              );
             }
             return ListView.builder(
               padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
@@ -59,7 +60,10 @@ class StudyGroupsScreen extends ConsumerWidget {
   }
 
   Widget _buildGroupCard(
-      BuildContext context, WidgetRef ref, StudyGroup group) {
+    BuildContext context,
+    WidgetRef ref,
+    StudyGroup group,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -67,8 +71,9 @@ class StudyGroupsScreen extends ConsumerWidget {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage:
-                group.avatarUrl != null ? NetworkImage(group.avatarUrl!) : null,
+            backgroundImage: group.avatarUrl != null
+                ? NetworkImage(group.avatarUrl!)
+                : null,
             child: group.avatarUrl == null
                 ? const Icon(LucideIcons.users, size: 24)
                 : null,
@@ -78,19 +83,27 @@ class StudyGroupsScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(group.name,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(group.subject,
-                    style: TextStyle(
-                        color: Colors.blueAccent.withValues(alpha: 0.8),
-                        fontSize: 12)),
+                Text(
+                  group.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  group.subject,
+                  style: TextStyle(
+                    color: Colors.blueAccent.withValues(alpha: 0.8),
+                    fontSize: 12,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(group.description ?? '',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style:
-                        const TextStyle(color: Colors.white70, fontSize: 13)),
+                Text(
+                  group.description ?? '',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.white70, fontSize: 13),
+                ),
               ],
             ),
           ),
@@ -108,10 +121,14 @@ class StudyGroupsScreen extends ConsumerWidget {
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => StudyRoomScreen(
-                        groupId: group.id, groupName: group.name),
-                  ));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => StudyRoomScreen(
+                        groupId: group.id,
+                        groupName: group.name,
+                      ),
+                    ),
+                  );
                 },
                 child: const Text('Enter Room', style: TextStyle(fontSize: 10)),
               ),
@@ -125,9 +142,9 @@ class StudyGroupsScreen extends ConsumerWidget {
   void _joinGroup(BuildContext context, WidgetRef ref, StudyGroup group) async {
     await ref.read(studyRepositoryProvider).joinGroup(group.id);
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Joined ${group.name}!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Joined ${group.name}!')));
     }
   }
 
@@ -140,30 +157,36 @@ class StudyGroupsScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: const Text('Create Study Group',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Create Study Group',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-                controller: nameC,
-                decoration: const InputDecoration(hintText: 'Group Name'),
-                style: const TextStyle(color: Colors.white)),
+              controller: nameC,
+              decoration: const InputDecoration(hintText: 'Group Name'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: subjectC,
-                decoration: const InputDecoration(hintText: 'Subject'),
-                style: const TextStyle(color: Colors.white)),
+              controller: subjectC,
+              decoration: const InputDecoration(hintText: 'Subject'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: descC,
-                decoration: const InputDecoration(hintText: 'Description'),
-                style: const TextStyle(color: Colors.white),
-                maxLines: 3),
+              controller: descC,
+              decoration: const InputDecoration(hintText: 'Description'),
+              style: const TextStyle(color: Colors.white),
+              maxLines: 3,
+            ),
           ],
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               final user = ref.read(currentUserProvider);

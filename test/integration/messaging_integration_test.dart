@@ -19,15 +19,9 @@ void main() {
   late MessagingEncryptionService messagingEncryptionService;
   late MessageReadReceiptService readReceiptService;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
-  final otherUser = TestSupabaseUser(
-    id: 'user-2',
-    email: 'other@example.com',
-  );
+  final otherUser = TestSupabaseUser(id: 'user-2', email: 'other@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -76,18 +70,20 @@ void main() {
       mockMessagingEncryptionService.decryptResult =
           'Hello, encrypted message!';
 
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': otherUser.id,
-          'receiver_id': testUser.id,
-          'content': 'encrypted_message_content',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'sender_id': otherUser.id,
+            'receiver_id': testUser.id,
+            'content': 'encrypted_message_content',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final messages = await messageRepository.getMessages('conv-1').first;
@@ -97,18 +93,20 @@ void main() {
     });
 
     test('message appears in conversation after send', () async {
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': testUser.id,
-          'receiver_id': otherUser.id,
-          'content': 'Test message',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'sender_id': testUser.id,
+            'receiver_id': otherUser.id,
+            'content': 'Test message',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final messages = await messageRepository.getMessages('conv-1').first;
@@ -118,16 +116,16 @@ void main() {
     });
 
     test('mark message as read updates database', () async {
-      final readReceiptsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final readReceiptsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder(
-          'message_read_receipts', readReceiptsBuilder);
+        'message_read_receipts',
+        readReceiptsBuilder,
+      );
 
       await expectLater(
-        readReceiptService.markMessageAsRead(
-          'msg-1',
-          userId: testUser.id,
-        ),
+        readReceiptService.markMessageAsRead('msg-1', userId: testUser.id),
         completes,
       );
 
@@ -135,14 +133,16 @@ void main() {
     });
 
     test('read receipt appears after marking message read', () async {
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'receiver_id': testUser.id,
-          'read_at': DateTime.now().toIso8601String(),
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'receiver_id': testUser.id,
+            'read_at': DateTime.now().toIso8601String(),
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final readStatus = await readReceiptService.getMessageReadStatus('msg-1');
@@ -151,38 +151,40 @@ void main() {
     });
 
     test('get unread message count', () async {
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': 'user-2',
-          'receiver_id': testUser.id,
-          'content': 'Unread 1',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': 'msg-2',
-          'sender_id': 'user-2',
-          'receiver_id': testUser.id,
-          'content': 'Unread 2',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': 'msg-3',
-          'sender_id': 'user-2',
-          'receiver_id': testUser.id,
-          'content': 'Read 1',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'read',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'sender_id': 'user-2',
+            'receiver_id': testUser.id,
+            'content': 'Unread 1',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': 'msg-2',
+            'sender_id': 'user-2',
+            'receiver_id': testUser.id,
+            'content': 'Unread 2',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': 'msg-3',
+            'sender_id': 'user-2',
+            'receiver_id': testUser.id,
+            'content': 'Read 1',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'read',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final unreadCount = await messageRepository.getUnreadCount(testUser.id);
@@ -234,10 +236,7 @@ void main() {
       final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
-      await expectLater(
-        messageRepository.deleteMessage('msg-1'),
-        completes,
-      );
+      await expectLater(messageRepository.deleteMessage('msg-1'), completes);
 
       expect(mockSupabase.lastDeleteTable, 'messages');
     });
@@ -249,10 +248,7 @@ void main() {
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       await expectLater(
-        messageRepository.updateMessage(
-          'msg-1',
-          'Updated message',
-        ),
+        messageRepository.updateMessage('msg-1', 'Updated message'),
         completes,
       );
 
@@ -263,18 +259,20 @@ void main() {
       mockMessagingEncryptionService.decryptResult =
           'message containing search term';
 
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': testUser.id,
-          'receiver_id': otherUser.id,
-          'content': 'encrypted_searchable_content',
-          'conversation_id': 'conv-1',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'sender_id': testUser.id,
+            'receiver_id': otherUser.id,
+            'content': 'encrypted_searchable_content',
+            'conversation_id': 'conv-1',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final results = await messageRepository.searchMessages(
@@ -288,21 +286,24 @@ void main() {
 
   group('Messaging Integration - Conversation State', () {
     test('conversation status updates after new message', () async {
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-a',
-          'sender_id': otherUser.id,
-          'receiver_id': testUser.id,
-          'content': 'encrypted_content',
-          'type': 'text',
-          'status': 'sent',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-a',
+            'sender_id': otherUser.id,
+            'receiver_id': testUser.id,
+            'content': 'encrypted_content',
+            'type': 'text',
+            'status': 'sent',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
-      final conversation =
-          await messageRepository.getConversation('conv_user-1_user-2');
+      final conversation = await messageRepository.getConversation(
+        'conv_user-1_user-2',
+      );
 
       expect(conversation, isNotNull);
       expect(conversation?.unreadCount, 1);
@@ -321,24 +322,27 @@ void main() {
     });
 
     test('conversation deleted message count preserved', () async {
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-a',
-          'sender_id': otherUser.id,
-          'receiver_id': testUser.id,
-          'content': 'encrypted_content',
-          'type': 'text',
-          'status': 'read',
-          'created_at': DateTime.now().toIso8601String(),
-          'read_at': DateTime.now().toIso8601String(),
-          'message_count': 150,
-          'deleted_message_count': 150,
-        }
-      ]);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-a',
+            'sender_id': otherUser.id,
+            'receiver_id': testUser.id,
+            'content': 'encrypted_content',
+            'type': 'text',
+            'status': 'read',
+            'created_at': DateTime.now().toIso8601String(),
+            'read_at': DateTime.now().toIso8601String(),
+            'message_count': 150,
+            'deleted_message_count': 150,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
-      final conversation =
-          await messageRepository.getConversation('conv_user-1_user-2');
+      final conversation = await messageRepository.getConversation(
+        'conv_user-1_user-2',
+      );
 
       expect(conversation?.messageCount, 150);
     });
@@ -360,8 +364,9 @@ void main() {
         },
       );
 
-      final messagesBuilder =
-          MockSupabaseQueryBuilder(selectResponse: largeMessageList);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: largeMessageList,
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       final stopwatch = Stopwatch()..start();
@@ -386,31 +391,25 @@ void main() {
         ),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('bulk mark multiple messages as read', () async {
-      final readReceiptsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
+      final readReceiptsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: null,
+      );
       mockSupabase.setQueryBuilder(
-          'message_read_receipts', readReceiptsBuilder);
+        'message_read_receipts',
+        readReceiptsBuilder,
+      );
 
       final messageIds = List.generate(1000, (i) => 'msg-$i');
 
       final futures = messageIds.map((msgId) {
-        return readReceiptService.markMessageAsRead(
-          msgId,
-          userId: testUser.id,
-        );
+        return readReceiptService.markMessageAsRead(msgId, userId: testUser.id);
       }).toList();
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
   });
 
@@ -444,8 +443,10 @@ void main() {
     });
 
     test('message content exceeds length limit rejected', () async {
-      final messagesBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: false);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: false,
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       // Should validate before sending
@@ -467,14 +468,18 @@ class MockMessagingEncryption extends Fake implements EncryptionService {
   String? decryptResult;
 
   @override
-  Future<String> decryptMessage(Map<String, dynamic> messageRow,
-      {bool isGroup = false}) async {
+  Future<String> decryptMessage(
+    Map<String, dynamic> messageRow, {
+    bool isGroup = false,
+  }) async {
     return decryptResult ?? 'decrypted_content';
   }
 
   @override
   Future<Map<String, String>> encryptMessage(
-      String content, String receiverId) async {
+    String content,
+    String receiverId,
+  ) async {
     return {
       'content': encryptResult ?? 'encrypted_content',
       'iv': 'fake',

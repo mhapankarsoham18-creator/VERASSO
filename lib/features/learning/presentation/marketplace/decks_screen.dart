@@ -40,16 +40,18 @@ class DecksScreen extends ConsumerWidget {
           data: (decks) {
             if (decks.isEmpty) {
               return Center(
-                  child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('No decks yet.'),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('No decks yet.'),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
                       onPressed: () => _showCreateDeckDialog(context, ref),
-                      child: const Text('Create Deck'))
-                ],
-              ));
+                      child: const Text('Create Deck'),
+                    ),
+                  ],
+                ),
+              );
             }
             return ListView.builder(
               padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
@@ -57,34 +59,45 @@ class DecksScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final deck = decks[index];
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => DeckDetailScreen(deck: deck))),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => DeckDetailScreen(deck: deck),
+                    ),
+                  ),
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     child: GlassContainer(
                       padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          const Icon(LucideIcons.copy,
-                              size: 30, color: Colors.blue),
+                          const Icon(
+                            LucideIcons.copy,
+                            size: 30,
+                            color: Colors.blue,
+                          ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(deck.title,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
                                 Text(
-                                    '${deck.subject} • ${deck.description ?? ""}',
-                                    style:
-                                        const TextStyle(color: Colors.white70)),
+                                  deck.title,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${deck.subject} • ${deck.description ?? ""}',
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
                               ],
                             ),
                           ),
-                          const Icon(LucideIcons.chevronRight,
-                              color: Colors.white54)
+                          const Icon(
+                            LucideIcons.chevronRight,
+                            color: Colors.white54,
+                          ),
                         ],
                       ),
                     ),
@@ -109,36 +122,41 @@ class DecksScreen extends ConsumerWidget {
     final subjectCtrl = TextEditingController();
 
     showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: const Text('New Deck'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                      controller: titleCtrl,
-                      decoration: const InputDecoration(labelText: 'Title')),
-                  TextField(
-                      controller: subjectCtrl,
-                      decoration: const InputDecoration(labelText: 'Subject')),
-                ],
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: const Text('Cancel')),
-                ElevatedButton(
-                    onPressed: () {
-                      if (titleCtrl.text.isNotEmpty) {
-                        ref
-                            .read(flashcardControllerProvider.notifier)
-                            .createDeck(titleCtrl.text, subjectCtrl.text, '');
-                        Navigator.pop(ctx);
-                      }
-                    },
-                    child: const Text('Create'))
-              ],
-            ));
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('New Deck'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleCtrl,
+              decoration: const InputDecoration(labelText: 'Title'),
+            ),
+            TextField(
+              controller: subjectCtrl,
+              decoration: const InputDecoration(labelText: 'Subject'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (titleCtrl.text.isNotEmpty) {
+                ref
+                    .read(flashcardControllerProvider.notifier)
+                    .createDeck(titleCtrl.text, subjectCtrl.text, '');
+                Navigator.pop(ctx);
+              }
+            },
+            child: const Text('Create'),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -164,8 +182,9 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
                     const Text('No cards in this deck.'),
                     const SizedBox(height: 10),
                     ElevatedButton(
-                        onPressed: () => _showAddCardDialog(context, ref),
-                        child: const Text('Add Card'))
+                      onPressed: () => _showAddCardDialog(context, ref),
+                      child: const Text('Add Card'),
+                    ),
                   ],
                 ),
               );
@@ -183,28 +202,31 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
                     duration: const Duration(milliseconds: 500),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
-                      final rotate =
-                          Tween(begin: math.pi, end: 0.0).animate(animation);
-                      return AnimatedBuilder(
-                        animation: rotate,
-                        child: child,
-                        builder: (context, child) {
-                          final isUnder = (ValueKey(_isFlipped) != child!.key);
-                          var tilt =
-                              ((animation.value - 0.5).abs() - 0.5) * 0.003;
-                          tilt *= isUnder ? -1.0 : 1.0;
-                          final value = isUnder
-                              ? math.min(rotate.value, math.pi / 2)
-                              : rotate.value;
-                          return Transform(
-                            transform: Matrix4.rotationY(value)
-                              ..setEntry(3, 0, tilt),
-                            alignment: Alignment.center,
+                          final rotate = Tween(
+                            begin: math.pi,
+                            end: 0.0,
+                          ).animate(animation);
+                          return AnimatedBuilder(
+                            animation: rotate,
                             child: child,
+                            builder: (context, child) {
+                              final isUnder =
+                                  (ValueKey(_isFlipped) != child!.key);
+                              var tilt =
+                                  ((animation.value - 0.5).abs() - 0.5) * 0.003;
+                              tilt *= isUnder ? -1.0 : 1.0;
+                              final value = isUnder
+                                  ? math.min(rotate.value, math.pi / 2)
+                                  : rotate.value;
+                              return Transform(
+                                transform: Matrix4.rotationY(value)
+                                  ..setEntry(3, 0, tilt),
+                                alignment: Alignment.center,
+                                child: child,
+                              );
+                            },
                           );
                         },
-                      );
-                    },
                     child: _isFlipped
                         ? _buildCardFace(currentCard.backText, true)
                         : _buildCardFace(currentCard.frontText, false),
@@ -218,8 +240,10 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      icon: const Icon(LucideIcons.chevronLeft,
-                          color: Colors.white),
+                      icon: const Icon(
+                        LucideIcons.chevronLeft,
+                        color: Colors.white,
+                      ),
                       onPressed: _currentIndex > 0
                           ? () {
                               setState(() {
@@ -229,11 +253,15 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
                             }
                           : null,
                     ),
-                    Text('${_currentIndex + 1} / ${cards.length}',
-                        style: const TextStyle(fontSize: 18)),
+                    Text(
+                      '${_currentIndex + 1} / ${cards.length}',
+                      style: const TextStyle(fontSize: 18),
+                    ),
                     IconButton(
-                      icon: const Icon(LucideIcons.chevronRight,
-                          color: Colors.white),
+                      icon: const Icon(
+                        LucideIcons.chevronRight,
+                        color: Colors.white,
+                      ),
                       onPressed: _currentIndex < cards.length - 1
                           ? () {
                               setState(() {
@@ -248,9 +276,10 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
 
                 const SizedBox(height: 20),
                 TextButton.icon(
-                    onPressed: () => _showAddCardDialog(context, ref),
-                    icon: const Icon(LucideIcons.plus),
-                    label: const Text('Add New Card'))
+                  onPressed: () => _showAddCardDialog(context, ref),
+                  icon: const Icon(LucideIcons.plus),
+                  label: const Text('Add New Card'),
+                ),
               ],
             );
           },
@@ -272,17 +301,24 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
             : Colors.white.withValues(alpha: 0.9), // Visual distinction
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
-          BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 4))
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
         ],
       ),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(20),
-      child: Text(text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: isBack ? Colors.white : Colors.black87)),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: isBack ? Colors.white : Colors.black87,
+        ),
+      ),
     );
   }
 
@@ -291,36 +327,40 @@ class _DeckDetailScreenState extends ConsumerState<DeckDetailScreen> {
     final backCtrl = TextEditingController();
 
     showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: const Text('Add Card'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                      controller: frontCtrl,
-                      decoration:
-                          const InputDecoration(labelText: 'Front (Question)')),
-                  TextField(
-                      controller: backCtrl,
-                      decoration:
-                          const InputDecoration(labelText: 'Back (Answer)')),
-                ],
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: const Text('Cancel')),
-                ElevatedButton(
-                    onPressed: () {
-                      if (frontCtrl.text.isNotEmpty) {
-                        ref.read(flashcardControllerProvider.notifier).addCard(
-                            widget.deck.id, frontCtrl.text, backCtrl.text);
-                        Navigator.pop(ctx);
-                      }
-                    },
-                    child: const Text('Add'))
-              ],
-            ));
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Add Card'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: frontCtrl,
+              decoration: const InputDecoration(labelText: 'Front (Question)'),
+            ),
+            TextField(
+              controller: backCtrl,
+              decoration: const InputDecoration(labelText: 'Back (Answer)'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (frontCtrl.text.isNotEmpty) {
+                ref
+                    .read(flashcardControllerProvider.notifier)
+                    .addCard(widget.deck.id, frontCtrl.text, backCtrl.text);
+                Navigator.pop(ctx);
+              }
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
   }
 }

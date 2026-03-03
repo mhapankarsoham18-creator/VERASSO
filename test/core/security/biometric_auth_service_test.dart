@@ -13,14 +13,14 @@ void main() {
   setUp(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/local_auth'),
-      (MethodCall methodCall) async {
-        if (methodCall.method == 'getAvailableBiometrics') {
-          return <String>[];
-        }
-        return false;
-      },
-    );
+          const MethodChannel('plugins.flutter.io/local_auth'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'getAvailableBiometrics') {
+              return <String>[];
+            }
+            return false;
+          },
+        );
     service = BiometricAuthService();
   });
 

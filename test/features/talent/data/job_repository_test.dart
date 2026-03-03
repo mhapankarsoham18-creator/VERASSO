@@ -18,8 +18,12 @@ void main() {
     mockStorage = MockOfflineStorageService();
     mockMesh = MockBluetoothMeshService();
 
-    repository =
-        JobRepository(mockSupabase, mockNetwork, mockStorage, mockMesh);
+    repository = JobRepository(
+      mockSupabase,
+      mockNetwork,
+      mockStorage,
+      mockMesh,
+    );
   });
 
   group('JobRepository Tests', () {
@@ -32,13 +36,17 @@ void main() {
 
         // Verify storage queue action
         expect(mockStorage.queueActionRawCalls.length, 1);
-        expect(mockStorage.queueActionRawCalls.first['actionType'],
-            'apply_for_job');
+        expect(
+          mockStorage.queueActionRawCalls.first['actionType'],
+          'apply_for_job',
+        );
 
         // Verify mesh broadcast
         expect(mockMesh.broadcastPacketCalls.length, 1);
-        expect(mockMesh.broadcastPacketCalls.first['payload']['action'],
-            'apply_for_job');
+        expect(
+          mockMesh.broadcastPacketCalls.first['payload']['action'],
+          'apply_for_job',
+        );
       });
 
       test('should use online insert if connected and mesh inactive', () async {
@@ -62,8 +70,10 @@ void main() {
 
         // Verify storage queue action
         expect(mockStorage.queueActionRawCalls.length, 1);
-        expect(mockStorage.queueActionRawCalls.first['actionType'],
-            'apply_for_job');
+        expect(
+          mockStorage.queueActionRawCalls.first['actionType'],
+          'apply_for_job',
+        );
 
         // Verify NO mesh broadcast
         expect(mockMesh.broadcastPacketCalls.isEmpty, isTrue);
@@ -90,8 +100,10 @@ void main() {
 
         expect(mockStorage.queueActionRawCalls.length, 1);
         expect(mockMesh.broadcastPacketCalls.length, 1);
-        expect(mockMesh.broadcastPacketCalls.first['type'],
-            MeshPayloadType.feedPost);
+        expect(
+          mockMesh.broadcastPacketCalls.first['type'],
+          MeshPayloadType.feedPost,
+        );
       });
 
       test('should use online insert if connected', () async {
@@ -126,7 +138,7 @@ void main() {
                 'status': 'open',
                 'created_at': DateTime.now().toIso8601String(),
                 'updated_at': DateTime.now().toIso8601String(),
-              }
+              },
             ];
           }
           return null;
@@ -153,8 +165,8 @@ void main() {
             'status': 'open',
             'created_at': DateTime.now().toIso8601String(),
             'updated_at': DateTime.now().toIso8601String(),
-            'profiles': {'full_name': 'Client Name', 'avatar_url': null}
-          }
+            'profiles': {'full_name': 'Client Name', 'avatar_url': null},
+          },
         ];
 
         final builder = MockSupabaseQueryBuilder(selectResponse: response);

@@ -15,15 +15,9 @@ void main() {
   late MessageRepository messageRepository;
   late ProfileRepository profileRepository;
 
-  final userA = TestSupabaseUser(
-    id: 'user-a',
-    email: 'alice@example.com',
-  );
+  final userA = TestSupabaseUser(id: 'user-a', email: 'alice@example.com');
 
-  final userB = TestSupabaseUser(
-    id: 'user-b',
-    email: 'bob@example.com',
-  );
+  final userB = TestSupabaseUser(id: 'user-b', email: 'bob@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -42,135 +36,147 @@ void main() {
   });
 
   group('E2E: Messaging Flow', () {
-    test('complete messaging: find user → start chat → send message → receive',
-        () async {
-      // Step 1: User A opens messaging tab
-      expect(mockAuth.currentUser?.id, userA.id);
+    test(
+      'complete messaging: find user → start chat → send message → receive',
+      () async {
+        // Step 1: User A opens messaging tab
+        expect(mockAuth.currentUser?.id, userA.id);
 
-      // Step 2: Search for user B
-      final usersBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': userB.id,
-          'full_name': 'Bob',
-          'email': userB.email,
-          'avatar_url': null,
-        }
-      ]);
-      mockSupabase.setQueryBuilder('profiles', usersBuilder);
+        // Step 2: Search for user B
+        final usersBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': userB.id,
+              'full_name': 'Bob',
+              'email': userB.email,
+              'avatar_url': null,
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('profiles', usersBuilder);
 
-      final users = await profileRepository.searchProfiles('Bob');
+        final users = await profileRepository.searchProfiles('Bob');
 
-      expect(users, isNotEmpty);
-      expect(users[0].email, userB.email);
+        expect(users, isNotEmpty);
+        expect(users[0].email, userB.email);
 
-      // Step 3: Click on user B to start conversation
-      final conversationsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null); // New conversation
-      mockSupabase.setQueryBuilder('conversations', conversationsBuilder);
+        // Step 3: Click on user B to start conversation
+        final conversationsBuilder = MockSupabaseQueryBuilder(
+          selectResponse: null,
+        ); // New conversation
+        mockSupabase.setQueryBuilder('conversations', conversationsBuilder);
 
-      // Step 4: Conversation created
-      expect(true, true);
+        // Step 4: Conversation created
+        expect(true, true);
 
-      // Step 5: User A types message
-      const messageText = 'Hey Bob! How are you?';
+        // Step 5: User A types message
+        const messageText = 'Hey Bob! How are you?';
 
-      // Step 6: User A sends message with encryption
-      mockEncryption.setEncryptResult('encrypted_$messageText');
+        // Step 6: User A sends message with encryption
+        mockEncryption.setEncryptResult('encrypted_$messageText');
 
-      final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('messages', messagesBuilder);
+        final messagesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
-      await expectLater(
-        messageRepository.sendMessage(
-          senderId: userA.id,
-          receiverId: userB.id,
-          content: messageText,
-          conversationId: 'conv-ab-1',
-        ),
-        completes,
-      );
+        await expectLater(
+          messageRepository.sendMessage(
+            senderId: userA.id,
+            receiverId: userB.id,
+            content: messageText,
+            conversationId: 'conv-ab-1',
+          ),
+          completes,
+        );
 
-      expect(mockSupabase.lastInsertTable, 'messages');
+        expect(mockSupabase.lastInsertTable, 'messages');
 
-      // Step 7: Message appears in user A's chat view
-      final sentMessagesBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': userA.id,
-          'recipient_id': userB.id,
-          'content': 'encrypted_$messageText',
-          'conversation_id': 'conv-ab-1',
-          'created_at': DateTime.now().toIso8601String(),
-          'is_read': false,
-          'is_delivered': true,
-        }
-      ]);
-      mockSupabase.setQueryBuilder('messages', sentMessagesBuilder);
+        // Step 7: Message appears in user A's chat view
+        final sentMessagesBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': 'msg-1',
+              'sender_id': userA.id,
+              'recipient_id': userB.id,
+              'content': 'encrypted_$messageText',
+              'conversation_id': 'conv-ab-1',
+              'created_at': DateTime.now().toIso8601String(),
+              'is_read': false,
+              'is_delivered': true,
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('messages', sentMessagesBuilder);
 
-      final messages = await messageRepository.getMessagesList('conv-ab-1');
+        final messages = await messageRepository.getMessagesList('conv-ab-1');
 
-      expect(messages, isNotEmpty);
-      expect(messages[0].senderId, userA.id);
+        expect(messages, isNotEmpty);
+        expect(messages[0].senderId, userA.id);
 
-      // Step 8: User B receives message notification
-      // (In real app, would be push notification)
+        // Step 8: User B receives message notification
+        // (In real app, would be push notification)
 
-      // Step 9: User B opens chat
-      mockAuth.setCurrentUser(userB);
-      expect(mockAuth.currentUser?.id, userB.id);
+        // Step 9: User B opens chat
+        mockAuth.setCurrentUser(userB);
+        expect(mockAuth.currentUser?.id, userB.id);
 
-      // Step 10: Message decrypted for user B
-      mockEncryption.setDecryptResult(messageText);
+        // Step 10: Message decrypted for user B
+        mockEncryption.setDecryptResult(messageText);
 
-      // Step 11: User B sees message
-      expect(true, true);
+        // Step 11: User B sees message
+        expect(true, true);
 
-      // Step 12: User B marks as read
-      final readReceiptsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder(
-          'message_read_receipts', readReceiptsBuilder);
+        // Step 12: User B marks as read
+        final readReceiptsBuilder = MockSupabaseQueryBuilder(
+          selectResponse: null,
+        );
+        mockSupabase.setQueryBuilder(
+          'message_read_receipts',
+          readReceiptsBuilder,
+        );
 
-      await expectLater(
-        messageRepository.markMessageAsRead('msg-1'),
-        completes,
-      );
+        await expectLater(
+          messageRepository.markMessageAsRead('msg-1'),
+          completes,
+        );
 
-      // Step 13: User A sees read receipt
-      expect(true, true);
+        // Step 13: User A sees read receipt
+        expect(true, true);
 
-      // Step 14: User B replies
-      const replyText = 'I\'m doing great! How about you?';
+        // Step 14: User B replies
+        const replyText = 'I\'m doing great! How about you?';
 
-      mockEncryption.setEncryptResult('encrypted_$replyText');
+        mockEncryption.setEncryptResult('encrypted_$replyText');
 
-      await expectLater(
-        messageRepository.sendMessage(
-          senderId: userB.id,
-          receiverId: userA.id,
-          content: replyText,
-          conversationId: 'conv-ab-1',
-        ),
-        completes,
-      );
+        await expectLater(
+          messageRepository.sendMessage(
+            senderId: userB.id,
+            receiverId: userA.id,
+            content: replyText,
+            conversationId: 'conv-ab-1',
+          ),
+          completes,
+        );
 
-      // Step 15: Conversation thread shows both messages
-      final threadBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'sender_id': userA.id,
-          'content': 'encrypted_$messageText',
-        },
-        {
-          'id': 'msg-2',
-          'sender_id': userB.id,
-          'content': 'encrypted_$replyText',
-        }
-      ]);
-      mockSupabase.setQueryBuilder('messages', threadBuilder);
+        // Step 15: Conversation thread shows both messages
+        final threadBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': 'msg-1',
+              'sender_id': userA.id,
+              'content': 'encrypted_$messageText',
+            },
+            {
+              'id': 'msg-2',
+              'sender_id': userB.id,
+              'content': 'encrypted_$replyText',
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('messages', threadBuilder);
 
-      expect(true, true);
-    });
+        expect(true, true);
+      },
+    );
 
     test('message delivery status tracking', () async {
       mockAuth.setCurrentUser(userA);
@@ -189,13 +195,15 @@ void main() {
       );
 
       // Check delivery status
-      final statusBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'status': 'delivered',
-          'delivered_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final statusBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'status': 'delivered',
+            'delivered_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', statusBuilder);
 
       expect(true, true);
@@ -294,15 +302,17 @@ void main() {
     test('conversation list loads with last message preview', () async {
       mockAuth.setCurrentUser(userA);
 
-      final convBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'conv-1',
-          'participant_id': userB.id,
-          'last_message_preview': 'How are you?...',
-          'last_message_at': DateTime.now().toIso8601String(),
-          'unread_count': 1,
-        }
-      ]);
+      final convBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'conv-1',
+            'participant_id': userB.id,
+            'last_message_preview': 'How are you?...',
+            'last_message_at': DateTime.now().toIso8601String(),
+            'unread_count': 1,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('conversations', convBuilder);
 
       expect(true, true);
@@ -336,12 +346,11 @@ void main() {
     test('message search within conversation', () async {
       mockAuth.setCurrentUser(userA);
 
-      final searchBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-5',
-          'content': 'encrypted_meeting_tomorrow',
-        }
-      ]);
+      final searchBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'msg-5', 'content': 'encrypted_meeting_tomorrow'},
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', searchBuilder);
 
       expect(true, true);
@@ -376,17 +385,19 @@ void main() {
       mockAuth.setCurrentUser(userA);
 
       final largeChatList = List.generate(
-          150,
-          (i) => {
-                'id': 'conv-$i',
-                'participant_id': 'user-$i',
-                'last_message_preview': 'Message $i',
-              });
+        150,
+        (i) => {
+          'id': 'conv-$i',
+          'participant_id': 'user-$i',
+          'last_message_preview': 'Message $i',
+        },
+      );
 
       final stopwatch = Stopwatch()..start();
 
       final convBuilder = MockSupabaseQueryBuilder(
-          selectResponse: largeChatList.take(30).toList());
+        selectResponse: largeChatList.take(30).toList(),
+      );
       mockSupabase.setQueryBuilder('conversations', convBuilder);
 
       stopwatch.stop();
@@ -398,18 +409,20 @@ void main() {
       mockAuth.setCurrentUser(userA);
 
       final largeThread = List.generate(
-          500,
-          (i) => {
-                'id': 'msg-$i',
-                'sender_id': i % 2 == 0 ? userA.id : userB.id,
-                'content': 'encrypted_message_$i',
-                'created_at': DateTime.now().toIso8601String(),
-              });
+        500,
+        (i) => {
+          'id': 'msg-$i',
+          'sender_id': i % 2 == 0 ? userA.id : userB.id,
+          'content': 'encrypted_message_$i',
+          'created_at': DateTime.now().toIso8601String(),
+        },
+      );
 
       final stopwatch = Stopwatch()..start();
 
       final messagesBuilder = MockSupabaseQueryBuilder(
-          selectResponse: largeThread.take(100).toList());
+        selectResponse: largeThread.take(100).toList(),
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       await messageRepository.getMessagesList('conv-ab-1');
@@ -434,13 +447,15 @@ void main() {
     test('read receipts tracked accurately', () async {
       mockAuth.setCurrentUser(userB);
 
-      final readBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'message_id': 'msg-1',
-          'user_id': userB.id,
-          'read_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final readBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'message_id': 'msg-1',
+            'user_id': userB.id,
+            'read_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('message_read_receipts', readBuilder);
 
       expect(true, true);
@@ -449,13 +464,11 @@ void main() {
     test('conversation archived but messages preserved', () async {
       mockAuth.setCurrentUser(userA);
 
-      final convBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'conv-archived',
-          'is_archived': true,
-          'message_count': 150,
-        }
-      ]);
+      final convBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'conv-archived', 'is_archived': true, 'message_count': 150},
+        ],
+      );
       mockSupabase.setQueryBuilder('conversations', convBuilder);
 
       expect(true, true);
@@ -466,8 +479,10 @@ void main() {
     test('network error during send shows retry option', () async {
       mockAuth.setCurrentUser(userA);
 
-      final messagesBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: true);
+      final messagesBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: true,
+      );
       mockSupabase.setQueryBuilder('messages', messagesBuilder);
 
       // Should show error with retry

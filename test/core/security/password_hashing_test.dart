@@ -3,44 +3,56 @@ import 'package:verasso/core/security/password_hashing_service.dart';
 
 void main() {
   group('Password Hashing Service Tests', () {
-    test('Hash password should generate unique hashes for same password',
-        () async {
-      const password = 'TestPassword123!';
+    test(
+      'Hash password should generate unique hashes for same password',
+      () async {
+        const password = 'TestPassword123!';
 
-      final hash1 = await PasswordHashingService.hashPassword(password);
-      final hash2 = await PasswordHashingService.hashPassword(password);
+        final hash1 = await PasswordHashingService.hashPassword(password);
+        final hash2 = await PasswordHashingService.hashPassword(password);
 
-      // Hashes should be different due to unique salts
-      expect(hash1, isNot(equals(hash2)));
+        // Hashes should be different due to unique salts
+        expect(hash1, isNot(equals(hash2)));
 
-      // But both should be verifiable
-      expect(
-          await PasswordHashingService.verifyPassword(password, hash1), true);
-      expect(
-          await PasswordHashingService.verifyPassword(password, hash2), true);
-    });
+        // But both should be verifiable
+        expect(
+          await PasswordHashingService.verifyPassword(password, hash1),
+          true,
+        );
+        expect(
+          await PasswordHashingService.verifyPassword(password, hash2),
+          true,
+        );
+      },
+    );
 
     test('Verify password should return true for correct password', () async {
       const password = 'SecurePass456!';
 
       final hash = await PasswordHashingService.hashPassword(password);
-      final isValid =
-          await PasswordHashingService.verifyPassword(password, hash);
+      final isValid = await PasswordHashingService.verifyPassword(
+        password,
+        hash,
+      );
 
       expect(isValid, true);
     });
 
-    test('Verify password should return false for incorrect password',
-        () async {
-      const password = 'CorrectPassword789!';
-      const wrongPassword = 'WrongPassword000!';
+    test(
+      'Verify password should return false for incorrect password',
+      () async {
+        const password = 'CorrectPassword789!';
+        const wrongPassword = 'WrongPassword000!';
 
-      final hash = await PasswordHashingService.hashPassword(password);
-      final isValid =
-          await PasswordHashingService.verifyPassword(wrongPassword, hash);
+        final hash = await PasswordHashingService.hashPassword(password);
+        final isValid = await PasswordHashingService.verifyPassword(
+          wrongPassword,
+          hash,
+        );
 
-      expect(isValid, false);
-    });
+        expect(isValid, false);
+      },
+    );
 
     test('Hash should be different with random padding', () async {
       const password = 'TestPass!123';
@@ -164,8 +176,10 @@ void main() {
       const emptyPassword = '';
 
       final hash = await PasswordHashingService.hashPassword(password);
-      final isValid =
-          await PasswordHashingService.verifyPassword(emptyPassword, hash);
+      final isValid = await PasswordHashingService.verifyPassword(
+        emptyPassword,
+        hash,
+      );
 
       expect(isValid, false);
     });
@@ -175,8 +189,10 @@ void main() {
       const invalidHash = 'not-a-valid-hash';
 
       // Should not throw, just return false
-      final isValid =
-          await PasswordHashingService.verifyPassword(password, invalidHash);
+      final isValid = await PasswordHashingService.verifyPassword(
+        password,
+        invalidHash,
+      );
 
       expect(isValid, false);
     });
@@ -198,8 +214,10 @@ void main() {
 
       // All should verify correctly
       for (final hash in hashes) {
-        final isValid =
-            await PasswordHashingService.verifyPassword(password, hash);
+        final isValid = await PasswordHashingService.verifyPassword(
+          password,
+          hash,
+        );
         expect(isValid, true);
       }
     });

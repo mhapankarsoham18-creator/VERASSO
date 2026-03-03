@@ -92,22 +92,26 @@ class BusinessService {
         'expenses': state.monthlyExpenses,
         'months_in_business': state.monthsInBusiness,
         'employees_data': state.employees
-            .map((e) => {
-                  'id': e.id,
-                  'name': e.name,
-                  'role': e.role,
-                  'monthly_salary': e.monthlySalary,
-                  'hired_date': e.hiredDate.toIso8601String(),
-                })
+            .map(
+              (e) => {
+                'id': e.id,
+                'name': e.name,
+                'role': e.role,
+                'monthly_salary': e.monthlySalary,
+                'hired_date': e.hiredDate.toIso8601String(),
+              },
+            )
             .toList(),
         'cash_flow_history': state.cashFlowHistory
-            .map((c) => {
-                  'date': c.date.toIso8601String(),
-                  'revenue': c.revenue,
-                  'expenses': c.expenses,
-                  'net_cash_flow': c.netCashFlow,
-                  'ending_balance': c.endingBalance,
-                })
+            .map(
+              (c) => {
+                'date': c.date.toIso8601String(),
+                'revenue': c.revenue,
+                'expenses': c.expenses,
+                'net_cash_flow': c.netCashFlow,
+                'ending_balance': c.endingBalance,
+              },
+            )
             .toList(),
       });
     } catch (e) {

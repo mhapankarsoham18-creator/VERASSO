@@ -47,28 +47,26 @@ class TalentProfileHeader extends StatelessWidget {
                 : null,
           ),
           const SizedBox(height: 16),
-          Text(profile.fullName ?? profile.username ?? 'User',
-              style:
-                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            profile.fullName ?? profile.username ?? 'User',
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           if (isEditing)
             TextField(
               controller: headlineController,
               decoration: const InputDecoration(
-                  hintText: 'Headline (e.g. Senior Artist)'),
+                hintText: 'Headline (e.g. Senior Artist)',
+              ),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, color: Colors.blueAccent),
             )
           else
-            Text(profile.headline ?? 'New Talent',
-                style: const TextStyle(fontSize: 16, color: Colors.blueAccent)),
-          if (karmaBadge != null) ...[
-            const SizedBox(height: 12),
-            karmaBadge!,
-          ],
-          if (ratingRow != null) ...[
-            const SizedBox(height: 12),
-            ratingRow!,
-          ],
+            Text(
+              profile.headline ?? 'New Talent',
+              style: const TextStyle(fontSize: 16, color: Colors.blueAccent),
+            ),
+          if (karmaBadge != null) ...[const SizedBox(height: 12), karmaBadge!],
+          if (ratingRow != null) ...[const SizedBox(height: 12), ratingRow!],
         ],
       ),
     );

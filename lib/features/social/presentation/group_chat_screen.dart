@@ -59,8 +59,10 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text('Error: ${snapshot.error}',
-                          style: const TextStyle(color: Colors.red)),
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     );
                   }
 
@@ -91,8 +93,9 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
               ),
             ),
             GlassContainer(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -116,7 +119,9 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
 
                         try {
                           await groupService.sendGroupMessage(
-                              widget.group.id, text);
+                            widget.group.id,
+                            text,
+                          );
                           _messageController.clear();
                           // Auto-scroll to bottom
                           Future.delayed(const Duration(milliseconds: 100), () {
@@ -130,9 +135,9 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                           });
                         } catch (e) {
                           if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error: $e')),
-                          );
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text('Error: $e')));
                         }
                       },
                     ),
@@ -196,8 +201,8 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                           backgroundColor: member.role.isOwner
                               ? Colors.amber
                               : member.role.canModerate
-                                  ? Colors.blue
-                                  : Colors.grey,
+                              ? Colors.blue
+                              : Colors.grey,
                         ),
                       );
                     },
@@ -258,10 +263,7 @@ class _MessageBubble extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  message.content,
-                  style: const TextStyle(fontSize: 14),
-                ),
+                Text(message.content, style: const TextStyle(fontSize: 14)),
               ],
             ),
           ),

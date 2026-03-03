@@ -11,10 +11,10 @@ import '../domain/news_model.dart';
 /// Provider for the [MeshNewsService] instance.
 final meshNewsServiceProvider =
     StateNotifierProvider<MeshNewsService, List<NewsArticle>>((ref) {
-  final meshService = ref.watch(bluetoothMeshServiceProvider);
-  final storage = ref.watch(offlineStorageServiceProvider);
-  return MeshNewsService(meshService, storage);
-});
+      final meshService = ref.watch(bluetoothMeshServiceProvider);
+      final storage = ref.watch(offlineStorageServiceProvider);
+      return MeshNewsService(meshService, storage);
+    });
 
 /// Service that manages news propagation and reception over the P2P Bluetooth mesh network.
 class MeshNewsService extends StateNotifier<List<NewsArticle>> {
@@ -56,17 +56,11 @@ class MeshNewsService extends StateNotifier<List<NewsArticle>> {
 
     // Send just the IDs/Titles/FeaturedStatus to neighbors so they can request full content if missing
     final summary = state
-        .map((a) => {
-              'id': a.id,
-              'title': a.title,
-              'is_featured': a.isFeatured,
-            })
+        .map((a) => {'id': a.id, 'title': a.title, 'is_featured': a.isFeatured})
         .toList();
-    _meshService.broadcastPacket(
-      MeshPayloadType.meshSummary,
-      {'news_summary': summary},
-      priority: MeshPriority.low,
-    );
+    _meshService.broadcastPacket(MeshPayloadType.meshSummary, {
+      'news_summary': summary,
+    }, priority: MeshPriority.low);
   }
 
   void _handleIncomingArticle(MeshPacket packet) {
@@ -78,7 +72,8 @@ class MeshNewsService extends StateNotifier<List<NewsArticle>> {
 
       // Check for Verified Source
       const officialPrefix = "VERASSO_OFFICIAL_";
-      bool isVerifiedSource = packet.publicKey != null &&
+      bool isVerifiedSource =
+          packet.publicKey != null &&
           packet.publicKey!.startsWith(officialPrefix);
 
       final updatedArticle = article.copyWith(
@@ -90,7 +85,8 @@ class MeshNewsService extends StateNotifier<List<NewsArticle>> {
       _saveState();
 
       AppLogger.info(
-          'Received P2P News Article: ${article.title} (Verified: $isVerifiedSource)');
+        'Received P2P News Article: ${article.title} (Verified: $isVerifiedSource)',
+      );
     } catch (e) {
       AppLogger.error('Failed to parse mesh article', error: e);
     }
@@ -108,12 +104,11 @@ class MeshNewsService extends StateNotifier<List<NewsArticle>> {
 
     if (missingIds.isNotEmpty) {
       AppLogger.info(
-          'Requesting ${missingIds.length} missing articles from mesh');
-      _meshService.broadcastPacket(
-        MeshPayloadType.packetRequest,
-        {'article_ids': missingIds},
-        priority: MeshPriority.low,
+        'Requesting ${missingIds.length} missing articles from mesh',
       );
+      _meshService.broadcastPacket(MeshPayloadType.packetRequest, {
+        'article_ids': missingIds,
+      }, priority: MeshPriority.low);
     }
   }
 
@@ -164,6 +159,8 @@ class MeshNewsService extends StateNotifier<List<NewsArticle>> {
 
   void _saveState() {
     _storage.cacheData(
-        'mesh_news_articles', state.map((a) => a.toJson()).toList());
+      'mesh_news_articles',
+      state.map((a) => a.toJson()).toList(),
+    );
   }
 }

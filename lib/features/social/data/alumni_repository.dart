@@ -24,8 +24,12 @@ class AlumniRepository {
   final BluetoothMeshService _meshService;
 
   /// Creates an [AlumniRepository] instance.
-  AlumniRepository(this._client, this._networkService, this._storageService,
-      this._meshService);
+  AlumniRepository(
+    this._client,
+    this._networkService,
+    this._storageService,
+    this._meshService,
+  );
 
   // 1. Get Alumni for a specific Course
   /// Retrieves a list of alumni who completed a specific course, with offline caching support.
@@ -95,15 +99,18 @@ class AlumniRepository {
       await _storageService.queueAction('toggle_mentor_status', {
         'is_open': isOpen,
       });
-      await _meshService.broadcastPacket(MeshPayloadType.profileSync,
-          {'userId': userId, 'is_alumni_mentor': isOpen});
+      await _meshService.broadcastPacket(MeshPayloadType.profileSync, {
+        'userId': userId,
+        'is_alumni_mentor': isOpen,
+      });
       return;
     }
 
     if (await _networkService.isConnected) {
       await _client
           .from('profiles')
-          .update({'is_alumni_mentor': isOpen}).eq('id', userId);
+          .update({'is_alumni_mentor': isOpen})
+          .eq('id', userId);
     } else {
       await _storageService.queueAction('toggle_mentor_status', {
         'is_open': isOpen,

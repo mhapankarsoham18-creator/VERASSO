@@ -32,16 +32,19 @@ class PositionList extends StatelessWidget {
           children: [
             Icon(LucideIcons.briefcase, size: 48, color: Colors.white24),
             SizedBox(height: 16),
-            Text('No active positions',
-                style: TextStyle(color: Colors.white54, fontSize: 16)),
+            Text(
+              'No active positions',
+              style: TextStyle(color: Colors.white54, fontSize: 16),
+            ),
           ],
         ),
       );
     }
 
     return Column(
-      children:
-          myAssets.map((asset) => _buildHoldingCard(context, asset)).toList(),
+      children: myAssets
+          .map((asset) => _buildHoldingCard(context, asset))
+          .toList(),
     );
   }
 
@@ -73,12 +76,19 @@ class PositionList extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(asset.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16)),
+              Text(
+                asset.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
               IconButton(
-                icon: const Icon(LucideIcons.minusCircle,
-                    color: Colors.redAccent, size: 20),
+                icon: const Icon(
+                  LucideIcons.minusCircle,
+                  color: Colors.redAccent,
+                  size: 20,
+                ),
                 onPressed: () => onShowBuySell(meta, false),
               ),
             ],
@@ -90,27 +100,34 @@ class PositionList extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Units: ${asset.units.toStringAsFixed(2)}',
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white54)),
-                  Text('Avg Price: \$${asset.avgPrice.toStringAsFixed(2)}',
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white54)),
+                  Text(
+                    'Units: ${asset.units.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                  Text(
+                    'Avg Price: \$${asset.avgPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('\$${currentValue.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text(
+                    '\$${currentValue.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
                   Text(
                     '${profit >= 0 ? '+' : ''}\$${profit.toStringAsFixed(2)} (${profitPercent >= 0 ? '+' : ''}${profitPercent.toStringAsFixed(1)}%)',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: profit >= 0
-                            ? Colors.greenAccent
-                            : Colors.redAccent),
+                      fontSize: 12,
+                      color: profit >= 0
+                          ? Colors.greenAccent
+                          : Colors.redAccent,
+                    ),
                   ),
                 ],
               ),

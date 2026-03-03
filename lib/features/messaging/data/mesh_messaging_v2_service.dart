@@ -16,8 +16,10 @@ class MeshMessagingV2Service {
     PrivateKey recipientPrivateKey,
     PublicKey senderPublicKey,
   ) async {
-    final box =
-        Box(myPrivateKey: recipientPrivateKey, theirPublicKey: senderPublicKey);
+    final box = Box(
+      myPrivateKey: recipientPrivateKey,
+      theirPublicKey: senderPublicKey,
+    );
     final decrypted = box.decrypt(ByteList(base64Decode(encryptedBase64)));
     return utf8.decode(decrypted);
   }
@@ -35,15 +37,19 @@ class MeshMessagingV2Service {
     PrivateKey senderPrivateKey,
     PublicKey recipientPublicKey,
   ) async {
-    final box =
-        Box(myPrivateKey: senderPrivateKey, theirPublicKey: recipientPublicKey);
+    final box = Box(
+      myPrivateKey: senderPrivateKey,
+      theirPublicKey: recipientPublicKey,
+    );
     final encrypted = box.encrypt(utf8.encode(plainText));
     return base64Encode(encrypted);
   }
 
   /// Sends an encrypted packet across the mesh network to the specified target nodes.
   Future<void> sendMeshPacket(
-      String encryptedData, List<String> targetNodes) async {
+    String encryptedData,
+    List<String> targetNodes,
+  ) async {
     // Logic for multi-hop mesh routing
   }
 

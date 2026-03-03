@@ -11,9 +11,9 @@ import '../data/post_model.dart';
 /// Provider for the global paginated feed.
 final feedProvider =
     StateNotifierProvider<FeedNotifier, AsyncValue<List<Post>>>((ref) {
-  final repo = ref.watch(feedRepositoryProvider);
-  return FeedNotifier(repo, ref);
-});
+      final repo = ref.watch(feedRepositoryProvider);
+      return FeedNotifier(repo, ref);
+    });
 
 /// Provider for the current active feed type.
 final feedTypeProvider = StateProvider<FeedType>((ref) => FeedType.global);
@@ -75,10 +75,9 @@ class FeedNotifier extends StateNotifier<AsyncValue<List<Post>>> {
       state = AsyncValue.data(posts);
 
       // Provider for standard pagination metadata is imported from core/services/pagination_service.dart
-      _ref.read(feedPaginationProvider.notifier).updateResults(
-            totalItems: posts.length,
-            hasMore: posts.length == 20,
-          );
+      _ref
+          .read(feedPaginationProvider.notifier)
+          .updateResults(totalItems: posts.length, hasMore: posts.length == 20);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -103,15 +102,16 @@ class FeedNotifier extends StateNotifier<AsyncValue<List<Post>>> {
 
       if (newPosts.isNotEmpty) {
         state = AsyncValue.data([...currentPosts, ...newPosts]);
-        _ref.read(feedPaginationProvider.notifier).updateResults(
+        _ref
+            .read(feedPaginationProvider.notifier)
+            .updateResults(
               totalItems: currentPosts.length + newPosts.length,
               hasMore: newPosts.length == 20,
             );
       } else {
-        _ref.read(feedPaginationProvider.notifier).updateResults(
-              totalItems: currentPosts.length,
-              hasMore: false,
-            );
+        _ref
+            .read(feedPaginationProvider.notifier)
+            .updateResults(totalItems: currentPosts.length, hasMore: false);
       }
     } catch (e) {
       // Silently fail or log for background loads
@@ -173,5 +173,5 @@ enum FeedType {
   global,
 
   /// Feed consisting of posts from users being followed.
-  following
+  following,
 }

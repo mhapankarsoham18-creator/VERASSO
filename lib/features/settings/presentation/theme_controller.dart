@@ -8,16 +8,16 @@ import '../../../core/theme/app_colors.dart';
 /// Provider for the [ThemeController] which manages the application's visual theme.
 final themeControllerProvider =
     StateNotifierProvider<ThemeController, AppThemeState>((ref) {
-  final batterySaver = ref.watch(batterySaverProvider);
-  final controller = ThemeController();
+      final batterySaver = ref.watch(batterySaverProvider);
+      final controller = ThemeController();
 
-  // Power Saving Sync
-  if (batterySaver.isEnabled) {
-    controller.togglePowerSaveMode(true);
-  }
+      // Power Saving Sync
+      if (batterySaver.isEnabled) {
+        controller.togglePowerSaveMode(true);
+      }
 
-  return controller;
-});
+      return controller;
+    });
 
 /// State class capturing all theme-related configurations.
 class AppThemeState {
@@ -81,10 +81,13 @@ class ThemeController extends StateNotifier<AppThemeState> {
 
   /// Creates a [ThemeController] and loads settings from persistent storage.
   ThemeController()
-      : super(AppThemeState(
-            mode: ThemeMode.system,
-            primaryColor: AppColors.primary,
-            accentColor: AppColors.accent)) {
+    : super(
+        AppThemeState(
+          mode: ThemeMode.system,
+          primaryColor: AppColors.primary,
+          accentColor: AppColors.accent,
+        ),
+      ) {
     _loadSettings();
   }
 
@@ -176,19 +179,21 @@ class ThemeController extends StateNotifier<AppThemeState> {
     final powerSave = prefs.getBool(_kPowerSaveKey) ?? false;
 
     ThemeMode mode = ThemeMode.values[modeIndex];
-    Color primary =
-        primaryValue != null ? Color(primaryValue) : AppColors.primary;
+    Color primary = primaryValue != null
+        ? Color(primaryValue)
+        : AppColors.primary;
     Color accent = accentValue != null ? Color(accentValue) : AppColors.accent;
     ThemeStyle style = ThemeStyle.values[styleIndex];
     Locale locale = Locale(localeCode);
 
     state = AppThemeState(
-        mode: mode,
-        primaryColor: primary,
-        accentColor: accent,
-        style: style,
-        locale: locale,
-        isPowerSaveMode: powerSave);
+      mode: mode,
+      primaryColor: primary,
+      accentColor: accent,
+      style: style,
+      locale: locale,
+      isPowerSaveMode: powerSave,
+    );
   }
 }
 

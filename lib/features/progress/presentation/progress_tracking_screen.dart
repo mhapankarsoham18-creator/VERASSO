@@ -24,12 +24,9 @@ class ProgressTrackingScreen extends ConsumerWidget {
         }
         return _ProgressContent(userId: userId);
       },
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (err, stack) => Scaffold(
-        body: Center(child: Text('Error: $err')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
     );
   }
 }
@@ -54,19 +51,16 @@ class _AchievementsTab extends StatelessWidget {
             Text(
               'Unlocked (${unlocked.length})',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 16),
             Wrap(
               spacing: 16,
               runSpacing: 16,
               children: unlocked.map((a) {
-                return AchievementBadge(
-                  achievement: a,
-                  isLarge: true,
-                );
+                return AchievementBadge(achievement: a, isLarge: true);
               }).toList(),
             ),
             const SizedBox(height: 24),
@@ -75,9 +69,9 @@ class _AchievementsTab extends StatelessWidget {
             Text(
               'Locked (${locked.length})',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 16),
             Wrap(
@@ -86,10 +80,7 @@ class _AchievementsTab extends StatelessWidget {
               children: locked.map((a) {
                 return Opacity(
                   opacity: 0.5,
-                  child: AchievementBadge(
-                    achievement: a,
-                    isLarge: true,
-                  ),
+                  child: AchievementBadge(achievement: a, isLarge: true),
                 );
               }).toList(),
             ),
@@ -106,10 +97,7 @@ class _MilestonesTab extends ConsumerWidget {
   final List<MilestoneData> milestones;
   final String userId;
 
-  const _MilestonesTab({
-    required this.milestones,
-    required this.userId,
-  });
+  const _MilestonesTab({required this.milestones, required this.userId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -125,30 +113,34 @@ class _MilestonesTab extends ConsumerWidget {
             Text(
               'Active Milestones (${active.length})',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 12),
-            ...active.map((m) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: MilestoneCard(milestone: m),
-                )),
+            ...active.map(
+              (m) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: MilestoneCard(milestone: m),
+              ),
+            ),
             const SizedBox(height: 24),
           ],
           if (completed.isNotEmpty) ...[
             Text(
               'Completed Milestones (${completed.length})',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 12),
-            ...completed.map((m) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: MilestoneCard(milestone: m),
-                )),
+            ...completed.map(
+              (m) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: MilestoneCard(milestone: m),
+              ),
+            ),
           ],
           if (milestones.isEmpty)
             const Center(child: Text('No milestones yet')),
@@ -162,10 +154,7 @@ class _OverviewTab extends ConsumerWidget {
   final UserProgressData progress;
   final String userId;
 
-  const _OverviewTab({
-    required this.progress,
-    required this.userId,
-  });
+  const _OverviewTab({required this.progress, required this.userId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -198,9 +187,9 @@ class _OverviewTab extends ConsumerWidget {
           Text(
             'Next Milestone',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           nextMilestoneAsync.when(
@@ -219,9 +208,9 @@ class _OverviewTab extends ConsumerWidget {
           Text(
             'Level Progression',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           timeToNextLevelAsync.when(
@@ -230,14 +219,17 @@ class _OverviewTab extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
-                  border:
-                      Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.15),
+                  ),
                 ),
                 padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    const Text('Estimated time to next level: ',
-                        style: TextStyle(color: Colors.white70)),
+                    const Text(
+                      'Estimated time to next level: ',
+                      style: TextStyle(color: Colors.white70),
+                    ),
                     Text(
                       _formatDuration(duration ?? Duration.zero),
                       style: const TextStyle(
@@ -258,9 +250,9 @@ class _OverviewTab extends ConsumerWidget {
           Text(
             'Top Players',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           leaderboardAsync.when(
@@ -301,9 +293,7 @@ class _OverviewTab extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: Colors.cyan.shade900.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Colors.cyan.withValues(alpha: 0.3),
-                  ),
+                  border: Border.all(color: Colors.cyan.withValues(alpha: 0.3)),
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Row(
@@ -399,19 +389,16 @@ class _ProgressContent extends ConsumerWidget {
 
             // Milestones Tab
             milestonesAsync.when(
-              data: (milestones) => _MilestonesTab(
-                milestones: milestones,
-                userId: userId,
-              ),
+              data: (milestones) =>
+                  _MilestonesTab(milestones: milestones, userId: userId),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
 
             // Achievements Tab
             achievementsAsync.when(
-              data: (achievements) => _AchievementsTab(
-                achievements: achievements,
-              ),
+              data: (achievements) =>
+                  _AchievementsTab(achievements: achievements),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),

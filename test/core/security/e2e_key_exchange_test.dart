@@ -23,10 +23,14 @@ void main() {
       final keyPairA = serviceA.generateKeyPair();
       final keyPairB = serviceB.generateKeyPair();
 
-      final secretA =
-          serviceA.deriveSharedSecret(keyPairA.privateKey, keyPairB.publicKey);
-      final secretB =
-          serviceB.deriveSharedSecret(keyPairB.privateKey, keyPairA.publicKey);
+      final secretA = serviceA.deriveSharedSecret(
+        keyPairA.privateKey,
+        keyPairB.publicKey,
+      );
+      final secretB = serviceB.deriveSharedSecret(
+        keyPairB.privateKey,
+        keyPairA.publicKey,
+      );
 
       expect(secretA, equals(secretB));
       expect(secretA.length, greaterThan(0));

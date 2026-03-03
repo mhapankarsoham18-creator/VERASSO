@@ -27,7 +27,7 @@ void main() {
             'points_reward': 50,
             'rarity': 'common',
             'is_active': true,
-          }
+          },
         ],
       );
 
@@ -42,8 +42,10 @@ void main() {
       final mockQueryBuilder = MockSupabaseQueryBuilder(shouldThrow: true);
       mockSupabase.setQueryBuilder('achievements', mockQueryBuilder);
 
-      expect(() => achievementsService.getAllAchievements(),
-          throwsA(isA<DatabaseException>()));
+      expect(
+        () => achievementsService.getAllAchievements(),
+        throwsA(isA<DatabaseException>()),
+      );
     });
 
     test('getMyRank returns rank on success', () async {

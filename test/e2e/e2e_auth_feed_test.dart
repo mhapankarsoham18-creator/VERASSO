@@ -33,79 +33,79 @@ void main() {
   });
 
   group('E2E: Auth → Feed Flow', () {
-    test('complete user journey: launch → signup → email verify → feed',
-        () async {
-      // Step 1: Launch app, user not authenticated
-      expect(mockAuth.currentUser, isNull);
+    test(
+      'complete user journey: launch → signup → email verify → feed',
+      () async {
+        // Step 1: Launch app, user not authenticated
+        expect(mockAuth.currentUser, isNull);
 
-      // Step 2: User enters email and password on signup form
-      const testEmail = 'newuser@example.com';
-      const testPassword = 'SecurePassword123!';
-      const testName = 'New User';
+        // Step 2: User enters email and password on signup form
+        const testEmail = 'newuser@example.com';
+        const testPassword = 'SecurePassword123!';
+        const testName = 'New User';
 
-      // Step 3: Submit signup
-      final signupBuilder = MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('profiles', signupBuilder);
+        // Step 3: Submit signup
+        final signupBuilder = MockSupabaseQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('profiles', signupBuilder);
 
-      await expectLater(
-        authRepository.signUpWithEmail(
-          email: testEmail,
-          password: testPassword,
-          data: {'full_name': testName},
-        ),
-        completes,
-      );
+        await expectLater(
+          authRepository.signUpWithEmail(
+            email: testEmail,
+            password: testPassword,
+            data: {'full_name': testName},
+          ),
+          completes,
+        );
 
-      // Step 4: Verify email confirmation was triggered
-      final testUser = TestSupabaseUser(
-        id: 'user-new-1',
-        email: testEmail,
-      );
-      mockAuth.setCurrentUser(testUser);
+        // Step 4: Verify email confirmation was triggered
+        final testUser = TestSupabaseUser(id: 'user-new-1', email: testEmail);
+        mockAuth.setCurrentUser(testUser);
 
-      expect(mockAuth.currentUser, isNotNull);
-      expect(mockAuth.currentUser?.email, testEmail);
+        expect(mockAuth.currentUser, isNotNull);
+        expect(mockAuth.currentUser?.email, testEmail);
 
-      // Step 5: Profile auto-created from signup
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': testName,
-          'email': testEmail,
-          'avatar_url': null,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
-      mockSupabase.setQueryBuilder('profiles', profileBuilder);
+        // Step 5: Profile auto-created from signup
+        final profileBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': testUser.id,
+              'full_name': testName,
+              'email': testEmail,
+              'avatar_url': null,
+              'created_at': DateTime.now().toIso8601String(),
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
-      final userProfile = await profileRepository.getProfile(testUser.id);
+        final userProfile = await profileRepository.getProfile(testUser.id);
 
-      expect(userProfile, isNotNull);
-      expect(userProfile?.fullName, testName);
+        expect(userProfile, isNotNull);
+        expect(userProfile?.fullName, testName);
 
-      // Step 6: User navigates to feed
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': 'user-2',
-          'content': 'Welcome to VERASSO!',
-          'created_at': DateTime.now().toIso8601String(),
-          'profiles': {
-            'full_name': 'Admin User',
-            'avatar_url': null,
-          }
-        }
-      ]);
-      mockSupabase.setQueryBuilder('posts', feedBuilder);
+        // Step 6: User navigates to feed
+        final feedBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': 'post-1',
+              'user_id': 'user-2',
+              'content': 'Welcome to VERASSO!',
+              'created_at': DateTime.now().toIso8601String(),
+              'profiles': {'full_name': 'Admin User', 'avatar_url': null},
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('posts', feedBuilder);
 
-      final feedPosts = await feedRepository.getFeed();
+        final feedPosts = await feedRepository.getFeed();
 
-      expect(feedPosts, isNotEmpty);
-      expect(feedPosts[0].content, contains('Welcome'));
+        expect(feedPosts, isNotEmpty);
+        expect(feedPosts[0].content, contains('Welcome'));
 
-      // Step 7: User scrolls through feed without errors
-      expect(feedPosts.length, greaterThan(0));
-    });
+        // Step 7: User scrolls through feed without errors
+        expect(feedPosts.length, greaterThan(0));
+      },
+    );
 
     test('existing user journey: signin → feed appearance → scroll', () async {
       // Step 1: User on login screen
@@ -117,12 +117,11 @@ void main() {
         email: testEmail,
       );
 
-      final authBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'email': testEmail,
-        }
-      ]);
+      final authBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': testUser.id, 'email': testEmail},
+        ],
+      );
       mockSupabase.setQueryBuilder('auth.users', authBuilder);
 
       mockAuth.setCurrentUser(testUser);
@@ -133,14 +132,16 @@ void main() {
       expect(mockAuth.currentUser, isNotNull);
 
       // Step 4: Load user profile
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Existing User',
-          'follower_count': 10,
-          'following_count': 5,
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'full_name': 'Existing User',
+            'follower_count': 10,
+            'following_count': 5,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -154,12 +155,11 @@ void main() {
           'id': 'post-$i',
           'user_id': 'user-${i % 50}',
           'content': 'Post $i content',
-          'created_at':
-              DateTime.now().subtract(Duration(hours: i)).toIso8601String(),
+          'created_at': DateTime.now()
+              .subtract(Duration(hours: i))
+              .toIso8601String(),
           'like_count': i * 2,
-          'profiles': {
-            'full_name': 'User ${i % 50}',
-          }
+          'profiles': {'full_name': 'User ${i % 50}'},
         },
       );
 
@@ -220,8 +220,10 @@ void main() {
 
       mockAuth.setCurrentUser(testUser);
 
-      final feedBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: true);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: true,
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       // Should retry or show offline state
@@ -244,7 +246,7 @@ void main() {
           'content': 'Cached content',
           'is_cached': true,
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final feedBuilder = MockSupabaseQueryBuilder(selectResponse: cachedPosts);
@@ -280,15 +282,17 @@ void main() {
     });
 
     test('feed posts render correctly with missing images', () async {
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': 'user-1',
-          'content': 'Post without image',
-          'media_urls': null,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': 'user-1',
+            'content': 'Post without image',
+            'media_urls': null,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       final posts = await feedRepository.getFeed();
@@ -309,24 +313,25 @@ void main() {
 
       mockAuth.setCurrentUser(testUser);
 
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Perf User',
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': testUser.id, 'full_name': 'Perf User'},
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       await profileRepository.getProfile(testUser.id);
 
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-1',
-          'user_id': 'user-1',
-          'content': 'Test',
-          'created_at': DateTime.now().toIso8601String()
-        }
-      ]);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-1',
+            'user_id': 'user-1',
+            'content': 'Test',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       await feedRepository.getFeed();
@@ -346,13 +351,14 @@ void main() {
 
       // Generate 500 posts for scroll test
       final largeFeed = List.generate(
-          500,
-          (i) => {
-                'id': 'post-$i',
-                'user_id': 'user-$i',
-                'content': 'Post $i',
-                'created_at': DateTime.now().toIso8601String(),
-              });
+        500,
+        (i) => {
+          'id': 'post-$i',
+          'user_id': 'user-$i',
+          'content': 'Post $i',
+          'created_at': DateTime.now().toIso8601String(),
+        },
+      );
 
       final feedBuilder = MockSupabaseQueryBuilder(selectResponse: largeFeed);
       mockSupabase.setQueryBuilder('posts', feedBuilder);
@@ -377,13 +383,14 @@ void main() {
 
       // Load large feed
       final largeFeed = List.generate(
-          1000,
-          (i) => {
-                'id': 'post-$i',
-                'user_id': 'user-$i',
-                'content': 'Post $i content that could be large',
-                'created_at': DateTime.now().toIso8601String(),
-              });
+        1000,
+        (i) => {
+          'id': 'post-$i',
+          'user_id': 'user-$i',
+          'content': 'Post $i content that could be large',
+          'created_at': DateTime.now().toIso8601String(),
+        },
+      );
 
       final feedBuilder = MockSupabaseQueryBuilder(selectResponse: largeFeed);
       mockSupabase.setQueryBuilder('posts', feedBuilder);
@@ -406,12 +413,11 @@ void main() {
 
       mockAuth.setCurrentUser(testUser);
 
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'email': testEmail,
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': testUser.id, 'email': testEmail},
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -427,12 +433,11 @@ void main() {
 
       mockAuth.setCurrentUser(testUser);
 
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'followers_count': 10,
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': testUser.id, 'followers_count': 10},
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final userProfile = await profileRepository.getProfile(testUser.id);

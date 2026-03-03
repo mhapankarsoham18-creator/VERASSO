@@ -5,8 +5,9 @@ import '../../../../core/services/supabase_service.dart';
 import 'talent_profile_model.dart';
 
 /// Provider for the [TalentProfileRepository] instance.
-final talentProfileRepositoryProvider =
-    Provider<TalentProfileRepository>((ref) => TalentProfileRepository());
+final talentProfileRepositoryProvider = Provider<TalentProfileRepository>(
+  (ref) => TalentProfileRepository(),
+);
 
 /// Repository for managing detailed talent profiles.
 class TalentProfileRepository {
@@ -14,7 +15,7 @@ class TalentProfileRepository {
 
   /// Creates a [TalentProfileRepository].
   TalentProfileRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Fetches a talent profile by user ID.
   Future<TalentProfile?> getTalentProfile(String userId) async {
@@ -44,7 +45,9 @@ class TalentProfileRepository {
       final response = await _client
           .from('talent_profiles')
           .select('*, profiles(username, full_name, avatar_url)')
-          .or('full_name.ilike.%$query%,headline.ilike.%$query%,skills.cs.{$query}')
+          .or(
+            'full_name.ilike.%$query%,headline.ilike.%$query%,skills.cs.{$query}',
+          )
           .limit(20);
 
       return (response as List).map((e) => TalentProfile.fromJson(e)).toList();

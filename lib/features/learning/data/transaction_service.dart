@@ -21,13 +21,17 @@ class TransactionService {
   /// Returns `true` when the user has sufficient balance and the transaction
   /// is recorded successfully, otherwise returns `false`.
   Future<bool> processCoursePurchase(
-      String userId, String courseId, double price) async {
+    String userId,
+    String courseId,
+    double price,
+  ) async {
     try {
       final balance = await _repository.getUserBalance(userId);
 
       if (balance < price) {
         AppLogger.warning(
-            'TransactionService: Insufficient balance ($balance < $price)');
+          'TransactionService: Insufficient balance ($balance < $price)',
+        );
         return false;
       }
 
@@ -43,7 +47,8 @@ class TransactionService {
 
       await _repository.recordTransaction(transaction);
       AppLogger.info(
-          'TransactionService: Course $courseId purchased by $userId');
+        'TransactionService: Course $courseId purchased by $userId',
+      );
       return true;
     } catch (e) {
       AppLogger.error('TransactionService: Purchase error', error: e);

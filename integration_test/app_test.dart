@@ -20,11 +20,7 @@ void main() async {
 
   testWidgets('Login -> Feed -> Create Post flow', (WidgetTester tester) async {
     // 1. Initialize App (No Mocks - Phase 3 Compliance)
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: VerassoApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: VerassoApp()));
     await tester.pumpAndSettle();
 
     // 2. Verify Login Screen (Initial state)
@@ -36,9 +32,13 @@ void main() async {
     // We don't perform a full successful login here because it requires a real user,
     // which should be handled by specific smoke/e2e tests or a local test environment.
     await tester.enterText(
-        find.widgetWithText(TextField, 'Email'), 'nonexistent@example.com');
+      find.widgetWithText(TextField, 'Email'),
+      'nonexistent@example.com',
+    );
     await tester.enterText(
-        find.widgetWithText(TextField, 'Password'), 'wrongpassword');
+      find.widgetWithText(TextField, 'Password'),
+      'wrongpassword',
+    );
     await tester.tap(find.text('Sign In'));
     await tester.pumpAndSettle();
 

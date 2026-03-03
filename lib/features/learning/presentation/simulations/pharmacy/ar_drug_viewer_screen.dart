@@ -74,7 +74,9 @@ class _ARDrugViewerScreenState extends State<ARDrugViewerScreen> {
                         Text(
                           widget.drugName,
                           style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const Icon(LucideIcons.radio, color: Colors.blueAccent),
                       ],
@@ -82,8 +84,10 @@ class _ARDrugViewerScreenState extends State<ARDrugViewerScreen> {
                     const SizedBox(height: 12),
                     Text(
                       widget.description,
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 13),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -92,7 +96,9 @@ class _ARDrugViewerScreenState extends State<ARDrugViewerScreen> {
                         _infoAction(LucideIcons.info, 'Mechanism'),
                         _infoAction(LucideIcons.alertTriangle, 'Interactions'),
                         _infoAction(
-                            LucideIcons.thermometer, 'Bio-availability'),
+                          LucideIcons.thermometer,
+                          'Bio-availability',
+                        ),
                       ],
                     ),
                   ],
@@ -123,8 +129,10 @@ class _ARDrugViewerScreenState extends State<ARDrugViewerScreen> {
       children: [
         Icon(icon, color: Colors.white54, size: 20),
         const SizedBox(height: 4),
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Colors.white38)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: Colors.white38),
+        ),
       ],
     );
   }

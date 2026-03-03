@@ -59,7 +59,9 @@ class _QrScannerDialogState extends State<QrScannerDialog> {
               height: 250,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: Colors.blueAccent.withValues(alpha: 0.5), width: 2),
+                  color: Colors.blueAccent.withValues(alpha: 0.5),
+                  width: 2,
+                ),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: ClipRRect(
@@ -81,8 +83,10 @@ class _QrScannerDialogState extends State<QrScannerDialog> {
               width: double.infinity,
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(l10n.cancel,
-                    style: const TextStyle(color: Colors.white54)),
+                child: Text(
+                  l10n.cancel,
+                  style: const TextStyle(color: Colors.white54),
+                ),
               ),
             ),
           ],

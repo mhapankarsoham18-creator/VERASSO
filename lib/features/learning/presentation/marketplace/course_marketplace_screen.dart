@@ -42,7 +42,8 @@ class CourseMarketplaceScreen extends ConsumerWidget {
           data: (courses) {
             if (courses.isEmpty) {
               return const Center(
-                  child: Text('No courses available yet. Check back soon!'));
+                child: Text('No courses available yet. Check back soon!'),
+              );
             }
 
             return GridView.builder(
@@ -68,9 +69,9 @@ class CourseMarketplaceScreen extends ConsumerWidget {
   Widget _buildCourseCard(BuildContext context, WidgetRef ref, Course course) {
     return GestureDetector(
       onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => CoursePlayerScreen(course: course))),
+        context,
+        MaterialPageRoute(builder: (_) => CoursePlayerScreen(course: course)),
+      ),
       child: GlassContainer(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -81,14 +82,23 @@ class CourseMarketplaceScreen extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: course.coverUrl != null
-                    ? Image.network(course.coverUrl!, fit: BoxFit.cover,
+                    ? Image.network(
+                        course.coverUrl!,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.broken_image,
-                                size: 40, color: Colors.white24))
+                            const Icon(
+                              Icons.broken_image,
+                              size: 40,
+                              color: Colors.white24,
+                            ),
+                      )
                     : Container(
                         color: Colors.blueAccent.withValues(alpha: 0.1),
-                        child: const Icon(LucideIcons.bookOpen,
-                            color: Colors.blueAccent, size: 40),
+                        child: const Icon(
+                          LucideIcons.bookOpen,
+                          color: Colors.blueAccent,
+                          size: 40,
+                        ),
                       ),
               ),
             ),
@@ -120,8 +130,11 @@ class CourseMarketplaceScreen extends ConsumerWidget {
                     fontSize: 14,
                   ),
                 ),
-                const Icon(LucideIcons.arrowRightCircle,
-                    size: 16, color: Colors.white30),
+                const Icon(
+                  LucideIcons.arrowRightCircle,
+                  size: 16,
+                  color: Colors.white30,
+                ),
               ],
             ),
           ],

@@ -36,8 +36,10 @@ class GamificationService {
           shouldUnlock = (stats.subjectProgress['Biology'] ?? 0) >= 11;
           break;
         case 'explorer':
-          final totalSims =
-              stats.subjectProgress.values.fold(0, (a, b) => a + b);
+          final totalSims = stats.subjectProgress.values.fold(
+            0,
+            (a, b) => a + b,
+          );
           shouldUnlock = totalSims >= 29;
           break;
         case 'stargazer':
@@ -50,8 +52,10 @@ class GamificationService {
           shouldUnlock = stats.currentStreak >= 30;
           break;
         case 'first_steps':
-          final totalSims =
-              stats.subjectProgress.values.fold(0, (a, b) => a + b);
+          final totalSims = stats.subjectProgress.values.fold(
+            0,
+            (a, b) => a + b,
+          );
           shouldUnlock = totalSims >= 1;
           break;
       }
@@ -81,14 +85,16 @@ class GamificationService {
   /// Get leaderboard rankings
   static List<LeaderboardEntry> getLeaderboard(List<UserStats> allUsers) {
     final entries = allUsers
-        .map((stats) => LeaderboardEntry(
-              userId: stats.userId,
-              username: stats.displayName,
-              totalXP: stats.totalXP,
-              level: stats.level,
-              badges: stats.unlockedBadges.length,
-              rank: 0,
-            ))
+        .map(
+          (stats) => LeaderboardEntry(
+            userId: stats.userId,
+            username: stats.displayName,
+            totalXP: stats.totalXP,
+            level: stats.level,
+            badges: stats.unlockedBadges.length,
+            rank: 0,
+          ),
+        )
         .toList();
 
     entries.sort((a, b) => (b.totalXP ?? 0).compareTo(a.totalXP ?? 0));

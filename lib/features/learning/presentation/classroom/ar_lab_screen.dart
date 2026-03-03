@@ -28,8 +28,11 @@ class BlueprintPainter extends CustomPainter {
   final bool isActive;
 
   /// Creates a [BlueprintPainter] instance.
-  BlueprintPainter(
-      {required this.ph, required this.temp, required this.isActive});
+  BlueprintPainter({
+    required this.ph,
+    required this.temp,
+    required this.isActive,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -51,16 +54,23 @@ class BlueprintPainter extends CustomPainter {
     for (int i = 1; i < 5; i++) {
       double y = size.height * 0.9 - (i * size.height * 0.2);
       canvas.drawLine(
-          Offset(size.width * 0.2, y), Offset(size.width * 0.3, y), paint);
+        Offset(size.width * 0.2, y),
+        Offset(size.width * 0.3, y),
+        paint,
+      );
       // Labels
       final textSpan = TextSpan(
         text: '${i * 25}%',
         style: const TextStyle(
-            color: Colors.blueAccent, fontSize: 8, fontFamily: 'monospace'),
+          color: Colors.blueAccent,
+          fontSize: 8,
+          fontFamily: 'monospace',
+        ),
       );
-      final textPainter =
-          TextPainter(textDirection: TextDirection.ltr, text: textSpan)
-            ..layout();
+      final textPainter = TextPainter(
+        textDirection: TextDirection.ltr,
+        text: textSpan,
+      )..layout();
       textPainter.paint(canvas, Offset(size.width * 0.05, y - 4));
     }
 
@@ -69,34 +79,56 @@ class BlueprintPainter extends CustomPainter {
       final center = Offset(size.width * 0.5, size.height * 0.5);
       canvas.drawCircle(center, 20, paint);
       canvas.drawLine(
-          center.translate(-15, -15), center.translate(15, 15), paint);
+        center.translate(-15, -15),
+        center.translate(15, 15),
+        paint,
+      );
       canvas.drawLine(
-          center.translate(15, -15), center.translate(-15, 15), paint);
+        center.translate(15, -15),
+        center.translate(-15, 15),
+        paint,
+      );
     }
 
     // Labels for Parameters
-    _drawLabel(canvas, size, "PH_VAL: ${ph.toStringAsFixed(1)}",
-        Offset(size.width * 0.5, size.height * 0.95));
-    _drawLabel(canvas, size, "TEMP: ${temp.toStringAsFixed(1)}°C",
-        Offset(size.width * 0.85, size.height * 0.5),
-        vertical: true);
+    _drawLabel(
+      canvas,
+      size,
+      "PH_VAL: ${ph.toStringAsFixed(1)}",
+      Offset(size.width * 0.5, size.height * 0.95),
+    );
+    _drawLabel(
+      canvas,
+      size,
+      "TEMP: ${temp.toStringAsFixed(1)}°C",
+      Offset(size.width * 0.85, size.height * 0.5),
+      vertical: true,
+    );
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 
-  void _drawLabel(Canvas canvas, Size size, String text, Offset position,
-      {bool vertical = false}) {
+  void _drawLabel(
+    Canvas canvas,
+    Size size,
+    String text,
+    Offset position, {
+    bool vertical = false,
+  }) {
     final textSpan = TextSpan(
       text: text,
       style: const TextStyle(
-          color: Colors.blueAccent,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          fontWeight: FontWeight.bold),
+        color: Colors.blueAccent,
+        fontSize: 10,
+        fontFamily: 'monospace',
+        fontWeight: FontWeight.bold,
+      ),
     );
-    final textPainter =
-        TextPainter(textDirection: TextDirection.ltr, text: textSpan)..layout();
+    final textPainter = TextPainter(
+      textDirection: TextDirection.ltr,
+      text: textSpan,
+    )..layout();
 
     if (vertical) {
       canvas.save();
@@ -106,7 +138,9 @@ class BlueprintPainter extends CustomPainter {
       canvas.restore();
     } else {
       textPainter.paint(
-          canvas, Offset(position.dx - textPainter.width / 2, position.dy));
+        canvas,
+        Offset(position.dx - textPainter.width / 2, position.dy),
+      );
     }
   }
 }
@@ -128,15 +162,13 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
         actions: [
           IconButton(
             icon: Icon(
-                _isBlueprintMode ? LucideIcons.layers : LucideIcons.penTool),
+              _isBlueprintMode ? LucideIcons.layers : LucideIcons.penTool,
+            ),
             onPressed: () =>
                 setState(() => _isBlueprintMode = !_isBlueprintMode),
             tooltip: "Toggle Blueprint Mode",
           ),
-          IconButton(
-            icon: const Icon(LucideIcons.info),
-            onPressed: () {},
-          )
+          IconButton(icon: const Icon(LucideIcons.info), onPressed: () {}),
         ],
       ),
       body: LiquidBackground(
@@ -160,7 +192,9 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
                           Text(
                             "Last update by: ${syncState.lastUpdatedBy}",
                             style: const TextStyle(
-                                color: Colors.white54, fontSize: 12),
+                              color: Colors.white54,
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
@@ -182,9 +216,10 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
                           const Text(
                             "Experiment Controls",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(height: 20),
                           _buildControlRow(
@@ -217,12 +252,16 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Reaction Status",
-                                  style: TextStyle(color: Colors.white)),
+                              const Text(
+                                "Reaction Status",
+                                style: TextStyle(color: Colors.white),
+                              ),
                               Switch(
                                 value: syncState.parameters['isReactionActive'],
                                 onChanged: (val) => syncService.updateParameter(
-                                    'isReactionActive', val),
+                                  'isReactionActive',
+                                  val,
+                                ),
                                 activeThumbColor: Colors.blueAccent,
                               ),
                             ],
@@ -255,18 +294,26 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        const Text("TECHNICAL SCHEMATIC V1.0",
-            style: TextStyle(
-                color: Colors.blueAccent,
-                fontFamily: 'monospace',
-                fontSize: 10,
-                fontWeight: FontWeight.bold)),
+        const Text(
+          "TECHNICAL SCHEMATIC V1.0",
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontFamily: 'monospace',
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildControlRow(String label, dynamic value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildControlRow(
+    String label,
+    dynamic value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -277,7 +324,9 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
             Text(
               value is double ? value.toStringAsFixed(1) : value.toString(),
               style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -323,41 +372,51 @@ class _ArLabScreenState extends ConsumerState<ArLabScreen> {
             // Liquid
             Positioned(
               bottom: 0,
-              child: Container(
-                width: 144,
-                height: 120 + (temp / 2), // Level varies by temp simulator
-                decoration: BoxDecoration(
-                  color: liquidColor.withValues(alpha: 0.5),
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                ),
-              )
-                  .animate(target: isActive ? 1 : 0)
-                  .shimmer(duration: (2000 / (speed + 1)).ms),
+              child:
+                  Container(
+                        width: 144,
+                        height:
+                            120 + (temp / 2), // Level varies by temp simulator
+                        decoration: BoxDecoration(
+                          color: liquidColor.withValues(alpha: 0.5),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(16),
+                          ),
+                        ),
+                      )
+                      .animate(target: isActive ? 1 : 0)
+                      .shimmer(duration: (2000 / (speed + 1)).ms),
             ),
             // Bubbles (if active)
             if (isActive)
               ...List.generate(
-                  5,
-                  (i) => Positioned(
-                        bottom: 20,
-                        left: 40.0 + (i * 20),
-                        child: const Icon(LucideIcons.circle,
-                                size: 8, color: Colors.white70)
-                            .animate(onPlay: (c) => c.repeat())
-                            .moveY(
-                                begin: 0,
-                                end: -100,
-                                duration: (1000 + (i * 200)).ms)
-                            .fadeOut(),
-                      )),
+                5,
+                (i) => Positioned(
+                  bottom: 20,
+                  left: 40.0 + (i * 20),
+                  child:
+                      const Icon(
+                            LucideIcons.circle,
+                            size: 8,
+                            color: Colors.white70,
+                          )
+                          .animate(onPlay: (c) => c.repeat())
+                          .moveY(
+                            begin: 0,
+                            end: -100,
+                            duration: (1000 + (i * 200)).ms,
+                          )
+                          .fadeOut(),
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 10),
-        const Text("Physics Simulation (Sync Active)",
-            style: TextStyle(color: Colors.white38, fontSize: 10)),
+        const Text(
+          "Physics Simulation (Sync Active)",
+          style: TextStyle(color: Colors.white38, fontSize: 10),
+        ),
       ],
     );
   }

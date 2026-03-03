@@ -51,11 +51,16 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 ? const SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2))
-                : Text(widget.postToEdit != null ? 'Update' : 'Post',
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(
+                    widget.postToEdit != null ? 'Update' : 'Post',
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16)),
-          )
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+          ),
         ],
       ),
       body: LiquidBackground(
@@ -72,9 +77,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                       maxLines: 5,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
-                          hintText: "What's on your mind?",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.white54)),
+                        hintText: "What's on your mind?",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(color: Colors.white54),
+                      ),
                     ),
                     if (_existingImageUrl != null && _selectedImage == null)
                       Padding(
@@ -82,10 +88,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: cni.CachedNetworkImage(
-                              imageUrl: _existingImageUrl!,
-                              height: 200,
-                              width: double.infinity,
-                              fit: BoxFit.cover),
+                            imageUrl: _existingImageUrl!,
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     if (_selectedImage != null)
@@ -97,24 +104,30 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(_selectedImage!,
-                                      height: 200,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover),
+                                  child: Image.file(
+                                    _selectedImage!,
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Positioned(
                                   top: 5,
                                   right: 5,
                                   child: IconButton(
-                                    icon: const Icon(LucideIcons.x,
-                                        color: Colors.white),
+                                    icon: const Icon(
+                                      LucideIcons.x,
+                                      color: Colors.white,
+                                    ),
                                     onPressed: () =>
                                         setState(() => _selectedImage = null),
                                     style: IconButton.styleFrom(
-                                        backgroundColor: Colors.black
-                                            .withValues(alpha: 0.54)),
+                                      backgroundColor: Colors.black.withValues(
+                                        alpha: 0.54,
+                                      ),
+                                    ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                             Row(
@@ -122,17 +135,27 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                               children: [
                                 TextButton.icon(
                                   onPressed: _cropImage,
-                                  icon: const Icon(LucideIcons.crop,
-                                      size: 16, color: Colors.white),
-                                  label: const Text('Crop',
-                                      style: TextStyle(color: Colors.white)),
+                                  icon: const Icon(
+                                    LucideIcons.crop,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    'Crop',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                                 TextButton.icon(
                                   onPressed: _applyFilter,
-                                  icon: const Icon(LucideIcons.palette,
-                                      size: 16, color: Colors.white),
-                                  label: const Text('Filters',
-                                      style: TextStyle(color: Colors.white)),
+                                  icon: const Icon(
+                                    LucideIcons.palette,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    'Filters',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ],
                             ),
@@ -143,24 +166,36 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     Row(
                       children: [
                         IconButton(
-                            onPressed: _pickImage,
-                            icon: const Icon(LucideIcons.image,
-                                color: Colors.white)),
+                          onPressed: _pickImage,
+                          icon: const Icon(
+                            LucideIcons.image,
+                            color: Colors.white,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: _pickVideo,
-                            icon: const Icon(LucideIcons.video,
-                                color: Colors.white)),
+                          onPressed: _pickVideo,
+                          icon: const Icon(
+                            LucideIcons.video,
+                            color: Colors.white,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Audio recording feature coming soon')));
-                            },
-                            icon: const Icon(LucideIcons.mic,
-                                color: Colors.white)),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Audio recording feature coming soon',
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            LucideIcons.mic,
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -184,8 +219,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   Future<void> _applyFilter() async {
     if (_selectedImage == null) return;
-    final filtered =
-        await ImageEditorService.applyFilter(context, _selectedImage!);
+    final filtered = await ImageEditorService.applyFilter(
+      context,
+      _selectedImage!,
+    );
     if (filtered != null) {
       setState(() => _selectedImage = filtered);
     }
@@ -214,8 +251,9 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
     if (video != null) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Video processing...')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Video processing...')));
       // Ideally set a _selectedVideo file and update preview
     }
   }
@@ -230,15 +268,16 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
     if (widget.postToEdit != null) {
       // Editing
-      await ref.read(feedProvider.notifier).updatePost(
-            postId: widget.postToEdit!.id,
-            content: content,
-          );
+      await ref
+          .read(feedProvider.notifier)
+          .updatePost(postId: widget.postToEdit!.id, content: content);
     } else {
       // Creating
       final user = ref.read(currentUserProvider);
       if (user == null) return;
-      await ref.read(feedProvider.notifier).createPost(
+      await ref
+          .read(feedProvider.notifier)
+          .createPost(
             userId: user.id,
             content: content,
             images: _selectedImage != null ? [_selectedImage!] : [],

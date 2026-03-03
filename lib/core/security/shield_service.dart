@@ -19,9 +19,9 @@ class ShieldService {
 
   /// Creates a [ShieldService] and initializes ephemeral session keys.
   ShieldService()
-      : _sessionKey = encrypt.Key.fromSecureRandom(32),
-        _sessionIv = encrypt.IV.fromSecureRandom(16),
-        _lastRotation = DateTime.now() {
+    : _sessionKey = encrypt.Key.fromSecureRandom(32),
+      _sessionIv = encrypt.IV.fromSecureRandom(16),
+      _lastRotation = DateTime.now() {
     AppLogger.info('ShieldService: Session keys initialized');
   }
 
@@ -55,7 +55,8 @@ class ShieldService {
     _sessionIv = encrypt.IV.fromSecureRandom(16);
     _lastRotation = DateTime.now();
     AppLogger.warning(
-        'ShieldService: Session keys rotated! Previous data encrypted with old keys will be unreadable.');
+      'ShieldService: Session keys rotated! Previous data encrypted with old keys will be unreadable.',
+    );
   }
 
   /// Scrambles text visually into random alphanumeric and special characters

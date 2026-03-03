@@ -81,7 +81,8 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final completed = await TutorialService.isTutorialCompleted(
-          TutorialIds.accountingSimulator);
+        TutorialIds.accountingSimulator,
+      );
       if (!completed && mounted) {
         _showTutorial();
       }
@@ -91,8 +92,11 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
   Widget _buildJournalTab(FinanceState state) {
     if (state.journal.isEmpty) {
       return const Center(
-          child: Text('No journal entries yet.',
-              style: TextStyle(color: Colors.white70)));
+        child: Text(
+          'No journal entries yet.',
+          style: TextStyle(color: Colors.white70),
+        ),
+      );
     }
 
     return ListView.builder(
@@ -109,9 +113,13 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(entry.description,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(
+                    entry.description,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                   Text(
                     '${entry.date.day}/${entry.date.month}/${entry.date.year}',
                     style: const TextStyle(fontSize: 12, color: Colors.white54),
@@ -119,48 +127,50 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                 ],
               ),
               const Divider(color: Colors.white24),
-              ...entry.lines.map((line) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            line.accountName,
-                            style: TextStyle(
-                              color: line.type == TransactionType.debit
-                                  ? Colors.white
-                                  : Colors.white70,
-                              fontWeight: line.type == TransactionType.debit
-                                  ? FontWeight.w600
-                                  : FontWeight.normal,
-                              decoration: line.type == TransactionType.credit
-                                  ? TextDecoration.none
-                                  : null,
-                            ),
+              ...entry.lines.map(
+                (line) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          line.accountName,
+                          style: TextStyle(
+                            color: line.type == TransactionType.debit
+                                ? Colors.white
+                                : Colors.white70,
+                            fontWeight: line.type == TransactionType.debit
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                            decoration: line.type == TransactionType.credit
+                                ? TextDecoration.none
+                                : null,
                           ),
                         ),
-                        Expanded(
-                          child: Text(
-                            line.type == TransactionType.debit
-                                ? line.amount.toStringAsFixed(2)
-                                : '',
-                            textAlign: TextAlign.right,
-                            style: const TextStyle(color: Colors.greenAccent),
-                          ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          line.type == TransactionType.debit
+                              ? line.amount.toStringAsFixed(2)
+                              : '',
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(color: Colors.greenAccent),
                         ),
-                        Expanded(
-                          child: Text(
-                            line.type == TransactionType.credit
-                                ? line.amount.toStringAsFixed(2)
-                                : '',
-                            textAlign: TextAlign.right,
-                            style: const TextStyle(color: Colors.redAccent),
-                          ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          line.type == TransactionType.credit
+                              ? line.amount.toStringAsFixed(2)
+                              : '',
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(color: Colors.redAccent),
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -174,10 +184,14 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Ref.',
-              style: TextStyle(fontSize: 10, color: Colors.white38)),
-          Text(tx.amount.toStringAsFixed(2),
-              style: const TextStyle(fontSize: 12)),
+          const Text(
+            'Ref.',
+            style: TextStyle(fontSize: 10, color: Colors.white38),
+          ),
+          Text(
+            tx.amount.toStringAsFixed(2),
+            style: const TextStyle(fontSize: 12),
+          ),
         ],
       ),
     );
@@ -186,32 +200,44 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
   Widget _buildLedgerTab(FinanceState state) {
     if (state.ledgers.isEmpty) {
       return const Center(
-          child: Text('Add journal entries to see ledgers.',
-              style: TextStyle(color: Colors.white70)));
+        child: Text(
+          'Add journal entries to see ledgers.',
+          style: TextStyle(color: Colors.white70),
+        ),
+      );
     }
 
     return ListView(
       padding: const EdgeInsets.only(top: 120, left: 16, right: 16, bottom: 80),
-      children:
-          state.ledgers.entries.map((e) => _buildTAccount(e.value)).toList(),
+      children: state.ledgers.entries
+          .map((e) => _buildTAccount(e.value))
+          .toList(),
     );
   }
 
-  Widget _buildStatementRow(String label, double amount, Color color,
-      {bool bold = false}) {
+  Widget _buildStatementRow(
+    String label,
+    double amount,
+    Color color, {
+    bool bold = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: TextStyle(
-                  fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
           Text(
             '\$${amount.toStringAsFixed(2)}',
             style: TextStyle(
-                color: color,
-                fontWeight: bold ? FontWeight.bold : FontWeight.normal),
+              color: color,
+              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
         ],
       ),
@@ -221,8 +247,11 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
   Widget _buildStatementsTab(FinanceState state) {
     if (state.ledgers.isEmpty) {
       return const Center(
-          child: Text('No transactions yet.',
-              style: TextStyle(color: Colors.white70)));
+        child: Text(
+          'No transactions yet.',
+          style: TextStyle(color: Colors.white70),
+        ),
+      );
     }
 
     // Simplified Income Statement (Revenue - Expenses = Net Income)
@@ -265,8 +294,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Income Statement
-          const Text('Income Statement',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Text(
+            'Income Statement',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 16),
           GlassContainer(
             padding: const EdgeInsets.all(20),
@@ -275,52 +306,75 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                 _buildStatementRow('Revenue', revenue, Colors.greenAccent),
                 _buildStatementRow('Expenses', expenses, Colors.orangeAccent),
                 const Divider(color: Colors.white24),
-                _buildStatementRow('Net Income', netIncome,
-                    netIncome >= 0 ? Colors.greenAccent : Colors.redAccent,
-                    bold: true),
+                _buildStatementRow(
+                  'Net Income',
+                  netIncome,
+                  netIncome >= 0 ? Colors.greenAccent : Colors.redAccent,
+                  bold: true,
+                ),
               ],
             ),
           ),
           const SizedBox(height: 24),
 
           // Balance Sheet
-          const Text('Balance Sheet',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Text(
+            'Balance Sheet',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 16),
           GlassContainer(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Assets',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.blueAccent)),
+                const Text(
+                  'Assets',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.blueAccent,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 _buildStatementRow('Total Assets', assets, Colors.blueAccent),
                 const SizedBox(height: 16),
-                const Text('Liabilities',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.orangeAccent)),
+                const Text(
+                  'Liabilities',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.orangeAccent,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 _buildStatementRow(
-                    'Total Liabilities', liabilities, Colors.orangeAccent),
+                  'Total Liabilities',
+                  liabilities,
+                  Colors.orangeAccent,
+                ),
                 const SizedBox(height: 16),
-                const Text('Equity',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.purpleAccent)),
+                const Text(
+                  'Equity',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.purpleAccent,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 _buildStatementRow(
-                    'Retained Earnings', equity, Colors.purpleAccent),
+                  'Retained Earnings',
+                  equity,
+                  Colors.purpleAccent,
+                ),
                 const Divider(color: Colors.white24),
-                _buildStatementRow('Total Liabilities + Equity',
-                    liabilities + equity, Colors.white,
-                    bold: true),
+                _buildStatementRow(
+                  'Total Liabilities + Equity',
+                  liabilities + equity,
+                  Colors.white,
+                  bold: true,
+                ),
               ],
             ),
           ),
@@ -328,9 +382,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
           const Text(
             'Note: This is a simplified demonstration. Actual financial statements require proper account classification.',
             style: TextStyle(
-                fontSize: 11,
-                color: Colors.white54,
-                fontStyle: FontStyle.italic),
+              fontSize: 11,
+              color: Colors.white54,
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ],
       ),
@@ -343,9 +398,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Text(account.name,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          Text(
+            account.name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           const SizedBox(height: 8),
           Container(height: 2, color: Colors.white24),
           Row(
@@ -361,7 +417,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                 ),
               ),
               Container(
-                  width: 2, height: 100, color: Colors.white24), // Center line
+                width: 2,
+                height: 100,
+                color: Colors.white24,
+              ), // Center line
               // Credit side
               Expanded(
                 child: Column(
@@ -377,8 +436,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Balance:',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Balance:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               Text(
                 account.balance.toStringAsFixed(2),
                 style: TextStyle(
@@ -398,8 +459,11 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
   Widget _buildTrialBalanceTab(FinanceState state) {
     if (state.ledgers.isEmpty) {
       return const Center(
-          child: Text('No ledger accounts yet.',
-              style: TextStyle(color: Colors.white70)));
+        child: Text(
+          'No ledger accounts yet.',
+          style: TextStyle(color: Colors.white70),
+        ),
+      );
     }
 
     double totalDebit = 0;
@@ -408,8 +472,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
     return ListView(
       padding: const EdgeInsets.only(top: 120, left: 16, right: 16, bottom: 80),
       children: [
-        const Text('Trial Balance',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const Text(
+          'Trial Balance',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         GlassContainer(
           padding: const EdgeInsets.all(16),
@@ -419,20 +485,35 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
               const Row(
                 children: [
                   Expanded(
-                      flex: 2,
-                      child: Text('Account',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12))),
+                    flex: 2,
+                    child: Text(
+                      'Account',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                   Expanded(
-                      child: Text('Debit',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12))),
+                    child: Text(
+                      'Debit',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                   Expanded(
-                      child: Text('Credit',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12))),
+                    child: Text(
+                      'Credit',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const Divider(color: Colors.white24),
@@ -473,16 +554,20 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
               Row(
                 children: [
                   const Expanded(
-                      flex: 2,
-                      child: Text('Total',
-                          style: TextStyle(fontWeight: FontWeight.bold))),
+                    flex: 2,
+                    child: Text(
+                      'Total',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       totalDebit.toStringAsFixed(2),
                       textAlign: TextAlign.right,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.greenAccent),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.greenAccent,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -490,7 +575,9 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                       totalCredit.toStringAsFixed(2),
                       textAlign: TextAlign.right,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.redAccent),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.redAccent,
+                      ),
                     ),
                   ),
                 ],
@@ -515,8 +602,10 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           backgroundColor: Colors.grey[900],
-          title: const Text('New Journal Entry',
-              style: TextStyle(color: Colors.white)),
+          title: const Text(
+            'New Journal Entry',
+            style: TextStyle(color: Colors.white),
+          ),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -531,14 +620,19 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.error_outline,
-                            color: Colors.redAccent, size: 20),
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.redAccent,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             errorMessage,
                             style: const TextStyle(
-                                color: Colors.redAccent, fontSize: 12),
+                              color: Colors.redAccent,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -619,10 +713,13 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('💡 Tip:',
-                          style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        '💡 Tip:',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(height: 4),
                       Text(
                         'Debits increase assets/expenses, Credits increase liabilities/revenue.',
@@ -644,27 +741,33 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                 // Validation
                 if (desc.trim().isEmpty) {
                   setDialogState(
-                      () => errorMessage = 'Description is required');
+                    () => errorMessage = 'Description is required',
+                  );
                   return;
                 }
                 if (acc1.trim().isEmpty) {
                   setDialogState(
-                      () => errorMessage = 'Debit account is required');
+                    () => errorMessage = 'Debit account is required',
+                  );
                   return;
                 }
                 if (acc2.trim().isEmpty) {
                   setDialogState(
-                      () => errorMessage = 'Credit account is required');
+                    () => errorMessage = 'Credit account is required',
+                  );
                   return;
                 }
                 if (acc1.trim().toLowerCase() == acc2.trim().toLowerCase()) {
-                  setDialogState(() => errorMessage =
-                      'Debit and Credit accounts must be different');
+                  setDialogState(
+                    () => errorMessage =
+                        'Debit and Credit accounts must be different',
+                  );
                   return;
                 }
                 if (amount <= 0) {
                   setDialogState(
-                      () => errorMessage = 'Amount must be greater than zero');
+                    () => errorMessage = 'Amount must be greater than zero',
+                  );
                   return;
                 }
 
@@ -674,13 +777,15 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                   date: DateTime.now(),
                   lines: [
                     TransactionLine(
-                        accountName: acc1.trim(),
-                        amount: amount,
-                        type: TransactionType.debit),
+                      accountName: acc1.trim(),
+                      amount: amount,
+                      type: TransactionType.debit,
+                    ),
                     TransactionLine(
-                        accountName: acc2.trim(),
-                        amount: amount,
-                        type: TransactionType.credit),
+                      accountName: acc2.trim(),
+                      amount: amount,
+                      type: TransactionType.credit,
+                    ),
                   ],
                 );
 
@@ -691,8 +796,9 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text('Journal entry added successfully!'),
-                        backgroundColor: Colors.green),
+                      content: Text('Journal entry added successfully!'),
+                      backgroundColor: Colors.green,
+                    ),
                   );
                 } catch (e) {
                   setDialogState(() => errorMessage = 'Error: ${e.toString()}');
@@ -714,7 +820,8 @@ class _AccountingSimulatorState extends ConsumerState<AccountingSimulator>
         steps: accountingTutorialSteps,
         onComplete: () {
           TutorialService.markTutorialCompleted(
-              TutorialIds.accountingSimulator);
+            TutorialIds.accountingSimulator,
+          );
           ref
               .read(userStatsProvider.notifier)
               .addXP(200); // Reward for completion

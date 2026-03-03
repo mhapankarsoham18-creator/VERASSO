@@ -25,8 +25,8 @@ class MessagingEncryptionService {
   MessagingEncryptionService({
     SupabaseClient? client,
     EncryptionService? encryptionService,
-  })  : _client = client ?? SupabaseService.client,
-        _encryptionService = encryptionService ?? EncryptionService();
+  }) : _client = client ?? SupabaseService.client,
+       _encryptionService = encryptionService ?? EncryptionService();
 
   /// Decrypt received message
   /// Expects encrypted message in format: encrypted_text:iv:auth_tag
@@ -87,11 +87,14 @@ class MessagingEncryptionService {
 
       final conversationId = _sortAndConcatenate(currentUserId, otherUserId);
       final newKey = _generateConversationKey(
-          '$conversationId:${DateTime.now().millisecondsSinceEpoch}');
+        '$conversationId:${DateTime.now().millisecondsSinceEpoch}',
+      );
 
       // Update key in database
-      await _client.from('conversation_keys').update(
-          {'encryption_key': newKey}).eq('conversation_id', conversationId);
+      await _client
+          .from('conversation_keys')
+          .update({'encryption_key': newKey})
+          .eq('conversation_id', conversationId);
 
       AppLogger.info('Conversation key rotated for $otherUserId');
     } catch (e) {
@@ -140,15 +143,16 @@ class MessagingEncryptionService {
               otherUserId,
             );
 
-            if (decryptedContent
-                .toLowerCase()
-                .contains(searchQuery.toLowerCase())) {
+            if (decryptedContent.toLowerCase().contains(
+              searchQuery.toLowerCase(),
+            )) {
               matchingMessageIds.add(msg['id'] as String);
             }
           } catch (e) {
             // Log decryption errors but continue searching
             AppLogger.info(
-                'Search: Failed to decrypt message ${msg['id']}: $e');
+              'Search: Failed to decrypt message ${msg['id']}: $e',
+            );
           }
         }
       }
@@ -196,8 +200,9 @@ class MessagingEncryptionService {
   String _generateConversationKey(String conversationId) {
     final bytes = utf8.encode(conversationId);
     final digest = sha256.convert(bytes);
-    return base64Encode(digest.bytes)
-        .substring(0, 32); // Ensure 32 bytes for AES-256
+    return base64Encode(
+      digest.bytes,
+    ).substring(0, 32); // Ensure 32 bytes for AES-256
   }
 
   /// Get or create encryption key for conversation

@@ -17,11 +17,14 @@ class SavedPostRepository {
 
   /// Creates a [SavedPostRepository] instance.
   SavedPostRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Creates a new curated [Collection] for the current user.
-  Future<void> createCollection(String name,
-      {String? description, bool isPrivate = true}) async {
+  Future<void> createCollection(
+    String name, {
+    String? description,
+    bool isPrivate = true,
+  }) async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return;
 
@@ -90,10 +93,10 @@ class SavedPostRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return false;
 
-    final response = await _client
-        .from('saved_posts')
-        .select()
-        .match({'user_id': userId, 'post_id': postId}).maybeSingle();
+    final response = await _client.from('saved_posts').select().match({
+      'user_id': userId,
+      'post_id': postId,
+    }).maybeSingle();
 
     return response != null;
   }
@@ -139,15 +142,15 @@ class SavedPostRepository {
     final response = await _client
         .from('collections')
         .update(
-            collection.copyWith(revisionId: collection.revisionId + 1).toJson())
-        .match({
-      'id': collection.id,
-      'revision_id': collection.revisionId,
-    }).select();
+          collection.copyWith(revisionId: collection.revisionId + 1).toJson(),
+        )
+        .match({'id': collection.id, 'revision_id': collection.revisionId})
+        .select();
 
     if ((response as List).isEmpty) {
       throw Exception(
-          'Conflict detected: Collection has been modified by someone else.');
+        'Conflict detected: Collection has been modified by someone else.',
+      );
     }
   }
 

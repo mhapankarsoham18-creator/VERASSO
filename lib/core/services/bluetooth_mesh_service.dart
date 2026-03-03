@@ -92,7 +92,7 @@ class BluetoothMeshService {
 
   /// Creates a [BluetoothMeshService] and initializes security/signing keys.
   BluetoothMeshService({required MeshTransport transport})
-      : _transport = transport {
+    : _transport = transport {
     _initLines();
     _initSecurity();
     _initSigning();
@@ -127,8 +127,11 @@ class BluetoothMeshService {
 
   /// Broadcasts a packet to the mesh network.
   Future<void> broadcastPacket(
-      MeshPayloadType type, Map<String, dynamic> payload,
-      {String? targetSubject, MeshPriority? priority}) async {
+    MeshPayloadType type,
+    Map<String, dynamic> payload, {
+    String? targetSubject,
+    MeshPriority? priority,
+  }) async {
     if (_myId == null) return;
 
     final packet = MeshPacket(
@@ -145,8 +148,8 @@ class BluetoothMeshService {
       publicKey: base64Encode(_verifyKey),
       identityProof:
           (priority == MeshPriority.critical || priority == MeshPriority.high)
-              ? _generateIdentityProof()
-              : null,
+          ? _generateIdentityProof()
+          : null,
     );
 
     final signedPacket = _signPacket(packet);
@@ -169,8 +172,11 @@ class BluetoothMeshService {
   }
 
   /// Initializes the node with a [userName], [userId], and optional [expertise] areas.
-  Future<void> initialize(String userName, String userId,
-      {List<String> expertise = const []}) async {
+  Future<void> initialize(
+    String userName,
+    String userId, {
+    List<String> expertise = const [],
+  }) async {
     _myName = userName;
     _myId = userId;
     _myExpertise = expertise;
@@ -251,7 +257,8 @@ class BluetoothMeshService {
         break;
       case MeshConnectionState.initiated:
         AppLogger.info(
-            "Connecting to ${event.endpointName}, Auth Token: ${event.authenticationToken}");
+          "Connecting to ${event.endpointName}, Auth Token: ${event.authenticationToken}",
+        );
         _transport.acceptConnection(event.endpointId);
         break;
       case MeshConnectionState.connected:
@@ -303,7 +310,8 @@ class BluetoothMeshService {
       // 2. Cryptographic Verification
       if (!_verifyPacket(packet)) {
         AppLogger.warning(
-            "mesh: Dropping packet ${packet.id} due to INVALID signature");
+          "mesh: Dropping packet ${packet.id} due to INVALID signature",
+        );
         return;
       }
 
@@ -339,15 +347,13 @@ class BluetoothMeshService {
             _myExpertise.contains(packet.targetSubject)) {
           newTtl = (newTtl + 2).clamp(0, 15);
           AppLogger.info(
-              "Expertise Match: Boosting TTL for ${packet.id} to $newTtl");
+            "Expertise Match: Boosting TTL for ${packet.id} to $newTtl",
+          );
         }
 
         final newSeen = List<String>.from(packet.seenBy)..add(_myId!);
 
-        final relayedPacket = packet.copyWith(
-          ttl: newTtl,
-          seenBy: newSeen,
-        );
+        final relayedPacket = packet.copyWith(ttl: newTtl, seenBy: newSeen);
 
         _queueForRelay(relayedPacket);
       }
@@ -360,13 +366,17 @@ class BluetoothMeshService {
     try {
       final peerPublicKeyBase64 = packet.payload['epk'] as String?;
       if (peerPublicKeyBase64 != null) {
-        final peerPublicKey =
-            x25519.PublicKey(base64Decode(peerPublicKeyBase64));
+        final peerPublicKey = x25519.PublicKey(
+          base64Decode(peerPublicKeyBase64),
+        );
         _peerEncryptionKeys[packet.senderId] = peerPublicKey;
         _peerBoxes[packet.senderId] = x25519.Box(
-            myPrivateKey: _encryptionPrivateKey, theirPublicKey: peerPublicKey);
+          myPrivateKey: _encryptionPrivateKey,
+          theirPublicKey: peerPublicKey,
+        );
         AppLogger.info(
-            "mesh: Established E2EE channel with ${packet.senderName}");
+          "mesh: Established E2EE channel with ${packet.senderName}",
+        );
       }
     } catch (e) {
       AppLogger.error("mesh: Handshake failed", error: e);
@@ -374,8 +384,9 @@ class BluetoothMeshService {
   }
 
   void _initLines() {
-    _connectionSubscription =
-        _transport.connectionEvents.listen(_handleConnectionEvent);
+    _connectionSubscription = _transport.connectionEvents.listen(
+      _handleConnectionEvent,
+    );
     _dataSubscription = _transport.dataEvents.listen(_handleDataPayload);
   }
 
@@ -394,7 +405,8 @@ class BluetoothMeshService {
     _encryptionPublicKey = _encryptionPrivateKey.publicKey;
 
     AppLogger.info(
-        "mesh: E2EE keys initialized. PK: ${base64Encode(_encryptionPublicKey)}");
+      "mesh: E2EE keys initialized. PK: ${base64Encode(_encryptionPublicKey)}",
+    );
   }
 
   void _queueForRelay(MeshPacket packet) {
@@ -410,7 +422,8 @@ class BluetoothMeshService {
     _iv = encrypt.IV.fromLength(16);
     _encrypter = encrypt.Encrypter(encrypt.AES(key));
     AppLogger.info(
-        'Mesh Security Re-initialized with secure master key for user: $seed');
+      'Mesh Security Re-initialized with secure master key for user: $seed',
+    );
   }
 
   void _resetPulsedTimer() {
@@ -421,8 +434,9 @@ class BluetoothMeshService {
   Future<void> _runRelayCycle() async {
     while (!_isDisposed) {
       if (_relayBuffer.isNotEmpty && _connectedEndpoints.isNotEmpty) {
-        _relayBuffer
-            .sort((a, b) => b.priority.index.compareTo(a.priority.index));
+        _relayBuffer.sort(
+          (a, b) => b.priority.index.compareTo(a.priority.index),
+        );
 
         final packet = _relayBuffer.removeAt(0);
 
@@ -431,7 +445,8 @@ class BluetoothMeshService {
                 packet.priority == MeshPriority.high) &&
             !_verifyIdentityProof(packet)) {
           AppLogger.warning(
-              "mesh: Dropped untrusted High-Priority packet ${packet.id} (No ZKProof)");
+            "mesh: Dropped untrusted High-Priority packet ${packet.id} (No ZKProof)",
+          );
           continue;
         }
 
@@ -447,8 +462,9 @@ class BluetoothMeshService {
 
       final densityScale = 1.0 + (_connectedEndpoints.length / 5.0);
       final congestionScale = 1.0 / (1.0 + (_relayBuffer.length / 5.0));
-      final intervalMs =
-          (200 * densityScale * congestionScale).clamp(50, 500).toInt();
+      final intervalMs = (200 * densityScale * congestionScale)
+          .clamp(50, 500)
+          .toInt();
       await Future.delayed(Duration(milliseconds: intervalMs));
     }
   }

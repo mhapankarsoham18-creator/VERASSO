@@ -20,10 +20,7 @@ class LazyLoadingController<T> {
   bool _hasMore = true;
 
   /// Creates a [LazyLoadingController] instance.
-  LazyLoadingController({
-    required this.fetchPage,
-    this.pageSize = 20,
-  });
+  LazyLoadingController({required this.fetchPage, this.pageSize = 20});
 
   /// Whether there are more items to be loaded.
   bool get hasMore => _hasMore;
@@ -233,7 +230,7 @@ class PriorityQueue<T> {
 
   /// Creates a [PriorityQueue] instance.
   PriorityQueue({int Function(T a, T b)? comparator})
-      : _comparator = comparator;
+    : _comparator = comparator;
 
   /// Whether the priority queue is currently empty.
   bool get isEmpty => _heap.isEmpty;
@@ -381,7 +378,8 @@ class _LazyLoadingListViewState<T> extends State<LazyLoadingListView<T>> {
     return ListView.builder(
       controller: _scrollController,
       physics: widget.physics,
-      itemCount: widget.controller.items.length +
+      itemCount:
+          widget.controller.items.length +
           (widget.controller.isLoading ? 1 : 0),
       itemBuilder: (context, index) {
         if (index >= widget.controller.items.length) {

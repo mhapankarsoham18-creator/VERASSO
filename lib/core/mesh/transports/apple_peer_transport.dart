@@ -9,8 +9,9 @@ import 'package:verasso/core/monitoring/app_logger.dart';
 /// This implementation provides a bridge to native iOS code via [MethodChannel]
 /// for high-performance peer-to-peer communication using the Multipeer Connectivity Framework.
 class ApplePeerTransport implements MeshTransport {
-  static const MethodChannel _channel =
-      MethodChannel('dev.verasso.mesh/apple_peer');
+  static const MethodChannel _channel = MethodChannel(
+    'dev.verasso.mesh/apple_peer',
+  );
 
   final _connectionEvents = StreamController<MeshConnectionEvent>.broadcast();
   final _dataEvents = StreamController<MeshDataPayload>.broadcast();
@@ -52,12 +53,15 @@ class ApplePeerTransport implements MeshTransport {
   @override
   Future<bool> startAdvertising(String name) async {
     try {
-      final bool? success =
-          await _channel.invokeMethod('startAdvertising', {'name': name});
+      final bool? success = await _channel.invokeMethod('startAdvertising', {
+        'name': name,
+      });
       return success ?? false;
     } catch (e) {
-      AppLogger.error('ApplePeerTransport: Failed to start advertising',
-          error: e);
+      AppLogger.error(
+        'ApplePeerTransport: Failed to start advertising',
+        error: e,
+      );
       return false;
     }
   }
@@ -65,12 +69,15 @@ class ApplePeerTransport implements MeshTransport {
   @override
   Future<bool> startDiscovery(String name) async {
     try {
-      final bool? success =
-          await _channel.invokeMethod('startDiscovery', {'name': name});
+      final bool? success = await _channel.invokeMethod('startDiscovery', {
+        'name': name,
+      });
       return success ?? false;
     } catch (e) {
-      AppLogger.error('ApplePeerTransport: Failed to start discovery',
-          error: e);
+      AppLogger.error(
+        'ApplePeerTransport: Failed to start discovery',
+        error: e,
+      );
       return false;
     }
   }
@@ -101,18 +108,19 @@ class ApplePeerTransport implements MeshTransport {
         case 'onConnectionEvent':
           final stateInt = arguments?['state'] as int?;
           if (stateInt != null) {
-            _connectionEvents.add(MeshConnectionEvent(
-              endpointId: endpointId,
-              state: MeshConnectionState.values[stateInt],
-            ));
+            _connectionEvents.add(
+              MeshConnectionEvent(
+                endpointId: endpointId,
+                state: MeshConnectionState.values[stateInt],
+              ),
+            );
           }
         case 'onDataReceived':
           final data = arguments?['data'] as Uint8List?;
           if (data != null) {
-            _dataEvents.add(MeshDataPayload(
-              endpointId: endpointId,
-              data: data,
-            ));
+            _dataEvents.add(
+              MeshDataPayload(endpointId: endpointId, data: data),
+            );
           }
         default:
           AppLogger.error(
@@ -121,8 +129,10 @@ class ApplePeerTransport implements MeshTransport {
           );
       }
     } catch (e) {
-      AppLogger.error('ApplePeerTransport: Failed to handle native callback',
-          error: e);
+      AppLogger.error(
+        'ApplePeerTransport: Failed to handle native callback',
+        error: e,
+      );
     }
   }
 }

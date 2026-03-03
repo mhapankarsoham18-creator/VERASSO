@@ -28,9 +28,10 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Start New Project'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Start New Project'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -44,9 +45,10 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                     TextField(
                       controller: _titleController,
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                       decoration: const InputDecoration(
                         hintText: 'Project Name (e.g. Weather App)',
                         hintStyle: TextStyle(color: Colors.white38),
@@ -73,8 +75,9 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                         icon: const Icon(LucideIcons.rocket),
                         label: const Text('Launch Team Workspace'),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrangeAccent,
-                            foregroundColor: Colors.white),
+                          backgroundColor: Colors.deepOrangeAccent,
+                          foregroundColor: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -93,7 +96,9 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
 
     if (_titleController.text.isEmpty) return;
 
-    await ref.read(projectRepositoryProvider).createProject(
+    await ref
+        .read(projectRepositoryProvider)
+        .createProject(
           leaderId: userId,
           title: _titleController.text,
           description: _descController.text,

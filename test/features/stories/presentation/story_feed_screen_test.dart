@@ -17,18 +17,15 @@ void main() {
 
   Widget createSubject() {
     return ProviderScope(
-      overrides: [
-        storiesServiceProvider.overrideWithValue(mockStoriesService),
-      ],
-      child: const MaterialApp(
-        home: Scaffold(body: StoryFeedScreen()),
-      ),
+      overrides: [storiesServiceProvider.overrideWithValue(mockStoriesService)],
+      child: const MaterialApp(home: Scaffold(body: StoryFeedScreen())),
     );
   }
 
   group('StoryFeedScreen Widget Tests', () {
-    testWidgets('renders empty state when no stories',
-        (WidgetTester tester) async {
+    testWidgets('renders empty state when no stories', (
+      WidgetTester tester,
+    ) async {
       when(mockStoriesService.getActiveStories()).thenAnswer((_) async => []);
       when(mockStoriesService.getMyStories()).thenAnswer((_) async => []);
 
@@ -38,8 +35,10 @@ void main() {
       // Settle
       await tester.pumpAndSettle();
 
-      expect(find.text('No stories available. Be the first to share!'),
-          findsOneWidget);
+      expect(
+        find.text('No stories available. Be the first to share!'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders stories when available', (WidgetTester tester) async {
@@ -55,8 +54,9 @@ void main() {
         username: 'alice',
       );
 
-      when(mockStoriesService.getActiveStories())
-          .thenAnswer((_) async => [story]);
+      when(
+        mockStoriesService.getActiveStories(),
+      ).thenAnswer((_) async => [story]);
       when(mockStoriesService.getMyStories()).thenAnswer((_) async => []);
 
       await tester.pumpWidget(createSubject());
@@ -71,15 +71,15 @@ void main() {
 class MockStoriesService extends Mock implements StoriesService {
   @override
   Future<List<StoryModel>> getActiveStories() async => super.noSuchMethod(
-        Invocation.method(#getActiveStories, []),
-        returnValue: Future.value(<StoryModel>[]),
-        returnValueForMissingStub: Future.value(<StoryModel>[]),
-      );
+    Invocation.method(#getActiveStories, []),
+    returnValue: Future.value(<StoryModel>[]),
+    returnValueForMissingStub: Future.value(<StoryModel>[]),
+  );
 
   @override
   Future<List<StoryModel>> getMyStories() async => super.noSuchMethod(
-        Invocation.method(#getMyStories, []),
-        returnValue: Future.value(<StoryModel>[]),
-        returnValueForMissingStub: Future.value(<StoryModel>[]),
-      );
+    Invocation.method(#getMyStories, []),
+    returnValue: Future.value(<StoryModel>[]),
+    returnValueForMissingStub: Future.value(<StoryModel>[]),
+  );
 }

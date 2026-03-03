@@ -59,24 +59,32 @@ class _PendulumLabScreenState extends State<PendulumLabScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: [
-                    const Text('Length'),
-                    Expanded(
+                  Row(
+                    children: [
+                      const Text('Length'),
+                      Expanded(
                         child: Slider(
-                            min: 50,
-                            max: 400,
-                            value: _length,
-                            onChanged: (v) => setState(() => _length = v))),
-                  ]),
-                  Row(children: [
-                    const Text('Gravity'),
-                    Expanded(
+                          min: 50,
+                          max: 400,
+                          value: _length,
+                          onChanged: (v) => setState(() => _length = v),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('Gravity'),
+                      Expanded(
                         child: Slider(
-                            min: 0.1,
-                            max: 2,
-                            value: _gravity,
-                            onChanged: (v) => setState(() => _gravity = v))),
-                  ]),
+                          min: 0.1,
+                          max: 2,
+                          value: _gravity,
+                          onChanged: (v) => setState(() => _gravity = v),
+                        ),
+                      ),
+                    ],
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       // Reset
@@ -86,11 +94,11 @@ class _PendulumLabScreenState extends State<PendulumLabScreen>
                       });
                     },
                     child: const Text('Reset'),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -133,21 +141,23 @@ class _PendulumPainter extends CustomPainter {
 
     // Draw String
     canvas.drawLine(
-        origin,
-        bob,
-        Paint()
-          ..color = Colors.white
-          ..strokeWidth = 2);
+      origin,
+      bob,
+      Paint()
+        ..color = Colors.white
+        ..strokeWidth = 2,
+    );
 
     // Draw Bob
     canvas.drawCircle(bob, 20, Paint()..color = Colors.purple);
     canvas.drawCircle(
-        bob,
-        20,
-        Paint()
-          ..color = Colors.white.withValues(alpha: 0.3)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2);
+      bob,
+      20,
+      Paint()
+        ..color = Colors.white.withValues(alpha: 0.3)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
   }
 
   @override

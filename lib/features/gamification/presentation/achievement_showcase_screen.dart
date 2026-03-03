@@ -65,7 +65,11 @@ class AchievementShowcaseScreen extends StatelessWidget {
   }
 
   Widget _buildCertificateCard(
-      String title, String subtitle, IconData icon, Color color) {
+    String title,
+    String subtitle,
+    IconData icon,
+    Color color,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
@@ -84,12 +88,17 @@ class AchievementShowcaseScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(subtitle,
-                    style:
-                        const TextStyle(color: Colors.white60, fontSize: 13)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: const TextStyle(color: Colors.white60, fontSize: 13),
+                ),
               ],
             ),
           ),

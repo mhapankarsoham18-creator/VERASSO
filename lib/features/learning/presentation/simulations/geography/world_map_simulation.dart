@@ -62,11 +62,15 @@ class WorldMapPainter extends CustomPainter {
 
       final path = Path();
       if (region.points.isNotEmpty) {
-        path.moveTo(region.points[0].dx * size.width,
-            region.points[0].dy * size.height);
+        path.moveTo(
+          region.points[0].dx * size.width,
+          region.points[0].dy * size.height,
+        );
         for (int i = 1; i < region.points.length; i++) {
-          path.lineTo(region.points[i].dx * size.width,
-              region.points[i].dy * size.height);
+          path.lineTo(
+            region.points[i].dx * size.width,
+            region.points[i].dy * size.height,
+          );
         }
         path.close();
       }
@@ -139,7 +143,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
         const Offset(0.1, 0.1),
         const Offset(0.3, 0.1),
         const Offset(0.25, 0.35),
-        const Offset(0.15, 0.3)
+        const Offset(0.15, 0.3),
       ],
       labelPos: const Offset(0.2, 0.2),
       description:
@@ -152,7 +156,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
       points: [
         const Offset(0.25, 0.4),
         const Offset(0.35, 0.4),
-        const Offset(0.3, 0.65)
+        const Offset(0.3, 0.65),
       ],
       labelPos: const Offset(0.3, 0.5),
       description: 'Home to the Amazon Rainforest and the Andes Mountains.',
@@ -165,7 +169,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
         const Offset(0.45, 0.15),
         const Offset(0.55, 0.15),
         const Offset(0.52, 0.25),
-        const Offset(0.45, 0.25)
+        const Offset(0.45, 0.25),
       ],
       labelPos: const Offset(0.5, 0.2),
       description:
@@ -179,7 +183,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
         const Offset(0.45, 0.3),
         const Offset(0.6, 0.3),
         const Offset(0.55, 0.6),
-        const Offset(0.48, 0.5)
+        const Offset(0.48, 0.5),
       ],
       labelPos: const Offset(0.52, 0.45),
       description:
@@ -193,7 +197,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
         const Offset(0.58, 0.1),
         const Offset(0.85, 0.1),
         const Offset(0.8, 0.45),
-        const Offset(0.6, 0.3)
+        const Offset(0.6, 0.3),
       ],
       labelPos: const Offset(0.7, 0.25),
       description:
@@ -207,7 +211,7 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
         const Offset(0.75, 0.65),
         const Offset(0.9, 0.65),
         const Offset(0.85, 0.8),
-        const Offset(0.75, 0.75)
+        const Offset(0.75, 0.75),
       ],
       labelPos: const Offset(0.82, 0.72),
       description: 'Newest continent geologically, unique flora and fauna.',
@@ -305,9 +309,10 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
                                   ? region.baseColor
                                   : Colors.white10,
                               labelStyle: TextStyle(
-                                  color: isSelected
-                                      ? Colors.white
-                                      : Colors.white70),
+                                color: isSelected
+                                    ? Colors.white
+                                    : Colors.white70,
+                              ),
                               onPressed: () => _onRegionTap(region.id),
                             ),
                           );
@@ -333,12 +338,15 @@ class _WorldMapSimulationState extends State<WorldMapSimulation> {
     try {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId != null) {
-        Supabase.instance.client.from('user_simulation_results').insert({
-          'user_id': userId,
-          'sim_id': 'world_map',
-          'parameters': {'action': 'select_region'},
-          'results': {'region_id': id},
-        }).then((_) => debugPrint('World map region selection saved'));
+        Supabase.instance.client
+            .from('user_simulation_results')
+            .insert({
+              'user_id': userId,
+              'sim_id': 'world_map',
+              'parameters': {'action': 'select_region'},
+              'results': {'region_id': id},
+            })
+            .then((_) => debugPrint('World map region selection saved'));
       }
     } catch (e) {
       debugPrint('Error persisting world map selection: $e');

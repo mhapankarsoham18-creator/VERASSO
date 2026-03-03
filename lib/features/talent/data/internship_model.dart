@@ -55,8 +55,9 @@ class InternshipContract {
       startDate: json['start_date'] != null
           ? DateTime.parse(json['start_date'])
           : null,
-      endDate:
-          json['end_date'] != null ? DateTime.parse(json['end_date']) : null,
+      endDate: json['end_date'] != null
+          ? DateTime.parse(json['end_date'])
+          : null,
       totalPayment: (json['total_payment'] as num?)?.toDouble() ?? 0.0,
       termsOfService: json['terms_of_service'],
       createdAt: DateTime.parse(json['created_at']),

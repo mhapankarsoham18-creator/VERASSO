@@ -40,23 +40,25 @@ class MeshSyncManager {
     if (_recentIds.isEmpty) return; // Don't broadcast empty summaries
 
     AppLogger.info(
-        'Broadcasting Mesh Summary: ${_recentIds.length} recent packets');
-    _meshService.broadcastPacket(
-      MeshPayloadType.meshSummary,
-      {'packetIds': _recentIds},
+      'Broadcasting Mesh Summary: ${_recentIds.length} recent packets',
     );
+    _meshService.broadcastPacket(MeshPayloadType.meshSummary, {
+      'packetIds': _recentIds,
+    });
   }
 
   void _handlePacketRequest(MeshPacket requestPacket) {
-    final requestedIds =
-        List<String>.from(requestPacket.payload['requestedIds'] ?? []);
+    final requestedIds = List<String>.from(
+      requestPacket.payload['requestedIds'] ?? [],
+    );
 
     for (var id in requestedIds) {
       if (_packetHistory.containsKey(id)) {
         // Expertise-aware prioritization: High trust peers get responses faster
         // Using RL scores if available, otherwise fallback to payload trust
         final nodeStats = _optimizer.getTrustMap()[requestPacket.senderName];
-        final trustScore = (nodeStats ??
+        final trustScore =
+            (nodeStats ??
                 (requestPacket.payload['senderTrust']?.toDouble() ?? 50.0)) /
             100.0;
 
@@ -70,27 +72,31 @@ class MeshSyncManager {
           if (!_packetHistory.containsKey(id)) return;
 
           AppLogger.info(
-              'Mesh Sync: Fulfilling packet request for $id to ${requestPacket.senderName} (Delay: ${delay}ms)');
+            'Mesh Sync: Fulfilling packet request for $id to ${requestPacket.senderName} (Delay: ${delay}ms)',
+          );
           _meshService.broadcastPacket(
             _packetHistory[id]!.type,
             _packetHistory[id]!.payload,
           );
 
           // Track "Success" in local optimizer for the sender
-          _optimizer.updateNodeStats(requestPacket.senderName,
-              success: true,
-              latencyMs: DateTime.now()
-                  .difference(startTime)
-                  .inMilliseconds
-                  .toDouble());
+          _optimizer.updateNodeStats(
+            requestPacket.senderName,
+            success: true,
+            latencyMs: DateTime.now()
+                .difference(startTime)
+                .inMilliseconds
+                .toDouble(),
+          );
         });
       }
     }
   }
 
   void _handleSummary(MeshPacket summaryPacket) {
-    final neighborIds =
-        List<String>.from(summaryPacket.payload['packetIds'] ?? []);
+    final neighborIds = List<String>.from(
+      summaryPacket.payload['packetIds'] ?? [],
+    );
     final List<String> missingIds = [];
 
     for (var id in neighborIds) {
@@ -108,11 +114,11 @@ class MeshSyncManager {
 
     if (missingIds.isNotEmpty) {
       AppLogger.info(
-          'Mesh Sync: Requesting ${missingIds.length} missing packets from ${summaryPacket.senderName}');
-      _meshService.broadcastPacket(
-        MeshPayloadType.packetRequest,
-        {'requestedIds': missingIds},
+        'Mesh Sync: Requesting ${missingIds.length} missing packets from ${summaryPacket.senderName}',
       );
+      _meshService.broadcastPacket(MeshPayloadType.packetRequest, {
+        'requestedIds': missingIds,
+      });
     }
   }
 

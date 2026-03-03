@@ -4,8 +4,9 @@ import 'package:verasso/core/services/supabase_service.dart';
 import 'package:verasso/features/learning/data/collaboration_models.dart';
 
 /// Provider for the [CollaborationRepository].
-final collaborationRepositoryProvider =
-    Provider<CollaborationRepository>((ref) {
+final collaborationRepositoryProvider = Provider<CollaborationRepository>((
+  ref,
+) {
   return CollaborationRepository();
 });
 
@@ -15,7 +16,7 @@ class CollaborationRepository {
 
   /// Creates a [CollaborationRepository] instance.
   CollaborationRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   // --- Karma & Scores ---
 
@@ -43,10 +44,13 @@ class CollaborationRepository {
 
     // 2. Mark as completed in student_scores
     final current = await getMyScore();
-    await _client.from('student_scores').update({
-      'challenges_completed': (current?.challengesCompleted ?? 0) + 1,
-      'last_challenge_at': DateTime.now().toIso8601String(),
-    }).eq('user_id', userId);
+    await _client
+        .from('student_scores')
+        .update({
+          'challenges_completed': (current?.challengesCompleted ?? 0) + 1,
+          'last_challenge_at': DateTime.now().toIso8601String(),
+        })
+        .eq('user_id', userId);
   }
 
   // --- Daily Challenges ---
@@ -101,9 +105,10 @@ class CollaborationRepository {
     List<dynamic> pins = List.from(session['pinned_resources'] ?? []);
     pins.add(resource);
 
-    await _client.from('study_room_sessions').update({
-      'pinned_resources': pins,
-    }).eq('id', sessionId);
+    await _client
+        .from('study_room_sessions')
+        .update({'pinned_resources': pins})
+        .eq('id', sessionId);
   }
 
   /// Watches for live study room sessions for a specific group.
@@ -112,9 +117,11 @@ class CollaborationRepository {
         .from('study_room_sessions')
         .stream(primaryKey: ['id'])
         .eq('group_id', groupId)
-        .map((data) => data
-            .where((json) => json['is_live'] == true)
-            .map((json) => StudyRoomSession.fromJson(json))
-            .toList());
+        .map(
+          (data) => data
+              .where((json) => json['is_live'] == true)
+              .map((json) => StudyRoomSession.fromJson(json))
+              .toList(),
+        );
   }
 }

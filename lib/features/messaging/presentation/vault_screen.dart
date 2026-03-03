@@ -36,11 +36,16 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
         elevation: 0,
       ),
       body: LiquidBackground(
-        child: ref.watch(conversationsProvider).when(
+        child: ref
+            .watch(conversationsProvider)
+            .when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(
-                  child: Text('Error: $err',
-                      style: const TextStyle(color: Colors.redAccent))),
+                child: Text(
+                  'Error: $err',
+                  style: const TextStyle(color: Colors.redAccent),
+                ),
+              ),
               data: (allConversations) {
                 return FutureBuilder<List<String>>(
                   future: vaultService.getHiddenChatIds(),
@@ -52,7 +57,11 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
 
                     return ListView(
                       padding: const EdgeInsets.only(
-                          top: 100, left: 16, right: 16, bottom: 20),
+                        top: 100,
+                        left: 16,
+                        right: 16,
+                        bottom: 20,
+                      ),
                       children: [
                         const GlassContainer(
                           padding: EdgeInsets.all(16),
@@ -65,7 +74,9 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                                 child: Text(
                                   'Chats in this vault are hidden from your main message list. Long-press to restore.',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.white70),
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                  ),
                                 ),
                               ),
                             ],
@@ -79,18 +90,24 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                               padding: EdgeInsets.all(32),
                               child: Column(
                                 children: [
-                                  Icon(LucideIcons.lock,
-                                      size: 64, color: Colors.white24),
+                                  Icon(
+                                    LucideIcons.lock,
+                                    size: 64,
+                                    color: Colors.white24,
+                                  ),
                                   SizedBox(height: 16),
-                                  Text('Your vault is empty',
-                                      style: TextStyle(color: Colors.white38)),
+                                  Text(
+                                    'Your vault is empty',
+                                    style: TextStyle(color: Colors.white38),
+                                  ),
                                 ],
                               ),
                             ),
                           )
                         else
-                          ...hiddenConversations
-                              .map((conv) => _buildConversationCard(conv)),
+                          ...hiddenConversations.map(
+                            (conv) => _buildConversationCard(conv),
+                          ),
                       ],
                     );
                   },
@@ -140,15 +157,19 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
                   const Text(
                     'Encrypted Content',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white38,
-                        fontStyle: FontStyle.italic),
+                      fontSize: 12,
+                      color: Colors.white38,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ),
             ),
-            const Icon(LucideIcons.chevronRight,
-                size: 16, color: Colors.white24),
+            const Icon(
+              LucideIcons.chevronRight,
+              size: 16,
+              color: Colors.white24,
+            ),
           ],
         ),
       ),
@@ -163,15 +184,18 @@ class _VaultScreenState extends ConsumerState<VaultScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Unhide this chat?'),
         content: const Text(
-            'This conversation will be moved back to your main message list.'),
+          'This conversation will be moved back to your main message list.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
-            style:
-                ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.greenAccent,
+            ),
             child: const Text('Unhide', style: TextStyle(color: Colors.black)),
           ),
         ],

@@ -11,41 +11,50 @@ class PresenceRepository {
 
   /// Creates a [PresenceRepository] instance.
   PresenceRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   // --- Real-time Presence ---
 
   /// Joins a presence channel for a specific conversation/activity and tracks online status.
   void joinPresence(
-      String userId, String channelId, void Function(List<String>) onSync) {
+    String userId,
+    String channelId,
+    void Function(List<String>) onSync,
+  ) {
     // Leave previous if any
     leavePresence();
 
-    _channel = _client.channel('presence-$channelId',
-        opts: const RealtimeChannelConfig(self: true));
+    _channel = _client.channel(
+      'presence-$channelId',
+      opts: const RealtimeChannelConfig(self: true),
+    );
 
-    _channel!.onPresenceSync((_) {
-      final dynamic state = _channel!.presenceState();
-      final List<String> onlineUsers = [];
+    _channel!
+        .onPresenceSync((_) {
+          final dynamic state = _channel!.presenceState();
+          final List<String> onlineUsers = [];
 
-      if (state is List) {
-        for (final dynamic presence in state) {
-          final dynamic payload = presence.payload;
-          if (payload != null &&
-              payload is Map &&
-              payload.containsKey('user_id')) {
-            onlineUsers.add(payload['user_id'].toString());
+          if (state is List) {
+            for (final dynamic presence in state) {
+              final dynamic payload = presence.payload;
+              if (payload != null &&
+                  payload is Map &&
+                  payload.containsKey('user_id')) {
+                onlineUsers.add(payload['user_id'].toString());
+              }
+            }
           }
-        }
-      }
 
-      onSync(onlineUsers.toSet().toList());
-    }).subscribe((status, [error]) async {
-      if (status == RealtimeSubscribeStatus.subscribed) {
-        await _channel!.track(
-            {'user_id': userId, 'online_at': DateTime.now().toIso8601String()});
-      }
-    });
+          onSync(onlineUsers.toSet().toList());
+        })
+        .subscribe((status, [error]) async {
+          if (status == RealtimeSubscribeStatus.subscribed) {
+            await _channel!.track({
+              'user_id': userId,
+              'online_at': DateTime.now().toIso8601String(),
+            });
+          }
+        });
   }
 
   /// Leaves the current presence channel and stops tracking.
@@ -75,12 +84,13 @@ class PresenceRepository {
 
     channel
         .onBroadcast(
-            event: 'typing',
-            callback: (payload) {
-              if (payload['user_id'] == otherUserId) {
-                controller.add(payload['isTyping'] as bool? ?? false);
-              }
-            })
+          event: 'typing',
+          callback: (payload) {
+            if (payload['user_id'] == otherUserId) {
+              controller.add(payload['isTyping'] as bool? ?? false);
+            }
+          },
+        )
         .subscribe();
 
     controller.onCancel = () {

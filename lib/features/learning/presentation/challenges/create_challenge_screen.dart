@@ -29,9 +29,10 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Create Challenge'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Create Challenge'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -41,31 +42,42 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Challenge Details',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Challenge Details',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                      'Title', 'e.g. Design a Splash Screen', _titleController),
+                    'Title',
+                    'e.g. Design a Splash Screen',
+                    _titleController,
+                  ),
                   const SizedBox(height: 16),
-                  _buildTextField('Description',
-                      'Provide clear instructions...', _descController,
-                      maxLines: 3),
+                  _buildTextField(
+                    'Description',
+                    'Provide clear instructions...',
+                    _descController,
+                    maxLines: 3,
+                  ),
                   const SizedBox(height: 16),
                   _buildDropdown(
-                      'Category',
-                      ['Coding', 'Design', 'Math', 'Physics', 'Writing'],
-                      _category,
-                      (v) => setState(() => _category = v!)),
+                    'Category',
+                    ['Coding', 'Design', 'Math', 'Physics', 'Writing'],
+                    _category,
+                    (v) => setState(() => _category = v!),
+                  ),
                   const SizedBox(height: 16),
                   _buildDropdown(
-                      'Difficulty',
-                      ['Easy', 'Medium', 'Hard', 'Expert'],
-                      _difficulty,
-                      (v) => setState(() => _difficulty = v!)),
+                    'Difficulty',
+                    ['Easy', 'Medium', 'Hard', 'Expert'],
+                    _difficulty,
+                    (v) => setState(() => _difficulty = v!),
+                  ),
                   const SizedBox(height: 24),
-                  const Text('Karma Reward',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Karma Reward',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Slider(
                     value: _karma.toDouble(),
                     min: 10,
@@ -76,10 +88,14 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
                     onChanged: (v) => setState(() => _karma = v.toInt()),
                   ),
                   Center(
-                      child: Text('$_karma Karma Points',
-                          style: const TextStyle(
-                              color: Colors.purpleAccent,
-                              fontWeight: FontWeight.bold))),
+                    child: Text(
+                      '$_karma Karma Points',
+                      style: const TextStyle(
+                        color: Colors.purpleAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
@@ -89,8 +105,9 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
                       icon: const Icon(LucideIcons.swords),
                       label: const Text('Launch Challenge'),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.purpleAccent,
-                          foregroundColor: Colors.white),
+                        backgroundColor: Colors.purpleAccent,
+                        foregroundColor: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -102,18 +119,26 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
     );
   }
 
-  Widget _buildDropdown(String label, List<String> items, String current,
-      Function(String?) onChanged) {
+  Widget _buildDropdown(
+    String label,
+    List<String> items,
+    String current,
+    Function(String?) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-              color: Colors.white10, borderRadius: BorderRadius.circular(12)),
+            color: Colors.white10,
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: current,
@@ -132,13 +157,18 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
   }
 
   Widget _buildTextField(
-      String label, String hint, TextEditingController controller,
-      {int maxLines = 1}) {
+    String label,
+    String hint,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: controller,
@@ -150,8 +180,9 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
             filled: true,
             fillColor: Colors.white10,
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
           ),
         ),
       ],
@@ -163,12 +194,15 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
     if (userId == null) return;
 
     if (_titleController.text.isEmpty || _descController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please fill all fields')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
       return;
     }
 
-    await ref.read(challengeRepositoryProvider).createChallenge(
+    await ref
+        .read(challengeRepositoryProvider)
+        .createChallenge(
           creatorId: userId,
           title: _titleController.text,
           description: _descController.text,
@@ -179,8 +213,9 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
 
     if (mounted) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Challenge Created! 🚀')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Challenge Created! 🚀')));
     }
   }
 }

@@ -16,10 +16,7 @@ void main() {
     mockClient = MockSupabaseClient(auth: mockAuth);
     mockTxService = MockTransactionService();
 
-    repository = CourseRepository(
-      client: mockClient,
-      txService: mockTxService,
-    );
+    repository = CourseRepository(client: mockClient, txService: mockTxService);
   });
 
   group('CourseRepository', () {
@@ -46,9 +43,7 @@ void main() {
       // Let's check if we can use when(...) or if we need to use the stubs map
 
       // The MockSupabaseQueryBuilder has a `_stubs` map
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'insert': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'insert': mockFilterBuilder});
       mockClient.setQueryBuilder('courses', qb);
 
       // Act
@@ -69,12 +64,10 @@ void main() {
           'title': 'Chapter 1',
           'order_index': 0,
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ]);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('chapters', qb);
 
       // Act
@@ -85,37 +78,37 @@ void main() {
       expect(result.first.title, 'Chapter 1');
     });
 
-    test('enrollInCourse should process transaction and insert enrollment',
-        () async {
-      // Arrange
-      final mockUser = TestSupabaseUser(id: 'user-123');
-      mockAuth.setCurrentUser(mockUser);
+    test(
+      'enrollInCourse should process transaction and insert enrollment',
+      () async {
+        // Arrange
+        final mockUser = TestSupabaseUser(id: 'user-123');
+        mockAuth.setCurrentUser(mockUser);
 
-      bool txCalled = false;
-      mockTxService.processCoursePurchaseStub = (uid, cid, price) async {
-        if (uid == 'user-123' && cid == 'course-123' && price == 99.0) {
-          txCalled = true;
-          return true;
-        }
-        return false;
-      };
+        bool txCalled = false;
+        mockTxService.processCoursePurchaseStub = (uid, cid, price) async {
+          if (uid == 'user-123' && cid == 'course-123' && price == 99.0) {
+            txCalled = true;
+            return true;
+          }
+          return false;
+        };
 
-      final mockQueryBuilder = MockSupabaseQueryBuilder();
-      mockClient.setQueryBuilder('enrollments', mockQueryBuilder);
+        final mockQueryBuilder = MockSupabaseQueryBuilder();
+        mockClient.setQueryBuilder('enrollments', mockQueryBuilder);
 
-      // Act
-      await repository.enrollInCourse('course-123', 99.0);
+        // Act
+        await repository.enrollInCourse('course-123', 99.0);
 
-      // Assert
-      expect(txCalled, isTrue);
-    });
+        // Assert
+        expect(txCalled, isTrue);
+      },
+    );
 
     test('updateProgress should update record', () async {
       // Arrange
       final mockFilterBuilder = MockPostgrestFilterBuilder();
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'update': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'update': mockFilterBuilder});
       mockClient.setQueryBuilder('enrollments', qb);
 
       // Act
@@ -137,12 +130,12 @@ void main() {
             'type': 'simulation',
             'content': 'Physics Simulation',
             'created_at': DateTime.now().toIso8601String(),
-          }
+          },
         ]);
 
-        final qb = MockSupabaseQueryBuilder(stubs: {
-          'select': mockFilterBuilder,
-        });
+        final qb = MockSupabaseQueryBuilder(
+          stubs: {'select': mockFilterBuilder},
+        );
         mockClient.setQueryBuilder('posts', qb);
 
         // Act
@@ -165,9 +158,9 @@ void main() {
           'created_at': DateTime.now().toIso8601String(),
         });
 
-        final qb = MockSupabaseQueryBuilder(stubs: {
-          'select': mockFilterBuilder,
-        });
+        final qb = MockSupabaseQueryBuilder(
+          stubs: {'select': mockFilterBuilder},
+        );
         mockClient.setQueryBuilder('posts', qb);
 
         // Act
@@ -181,9 +174,9 @@ void main() {
       test('saveSimulationData should update post record', () async {
         // Arrange
         final mockFilterBuilder = MockPostgrestFilterBuilder();
-        final qb = MockSupabaseQueryBuilder(stubs: {
-          'update': mockFilterBuilder,
-        });
+        final qb = MockSupabaseQueryBuilder(
+          stubs: {'update': mockFilterBuilder},
+        );
         mockClient.setQueryBuilder('posts', qb);
 
         // Act

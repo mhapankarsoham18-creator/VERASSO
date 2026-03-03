@@ -52,8 +52,9 @@ class ChallengeSubmission {
       feedback: json['feedback'],
       submittedAt: DateTime.parse(json['submitted_at']),
       userName: json['profiles'] != null ? json['profiles']['full_name'] : null,
-      userAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      userAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 
@@ -129,10 +130,12 @@ class CommunityChallenge {
           ? DateTime.parse(json['expires_at'])
           : null,
       createdAt: DateTime.parse(json['created_at']),
-      creatorName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      creatorAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      creatorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      creatorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 }

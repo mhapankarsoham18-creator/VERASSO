@@ -47,7 +47,7 @@ class SeasonalChallengeService {
 
   /// Creates a [SeasonalChallengeService].
   SeasonalChallengeService({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   /// Checks if a user has completed requirements for a specific seasonal event.
   ///
@@ -58,15 +58,18 @@ class SeasonalChallengeService {
       final userId = _client.auth.currentUser?.id;
       if (userId == null) return;
 
-      await _client.rpc('check_seasonal_event_completion', params: {
-        'p_user_id': userId,
-        'p_event_id': eventId,
-      });
+      await _client.rpc(
+        'check_seasonal_event_completion',
+        params: {'p_user_id': userId, 'p_event_id': eventId},
+      );
     } catch (e, stack) {
       AppLogger.error('Failed to check seasonal event completion', error: e);
       SentryService.captureException(e, stackTrace: stack);
       throw DatabaseException(
-          'Failed to check seasonal event completion', null, e);
+        'Failed to check seasonal event completion',
+        null,
+        e,
+      );
     }
   }
 
@@ -75,15 +78,19 @@ class SeasonalChallengeService {
   /// Uses the `get_active_seasonal_events_with_rewards` RPC for optimized data fetching.
   Future<List<SeasonalEvent>> getActiveEvents() async {
     try {
-      final response =
-          await _client.rpc('get_active_seasonal_events_with_rewards');
+      final response = await _client.rpc(
+        'get_active_seasonal_events_with_rewards',
+      );
 
       return (response as List).map((e) => SeasonalEvent.fromJson(e)).toList();
     } catch (e, stack) {
       AppLogger.error('Failed to fetch active seasonal events', error: e);
       SentryService.captureException(e, stackTrace: stack);
       throw DatabaseException(
-          'Failed to fetch active seasonal events', null, e);
+        'Failed to fetch active seasonal events',
+        null,
+        e,
+      );
     }
   }
 }
@@ -128,14 +135,15 @@ class SeasonalEvent {
       id: json['event_id'] ?? json['id'],
       title: json['title'],
       description: json['description'],
-      startAt:
-          DateTime.parse(json['start_at'] ?? DateTime.now().toIso8601String()),
+      startAt: DateTime.parse(
+        json['start_at'] ?? DateTime.now().toIso8601String(),
+      ),
       endAt: DateTime.parse(json['end_at'] ?? DateTime.now().toIso8601String()),
       metadata: json['metadata'] ?? {},
       rewards: json['rewards'] != null
           ? (json['rewards'] as List)
-              .map((r) => EventReward.fromJson(r))
-              .toList()
+                .map((r) => EventReward.fromJson(r))
+                .toList()
           : [],
     );
   }

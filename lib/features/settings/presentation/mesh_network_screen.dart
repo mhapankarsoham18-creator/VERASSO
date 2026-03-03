@@ -35,10 +35,7 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.settings),
-            onPressed: () {},
-          )
+          IconButton(icon: const Icon(LucideIcons.settings), onPressed: () {}),
         ],
       ),
       body: LiquidBackground(
@@ -51,13 +48,15 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                 GlassContainer(
                   child: Column(
                     children: [
-                      _buildStatusRow("Advertising", _isAdvertising,
-                          (val) async {
+                      _buildStatusRow("Advertising", _isAdvertising, (
+                        val,
+                      ) async {
                         if (val) {
                           final user = ref.read(currentUserProvider);
                           await meshService.initialize(
-                              user?.email?.split('@').first ?? "User",
-                              user?.id ?? "anonymous");
+                            user?.email?.split('@').first ?? "User",
+                            user?.id ?? "anonymous",
+                          );
                           final res = await meshService.startAdvertising();
                           setState(() => _isAdvertising = res);
                         } else {
@@ -70,8 +69,9 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                         if (val) {
                           final user = ref.read(currentUserProvider);
                           await meshService.initialize(
-                              user?.email?.split('@').first ?? "User",
-                              user?.id ?? "anonymous");
+                            user?.email?.split('@').first ?? "User",
+                            user?.id ?? "anonymous",
+                          );
                           final res = await meshService.startDiscovery();
                           setState(() => _isDiscovering = res);
                         } else {
@@ -85,12 +85,17 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Min Trust Score",
-                              style: TextStyle(color: Colors.white)),
-                          Text("${meshService.trustThreshold}",
-                              style: const TextStyle(
-                                  color: Colors.greenAccent,
-                                  fontWeight: FontWeight.bold)),
+                          const Text(
+                            "Min Trust Score",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            "${meshService.trustThreshold}",
+                            style: const TextStyle(
+                              color: Colors.greenAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       Slider(
@@ -113,11 +118,14 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                 // Active Peers List
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Nearby Peers",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                  child: Text(
+                    "Nearby Peers",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
 
@@ -127,8 +135,11 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                     data: (peers) {
                       if (peers.isEmpty) {
                         return const Center(
-                            child: Text("No peers connected",
-                                style: TextStyle(color: Colors.white70)));
+                          child: Text(
+                            "No peers connected",
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        );
                       }
                       return ListView.builder(
                         itemCount: peers.length,
@@ -136,12 +147,18 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                           return GlassContainer(
                             margin: const EdgeInsets.only(bottom: 8),
                             child: ListTile(
-                              leading: const Icon(LucideIcons.smartphone,
-                                  color: Colors.greenAccent),
-                              title: Text(peers[index],
-                                  style: const TextStyle(color: Colors.white)),
-                              trailing: const Icon(LucideIcons.signal,
-                                  color: Colors.white54),
+                              leading: const Icon(
+                                LucideIcons.smartphone,
+                                color: Colors.greenAccent,
+                              ),
+                              title: Text(
+                                peers[index],
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              trailing: const Icon(
+                                LucideIcons.signal,
+                                color: Colors.white54,
+                              ),
                             ),
                           );
                         },
@@ -162,11 +179,14 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                 // Test Broadcast
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Broadcast Test",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                  child: Text(
+                    "Broadcast Test",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -181,23 +201,25 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                           filled: true,
                           fillColor: Colors.white.withValues(alpha: 0.1),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     IconButton(
                       style: IconButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ),
                       icon: const Icon(LucideIcons.send),
                       onPressed: () {
                         if (_msgController.text.isNotEmpty) {
-                          meshService
-                              .broadcastPacket(MeshPayloadType.chatMessage, {
-                            'content': _msgController.text,
-                          });
+                          meshService.broadcastPacket(
+                            MeshPayloadType.chatMessage,
+                            {'content': _msgController.text},
+                          );
                           _msgController.clear();
                         }
                       },
@@ -222,19 +244,23 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
                             // But for this debug view, we just show "Last Packet".
                             ListTile(
                               title: Text(
-                                  "${packet.senderName}: ${packet.payload}",
-                                  style: const TextStyle(color: Colors.white)),
+                                "${packet.senderName}: ${packet.payload}",
+                                style: const TextStyle(color: Colors.white),
+                              ),
                               subtitle: Text(
-                                  "Type: ${packet.type} | TTL: ${packet.ttl}",
-                                  style:
-                                      const TextStyle(color: Colors.white54)),
-                            )
+                                "Type: ${packet.type} | TTL: ${packet.ttl}",
+                                style: const TextStyle(color: Colors.white54),
+                              ),
+                            ),
                           ],
                         );
                       },
                       loading: () => const Center(
-                          child: Text("Waiting for packets...",
-                              style: TextStyle(color: Colors.white54))),
+                        child: Text(
+                          "Waiting for packets...",
+                          style: TextStyle(color: Colors.white54),
+                        ),
+                      ),
                       error: (e, _) => AppErrorView(
                         message: e.toString(),
                         onRetry: () => ref.invalidate(meshMessagesProvider),
@@ -251,7 +277,10 @@ class _MeshNetworkScreenState extends ConsumerState<MeshNetworkScreen> {
   }
 
   Widget _buildStatusRow(
-      String label, bool isActive, Function(bool) onChanged) {
+    String label,
+    bool isActive,
+    Function(bool) onChanged,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

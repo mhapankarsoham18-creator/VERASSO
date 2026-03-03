@@ -52,8 +52,9 @@ class ListSkeleton extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SkeletonBox(
-                            width: 150 + (index % 3 * 30).toDouble(),
-                            height: 14),
+                          width: 150 + (index % 3 * 30).toDouble(),
+                          height: 14,
+                        ),
                         const SizedBox(height: 8),
                         const SkeletonBox(width: 100, height: 10),
                       ],

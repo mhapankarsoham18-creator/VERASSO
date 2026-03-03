@@ -13,7 +13,7 @@ import 'package:verasso/features/auth/presentation/auth_controller.dart';
 @GenerateNiceMocks([
   MockSpec<AuthRepository>(),
   MockSpec<TokenStorageService>(),
-  MockSpec<OfflineSecurityService>()
+  MockSpec<OfflineSecurityService>(),
 ])
 import 'auth_controller_test.mocks.dart';
 
@@ -43,35 +43,52 @@ void main() {
     test('initial state is AsyncData(null)', () {
       container.read(authControllerProvider.notifier);
       expect(
-          container.read(authControllerProvider), const AsyncData<void>(null));
+        container.read(authControllerProvider),
+        const AsyncData<void>(null),
+      );
     });
 
     test('signIn success updates state to AsyncData', () async {
-      when(mockAuthRepository.signInWithEmail(
-              email: 'test@example.com', password: 'password'))
-          .thenAnswer((_) async => AuthResult(
-                user: DomainAuthUser(
-                  id: 'user_id',
-                  email: 'test@example.com',
-                  emailConfirmedAt: DateTime.now().toIso8601String(),
-                ),
-              ));
+      when(
+        mockAuthRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'password',
+        ),
+      ).thenAnswer(
+        (_) async => AuthResult(
+          user: DomainAuthUser(
+            id: 'user_id',
+            email: 'test@example.com',
+            emailConfirmedAt: DateTime.now().toIso8601String(),
+          ),
+        ),
+      );
 
       final authController = container.read(authControllerProvider.notifier);
       await authController.signIn(
-          email: 'test@example.com', password: 'password');
+        email: 'test@example.com',
+        password: 'password',
+      );
 
       expect(
-          container.read(authControllerProvider), const AsyncData<void>(null));
-      verify(mockAuthRepository.signInWithEmail(
-              email: 'test@example.com', password: 'password'))
-          .called(1);
+        container.read(authControllerProvider),
+        const AsyncData<void>(null),
+      );
+      verify(
+        mockAuthRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'password',
+        ),
+      ).called(1);
     });
 
     test('signIn failure updates state to AsyncError', () async {
-      when(mockAuthRepository.signInWithEmail(
-              email: 'test@example.com', password: 'wrong'))
-          .thenThrow(Exception('Login failed'));
+      when(
+        mockAuthRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'wrong',
+        ),
+      ).thenThrow(Exception('Login failed'));
 
       final authController = container.read(authControllerProvider.notifier);
       await authController.signIn(email: 'test@example.com', password: 'wrong');

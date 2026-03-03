@@ -40,8 +40,8 @@ class _SecurityAuditLogScreenState
           child: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _auditLogs.isEmpty
-                  ? _buildEmptyState()
-                  : _buildAuditList(),
+              ? _buildEmptyState()
+              : _buildAuditList(),
         ),
       ),
     );
@@ -59,10 +59,9 @@ class _SecurityAuditLogScreenState
       itemCount: _auditLogs.length,
       itemBuilder: (context, index) {
         final log = _auditLogs[index];
-        return _buildAuditLogCard(log)
-            .animate(delay: (index * 50).ms)
-            .fadeIn()
-            .slideY(begin: 0.2);
+        return _buildAuditLogCard(
+          log,
+        ).animate(delay: (index * 50).ms).fadeIn().slideY(begin: 0.2);
       },
     );
   }
@@ -125,8 +124,9 @@ class _SecurityAuditLogScreenState
             child: Text(
               result.toUpperCase(),
               style: TextStyle(
-                color:
-                    result == 'success' ? Colors.greenAccent : Colors.redAccent,
+                color: result == 'success'
+                    ? Colors.greenAccent
+                    : Colors.redAccent,
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
@@ -206,16 +206,17 @@ class _SecurityAuditLogScreenState
     try {
       final securityRepo = ref.read(arSecurityRepositoryProvider);
       if (widget.projectId != null) {
-        _auditLogs =
-            await securityRepo.getAuditLog(projectId: widget.projectId!);
+        _auditLogs = await securityRepo.getAuditLog(
+          projectId: widget.projectId!,
+        );
       } else {
         _auditLogs = await securityRepo.getUserAuditLog();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load audit log: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load audit log: $e')));
       }
     } finally {
       setState(() => _isLoading = false);

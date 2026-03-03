@@ -30,21 +30,29 @@ void main() {
       expect(TierSystem.hasFeatureUnlocked(500, 'create_guild'), isFalse);
       expect(TierSystem.hasFeatureUnlocked(500, 'advanced_analytics'), isFalse);
       expect(
-          TierSystem.hasFeatureUnlocked(500, 'custom_avatar_frame'), isFalse);
+        TierSystem.hasFeatureUnlocked(500, 'custom_avatar_frame'),
+        isFalse,
+      );
 
       // Silver: guild creation unlocked
       expect(TierSystem.hasFeatureUnlocked(1000, 'create_guild'), isTrue);
       expect(
-          TierSystem.hasFeatureUnlocked(1000, 'advanced_analytics'), isFalse);
+        TierSystem.hasFeatureUnlocked(1000, 'advanced_analytics'),
+        isFalse,
+      );
 
       // Gold: analytics unlocked
       expect(TierSystem.hasFeatureUnlocked(5000, 'advanced_analytics'), isTrue);
       expect(
-          TierSystem.hasFeatureUnlocked(5000, 'custom_avatar_frame'), isFalse);
+        TierSystem.hasFeatureUnlocked(5000, 'custom_avatar_frame'),
+        isFalse,
+      );
 
       // Platinum: everything unlocked
       expect(
-          TierSystem.hasFeatureUnlocked(10000, 'custom_avatar_frame'), isTrue);
+        TierSystem.hasFeatureUnlocked(10000, 'custom_avatar_frame'),
+        isTrue,
+      );
     });
   });
 
@@ -82,12 +90,21 @@ void main() {
         final event = GamificationEvent(action: action, userId: 'integration');
         final config = event.config;
 
-        expect(config.baseXP, greaterThan(0),
-            reason: '${action.name} should award positive XP');
-        expect(config.dbActionType, isNotEmpty,
-            reason: '${action.name} needs a DB action type');
-        expect(config.cooldown, isNotNull,
-            reason: '${action.name} must have a cooldown defined');
+        expect(
+          config.baseXP,
+          greaterThan(0),
+          reason: '${action.name} should award positive XP',
+        );
+        expect(
+          config.dbActionType,
+          isNotEmpty,
+          reason: '${action.name} needs a DB action type',
+        );
+        expect(
+          config.cooldown,
+          isNotNull,
+          reason: '${action.name} must have a cooldown defined',
+        );
       }
     });
 
@@ -101,8 +118,11 @@ void main() {
 
       for (final action in spammableActions) {
         final event = GamificationEvent(action: action, userId: 'test');
-        expect(event.config.cooldown, greaterThan(Duration.zero),
-            reason: '${action.name} should have anti-spam cooldown');
+        expect(
+          event.config.cooldown,
+          greaterThan(Duration.zero),
+          reason: '${action.name} should have anti-spam cooldown',
+        );
       }
     });
 
@@ -116,23 +136,31 @@ void main() {
 
       for (final action in learningActions) {
         final event = GamificationEvent(action: action, userId: 'test');
-        expect(event.config.cooldown, Duration.zero,
-            reason: '${action.name} should have no cooldown');
+        expect(
+          event.config.cooldown,
+          Duration.zero,
+          reason: '${action.name} should have no cooldown',
+        );
       }
     });
   });
 
   group('Level calculation consistency', () {
-    test('GamificationService level calculation is monotonically increasing',
-        () {
-      int previousLevel = 0;
-      for (int xp = 0; xp <= 10000; xp += 100) {
-        final level = GamificationService.calculateLevel(xp);
-        expect(level, greaterThanOrEqualTo(previousLevel),
-            reason: 'Level should not decrease as XP increases (at XP=$xp)');
-        previousLevel = level;
-      }
-    });
+    test(
+      'GamificationService level calculation is monotonically increasing',
+      () {
+        int previousLevel = 0;
+        for (int xp = 0; xp <= 10000; xp += 100) {
+          final level = GamificationService.calculateLevel(xp);
+          expect(
+            level,
+            greaterThanOrEqualTo(previousLevel),
+            reason: 'Level should not decrease as XP increases (at XP=$xp)',
+          );
+          previousLevel = level;
+        }
+      },
+    );
 
     test('level 1 starts at 0 XP', () {
       expect(GamificationService.calculateLevel(0), 1);

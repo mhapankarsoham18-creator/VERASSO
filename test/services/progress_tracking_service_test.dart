@@ -22,7 +22,9 @@ void main() {
       ];
 
       mockSupabaseClient.setQueryBuilder(
-          'user_badges', MockSupabaseQueryBuilder(selectResponse: mockData));
+        'user_badges',
+        MockSupabaseQueryBuilder(selectResponse: mockData),
+      );
 
       // Act
       final result = await service.getUnlockedBadges('test-user-id');

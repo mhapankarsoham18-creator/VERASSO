@@ -49,8 +49,8 @@ class _ArSimulationViewState extends State<ArSimulationView> {
               child: _isSimulating
                   ? _buildLoadingState()
                   : _result != null
-                      ? _buildResultsView()
-                      : const SizedBox.shrink(),
+                  ? _buildResultsView()
+                  : const SizedBox.shrink(),
             ),
 
             // Bottom controls
@@ -152,7 +152,9 @@ class _ArSimulationViewState extends State<ArSimulationView> {
                       Text(
                         '${(brightness * 100).toInt()}%',
                         style: const TextStyle(
-                            color: Colors.white54, fontSize: 12),
+                          color: Colors.white54,
+                          fontSize: 12,
+                        ),
                       ),
                   ],
                 ),
@@ -188,21 +190,23 @@ class _ArSimulationViewState extends State<ArSimulationView> {
             ],
           ),
           const SizedBox(height: 12),
-          ..._result!.errors.map((error) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• ', style: TextStyle(color: Colors.redAccent)),
-                    Expanded(
-                      child: Text(
-                        error,
-                        style: const TextStyle(color: Colors.white),
-                      ),
+          ..._result!.errors.map(
+            (error) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('• ', style: TextStyle(color: Colors.redAccent)),
+                  Expanded(
+                    child: Text(
+                      error,
+                      style: const TextStyle(color: Colors.white),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     ).animate().slideX(begin: -0.2);
@@ -360,8 +364,11 @@ class _ArSimulationViewState extends State<ArSimulationView> {
         children: [
           const Row(
             children: [
-              Icon(LucideIcons.alertTriangle,
-                  color: Colors.orangeAccent, size: 24),
+              Icon(
+                LucideIcons.alertTriangle,
+                color: Colors.orangeAccent,
+                size: 24,
+              ),
               SizedBox(width: 8),
               Text(
                 'Warnings',
@@ -374,22 +381,26 @@ class _ArSimulationViewState extends State<ArSimulationView> {
             ],
           ),
           const SizedBox(height: 12),
-          ..._result!.warnings.map((warning) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• ',
-                        style: TextStyle(color: Colors.orangeAccent)),
-                    Expanded(
-                      child: Text(
-                        warning,
-                        style: const TextStyle(color: Colors.white),
-                      ),
+          ..._result!.warnings.map(
+            (warning) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '• ',
+                    style: TextStyle(color: Colors.orangeAccent),
+                  ),
+                  Expanded(
+                    child: Text(
+                      warning,
+                      style: const TextStyle(color: Colors.white),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     ).animate().slideX(begin: -0.2);

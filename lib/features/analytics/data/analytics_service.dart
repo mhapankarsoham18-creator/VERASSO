@@ -25,7 +25,7 @@ class AnalyticsService {
 
   /// Creates an [AnalyticsService] with an optional Supabase client.
   AnalyticsService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Get content performance stats
   Future<ContentStats?> getContentStats(String contentId) async {
@@ -44,8 +44,10 @@ class AnalyticsService {
   }
 
   /// Get top performing content for a user
-  Future<List<ContentStats>> getTopContent(String userId,
-      {int limit = 10}) async {
+  Future<List<ContentStats>> getTopContent(
+    String userId, {
+    int limit = 10,
+  }) async {
     try {
       // This would need a join with posts table to filter by user
       // For now, simplified version
@@ -63,8 +65,10 @@ class AnalyticsService {
   }
 
   /// Get user engagement data for the last N days
-  Future<List<EngagementData>> getUserEngagement(String userId,
-      {int days = 7}) async {
+  Future<List<EngagementData>> getUserEngagement(
+    String userId, {
+    int days = 7,
+  }) async {
     try {
       final response = await _client.rpc(
         'get_user_engagement',
@@ -89,8 +93,10 @@ class AnalyticsService {
 
       if (response == null) {
         // Create initial stats
-        await _client
-            .rpc('update_user_stats', params: {'target_user_id': userId});
+        await _client.rpc(
+          'update_user_stats',
+          params: {'target_user_id': userId},
+        );
         return getUserStats(userId); // Retry
       }
 
@@ -104,16 +110,20 @@ class AnalyticsService {
   /// Refresh user stats (call after significant actions)
   Future<void> refreshUserStats(String userId) async {
     try {
-      await _client
-          .rpc('update_user_stats', params: {'target_user_id': userId});
+      await _client.rpc(
+        'update_user_stats',
+        params: {'target_user_id': userId},
+      );
     } catch (e) {
       AppLogger.info('Refresh user stats error: $e');
     }
   }
 
   /// Track an analytics event
-  Future<void> trackEvent(String eventName,
-      [Map<String, dynamic>? properties]) async {
+  Future<void> trackEvent(
+    String eventName, [
+    Map<String, dynamic>? properties,
+  ]) async {
     try {
       final userId = _client.auth.currentUser?.id;
       if (userId == null) return;
@@ -157,14 +167,18 @@ class AnalyticsService {
         });
       } else {
         // Update existing
-        await _client.from('content_stats').update({
-          'views_count': (existing['views_count'] ?? 0) + (viewsDelta ?? 0),
-          'likes_count': (existing['likes_count'] ?? 0) + (likesDelta ?? 0),
-          'comments_count':
-              (existing['comments_count'] ?? 0) + (commentsDelta ?? 0),
-          'shares_count': (existing['shares_count'] ?? 0) + (sharesDelta ?? 0),
-          'updated_at': DateTime.now().toIso8601String(),
-        }).eq('content_id', contentId);
+        await _client
+            .from('content_stats')
+            .update({
+              'views_count': (existing['views_count'] ?? 0) + (viewsDelta ?? 0),
+              'likes_count': (existing['likes_count'] ?? 0) + (likesDelta ?? 0),
+              'comments_count':
+                  (existing['comments_count'] ?? 0) + (commentsDelta ?? 0),
+              'shares_count':
+                  (existing['shares_count'] ?? 0) + (sharesDelta ?? 0),
+              'updated_at': DateTime.now().toIso8601String(),
+            })
+            .eq('content_id', contentId);
       }
     } catch (e) {
       AppLogger.info('Update content stats error: $e');

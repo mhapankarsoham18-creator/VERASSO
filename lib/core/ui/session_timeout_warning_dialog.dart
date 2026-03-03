@@ -59,10 +59,7 @@ class _SessionTimeoutWarningDialogState
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            l10n.sessionExpireIn,
-            style: const TextStyle(fontSize: 14),
-          ),
+          Text(l10n.sessionExpireIn, style: const TextStyle(fontSize: 14)),
           const SizedBox(height: 12),
           Text(
             _formatTime(_secondsLeft),
@@ -73,25 +70,17 @@ class _SessionTimeoutWarningDialogState
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            l10n.stayLoggedIn,
-            style: const TextStyle(fontSize: 14),
-          ),
+          Text(l10n.stayLoggedIn, style: const TextStyle(fontSize: 14)),
         ],
       ),
       actions: [
         TextButton(
           onPressed: widget.onLogout,
-          child: Text(
-            l10n.logout,
-            style: const TextStyle(color: Colors.red),
-          ),
+          child: Text(l10n.logout, style: const TextStyle(color: Colors.red)),
         ),
         ElevatedButton(
           onPressed: widget.onStayLogged,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-          ),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           child: Text(
             l10n.stayLoggedIn,
             style: const TextStyle(color: Colors.white),

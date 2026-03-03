@@ -27,7 +27,7 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
     'Chemistry',
     'Biology',
     'Math',
-    'General'
+    'General',
   ]; // Could query from DB too
 
   @override
@@ -49,12 +49,14 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
                       initialValue: _selectedSubject,
                       dropdownColor: Colors.grey[900], // or a glass style
                       decoration: const InputDecoration(
-                          labelText: 'Subject',
-                          labelStyle: TextStyle(color: Colors.white)),
+                        labelText: 'Subject',
+                        labelStyle: TextStyle(color: Colors.white),
+                      ),
                       style: const TextStyle(color: Colors.white),
                       items: _subjects
                           .map(
-                              (e) => DropdownMenuItem(value: e, child: Text(e)))
+                            (e) => DropdownMenuItem(value: e, child: Text(e)),
+                          )
                           .toList(),
                       onChanged: (val) =>
                           setState(() => _selectedSubject = val ?? 'General'),
@@ -86,8 +88,9 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
                     GestureDetector(
                       onTap: () async {
                         final picker = ImagePicker();
-                        final XFile? image =
-                            await picker.pickImage(source: ImageSource.gallery);
+                        final XFile? image = await picker.pickImage(
+                          source: ImageSource.gallery,
+                        );
                         if (image != null) {
                           setState(() {
                             _selectedImage = File(image.path);
@@ -105,17 +108,24 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
                         child: _selectedImage != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child: Image.file(_selectedImage!,
-                                    fit: BoxFit.cover),
+                                child: Image.file(
+                                  _selectedImage!,
+                                  fit: BoxFit.cover,
+                                ),
                               )
                             : const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(LucideIcons.image,
-                                      color: Colors.white54, size: 32),
+                                  Icon(
+                                    LucideIcons.image,
+                                    color: Colors.white54,
+                                    size: 32,
+                                  ),
                                   SizedBox(height: 8),
-                                  Text('Add Image (Optional)',
-                                      style: TextStyle(color: Colors.white54)),
+                                  Text(
+                                    'Add Image (Optional)',
+                                    style: TextStyle(color: Colors.white54),
+                                  ),
                                 ],
                               ),
                       ),
@@ -126,10 +136,13 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12))),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                         onPressed: doubtState.isLoading
                             ? null
                             : () {
@@ -147,17 +160,21 @@ class _AskDoubtScreenState extends ConsumerState<AskDoubtScreen> {
                               },
                         child: doubtState.isLoading
                             ? const CircularProgressIndicator(
-                                color: Colors.white)
-                            : const Text('Post Question',
+                                color: Colors.white,
+                              )
+                            : const Text(
+                                'Post Question',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

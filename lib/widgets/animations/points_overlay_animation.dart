@@ -45,9 +45,10 @@ class _PointsOverlayAnimationState extends State<PointsOverlayAnimation>
                 color: Colors.amber,
                 shadows: [
                   Shadow(
-                      blurRadius: 10,
-                      color: Colors.black45,
-                      offset: Offset(2, 2)),
+                    blurRadius: 10,
+                    color: Colors.black45,
+                    offset: Offset(2, 2),
+                  ),
                 ],
               ),
             ),
@@ -75,10 +76,10 @@ class _PointsOverlayAnimationState extends State<PointsOverlayAnimation>
       CurvedAnimation(parent: _controller, curve: const Interval(0.5, 1.0)),
     );
 
-    _slide =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0, -2.0)).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _slide = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, -2.0),
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward().then((_) => widget.onComplete());
   }

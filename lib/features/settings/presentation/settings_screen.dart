@@ -42,13 +42,15 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(LucideIcons.palette),
                     title: Text(AppLocalizations.of(context)!.themeForge),
                     subtitle: Text(
-                        '${themeState.style.name.toUpperCase()} • ${themeState.mode.name.toUpperCase()}'),
+                      '${themeState.style.name.toUpperCase()} • ${themeState.mode.name.toUpperCase()}',
+                    ),
                     trailing: const Icon(LucideIcons.chevronRight),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const ThemeCustomizationScreen()),
+                          builder: (_) => const ThemeCustomizationScreen(),
+                        ),
                       );
                     },
                   ),
@@ -57,7 +59,8 @@ class SettingsScreen extends ConsumerWidget {
                     secondary: const Icon(LucideIcons.battery),
                     title: Text(AppLocalizations.of(context)!.powerSaveMode),
                     subtitle: const Text(
-                        'Disable background animations to save energy'),
+                      'Disable background animations to save energy',
+                    ),
                     value: themeState.isPowerSaveMode,
                     onChanged: (val) {
                       ref
@@ -70,15 +73,18 @@ class SettingsScreen extends ConsumerWidget {
                   ListTile(
                     leading: const Icon(LucideIcons.languages),
                     title: Text(AppLocalizations.of(context)!.language),
-                    subtitle:
-                        Text(_getLanguageName(themeState.locale.languageCode)),
+                    subtitle: Text(
+                      _getLanguageName(themeState.locale.languageCode),
+                    ),
                     trailing: DropdownButton<Locale>(
                       value: themeState.locale,
                       underline: const SizedBox(),
                       dropdownColor: Colors.black,
                       items: const [
                         DropdownMenuItem(
-                            value: Locale('en'), child: Text('English')),
+                          value: Locale('en'),
+                          child: Text('English'),
+                        ),
                       ],
                       onChanged: (val) {
                         if (val != null) {
@@ -104,9 +110,11 @@ class SettingsScreen extends ConsumerWidget {
                     trailing: const Icon(LucideIcons.chevronRight),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const MeshNetworkScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MeshNetworkScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -131,7 +139,8 @@ class SettingsScreen extends ConsumerWidget {
                       activeThumbColor: Theme.of(context).colorScheme.primary,
                       title: Text(AppLocalizations.of(context)!.privateAccount),
                       subtitle: Text(
-                          AppLocalizations.of(context)!.privateAccountSubtitle),
+                        AppLocalizations.of(context)!.privateAccountSubtitle,
+                      ),
                       value: profile?.isPrivate ?? false,
                       onChanged: (val) {
                         ref
@@ -143,14 +152,16 @@ class SettingsScreen extends ConsumerWidget {
                     loading: () => ListTile(
                       title: Text(AppLocalizations.of(context)!.loading),
                       leading: const Icon(LucideIcons.lock),
-                      subtitle:
-                          Text(AppLocalizations.of(context)!.checkingPrivacy),
+                      subtitle: Text(
+                        AppLocalizations.of(context)!.checkingPrivacy,
+                      ),
                     ),
                     error: (error, stack) => ListTile(
                       leading: const Icon(LucideIcons.lock),
                       title: Text(AppLocalizations.of(context)!.privateAccount),
                       subtitle: Text(
-                          AppLocalizations.of(context)!.failedLoadSettings),
+                        AppLocalizations.of(context)!.failedLoadSettings,
+                      ),
                       trailing: IconButton(
                         icon: const Icon(LucideIcons.refreshCw),
                         onPressed: () {
@@ -165,32 +176,43 @@ class SettingsScreen extends ConsumerWidget {
                     data: (profile) => SwitchListTile(
                       activeThumbColor: Colors.orange,
                       title: Text(
-                          AppLocalizations.of(context)!.allowPersonalPosts),
+                        AppLocalizations.of(context)!.allowPersonalPosts,
+                      ),
                       subtitle: Text(
-                          AppLocalizations.of(context)!.personalPostsSubtitle),
+                        AppLocalizations.of(context)!.personalPostsSubtitle,
+                      ),
                       value: profile?.defaultPersonalVisibility ?? false,
                       onChanged: (val) {
                         ref
                             .read(profileControllerProvider.notifier)
                             .updateDefaultPersonalVisibility(val);
                       },
-                      secondary:
-                          const Icon(LucideIcons.eye, color: Colors.orange),
+                      secondary: const Icon(
+                        LucideIcons.eye,
+                        color: Colors.orange,
+                      ),
                     ),
                     loading: () => ListTile(
-                      leading:
-                          const Icon(LucideIcons.eye, color: Colors.orange),
+                      leading: const Icon(
+                        LucideIcons.eye,
+                        color: Colors.orange,
+                      ),
                       title: Text(
-                          AppLocalizations.of(context)!.allowPersonalPosts),
+                        AppLocalizations.of(context)!.allowPersonalPosts,
+                      ),
                       subtitle: Text(AppLocalizations.of(context)!.loading),
                     ),
                     error: (error, stack) => ListTile(
-                      leading:
-                          const Icon(LucideIcons.eye, color: Colors.orange),
+                      leading: const Icon(
+                        LucideIcons.eye,
+                        color: Colors.orange,
+                      ),
                       title: Text(
-                          AppLocalizations.of(context)!.allowPersonalPosts),
+                        AppLocalizations.of(context)!.allowPersonalPosts,
+                      ),
                       subtitle: Text(
-                          AppLocalizations.of(context)!.failedLoadSettings),
+                        AppLocalizations.of(context)!.failedLoadSettings,
+                      ),
                       trailing: IconButton(
                         icon: const Icon(LucideIcons.refreshCw),
                         onPressed: () {
@@ -249,10 +271,12 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   SwitchListTile(
                     secondary: const Icon(LucideIcons.bell),
-                    title:
-                        Text(AppLocalizations.of(context)!.pushNotifications),
-                    subtitle: Text(AppLocalizations.of(context)!
-                        .pushNotificationsSubtitle),
+                    title: Text(
+                      AppLocalizations.of(context)!.pushNotifications,
+                    ),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.pushNotificationsSubtitle,
+                    ),
                     value: ref.watch(privacySettingsProvider).notifyEnabled,
                     onChanged: (val) => ref
                         .read(privacySettingsProvider.notifier)
@@ -266,9 +290,11 @@ class SettingsScreen extends ConsumerWidget {
                     secondary: const Icon(LucideIcons.eyeOff),
                     title: Text(AppLocalizations.of(context)!.snapshotPrivacy),
                     subtitle: Text(
-                        AppLocalizations.of(context)!.snapshotPrivacySubtitle),
-                    value:
-                        ref.watch(privacySettingsProvider).autoBlurInBackground,
+                      AppLocalizations.of(context)!.snapshotPrivacySubtitle,
+                    ),
+                    value: ref
+                        .watch(privacySettingsProvider)
+                        .autoBlurInBackground,
                     onChanged: (val) => ref
                         .read(privacySettingsProvider.notifier)
                         .setAutoBlurInBackground(val),
@@ -288,13 +314,16 @@ class SettingsScreen extends ConsumerWidget {
                     leading: const Icon(LucideIcons.hardDrive),
                     title: Text(AppLocalizations.of(context)!.dataManagement),
                     subtitle: Text(
-                        AppLocalizations.of(context)!.dataManagementSubtitle),
+                      AppLocalizations.of(context)!.dataManagementSubtitle,
+                    ),
                     trailing: const Icon(LucideIcons.chevronRight),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const DataManagementScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const DataManagementScreen(),
+                        ),
+                      );
                     },
                   ),
                   const Divider(color: Colors.white24),
@@ -304,9 +333,11 @@ class SettingsScreen extends ConsumerWidget {
                     trailing: const Icon(LucideIcons.chevronRight),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const PrivacyPolicyScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const PrivacyPolicyScreen(),
+                        ),
+                      );
                     },
                   ),
                   const Divider(color: Colors.white24),
@@ -316,9 +347,11 @@ class SettingsScreen extends ConsumerWidget {
                     trailing: const Icon(LucideIcons.chevronRight),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const TermsOfServiceScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const TermsOfServiceScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -353,11 +386,14 @@ class SettingsScreen extends ConsumerWidget {
                   // GoRouter should handle redirect based on auth state stream
                 },
                 icon: const Icon(LucideIcons.logOut, color: Colors.red),
-                label: Text(AppLocalizations.of(context)!.signOut,
-                    style: const TextStyle(color: Colors.red)),
+                label: Text(
+                  AppLocalizations.of(context)!.signOut,
+                  style: const TextStyle(color: Colors.red),
+                ),
                 style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.red),
-                    padding: const EdgeInsets.symmetric(vertical: 12)),
+                  side: const BorderSide(color: Colors.red),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
               ),
             ),
             const SizedBox(height: 40),
@@ -370,8 +406,10 @@ class SettingsScreen extends ConsumerWidget {
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, bottom: 8),
-      child: Text(title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      child: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
     );
   }
 

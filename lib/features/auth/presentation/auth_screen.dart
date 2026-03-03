@@ -75,8 +75,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     final inCooldown =
         cooldownUntil != null && DateTime.now().isBefore(cooldownUntil);
-    final cooldownSeconds =
-        inCooldown ? cooldownUntil.difference(DateTime.now()).inSeconds : 0;
+    final cooldownSeconds = inCooldown
+        ? cooldownUntil.difference(DateTime.now()).inSeconds
+        : 0;
 
     // Listen to errors
     ref.listen(authControllerProvider, (previous, next) {
@@ -115,28 +116,29 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   Text(
                     _showOtpInput
                         ? (_useBackupCode
-                            ? l10n.useRecoveryKey
-                            : l10n.verifyOtp)
+                              ? l10n.useRecoveryKey
+                              : l10n.verifyOtp)
                         : (_isResetPassword
-                            ? l10n.resetAccess
-                            : (_isLogin
-                                ? l10n.welcomeBackPioneer
-                                : l10n.initiateDiscovery)),
+                              ? l10n.resetAccess
+                              : (_isLogin
+                                    ? l10n.welcomeBackPioneer
+                                    : l10n.initiateDiscovery)),
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     _showOtpInput
                         ? (_useBackupCode
-                            ? l10n.recoveryKeyBody
-                            : l10n.otpSentBody(_emailController.text))
+                              ? l10n.recoveryKeyBody
+                              : l10n.otpSentBody(_emailController.text))
                         : (_isResetPassword
-                            ? l10n.reestablishNeuralLink
-                            : (_isLogin
-                                ? l10n.reestablishingUplink
-                                : l10n.joinNeuralNetwork)),
+                              ? l10n.reestablishNeuralLink
+                              : (_isLogin
+                                    ? l10n.reestablishingUplink
+                                    : l10n.joinNeuralNetwork)),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 32),
@@ -152,25 +154,31 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       if (_isUsernameTaken)
                         Padding(
                           padding: const EdgeInsets.only(top: 4, left: 12),
-                          child: Text(l10n.usernameTaken,
-                              style: const TextStyle(
-                                  color: Colors.redAccent, fontSize: 10)),
+                          child: Text(
+                            l10n.usernameTaken,
+                            style: const TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 10,
+                            ),
+                          ),
                         )
                       else if (_isValidatingUsername)
                         const Padding(
                           padding: EdgeInsets.only(top: 4, left: 12),
                           child: SizedBox(
-                              height: 10,
-                              width: 10,
-                              child: CircularProgressIndicator(strokeWidth: 1)),
+                            height: 10,
+                            width: 10,
+                            child: CircularProgressIndicator(strokeWidth: 1),
+                          ),
                         ),
                       const SizedBox(height: 16),
                     ],
                     AuthTextField(
-                        controller: _emailController,
-                        label: l10n.email,
-                        icon: LucideIcons.mail,
-                        textFieldKey: const Key('email_field')),
+                      controller: _emailController,
+                      label: l10n.email,
+                      icon: LucideIcons.mail,
+                      textFieldKey: const Key('email_field'),
+                    ),
                     const SizedBox(height: 16),
                     if (!_useOtp)
                       AuthTextField(
@@ -189,9 +197,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               _useOtp = !_useOtp;
                             });
                           },
-                          child: Text(_useOtp
-                              ? l10n.useMasterPassword
-                              : l10n.verifyWithTemporalCode),
+                          child: Text(
+                            _useOtp
+                                ? l10n.useMasterPassword
+                                : l10n.verifyWithTemporalCode,
+                          ),
                         ),
                       ),
                   ] else ...[
@@ -208,8 +218,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(LucideIcons.helpCircle,
-                                  size: 14, color: Colors.orangeAccent),
+                              const Icon(
+                                LucideIcons.helpCircle,
+                                size: 14,
+                                color: Colors.orangeAccent,
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.lostAuthApp,
@@ -240,9 +253,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             _backupCodeError = false;
                           });
                         },
-                        child: Text(_useBackupCode
-                            ? l10n.switchToAppOtp
-                            : l10n.useRecoveryKey),
+                        child: Text(
+                          _useBackupCode
+                              ? l10n.switchToAppOtp
+                              : l10n.useRecoveryKey,
+                        ),
                       ),
                     ),
                   ],
@@ -260,8 +275,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             _isLogin = false; // Temporarily switch off login UI
                           });
                         },
-                        child: Text(l10n.forgotPassword,
-                            style: const TextStyle(fontSize: 12)),
+                        child: Text(
+                          l10n.forgotPassword,
+                          style: const TextStyle(fontSize: 12),
+                        ),
                       ),
                     ),
 
@@ -286,36 +303,41 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: (authState.isLoading ||
+                      onPressed:
+                          (authState.isLoading ||
                               inCooldown ||
                               (!_isLogin &&
                                   (_isUsernameTaken || _isValidatingUsername)))
                           ? null
                           : _submit,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          elevation: 0),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
                       child: authState.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
                           : Text(
                               _showOtpInput
                                   ? l10n.verify
                                   : (_isResetPassword
-                                      ? l10n.resetPassword
-                                      : (_isLogin
-                                          ? (_useOtp
-                                              ? l10n.sendMagicCode
-                                              : l10n.signIn)
-                                          : (_isUsernameTaken
-                                              ? l10n.checkUsername
-                                              : l10n.signUp))),
+                                        ? l10n.resetPassword
+                                        : (_isLogin
+                                              ? (_useOtp
+                                                    ? l10n.sendMagicCode
+                                                    : l10n.signIn)
+                                              : (_isUsernameTaken
+                                                    ? l10n.checkUsername
+                                                    : l10n.signUp))),
                               style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                              key: const Key('login_button')),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              key: const Key('login_button'),
+                            ),
                     ),
                   ),
 
@@ -335,10 +357,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             : _authenticateWithBiometric,
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withValues(alpha: 0.5),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.5),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -360,9 +381,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         const Expanded(child: Divider(color: Colors.white24)),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(l10n.orLabel,
-                              style: const TextStyle(
-                                  color: Colors.white24, fontSize: 12)),
+                          child: Text(
+                            l10n.orLabel,
+                            style: const TextStyle(
+                              color: Colors.white24,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                         const Expanded(child: Divider(color: Colors.white24)),
                       ],
@@ -375,8 +400,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             onPressed: authState.isLoading
                                 ? null
                                 : () => ref
-                                    .read(authControllerProvider.notifier)
-                                    .signInWithGoogle(),
+                                      .read(authControllerProvider.notifier)
+                                      .signInWithGoogle(),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(
@@ -394,8 +419,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             onPressed: authState.isLoading
                                 ? null
                                 : () => ref
-                                    .read(authControllerProvider.notifier)
-                                    .signInWithApple(),
+                                      .read(authControllerProvider.notifier)
+                                      .signInWithApple(),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(
@@ -421,9 +446,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               false; // Reset OTP mode when switching auth type
                         });
                       },
-                      child: Text(_isLogin
-                          ? l10n.createAccount
-                          : l10n.alreadyHaveAccount),
+                      child: Text(
+                        _isLogin ? l10n.createAccount : l10n.alreadyHaveAccount,
+                      ),
                     ),
 
                   if (_showOtpInput)
@@ -444,7 +469,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         });
                       },
                       child: Text(l10n.backToLogin),
-                    )
+                    ),
                 ],
               ),
             ),
@@ -597,7 +622,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       // Step 2: Verify OTP or MFA
       final mfaRequirement = ref.read(mfaRequirementProvider);
       if (mfaRequirement != null) {
-        await ref.read(authControllerProvider.notifier).verifyMFA(
+        await ref
+            .read(authControllerProvider.notifier)
+            .verifyMFA(
               factorId: mfaRequirement.factorId,
               challengeId: mfaRequirement.challengeId,
               code: otp,
@@ -620,9 +647,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
       final messengerContext = context;
       if (messengerContext.mounted) {
-        ScaffoldMessenger.of(messengerContext).showSnackBar(
-          SnackBar(content: Text(l10n.otpSentFeedback)),
-        );
+        ScaffoldMessenger.of(
+          messengerContext,
+        ).showSnackBar(SnackBar(content: Text(l10n.otpSentFeedback)));
       }
       setState(() {
         _showOtpInput = true;
@@ -636,9 +663,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
       final messengerContext = context;
       if (messengerContext.mounted) {
-        ScaffoldMessenger.of(messengerContext).showSnackBar(
-          SnackBar(content: Text(l10n.passwordResetSent)),
-        );
+        ScaffoldMessenger.of(
+          messengerContext,
+        ).showSnackBar(SnackBar(content: Text(l10n.passwordResetSent)));
       }
       setState(() {
         _isResetPassword = false;

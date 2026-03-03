@@ -29,18 +29,22 @@ class _HighlightCreationScreenState extends State<HighlightCreationScreen> {
         actions: [
           if (_isCreating)
             const Center(
-                child: Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: SizedBox(
+              child: Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: SizedBox(
                   width: 20,
                   height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2)),
-            ))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            )
           else
             TextButton(
               onPressed: _createHighlight,
-              child: const Text('Create',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              child: const Text(
+                'Create',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
         ],
       ),
@@ -72,70 +76,78 @@ class _HighlightCreationScreenState extends State<HighlightCreationScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _archivedStories.isEmpty
-                    ? const Center(child: Text('No stories found'))
-                    : GridView.builder(
-                        padding: const EdgeInsets.all(4),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                ? const Center(child: Text('No stories found'))
+                : GridView.builder(
+                    padding: const EdgeInsets.all(4),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 4,
                           mainAxisSpacing: 4,
                           childAspectRatio: 9 / 16,
                         ),
-                        itemCount: _archivedStories.length,
-                        itemBuilder: (context, index) {
-                          final story = _archivedStories[index];
-                          final isSelected =
-                              _selectedStoryIds.contains(story.id);
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (isSelected) {
-                                  _selectedStoryIds.remove(story.id);
-                                } else {
-                                  _selectedStoryIds.add(story.id);
-                                }
-                              });
-                            },
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                cni.CachedNetworkImage(
-                                  imageUrl: story.mediaUrl,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      Container(color: Colors.grey[300]),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(LucideIcons.alertCircle),
-                                ),
-                                if (story.mediaType == 'video')
-                                  const Center(
-                                      child: Icon(LucideIcons.playCircle,
-                                          color: Colors.white)),
-                                Container(
-                                  color: isSelected
-                                      ? Colors.black45
-                                      : Colors.transparent,
-                                ),
-                                if (isSelected)
-                                  const Positioned(
-                                    bottom: 8,
-                                    right: 8,
-                                    child: Icon(LucideIcons.checkCircle,
-                                        color: Colors.blue, size: 24),
-                                  )
-                                else
-                                  const Positioned(
-                                    bottom: 8,
-                                    right: 8,
-                                    child: Icon(LucideIcons.circle,
-                                        color: Colors.white, size: 24),
-                                  ),
-                              ],
-                            ),
-                          );
+                    itemCount: _archivedStories.length,
+                    itemBuilder: (context, index) {
+                      final story = _archivedStories[index];
+                      final isSelected = _selectedStoryIds.contains(story.id);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (isSelected) {
+                              _selectedStoryIds.remove(story.id);
+                            } else {
+                              _selectedStoryIds.add(story.id);
+                            }
+                          });
                         },
-                      ),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            cni.CachedNetworkImage(
+                              imageUrl: story.mediaUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  Container(color: Colors.grey[300]),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(LucideIcons.alertCircle),
+                            ),
+                            if (story.mediaType == 'video')
+                              const Center(
+                                child: Icon(
+                                  LucideIcons.playCircle,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            Container(
+                              color: isSelected
+                                  ? Colors.black45
+                                  : Colors.transparent,
+                            ),
+                            if (isSelected)
+                              const Positioned(
+                                bottom: 8,
+                                right: 8,
+                                child: Icon(
+                                  LucideIcons.checkCircle,
+                                  color: Colors.blue,
+                                  size: 24,
+                                ),
+                              )
+                            else
+                              const Positioned(
+                                bottom: 8,
+                                right: 8,
+                                child: Icon(
+                                  LucideIcons.circle,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -151,9 +163,9 @@ class _HighlightCreationScreenState extends State<HighlightCreationScreen> {
   Future<void> _createHighlight() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a title')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter a title')));
       return;
     }
     if (_selectedStoryIds.isEmpty) {
@@ -175,9 +187,9 @@ class _HighlightCreationScreenState extends State<HighlightCreationScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error creating highlight: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error creating highlight: $e')));
       }
     } finally {
       if (mounted) {
@@ -200,9 +212,9 @@ class _HighlightCreationScreenState extends State<HighlightCreationScreen> {
         setState(() {
           _isLoading = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading stories: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading stories: $e')));
       }
     }
   }

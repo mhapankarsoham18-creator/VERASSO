@@ -28,11 +28,7 @@ void main() {
       final tags = ['flutter', 'test'];
 
       // Act
-      await repository.createPost(
-        userId: userId,
-        content: content,
-        tags: tags,
-      );
+      await repository.createPost(userId: userId, content: content, tags: tags);
 
       // Assert
       // Verification of MockSupabaseQueryBuilder and Gamification would happen here
@@ -55,7 +51,7 @@ void main() {
           'created_at': DateTime.now().toIso8601String(),
           'is_personal': false,
           'profiles': {'full_name': 'User One', 'avatar_url': 'url1'},
-          'is_liked': []
+          'is_liked': [],
         },
         {
           'id': '2',
@@ -67,8 +63,8 @@ void main() {
           'created_at': DateTime.now().toIso8601String(),
           'is_personal': false,
           'profiles': {'full_name': 'User Two', 'avatar_url': 'url2'},
-          'is_liked': []
-        }
+          'is_liked': [],
+        },
       ];
 
       final queryBuilder = MockSupabaseQueryBuilder(selectResponse: postsData);
@@ -97,8 +93,8 @@ void main() {
           'user_id': 'active-user',
           'content': 'Hello',
           'created_at': DateTime.now().toIso8601String(),
-          'is_liked': []
-        }
+          'is_liked': [],
+        },
       ];
 
       final queryBuilder = MockSupabaseQueryBuilder(selectResponse: postsData);

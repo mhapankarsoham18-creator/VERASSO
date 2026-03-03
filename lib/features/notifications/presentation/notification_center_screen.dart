@@ -38,8 +38,10 @@ class NotificationCenterScreen extends ConsumerWidget {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text('Error: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red)),
+                child: Text(
+                  'Error: ${snapshot.error}',
+                  style: const TextStyle(color: Colors.red),
+                ),
               );
             }
 
@@ -67,7 +69,11 @@ class NotificationCenterScreen extends ConsumerWidget {
 
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, left: 16, right: 16, bottom: 20),
+                top: 100,
+                left: 16,
+                right: 16,
+                bottom: 20,
+              ),
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 final notification = notifications[index];
@@ -91,7 +97,9 @@ class NotificationCenterScreen extends ConsumerWidget {
 
   /// Handles the tap event on a notification.
   void _handleNotificationTap(
-      BuildContext context, NotificationModel notification) {
+    BuildContext context,
+    NotificationModel notification,
+  ) {
     // Navigate to relevant screen based on notification type
     final data = notification.data;
 
@@ -125,10 +133,7 @@ class _NotificationTile extends StatelessWidget {
   final NotificationModel notification;
   final VoidCallback onTap;
 
-  const _NotificationTile({
-    required this.notification,
-    required this.onTap,
-  });
+  const _NotificationTile({required this.notification, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -171,20 +176,14 @@ class _NotificationTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     notification.body,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white70,
-                    ),
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     timeago.format(notification.createdAt),
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white54,
-                    ),
+                    style: const TextStyle(fontSize: 10, color: Colors.white54),
                   ),
                 ],
               ),

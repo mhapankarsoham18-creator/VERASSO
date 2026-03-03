@@ -60,7 +60,9 @@ class _ClassroomSessionScreenState
   }
 
   Widget _buildActiveSession(
-      ClassroomSession session, ClassroomSessionService service) {
+    ClassroomSession session,
+    ClassroomSessionService service,
+  ) {
     return Column(
       children: [
         // Header
@@ -74,10 +76,14 @@ class _ClassroomSessionScreenState
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(session.subject,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(session.topic,
-                        style: const TextStyle(color: Colors.white70)),
+                    Text(
+                      session.subject,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      session.topic,
+                      style: const TextStyle(color: Colors.white70),
+                    ),
                   ],
                 ),
               ],
@@ -95,8 +101,10 @@ class _ClassroomSessionScreenState
               final poll = snapshot.data;
               if (poll == null) {
                 return const Center(
-                  child: Text("Waiting for activities...",
-                      style: TextStyle(color: Colors.white54)),
+                  child: Text(
+                    "Waiting for activities...",
+                    style: TextStyle(color: Colors.white54),
+                  ),
                 );
               }
 
@@ -140,8 +148,9 @@ class _ClassroomSessionScreenState
                     filled: true,
                     fillColor: Colors.black54,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none),
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
@@ -153,13 +162,17 @@ class _ClassroomSessionScreenState
                   if (_doubtController.text.isNotEmpty) {
                     final userId = ref.read(currentUserProvider)?.id ?? "GUEST";
                     service.raiseDoubt(
-                        userId, _nameController.text, _doubtController.text);
+                      userId,
+                      _nameController.text,
+                      _doubtController.text,
+                    );
                     _doubtController.clear();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Doubt Sent")));
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(const SnackBar(content: Text("Doubt Sent")));
                   }
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -168,7 +181,9 @@ class _ClassroomSessionScreenState
   }
 
   Widget _buildJoinConfirm(
-      ClassroomSession session, ClassroomSessionService service) {
+    ClassroomSession session,
+    ClassroomSessionService service,
+  ) {
     return Center(
       child: GlassContainer(
         padding: const EdgeInsets.all(24),
@@ -177,11 +192,14 @@ class _ClassroomSessionScreenState
           children: [
             const Icon(LucideIcons.wifi, size: 48, color: Colors.greenAccent),
             const SizedBox(height: 16),
-            Text("Found Session: ${session.subject}",
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold)),
+            Text(
+              "Found Session: ${session.subject}",
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Text(session.topic, style: const TextStyle(color: Colors.white70)),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -191,7 +209,7 @@ class _ClassroomSessionScreenState
                 setState(() => _joined = true);
               },
               child: const Text("Join Now"),
-            )
+            ),
           ],
         ),
       ),
@@ -210,9 +228,10 @@ class _ClassroomSessionScreenState
             const Text(
               "Join Classroom",
               style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             const SizedBox(height: 24),
             TextField(
@@ -229,8 +248,10 @@ class _ClassroomSessionScreenState
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text("Searching for teacher...",
-                      style: TextStyle(color: Colors.white70)),
+                  Text(
+                    "Searching for teacher...",
+                    style: TextStyle(color: Colors.white70),
+                  ),
                 ],
               )
             else
@@ -247,7 +268,8 @@ class _ClassroomSessionScreenState
                     service.startStudentDiscovery();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Enter name first")));
+                      const SnackBar(content: Text("Enter name first")),
+                    );
                   }
                 },
               ),

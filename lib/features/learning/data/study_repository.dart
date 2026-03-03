@@ -13,7 +13,7 @@ class StudyRepository {
 
   /// Creates a [StudyRepository] instance.
   StudyRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Creates a new study group.
   Future<void> createStudyGroup(StudyGroup group) async {
@@ -38,8 +38,10 @@ class StudyRepository {
   // --- Resources ---
 
   /// Retrieves learning resources, optionally filtered by subject or group.
-  Future<List<LearningResource>> getResources(
-      {String? subject, String? groupId}) async {
+  Future<List<LearningResource>> getResources({
+    String? subject,
+    String? groupId,
+  }) async {
     var query = _client.from('learning_resources').select('*');
     if (subject != null) query = query.eq('subject', subject);
     if (groupId != null) query = query.eq('group_id', groupId);

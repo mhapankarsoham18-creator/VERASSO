@@ -68,7 +68,10 @@ class _GuildDetailView extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Text(
                   guild.name,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 if (guild.description != null)
                   Padding(
@@ -83,7 +86,10 @@ class _GuildDetailView extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _StatItem(label: 'Members', value: '${guild.memberCount}/${guild.maxMembers}'),
+                    _StatItem(
+                      label: 'Members',
+                      value: '${guild.memberCount}/${guild.maxMembers}',
+                    ),
                     _StatItem(label: 'Total XP', value: '${guild.guildXP}'),
                   ],
                 ),
@@ -98,12 +104,16 @@ class _GuildDetailView extends ConsumerWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Invite functionality coming soon')),
+                      const SnackBar(
+                        content: Text('Invite functionality coming soon'),
+                      ),
                     );
                   },
                   icon: const Icon(LucideIcons.userPlus),
                   label: const Text('Invite'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -115,7 +125,9 @@ class _GuildDetailView extends ConsumerWidget {
                       builder: (context) => AlertDialog(
                         backgroundColor: Colors.grey.shade900,
                         title: const Text('Leave Guild?'),
-                        content: const Text('Are you sure you want to leave this guild?'),
+                        content: const Text(
+                          'Are you sure you want to leave this guild?',
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context, false),
@@ -123,7 +135,10 @@ class _GuildDetailView extends ConsumerWidget {
                           ),
                           TextButton(
                             onPressed: () => Navigator.pop(context, true),
-                            child: const Text('Leave', style: TextStyle(color: Colors.red)),
+                            child: const Text(
+                              'Leave',
+                              style: TextStyle(color: Colors.red),
+                            ),
                           ),
                         ],
                       ),
@@ -136,7 +151,9 @@ class _GuildDetailView extends ConsumerWidget {
                   },
                   icon: const Icon(LucideIcons.logOut),
                   label: const Text('Leave'),
-                  style: OutlinedButton.styleFrom(foregroundColor: Colors.redAccent),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.redAccent,
+                  ),
                 ),
               ),
             ],
@@ -151,12 +168,13 @@ class _GuildDiscoveryView extends ConsumerStatefulWidget {
   const _GuildDiscoveryView();
 
   @override
-  ConsumerState<_GuildDiscoveryView> createState() => _GuildDiscoveryViewState();
+  ConsumerState<_GuildDiscoveryView> createState() =>
+      _GuildDiscoveryViewState();
 }
 
 class _GuildDiscoveryViewState extends ConsumerState<_GuildDiscoveryView> {
   final _searchController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -237,7 +255,11 @@ class _StatItem extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orangeAccent),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.orangeAccent,
+          ),
         ),
         Text(
           label,

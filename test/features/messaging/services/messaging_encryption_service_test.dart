@@ -9,10 +9,7 @@ void main() {
   late MockEncryptionService mockEncryptionService;
   late MessagingEncryptionService service;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -41,25 +38,16 @@ void main() {
     });
 
     test('encryptMessage throws on encryption failure', () async {
-      final builder = MockSupabaseQueryBuilder(
-        selectResponse: null,
-      );
+      final builder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('conversation_keys', builder);
 
-      mockEncryptionService.setEncryptThrow(
-        Exception('Encryption failed'),
-      );
+      mockEncryptionService.setEncryptThrow(Exception('Encryption failed'));
 
-      expect(
-        () => service.encryptMessage('Hello', 'user-2'),
-        throwsException,
-      );
+      expect(() => service.encryptMessage('Hello', 'user-2'), throwsException);
     });
 
     test('decryptMessage decrypts encrypted content from sender', () async {
-      final builder = MockSupabaseQueryBuilder(
-        selectResponse: null,
-      );
+      final builder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('conversation_keys', builder);
 
       mockEncryptionService.setDecryptResult('Hello World');
@@ -73,14 +61,10 @@ void main() {
     });
 
     test('decryptMessage throws on decryption failure', () async {
-      final builder = MockSupabaseQueryBuilder(
-        selectResponse: null,
-      );
+      final builder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('conversation_keys', builder);
 
-      mockEncryptionService.setDecryptThrow(
-        Exception('Decryption failed'),
-      );
+      mockEncryptionService.setDecryptThrow(Exception('Decryption failed'));
 
       expect(
         () => service.decryptMessage('encrypted:content', 'user-2'),
@@ -104,9 +88,7 @@ void main() {
     });
 
     test('encryptMessage creates new key if none exists', () async {
-      final builder = MockSupabaseQueryBuilder(
-        selectResponse: null,
-      );
+      final builder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('conversation_keys', builder);
 
       mockEncryptionService.setEncryptResult('encrypted:content');
@@ -121,10 +103,7 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('conversation_keys', builder);
 
-      await expectLater(
-        service.rotateConversationKey('user-2'),
-        completes,
-      );
+      await expectLater(service.rotateConversationKey('user-2'), completes);
 
       expect(mockSupabase.lastUpdateTable, 'conversation_keys');
     });
@@ -132,24 +111,25 @@ void main() {
     test('rotateConversationKey throws when user not authenticated', () async {
       mockAuth.setCurrentUser(null);
 
-      expect(
-        () => service.rotateConversationKey('user-2'),
-        throwsException,
-      );
+      expect(() => service.rotateConversationKey('user-2'), throwsException);
     });
 
     test('searchMessages searches all conversations for query', () async {
       // Mock conversations list
-      final convBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'conv-1', 'user_1_id': 'user-1', 'user_2_id': 'user-2'},
-      ]);
+      final convBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'conv-1', 'user_1_id': 'user-1', 'user_2_id': 'user-2'},
+        ],
+      );
       mockSupabase.setQueryBuilder('conversations', convBuilder);
 
       // Mock messages list
-      final msgBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'msg-1', 'content': 'encrypted:hello'},
-        {'id': 'msg-2', 'content': 'encrypted:world'},
-      ]);
+      final msgBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'msg-1', 'content': 'encrypted:hello'},
+          {'id': 'msg-2', 'content': 'encrypted:world'},
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', msgBuilder);
 
       mockEncryptionService
@@ -162,14 +142,18 @@ void main() {
     });
 
     test('searchMessages returns empty list when no matches found', () async {
-      final convBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'conv-1', 'user_1_id': 'user-1', 'user_2_id': 'user-2'},
-      ]);
+      final convBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'conv-1', 'user_1_id': 'user-1', 'user_2_id': 'user-2'},
+        ],
+      );
       mockSupabase.setQueryBuilder('conversations', convBuilder);
 
-      final msgBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'msg-1', 'content': 'encrypted:hello'},
-      ]);
+      final msgBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'msg-1', 'content': 'encrypted:hello'},
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', msgBuilder);
 
       mockEncryptionService.setDecryptResult('hello there');
@@ -179,14 +163,16 @@ void main() {
       expect(matchingIds, isEmpty);
     });
 
-    test('searchMessages returns empty list when user not authenticated',
-        () async {
-      mockAuth.setCurrentUser(null);
+    test(
+      'searchMessages returns empty list when user not authenticated',
+      () async {
+        mockAuth.setCurrentUser(null);
 
-      final results = await service.searchMessages('test');
+        final results = await service.searchMessages('test');
 
-      expect(results, isEmpty);
-    });
+        expect(results, isEmpty);
+      },
+    );
 
     test('verifyMessageIntegrity returns true for valid HMAC', () async {
       final builder = MockSupabaseQueryBuilder(
@@ -251,13 +237,15 @@ void main() {
       expect(key.length, 32); // 32 characters for AES-256
     });
 
-    test('generateConversationKey creates different keys for different IDs',
-        () {
-      final key1 = service.generateConversationKeyPublic('conv-1');
-      final key2 = service.generateConversationKeyPublic('conv-2');
+    test(
+      'generateConversationKey creates different keys for different IDs',
+      () {
+        final key1 = service.generateConversationKeyPublic('conv-1');
+        final key2 = service.generateConversationKeyPublic('conv-2');
 
-      expect(key1, isNot(key2));
-    });
+        expect(key1, isNot(key2));
+      },
+    );
 
     test('calculateHmac returns consistent hash', () {
       final hmac1 = service.calculateHmacPublic('message', 'key');

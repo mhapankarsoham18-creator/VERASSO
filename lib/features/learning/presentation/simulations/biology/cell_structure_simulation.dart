@@ -62,10 +62,7 @@ class OrganelleWidget extends StatelessWidget {
                     blurRadius: 15,
                     spreadRadius: 3,
                   ),
-                  const BoxShadow(
-                    color: Colors.white24,
-                    blurRadius: 10,
-                  ),
+                  const BoxShadow(color: Colors.white24, blurRadius: 10),
                 ]
               : [const BoxShadow(color: Colors.black26, blurRadius: 10)],
         ),
@@ -162,32 +159,36 @@ class _CellStructureSimulationState extends State<CellStructureSimulation> {
                                   duration: const Duration(milliseconds: 200),
                                   decoration: BoxDecoration(
                                     color: _selectedOrganelle == 'Cell Membrane'
-                                        ? Colors.greenAccent
-                                            .withValues(alpha: 0.3)
-                                        : Colors.greenAccent
-                                            .withValues(alpha: 0.2),
+                                        ? Colors.greenAccent.withValues(
+                                            alpha: 0.3,
+                                          )
+                                        : Colors.greenAccent.withValues(
+                                            alpha: 0.2,
+                                          ),
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       color:
                                           _selectedOrganelle == 'Cell Membrane'
-                                              ? Colors.greenAccent
-                                              : Colors.greenAccent
-                                                  .withValues(alpha: 0.7),
+                                          ? Colors.greenAccent
+                                          : Colors.greenAccent.withValues(
+                                              alpha: 0.7,
+                                            ),
                                       width:
                                           _selectedOrganelle == 'Cell Membrane'
-                                              ? 5
-                                              : 4,
+                                          ? 5
+                                          : 4,
                                     ),
                                     boxShadow:
                                         _selectedOrganelle == 'Cell Membrane'
-                                            ? [
-                                                BoxShadow(
-                                                    color: Colors.greenAccent
-                                                        .withValues(alpha: 0.5),
-                                                    blurRadius: 15,
-                                                    spreadRadius: 2)
-                                              ]
-                                            : [],
+                                        ? [
+                                            BoxShadow(
+                                              color: Colors.greenAccent
+                                                  .withValues(alpha: 0.5),
+                                              blurRadius: 15,
+                                              spreadRadius: 2,
+                                            ),
+                                          ]
+                                        : [],
                                   ),
                                 ),
                               ),
@@ -305,19 +306,25 @@ class _CellStructureSimulationState extends State<CellStructureSimulation> {
                         children: [
                           IconButton(
                             onPressed: _zoomIn,
-                            icon: const Icon(LucideIcons.plus,
-                                color: Colors.white),
+                            icon: const Icon(
+                              LucideIcons.plus,
+                              color: Colors.white,
+                            ),
                             tooltip: 'Zoom In',
                           ),
                           Text(
                             '${(_currentScale * 100).toInt()}%',
                             style: const TextStyle(
-                                fontSize: 10, color: Colors.white70),
+                              fontSize: 10,
+                              color: Colors.white70,
+                            ),
                           ),
                           IconButton(
                             onPressed: _zoomOut,
-                            icon: const Icon(LucideIcons.minus,
-                                color: Colors.white),
+                            icon: const Icon(
+                              LucideIcons.minus,
+                              color: Colors.white,
+                            ),
                             tooltip: 'Zoom Out',
                           ),
                         ],
@@ -404,12 +411,15 @@ class _CellStructureSimulationState extends State<CellStructureSimulation> {
     try {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId != null) {
-        Supabase.instance.client.from('user_simulation_results').insert({
-          'user_id': userId,
-          'sim_id': 'cell_structure',
-          'parameters': {'action': 'select_organelle'},
-          'results': {'organelle': name},
-        }).then((_) => debugPrint('Cell organelle selection saved'));
+        Supabase.instance.client
+            .from('user_simulation_results')
+            .insert({
+              'user_id': userId,
+              'sim_id': 'cell_structure',
+              'parameters': {'action': 'select_organelle'},
+              'results': {'organelle': name},
+            })
+            .then((_) => debugPrint('Cell organelle selection saved'));
       }
     } catch (e) {
       debugPrint('Error persisting cell organelle selection: $e');

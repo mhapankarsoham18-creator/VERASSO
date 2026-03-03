@@ -15,11 +15,7 @@ class ShimmerLoading extends ConsumerWidget {
   final bool isLoading;
 
   /// Creates a [ShimmerLoading].
-  const ShimmerLoading({
-    super.key,
-    required this.child,
-    this.isLoading = true,
-  });
+  const ShimmerLoading({super.key, required this.child, this.isLoading = true});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,8 +68,9 @@ class SkeletonBox extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: Colors.black, // Color doesn't matter, it's masked by Shimmer
-        borderRadius:
-            shape == BoxShape.circle ? null : BorderRadius.circular(radius),
+        borderRadius: shape == BoxShape.circle
+            ? null
+            : BorderRadius.circular(radius),
         shape: shape,
       ),
     );

@@ -37,7 +37,7 @@ void main() {
           'user_id': 'user-1',
           'content': 'Hello',
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       mockClient.setRpcResponse('get_recommended_posts', mockPosts);
@@ -51,7 +51,7 @@ void main() {
 
     test('fetchRecommendedUsers calls get_recommended_users RPC', () async {
       final mockUsers = [
-        {'id': 'user-2', 'username': 'user2'}
+        {'id': 'user-2', 'username': 'user2'},
       ];
 
       mockClient.setRpcResponse('get_recommended_users', mockUsers);
@@ -103,8 +103,9 @@ void main() {
         ),
       ];
 
-      when(mockCourseRepo.getPublishedCourses())
-          .thenAnswer((_) async => courses);
+      when(
+        mockCourseRepo.getPublishedCourses(),
+      ).thenAnswer((_) async => courses);
 
       // Mock database interests (weighted towards physics)
       final mockInterests = [
@@ -131,20 +132,23 @@ void main() {
       // Physics should be recommended due to DB weight
       expect(result.any((r) => r.simulationId == 'course-physics'), isTrue);
       expect(
-          result.firstWhere((r) => r.simulationId == 'course-physics').reason,
-          contains('interest in physics'));
+        result.firstWhere((r) => r.simulationId == 'course-physics').reason,
+        contains('interest in physics'),
+      );
     });
 
     test('falls back to legacy interests if database is empty', () async {
-      when(mockCourseRepo.getPublishedCourses()).thenAnswer((_) async => [
-            Course(
-              id: 'course-art',
-              creatorId: 'teacher-1',
-              title: 'Art History',
-              isPublished: true,
-              createdAt: DateTime.now(),
-            ),
-          ]);
+      when(mockCourseRepo.getPublishedCourses()).thenAnswer(
+        (_) async => [
+          Course(
+            id: 'course-art',
+            creatorId: 'teacher-1',
+            title: 'Art History',
+            isPublished: true,
+            createdAt: DateTime.now(),
+          ),
+        ],
+      );
 
       // Mock empty DB interests
       final queryBuilder = MockSupabaseQueryBuilder();
@@ -168,18 +172,21 @@ void main() {
     test('deduplicates and ranks simulations properly', () async {
       final courses = [
         Course(
-            id: 'c1',
-            creatorId: 't1',
-            title: 'Course 1',
-            createdAt: DateTime.now()),
+          id: 'c1',
+          creatorId: 't1',
+          title: 'Course 1',
+          createdAt: DateTime.now(),
+        ),
         Course(
-            id: 'c2',
-            creatorId: 't1',
-            title: 'Course 2',
-            createdAt: DateTime.now()),
+          id: 'c2',
+          creatorId: 't1',
+          title: 'Course 2',
+          createdAt: DateTime.now(),
+        ),
       ];
-      when(mockCourseRepo.getPublishedCourses())
-          .thenAnswer((_) async => courses);
+      when(
+        mockCourseRepo.getPublishedCourses(),
+      ).thenAnswer((_) async => courses);
 
       final queryBuilder = MockSupabaseQueryBuilder();
       final filterBuilder =

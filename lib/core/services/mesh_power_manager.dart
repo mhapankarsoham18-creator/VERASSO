@@ -89,7 +89,8 @@ class MeshPowerManager with WidgetsBindingObserver {
 
       // 1. Discovery Phase
       AppLogger.info(
-          'MeshPowerManager: Starting Discovery (${config.scanDuration.inSeconds}s)');
+        'MeshPowerManager: Starting Discovery (${config.scanDuration.inSeconds}s)',
+      );
       await _meshService.startDiscovery();
       await _meshService.startAdvertising();
       await Future.delayed(config.scanDuration);
@@ -97,7 +98,8 @@ class MeshPowerManager with WidgetsBindingObserver {
       // 2. Sleep Phase
       if (config.sleepDuration > Duration.zero) {
         AppLogger.info(
-            'MeshPowerManager: Pausing Discovery (${config.sleepDuration.inSeconds}s)');
+          'MeshPowerManager: Pausing Discovery (${config.sleepDuration.inSeconds}s)',
+        );
         await _meshService.stopDiscovery();
         await _meshService.stopAdvertising();
         await Future.delayed(config.sleepDuration);
@@ -115,7 +117,7 @@ enum MeshPowerMode {
   normal,
 
   /// Minimal duty cycle for background power preservation.
-  deepSleep
+  deepSleep,
 }
 
 /// Tracks performance statistics for a specific mesh node.

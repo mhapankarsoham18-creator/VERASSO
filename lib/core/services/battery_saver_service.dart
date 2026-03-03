@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Provider for the [BatterySaverNotifier].
 final batterySaverProvider =
     StateNotifierProvider<BatterySaverNotifier, BatterySaverState>((ref) {
-  return BatterySaverNotifier();
-});
+      return BatterySaverNotifier();
+    });
 
 /// Notifier class for managing the battery saver state.
 class BatterySaverNotifier extends StateNotifier<BatterySaverState> {
@@ -24,7 +24,8 @@ class BatterySaverNotifier extends StateNotifier<BatterySaverState> {
   Future<void> _loadState() async {
     final prefs = await SharedPreferences.getInstance();
     state = BatterySaverState(
-        isEnabled: prefs.getBool('battery_saver_enabled') ?? false);
+      isEnabled: prefs.getBool('battery_saver_enabled') ?? false,
+    );
   }
 }
 

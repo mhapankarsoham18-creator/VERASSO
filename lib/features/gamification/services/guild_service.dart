@@ -48,15 +48,15 @@ class Guild {
 
   /// Creates from JSON.
   factory Guild.fromJson(Map<String, dynamic> json) => Guild(
-        id: json['id'],
-        name: json['name'] ?? '',
-        description: json['description'],
-        emblemUrl: json['emblem_url'],
-        leaderId: json['leader_id'],
-        guildXP: json['guild_xp'] ?? 0,
-        memberCount: json['member_count'] ?? 1,
-        maxMembers: json['max_members'] ?? 20,
-      );
+    id: json['id'],
+    name: json['name'] ?? '',
+    description: json['description'],
+    emblemUrl: json['emblem_url'],
+    leaderId: json['leader_id'],
+    guildXP: json['guild_xp'] ?? 0,
+    memberCount: json['member_count'] ?? 1,
+    maxMembers: json['max_members'] ?? 20,
+  );
 
   /// Whether the guild has room for more members.
   bool get hasSpace => memberCount < maxMembers;
@@ -90,12 +90,12 @@ class GuildMember {
 
   /// Creates from JSON.
   factory GuildMember.fromJson(Map<String, dynamic> json) => GuildMember(
-        guildId: json['guild_id'],
-        userId: json['user_id'],
-        role: json['role'] ?? 'member',
-        xpContributed: json['xp_contributed'] ?? 0,
-        joinedAt: DateTime.parse(json['joined_at']),
-      );
+    guildId: json['guild_id'],
+    userId: json['user_id'],
+    role: json['role'] ?? 'member',
+    xpContributed: json['xp_contributed'] ?? 0,
+    joinedAt: DateTime.parse(json['joined_at']),
+  );
 
   /// Whether this member has any management permissions.
   bool get canModerate => isLeader || isOfficer || isModerator;
@@ -130,7 +130,8 @@ class GuildService {
       final existing = await getMyGuild();
       if (existing != null) {
         throw const DatabaseException(
-            'You are already in a guild. Leave first.');
+          'You are already in a guild. Leave first.',
+        );
       }
 
       final response = await _supabase
@@ -181,8 +182,11 @@ class GuildService {
   /// Gets a guild by ID.
   Future<Guild> getGuild(String guildId) async {
     try {
-      final response =
-          await _supabase.from('guilds').select().eq('id', guildId).single();
+      final response = await _supabase
+          .from('guilds')
+          .select()
+          .eq('id', guildId)
+          .single();
       return Guild.fromJson(response);
     } catch (e) {
       throw DatabaseException('Failed to get guild: $e', null, e);
@@ -191,7 +195,8 @@ class GuildService {
 
   /// Stubs for guild announcements/forums functionality.
   Future<List<Map<String, dynamic>>> getGuildAnnouncements(
-      String guildId) async {
+    String guildId,
+  ) async {
     // Current placeholder, would ideally link to a news/broadcast table
     return [];
   }
@@ -337,8 +342,10 @@ class GuildService {
               orElse: () => members.firstWhere((m) => m.userId != userId),
             ),
           );
-          await _supabase.from('guilds').update(
-              {'leader_id': newLeader.userId}).eq('id', membership['guild_id']);
+          await _supabase
+              .from('guilds')
+              .update({'leader_id': newLeader.userId})
+              .eq('id', membership['guild_id']);
           await _supabase
               .from('guild_members')
               .update({'role': 'leader'})
@@ -379,13 +386,17 @@ class GuildService {
 
   /// Updates a member's role (leader/officer only).
   Future<void> updateMemberRole(
-      String guildId, String userId, String newRole) async {
+    String guildId,
+    String userId,
+    String newRole,
+  ) async {
     try {
       final currentUser = _supabase.auth.currentUser!.id;
       final guild = await getGuild(guildId);
       if (guild.leaderId != currentUser) {
         throw const DatabaseException(
-            'Only the guild leader can change roles.');
+          'Only the guild leader can change roles.',
+        );
       }
 
       await _supabase

@@ -13,8 +13,8 @@ final enrolledFactorsProvider = FutureProvider<List<dynamic>>((ref) async {
 /// Provider for the [MFAController] which handles MFA enrollment and unenrollment.
 final mfaControllerProvider =
     StateNotifierProvider<MFAController, AsyncValue<void>>((ref) {
-  return MFAController(ref.watch(authRepositoryProvider));
-});
+      return MFAController(ref.watch(authRepositoryProvider));
+    });
 
 /// Controller that manages the state and actions for multi-factor authentication setup.
 class MFAController extends StateNotifier<AsyncValue<void>> {
@@ -40,9 +40,8 @@ class MFAController extends StateNotifier<AsyncValue<void>> {
   /// Verifies a challenge and enables the MFA [factorId] with the provided [code].
   Future<void> verifyAndEnable(String factorId, String code) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _repo.challengeAndVerify(
-          factorId: factorId,
-          code: code,
-        ));
+    state = await AsyncValue.guard(
+      () => _repo.challengeAndVerify(factorId: factorId, code: code),
+    );
   }
 }

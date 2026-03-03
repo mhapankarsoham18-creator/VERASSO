@@ -32,7 +32,8 @@ class PortfolioService {
   Future<Map<String, dynamic>> fetchStockData(String symbol) async {
     try {
       final uri = Uri.parse(
-          'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$_alphaVantageKey');
+        'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=$symbol&apikey=$_alphaVantageKey',
+      );
 
       final response = await http.get(uri);
 
@@ -131,10 +132,12 @@ class PortfolioService {
       final snapshot = {
         'cash': cashBalance,
         'hld': holdings
-            .map((h) => {
-                  's': h['symbol'] ?? h['name'], // Fallback
-                  'u': h['units'],
-                })
+            .map(
+              (h) => {
+                's': h['symbol'] ?? h['name'], // Fallback
+                'u': h['units'],
+              },
+            )
             .toList(),
       };
 

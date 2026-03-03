@@ -29,8 +29,9 @@ class ChatBubble extends StatelessWidget {
     return Align(
       alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
         margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
@@ -44,14 +45,18 @@ class ChatBubble extends StatelessWidget {
             bottomRight: Radius.circular(message.isUser ? 4 : 16),
           ),
           border: Border.all(
-              color: message.isUser
-                  ? Colors.cyanAccent.withValues(alpha: 0.3)
-                  : Colors.white12),
+            color: message.isUser
+                ? Colors.cyanAccent.withValues(alpha: 0.3)
+                : Colors.white12,
+          ),
         ),
         child: Text(
           message.text,
-          style:
-              const TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            height: 1.4,
+          ),
         ),
       ),
     ).animate().fadeIn().slideY(begin: 0.1, end: 0, duration: 300.ms);
@@ -104,7 +109,11 @@ class _AIAssistantScreenState extends ConsumerState<AIAssistantScreen> {
               child: ListView.builder(
                 controller: _scrollController,
                 padding: const EdgeInsets.only(
-                    top: 100, bottom: 20, left: 16, right: 16),
+                  top: 100,
+                  bottom: 20,
+                  left: 16,
+                  right: 16,
+                ),
                 itemCount: _messages.length + (_isTyping ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == _messages.length) {
@@ -124,10 +133,11 @@ class _AIAssistantScreenState extends ConsumerState<AIAssistantScreen> {
   Widget _buildInputArea() {
     return GlassContainer(
       padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: MediaQuery.of(context).padding.bottom + 16),
+        left: 16,
+        right: 16,
+        top: 16,
+        bottom: MediaQuery.of(context).padding.bottom + 16,
+      ),
       borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       child: Row(
         children: [
@@ -226,10 +236,13 @@ class _AIAssistantScreenState extends ConsumerState<AIAssistantScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _messages.add(ChatMessage(
+          _messages.add(
+            ChatMessage(
               text:
                   "I'm having trouble connecting to the cosmos right now. Please try again later.",
-              isUser: false));
+              isUser: false,
+            ),
+          );
           _isTyping = false;
         });
       }

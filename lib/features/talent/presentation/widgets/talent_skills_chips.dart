@@ -25,16 +25,19 @@ class TalentSkillsChips extends StatelessWidget {
       return TextField(
         controller: skillsController,
         decoration: const InputDecoration(
-            hintText: 'Skills (e.g. Photoshop, Flutter, Python)'),
+          hintText: 'Skills (e.g. Photoshop, Flutter, Python)',
+        ),
       );
     }
     return Wrap(
       spacing: 8,
       children: skills
-          .map((s) => Chip(
-                label: Text(s, style: const TextStyle(fontSize: 12)),
-                backgroundColor: Colors.white10,
-              ))
+          .map(
+            (s) => Chip(
+              label: Text(s, style: const TextStyle(fontSize: 12)),
+              backgroundColor: Colors.white10,
+            ),
+          )
           .toList(),
     );
   }

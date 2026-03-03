@@ -19,12 +19,13 @@ void main() {
           'event_id': 'event-1',
           'title': 'Winter Challenge',
           'start_at': DateTime.now().toIso8601String(),
-          'end_at':
-              DateTime.now().add(const Duration(days: 7)).toIso8601String(),
+          'end_at': DateTime.now()
+              .add(const Duration(days: 7))
+              .toIso8601String(),
           'rewards': [
-            {'id': 'reward-1', 'xp_bonus': 500}
-          ]
-        }
+            {'id': 'reward-1', 'xp_bonus': 500},
+          ],
+        },
       ]);
 
       final events = await seasonalService.getActiveEvents();

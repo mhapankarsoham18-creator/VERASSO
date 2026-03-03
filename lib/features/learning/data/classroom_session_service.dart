@@ -14,13 +14,13 @@ import '../../../core/mesh/models/mesh_packet.dart';
 /// Provides a scoped [ClassroomSessionService] that is disposed with the UI.
 final classroomSessionServiceProvider =
     Provider.autoDispose<ClassroomSessionService>((ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  final storage = ref.watch(offlineStorageServiceProvider);
-  final client = SupabaseService.client;
-  final service = ClassroomSessionService(mesh, storage, client: client);
-  ref.onDispose(() => service.dispose());
-  return service;
-});
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      final storage = ref.watch(offlineStorageServiceProvider);
+      final client = SupabaseService.client;
+      final service = ClassroomSessionService(mesh, storage, client: client);
+      ref.onDispose(() => service.dispose());
+      return service;
+    });
 
 // Models
 
@@ -62,12 +62,12 @@ class ClassroomSession {
 
   /// Serializes this session into a JSON-compatible map.
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'hostId': hostId,
-        'subject': subject,
-        'topic': topic,
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'hostId': hostId,
+    'subject': subject,
+    'topic': topic,
+    'createdAt': createdAt.toIso8601String(),
+  };
 }
 
 // Service
@@ -93,9 +93,11 @@ class ClassroomSessionService {
   final _participantsController = StreamController<List<String>>.broadcast();
 
   /// Creates a [ClassroomSessionService] and subscribes to mesh packets.
-  ClassroomSessionService(this._meshService, this._storageService,
-      {required SupabaseClient client})
-      : _client = client {
+  ClassroomSessionService(
+    this._meshService,
+    this._storageService, {
+    required SupabaseClient client,
+  }) : _client = client {
     _initListener();
   }
 
@@ -148,13 +150,15 @@ class ClassroomSessionService {
           .limit(20);
 
       return (response as List)
-          .map((json) => ClassroomSession(
-                id: json['id'],
-                hostId: json['host_id'],
-                subject: json['subject'],
-                topic: json['topic'],
-                createdAt: DateTime.parse(json['created_at']),
-              ))
+          .map(
+            (json) => ClassroomSession(
+              id: json['id'],
+              hostId: json['host_id'],
+              subject: json['subject'],
+              topic: json['topic'],
+              createdAt: DateTime.parse(json['created_at']),
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.info('Fetch sessions error: $e');
@@ -199,7 +203,10 @@ class ClassroomSessionService {
 
   /// Raises a [question] on behalf of the given [userId] and [userName].
   Future<void> raiseDoubt(
-      String userId, String userName, String question) async {
+    String userId,
+    String userName,
+    String question,
+  ) async {
     if (_currentSession == null) return;
 
     final doubt = SessionDoubt(
@@ -248,7 +255,9 @@ class ClassroomSessionService {
 
     // Broadcast to Mesh
     await _meshService.broadcastPacket(
-        MeshPayloadType.startSession, session.toMap());
+      MeshPayloadType.startSession,
+      session.toMap(),
+    );
 
     // Save to Offline Queue for Cloud Sync
     await _storageService.queueAction('start_session', session.toMap());

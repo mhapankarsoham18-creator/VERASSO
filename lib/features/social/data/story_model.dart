@@ -45,8 +45,12 @@ class Story {
       mediaType: json['media_type'] ?? 'image',
       createdAt: DateTime.parse(json['created_at']),
       expiresAt: DateTime.parse(json['expires_at']),
-      authorName: json['profiles'] != null ? json['profiles']['full_name'] : null,
-      authorAvatar: json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      authorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      authorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 }

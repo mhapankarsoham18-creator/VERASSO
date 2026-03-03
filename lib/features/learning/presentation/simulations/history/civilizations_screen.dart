@@ -60,7 +60,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Pyramids of Giza',
         'Hieroglyphics',
         'Papyrus',
-        '365-day Calendar'
+        '365-day Calendar',
       ],
       icon: LucideIcons.landmark,
       color: Colors.amber,
@@ -75,7 +75,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Democracy',
         'Philosophy (Socrates, Plato)',
         'Geometry',
-        'Olympics'
+        'Olympics',
       ],
       icon: LucideIcons.columns, // Closest to a temple/pillar
       color: Colors.blueAccent,
@@ -108,7 +108,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Cuneiform Writing',
         'Wheel',
         'Code of Hammurabi',
-        'Irrigation'
+        'Irrigation',
       ],
       icon: LucideIcons.bookOpen,
       color: Colors.orange,
@@ -122,7 +122,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Urban Planning',
         'Standardized Weights',
         'Metallurgy',
-        'Seal Carving'
+        'Seal Carving',
       ],
       icon: LucideIcons.layoutGrid,
       color: Colors.teal,
@@ -136,7 +136,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Complex Calendar',
         'Concept of Zero',
         'Astronomy',
-        'Step Pyramids'
+        'Step Pyramids',
       ],
       icon: LucideIcons.star,
       color: Colors.green,
@@ -150,7 +150,7 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         'Machu Picchu',
         'Road System (Qhapaq Ñan)',
         'Terrace Farming',
-        'Quipu'
+        'Quipu',
       ],
       icon: LucideIcons.mountain,
       color: Colors.brown,
@@ -169,14 +169,16 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
         leading: _selectedCiv != null
             ? IconButton(
                 icon: const Icon(LucideIcons.arrowLeft),
-                onPressed: () => setState(() => _selectedCiv = null))
+                onPressed: () => setState(() => _selectedCiv = null),
+              )
             : null,
       ),
       body: LiquidBackground(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          child:
-              _selectedCiv == null ? _buildGrid() : _buildDetail(_selectedCiv!),
+          child: _selectedCiv == null
+              ? _buildGrid()
+              : _buildDetail(_selectedCiv!),
         ),
       ),
     );
@@ -192,8 +194,10 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
             decoration: BoxDecoration(
               color: civ.color.withValues(alpha: 0.2),
               shape: BoxShape.circle,
-              border:
-                  Border.all(color: civ.color.withValues(alpha: 0.5), width: 2),
+              border: Border.all(
+                color: civ.color.withValues(alpha: 0.5),
+                width: 2,
+              ),
             ),
             child: Icon(civ.icon, size: 64, color: civ.color),
           ),
@@ -232,7 +236,10 @@ class _CivilizationsScreenState extends State<CivilizationsScreen> {
                 Text(
                   civ.description,
                   style: const TextStyle(
-                      color: Colors.white70, fontSize: 16, height: 1.5),
+                    color: Colors.white70,
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Text(

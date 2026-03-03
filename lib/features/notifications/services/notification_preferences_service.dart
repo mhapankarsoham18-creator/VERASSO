@@ -5,11 +5,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
 
 /// Future provider for the current user's [NotificationPreferences].
-final notificationPreferencesProvider =
-    FutureProvider<NotificationPreferences>((ref) async {
-  final service = ref.read(notificationPreferencesServiceProvider);
-  return service.getPreferences();
-});
+final notificationPreferencesProvider = FutureProvider<NotificationPreferences>(
+  (ref) async {
+    final service = ref.read(notificationPreferencesServiceProvider);
+    return service.getPreferences();
+  },
+);
 
 /// Riverpod providers
 /// Provider for the [NotificationPreferencesService] instance.
@@ -19,12 +20,15 @@ final notificationPreferencesServiceProvider = Provider((ref) {
 
 /// Provider for the [NotificationPreferencesNotifier] which manages preference state.
 /// Provider for the [NotificationPreferencesNotifier] which manages preference state.
-final notificationPreferencesStateProvider = StateNotifierProvider<
-    NotificationPreferencesNotifier, NotificationPreferences>(
-  (ref) => NotificationPreferencesNotifier(
-    ref.read(notificationPreferencesServiceProvider),
-  ),
-);
+final notificationPreferencesStateProvider =
+    StateNotifierProvider<
+      NotificationPreferencesNotifier,
+      NotificationPreferences
+    >(
+      (ref) => NotificationPreferencesNotifier(
+        ref.read(notificationPreferencesServiceProvider),
+      ),
+    );
 
 /// Notification preferences model
 class NotificationPreferences {
@@ -190,10 +194,7 @@ class NotificationPreferences {
     if (timeString == null) return null;
     try {
       final parts = timeString.split(':');
-      return TimeOfDay(
-        hour: int.parse(parts[0]),
-        minute: int.parse(parts[1]),
-      );
+      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
     } catch (e) {
       AppLogger.warning('Parse time of day error', error: e);
       return null;
@@ -208,7 +209,7 @@ class NotificationPreferencesNotifier
 
   /// Creates a [NotificationPreferencesNotifier].
   NotificationPreferencesNotifier(this._service)
-      : super(NotificationPreferences());
+    : super(NotificationPreferences());
 
   /// Load preferences from database
   Future<void> loadPreferences() async {
@@ -410,11 +411,14 @@ class NotificationPreferencesService {
         throw Exception('User not authenticated');
       }
 
-      await _client.from('notification_preferences').upsert({
-        'user_id': userId,
-        ...preferences.toJson(),
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('user_id', userId);
+      await _client
+          .from('notification_preferences')
+          .upsert({
+            'user_id': userId,
+            ...preferences.toJson(),
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('user_id', userId);
 
       AppLogger.info('Preferences updated successfully');
     } catch (e) {

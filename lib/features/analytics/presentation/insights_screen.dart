@@ -36,16 +36,20 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           data: (stats) {
             if (stats == null) {
               return const Center(
-                child: Text('Unable to load stats',
-                    style: TextStyle(color: Colors.white70)),
+                child: Text(
+                  'Unable to load stats',
+                  style: TextStyle(color: Colors.white70),
+                ),
               );
             }
             return _buildContent(stats);
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(
-            child:
-                Text('Error: $err', style: const TextStyle(color: Colors.red)),
+            child: Text(
+              'Error: $err',
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ),
       ),
@@ -86,13 +90,22 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           ),
           const SizedBox(height: 16),
           _buildEngagementRow(
-              'Likes Received', stats.likesReceived, Colors.redAccent),
+            'Likes Received',
+            stats.likesReceived,
+            Colors.redAccent,
+          ),
           const SizedBox(height: 8),
           _buildEngagementRow(
-              'Comments Received', stats.commentsReceived, Colors.blueAccent),
+            'Comments Received',
+            stats.commentsReceived,
+            Colors.blueAccent,
+          ),
           const SizedBox(height: 8),
-          _buildEngagementRow('Engagement Score', stats.engagementScore.toInt(),
-              Colors.greenAccent),
+          _buildEngagementRow(
+            'Engagement Score',
+            stats.engagementScore.toInt(),
+            Colors.greenAccent,
+          ),
         ],
       ),
     );
@@ -111,8 +124,10 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           return const GlassContainer(
             padding: EdgeInsets.all(32),
             child: Center(
-              child: Text('No engagement data yet',
-                  style: TextStyle(color: Colors.white70)),
+              child: Text(
+                'No engagement data yet',
+                style: TextStyle(color: Colors.white70),
+              ),
             ),
           );
         }
@@ -140,8 +155,12 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
                         spots: data
                             .asMap()
                             .entries
-                            .map((e) => FlSpot(e.key.toDouble(),
-                                e.value.totalEngagement.toDouble()))
+                            .map(
+                              (e) => FlSpot(
+                                e.key.toDouble(),
+                                e.value.totalEngagement.toDouble(),
+                              ),
+                            )
                             .toList(),
                         isCurved: true,
                         gradient: const LinearGradient(
@@ -170,10 +189,7 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
             Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             ),
             const SizedBox(width: 8),
             Text(label, style: const TextStyle(fontSize: 14)),
@@ -196,17 +212,11 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           const SizedBox(height: 8),
           Text(
             value.toString(),
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.white70,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
           ),
         ],
       ),
@@ -217,16 +227,31 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
     return Row(
       children: [
         Expanded(
-            child: _buildStatCard('Posts', stats.postsCount,
-                LucideIcons.fileText, Colors.blueAccent)),
+          child: _buildStatCard(
+            'Posts',
+            stats.postsCount,
+            LucideIcons.fileText,
+            Colors.blueAccent,
+          ),
+        ),
         const SizedBox(width: 12),
         Expanded(
-            child: _buildStatCard('Followers', stats.followersCount,
-                LucideIcons.users, Colors.greenAccent)),
+          child: _buildStatCard(
+            'Followers',
+            stats.followersCount,
+            LucideIcons.users,
+            Colors.greenAccent,
+          ),
+        ),
         const SizedBox(width: 12),
         Expanded(
-            child: _buildStatCard('Following', stats.followingCount,
-                LucideIcons.userPlus, Colors.purpleAccent)),
+          child: _buildStatCard(
+            'Following',
+            stats.followingCount,
+            LucideIcons.userPlus,
+            Colors.purpleAccent,
+          ),
+        ),
       ],
     );
   }
@@ -240,7 +265,8 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
         decoration: BoxDecoration(
           gradient: isSelected
               ? const LinearGradient(
-                  colors: [Color(0xFF6A11CB), Color(0xFF2575FC)])
+                  colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                )
               : null,
           borderRadius: BorderRadius.circular(8),
         ),

@@ -14,9 +14,9 @@ import '../models/notification_model.dart';
 /// Provider for the list of notifications, automatically disposed.
 final notificationsListProvider =
     StreamProvider.autoDispose<List<NotificationModel>>((ref) {
-  final service = ref.watch(notificationServiceProvider);
-  return service.getNotificationsStream();
-});
+      final service = ref.watch(notificationServiceProvider);
+      return service.getNotificationsStream();
+    });
 
 /// Main screen for viewing all user notifications.
 class NotificationsScreen extends ConsumerWidget {
@@ -52,8 +52,11 @@ class NotificationsScreen extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(LucideIcons.bellOff,
-                          size: 48, color: Colors.white54),
+                      Icon(
+                        LucideIcons.bellOff,
+                        size: 48,
+                        color: Colors.white54,
+                      ),
                       SizedBox(height: 16),
                       Text(
                         'No notifications yet',
@@ -67,7 +70,11 @@ class NotificationsScreen extends ConsumerWidget {
 
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, bottom: 20, left: 16, right: 16),
+                top: 100,
+                bottom: 20,
+                left: 16,
+                right: 16,
+              ),
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 final notification = notifications[index];
@@ -115,7 +122,9 @@ class _NotificationTile extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         border: isUnread
             ? Border.all(
-                color: Colors.blueAccent.withValues(alpha: 0.5), width: 1.5)
+                color: Colors.blueAccent.withValues(alpha: 0.5),
+                width: 1.5,
+              )
             : Border.all(color: Colors.white10, width: 1.5),
         child: InkWell(
           onTap: () {
@@ -147,22 +156,27 @@ class _NotificationTile extends ConsumerWidget {
                     Text(
                       notification.title,
                       style: TextStyle(
-                        fontWeight:
-                            isUnread ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isUnread
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       notification.body,
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 13),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       _timeAgo(notification.createdAt),
-                      style:
-                          const TextStyle(color: Colors.white38, fontSize: 11),
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 11,
+                      ),
                     ),
                   ],
                 ),

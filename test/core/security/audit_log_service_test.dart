@@ -13,18 +13,20 @@ void main() {
   });
 
   group('AuditLogService Tests', () {
-    test('logEvent inserts correct data into security_audit_logs table',
-        () async {
-      // In our current Fake implementation, we just verify it completes
-      await expectLater(
-        auditLogService.logEvent(
-          type: 'security',
-          action: 'failed_login',
-          severity: 'high',
-          metadata: {'reason': 'invalid_password'},
-        ),
-        completes,
-      );
-    });
+    test(
+      'logEvent inserts correct data into security_audit_logs table',
+      () async {
+        // In our current Fake implementation, we just verify it completes
+        await expectLater(
+          auditLogService.logEvent(
+            type: 'security',
+            action: 'failed_login',
+            severity: 'high',
+            metadata: {'reason': 'invalid_password'},
+          ),
+          completes,
+        );
+      },
+    );
   });
 }

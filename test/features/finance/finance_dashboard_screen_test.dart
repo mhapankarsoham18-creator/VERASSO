@@ -27,21 +27,21 @@ void main() {
         currentUserProvider.overrideWith((ref) => currentUser),
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
       ],
-      child: const MaterialApp(
-        home: FinanceDashboardScreen(),
-      ),
+      child: const MaterialApp(home: FinanceDashboardScreen()),
     );
   }
 
   group('FinanceDashboardScreen', () {
-    testWidgets('renders "Please log in" when unauthenticated',
-        (WidgetTester tester) async {
+    testWidgets('renders "Please log in" when unauthenticated', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createSubject(currentUser: null));
       expect(find.text('Please log in'), findsOneWidget);
     });
 
-    testWidgets('renders dashboard when authenticated',
-        (WidgetTester tester) async {
+    testWidgets('renders dashboard when authenticated', (
+      WidgetTester tester,
+    ) async {
       // Stubing repository methods
       mockFinanceRepository.stubGetFinancialStats = (String userId) async {
         return {'income': 5000.0, 'expense': 2000.0};
@@ -59,8 +59,9 @@ void main() {
       expect(find.text('\$3000.00'), findsOneWidget);
     });
 
-    testWidgets('shows simple transaction history',
-        (WidgetTester tester) async {
+    testWidgets('shows simple transaction history', (
+      WidgetTester tester,
+    ) async {
       mockFinanceRepository.stubGetFinancialStats = (userId) async => {};
       mockFinanceRepository.stubGetTransactionHistory = (userId) async {
         return [

@@ -33,8 +33,9 @@ void main() {
       overrides: [
         offlineStorageServiceProvider.overrideWithValue(mockStorage),
         meshNewsServiceProvider.overrideWith((ref) => mockMeshNewsNotifier),
-        newsRepositoryProvider
-            .overrideWith((ref) => NewsRepository(mockSupabase, ref)),
+        newsRepositoryProvider.overrideWith(
+          (ref) => NewsRepository(mockSupabase, ref),
+        ),
       ],
     );
   });
@@ -57,7 +58,7 @@ void main() {
       'is_published': true,
       'subject': 'Tech',
       'audience_type': 'General',
-      'profiles': {'full_name': 'Author', 'avatar_url': 'http://avatar.com'}
+      'profiles': {'full_name': 'Author', 'avatar_url': 'http://avatar.com'},
     };
     final articlesList = [articleJson];
 
@@ -78,8 +79,9 @@ void main() {
     test('getArticles fetches from cache when Supabase fails', () async {
       // Arrange
       mockSupabase.setQueryBuilder('articles', ErrorMockSupabaseQueryBuilder());
-      when(mockStorage.getCachedData('featured_news_cache'))
-          .thenReturn(articlesList);
+      when(
+        mockStorage.getCachedData('featured_news_cache'),
+      ).thenReturn(articlesList);
 
       final repository = container.read(newsRepositoryProvider);
 
@@ -92,27 +94,33 @@ void main() {
       verify(mockStorage.getCachedData('featured_news_cache')).called(1);
     });
 
-    test('getArticles returns empty if Supabase fails and Cache is empty',
-        () async {
-      // Arrange
-      mockSupabase.setQueryBuilder('articles', ErrorMockSupabaseQueryBuilder());
-      when(mockStorage.getCachedData('featured_news_cache')).thenReturn(null);
+    test(
+      'getArticles returns empty if Supabase fails and Cache is empty',
+      () async {
+        // Arrange
+        mockSupabase.setQueryBuilder(
+          'articles',
+          ErrorMockSupabaseQueryBuilder(),
+        );
+        when(mockStorage.getCachedData('featured_news_cache')).thenReturn(null);
 
-      final repository = container.read(newsRepositoryProvider);
+        final repository = container.read(newsRepositoryProvider);
 
-      // Act
-      final result = await repository.getArticles(featuredOnly: true);
+        // Act
+        final result = await repository.getArticles(featuredOnly: true);
 
-      // Assert
-      expect(result, isEmpty);
-    });
+        // Assert
+        expect(result, isEmpty);
+      },
+    );
   });
 }
 
 class ErrorMockSupabaseQueryBuilder extends MockSupabaseQueryBuilder {
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     throw const DatabaseException('Offline');
   }
 }
@@ -125,16 +133,17 @@ class MockBluetoothMeshService extends Mock implements BluetoothMeshService {
 class MockGoTrueClient extends Mock implements GoTrueClient {
   @override
   User? get currentUser => User(
-      id: 'test-user',
-      appMetadata: {},
-      userMetadata: {},
-      aud: 'authenticated',
-      createdAt: '');
+    id: 'test-user',
+    appMetadata: {},
+    userMetadata: {},
+    aud: 'authenticated',
+    createdAt: '',
+  );
 }
 
 class MockMeshNewsNotifier extends MeshNewsService {
   MockMeshNewsNotifier(OfflineStorageService storage)
-      : super(MockBluetoothMeshService(), storage);
+    : super(MockBluetoothMeshService(), storage);
 
   @override
   Future<void> broadcastArticle(NewsArticle article) async {}
@@ -143,10 +152,10 @@ class MockMeshNewsNotifier extends MeshNewsService {
 class MockOfflineStorageService extends Mock implements OfflineStorageService {
   @override
   Future<void> cacheData(String key, dynamic value) async => super.noSuchMethod(
-        Invocation.method(#cacheData, [key, value]),
-        returnValue: Future.value(),
-        returnValueForMissingStub: Future.value(),
-      );
+    Invocation.method(#cacheData, [key, value]),
+    returnValue: Future.value(),
+    returnValueForMissingStub: Future.value(),
+  );
 
   @override
   dynamic getCachedData(String key, {Duration? expiration}) =>
@@ -165,16 +174,19 @@ class MockPostgrestFilterBuilder<T> extends Mock
   PostgrestFilterBuilder<T> eq(String column, Object value) => this;
 
   @override
-  PostgrestFilterBuilder<T> order(String column,
-          {bool ascending = true,
-          bool nullsFirst = false,
-          String? referencedTable}) =>
-      this;
+  PostgrestFilterBuilder<T> order(
+    String column, {
+    bool ascending = true,
+    bool nullsFirst = false,
+    String? referencedTable,
+  }) => this;
 
   @override
-  PostgrestFilterBuilder<T> range(int from, int to,
-          {String? referencedTable}) =>
-      this;
+  PostgrestFilterBuilder<T> range(
+    int from,
+    int to, {
+    String? referencedTable,
+  }) => this;
 
   @override
   Future<R> then<R>(FutureOr<R> Function(T) onValue, {Function? onError}) {
@@ -206,16 +218,17 @@ class MockSupabaseQueryBuilder extends Mock implements SupabaseQueryBuilder {
   final List<Map<String, dynamic>> _selectResponse;
 
   MockSupabaseQueryBuilder({List<Map<String, dynamic>>? selectResponse})
-      : _selectResponse = selectResponse ?? [];
+    : _selectResponse = selectResponse ?? [];
 
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     return MockPostgrestFilterBuilder(_selectResponse);
   }
 }
 
 class SuccessMockSupabaseQueryBuilder extends MockSupabaseQueryBuilder {
   SuccessMockSupabaseQueryBuilder(List<Map<String, dynamic>> data)
-      : super(selectResponse: data);
+    : super(selectResponse: data);
 }

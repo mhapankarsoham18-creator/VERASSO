@@ -29,8 +29,10 @@ class MeshLabsScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(LucideIcons.settings),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const MeshNetworkScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MeshNetworkScreen()),
+              );
             },
           ),
         ],
@@ -51,9 +53,11 @@ class MeshLabsScreen extends StatelessWidget {
                 icon: LucideIcons.presentation,
                 color: Colors.blueAccent,
                 onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const ClassroomSessionScreen())),
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ClassroomSessionScreen(),
+                  ),
+                ),
               ).animate().fadeIn(delay: 100.ms).slideX(),
               const SizedBox(height: 16),
               _MeshFeatureCard(
@@ -62,9 +66,9 @@ class MeshLabsScreen extends StatelessWidget {
                 icon: LucideIcons.helpCircle,
                 color: Colors.orangeAccent,
                 onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const DoubtSwarmScreen())),
+                  context,
+                  MaterialPageRoute(builder: (_) => const DoubtSwarmScreen()),
+                ),
               ).animate().fadeIn(delay: 200.ms).slideX(),
               const SizedBox(height: 16),
               _MeshFeatureCard(
@@ -72,8 +76,10 @@ class MeshLabsScreen extends StatelessWidget {
                 subtitle: "Collaborative interactive simulations",
                 icon: LucideIcons.box,
                 color: Colors.purpleAccent,
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const ArLabScreen())),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ArLabScreen()),
+                ),
               ).animate().fadeIn(delay: 300.ms).slideX(),
               const SizedBox(height: 16),
               _MeshFeatureCard(
@@ -82,9 +88,9 @@ class MeshLabsScreen extends StatelessWidget {
                 icon: LucideIcons.bookOpen,
                 color: Colors.greenAccent,
                 onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const MeshJournalScreen())),
+                  context,
+                  MaterialPageRoute(builder: (_) => const MeshJournalScreen()),
+                ),
               ).animate().fadeIn(delay: 400.ms).slideX(),
               const SizedBox(height: 16),
               _MeshFeatureCard(
@@ -92,8 +98,10 @@ class MeshLabsScreen extends StatelessWidget {
                 subtitle: "Gamified knowledge sharing chain",
                 icon: LucideIcons.zap,
                 color: Colors.amberAccent,
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const RelayGameScreen())),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RelayGameScreen()),
+                ),
               ).animate().fadeIn(delay: 500.ms).slideX(),
               const SizedBox(height: 16),
               _MeshFeatureCard(
@@ -102,9 +110,11 @@ class MeshLabsScreen extends StatelessWidget {
                 icon: LucideIcons.cpu,
                 color: Colors.cyanAccent,
                 onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const ArCircuitBuilderScreen())),
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ArCircuitBuilderScreen(),
+                  ),
+                ),
               ).animate().fadeIn(delay: 600.ms).slideX(),
               const SizedBox(height: 32),
               const Center(
@@ -166,9 +176,10 @@ class _MeshFeatureCard extends StatelessWidget {
                   Text(
                     title,
                     style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     subtitle,

@@ -13,37 +13,39 @@ void main() {
   });
 
   group('CommunityRepository', () {
-    test('getRecommendedCommunities should return top 10 communities',
-        () async {
-      // Arrange
-      final mockResponse = [
-        {
-          'id': 'comm-1',
-          'name': 'Bio Scholars',
-          'description': 'Biology group',
-          'subject': 'Science',
-          'member_count': 150,
-          'is_private': false,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ];
+    test(
+      'getRecommendedCommunities should return top 10 communities',
+      () async {
+        // Arrange
+        final mockResponse = [
+          {
+            'id': 'comm-1',
+            'name': 'Bio Scholars',
+            'description': 'Biology group',
+            'subject': 'Science',
+            'member_count': 150,
+            'is_private': false,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ];
 
-      final mockFilterBuilder =
-          MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
-      mockFilterBuilder.setResponse(mockResponse);
+        final mockFilterBuilder =
+            MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
+        mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
-      mockClient.setQueryBuilder('communities', qb);
+        final qb = MockSupabaseQueryBuilder(
+          stubs: {'select': mockFilterBuilder},
+        );
+        mockClient.setQueryBuilder('communities', qb);
 
-      // Act
-      final result = await repository.getRecommendedCommunities();
+        // Act
+        final result = await repository.getRecommendedCommunities();
 
-      // Assert
-      expect(result.length, 1);
-      expect(result.first.name, 'Bio Scholars');
-    });
+        // Assert
+        expect(result.length, 1);
+        expect(result.first.name, 'Bio Scholars');
+      },
+    );
 
     test('searchCommunities should filter by query', () async {
       // Arrange
@@ -56,16 +58,14 @@ void main() {
           'member_count': 50,
           'is_private': false,
           'created_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final mockFilterBuilder =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('communities', qb);
 
       // Act

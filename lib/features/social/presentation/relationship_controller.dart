@@ -6,12 +6,17 @@ import '../data/relationship_repository.dart';
 /// Provider for the [RelationshipController].
 final relationshipControllerProvider =
     StateNotifierProvider<RelationshipController, AsyncValue<void>>((ref) {
-  return RelationshipController(ref.watch(relationshipRepositoryProvider), ref);
-});
+      return RelationshipController(
+        ref.watch(relationshipRepositoryProvider),
+        ref,
+      );
+    });
 
 /// Provider family to fetch the relationship status with a specific user.
-final relationshipStatusProvider =
-    FutureProvider.family<String, String>((ref, otherUserId) async {
+final relationshipStatusProvider = FutureProvider.family<String, String>((
+  ref,
+  otherUserId,
+) async {
   final repo = ref.watch(relationshipRepositoryProvider);
   return repo.getRelationshipStatus(otherUserId);
 });
@@ -25,12 +30,16 @@ class RelationshipController extends StateNotifier<AsyncValue<void>> {
   RelationshipController(this._repo, this._ref) : super(const AsyncData(null));
 
   /// Accepts a pending friend request and refreshes the status.
-  Future<void> acceptRequest(String requesterId,
-      {bool allowsPersonal = false}) async {
+  Future<void> acceptRequest(
+    String requesterId, {
+    bool allowsPersonal = false,
+  }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await _repo.acceptFriendRequest(requesterId,
-          allowsPersonal: allowsPersonal);
+      await _repo.acceptFriendRequest(
+        requesterId,
+        allowsPersonal: allowsPersonal,
+      );
       _ref.invalidate(relationshipStatusProvider(requesterId));
     });
   }
@@ -45,8 +54,10 @@ class RelationshipController extends StateNotifier<AsyncValue<void>> {
   }
 
   /// Sends a friend request and refreshes the status.
-  Future<void> sendRequest(String targetId,
-      {bool allowsPersonal = false}) async {
+  Future<void> sendRequest(
+    String targetId, {
+    bool allowsPersonal = false,
+  }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await _repo.sendFriendRequest(targetId, allowsPersonal: allowsPersonal);

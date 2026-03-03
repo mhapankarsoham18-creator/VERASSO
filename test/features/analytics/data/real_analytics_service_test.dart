@@ -28,8 +28,9 @@ void main() {
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockQuery.setResponse([mockResponse]);
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'select': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockQuery},
+      );
       mockSupabase.fromStub = (table) {
         if (table == 'content_stats') return mockQueryBuilder;
         return MockSupabaseQueryBuilder();
@@ -48,13 +49,13 @@ void main() {
           'content_id': 'c1',
           'content_type': 'post',
           'views_count': 100,
-          'engagement_rate': 0.5
+          'engagement_rate': 0.5,
         },
         {
           'content_id': 'c2',
           'content_type': 'post',
           'views_count': 50,
-          'engagement_rate': 0.3
+          'engagement_rate': 0.3,
         },
       ];
 
@@ -62,8 +63,9 @@ void main() {
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockQuery.setResponse(mockResponse);
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'select': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockQuery},
+      );
       mockSupabase.fromStub = (table) => mockQueryBuilder;
 
       final results = await service.getTopContent('u1', limit: 2);
@@ -85,8 +87,9 @@ void main() {
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockQuery.setResponse([mockResponse]);
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'select': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockQuery},
+      );
       mockSupabase.fromStub = (table) {
         if (table == 'user_stats') return mockQueryBuilder;
         return MockSupabaseQueryBuilder();
@@ -114,8 +117,9 @@ void main() {
       mockSupabase.setAuth(mockAuth);
 
       final mockQuery = MockPostgrestFilterBuilder<dynamic>();
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'insert': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'insert': mockQuery},
+      );
       mockSupabase.fromStub = (table) {
         if (table == 'analytics_events') return mockQueryBuilder;
         return MockSupabaseQueryBuilder();
@@ -133,10 +137,9 @@ void main() {
       // 2. Insert
       final mockInsertQuery = MockPostgrestFilterBuilder<dynamic>();
 
-      final mockQueryBuilder = MockSupabaseQueryBuilder(stubs: {
-        'select': mockSelectQuery,
-        'insert': mockInsertQuery,
-      });
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockSelectQuery, 'insert': mockInsertQuery},
+      );
 
       mockSupabase.fromStub = (table) => mockQueryBuilder;
 
@@ -154,7 +157,7 @@ void main() {
           'posts': 3,
           'likes': 12,
           'comments': 5,
-        }
+        },
       ];
       mockSupabase.setRpcResponse('get_user_engagement', mockResponse);
 

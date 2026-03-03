@@ -61,8 +61,9 @@ class KnowledgeGraphPainter extends CustomPainter {
 
       // Perspective projection
       double factor = 600 / (600 + z2);
-      projectedPoints
-          .add(Offset(center.dx + x1 * factor, center.dy + y2 * factor));
+      projectedPoints.add(
+        Offset(center.dx + x1 * factor, center.dy + y2 * factor),
+      );
 
       // Draw Node
       paint.color = node.color.withValues(alpha: (factor * 0.8).clamp(0, 1));
@@ -76,7 +77,8 @@ class KnowledgeGraphPainter extends CustomPainter {
 
     for (int i = 0; i < projectedPoints.length; i++) {
       for (int j = i + 1; j < projectedPoints.length; j++) {
-        double dist = (nodes[i].x - nodes[j].x).abs() +
+        double dist =
+            (nodes[i].x - nodes[j].x).abs() +
             (nodes[i].y - nodes[j].y).abs() +
             (nodes[i].z - nodes[j].z).abs();
         if (dist < 300) {
@@ -163,10 +165,10 @@ class _CognitiveDashboardState extends ConsumerState<CognitiveDashboard>
                 children: [
                   Text(
                     'COGNITIVE STATUS',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(letterSpacing: 4, color: Colors.cyanAccent),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      letterSpacing: 4,
+                      color: Colors.cyanAccent,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -174,7 +176,9 @@ class _CognitiveDashboardState extends ConsumerState<CognitiveDashboard>
                         ? 'Level ${progressAsync.value?.level ?? 1} Architect'
                         : 'Guest Access',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.white),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -190,20 +194,34 @@ class _CognitiveDashboardState extends ConsumerState<CognitiveDashboard>
                   data: (progress) => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildStat(context, LucideIcons.brain,
-                          '${(progress.levelProgress * 100).toInt()}%', 'Sync'),
                       _buildStat(
-                          context, LucideIcons.shieldCheck, 'ZK', 'Identity'),
-                      _buildStat(context, LucideIcons.zap,
-                          '${progress.circuitsSimulated}', 'Engines'),
+                        context,
+                        LucideIcons.brain,
+                        '${(progress.levelProgress * 100).toInt()}%',
+                        'Sync',
+                      ),
+                      _buildStat(
+                        context,
+                        LucideIcons.shieldCheck,
+                        'ZK',
+                        'Identity',
+                      ),
+                      _buildStat(
+                        context,
+                        LucideIcons.zap,
+                        '${progress.circuitsSimulated}',
+                        'Engines',
+                      ),
                     ],
                   ),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(
-                      child: Text('Data Unavailable',
-                          style:
-                              TextStyle(color: Colors.white54, fontSize: 10))),
+                    child: Text(
+                      'Data Unavailable',
+                      style: TextStyle(color: Colors.white54, fontSize: 10),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -222,24 +240,33 @@ class _CognitiveDashboardState extends ConsumerState<CognitiveDashboard>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 20))
-          ..repeat();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat();
 
     _generateNodes();
   }
 
   Widget _buildStat(
-      BuildContext context, IconData icon, String value, String label) {
+    BuildContext context,
+    IconData icon,
+    String value,
+    String label,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, color: Colors.cyanAccent, size: 20),
         const SizedBox(height: 4),
-        Text(value,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Colors.white54)),
+        Text(
+          value,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: Colors.white54),
+        ),
       ],
     );
   }
@@ -249,14 +276,16 @@ class _CognitiveDashboardState extends ConsumerState<CognitiveDashboard>
     final random = Random();
     _nodes.clear();
     for (int i = 0; i < 20; i++) {
-      _nodes.add(KnowledgeNode(
-        id: 'node_$i',
-        label: i == 0 ? 'Core Self' : 'Skill $i',
-        x: (random.nextDouble() - 0.5) * 450,
-        y: (random.nextDouble() - 0.5) * 450,
-        z: (random.nextDouble() - 0.5) * 450,
-        color: i == 0 ? Colors.cyanAccent : Colors.white70,
-      ));
+      _nodes.add(
+        KnowledgeNode(
+          id: 'node_$i',
+          label: i == 0 ? 'Core Self' : 'Skill $i',
+          x: (random.nextDouble() - 0.5) * 450,
+          y: (random.nextDouble() - 0.5) * 450,
+          z: (random.nextDouble() - 0.5) * 450,
+          color: i == 0 ? Colors.cyanAccent : Colors.white70,
+        ),
+      );
     }
   }
 }

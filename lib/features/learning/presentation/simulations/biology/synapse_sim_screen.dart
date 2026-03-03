@@ -85,8 +85,9 @@ class SynapsePainter extends CustomPainter {
     for (int i = 0; i < 5; i++) {
       final rx = centerX - 80 + i * 40;
       canvas.drawRect(
-          Rect.fromCenter(center: Offset(rx, bottomY), width: 20, height: 10),
-          receptorPaint);
+        Rect.fromCenter(center: Offset(rx, bottomY), width: 20, height: 10),
+        receptorPaint,
+      );
     }
 
     // 4. Transmitters
@@ -123,12 +124,15 @@ class _LegendItem extends StatelessWidget {
     return Row(
       children: [
         Container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
         const SizedBox(width: 4),
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Colors.white54)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: Colors.white54),
+        ),
       ],
     );
   }
@@ -205,20 +209,30 @@ class _SynapseSimScreenState extends State<SynapseSimScreen>
                         const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Post-Synaptic Response',
-                                style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold)),
-                            Text('Receptor binding events',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.white38)),
+                            Text(
+                              'Post-Synaptic Response',
+                              style: TextStyle(
+                                color: Colors.amber,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Receptor binding events',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white38,
+                              ),
+                            ),
                           ],
                         ),
-                        Text('$_receptorsBound pts',
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.greenAccent)),
+                        Text(
+                          '$_receptorsBound pts',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 24),
@@ -231,7 +245,8 @@ class _SynapseSimScreenState extends State<SynapseSimScreen>
                         foregroundColor: Colors.black,
                         minimumSize: const Size(double.infinity, 50),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -265,10 +280,12 @@ class _SynapseSimScreenState extends State<SynapseSimScreen>
     setState(() {
       final random = math.Random();
       for (int i = 0; i < 20; i++) {
-        _transmitters.add(Neurotransmitter(
-          startPos: const Offset(150, 150),
-          angle: (math.pi / 4) + (random.nextDouble() * math.pi / 2),
-        ));
+        _transmitters.add(
+          Neurotransmitter(
+            startPos: const Offset(150, 150),
+            angle: (math.pi / 4) + (random.nextDouble() * math.pi / 2),
+          ),
+        );
       }
     });
 

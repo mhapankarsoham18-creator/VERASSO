@@ -69,8 +69,7 @@ void main() {
       expect(result.likesReceived, 100);
     });
 
-    test('getUserStats calls update_user_stats RPC if no stats exist',
-        () async {
+    test('getUserStats calls update_user_stats RPC if no stats exist', () async {
       final queryBuilder = MockSupabaseQueryBuilder();
       final filterBuilder = MockPostgrestFilterBuilder<Map<String, dynamic>?>();
 
@@ -89,27 +88,29 @@ void main() {
       expect(mockClient.lastRpcName, 'update_user_stats');
     });
 
-    test('getTopContent fetches from content_stats table ordered by engagement',
-        () async {
-      final mockContent = [
-        {'content_id': 'c1', 'content_type': 'post', 'engagement_rate': 0.9},
-        {'content_id': 'c2', 'content_type': 'post', 'engagement_rate': 0.8},
-      ];
+    test(
+      'getTopContent fetches from content_stats table ordered by engagement',
+      () async {
+        final mockContent = [
+          {'content_id': 'c1', 'content_type': 'post', 'engagement_rate': 0.9},
+          {'content_id': 'c2', 'content_type': 'post', 'engagement_rate': 0.8},
+        ];
 
-      final queryBuilder = MockSupabaseQueryBuilder();
-      final filterBuilder = MockPostgrestFilterBuilder<List<dynamic>>();
-      filterBuilder.setResponse(mockContent);
-      mockClient.setQueryBuilder('content_stats', queryBuilder);
+        final queryBuilder = MockSupabaseQueryBuilder();
+        final filterBuilder = MockPostgrestFilterBuilder<List<dynamic>>();
+        filterBuilder.setResponse(mockContent);
+        mockClient.setQueryBuilder('content_stats', queryBuilder);
 
-      final result = await service.getTopContent('user-123', limit: 2);
+        final result = await service.getTopContent('user-123', limit: 2);
 
-      expect(result.length, 2);
-      expect(result.first.contentId, 'c1');
-    });
+        expect(result.length, 2);
+        expect(result.first.contentId, 'c1');
+      },
+    );
 
     test('getUserEngagement calls get_user_engagement RPC', () async {
       final mockEngagement = [
-        {'date': '2026-02-27', 'posts': 1, 'likes': 5, 'comments': 2}
+        {'date': '2026-02-27', 'posts': 1, 'likes': 5, 'comments': 2},
       ];
 
       mockClient.setRpcResponse('get_user_engagement', mockEngagement);
@@ -123,29 +124,32 @@ void main() {
   });
 
   group('AnalyticsService - Content Performance', () {
-    test('updateContentStats increments counts in content_stats table',
-        () async {
-      final existingStats = {
-        'content_id': 'c1',
-        'content_type': 'post',
-        'views_count': 10,
-        'likes_count': 2,
-        'comments_count': 1,
-        'shares_count': 0,
-      };
+    test(
+      'updateContentStats increments counts in content_stats table',
+      () async {
+        final existingStats = {
+          'content_id': 'c1',
+          'content_type': 'post',
+          'views_count': 10,
+          'likes_count': 2,
+          'comments_count': 1,
+          'shares_count': 0,
+        };
 
-      final queryBuilder = MockSupabaseQueryBuilder();
-      final filterBuilder = MockPostgrestFilterBuilder<Map<String, dynamic>?>();
-      filterBuilder.setResponse(existingStats);
-      mockClient.setQueryBuilder('content_stats', queryBuilder);
+        final queryBuilder = MockSupabaseQueryBuilder();
+        final filterBuilder =
+            MockPostgrestFilterBuilder<Map<String, dynamic>?>();
+        filterBuilder.setResponse(existingStats);
+        mockClient.setQueryBuilder('content_stats', queryBuilder);
 
-      await service.updateContentStats(
-        contentId: 'c1',
-        contentType: 'post',
-        viewsDelta: 1,
-      );
+        await service.updateContentStats(
+          contentId: 'c1',
+          contentType: 'post',
+          viewsDelta: 1,
+        );
 
-      expect(mockClient.lastUpdateTable, 'content_stats');
-    });
+        expect(mockClient.lastUpdateTable, 'content_stats');
+      },
+    );
   });
 }

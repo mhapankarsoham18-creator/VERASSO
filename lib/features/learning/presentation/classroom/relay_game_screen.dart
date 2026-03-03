@@ -85,8 +85,11 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
 
     if (sortedUsers.isEmpty) {
       return const Center(
-          child: Text("No relays recorded yet",
-              style: TextStyle(color: Colors.white54)));
+        child: Text(
+          "No relays recorded yet",
+          style: TextStyle(color: Colors.white54),
+        ),
+      );
     }
 
     return ListView.builder(
@@ -134,8 +137,10 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                     ),
                     Text(
                       '${entry.value} Relays Completed',
-                      style:
-                          const TextStyle(color: Colors.white54, fontSize: 12),
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -151,8 +156,10 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                       color: Colors.amberAccent,
                     ),
                   ),
-                  const Text('XP',
-                      style: TextStyle(color: Colors.white38, fontSize: 10)),
+                  const Text(
+                    'XP',
+                    style: TextStyle(color: Colors.white38, fontSize: 10),
+                  ),
                 ],
               ),
             ],
@@ -163,7 +170,9 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
   }
 
   Widget _buildRelayTab(
-      Map<String, dynamic> activeRelays, dynamic gameService) {
+    Map<String, dynamic> activeRelays,
+    dynamic gameService,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -176,12 +185,17 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildStatColumn(
-                    "Active Relays",
-                    activeRelays.length.toString(),
-                    LucideIcons.zap,
-                    Colors.yellowAccent),
-                _buildStatColumn("Best Chain", _calcMaxChain(activeRelays),
-                    LucideIcons.trophy, Colors.amberAccent),
+                  "Active Relays",
+                  activeRelays.length.toString(),
+                  LucideIcons.zap,
+                  Colors.yellowAccent,
+                ),
+                _buildStatColumn(
+                  "Best Chain",
+                  _calcMaxChain(activeRelays),
+                  LucideIcons.trophy,
+                  Colors.amberAccent,
+                ),
               ],
             ),
           ),
@@ -189,9 +203,10 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
           const SizedBox(height: 24),
 
           // 2. Start a New Relay
-          const Text("Broadcast New Knowledge",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          const Text(
+            "Broadcast New Knowledge",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 10),
           GlassContainer(
             child: Row(
@@ -224,17 +239,23 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
           const SizedBox(height: 24),
 
           // 3. Active Relays List
-          const Text("Ongoing Relays",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18)),
+          const Text(
+            "Ongoing Relays",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
           const SizedBox(height: 12),
           Expanded(
             child: activeRelays.isEmpty
                 ? const Center(
-                    child: Text("Waiting for peer relays...",
-                        style: TextStyle(color: Colors.white38)))
+                    child: Text(
+                      "Waiting for peer relays...",
+                      style: TextStyle(color: Colors.white38),
+                    ),
+                  )
                 : ListView.builder(
                     itemCount: activeRelays.length,
                     itemBuilder: (context, index) {
@@ -256,23 +277,29 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                                   child: Text(
                                     relay.fact,
                                     style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 4),
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: Colors.blueAccent
-                                        .withValues(alpha: 0.3),
+                                    color: Colors.blueAccent.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
                                     "${relay.length} Hops",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 12),
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -290,17 +317,22 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                                       Text(
                                         relay.userChain[i],
                                         style: TextStyle(
-                                          color: myId != null &&
-                                                  relay.userChain[i]
-                                                      .contains(myId)
+                                          color:
+                                              myId != null &&
+                                                  relay.userChain[i].contains(
+                                                    myId,
+                                                  )
                                               ? Colors.blueAccent
                                               : Colors.white70,
                                           fontSize: 12,
                                         ),
                                       ),
                                       if (i < relay.userChain.length - 1)
-                                        const Icon(LucideIcons.chevronRight,
-                                            size: 12, color: Colors.white24),
+                                        const Icon(
+                                          LucideIcons.chevronRight,
+                                          size: 12,
+                                          color: Colors.white24,
+                                        ),
                                     ],
                                   );
                                 },
@@ -313,12 +345,15 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                                   backgroundColor: Colors.blueAccent,
                                   minimumSize: const Size(double.infinity, 40),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
                                 onPressed: () =>
                                     gameService.passRelay(relay.id),
-                                child: const Text("Pass the Knowledge!",
-                                    style: TextStyle(color: Colors.white)),
+                                child: const Text(
+                                  "Pass the Knowledge!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                           ],
                         ),
@@ -332,18 +367,27 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
   }
 
   Widget _buildStatColumn(
-      String label, String value, IconData icon, Color color) {
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Column(
       children: [
         Icon(icon, color: color, size: 28),
         const SizedBox(height: 4),
-        Text(value,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold)),
-        Text(label,
-            style: const TextStyle(color: Colors.white54, fontSize: 10)),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white54, fontSize: 10),
+        ),
       ],
     );
   }

@@ -41,7 +41,8 @@ class CSMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const ResolutionDrafterScreen()),
+                  builder: (_) => const ResolutionDrafterScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -52,7 +53,8 @@ class CSMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const ComplianceTrackerScreen()),
+                  builder: (_) => const ComplianceTrackerScreen(),
+                ),
               ),
             ),
           ],
@@ -97,12 +99,17 @@ class _CSCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text(subtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white60)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 12, color: Colors.white60),
+                  ),
                 ],
               ),
             ),

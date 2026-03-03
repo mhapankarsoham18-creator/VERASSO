@@ -61,8 +61,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  Widget _buildLeaderboardList(BuildContext context,
-      {required String category}) {
+  Widget _buildLeaderboardList(
+    BuildContext context, {
+    required String category,
+  }) {
     final leaderboardAsync = ref.watch(globalLeaderboardProvider);
 
     return leaderboardAsync.when(
@@ -93,13 +95,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(16, 24, 16, 100),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final entry = rest[index];
-                        return _buildRankRow(entry);
-                      },
-                      childCount: rest.length,
-                    ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final entry = rest[index];
+                      return _buildRankRow(entry);
+                    }, childCount: rest.length),
                   ),
                 ),
               ],
@@ -135,9 +134,10 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           border: const Border(top: BorderSide(color: Colors.white24)),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withValues(alpha: 0.5),
-                blurRadius: 10,
-                offset: const Offset(0, -5)),
+              color: Colors.black.withValues(alpha: 0.5),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
           ],
         ),
         child: SafeArea(
@@ -146,23 +146,30 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
             children: [
               const Text(
                 'You',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
               ),
               const SizedBox(width: 12),
               Text(
                 '#${myEntry.rank}',
                 style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(width: 8),
               _buildTrendIndicator(0), // Stable for now
               const Spacer(),
-              Text('${myEntry.score} pts',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.cyanAccent)),
+              Text(
+                '${myEntry.score} pts',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.cyanAccent,
+                ),
+              ),
             ],
           ),
         ),
@@ -190,7 +197,11 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
   }
 
   Widget _buildPodiumStep(
-      LeaderboardEntry entry, int rank, double height, Color color) {
+    LeaderboardEntry entry,
+    int rank,
+    double height,
+    Color color,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -198,17 +209,22 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
         children: [
           CircleAvatar(
             radius: rank == 1 ? 30 : 24,
-            backgroundImage:
-                entry.avatarUrl != null ? NetworkImage(entry.avatarUrl!) : null,
-            child:
-                entry.avatarUrl == null ? const Icon(LucideIcons.user) : null,
+            backgroundImage: entry.avatarUrl != null
+                ? NetworkImage(entry.avatarUrl!)
+                : null,
+            child: entry.avatarUrl == null
+                ? const Icon(LucideIcons.user)
+                : null,
           ).animate().scale(duration: 500.ms),
           const SizedBox(height: 8),
-          Text(entry.displayName,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-          Text('${entry.score ?? 0}',
-              style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+          Text(
+            entry.displayName,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          ),
+          Text(
+            '${entry.score ?? 0}',
+            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Container(
             width: rank == 1 ? 100 : 80,
@@ -219,22 +235,28 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 end: Alignment.bottomCenter,
                 colors: [
                   color.withValues(alpha: 0.8),
-                  color.withValues(alpha: 0.3)
+                  color.withValues(alpha: 0.3),
                 ],
               ),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
             ),
             alignment: Alignment.center,
             child: Text(
               '#$rank',
               style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ).animate().slideY(
-              begin: 1.0, end: 0, duration: 600.ms, curve: Curves.easeOutBack),
+            begin: 1.0,
+            end: 0,
+            duration: 600.ms,
+            curve: Curves.easeOutBack,
+          ),
         ],
       ),
     );
@@ -253,27 +275,38 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           children: [
             SizedBox(
               width: 30,
-              child: Text('#${entry.rank}',
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white54,
-                      fontWeight: FontWeight.bold)),
+              child: Text(
+                '#${entry.rank}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             _buildTrendIndicator(trend),
             const SizedBox(width: 12),
             CircleAvatar(
-                radius: 18,
-                backgroundImage: entry.avatarUrl != null
-                    ? NetworkImage(entry.avatarUrl!)
-                    : null,
-                child: const Icon(LucideIcons.user, size: 14)),
+              radius: 18,
+              backgroundImage: entry.avatarUrl != null
+                  ? NetworkImage(entry.avatarUrl!)
+                  : null,
+              child: const Icon(LucideIcons.user, size: 14),
+            ),
             const SizedBox(width: 12),
             Expanded(
-                child: Text(entry.displayName,
-                    style: const TextStyle(fontWeight: FontWeight.w500))),
-            Text('${entry.score ?? 0}',
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.cyanAccent)),
+              child: Text(
+                entry.displayName,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+            Text(
+              '${entry.score ?? 0}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.cyanAccent,
+              ),
+            ),
           ],
         ),
       ),

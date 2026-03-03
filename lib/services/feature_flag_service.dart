@@ -12,9 +12,7 @@ final allFeaturesProvider = FutureProvider<Map<String, bool>>((ref) async {
   await service.initialize();
 
   final userId = Supabase.instance.client.auth.currentUser?.id;
-  return service.getAllEnabledFeatures(userContext: {
-    'userId': userId,
-  });
+  return service.getAllEnabledFeatures(userContext: {'userId': userId});
 });
 
 // ============================================================================
@@ -22,15 +20,15 @@ final allFeaturesProvider = FutureProvider<Map<String, bool>>((ref) async {
 // ============================================================================
 
 /// Provider for checking if a specific feature is enabled.
-final featureEnabledProvider =
-    FutureProvider.family<bool, String>((ref, key) async {
+final featureEnabledProvider = FutureProvider.family<bool, String>((
+  ref,
+  key,
+) async {
   final service = ref.watch(featureFlagServiceProvider);
   await service.initialize();
 
   final userId = Supabase.instance.client.auth.currentUser?.id;
-  return service.isFeatureEnabled(key, userContext: {
-    'userId': userId,
-  });
+  return service.isFeatureEnabled(key, userContext: {'userId': userId});
 });
 
 /// Provider for the [FeatureFlagService] instance.
@@ -71,26 +69,27 @@ class FeatureFlag {
 
   /// Creates a [FeatureFlag] from a JSON map.
   factory FeatureFlag.fromJson(Map<String, dynamic> json) => FeatureFlag(
-        key: json['key'] as String,
-        name: json['name'] as String,
-        description: json['description'] as String? ?? '',
-        enabled: json['enabled'] as bool? ?? false,
-        rolloutPercentage: json['rollout_percentage'] as int? ?? 0,
-        targetingRules: (json['targeting_rules'] as List?)
-                ?.map((r) => TargetingRule.fromJson(r))
-                .toList() ??
-            [],
-      );
+    key: json['key'] as String,
+    name: json['name'] as String,
+    description: json['description'] as String? ?? '',
+    enabled: json['enabled'] as bool? ?? false,
+    rolloutPercentage: json['rollout_percentage'] as int? ?? 0,
+    targetingRules:
+        (json['targeting_rules'] as List?)
+            ?.map((r) => TargetingRule.fromJson(r))
+            .toList() ??
+        [],
+  );
 
   /// Converts the [FeatureFlag] instance to a JSON map.
   Map<String, dynamic> toJson() => {
-        'key': key,
-        'name': name,
-        'description': description,
-        'enabled': enabled,
-        'rollout_percentage': rolloutPercentage,
-        'targeting_rules': targetingRules.map((r) => r.toJson()).toList(),
-      };
+    'key': key,
+    'name': name,
+    'description': description,
+    'enabled': enabled,
+    'rollout_percentage': rolloutPercentage,
+    'targeting_rules': targetingRules.map((r) => r.toJson()).toList(),
+  };
 }
 
 // ============================================================================
@@ -159,14 +158,14 @@ class FeatureFlagService {
   }
 
   /// Get all enabled features
-  Map<String, bool> getAllEnabledFeatures({
-    Map<String, dynamic>? userContext,
-  }) {
+  Map<String, bool> getAllEnabledFeatures({Map<String, dynamic>? userContext}) {
     return Map.fromEntries(
-      _flagCache.entries.map((entry) => MapEntry(
-            entry.key,
-            isFeatureEnabled(entry.key, userContext: userContext),
-          )),
+      _flagCache.entries.map(
+        (entry) => MapEntry(
+          entry.key,
+          isFeatureEnabled(entry.key, userContext: userContext),
+        ),
+      ),
     );
   }
 
@@ -302,10 +301,7 @@ class FeatureFlagService {
   }
 
   /// Evaluate targeting rules for user
-  bool _evaluateTargeting(
-    FeatureFlag flag,
-    Map<String, dynamic> userContext,
-  ) {
+  bool _evaluateTargeting(FeatureFlag flag, Map<String, dynamic> userContext) {
     if (flag.targetingRules.isEmpty) {
       return _checkRolloutPercentage(flag.key, flag.rolloutPercentage);
     }
@@ -339,7 +335,7 @@ class TargetingRule {
 
   /// The operator to use for evaluation (e.g., 'equals', 'contains').
   final String
-      operator; // 'equals', 'contains', 'in', 'greater_than', 'less_than', 'starts_with', 'regex'
+  operator; // 'equals', 'contains', 'in', 'greater_than', 'less_than', 'starts_with', 'regex'
 
   /// The value to compare against.
   final dynamic value;
@@ -353,15 +349,15 @@ class TargetingRule {
 
   /// Creates a [TargetingRule] from a JSON map.
   factory TargetingRule.fromJson(Map<String, dynamic> json) => TargetingRule(
-        attribute: json['attribute'] as String,
-        operator: json['operator'] as String,
-        value: json['value'],
-      );
+    attribute: json['attribute'] as String,
+    operator: json['operator'] as String,
+    value: json['value'],
+  );
 
   /// Converts the [TargetingRule] instance to a JSON map.
   Map<String, dynamic> toJson() => {
-        'attribute': attribute,
-        'operator': operator,
-        'value': value,
-      };
+    'attribute': attribute,
+    'operator': operator,
+    'value': value,
+  };
 }

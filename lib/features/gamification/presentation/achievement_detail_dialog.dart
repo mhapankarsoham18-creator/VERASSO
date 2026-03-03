@@ -50,9 +50,7 @@ class AchievementDetailDialog extends StatelessWidget {
                     )
                   : Opacity(
                       opacity: 0.3,
-                      child: Center(
-                        child: _buildBadgeIcon(badge.icon),
-                      ),
+                      child: Center(child: _buildBadgeIcon(badge.icon)),
                     ),
             ),
             const SizedBox(height: 16),
@@ -98,9 +96,10 @@ class AchievementDetailDialog extends StatelessWidget {
               const Text(
                 'Keep playing to unlock!',
                 style: TextStyle(
-                    color: Colors.white38,
-                    fontSize: 14,
-                    fontStyle: FontStyle.italic),
+                  color: Colors.white38,
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             const SizedBox(height: 24),
             Row(
@@ -123,21 +122,27 @@ class AchievementDetailDialog extends StatelessWidget {
                             'Tip: Connect with more friends and join study groups.';
                       }
 
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(message)));
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(message)));
 
                       // In a full production app, this would use context.push() to the specific lab.
                     },
-                    icon:
-                        const Icon(LucideIcons.lightbulb, color: Colors.amber),
-                    label: const Text('Hint',
-                        style: TextStyle(color: Colors.amber)),
+                    icon: const Icon(
+                      LucideIcons.lightbulb,
+                      color: Colors.amber,
+                    ),
+                    label: const Text(
+                      'Hint',
+                      style: TextStyle(color: Colors.amber),
+                    ),
                   ),
                 ElevatedButton.icon(
                   onPressed: () async {
                     // ignore: deprecated_member_use
                     await Share.share(
-                        'I just unlocked the ${badge.name} badge on Verasso! 🚀\n${badge.description}');
+                      'I just unlocked the ${badge.name} badge on Verasso! 🚀\n${badge.description}',
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.withValues(alpha: 0.2),
@@ -250,8 +255,11 @@ class AchievementDetailDialog extends StatelessWidget {
       builder: (context, value, child) {
         return Transform.scale(
           scale: value,
-          child: const Icon(LucideIcons.flame,
-              size: 80, color: Colors.deepOrangeAccent),
+          child: const Icon(
+            LucideIcons.flame,
+            size: 80,
+            color: Colors.deepOrangeAccent,
+          ),
         );
       },
     );
@@ -269,8 +277,11 @@ class AchievementDetailDialog extends StatelessWidget {
       builder: (context, val, child) {
         return Transform.rotate(
           angle: val,
-          child: const Icon(LucideIcons.footprints,
-              size: 80, color: Colors.orangeAccent),
+          child: const Icon(
+            LucideIcons.footprints,
+            size: 80,
+            color: Colors.orangeAccent,
+          ),
         );
       },
     );

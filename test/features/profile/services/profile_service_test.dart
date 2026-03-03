@@ -21,10 +21,7 @@ void main() {
     });
 
     test('profile with minimal fields', () {
-      final profile = {
-        'id': 'user-1',
-        'username': 'minuser',
-      };
+      final profile = {'id': 'user-1', 'username': 'minuser'};
 
       expect(profile.containsKey('id'), isTrue);
       expect(profile.containsKey('username'), isTrue);
@@ -124,10 +121,7 @@ void main() {
     });
 
     test('streak tracking', () {
-      final stats = {
-        'streak_days': 15,
-        'longest_streak': 20,
-      };
+      final stats = {'streak_days': 15, 'longest_streak': 20};
 
       expect(stats['streak_days']! <= stats['longest_streak']!, isTrue);
     });

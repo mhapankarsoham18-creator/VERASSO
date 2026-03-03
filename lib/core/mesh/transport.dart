@@ -53,10 +53,7 @@ class MeshDataPayload {
   final Uint8List data;
 
   /// Creates a [MeshDataPayload].
-  MeshDataPayload({
-    required this.endpointId,
-    required this.data,
-  });
+  MeshDataPayload({required this.endpointId, required this.data});
 }
 
 /// Common interface for different mesh transport mechanisms (Nearby, BLE, LAN).

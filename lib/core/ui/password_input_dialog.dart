@@ -120,14 +120,19 @@ class _PasswordInputDialogState extends State<PasswordInputDialog> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.lightbulb,
-                        color: Colors.yellowAccent, size: 16),
+                    const Icon(
+                      LucideIcons.lightbulb,
+                      color: Colors.yellowAccent,
+                      size: 16,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         l10n.hintPrefix(widget.hint!),
                         style: const TextStyle(
-                            color: Colors.white70, fontSize: 12),
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -194,10 +199,7 @@ class _PasswordInputDialogState extends State<PasswordInputDialog> {
                   const SizedBox(height: 8),
                   Text(
                     l10n.passwordRequirements,
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 10,
-                    ),
+                    style: const TextStyle(color: Colors.white54, fontSize: 10),
                   ),
                 ],
               ),
@@ -242,14 +244,19 @@ class _PasswordInputDialogState extends State<PasswordInputDialog> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.alertCircle,
-                        color: Colors.redAccent, size: 16),
+                    const Icon(
+                      LucideIcons.alertCircle,
+                      color: Colors.redAccent,
+                      size: 16,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _errorMessage!,
                         style: const TextStyle(
-                            color: Colors.redAccent, fontSize: 12),
+                          color: Colors.redAccent,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -265,8 +272,10 @@ class _PasswordInputDialogState extends State<PasswordInputDialog> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(l10n.cancel,
-                      style: const TextStyle(color: Colors.white70)),
+                  child: Text(
+                    l10n.cancel,
+                    style: const TextStyle(color: Colors.white70),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(

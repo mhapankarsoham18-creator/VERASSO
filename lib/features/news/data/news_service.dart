@@ -28,7 +28,7 @@ class NewsServiceImpl implements NewsService {
 
   /// Creates a [NewsServiceImpl] with an optional [client].
   NewsServiceImpl({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   @override
   Future<List<NewsArticle>> fetchFeaturedNews() async {
@@ -36,7 +36,8 @@ class NewsServiceImpl implements NewsService {
       final response = await _client
           .from('news')
           .select(
-              '*, profiles:author_id(full_name, avatar_url, journalist_level)')
+            '*, profiles:author_id(full_name, avatar_url, journalist_level)',
+          )
           .eq('is_featured', true)
           .eq('is_published', true)
           .order('importance', ascending: false)
@@ -55,7 +56,8 @@ class NewsServiceImpl implements NewsService {
       final response = await _client
           .from('news')
           .select(
-              '*, profiles:author_id(full_name, avatar_url, journalist_level)')
+            '*, profiles:author_id(full_name, avatar_url, journalist_level)',
+          )
           .eq('category', 'history')
           .order('created_at', ascending: false)
           .limit(10);
@@ -73,7 +75,8 @@ class NewsServiceImpl implements NewsService {
       final response = await _client
           .from('news')
           .select(
-              '*, profiles:author_id(full_name, avatar_url, journalist_level)')
+            '*, profiles:author_id(full_name, avatar_url, journalist_level)',
+          )
           .eq('category', category)
           .eq('is_published', true)
           .order('importance', ascending: false)

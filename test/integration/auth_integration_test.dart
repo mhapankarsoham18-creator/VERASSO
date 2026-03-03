@@ -13,22 +13,24 @@ void main() {
   });
 
   group('Auth Integration Tests', () {
-    test('complete signup flow: email verification → account creation',
-        () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: []);
-      mockSupabase.setQueryBuilder('profiles', builder);
+    test(
+      'complete signup flow: email verification → account creation',
+      () async {
+        final builder = MockSupabaseQueryBuilder(selectResponse: []);
+        mockSupabase.setQueryBuilder('profiles', builder);
 
-      // Mock signup
-      final testUser = TestSupabaseUser(
-        id: 'new-user-id',
-        email: 'newuser@example.com',
-      );
-      mockAuth.setCurrentUser(testUser);
+        // Mock signup
+        final testUser = TestSupabaseUser(
+          id: 'new-user-id',
+          email: 'newuser@example.com',
+        );
+        mockAuth.setCurrentUser(testUser);
 
-      // Should complete without error
-      expect(testUser.id, isNotEmpty);
-      expect(testUser.email, 'newuser@example.com');
-    });
+        // Should complete without error
+        expect(testUser.id, isNotEmpty);
+        expect(testUser.email, 'newuser@example.com');
+      },
+    );
 
     test('complete signin flow: credentials → authenticated session', () async {
       final testUser = TestSupabaseUser(
@@ -126,8 +128,10 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('rate_limit_attempts', builder);
 
-      final limited =
-          await rateService.isLimited('user@example.com', RateLimitType.login);
+      final limited = await rateService.isLimited(
+        'user@example.com',
+        RateLimitType.login,
+      );
 
       // First attempt should be allowed (builder returns empty list)
       expect(limited, false);
@@ -142,13 +146,15 @@ void main() {
       );
       mockAuth.setCurrentUser(testUser);
 
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'user-1',
-          'email': 'test@example.com',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'user-1',
+            'email': 'test@example.com',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       expect(mockAuth.currentUser, isNotNull);
@@ -188,7 +194,7 @@ void main() {
     test('duplicate email signup rejected', () async {
       final builder = MockSupabaseQueryBuilder(
         selectResponse: [
-          {'email': 'test@example.com'}
+          {'email': 'test@example.com'},
         ],
       );
       mockSupabase.setQueryBuilder('profiles', builder);
@@ -203,10 +209,9 @@ void main() {
       final futures = List.generate(
         10,
         (_) => Future.microtask(() {
-          mockAuth.setCurrentUser(TestSupabaseUser(
-            id: 'user-1',
-            email: 'test@example.com',
-          ));
+          mockAuth.setCurrentUser(
+            TestSupabaseUser(id: 'user-1', email: 'test@example.com'),
+          );
           return mockAuth.currentUser;
         }),
       );

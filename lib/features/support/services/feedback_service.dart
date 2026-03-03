@@ -15,7 +15,7 @@ class FeedbackService {
 
   /// Creates a [FeedbackService].
   FeedbackService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Submits user feedback to the Supabase [user_feedback] table.
   Future<void> submitFeedback({

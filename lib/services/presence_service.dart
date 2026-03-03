@@ -36,7 +36,8 @@ class ActiveUser {
       cursorPosition: json['cursor_position'] as int? ?? 0,
       isEditing: json['is_editing'] as bool? ?? false,
       lastEdit: DateTime.parse(
-          json['last_edit'] as String? ?? DateTime.now().toIso8601String()),
+        json['last_edit'] as String? ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 }
@@ -102,9 +103,7 @@ class CollaborativeNotificationService {
         value: documentId,
       ),
       callback: (payload) {
-        final edit = EditNotification.fromJson(
-          payload.newRecord,
-        );
+        final edit = EditNotification.fromJson(payload.newRecord);
         _editNotificationController.sink.add(edit);
       },
     );
@@ -234,70 +233,75 @@ class PresenceService {
   Future<void> startPresence() async {
     _channel = _supabase.channel(
       'presence:$documentId',
-      opts: const RealtimeChannelConfig(
-        key: 'presence',
-      ),
+      opts: const RealtimeChannelConfig(key: 'presence'),
     );
 
     // Subscribe to the channel - this enables presence tracking
-    _channel.onPresenceSync((payload) {
-      // When presence state syncs
-      final presenceState = _channel.presenceState();
-      _activeUsers = [];
-      for (final presence in presenceState) {
-        final p = (presence as dynamic).payload;
-        _activeUsers.add(ActiveUser(
-          userId: (p['user_id'] as String?) ?? '',
-          cursorPosition: (p['cursor_position'] as int?) ?? 0,
-          isEditing: (p['is_editing'] as bool?) ?? false,
-          lastEdit: DateTime.parse(
-              (p['last_edit'] as String?) ?? DateTime.now().toIso8601String()),
-        ));
-      }
-      _activUsersController.sink.add(_activeUsers);
-    }).onPresenceJoin((payload) {
-      // When a user joins
-      for (final presence in payload.newPresences) {
-        final p = presence.payload;
-        final joining = p['user_id'] as String? ?? '';
-        _presenceController.sink.add(
-          PresenceEvent(
-            type: 'join',
-            users: [
+    _channel
+        .onPresenceSync((payload) {
+          // When presence state syncs
+          final presenceState = _channel.presenceState();
+          _activeUsers = [];
+          for (final presence in presenceState) {
+            final p = (presence as dynamic).payload;
+            _activeUsers.add(
               ActiveUser(
-                userId: joining,
+                userId: (p['user_id'] as String?) ?? '',
                 cursorPosition: (p['cursor_position'] as int?) ?? 0,
                 isEditing: (p['is_editing'] as bool?) ?? false,
-                lastEdit: DateTime.now(),
-              )
-            ],
-            timestamp: DateTime.now(),
-          ),
-        );
-      }
-    }).onPresenceLeave((payload) {
-      // When a user leaves
-      for (final presence in payload.leftPresences) {
-        final p = presence.payload;
-        final leaving = p['user_id'] as String? ?? '';
-        _activeUsers.removeWhere((u) => u.userId == leaving);
-        _presenceController.sink.add(
-          PresenceEvent(
-            type: 'leave',
-            users: [
-              ActiveUser(
-                userId: leaving,
-                cursorPosition: 0,
-                isEditing: false,
-                lastEdit: DateTime.now(),
-              )
-            ],
-            timestamp: DateTime.now(),
-          ),
-        );
-      }
-      _activUsersController.sink.add(_activeUsers);
-    });
+                lastEdit: DateTime.parse(
+                  (p['last_edit'] as String?) ??
+                      DateTime.now().toIso8601String(),
+                ),
+              ),
+            );
+          }
+          _activUsersController.sink.add(_activeUsers);
+        })
+        .onPresenceJoin((payload) {
+          // When a user joins
+          for (final presence in payload.newPresences) {
+            final p = presence.payload;
+            final joining = p['user_id'] as String? ?? '';
+            _presenceController.sink.add(
+              PresenceEvent(
+                type: 'join',
+                users: [
+                  ActiveUser(
+                    userId: joining,
+                    cursorPosition: (p['cursor_position'] as int?) ?? 0,
+                    isEditing: (p['is_editing'] as bool?) ?? false,
+                    lastEdit: DateTime.now(),
+                  ),
+                ],
+                timestamp: DateTime.now(),
+              ),
+            );
+          }
+        })
+        .onPresenceLeave((payload) {
+          // When a user leaves
+          for (final presence in payload.leftPresences) {
+            final p = presence.payload;
+            final leaving = p['user_id'] as String? ?? '';
+            _activeUsers.removeWhere((u) => u.userId == leaving);
+            _presenceController.sink.add(
+              PresenceEvent(
+                type: 'leave',
+                users: [
+                  ActiveUser(
+                    userId: leaving,
+                    cursorPosition: 0,
+                    isEditing: false,
+                    lastEdit: DateTime.now(),
+                  ),
+                ],
+                timestamp: DateTime.now(),
+              ),
+            );
+          }
+          _activUsersController.sink.add(_activeUsers);
+        });
 
     _channel.subscribe();
 

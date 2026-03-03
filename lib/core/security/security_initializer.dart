@@ -18,7 +18,8 @@ class SecurityInitializer {
   static SecureAuthService get authService {
     if (_authService == null) {
       throw Exception(
-          'Security services not initialized. Call SecurityInitializer.initialize() first.');
+        'Security services not initialized. Call SecurityInitializer.initialize() first.',
+      );
     }
     return _authService!;
   }
@@ -27,7 +28,8 @@ class SecurityInitializer {
   static BiometricAuthService get biometricService {
     if (_biometricService == null) {
       throw Exception(
-          'Security services not initialized. Call SecurityInitializer.initialize() first.');
+        'Security services not initialized. Call SecurityInitializer.initialize() first.',
+      );
     }
     return _biometricService!;
   }
@@ -36,7 +38,8 @@ class SecurityInitializer {
   static EncryptionService get encryptionService {
     if (_encryptionService == null) {
       throw Exception(
-          'Security services not initialized. Call SecurityInitializer.initialize() first.');
+        'Security services not initialized. Call SecurityInitializer.initialize() first.',
+      );
     }
     return _encryptionService!;
   }
@@ -76,20 +79,20 @@ class SecurityInitializer {
 }
 
 /// Example main.dart integration:
-/// 
+///
 /// ```dart
 /// void main() async {
 ///   WidgetsFlutterBinding.ensureInitialized();
-///   
+///
 ///   // Initialize Supabase
 ///   await Supabase.initialize(
 ///     url: 'YOUR_SUPABASE_URL',
 ///     anonKey: 'YOUR_SUPABASE_ANON_KEY',
 ///   );
-///   
+///
 ///   // Initialize security services
 ///   await SecurityInitializer.initialize();
-///   
+///
 ///   runApp(const MyApp());
 /// }
 /// ```

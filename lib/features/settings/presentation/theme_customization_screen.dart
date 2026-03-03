@@ -48,7 +48,9 @@ class ThemeCustomizationScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(16),
                           border: isSelected
                               ? Border.all(
-                                  color: themeState.primaryColor, width: 2)
+                                  color: themeState.primaryColor,
+                                  width: 2,
+                                )
                               : null,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -108,9 +110,7 @@ class ThemeCustomizationScreen extends ConsumerWidget {
                   children: [
                     const Icon(LucideIcons.sun, color: Colors.amber),
                     const SizedBox(width: 16),
-                    const Expanded(
-                      child: Text('Theme Mode'),
-                    ),
+                    const Expanded(child: Text('Theme Mode')),
                     DropdownButton<ThemeMode>(
                       value: themeState.mode,
                       underline: const SizedBox(),
@@ -182,7 +182,7 @@ class ThemeCustomizationScreen extends ConsumerWidget {
                         color: color.withValues(alpha: 0.5),
                         blurRadius: 12,
                         spreadRadius: 2,
-                      )
+                      ),
                     ]
                   : null,
             ),

@@ -80,11 +80,12 @@ class SolarSystemPainter extends CustomPainter {
       if (!engineeringMode) {
         // Orbit Path (Only in Orrery mode)
         canvas.drawCircle(
-            center,
-            planet.orbitRadius,
-            Paint()
-              ..color = Colors.white10
-              ..style = PaintingStyle.stroke);
+          center,
+          planet.orbitRadius,
+          Paint()
+            ..color = Colors.white10
+            ..style = PaintingStyle.stroke,
+        );
       }
 
       // Planet Position
@@ -119,34 +120,42 @@ class SolarSystemPainter extends CustomPainter {
       if (engineeringMode) {
         // Velocity Vector
         canvas.drawLine(
-            planetPos,
-            planetPos + (planet.velocity * 5),
-            Paint()
-              ..color = Colors.cyanAccent
-              ..strokeWidth = 2);
+          planetPos,
+          planetPos + (planet.velocity * 5),
+          Paint()
+            ..color = Colors.cyanAccent
+            ..strokeWidth = 2,
+        );
 
         // Force Vector (Gravity)
         final diff = center - planetPos;
         final forceDir = diff / diff.distance;
         canvas.drawLine(
-            planetPos,
-            planetPos + (forceDir * 20),
-            Paint()
-              ..color = Colors.redAccent
-              ..strokeWidth = 2);
+          planetPos,
+          planetPos + (forceDir * 20),
+          Paint()
+            ..color = Colors.redAccent
+            ..strokeWidth = 2,
+        );
       }
 
       // Label
       final textSpan = TextSpan(
-          text: planet.name,
-          style: const TextStyle(color: Colors.white70, fontSize: 10));
-      final textPainter =
-          TextPainter(text: textSpan, textDirection: TextDirection.ltr);
+        text: planet.name,
+        style: const TextStyle(color: Colors.white70, fontSize: 10),
+      );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
       textPainter.layout();
       textPainter.paint(
-          canvas,
-          Offset(planetPos.dx - textPainter.width / 2,
-              planetPos.dy + planet.size + 4));
+        canvas,
+        Offset(
+          planetPos.dx - textPainter.width / 2,
+          planetPos.dy + planet.size + 4,
+        ),
+      );
     }
   }
 
@@ -171,13 +180,14 @@ class StarFieldPainter extends CustomPainter {
     final paint = Paint()..color = Colors.white;
 
     for (int i = 0; i < 200; i++) {
-      paint.color =
-          Colors.white.withValues(alpha: rand.nextDouble() * 0.8 + 0.2);
+      paint.color = Colors.white.withValues(
+        alpha: rand.nextDouble() * 0.8 + 0.2,
+      );
       canvas.drawCircle(
-          Offset(
-              rand.nextDouble() * size.width, rand.nextDouble() * size.height),
-          rand.nextDouble() * 1.5,
-          paint);
+        Offset(rand.nextDouble() * size.width, rand.nextDouble() * size.height),
+        rand.nextDouble() * 1.5,
+        paint,
+      );
     }
   }
 
@@ -203,47 +213,53 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
 
   final List<PlanetData> _planets = [
     PlanetData(
-        name: 'Mercury',
-        color: Colors.grey,
-        orbitRadius: 60,
-        speed: 4.7,
-        size: 8,
-        mass: 0.05),
+      name: 'Mercury',
+      color: Colors.grey,
+      orbitRadius: 60,
+      speed: 4.7,
+      size: 8,
+      mass: 0.05,
+    ),
     PlanetData(
-        name: 'Venus',
-        color: Colors.orangeAccent,
-        orbitRadius: 90,
-        speed: 3.5,
-        size: 12,
-        mass: 0.81),
+      name: 'Venus',
+      color: Colors.orangeAccent,
+      orbitRadius: 90,
+      speed: 3.5,
+      size: 12,
+      mass: 0.81,
+    ),
     PlanetData(
-        name: 'Earth',
-        color: Colors.blue,
-        orbitRadius: 130,
-        speed: 2.9,
-        size: 14,
-        mass: 1.0),
+      name: 'Earth',
+      color: Colors.blue,
+      orbitRadius: 130,
+      speed: 2.9,
+      size: 14,
+      mass: 1.0,
+    ),
     PlanetData(
-        name: 'Mars',
-        color: Colors.redAccent,
-        orbitRadius: 170,
-        speed: 2.4,
-        size: 10,
-        mass: 0.1),
+      name: 'Mars',
+      color: Colors.redAccent,
+      orbitRadius: 170,
+      speed: 2.4,
+      size: 10,
+      mass: 0.1,
+    ),
     PlanetData(
-        name: 'Jupiter',
-        color: Colors.brown,
-        orbitRadius: 240,
-        speed: 1.3,
-        size: 28,
-        mass: 317.0),
+      name: 'Jupiter',
+      color: Colors.brown,
+      orbitRadius: 240,
+      speed: 1.3,
+      size: 28,
+      mass: 317.0,
+    ),
     PlanetData(
-        name: 'Saturn',
-        color: Colors.amber,
-        orbitRadius: 320,
-        speed: 0.9,
-        size: 24,
-        mass: 95.0),
+      name: 'Saturn',
+      color: Colors.amber,
+      orbitRadius: 320,
+      speed: 0.9,
+      size: 24,
+      mass: 95.0,
+    ),
   ];
 
   @override
@@ -253,9 +269,7 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
       body: Stack(
         children: [
           // Background Stars
-          Positioned.fill(
-            child: CustomPaint(painter: StarFieldPainter()),
-          ),
+          Positioned.fill(child: CustomPaint(painter: StarFieldPainter())),
 
           // Solar System
           Positioned.fill(
@@ -272,9 +286,10 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
                       return CustomPaint(
                         size: Size(_canvasSize, _canvasSize),
                         painter: SolarSystemPainter(
-                            planets: _planets,
-                            time: _controller.value * 2 * math.pi * 10,
-                            engineeringMode: _engineeringMode),
+                          planets: _planets,
+                          time: _controller.value * 2 * math.pi * 10,
+                          engineeringMode: _engineeringMode,
+                        ),
                       );
                     },
                   ),
@@ -297,41 +312,52 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
                   style: IconButton.styleFrom(backgroundColor: Colors.white10),
                 ),
                 GlassContainer(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Text(
                     _message,
                     style: TextStyle(
-                        color: _messageColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+                      color: _messageColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
                 if (_gameActive)
                   GlassContainer(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Text('Score: $_score',
-                        style: const TextStyle(
-                            color: Colors.amber, fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    child: Text(
+                      'Score: $_score',
+                      style: const TextStyle(
+                        color: Colors.amber,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   )
                 else
                   IconButton(
                     icon: Icon(
-                        _engineeringMode
-                            ? LucideIcons.gauge
-                            : LucideIcons.circleDot,
-                        color: _engineeringMode
-                            ? Colors.orangeAccent
-                            : Colors.white),
+                      _engineeringMode
+                          ? LucideIcons.gauge
+                          : LucideIcons.circleDot,
+                      color: _engineeringMode
+                          ? Colors.orangeAccent
+                          : Colors.white,
+                    ),
                     onPressed: () {
                       setState(() {
                         _engineeringMode = !_engineeringMode;
                         if (_engineeringMode) _initializePhysics();
                       });
                     },
-                    style:
-                        IconButton.styleFrom(backgroundColor: Colors.white10),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.white10,
+                    ),
                     tooltip: 'Toggle Engineering Mode',
                   ),
               ],
@@ -350,9 +376,11 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
                   FloatingActionButton.small(
                     heroTag: 'cosmos_solar',
                     onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const AIAssistantScreen())),
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const AIAssistantScreen(),
+                      ),
+                    ),
                     backgroundColor: Colors.cyanAccent.withValues(alpha: 0.8),
                     child: const Icon(LucideIcons.bot, color: Colors.black),
                   ),
@@ -362,17 +390,19 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
                     icon: const Icon(LucideIcons.gamepad2),
                     label: const Text('Start "Find the Planet"'),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purpleAccent,
-                        foregroundColor: Colors.white),
-                  )
+                      backgroundColor: Colors.purpleAccent,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
                 ] else
                   ElevatedButton.icon(
                     onPressed: _stopGame,
                     icon: const Icon(LucideIcons.x),
                     label: const Text('Quit Game'),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        foregroundColor: Colors.white),
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
               ],
             ),
@@ -385,16 +415,23 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                    color: Colors.white10,
-                    borderRadius: BorderRadius.circular(16)),
+                  color: Colors.white10,
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Solar System Orrery',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text('Pinch to zoom • Drag to move',
-                        style: TextStyle(color: Colors.white54, fontSize: 10)),
+                    Text(
+                      'Solar System Orrery',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Pinch to zoom • Drag to move',
+                      style: TextStyle(color: Colors.white54, fontSize: 10),
+                    ),
                   ],
                 ),
               ),
@@ -545,12 +582,15 @@ class _SolarSystemSimulationState extends State<SolarSystemSimulation>
     try {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId != null) {
-        Supabase.instance.client.from('user_simulation_results').insert({
-          'user_id': userId,
-          'sim_id': 'solar_system_game',
-          'parameters': {'target': _targetPlanetName},
-          'results': {'score': _score, 'status': 'success'},
-        }).then((_) => debugPrint('Solar system game result saved'));
+        Supabase.instance.client
+            .from('user_simulation_results')
+            .insert({
+              'user_id': userId,
+              'sim_id': 'solar_system_game',
+              'parameters': {'target': _targetPlanetName},
+              'results': {'score': _score, 'status': 'success'},
+            })
+            .then((_) => debugPrint('Solar system game result saved'));
       }
     } catch (e) {
       debugPrint('Error persisting solar system result: $e');

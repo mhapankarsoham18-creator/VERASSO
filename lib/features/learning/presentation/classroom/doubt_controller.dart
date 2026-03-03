@@ -11,15 +11,17 @@ import 'package:verasso/features/learning/data/doubt_repository.dart';
 /// Provider for the [DoubtController] instance.
 final doubtControllerProvider =
     StateNotifierProvider<DoubtController, AsyncValue<void>>((ref) {
-  return DoubtController(ref.watch(doubtRepositoryProvider), ref);
-});
+      return DoubtController(ref.watch(doubtRepositoryProvider), ref);
+    });
 
 /// Provider for the [DoubtRepository] instance.
 final doubtRepositoryProvider = Provider((ref) => DoubtRepository());
 
 /// Future provider for fetching doubts, optionally filtered by subject.
-final doubtsProvider =
-    FutureProvider.family<List<Doubt>, String>((ref, subject) async {
+final doubtsProvider = FutureProvider.family<List<Doubt>, String>((
+  ref,
+  subject,
+) async {
   final repo = ref.watch(doubtRepositoryProvider);
   return repo.getDoubts(subject: subject);
 });
@@ -48,11 +50,12 @@ class DoubtController extends StateNotifier<AsyncValue<void>> {
 
     state = await AsyncValue.guard(() async {
       await _repo.askDoubt(
-          userId: user.id,
-          title: title,
-          description: description,
-          subject: subject,
-          image: image);
+        userId: user.id,
+        title: title,
+        description: description,
+        subject: subject,
+        image: image,
+      );
 
       // Broadcast over Mesh if active
       final mesh = _ref.read(bluetoothMeshServiceProvider);

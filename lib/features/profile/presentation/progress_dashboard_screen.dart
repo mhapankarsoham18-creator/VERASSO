@@ -113,10 +113,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
           children: [
             const Text(
               'Points Over Time (Last 30 Days)',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -126,16 +123,20 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                   gridData: const FlGridData(show: false),
                   titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles:
-                          SideTitles(showTitles: true, reservedSize: 40),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 40,
+                      ),
                     ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-                    topTitles:
-                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    rightTitles:
-                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                   ),
                   borderData: FlBorderData(show: false),
                   lineBarsData: [
@@ -253,10 +254,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                 Expanded(
                   child: Text(
                     label,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
                 ),
               ],
@@ -264,18 +262,12 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             const SizedBox(height: 8),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             if (subtitle != null)
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey.shade500,
-                ),
+                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
               ),
           ],
         ),
@@ -289,9 +281,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
       children: [
         Text(
           'Detailed Metrics',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         GridView.count(
@@ -363,10 +355,8 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                   children: [
                     Text(
                       'Level ${_progress!.level}',
-                      style:
-                          Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -376,8 +366,10 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                   ],
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.amber.shade100,
                     borderRadius: BorderRadius.circular(20),
@@ -434,10 +426,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
             Text(label),
             Text(
               'Top ${(100 - percentile).toStringAsFixed(0)}%',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, color: color),
             ),
           ],
         ),
@@ -466,10 +455,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                 SizedBox(width: 8),
                 Text(
                   'How You Compare',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -510,10 +496,7 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
                 SizedBox(width: 8),
                 Text(
                   'Social Engagement',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -522,11 +505,20 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildSocialStat(
-                    'Posts', _progress!.postsCreated, Icons.post_add),
+                  'Posts',
+                  _progress!.postsCreated,
+                  Icons.post_add,
+                ),
                 _buildSocialStat(
-                    'Comments', _progress!.commentsMade, Icons.comment),
+                  'Comments',
+                  _progress!.commentsMade,
+                  Icons.comment,
+                ),
                 _buildSocialStat(
-                    'Likes', _progress!.likesReceived, Icons.favorite),
+                  'Likes',
+                  _progress!.likesReceived,
+                  Icons.favorite,
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -534,9 +526,15 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildSocialStat(
-                    'Followers', _progress!.followersCount, Icons.people),
+                  'Followers',
+                  _progress!.followersCount,
+                  Icons.people,
+                ),
                 _buildSocialStat(
-                    'Following', _progress!.followingCount, Icons.person_add),
+                  'Following',
+                  _progress!.followingCount,
+                  Icons.person_add,
+                ),
               ],
             ),
           ],
@@ -552,17 +550,11 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
         const SizedBox(height: 4),
         Text(
           '$value',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
         ),
       ],
     );
@@ -590,9 +582,9 @@ class _ProgressDashboardScreenState extends State<ProgressDashboardScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading progress: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading progress: $e')));
       }
     }
   }

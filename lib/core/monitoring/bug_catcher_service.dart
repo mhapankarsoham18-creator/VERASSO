@@ -35,13 +35,16 @@ class BugCatcherService {
           '${category.toLowerCase()}_${title.toLowerCase().replaceAll(' ', '_')}';
 
       // Submit the report via secure RPC
-      final result = await _supabase.rpc('submit_bug_report', params: {
-        'p_title': title,
-        'p_description': description,
-        'p_category': category,
-        'p_bug_hash': bugHash,
-        'p_metadata': metadata,
-      });
+      final result = await _supabase.rpc(
+        'submit_bug_report',
+        params: {
+          'p_title': title,
+          'p_description': description,
+          'p_category': category,
+          'p_bug_hash': bugHash,
+          'p_metadata': metadata,
+        },
+      );
 
       if (result['success'] == true) {
         final int xpAwarded = result['xp_awarded'] ?? 0;

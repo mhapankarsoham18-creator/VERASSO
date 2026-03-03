@@ -22,8 +22,8 @@ class CommentRepository {
   CommentRepository({
     SupabaseClient? client,
     GamificationEventBus? gamificationEventBus,
-  })  : _client = client ?? SupabaseService.client,
-        _gamificationEventBus = gamificationEventBus;
+  }) : _client = client ?? SupabaseService.client,
+       _gamificationEventBus = gamificationEventBus;
 
   /// Adds a new comment to a post.
   Future<Comment> addComment({
@@ -49,7 +49,9 @@ class CommentRepository {
 
       // Hook into Gamification Event Bus v2
       _gamificationEventBus?.track(
-          GamificationAction.commentWritten, effectiveUserId);
+        GamificationAction.commentWritten,
+        effectiveUserId,
+      );
 
       return Comment.fromJson(response);
     } catch (e) {
@@ -63,8 +65,7 @@ class CommentRepository {
     required String postId,
     required String content,
     String? userId,
-  }) =>
-      addComment(postId: postId, content: content, userId: userId);
+  }) => addComment(postId: postId, content: content, userId: userId);
 
   /// Deletes a comment.
   Future<void> deleteComment(String commentId) async {
@@ -104,7 +105,9 @@ class CommentRepository {
 
   /// Subscribes to real-time comment updates for a [postId].
   RealtimeChannel subscribeToComments(
-      String postId, void Function(Comment) onNewComment) {
+    String postId,
+    void Function(Comment) onNewComment,
+  ) {
     return _client
         .channel('public:comments:post_id=eq.$postId')
         .onPostgresChanges(

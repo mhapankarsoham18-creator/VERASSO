@@ -32,8 +32,9 @@ class _DopplerLabScreenState extends State<DopplerLabScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Sound: The Doppler Effect'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Sound: The Doppler Effect'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: Column(
           children: [
@@ -41,7 +42,10 @@ class _DopplerLabScreenState extends State<DopplerLabScreen>
               child: ClipRect(
                 child: CustomPaint(
                   painter: _DopplerPainter(
-                      waves: _waves, sourceX: _sourceX, sourceY: _sourceY),
+                    waves: _waves,
+                    sourceX: _sourceX,
+                    sourceY: _sourceY,
+                  ),
                   child: Container(),
                 ),
               ),
@@ -51,24 +55,40 @@ class _DopplerLabScreenState extends State<DopplerLabScreen>
               margin: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  _buildControlSlider('Source Speed (vs)', _sourceVelocity, 0,
-                      150, (v) => _sourceVelocity = v),
-                  _buildControlSlider('Wave Speed (v)', _waveSpeed, 50, 200,
-                      (v) => _waveSpeed = v),
-                  _buildControlSlider('Frequency (f)', _frequency, 0.5, 5,
-                      (v) => _frequency = v),
+                  _buildControlSlider(
+                    'Source Speed (vs)',
+                    _sourceVelocity,
+                    0,
+                    150,
+                    (v) => _sourceVelocity = v,
+                  ),
+                  _buildControlSlider(
+                    'Wave Speed (v)',
+                    _waveSpeed,
+                    50,
+                    200,
+                    (v) => _waveSpeed = v,
+                  ),
+                  _buildControlSlider(
+                    'Frequency (f)',
+                    _frequency,
+                    0.5,
+                    5,
+                    (v) => _frequency = v,
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     'Mach: ${(_sourceVelocity / _waveSpeed).toStringAsFixed(2)}',
                     style: TextStyle(
-                        color: (_sourceVelocity > _waveSpeed)
-                            ? Colors.redAccent
-                            : Colors.white70,
-                        fontWeight: FontWeight.bold),
-                  )
+                      color: (_sourceVelocity > _waveSpeed)
+                          ? Colors.redAccent
+                          : Colors.white70,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -87,20 +107,29 @@ class _DopplerLabScreenState extends State<DopplerLabScreen>
     _ticker = createTicker(_onTick)..start();
   }
 
-  Widget _buildControlSlider(String label, double value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildControlSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Row(
       children: [
         SizedBox(
-            width: 100,
-            child: Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.white70))),
+          width: 100,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
+        ),
         Expanded(
           child: Slider(
-              value: value,
-              min: min,
-              max: max,
-              onChanged: (v) => setState(() => onChanged(v))),
+            value: value,
+            min: min,
+            max: max,
+            onChanged: (v) => setState(() => onChanged(v)),
+          ),
         ),
       ],
     );
@@ -139,8 +168,11 @@ class _DopplerPainter extends CustomPainter {
   final double sourceX;
   final double sourceY;
 
-  _DopplerPainter(
-      {required this.waves, required this.sourceX, required this.sourceY});
+  _DopplerPainter({
+    required this.waves,
+    required this.sourceX,
+    required this.sourceY,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -149,8 +181,9 @@ class _DopplerPainter extends CustomPainter {
       ..strokeWidth = 2;
 
     for (var wave in waves) {
-      paint.color =
-          Colors.cyanAccent.withValues(alpha: wave.opacity.clamp(0.0, 1.0));
+      paint.color = Colors.cyanAccent.withValues(
+        alpha: wave.opacity.clamp(0.0, 1.0),
+      );
       canvas.drawCircle(Offset(wave.x, wave.y), wave.radius, paint);
     }
 

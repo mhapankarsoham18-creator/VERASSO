@@ -44,8 +44,12 @@ class BattlePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant BattlePainter oldDelegate) => true;
 
-  void _drawUnits(Canvas canvas, Size size, Paint paint,
-      {required bool isPlayer}) {
+  void _drawUnits(
+    Canvas canvas,
+    Size size,
+    Paint paint, {
+    required bool isPlayer,
+  }) {
     final startY = isPlayer ? size.height * 0.8 : size.height * 0.2;
     final forwardY = isPlayer ? -1.0 : 1.0; // Direction multiplier
     final tactic = isPlayer ? playerTactic : enemyTactic;
@@ -68,8 +72,9 @@ class BattlePainter extends CustomPainter {
         double dx = size.width * 0.2 + (i * 25);
         double dy = startY + (moveDist * 0.2 * forwardY); // Move slightly
         canvas.drawRect(
-            Rect.fromCenter(center: Offset(dx, dy), width: 10, height: 10),
-            paint);
+          Rect.fromCenter(center: Offset(dx, dy), width: 10, height: 10),
+          paint,
+        );
       }
     } else if (tactic == Tactic.flank) {
       // Split forces
@@ -85,27 +90,33 @@ class BattlePainter extends CustomPainter {
 
       // Left Wing
       canvas.drawCircle(
-          Offset(
-              size.width * 0.3 - wingWide, startY + (wingProgress * forwardY)),
-          5,
-          paint);
+        Offset(size.width * 0.3 - wingWide, startY + (wingProgress * forwardY)),
+        5,
+        paint,
+      );
       canvas.drawCircle(
-          Offset(
-              size.width * 0.35 - wingWide, startY + (wingProgress * forwardY)),
-          5,
-          paint);
+        Offset(
+          size.width * 0.35 - wingWide,
+          startY + (wingProgress * forwardY),
+        ),
+        5,
+        paint,
+      );
 
       // Right Wing
       canvas.drawCircle(
-          Offset(
-              size.width * 0.7 + wingWide, startY + (wingProgress * forwardY)),
-          5,
-          paint);
+        Offset(size.width * 0.7 + wingWide, startY + (wingProgress * forwardY)),
+        5,
+        paint,
+      );
       canvas.drawCircle(
-          Offset(
-              size.width * 0.65 + wingWide, startY + (wingProgress * forwardY)),
-          5,
-          paint);
+        Offset(
+          size.width * 0.65 + wingWide,
+          startY + (wingProgress * forwardY),
+        ),
+        5,
+        paint,
+      );
     }
   }
 }
@@ -154,7 +165,7 @@ enum Tactic {
   defense,
 
   /// Maneuvering to attack the enemy's side or rear.
-  flank
+  flank,
 }
 
 /// A screen for simulating historical battles and testing different military strategies.
@@ -225,7 +236,8 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                     _isBattling = false;
                     _battleResult = null;
                   });
-                })
+                },
+              )
             : null,
       ),
       body: LiquidBackground(
@@ -280,7 +292,8 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                           size: Size.infinite,
                           painter: BattlePainter(
                             progress: _battleController.value,
-                            playerTactic: _selectedTactic ??
+                            playerTactic:
+                                _selectedTactic ??
                                 Tactic.charge, // Default for preview
                             enemyTactic: _selectedScenario!.enemyTactic,
                             scenario: _selectedScenario!,
@@ -300,7 +313,7 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                                 ? Colors.amber
                                 : Colors.red,
                             shadows: [
-                              Shadow(blurRadius: 10, color: Colors.black)
+                              Shadow(blurRadius: 10, color: Colors.black),
                             ],
                           ),
                         ),
@@ -319,8 +332,9 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.black54,
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -328,7 +342,9 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                 Text(
                   'Command: ${_selectedScenario!.playerSide}',
                   style: GoogleFonts.outfit(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   'Enemy: ${_selectedScenario!.enemySide}',
@@ -337,17 +353,25 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                 const SizedBox(height: 16),
                 Text(
                   'Select Tactic:',
-                  style:
-                      GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     _buildTacticBtn(
-                        Tactic.charge, 'Direct Charge', LucideIcons.moveUp),
+                      Tactic.charge,
+                      'Direct Charge',
+                      LucideIcons.moveUp,
+                    ),
                     const SizedBox(width: 8),
                     _buildTacticBtn(
-                        Tactic.defense, 'Defensive', LucideIcons.shield),
+                      Tactic.defense,
+                      'Defensive',
+                      LucideIcons.shield,
+                    ),
                     const SizedBox(width: 8),
                     _buildTacticBtn(Tactic.flank, 'Flank', LucideIcons.split),
                   ],
@@ -360,9 +384,9 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     disabledBackgroundColor: Colors.grey,
                   ),
-                  child: Text(_isBattling
-                      ? 'BATTLE IN PROGRESS...'
-                      : 'COMMENCE BATTLE'),
+                  child: Text(
+                    _isBattling ? 'BATTLE IN PROGRESS...' : 'COMMENCE BATTLE',
+                  ),
                 ),
               ],
             ),
@@ -386,12 +410,18 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
               backgroundColor: Colors.redAccent.withValues(alpha: 0.2),
               child: const Icon(LucideIcons.swords, color: Colors.redAccent),
             ),
-            title: Text(scenario.name,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text('${scenario.year}\n${scenario.description}',
-                style: const TextStyle(color: Colors.white70)),
-            trailing:
-                const Icon(LucideIcons.chevronRight, color: Colors.white54),
+            title: Text(
+              scenario.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              '${scenario.year}\n${scenario.description}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            trailing: const Icon(
+              LucideIcons.chevronRight,
+              color: Colors.white54,
+            ),
             onTap: () => setState(() => _selectedScenario = scenario),
           ),
         );
@@ -403,20 +433,25 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
     final isSelected = _selectedTactic == tactic;
     return Expanded(
       child: GestureDetector(
-        onTap:
-            _isBattling ? null : () => setState(() => _selectedTactic = tactic),
+        onTap: _isBattling
+            ? null
+            : () => setState(() => _selectedTactic = tactic),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: isSelected ? Colors.amber : Colors.white10,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-                color: isSelected ? Colors.amber : Colors.transparent),
+              color: isSelected ? Colors.amber : Colors.transparent,
+            ),
           ),
           child: Column(
             children: [
-              Icon(icon,
-                  color: isSelected ? Colors.black : Colors.white, size: 20),
+              Icon(
+                icon,
+                color: isSelected ? Colors.black : Colors.white,
+                size: 20,
+              ),
               const SizedBox(height: 4),
               Text(
                 label,
@@ -459,12 +494,16 @@ class _WarStrategyScreenState extends State<WarStrategyScreen>
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: Text(victory ? 'GLORIOUS VICTORY' : 'CRUSHING DEFEAT',
-            style: TextStyle(color: victory ? Colors.green : Colors.red)),
+        title: Text(
+          victory ? 'GLORIOUS VICTORY' : 'CRUSHING DEFEAT',
+          style: TextStyle(color: victory ? Colors.green : Colors.red),
+        ),
         content: Text(message, style: const TextStyle(color: Colors.white)),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
         ],
       ),
     );

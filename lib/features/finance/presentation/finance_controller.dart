@@ -6,8 +6,8 @@ import 'package:verasso/features/finance/models/accounting_model.dart';
 /// Provides access to the [FinanceController] and its [FinanceState].
 final financeControllerProvider =
     StateNotifierProvider<FinanceController, FinanceState>((ref) {
-  return FinanceController(ref.watch(financeRepositoryProvider));
-});
+      return FinanceController(ref.watch(financeRepositoryProvider));
+    });
 
 /// Presentation-layer controller for finance and accounting views.
 ///

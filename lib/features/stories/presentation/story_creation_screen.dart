@@ -215,10 +215,7 @@ class _StoryCreationScreenState extends State<StoryCreationScreen> {
             const SizedBox(height: 16),
             Text(
               'No media selected',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
             ),
           ],
         ),
@@ -243,8 +240,11 @@ class _StoryCreationScreenState extends State<StoryCreationScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(LucideIcons.playCircle,
-                            size: 64, color: Colors.white),
+                        Icon(
+                          LucideIcons.playCircle,
+                          size: 64,
+                          color: Colors.white,
+                        ),
                         SizedBox(height: 8),
                         Text(
                           'Video selected',
@@ -261,9 +261,7 @@ class _StoryCreationScreenState extends State<StoryCreationScreen> {
           child: IconButton(
             icon: const Icon(LucideIcons.x, color: Colors.white),
             onPressed: () => setState(() => _selectedMedia = null),
-            style: IconButton.styleFrom(
-              backgroundColor: Colors.black54,
-            ),
+            style: IconButton.styleFrom(backgroundColor: Colors.black54),
           ),
         ),
       ],
@@ -331,8 +329,9 @@ class _StoryCreationScreenState extends State<StoryCreationScreen> {
     setState(() {
       _isUploading = true;
       _uploadProgress = 0.0;
-      _statusMessage =
-          _mediaType == 'video' ? 'Compressing video...' : 'Uploading...';
+      _statusMessage = _mediaType == 'video'
+          ? 'Compressing video...'
+          : 'Uploading...';
     });
 
     try {
@@ -412,10 +411,7 @@ class _StoryCreationScreenState extends State<StoryCreationScreen> {
   void _showError(String message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text(message), backgroundColor: Colors.red),
       );
     }
   }

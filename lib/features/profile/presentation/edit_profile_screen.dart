@@ -47,8 +47,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         actions: [
           TextButton(
             onPressed: _saveProfile,
-            child: const Text('Save',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            child: const Text(
+              'Save',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ),
         ],
       ),
@@ -67,13 +69,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       backgroundImage: _selectedImage != null
                           ? FileImage(_selectedImage!)
                           : (widget.profile.avatarUrl != null
-                              ? NetworkImage(widget.profile.avatarUrl!)
-                                  as ImageProvider
-                              : null),
-                      child: (_selectedImage == null &&
+                                ? NetworkImage(widget.profile.avatarUrl!)
+                                      as ImageProvider
+                                : null),
+                      child:
+                          (_selectedImage == null &&
                               widget.profile.avatarUrl == null)
-                          ? const Icon(LucideIcons.user,
-                              size: 60, color: Colors.white)
+                          ? const Icon(
+                              LucideIcons.user,
+                              size: 60,
+                              color: Colors.white,
+                            )
                           : null,
                     ),
                     Positioned(
@@ -87,8 +93,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             color: Colors.blueAccent,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(LucideIcons.camera,
-                              size: 20, color: Colors.white),
+                          child: const Icon(
+                            LucideIcons.camera,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -96,10 +105,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              Text('Change Profile Photo',
-                  style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.7),
-                      fontSize: 14)),
+              Text(
+                'Change Profile Photo',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.7),
+                  fontSize: 14,
+                ),
+              ),
               const SizedBox(height: 30),
 
               // Form Fields
@@ -113,21 +125,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     const SizedBox(height: 20),
 
                     // Interests / Hobbies
-                    const Text('Interests & Hobbies',
-                        style: TextStyle(color: Colors.white70, fontSize: 14)),
+                    const Text(
+                      'Interests & Hobbies',
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        ..._interests.map((interest) => Chip(
-                              label: Text(interest),
-                              deleteIcon: const Icon(LucideIcons.x, size: 14),
-                              onDeleted: () => _removeInterest(interest),
-                              backgroundColor:
-                                  Colors.blueAccent.withValues(alpha: 0.3),
-                              labelStyle: const TextStyle(color: Colors.white),
-                            )),
+                        ..._interests.map(
+                          (interest) => Chip(
+                            label: Text(interest),
+                            deleteIcon: const Icon(LucideIcons.x, size: 14),
+                            onDeleted: () => _removeInterest(interest),
+                            backgroundColor: Colors.blueAccent.withValues(
+                              alpha: 0.3,
+                            ),
+                            labelStyle: const TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -140,7 +157,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             decoration: InputDecoration(
                               hintText: 'Add an interest...',
                               hintStyle: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.5)),
+                                color: Colors.white.withValues(alpha: 0.5),
+                              ),
                               filled: true,
                               fillColor: Colors.white.withValues(alpha: 0.1),
                               border: OutlineInputBorder(
@@ -148,7 +166,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
                             ),
                             onSubmitted: (_) => _addInterest(),
                           ),
@@ -156,8 +176,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         const SizedBox(width: 8),
                         IconButton(
                           onPressed: _addInterest,
-                          icon: const Icon(LucideIcons.plusCircle,
-                              color: Colors.blueAccent, size: 36),
+                          icon: const Icon(
+                            LucideIcons.plusCircle,
+                            color: Colors.blueAccent,
+                            size: 36,
+                          ),
                         ),
                       ],
                     ),
@@ -198,13 +221,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
-  Widget _buildTextField(String label, TextEditingController controller,
-      {int maxLines = 1}) {
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(color: Colors.white70, fontSize: 14)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: controller,
@@ -253,7 +281,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       // For now we assume the controller handles text updates.
       // Image upload logic would typically be: upload image -> get URL -> update profile with URL
 
-      await ref.read(profileControllerProvider.notifier).updateProfile(
+      await ref
+          .read(profileControllerProvider.notifier)
+          .updateProfile(
             fullName: _nameController.text.trim(),
             bio: _bioController.text.trim(),
             interests: _interests,
@@ -270,9 +300,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     } catch (e) {
       if (mounted) {
         Navigator.pop(context); // Pop loading
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update profile: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to update profile: $e')));
       }
     }
   }

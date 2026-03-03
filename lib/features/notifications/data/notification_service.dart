@@ -38,8 +38,8 @@ class NotificationService {
   /// Creates a [NotificationService] instance.
   /// Optionally accepts [FirebaseMessaging] for testing.
   NotificationService({SupabaseClient? client, FirebaseMessaging? fcm})
-      : _client = client ?? SupabaseService.client,
-        _fcm = fcm ?? FirebaseMessaging.instance;
+    : _client = client ?? SupabaseService.client,
+      _fcm = fcm ?? FirebaseMessaging.instance;
 
   // Create notification (Usually called by backend triggers, but we do it client-side for MVP hooks)
   /// Creates a notification in the database.
@@ -98,8 +98,10 @@ class NotificationService {
         .stream(primaryKey: ['id'])
         .eq('user_id', userId)
         .order('created_at', ascending: false)
-        .map((data) =>
-            data.map((json) => NotificationModel.fromJson(json)).toList());
+        .map(
+          (data) =>
+              data.map((json) => NotificationModel.fromJson(json)).toList(),
+        );
   }
 
   /// Returns a stream of the count of unread notifications for the current user.
@@ -154,7 +156,8 @@ class NotificationService {
       // 4. Foreground Message Handler
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         AppLogger.info(
-            'Foreground Notification: ${message.notification?.title}');
+          'Foreground Notification: ${message.notification?.title}',
+        );
 
         // In a production app, you might use flutter_local_notifications here
         // to show a heads-up display if the user is in a different section.
@@ -196,8 +199,10 @@ class NotificationService {
   ///
   /// [notificationId] is the ID of the notification to mark as read.
   Future<void> markAsRead(String notificationId) async {
-    await _client.from('notifications').update(
-        {'read_at': DateTime.now().toIso8601String()}).eq('id', notificationId);
+    await _client
+        .from('notifications')
+        .update({'read_at': DateTime.now().toIso8601String()})
+        .eq('id', notificationId);
   }
 
   // Send job notification (migrated from NotificationsRepository)
@@ -239,10 +244,13 @@ class NotificationService {
     if (userId == null) return;
 
     try {
-      await _client.from('profiles').update({
-        'fcm_token': token,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', userId);
+      await _client
+          .from('profiles')
+          .update({
+            'fcm_token': token,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', userId);
       AppLogger.info('FCM Token saved to profile');
     } catch (e) {
       AppLogger.error('Error saving FCM token', error: e);

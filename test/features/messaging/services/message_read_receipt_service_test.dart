@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late MessageReadReceiptService service;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -22,11 +19,13 @@ void main() {
 
   group('MessageReadReceiptService Tests', () {
     test('getConversationReadStats returns correct statistics', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'msg-1', 'read_at': null},
-        {'id': 'msg-2', 'read_at': '2025-01-15T10:00:00Z'},
-        {'id': 'msg-3', 'read_at': '2025-01-15T11:00:00Z'},
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'msg-1', 'read_at': null},
+          {'id': 'msg-2', 'read_at': '2025-01-15T10:00:00Z'},
+          {'id': 'msg-3', 'read_at': '2025-01-15T11:00:00Z'},
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', builder);
 
       final stats = await service.getConversationReadStats('conv-1');
@@ -39,25 +38,31 @@ void main() {
       expect(stats?.readPercentage, closeTo(66.67, 0.1));
     });
 
-    test('getConversationReadStats returns null when conversation not found',
-        () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: []);
-      mockSupabase.setQueryBuilder('messages', builder);
+    test(
+      'getConversationReadStats returns null when conversation not found',
+      () async {
+        final builder = MockSupabaseQueryBuilder(selectResponse: []);
+        mockSupabase.setQueryBuilder('messages', builder);
 
-      final stats = await service.getConversationReadStats('nonexistent-conv');
+        final stats = await service.getConversationReadStats(
+          'nonexistent-conv',
+        );
 
-      expect(stats, isNull);
-    });
+        expect(stats, isNull);
+      },
+    );
 
     test('getMessageReadStatus returns status for existing message', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'read_at': '2025-01-15T10:30:00Z',
-          'receiver_id': 'user-2',
-          'created_at': '2025-01-15T10:00:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'msg-1',
+            'read_at': '2025-01-15T10:30:00Z',
+            'receiver_id': 'user-2',
+            'created_at': '2025-01-15T10:00:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', builder);
 
       final status = await service.getMessageReadStatus('msg-1');
@@ -77,46 +82,54 @@ void main() {
       expect(status, isNull);
     });
 
-    test('getMessagesReadStatus returns status for multiple messages',
-        () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'msg-1',
-          'read_at': '2025-01-15T10:30:00Z',
-          'receiver_id': 'user-2',
-          'created_at': '2025-01-15T10:00:00Z',
-        },
-        {
-          'id': 'msg-2',
-          'read_at': null,
-          'receiver_id': 'user-2',
-          'created_at': '2025-01-15T10:10:00Z',
-        }
-      ]);
-      mockSupabase.setQueryBuilder('messages', builder);
+    test(
+      'getMessagesReadStatus returns status for multiple messages',
+      () async {
+        final builder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': 'msg-1',
+              'read_at': '2025-01-15T10:30:00Z',
+              'receiver_id': 'user-2',
+              'created_at': '2025-01-15T10:00:00Z',
+            },
+            {
+              'id': 'msg-2',
+              'read_at': null,
+              'receiver_id': 'user-2',
+              'created_at': '2025-01-15T10:10:00Z',
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('messages', builder);
 
-      final statuses = await service.getMessagesReadStatus(['msg-1', 'msg-2']);
+        final statuses = await service.getMessagesReadStatus([
+          'msg-1',
+          'msg-2',
+        ]);
 
-      expect(statuses, hasLength(2));
-      expect(statuses[0].isRead, true);
-      expect(statuses[1].isRead, false);
-    });
+        expect(statuses, hasLength(2));
+        expect(statuses[0].isRead, true);
+        expect(statuses[1].isRead, false);
+      },
+    );
 
     test('getMessagesReadStatus returns empty list on error', () async {
       final builder = MockSupabaseQueryBuilder(shouldThrow: true);
       mockSupabase.setQueryBuilder('messages', builder);
 
-      final statuses =
-          await service.getMessagesReadStatus(['msg-1', 'msg-2']);
+      final statuses = await service.getMessagesReadStatus(['msg-1', 'msg-2']);
 
       expect(statuses, isEmpty);
     });
 
     test('getReadMessageIds returns list of read message IDs', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {'id': 'msg-1'},
-        {'id': 'msg-2'},
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': 'msg-1'},
+          {'id': 'msg-2'},
+        ],
+      );
       mockSupabase.setQueryBuilder('messages', builder);
 
       final readIds = await service.getReadMessageIds('conv-1');
@@ -148,10 +161,7 @@ void main() {
     test('getTotalUnreadCount throws when user not authenticated', () async {
       mockAuth.setCurrentUser(null);
 
-      expect(
-        () => service.getTotalUnreadCount(),
-        throwsException,
-      );
+      expect(() => service.getTotalUnreadCount(), throwsException);
     });
 
     test('getTotalUnreadCount returns 0 on error', () async {
@@ -175,17 +185,19 @@ void main() {
       expect(count, 3);
     });
 
-    test('getUnreadCountsByConversation returns map of unread counts',
-        () async {
-      mockSupabase.setRpcResponse('get_unread_message_count', [
-        {'conversation_id': 'conv-1', 'unread_count': 2},
-        {'conversation_id': 'conv-2', 'unread_count': 5},
-      ]);
+    test(
+      'getUnreadCountsByConversation returns map of unread counts',
+      () async {
+        mockSupabase.setRpcResponse('get_unread_message_count', [
+          {'conversation_id': 'conv-1', 'unread_count': 2},
+          {'conversation_id': 'conv-2', 'unread_count': 5},
+        ]);
 
-      final counts = await service.getUnreadCountsByConversation();
+        final counts = await service.getUnreadCountsByConversation();
 
-      expect(counts, {'conv-1': 2, 'conv-2': 5});
-    });
+        expect(counts, {'conv-1': 2, 'conv-2': 5});
+      },
+    );
 
     test('getUnreadCountsByConversation returns empty map on error', () async {
       mockSupabase.setRpcResponse(
@@ -203,63 +215,52 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('messages', builder);
 
-      await expectLater(
-        service.markConversationAsRead('conv-1'),
-        completes,
-      );
+      await expectLater(service.markConversationAsRead('conv-1'), completes);
     });
 
-    test('markConversationAsRead throws when user not authenticated',
-        () async {
+    test('markConversationAsRead throws when user not authenticated', () async {
       mockAuth.setCurrentUser(null);
 
-      expect(
-        () => service.markConversationAsRead('conv-1'),
-        throwsException,
-      );
+      expect(() => service.markConversationAsRead('conv-1'), throwsException);
     });
 
     test('markMessageAsRead marks specific message as read', () async {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('messages', builder);
 
-      await expectLater(
-        service.markMessageAsRead('msg-1'),
-        completes,
-      );
+      await expectLater(service.markMessageAsRead('msg-1'), completes);
     });
 
     test('markMessageAsRead throws when user not authenticated', () async {
       mockAuth.setCurrentUser(null);
 
-      expect(
-        () => service.markMessageAsRead('msg-1'),
-        throwsException,
-      );
+      expect(() => service.markMessageAsRead('msg-1'), throwsException);
     });
 
-    test('streamConversationReadReceipts returns stream of read statuses',
-        () async {
-      final mockStream = Stream<List<Map<String, dynamic>>>.fromIterable([
-        [
-          {
-            'id': 'msg-1',
-            'read_at': '2025-01-15T10:30:00Z',
-            'receiver_id': 'user-2',
-            'created_at': '2025-01-15T10:00:00Z',
-          }
-        ]
-      ]);
+    test(
+      'streamConversationReadReceipts returns stream of read statuses',
+      () async {
+        final mockStream = Stream<List<Map<String, dynamic>>>.fromIterable([
+          [
+            {
+              'id': 'msg-1',
+              'read_at': '2025-01-15T10:30:00Z',
+              'receiver_id': 'user-2',
+              'created_at': '2025-01-15T10:00:00Z',
+            },
+          ],
+        ]);
 
-      mockSupabase.setStreamResponse('messages', mockStream);
+        mockSupabase.setStreamResponse('messages', mockStream);
 
-      final stream = service.streamConversationReadReceipts('conv-1');
-      final statuses = await stream.first;
+        final stream = service.streamConversationReadReceipts('conv-1');
+        final statuses = await stream.first;
 
-      expect(statuses, isNotEmpty);
-      expect(statuses[0].messageId, 'msg-1');
-      expect(statuses[0].isRead, true);
-    });
+        expect(statuses, isNotEmpty);
+        expect(statuses[0].messageId, 'msg-1');
+        expect(statuses[0].isRead, true);
+      },
+    );
   });
 
   group('MessageReadStatus Model Tests', () {

@@ -22,7 +22,8 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
   static const _templates = {
     'ordinary': _ResolutionTemplate(
       title: 'Ordinary Resolution',
-      description: 'Requires simple majority (>50%). Used for routine matters '
+      description:
+          'Requires simple majority (>50%). Used for routine matters '
           'like appointment of auditors or declaration of dividends.',
       icon: LucideIcons.fileText,
       color: Colors.blueAccent,
@@ -37,7 +38,8 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
     ),
     'special': _ResolutionTemplate(
       title: 'Special Resolution',
-      description: 'Requires 75% majority. Used for significant changes '
+      description:
+          'Requires 75% majority. Used for significant changes '
           'like altering the Articles of Association or changing company name.',
       icon: LucideIcons.shield,
       color: Colors.amber,
@@ -54,7 +56,8 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
     ),
     'written': _ResolutionTemplate(
       title: 'Written Resolution (Circulation)',
-      description: 'Passed without a meeting via written consent. '
+      description:
+          'Passed without a meeting via written consent. '
           'Used for matters requiring quick approval where all directors agree.',
       icon: LucideIcons.mail,
       color: Colors.greenAccent,
@@ -107,15 +110,22 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
       ),
       body: LiquidBackground(
         child: ListView(
-          padding:
-              const EdgeInsets.only(top: 120, left: 16, right: 16, bottom: 40),
+          padding: const EdgeInsets.only(
+            top: 120,
+            left: 16,
+            right: 16,
+            bottom: 40,
+          ),
           children: [
             // Template Selector
-            const Text('Select Template',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+            const Text(
+              'Select Template',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
             const SizedBox(height: 12),
             ..._templates.entries.map((entry) {
               final isSelected = _selectedTemplate == entry.key;
@@ -143,30 +153,43 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
                                 ? Border.all(color: template.color, width: 2)
                                 : null,
                           ),
-                          child: Icon(template.icon,
-                              color: template.color, size: 24),
+                          child: Icon(
+                            template.icon,
+                            color: template.color,
+                            size: 24,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(template.title,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: isSelected
-                                          ? template.color
-                                          : Colors.white)),
+                              Text(
+                                template.title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: isSelected
+                                      ? template.color
+                                      : Colors.white,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text(template.description,
-                                  style: const TextStyle(
-                                      fontSize: 11, color: Colors.white54)),
+                              Text(
+                                template.description,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.white54,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                         if (isSelected)
-                          Icon(LucideIcons.checkCircle,
-                              color: template.color, size: 20),
+                          Icon(
+                            LucideIcons.checkCircle,
+                            color: template.color,
+                            size: 20,
+                          ),
                       ],
                     ),
                   ),
@@ -177,23 +200,35 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
             const SizedBox(height: 24),
 
             // Input Fields
-            const Text('Company Details',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+            const Text(
+              'Company Details',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
             const SizedBox(height: 12),
             _buildTextField(
-                _companyNameController, 'Company Name', LucideIcons.building),
+              _companyNameController,
+              'Company Name',
+              LucideIcons.building,
+            ),
             const SizedBox(height: 12),
             _buildTextField(_cinController, 'CIN Number', LucideIcons.hash),
             const SizedBox(height: 12),
             _buildTextField(
-                _dateController, 'Date (DD/MM/YYYY)', LucideIcons.calendar),
+              _dateController,
+              'Date (DD/MM/YYYY)',
+              LucideIcons.calendar,
+            ),
             const SizedBox(height: 12),
-            _buildTextField(_customClauseController, 'Resolution Subject',
-                LucideIcons.edit3,
-                maxLines: 3),
+            _buildTextField(
+              _customClauseController,
+              'Resolution Subject',
+              LucideIcons.edit3,
+              maxLines: 3,
+            ),
             const SizedBox(height: 24),
 
             // Generate Button
@@ -203,13 +238,16 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
               child: ElevatedButton.icon(
                 onPressed: _generateDraft,
                 icon: const Icon(LucideIcons.sparkles),
-                label: const Text('GENERATE DRAFT',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                label: const Text(
+                  'GENERATE DRAFT',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.indigoAccent,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ),
             ),
@@ -217,11 +255,14 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
             // Generated Draft
             if (_isDraftGenerated) ...[
               const SizedBox(height: 24),
-              const Text('Generated Draft',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              const Text(
+                'Generated Draft',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               const SizedBox(height: 12),
               GlassContainer(
                 padding: const EdgeInsets.all(16),
@@ -252,8 +293,11 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
   }
 
   Widget _buildTextField(
-      TextEditingController controller, String label, IconData icon,
-      {int maxLines = 1}) {
+    TextEditingController controller,
+    String label,
+    IconData icon, {
+    int maxLines = 1,
+  }) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
@@ -279,8 +323,9 @@ class _ResolutionDrafterScreenState extends State<ResolutionDrafterScreen> {
     final companyName = _companyNameController.text.isEmpty
         ? '[Company Name]'
         : _companyNameController.text;
-    final cin =
-        _cinController.text.isEmpty ? '[CIN Number]' : _cinController.text;
+    final cin = _cinController.text.isEmpty
+        ? '[CIN Number]'
+        : _cinController.text;
     final date = _dateController.text.isEmpty ? '[Date]' : _dateController.text;
     final customClause = _customClauseController.text.isEmpty
         ? '[describe the matter here]'

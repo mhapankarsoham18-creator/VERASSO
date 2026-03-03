@@ -30,7 +30,7 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
     'Functionality',
     'Crash',
     'Performance',
-    'Other'
+    'Other',
   ];
 
   @override
@@ -53,7 +53,9 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
                   Text(
                     AppLocalizations.of(context)!.bugReportTitle,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -66,7 +68,8 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
               DropdownButtonFormField<String>(
                 initialValue: 'General Bug',
                 decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.bugCategory),
+                  labelText: AppLocalizations.of(context)!.bugCategory,
+                ),
                 dropdownColor: Colors.grey.shade900,
                 items: _categories
                     .map((c) => DropdownMenuItem(value: c, child: Text(c)))
@@ -104,11 +107,14 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
                       ? const SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2))
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const Icon(LucideIcons.send),
-                  label: Text(_isSending
-                      ? AppLocalizations.of(context)!.transmitting
-                      : AppLocalizations.of(context)!.logAnomaly),
+                  label: Text(
+                    _isSending
+                        ? AppLocalizations.of(context)!.transmitting
+                        : AppLocalizations.of(context)!.logAnomaly,
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orangeAccent,
                     foregroundColor: Colors.black,
@@ -126,9 +132,11 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(success
-            ? AppLocalizations.of(context)!.anomalyNeutralized
-            : AppLocalizations.of(context)!.dataLogged),
+        title: Text(
+          success
+              ? AppLocalizations.of(context)!.anomalyNeutralized
+              : AppLocalizations.of(context)!.dataLogged,
+        ),
         content: Text(message),
         actions: [
           TextButton(
@@ -170,10 +178,11 @@ class _BugReportDialogState extends ConsumerState<BugReportDialog> {
         if (result['success']) {
           final userId = Supabase.instance.client.auth.currentUser?.id;
           if (result['status'] == 'valid' && userId != null) {
-            eventBus.track(GamificationAction.bugReported, userId, metadata: {
-              'category': _category,
-              'status': 'valid',
-            });
+            eventBus.track(
+              GamificationAction.bugReported,
+              userId,
+              metadata: {'category': _category, 'status': 'valid'},
+            );
           }
 
           if (mounted) {

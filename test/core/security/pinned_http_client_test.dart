@@ -31,18 +31,20 @@ void main() {
       expect(isValid, isTrue);
     });
 
-    test('validateCertificate returns true when one of multiple pins matches',
-        () {
-      final isValid = PinnedHttpClient.validateCertificate(
-        cert,
-        expectedHost,
-        443,
-        expectedHost,
-        [otherPin, validPin], // validPin is second
-      );
+    test(
+      'validateCertificate returns true when one of multiple pins matches',
+      () {
+        final isValid = PinnedHttpClient.validateCertificate(
+          cert,
+          expectedHost,
+          443,
+          expectedHost,
+          [otherPin, validPin], // validPin is second
+        );
 
-      expect(isValid, isTrue);
-    });
+        expect(isValid, isTrue);
+      },
+    );
 
     test('validateCertificate returns false when pin does not match', () {
       final isValid = PinnedHttpClient.validateCertificate(
@@ -68,30 +70,32 @@ void main() {
       expect(isValid, isFalse);
     });
 
-    test('validateCertificate returns false when allowedShas is null or empty',
-        () {
-      expect(
-        PinnedHttpClient.validateCertificate(
-          cert,
-          expectedHost,
-          443,
-          expectedHost,
-          null,
-        ),
-        isFalse,
-      );
+    test(
+      'validateCertificate returns false when allowedShas is null or empty',
+      () {
+        expect(
+          PinnedHttpClient.validateCertificate(
+            cert,
+            expectedHost,
+            443,
+            expectedHost,
+            null,
+          ),
+          isFalse,
+        );
 
-      expect(
-        PinnedHttpClient.validateCertificate(
-          cert,
-          expectedHost,
-          443,
-          expectedHost,
-          [],
-        ),
-        isFalse,
-      );
-    });
+        expect(
+          PinnedHttpClient.validateCertificate(
+            cert,
+            expectedHost,
+            443,
+            expectedHost,
+            [],
+          ),
+          isFalse,
+        );
+      },
+    );
 
     test('validateCertificate handles colon-separated pins', () {
       // 9f:86:...

@@ -37,10 +37,7 @@ class _MeshJournalScreenState extends ConsumerState<MeshJournalScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.users),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(LucideIcons.users), onPressed: () {}),
         ],
       ),
       body: LiquidBackground(
@@ -54,11 +51,16 @@ class _MeshJournalScreenState extends ConsumerState<MeshJournalScreen> {
                   children: [
                     Text(
                       "Last updated by: ${journalState.updatedBy}",
-                      style:
-                          const TextStyle(color: Colors.white54, fontSize: 12),
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
                     ),
-                    const Icon(LucideIcons.wifi,
-                        color: Colors.greenAccent, size: 14),
+                    const Icon(
+                      LucideIcons.wifi,
+                      color: Colors.greenAccent,
+                      size: 14,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -70,7 +72,10 @@ class _MeshJournalScreenState extends ConsumerState<MeshJournalScreen> {
                       maxLines: null,
                       expands: true,
                       style: const TextStyle(
-                          color: Colors.white, fontSize: 16, height: 1.5),
+                        color: Colors.white,
+                        fontSize: 16,
+                        height: 1.5,
+                      ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: "Start taking collaborative notes...",

@@ -30,8 +30,9 @@ void main() {
         'date': DateTime.now().toIso8601String(),
       };
 
-      final journalBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [journalResponse]);
+      final journalBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [journalResponse],
+      );
       mockSupabase.setQueryBuilder('finance_journal_entries', journalBuilder);
 
       // Setup builder for lines insert (no return needed typically, but to be safe)
@@ -44,11 +45,15 @@ void main() {
         date: DateTime.now(),
         lines: [
           TransactionLine(
-              accountName: 'Cash', amount: 100, type: TransactionType.debit),
+            accountName: 'Cash',
+            amount: 100,
+            type: TransactionType.debit,
+          ),
           TransactionLine(
-              accountName: 'Revenue',
-              amount: 100,
-              type: TransactionType.credit),
+            accountName: 'Revenue',
+            amount: 100,
+            type: TransactionType.credit,
+          ),
         ],
       );
 
@@ -79,39 +84,40 @@ void main() {
       // with current mock setup. We trust the null check in the code.
     });
 
-    test('getFinancialStats should calculate income and expense correctly',
-        () async {
-      // Mock transaction history
-      final transactions = [
-        {
-          'id': '1',
-          'user_id': 'test-user-id',
-          'type': 'Credit',
-          'amount': 1000.0,
-          'category': 'Salary',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-        {
-          'id': '2',
-          'user_id': 'test-user-id',
-          'type': 'Debit',
-          'amount': 200.0,
-          'category': 'Groceries',
-          'created_at': DateTime.now().toIso8601String(),
-        },
-      ];
+    test(
+      'getFinancialStats should calculate income and expense correctly',
+      () async {
+        // Mock transaction history
+        final transactions = [
+          {
+            'id': '1',
+            'user_id': 'test-user-id',
+            'type': 'Credit',
+            'amount': 1000.0,
+            'category': 'Salary',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+          {
+            'id': '2',
+            'user_id': 'test-user-id',
+            'type': 'Debit',
+            'amount': 200.0,
+            'category': 'Groceries',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ];
 
-      final builder = MockSupabaseQueryBuilder(selectResponse: transactions);
-      mockSupabase.setQueryBuilder('transactions', builder);
+        final builder = MockSupabaseQueryBuilder(selectResponse: transactions);
+        mockSupabase.setQueryBuilder('transactions', builder);
 
-      final stats = await repository.getFinancialStats('test-user-id');
+        final stats = await repository.getFinancialStats('test-user-id');
 
-      expect(stats['income'], 1000.0);
-      expect(stats['expense'], 200.0);
-    });
+        expect(stats['income'], 1000.0);
+        expect(stats['expense'], 200.0);
+      },
+    );
 
-    test('getIncomeBreakdown should calculate breakdown locally when RPC fails',
-        () async {
+    test('getIncomeBreakdown should calculate breakdown locally when RPC fails', () async {
       // Ensure RPC throws
       // The current mock implementation checks _rpcOverrides. If not present, it returns an empty builder.
       // We can force it to behave unrelatedly or just rely on the fallback logic being tested
@@ -195,15 +201,15 @@ void main() {
             {
               'account_name': 'Acc1',
               'amount': 50.0,
-              'transaction_type': 'debit'
+              'transaction_type': 'debit',
             },
             {
               'account_name': 'Acc2',
               'amount': 50.0,
-              'transaction_type': 'credit'
+              'transaction_type': 'credit',
             },
-          ]
-        }
+          ],
+        },
       ];
 
       final builder = MockSupabaseQueryBuilder(selectResponse: response);

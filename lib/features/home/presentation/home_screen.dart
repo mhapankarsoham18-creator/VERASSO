@@ -90,121 +90,141 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildGlassNavBar() {
     return Container(
       margin: const EdgeInsets.only(
-          left: 16, right: 16, bottom: 20), // Lifted up slightly
+        left: 16,
+        right: 16,
+        bottom: 20,
+      ), // Lifted up slightly
       height: 70,
       decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.black.withValues(alpha: 0.5)
-              : Colors.white.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(20), // Standardized
-          border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ]),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black.withValues(alpha: 0.5)
+            : Colors.white.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(20), // Standardized
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Animate(
             effects: const [
               FadeEffect(
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard),
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              ),
               MoveEffect(
-                  begin: Offset(0, 10),
-                  end: Offset.zero,
-                  curve: DesignSystem.easingStandard)
+                begin: Offset(0, 10),
+                end: Offset.zero,
+                curve: DesignSystem.easingStandard,
+              ),
             ],
             child: _NavBarItem(
-                icon: LucideIcons.home,
-                label: 'Home Feed',
-                isSelected: _currentIndex == 0,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _currentIndex = 0);
-                }),
+              icon: LucideIcons.home,
+              label: 'Home Feed',
+              isSelected: _currentIndex == 0,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _currentIndex = 0);
+              },
+            ),
           ),
           Animate(
             effects: [
               FadeEffect(
-                  delay: 50.ms,
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard),
+                delay: 50.ms,
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              ),
               const MoveEffect(
-                  begin: Offset(0, 10),
-                  end: Offset.zero,
-                  curve: DesignSystem.easingStandard)
+                begin: Offset(0, 10),
+                end: Offset.zero,
+                curve: DesignSystem.easingStandard,
+              ),
             ],
             child: _NavBarItem(
-                icon: LucideIcons.compass,
-                label: 'Discover',
-                isSelected: _currentIndex == 1,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _currentIndex = 1);
-                }),
+              icon: LucideIcons.compass,
+              label: 'Discover',
+              isSelected: _currentIndex == 1,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _currentIndex = 1);
+              },
+            ),
           ),
           Animate(
             effects: [
               FadeEffect(
-                  delay: 100.ms,
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard),
+                delay: 100.ms,
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              ),
               const MoveEffect(
-                  begin: Offset(0, 10),
-                  end: Offset.zero,
-                  curve: DesignSystem.easingStandard)
+                begin: Offset(0, 10),
+                end: Offset.zero,
+                curve: DesignSystem.easingStandard,
+              ),
             ],
             child: _NavBarItem(
-                icon: LucideIcons.camera,
-                label: 'Stories',
-                isSelected: _currentIndex == 2,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _currentIndex = 2);
-                }),
+              icon: LucideIcons.camera,
+              label: 'Stories',
+              isSelected: _currentIndex == 2,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _currentIndex = 2);
+              },
+            ),
           ),
           Animate(
             effects: [
               FadeEffect(
-                  delay: 150.ms,
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard),
+                delay: 150.ms,
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              ),
               const MoveEffect(
-                  begin: Offset(0, 10),
-                  end: Offset.zero,
-                  curve: DesignSystem.easingStandard)
+                begin: Offset(0, 10),
+                end: Offset.zero,
+                curve: DesignSystem.easingStandard,
+              ),
             ],
             child: _NavBarItem(
-                icon: LucideIcons.graduationCap,
-                label: 'Learning',
-                isSelected: _currentIndex == 3,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _currentIndex = 3);
-                }),
+              icon: LucideIcons.graduationCap,
+              label: 'Learning',
+              isSelected: _currentIndex == 3,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _currentIndex = 3);
+              },
+            ),
           ),
           Animate(
             effects: [
               FadeEffect(
-                  delay: 200.ms,
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard),
+                delay: 200.ms,
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              ),
               const MoveEffect(
-                  begin: Offset(0, 10),
-                  end: Offset.zero,
-                  curve: DesignSystem.easingStandard)
+                begin: Offset(0, 10),
+                end: Offset.zero,
+                curve: DesignSystem.easingStandard,
+              ),
             ],
             child: _NavBarItem(
-                icon: LucideIcons.user,
-                label: 'Profile',
-                isSelected: _currentIndex == 4,
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _currentIndex = 4);
-                }),
+              icon: LucideIcons.user,
+              label: 'Profile',
+              isSelected: _currentIndex == 4,
+              onTap: () {
+                HapticFeedback.selectionClick();
+                setState(() => _currentIndex = 4);
+              },
+            ),
           ),
         ],
       ),
@@ -241,27 +261,29 @@ class _NavBarItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _NavBarItem(
-      {required this.icon,
-      required this.label,
-      required this.isSelected,
-      required this.onTap});
+  const _NavBarItem({
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final color = isSelected
         ? Theme.of(context).colorScheme.primary
         : (Theme.of(context).brightness == Brightness.dark
-            ? Colors.white54
-            : Colors.black54);
+              ? Colors.white54
+              : Colors.black54);
 
     return Semantics(
       label: label,
       selected: isSelected,
       button: true,
       child: IconButton(
-          onPressed: onTap,
-          icon: Icon(icon, color: color, size: DesignSystem.iconSizeLarge)),
+        onPressed: onTap,
+        icon: Icon(icon, color: color, size: DesignSystem.iconSizeLarge),
+      ),
     );
   }
 }

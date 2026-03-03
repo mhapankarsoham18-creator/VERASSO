@@ -24,8 +24,9 @@ void main() {
   Widget createSubject() {
     return ProviderScope(
       overrides: [
-        collaborationRepositoryProvider
-            .overrideWithValue(mockCollaborationRepository),
+        collaborationRepositoryProvider.overrideWithValue(
+          mockCollaborationRepository,
+        ),
         courseRepositoryProvider.overrideWithValue(mockCourseRepository),
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
         upcomingEventsProvider.overrideWith((ref) => Future.value([])),
@@ -39,8 +40,9 @@ void main() {
   }
 
   group('LearningDashboard Widget Tests', () {
-    testWidgets('renders Learning Hub title and main sections',
-        (WidgetTester tester) async {
+    testWidgets('renders Learning Hub title and main sections', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createSubject());
       await tester.pumpAndSettle();
 
@@ -51,8 +53,9 @@ void main() {
       expect(find.text('Mentors'), findsOneWidget);
     });
 
-    testWidgets('renders active daily challenge when available',
-        (WidgetTester tester) async {
+    testWidgets('renders active daily challenge when available', (
+      WidgetTester tester,
+    ) async {
       final challenge = DailyChallenge(
         id: '1',
         title: 'Physics Challenge',
@@ -62,8 +65,9 @@ void main() {
         createdAt: DateTime.now(),
       );
 
-      mockCollaborationRepository.getActiveChallengesStub =
-          () async => [challenge];
+      mockCollaborationRepository.getActiveChallengesStub = () async => [
+        challenge,
+      ];
 
       await tester.pumpWidget(createSubject());
       await tester.pumpAndSettle();

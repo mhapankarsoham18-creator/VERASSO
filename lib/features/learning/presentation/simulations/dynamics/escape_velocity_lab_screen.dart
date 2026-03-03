@@ -41,9 +41,10 @@ class _EscapeVelocityLabScreenState extends State<EscapeVelocityLabScreen> {
                       const Text(
                         'Escape Velocity Calculator',
                         style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       const Text(
@@ -52,21 +53,28 @@ class _EscapeVelocityLabScreenState extends State<EscapeVelocityLabScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
-                      _buildControl('Planet Mass (x 10²⁴ kg)', _planetMass, 0.1,
-                          500.0, (val) => setState(() => _planetMass = val)),
                       _buildControl(
-                          'Planet Radius (x 10⁶ m)',
-                          _planetRadius,
-                          0.1,
-                          100.0,
-                          (val) => setState(() => _planetRadius = val)),
+                        'Planet Mass (x 10²⁴ kg)',
+                        _planetMass,
+                        0.1,
+                        500.0,
+                        (val) => setState(() => _planetMass = val),
+                      ),
+                      _buildControl(
+                        'Planet Radius (x 10⁶ m)',
+                        _planetRadius,
+                        0.1,
+                        100.0,
+                        (val) => setState(() => _planetRadius = val),
+                      ),
                       const SizedBox(height: 20),
                       Text(
                         'Escape Velocity: ${v.toStringAsFixed(2)} km/s',
                         style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amber),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber,
+                        ),
                       ),
                     ],
                   ),
@@ -90,13 +98,20 @@ class _EscapeVelocityLabScreenState extends State<EscapeVelocityLabScreen> {
     );
   }
 
-  Widget _buildControl(String label, double value, double min, double max,
-      ValueChanged<double> onChanged) {
+  Widget _buildControl(
+    String label,
+    double value,
+    double min,
+    double max,
+    ValueChanged<double> onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$label: ${value.toStringAsFixed(2)}',
-            style: const TextStyle(color: Colors.white)),
+        Text(
+          '$label: ${value.toStringAsFixed(2)}',
+          style: const TextStyle(color: Colors.white),
+        ),
         Slider(
           value: value,
           min: min,
@@ -141,11 +156,12 @@ class _PlanetPainter extends CustomPainter {
       ..strokeWidth = 2;
 
     canvas.drawArc(
-        Rect.fromCircle(center: center, radius: visualRadius + 20),
-        -1.57, // start top
-        3.14, // half circle
-        false,
-        pathPaint);
+      Rect.fromCircle(center: center, radius: visualRadius + 20),
+      -1.57, // start top
+      3.14, // half circle
+      false,
+      pathPaint,
+    );
   }
 
   @override

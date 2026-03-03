@@ -17,9 +17,10 @@ class ChemistryMenuScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Chemistry Lab'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Chemistry Lab'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: ListView(
           padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
@@ -31,9 +32,11 @@ class ChemistryMenuScreen extends StatelessWidget {
               icon: LucideIcons.flaskConical,
               color: Colors.purpleAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const MolecularBuilderSimulation())),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const MolecularBuilderSimulation(),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             _buildSimItem(
@@ -43,9 +46,9 @@ class ChemistryMenuScreen extends StatelessWidget {
               icon: LucideIcons.table,
               color: Colors.blueAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const PeriodicTableScreen())),
+                context,
+                MaterialPageRoute(builder: (_) => const PeriodicTableScreen()),
+              ),
             ),
             const SizedBox(height: 16),
             _buildSimItem(
@@ -55,9 +58,9 @@ class ChemistryMenuScreen extends StatelessWidget {
               icon: LucideIcons.beaker,
               color: Colors.greenAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const TitrationLabScreen())),
+                context,
+                MaterialPageRoute(builder: (_) => const TitrationLabScreen()),
+              ),
             ),
           ],
         ),
@@ -65,12 +68,14 @@ class ChemistryMenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSimItem(BuildContext context,
-      {required String title,
-      required String description,
-      required IconData icon,
-      required Color color,
-      required VoidCallback onTap}) {
+  Widget _buildSimItem(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: GlassContainer(
@@ -80,9 +85,10 @@ class ChemistryMenuScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: color.withValues(alpha: 0.5))),
+                color: color.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+                border: Border.all(color: color.withValues(alpha: 0.5)),
+              ),
               child: Icon(icon, color: Colors.white, size: 28),
             ),
             const SizedBox(width: 16),
@@ -90,16 +96,22 @@ class ChemistryMenuScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(description,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.7))),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -23,17 +23,17 @@ class EncryptionService {
   final SupabaseClient _client;
 
   /// Creates an [EncryptionService] instance.
-  EncryptionService({
-    SupabaseClient? client,
-    FlutterSecureStorage? storage,
-  })  : _client = client ?? SupabaseService.client,
-        _storage = storage ?? const FlutterSecureStorage();
+  EncryptionService({SupabaseClient? client, FlutterSecureStorage? storage})
+    : _client = client ?? SupabaseService.client,
+      _storage = storage ?? const FlutterSecureStorage();
 
   // --- Key Management ---
 
   /// Decrypts a message row using PineNaCl.
-  Future<String> decryptMessage(Map<String, dynamic> messageRow,
-      {bool isGroup = false}) async {
+  Future<String> decryptMessage(
+    Map<String, dynamic> messageRow, {
+    bool isGroup = false,
+  }) async {
     try {
       final myId = _client.auth.currentUser?.id;
       if (myId == null) {
@@ -84,8 +84,8 @@ class EncryptionService {
       final String peerId = (isGroup)
           ? senderId
           : (messageRow['sender_id'] == myId
-              ? messageRow['receiver_id']
-              : messageRow['sender_id']);
+                ? messageRow['receiver_id']
+                : messageRow['sender_id']);
 
       final peerPubKeyBase64 = await _getPublicKey(peerId);
       if (peerPubKeyBase64 == null) {
@@ -113,7 +113,9 @@ class EncryptionService {
   /// Encrypts content for multiple receivers (Group Chat).
   /// Returns [encryptedContent, iv, encryptedKeysPerUser]
   Future<Map<String, dynamic>> encryptGroupMessage(
-      String content, List<String> receiverIds) async {
+    String content,
+    List<String> receiverIds,
+  ) async {
     try {
       // 1. Generate a random 32-byte session key
       final sessionKey = TweetNaCl.randombytes(32);
@@ -134,8 +136,9 @@ class EncryptionService {
         final theirPubKeyBase64 = await _getPublicKey(receiverId);
         if (theirPubKeyBase64 != null) {
           final box = Box(
-              myPrivateKey: myPrivKey,
-              theirPublicKey: PublicKey(base64Decode(theirPubKeyBase64)));
+            myPrivateKey: myPrivKey,
+            theirPublicKey: PublicKey(base64Decode(theirPubKeyBase64)),
+          );
           final encryptedSessionKey = box.encrypt(sessionKey);
           // Combine nonce + cipher for transmission
           encryptedKeys[receiverId] = base64Encode(encryptedSessionKey);
@@ -216,10 +219,7 @@ class EncryptionService {
         key: _privateKeyKey,
         value: base64Encode(privateKey),
       );
-      await _storage.write(
-        key: _publicKeyKey,
-        value: base64Encode(publicKey),
-      );
+      await _storage.write(key: _publicKeyKey, value: base64Encode(publicKey));
 
       // 3. Upload Public Key to Supabase user_keys table
       final userId = _client.auth.currentUser?.id;

@@ -134,8 +134,8 @@ class _SecureSignupScreenState extends ConsumerState<SecureSignupScreen> {
                     _passwordStrength < 2
                         ? Colors.red
                         : _passwordStrength < 4
-                            ? Colors.orange
-                            : Colors.green,
+                        ? Colors.orange
+                        : Colors.green,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -143,14 +143,14 @@ class _SecureSignupScreenState extends ConsumerState<SecureSignupScreen> {
                   _passwordStrength < 2
                       ? 'Weak'
                       : _passwordStrength < 4
-                          ? 'Good'
-                          : 'Strong',
+                      ? 'Good'
+                      : 'Strong',
                   style: TextStyle(
                     color: _passwordStrength < 2
                         ? Colors.red
                         : _passwordStrength < 4
-                            ? Colors.orange
-                            : Colors.green,
+                        ? Colors.orange
+                        : Colors.green,
                     fontSize: 12,
                   ),
                 ),
@@ -164,14 +164,19 @@ class _SecureSignupScreenState extends ConsumerState<SecureSignupScreen> {
                   color: Colors.red.withValues(alpha: 0.2),
                   child: Row(
                     children: [
-                      const Icon(LucideIcons.alertCircle,
-                          color: Colors.red, size: 20),
+                      const Icon(
+                        LucideIcons.alertCircle,
+                        color: Colors.red,
+                        size: 20,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           _errorMessage!,
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 12),
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -194,8 +199,10 @@ class _SecureSignupScreenState extends ConsumerState<SecureSignupScreen> {
                         width: 20,
                         child: CircularProgressIndicator(color: Colors.white),
                       )
-                    : const Text('Create Account',
-                        style: TextStyle(fontSize: 16)),
+                    : const Text(
+                        'Create Account',
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
 
               const SizedBox(height: 16),
@@ -272,7 +279,8 @@ class _SecureSignupScreenState extends ConsumerState<SecureSignupScreen> {
     } on AuthException catch (e) {
       setState(() {
         if (e.message.contains('Password')) {
-          _errorMessage = 'Password must:\n'
+          _errorMessage =
+              'Password must:\n'
               '• Be at least 8 characters\n'
               '• Contain uppercase and lowercase\n'
               '• Contain numbers and special chars';

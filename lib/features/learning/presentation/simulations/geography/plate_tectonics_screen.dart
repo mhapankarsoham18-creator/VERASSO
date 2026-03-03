@@ -15,7 +15,7 @@ enum BoundaryType {
   divergent,
 
   /// Plates sliding past each other.
-  transform
+  transform,
 }
 
 /// A screen for simulating tectonic plate boundaries and their associated geological features.
@@ -60,7 +60,7 @@ class TectonicMapPainter extends CustomPainter {
 
   /// Creates a [TectonicMapPainter] instance.
   TectonicMapPainter({required this.animationValue, this.activeBoundary})
-      : super(repaint: animationValue);
+    : super(repaint: animationValue);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -97,11 +97,11 @@ class TectonicMapPainter extends CustomPainter {
     // Dynamic Animation based on boundary type
     if (activeBoundary != null) {
       final center = Offset(
-          activeBoundary!.position.dx * size.width,
-          activeBoundary!.position.dy *
-              size.height *
-              0.8 // Adjust for map aspect ratio
-          );
+        activeBoundary!.position.dx * size.width,
+        activeBoundary!.position.dy *
+            size.height *
+            0.8, // Adjust for map aspect ratio
+      );
 
       final animPaint = Paint()
         ..style = PaintingStyle.stroke
@@ -116,24 +116,45 @@ class TectonicMapPainter extends CustomPainter {
         _drawArrow(canvas, center.translate(10, 0), 0, arrowDist, animPaint);
       } else if (activeBoundary!.type == BoundaryType.convergent) {
         // Arrows pointing together
-        _drawArrow(canvas, center.translate(-15 - arrowDist, 0), 0, 10,
-            animPaint); // Converging
         _drawArrow(
-            canvas, center.translate(15 + arrowDist, 0), pi, 10, animPaint);
+          canvas,
+          center.translate(-15 - arrowDist, 0),
+          0,
+          10,
+          animPaint,
+        ); // Converging
+        _drawArrow(
+          canvas,
+          center.translate(15 + arrowDist, 0),
+          pi,
+          10,
+          animPaint,
+        );
 
         // Mountain rise effect
         canvas.drawCircle(
-            center,
-            5 + (animationValue.value * 10),
-            Paint()
-              ..color = Colors.brown.withValues(alpha: 0.5)
-              ..style = PaintingStyle.fill);
+          center,
+          5 + (animationValue.value * 10),
+          Paint()
+            ..color = Colors.brown.withValues(alpha: 0.5)
+            ..style = PaintingStyle.fill,
+        );
       } else if (activeBoundary!.type == BoundaryType.transform) {
         // Arrows sliding active
-        _drawArrow(canvas, center.translate(-5, -10 + arrowDist), pi / 2, 10,
-            animPaint); // Down
-        _drawArrow(canvas, center.translate(5, 10 - arrowDist), -pi / 2, 10,
-            animPaint); // Up
+        _drawArrow(
+          canvas,
+          center.translate(-5, -10 + arrowDist),
+          pi / 2,
+          10,
+          animPaint,
+        ); // Down
+        _drawArrow(
+          canvas,
+          center.translate(5, 10 - arrowDist),
+          -pi / 2,
+          10,
+          animPaint,
+        ); // Up
       }
     }
   }
@@ -142,7 +163,12 @@ class TectonicMapPainter extends CustomPainter {
   bool shouldRepaint(covariant TectonicMapPainter oldDelegate) => true;
 
   void _drawArrow(
-      Canvas canvas, Offset pos, double angle, double length, Paint paint) {
+    Canvas canvas,
+    Offset pos,
+    double angle,
+    double length,
+    Paint paint,
+  ) {
     canvas.save();
     canvas.translate(pos.dx, pos.dy);
     canvas.rotate(angle);
@@ -200,8 +226,10 @@ class _PlateTectonicsScreenState extends State<PlateTectonicsScreen>
             Expanded(
               flex: 3,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 80),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 80,
+                ),
                 child: GlassContainer(
                   child: Stack(
                     children: [
@@ -218,7 +246,8 @@ class _PlateTectonicsScreenState extends State<PlateTectonicsScreen>
                       // Interactive Hotspots
                       ..._boundaries.map((boundary) {
                         return Positioned(
-                          left: boundary.position.dx *
+                          left:
+                              boundary.position.dx *
                               (MediaQuery.of(context).size.width - 64),
                           top: boundary.position.dy * 300, // Approximate height
                           child: GestureDetector(
@@ -232,13 +261,17 @@ class _PlateTectonicsScreenState extends State<PlateTectonicsScreen>
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 4,
-                                      spreadRadius: 1)
+                                    color: Colors.black26,
+                                    blurRadius: 4,
+                                    spreadRadius: 1,
+                                  ),
                                 ],
                               ),
-                              child: Icon(LucideIcons.activity,
-                                  size: 16, color: Colors.white),
+                              child: Icon(
+                                LucideIcons.activity,
+                                size: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         );
@@ -270,8 +303,10 @@ class _PlateTectonicsScreenState extends State<PlateTectonicsScreen>
                     Text(
                       _selectedBoundary?.description ??
                           'Tap a hotspot on the map to simulate tectonic movement.',
-                      style:
-                          const TextStyle(fontSize: 16, color: Colors.white70),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     if (_selectedBoundary != null)

@@ -44,8 +44,12 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
       ),
       body: LiquidBackground(
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 40),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 40,
+          ),
           child: Column(
             children: [
               // Economic Indicators
@@ -54,19 +58,32 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Economic Indicators',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Economic Indicators',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _buildIndicator(
-                            'GDP Growth', '+2.5%', Colors.greenAccent),
+                          'GDP Growth',
+                          '+2.5%',
+                          Colors.greenAccent,
+                        ),
                         _buildIndicator(
-                            'Inflation', '3.2%', Colors.orangeAccent),
+                          'Inflation',
+                          '3.2%',
+                          Colors.orangeAccent,
+                        ),
                         _buildIndicator(
-                            'Unemployment', '4.1%', Colors.blueAccent),
+                          'Unemployment',
+                          '4.1%',
+                          Colors.blueAccent,
+                        ),
                       ],
                     ),
                   ],
@@ -109,18 +126,28 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
                     ),
                     titlesData: const FlTitlesData(
                       leftTitles: AxisTitles(
-                          sideTitles:
-                              SideTitles(showTitles: true, reservedSize: 30)),
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                        ),
+                      ),
                       bottomTitles: AxisTitles(
-                          sideTitles:
-                              SideTitles(showTitles: true, reservedSize: 30)),
-                      rightTitles:
-                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      topTitles:
-                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                        ),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                     ),
                     borderData: FlBorderData(
-                        show: true, border: Border.all(color: Colors.white24)),
+                      show: true,
+                      border: Border.all(color: Colors.white24),
+                    ),
                     lineBarsData: [
                       // Demand Curve
                       LineChartBarData(
@@ -142,17 +169,19 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
                     extraLinesData: ExtraLinesData(
                       horizontalLines: [
                         HorizontalLine(
-                            y: eq.dy,
-                            color: Colors.greenAccent.withValues(alpha: 0.5),
-                            strokeWidth: 1,
-                            dashArray: [5, 5]),
+                          y: eq.dy,
+                          color: Colors.greenAccent.withValues(alpha: 0.5),
+                          strokeWidth: 1,
+                          dashArray: [5, 5],
+                        ),
                       ],
                       verticalLines: [
                         VerticalLine(
-                            x: eq.dx,
-                            color: Colors.greenAccent.withValues(alpha: 0.5),
-                            strokeWidth: 1,
-                            dashArray: [5, 5]),
+                          x: eq.dx,
+                          color: Colors.greenAccent.withValues(alpha: 0.5),
+                          strokeWidth: 1,
+                          dashArray: [5, 5],
+                        ),
                       ],
                     ),
                   ),
@@ -172,16 +201,28 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
               const SizedBox(height: 32),
 
               // Controls
-              _buildControlSlider('Demand Shift', demandShift, -50, 50,
-                  (v) => setState(() => demandShift = v)),
-              _buildControlSlider('Supply Shift', supplyShift, -50, 50,
-                  (v) => setState(() => supplyShift = v)),
+              _buildControlSlider(
+                'Demand Shift',
+                demandShift,
+                -50,
+                50,
+                (v) => setState(() => demandShift = v),
+              ),
+              _buildControlSlider(
+                'Supply Shift',
+                supplyShift,
+                -50,
+                50,
+                (v) => setState(() => supplyShift = v),
+              ),
 
               const SizedBox(height: 20),
 
               // Preset Scenarios
-              const Text('Market Scenarios:',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              const Text(
+                'Market Scenarios:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 8,
@@ -191,7 +232,11 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
                   _buildScenarioChip('Boom', 30, -15, Colors.greenAccent),
                   _buildScenarioChip('Pandemic', -30, -20, Colors.orangeAccent),
                   _buildScenarioChip(
-                      'Crisis', -40, 20, Colors.deepOrangeAccent),
+                    'Crisis',
+                    -40,
+                    20,
+                    Colors.deepOrangeAccent,
+                  ),
                   _buildScenarioChip('Reset', 0, 0, Colors.blueAccent),
                 ],
               ),
@@ -240,21 +285,29 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final completed =
-          await TutorialService.isTutorialCompleted(TutorialIds.economicsHub);
+      final completed = await TutorialService.isTutorialCompleted(
+        TutorialIds.economicsHub,
+      );
       if (!completed && mounted) {
         _showTutorial();
       }
     });
   }
 
-  Widget _buildControlSlider(String label, double value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildControlSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(color: Colors.white70, fontSize: 14)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
+        ),
         Slider(
           value: value,
           min: min,
@@ -270,12 +323,19 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
   Widget _buildIndicator(String label, String value, Color color) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 11, color: Colors.white54)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         const SizedBox(height: 4),
-        Text(value,
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
       ],
     );
   }
@@ -284,18 +344,25 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
     return Row(
       children: [
         Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
         const SizedBox(width: 8),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white70)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white70),
+        ),
       ],
     );
   }
 
   Widget _buildScenarioChip(
-      String label, double demandChange, double supplyChange, Color color) {
+    String label,
+    double demandChange,
+    double supplyChange,
+    Color color,
+  ) {
     return ActionChip(
       label: Text(label, style: const TextStyle(fontSize: 12)),
       backgroundColor: color.withValues(alpha: 0.3),
@@ -312,13 +379,18 @@ class _EconomicsHubState extends ConsumerState<EconomicsHub> {
   Widget _buildStat(String label, String value) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(color: Colors.white70, fontSize: 12)),
-        Text(value,
-            style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.greenAccent)),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.greenAccent,
+          ),
+        ),
       ],
     );
   }

@@ -8,10 +8,7 @@ void main() {
   late MockGoTrueClient mockAuth;
   late StoryRepository repository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -51,22 +48,24 @@ void main() {
     });
 
     test('getStories returns list of visible stories', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'story-1',
-          'user_id': 'user-2',
-          'content': 'story_content_1',
-          'created_at': '2025-01-15T10:00:00Z',
-          'expires_at': '2025-01-16T10:00:00Z',
-        },
-        {
-          'id': 'story-2',
-          'user_id': 'user-3',
-          'content': 'story_content_2',
-          'created_at': '2025-01-15T10:30:00Z',
-          'expires_at': '2025-01-16T10:30:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'story-1',
+            'user_id': 'user-2',
+            'content': 'story_content_1',
+            'created_at': '2025-01-15T10:00:00Z',
+            'expires_at': '2025-01-16T10:00:00Z',
+          },
+          {
+            'id': 'story-2',
+            'user_id': 'user-3',
+            'content': 'story_content_2',
+            'created_at': '2025-01-15T10:30:00Z',
+            'expires_at': '2025-01-16T10:30:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('stories', builder);
 
       final stories = await repository.getStories();
@@ -75,14 +74,16 @@ void main() {
     });
 
     test('getStoriesForUser returns user-specific stories', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'story-1',
-          'user_id': 'user-1',
-          'content': 'my_story',
-          'created_at': '2025-01-15T10:00:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'story-1',
+            'user_id': 'user-1',
+            'content': 'my_story',
+            'created_at': '2025-01-15T10:00:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('stories', builder);
 
       final stories = await repository.getStoriesForUser('user-1');
@@ -94,10 +95,7 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('stories', builder);
 
-      await expectLater(
-        repository.deleteStory('story-1'),
-        completes,
-      );
+      await expectLater(repository.deleteStory('story-1'), completes);
 
       expect(mockSupabase.lastUpdateTable, 'stories');
     });
@@ -106,10 +104,7 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('story_views', builder);
 
-      await expectLater(
-        repository.viewStory('story-1', 'user-1'),
-        completes,
-      );
+      await expectLater(repository.viewStory('story-1', 'user-1'), completes);
     });
 
     test('reactToStory records reaction (emoji)', () async {
@@ -127,16 +122,12 @@ void main() {
     });
 
     test('getStoryViews returns list of viewers', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': 'user-2',
-          'viewed_at': '2025-01-15T10:15:00Z',
-        },
-        {
-          'user_id': 'user-3',
-          'viewed_at': '2025-01-15T10:20:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'user_id': 'user-2', 'viewed_at': '2025-01-15T10:15:00Z'},
+          {'user_id': 'user-3', 'viewed_at': '2025-01-15T10:20:00Z'},
+        ],
+      );
       mockSupabase.setQueryBuilder('story_views', builder);
 
       final views = await repository.getStoryViews('story-1');
@@ -145,13 +136,15 @@ void main() {
     });
 
     test('getStoryReactions returns list of reactions', () async {
-      final builder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'user_id': 'user-2',
-          'emoji': '❤️',
-          'reacted_at': '2025-01-15T10:15:00Z',
-        }
-      ]);
+      final builder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'user_id': 'user-2',
+            'emoji': '❤️',
+            'reacted_at': '2025-01-15T10:15:00Z',
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('story_reactions', builder);
 
       final reactions = await repository.getStoryReactions('story-1');
@@ -163,10 +156,7 @@ void main() {
       final builder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('stories', builder);
 
-      await expectLater(
-        repository.archiveExpiredStories(),
-        completes,
-      );
+      await expectLater(repository.archiveExpiredStories(), completes);
     });
 
     test('getStories returns empty list on error', () async {
@@ -229,10 +219,7 @@ void main() {
         (i) => repository.viewStory('story-1', 'user-$i'),
       );
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
   });
 }

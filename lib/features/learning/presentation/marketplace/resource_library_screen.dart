@@ -41,7 +41,8 @@ class ResourceLibraryScreen extends ConsumerWidget {
           data: (resources) {
             if (resources.isEmpty) {
               return const Center(
-                  child: Text('No resources shared yet. Be the first!'));
+                child: Text('No resources shared yet. Be the first!'),
+              );
             }
             return ListView.builder(
               padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
@@ -60,7 +61,10 @@ class ResourceLibraryScreen extends ConsumerWidget {
   }
 
   Widget _buildResourceCard(
-      BuildContext context, WidgetRef ref, LearningResource resource) {
+    BuildContext context,
+    WidgetRef ref,
+    LearningResource resource,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -79,24 +83,33 @@ class ResourceLibraryScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(resource.title,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(resource.subject,
-                    style:
-                        const TextStyle(color: Colors.white54, fontSize: 11)),
+                Text(
+                  resource.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  resource.subject,
+                  style: const TextStyle(color: Colors.white54, fontSize: 11),
+                ),
                 if (resource.description != null)
-                  Text(resource.description!,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          const TextStyle(color: Colors.white38, fontSize: 12)),
+                  Text(
+                    resource.description!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.white38, fontSize: 12),
+                  ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(LucideIcons.externalLink,
-                size: 18, color: Colors.white54),
+            icon: const Icon(
+              LucideIcons.externalLink,
+              size: 18,
+              color: Colors.white54,
+            ),
             onPressed: () {
               if (resource.fileUrl != null) {
                 launchUrl(Uri.parse(resource.fileUrl!));
@@ -118,37 +131,47 @@ class ResourceLibraryScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title:
-            const Text('Share Resource', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Share Resource',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-                controller: titleC,
-                decoration: const InputDecoration(
-                    hintText: 'Title (e.g., Physics Summary)'),
-                style: const TextStyle(color: Colors.white)),
+              controller: titleC,
+              decoration: const InputDecoration(
+                hintText: 'Title (e.g., Physics Summary)',
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: subjectC,
-                decoration: const InputDecoration(hintText: 'Subject'),
-                style: const TextStyle(color: Colors.white)),
+              controller: subjectC,
+              decoration: const InputDecoration(hintText: 'Subject'),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: urlC,
-                decoration:
-                    const InputDecoration(hintText: 'Link (PDF or Drive)'),
-                style: const TextStyle(color: Colors.white)),
+              controller: urlC,
+              decoration: const InputDecoration(
+                hintText: 'Link (PDF or Drive)',
+              ),
+              style: const TextStyle(color: Colors.white),
+            ),
             TextField(
-                controller: descC,
-                decoration:
-                    const InputDecoration(hintText: 'Optional description'),
-                style: const TextStyle(color: Colors.white),
-                maxLines: 2),
+              controller: descC,
+              decoration: const InputDecoration(
+                hintText: 'Optional description',
+              ),
+              style: const TextStyle(color: Colors.white),
+              maxLines: 2,
+            ),
           ],
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               final user = ref.read(currentUserProvider);

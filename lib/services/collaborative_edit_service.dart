@@ -20,10 +20,7 @@ class CollaborativeEditService {
   late DocumentVersion _currentSharedVersion;
 
   /// Creates a [CollaborativeEditService] instance.
-  CollaborativeEditService({
-    required this.userId,
-    required this.documentId,
-  }) {
+  CollaborativeEditService({required this.userId, required this.documentId}) {
     _currentSharedVersion = DocumentVersion(
       version: 0,
       userId: userId,
@@ -105,15 +102,12 @@ class CollaborativeEditService {
     for (final edit in edits) {
       // Apply offset transformations
       if (edit.deletedText.isNotEmpty) {
-        content = content.replaceFirst(
-          edit.deletedText,
-          '',
-          edit.offset,
-        );
+        content = content.replaceFirst(edit.deletedText, '', edit.offset);
       }
 
       if (edit.insertedText.isNotEmpty) {
-        content = content.substring(0, edit.offset) +
+        content =
+            content.substring(0, edit.offset) +
             edit.insertedText +
             content.substring(edit.offset);
       }
@@ -133,12 +127,14 @@ class CollaborativeEditService {
       for (final remoteEdit in remoteEdits) {
         // Check if edits overlap
         if (_editsOverlap(localEdit, remoteEdit)) {
-          conflicts.add(EditConflict(
-            localEdit: localEdit,
-            remoteEdit: remoteEdit,
-            overlapStart: _getOverlapStart(localEdit, remoteEdit),
-            overlapEnd: _getOverlapEnd(localEdit, remoteEdit),
-          ));
+          conflicts.add(
+            EditConflict(
+              localEdit: localEdit,
+              remoteEdit: remoteEdit,
+              overlapStart: _getOverlapStart(localEdit, remoteEdit),
+              overlapEnd: _getOverlapEnd(localEdit, remoteEdit),
+            ),
+          );
         }
       }
     }
@@ -159,8 +155,8 @@ class CollaborativeEditService {
       // In production, use proper CRDT (Yjs, Automerge)
       final winner =
           conflict.localEdit.timestamp.isAfter(conflict.remoteEdit.timestamp)
-              ? conflict.localEdit
-              : conflict.remoteEdit;
+          ? conflict.localEdit
+          : conflict.remoteEdit;
 
       resolvedEdits.add(winner);
     }
@@ -258,27 +254,27 @@ class EditEvent {
 
   /// Converts the [EditEvent] to a JSON map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'userId': userId,
-        'localVersion': localVersion,
-        'timestamp': timestamp.toIso8601String(),
-        'offset': offset,
-        'deletedText': deletedText,
-        'insertedText': insertedText,
-        'previousVersionHash': previousVersionHash,
-      };
+    'id': id,
+    'userId': userId,
+    'localVersion': localVersion,
+    'timestamp': timestamp.toIso8601String(),
+    'offset': offset,
+    'deletedText': deletedText,
+    'insertedText': insertedText,
+    'previousVersionHash': previousVersionHash,
+  };
 
   /// Creates an [EditEvent] from a JSON map.
   factory EditEvent.fromJson(Map<String, dynamic> json) => EditEvent(
-        id: json['id'] as String,
-        userId: json['userId'] as String,
-        localVersion: json['localVersion'] as int,
-        timestamp: DateTime.parse(json['timestamp'] as String),
-        offset: json['offset'] as int,
-        deletedText: json['deletedText'] as String,
-        insertedText: json['insertedText'] as String,
-        previousVersionHash: json['previousVersionHash'] as String,
-      );
+    id: json['id'] as String,
+    userId: json['userId'] as String,
+    localVersion: json['localVersion'] as int,
+    timestamp: DateTime.parse(json['timestamp'] as String),
+    offset: json['offset'] as int,
+    deletedText: json['deletedText'] as String,
+    insertedText: json['insertedText'] as String,
+    previousVersionHash: json['previousVersionHash'] as String,
+  );
 }
 
 /// Represents a specific version of a document.

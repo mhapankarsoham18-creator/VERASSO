@@ -40,10 +40,7 @@ class _FadeInUpAnimationState extends State<_FadeInUpAnimation>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _opacity,
-      child: SlideTransition(
-        position: _offset,
-        child: widget.child,
-      ),
+      child: SlideTransition(position: _offset, child: widget.child),
     );
   }
 
@@ -60,15 +57,14 @@ class _FadeInUpAnimationState extends State<_FadeInUpAnimation>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-    _offset = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
+    _opacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _offset = Tween<Offset>(
+      begin: const Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     _controller.forward();
   }
 }
@@ -102,12 +98,17 @@ class _ScreenLockOverlayState extends ConsumerState<ScreenLockOverlay> {
                             GlassContainer(
                               width: 320,
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 40, horizontal: 20),
+                                vertical: 40,
+                                horizontal: 20,
+                              ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(LucideIcons.lock,
-                                      size: 64, color: Colors.orange),
+                                  const Icon(
+                                    LucideIcons.lock,
+                                    size: 64,
+                                    color: Colors.orange,
+                                  ),
                                   const SizedBox(height: 24),
                                   const Text(
                                     'Verasso is Locked',
@@ -125,26 +126,30 @@ class _ScreenLockOverlayState extends ConsumerState<ScreenLockOverlay> {
                                   ),
                                   const SizedBox(height: 40),
                                   ElevatedButton.icon(
-                                    onPressed:
-                                        _isAuthenticating ? null : _tryUnlock,
+                                    onPressed: _isAuthenticating
+                                        ? null
+                                        : _tryUnlock,
                                     icon: const Icon(LucideIcons.fingerprint),
                                     label: const Text('Unlock with Biometrics'),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.orange,
                                       foregroundColor: Colors.white,
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 12),
+                                        horizontal: 24,
+                                        vertical: 12,
+                                      ),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 16),
                                   TextButton(
                                     onPressed: _signOut,
-                                    child: const Text('Sign Out',
-                                        style:
-                                            TextStyle(color: Colors.redAccent)),
+                                    child: const Text(
+                                      'Sign Out',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -186,8 +191,10 @@ class _ScreenLockOverlayState extends ConsumerState<ScreenLockOverlay> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content:
-                    Text('Biometric authentication not available or enabled.')),
+              content: Text(
+                'Biometric authentication not available or enabled.',
+              ),
+            ),
           );
         }
       }

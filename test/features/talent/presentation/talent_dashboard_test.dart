@@ -47,18 +47,21 @@ void main() {
     mockProfileRepo = MockProfileRepository();
     mockUser = DomainAuthUser(id: 'u1', email: 'u1@example.com');
 
-    mockTalentRepo.getTalentsStub =
-        ({limit = 20, offset = 0}) async => [testTalent];
+    mockTalentRepo.getTalentsStub = ({limit = 20, offset = 0}) async => [
+      testTalent,
+    ];
     mockJobRepo.getJobRequestsStub = ({limit = 20, offset = 0}) async => [];
   });
 
   testWidgets('localization works', (tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      locale: Locale('en'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(),
-    ));
+    await tester.pumpWidget(
+      const MaterialApp(
+        locale: Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(),
+      ),
+    );
     await tester.pump();
   });
 
@@ -82,8 +85,9 @@ void main() {
   }
 
   group('TalentDashboard Widget Tests', () {
-    testWidgets('renders TalentDashboard and shows Talent tab by default',
-        (tester) async {
+    testWidgets('renders TalentDashboard and shows Talent tab by default', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTalentDashboard());
 
       for (int i = 0; i < 5; i++) {

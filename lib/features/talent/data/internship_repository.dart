@@ -31,7 +31,8 @@ class InternshipRepository {
   // 2. Hire a Project Team (Create Contract)
   /// Fetches contracts associated with a specific project.
   Future<List<InternshipContract>> getContractsForProject(
-      String projectId) async {
+    String projectId,
+  ) async {
     try {
       final response = await _client
           .from('internship_contracts')

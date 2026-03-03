@@ -45,32 +45,31 @@ void main() {
       });
 
       test(
-          'returns secondaryMatchWeight for partial match (tag contains interest)',
-          () {
-        final result = WeightedTagScorer.score(
-          itemTags: ['flutter dev'],
-          userInterests: ['flutter'],
-        );
-        // 'flutter dev' contains 'flutter' → partial match
-        expect(result, WeightedTagScorer.secondaryMatchWeight);
-      });
+        'returns secondaryMatchWeight for partial match (tag contains interest)',
+        () {
+          final result = WeightedTagScorer.score(
+            itemTags: ['flutter dev'],
+            userInterests: ['flutter'],
+          );
+          // 'flutter dev' contains 'flutter' → partial match
+          expect(result, WeightedTagScorer.secondaryMatchWeight);
+        },
+      );
 
       test(
-          'returns secondaryMatchWeight for partial match (interest contains tag)',
-          () {
-        final result = WeightedTagScorer.score(
-          itemTags: ['ai'],
-          userInterests: ['ai research'],
-        );
-        // 'ai research' contains 'ai' → partial match
-        expect(result, WeightedTagScorer.secondaryMatchWeight);
-      });
+        'returns secondaryMatchWeight for partial match (interest contains tag)',
+        () {
+          final result = WeightedTagScorer.score(
+            itemTags: ['ai'],
+            userInterests: ['ai research'],
+          );
+          // 'ai research' contains 'ai' → partial match
+          expect(result, WeightedTagScorer.secondaryMatchWeight);
+        },
+      );
 
       test('returns 0 when both lists are empty', () {
-        final result = WeightedTagScorer.score(
-          itemTags: [],
-          userInterests: [],
-        );
+        final result = WeightedTagScorer.score(itemTags: [], userInterests: []);
         expect(result, 0.0);
       });
 

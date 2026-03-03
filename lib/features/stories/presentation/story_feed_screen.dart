@@ -82,21 +82,23 @@ class _StoryFeedScreenState extends ConsumerState<StoryFeedScreen> {
           });
 
           return _buildStoryCircle(
-            username: firstStory.username ?? 'Unknown',
-            avatarUrl: firstStory.avatarUrl,
-            hasNewStory: hasNewStory,
-            storyCount: userStories.length,
-            onTap: () => _openStoryViewer(userId, 0),
-          )
+                username: firstStory.username ?? 'Unknown',
+                avatarUrl: firstStory.avatarUrl,
+                hasNewStory: hasNewStory,
+                storyCount: userStories.length,
+                onTap: () => _openStoryViewer(userId, 0),
+              )
               .animate()
               .fadeIn(
-                  delay: (index * 50).ms,
-                  duration: DesignSystem.durationMedium,
-                  curve: DesignSystem.easingStandard)
+                delay: (index * 50).ms,
+                duration: DesignSystem.durationMedium,
+                curve: DesignSystem.easingStandard,
+              )
               .scale(
-                  begin: const Offset(0.8, 0.8),
-                  end: const Offset(1, 1),
-                  curve: DesignSystem.easingStandard);
+                begin: const Offset(0.8, 0.8),
+                end: const Offset(1, 1),
+                curve: DesignSystem.easingStandard,
+              );
         },
       ),
     );
@@ -312,9 +314,9 @@ class _StoryFeedScreenState extends ConsumerState<StoryFeedScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading stories: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading stories: $e')));
       }
     }
   }
@@ -322,9 +324,7 @@ class _StoryFeedScreenState extends ConsumerState<StoryFeedScreen> {
   void _openStoryCreation() async {
     final result = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(
-        builder: (context) => const StoryCreationScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const StoryCreationScreen()),
     );
 
     if (result == true) {
@@ -351,9 +351,11 @@ class _StoryFeedScreenState extends ConsumerState<StoryFeedScreen> {
 
     // Mark current new stories as viewed
     final newIds = userStories
-        .where((s) =>
-            DateTime.now().difference(s.createdAt).inHours < 24 &&
-            !_viewedStoryIds.contains(s.id))
+        .where(
+          (s) =>
+              DateTime.now().difference(s.createdAt).inHours < 24 &&
+              !_viewedStoryIds.contains(s.id),
+        )
         .map((s) => s.id)
         .toList();
 

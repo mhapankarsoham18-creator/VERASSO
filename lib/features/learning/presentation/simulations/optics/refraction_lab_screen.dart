@@ -45,7 +45,11 @@ class RefractionPainter extends CustomPainter {
     // Draw Normal
     paint.color = Colors.white24;
     Util.drawDashedLine(
-        canvas, Offset(center.dx, 0), Offset(center.dx, size.height), paint);
+      canvas,
+      Offset(center.dx, 0),
+      Offset(center.dx, size.height),
+      paint,
+    );
 
     // Calculate Angles (in radians)
     final theta1 = angleIncidence * math.pi / 180;
@@ -68,8 +72,10 @@ class RefractionPainter extends CustomPainter {
     paint.color = Colors.yellowAccent;
     paint.strokeWidth = 4;
     final incidentLen = math.min(size.width, size.height) * 0.4;
-    final incidentStart = Offset(center.dx - incidentLen * math.sin(theta1),
-        center.dy - incidentLen * math.cos(theta1));
+    final incidentStart = Offset(
+      center.dx - incidentLen * math.sin(theta1),
+      center.dy - incidentLen * math.cos(theta1),
+    );
     canvas.drawLine(incidentStart, center, paint);
 
     // Draw Refracted/Reflected Ray
@@ -81,8 +87,10 @@ class RefractionPainter extends CustomPainter {
     double dy = totalInternalReflection ? -math.cos(theta2) : math.cos(theta2);
     double dx = math.sin(theta2);
 
-    final refractedEnd =
-        Offset(center.dx + refractedLen * dx, center.dy + refractedLen * dy);
+    final refractedEnd = Offset(
+      center.dx + refractedLen * dx,
+      center.dy + refractedLen * dy,
+    );
     canvas.drawLine(center, refractedEnd, paint);
   }
 
@@ -93,14 +101,23 @@ class RefractionPainter extends CustomPainter {
 /// Utility class for drawing helper functions in the optics simulation.
 class Util {
   /// Draws a vertical dashed line on the [canvas].
-  static void drawDashedLine(Canvas canvas, Offset p1, Offset p2, Paint paint,
-      {double dashWidth = 5, double dashSpace = 5}) {
+  static void drawDashedLine(
+    Canvas canvas,
+    Offset p1,
+    Offset p2,
+    Paint paint, {
+    double dashWidth = 5,
+    double dashSpace = 5,
+  }) {
     // Distance used implicitly in calculation
     double startY = p1.dy;
     double currentY = startY;
     while (currentY < p2.dy) {
       canvas.drawLine(
-          Offset(p1.dx, currentY), Offset(p1.dx, currentY + dashWidth), paint);
+        Offset(p1.dx, currentY),
+        Offset(p1.dx, currentY + dashWidth),
+        paint,
+      );
       currentY += dashWidth + dashSpace;
     }
   }
@@ -117,15 +134,19 @@ class _RefractionLabScreenState extends State<RefractionLabScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Light: Refraction (Snell\'s Law)'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Light: Refraction (Snell\'s Law)'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: Column(
           children: [
             Expanded(
               child: CustomPaint(
                 painter: RefractionPainter(
-                    n1: _n1, n2: _n2, angleIncidence: _angleIncidence),
+                  n1: _n1,
+                  n2: _n2,
+                  angleIncidence: _angleIncidence,
+                ),
                 child: Container(),
               ),
             ),
@@ -136,45 +157,72 @@ class _RefractionLabScreenState extends State<RefractionLabScreen> {
                 child: Column(
                   children: [
                     _buildControlSlider(
-                        'Medium 1 Index (n1)', _n1, 1.0, 2.5, (v) => _n1 = v),
+                      'Medium 1 Index (n1)',
+                      _n1,
+                      1.0,
+                      2.5,
+                      (v) => _n1 = v,
+                    ),
                     _buildControlSlider(
-                        'Medium 2 Index (n2)', _n2, 1.0, 2.5, (v) => _n2 = v),
-                    _buildControlSlider('Incidence Angle', _angleIncidence, 0,
-                        89, (v) => _angleIncidence = v),
+                      'Medium 2 Index (n2)',
+                      _n2,
+                      1.0,
+                      2.5,
+                      (v) => _n2 = v,
+                    ),
+                    _buildControlSlider(
+                      'Incidence Angle',
+                      _angleIncidence,
+                      0,
+                      89,
+                      (v) => _angleIncidence = v,
+                    ),
                     const SizedBox(height: 10),
                     Text(
                       'Critical Angle: ${(_n2 < _n1) ? '${(math.asin(_n2 / _n1) * 180 / math.pi).toStringAsFixed(1)}°' : 'None'}',
                       style: const TextStyle(
-                          color: Colors.white70, fontStyle: FontStyle.italic),
-                    )
+                        color: Colors.white70,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildControlSlider(String label, double value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildControlSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(label, style: const TextStyle(color: Colors.white70)),
-            Text(value.toStringAsFixed(2),
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
+            Text(
+              value.toStringAsFixed(2),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         Slider(
-            value: value,
-            min: min,
-            max: max,
-            onChanged: (v) => setState(() => onChanged(v))),
+          value: value,
+          min: min,
+          max: max,
+          onChanged: (v) => setState(() => onChanged(v)),
+        ),
       ],
     );
   }

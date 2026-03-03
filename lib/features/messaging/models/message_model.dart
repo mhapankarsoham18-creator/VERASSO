@@ -143,10 +143,7 @@ class Message {
   }
 
   /// Creates a copy of [Message] with optional field overrides.
-  Message copyWith({
-    MessageStatus? status,
-    DateTime? readAt,
-  }) {
+  Message copyWith({MessageStatus? status, DateTime? readAt}) {
     return Message(
       id: id,
       conversationId: conversationId,

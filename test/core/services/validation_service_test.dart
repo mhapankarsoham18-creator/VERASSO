@@ -34,9 +34,13 @@ void main() {
         expect(ValidationService.validatePassword(''), isNotNull);
         expect(ValidationService.validatePassword('short'), isNotNull);
         expect(
-            ValidationService.validatePassword('nouppercase123!'), isNotNull);
+          ValidationService.validatePassword('nouppercase123!'),
+          isNotNull,
+        );
         expect(
-            ValidationService.validatePassword('NOLOWERCASE123!'), isNotNull);
+          ValidationService.validatePassword('NOLOWERCASE123!'),
+          isNotNull,
+        );
       });
 
       test('password without special char returns error', () {
@@ -56,9 +60,13 @@ void main() {
       test('invalid username returns error message', () {
         expect(ValidationService.validateUsername(''), isNotNull);
         expect(
-            ValidationService.validateUsername('ab'), isNotNull); // Too short
-        expect(ValidationService.validateUsername('user@name'),
-            isNotNull); // Invalid chars
+          ValidationService.validateUsername('ab'),
+          isNotNull,
+        ); // Too short
+        expect(
+          ValidationService.validateUsername('user@name'),
+          isNotNull,
+        ); // Invalid chars
       });
 
       test('username starting with number returns error', () {

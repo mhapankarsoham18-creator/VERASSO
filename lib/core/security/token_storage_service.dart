@@ -19,7 +19,7 @@ class TokenStorageService {
 
   /// Creates a [TokenStorageService]. If [storage] is null, uses a default [FlutterSecureStorage].
   TokenStorageService({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   /// Clear all stored tokens and session data
   /// Call this when user logs out or session expires
@@ -40,8 +40,9 @@ class TokenStorageService {
   Future<Map<String, String?>> getAllStoredData() async {
     try {
       return {
-        'hasRefreshToken':
-            (await _storage.read(key: _refreshTokenKey)) != null ? 'YES' : 'NO',
+        'hasRefreshToken': (await _storage.read(key: _refreshTokenKey)) != null
+            ? 'YES'
+            : 'NO',
         'sessionExpiry': await _storage.read(key: _sessionExpiryKey),
         'userId': await _storage.read(key: _userIdKey),
         'email': await _storage.read(key: _emailKey),

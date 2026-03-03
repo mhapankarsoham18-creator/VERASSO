@@ -45,7 +45,8 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
     _ComplianceFiling(
       form: 'MGT-7',
       title: 'Annual Return',
-      description: 'Must be filed within 60 days from AGM. Contains details of '
+      description:
+          'Must be filed within 60 days from AGM. Contains details of '
           'shareholders, directors, and share capital.',
       dueDate: 'Within 60 days of AGM',
       authority: 'ROC',
@@ -55,7 +56,8 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
     _ComplianceFiling(
       form: 'AOC-4',
       title: 'Financial Statements',
-      description: 'Filing of Balance Sheet, P&L, Cash Flow with ROC within '
+      description:
+          'Filing of Balance Sheet, P&L, Cash Flow with ROC within '
           '30 days of AGM.',
       dueDate: 'Within 30 days of AGM',
       authority: 'ROC',
@@ -65,7 +67,8 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
     _ComplianceFiling(
       form: 'DIR-12',
       title: 'Change in Directors',
-      description: 'To be filed within 30 days of appointment, resignation, '
+      description:
+          'To be filed within 30 days of appointment, resignation, '
           'or change in designation of a director.',
       dueDate: 'Within 30 days of change',
       authority: 'ROC',
@@ -121,7 +124,8 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
     _ComplianceFiling(
       form: 'SAST Reg. 29',
       title: 'Substantial Acquisition Disclosure',
-      description: 'Any person acquiring 5%+ shares must disclose to the stock '
+      description:
+          'Any person acquiring 5%+ shares must disclose to the stock '
           'exchange within 2 working days.',
       dueDate: '2 working days of acquisition',
       authority: 'SEBI (SAST)',
@@ -131,7 +135,8 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
     _ComplianceFiling(
       form: 'PIT Reg. 7',
       title: 'Insider Trading Disclosure',
-      description: 'Designated persons must disclose trades exceeding ₹10 lakh '
+      description:
+          'Designated persons must disclose trades exceeding ₹10 lakh '
           'within 2 trading days.',
       dueDate: '2 trading days of trade',
       authority: 'SEBI (PIT)',
@@ -144,8 +149,10 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
   Widget build(BuildContext context) {
     final rocPercent = _completionPercent(_rocFilings);
     final sebiPercent = _completionPercent(_sebiFilings);
-    final overallPercent =
-        _completionPercent([..._rocFilings, ..._sebiFilings]);
+    final overallPercent = _completionPercent([
+      ..._rocFilings,
+      ..._sebiFilings,
+    ]);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -157,11 +164,13 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
           indicatorColor: Colors.indigoAccent,
           tabs: [
             Tab(
-                text:
-                    'ROC (${_completedCount(_rocFilings)}/${_rocFilings.length})'),
+              text:
+                  'ROC (${_completedCount(_rocFilings)}/${_rocFilings.length})',
+            ),
             Tab(
-                text:
-                    'SEBI (${_completedCount(_sebiFilings)}/${_sebiFilings.length})'),
+              text:
+                  'SEBI (${_completedCount(_sebiFilings)}/${_sebiFilings.length})',
+            ),
           ],
         ),
       ),
@@ -180,17 +189,23 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Overall Compliance',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        Text('${overallPercent.toStringAsFixed(0)}%',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: overallPercent == 100
-                                    ? Colors.greenAccent
-                                    : Colors.amber)),
+                        const Text(
+                          'Overall Compliance',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          '${overallPercent.toStringAsFixed(0)}%',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: overallPercent == 100
+                                ? Colors.greenAccent
+                                : Colors.amber,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -212,20 +227,21 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _MiniStat(
-                            label: 'ROC',
-                            value: '${rocPercent.toStringAsFixed(0)}%',
-                            color: Colors.blueAccent),
+                          label: 'ROC',
+                          value: '${rocPercent.toStringAsFixed(0)}%',
+                          color: Colors.blueAccent,
+                        ),
                         _MiniStat(
-                            label: 'SEBI',
-                            value: '${sebiPercent.toStringAsFixed(0)}%',
-                            color: Colors.purpleAccent),
+                          label: 'SEBI',
+                          value: '${sebiPercent.toStringAsFixed(0)}%',
+                          color: Colors.purpleAccent,
+                        ),
                         _MiniStat(
-                            label: 'Total',
-                            value: '${_completedCount([
-                                  ..._rocFilings,
-                                  ..._sebiFilings
-                                ])}/${_rocFilings.length + _sebiFilings.length}',
-                            color: Colors.amber),
+                          label: 'Total',
+                          value:
+                              '${_completedCount([..._rocFilings, ..._sebiFilings])}/${_rocFilings.length + _sebiFilings.length}',
+                          color: Colors.amber,
+                        ),
                       ],
                     ),
                   ],
@@ -282,28 +298,39 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.indigoAccent.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(filing.form,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.indigoAccent)),
+                      child: Text(
+                        filing.form,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.indigoAccent,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(filing.authority,
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.white54)),
+                      child: Text(
+                        filing.authority,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.white54,
+                        ),
+                      ),
                     ),
                     const Spacer(),
                     Checkbox(
@@ -318,43 +345,59 @@ class _ComplianceTrackerScreenState extends State<ComplianceTrackerScreen>
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(filing.title,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        decoration: filing.isCompleted
-                            ? TextDecoration.lineThrough
-                            : null,
-                        color: filing.isCompleted
-                            ? Colors.white38
-                            : Colors.white)),
+                Text(
+                  filing.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    decoration: filing.isCompleted
+                        ? TextDecoration.lineThrough
+                        : null,
+                    color: filing.isCompleted ? Colors.white38 : Colors.white,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(filing.description,
-                    style:
-                        const TextStyle(fontSize: 12, color: Colors.white54)),
+                Text(
+                  filing.description,
+                  style: const TextStyle(fontSize: 12, color: Colors.white54),
+                ),
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(LucideIcons.clock,
-                        size: 14, color: Colors.amber),
+                    const Icon(
+                      LucideIcons.clock,
+                      size: 14,
+                      color: Colors.amber,
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
-                      child: Text(filing.dueDate,
-                          style: const TextStyle(
-                              fontSize: 11, color: Colors.amber)),
+                      child: Text(
+                        filing.dueDate,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.amber,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(LucideIcons.alertTriangle,
-                        size: 14, color: Colors.redAccent),
+                    const Icon(
+                      LucideIcons.alertTriangle,
+                      size: 14,
+                      color: Colors.redAccent,
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
-                      child: Text('Penalty: ${filing.penalty}',
-                          style: const TextStyle(
-                              fontSize: 11, color: Colors.redAccent)),
+                      child: Text(
+                        'Penalty: ${filing.penalty}',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.redAccent,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -378,19 +421,29 @@ class _MiniStat extends StatelessWidget {
   final String value;
   final Color color;
 
-  const _MiniStat(
-      {required this.label, required this.value, required this.color});
+  const _MiniStat({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 11, color: Colors.white54)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         const SizedBox(height: 4),
-        Text(value,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: color, fontSize: 14)),
+        Text(
+          value,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: color,
+            fontSize: 14,
+          ),
+        ),
       ],
     );
   }

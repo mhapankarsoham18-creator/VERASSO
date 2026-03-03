@@ -2,29 +2,34 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Performance Profiling', () {
-    test('cold app startup from launch to UI interactive < 2 seconds', () async {
-      // Timeline:
-      // 0ms: App launch
-      // 50-200ms: Dart VM initialization
-      // 200-400ms: Flutter engine startup
-      // 400-600ms: App initialization (auth, settings)
-      // 600-800ms: First frame paint
-      // 800-1200ms: Home screen fully interactive
-      // Target: < 2000ms total
+    test(
+      'cold app startup from launch to UI interactive < 2 seconds',
+      () async {
+        // Timeline:
+        // 0ms: App launch
+        // 50-200ms: Dart VM initialization
+        // 200-400ms: Flutter engine startup
+        // 400-600ms: App initialization (auth, settings)
+        // 600-800ms: First frame paint
+        // 800-1200ms: Home screen fully interactive
+        // Target: < 2000ms total
 
-      const coldStartTarget = 2000; // milliseconds
-      expect(coldStartTarget, greaterThan(0));
-    });
+        const coldStartTarget = 2000; // milliseconds
+        expect(coldStartTarget, greaterThan(0));
+      },
+    );
 
-    test('warm app startup (already in memory) < 500ms to interactive',
-        () async {
-      // App already in memory
-      // Just resume from pause
-      // Target: < 500ms
+    test(
+      'warm app startup (already in memory) < 500ms to interactive',
+      () async {
+        // App already in memory
+        // Just resume from pause
+        // Target: < 500ms
 
-      const warmStartTarget = 500;
-      expect(warmStartTarget, lessThan(1000));
-    });
+        const warmStartTarget = 500;
+        expect(warmStartTarget, lessThan(1000));
+      },
+    );
 
     test('first frame paint within 100ms of startup', () async {
       // Flutter should paint first frame quickly

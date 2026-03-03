@@ -21,9 +21,7 @@ import '../domain/mfa_models.dart';
 /// Provider for the [AuthRepository] instance.
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   // Use explicit dependencies to avoid singleton issues in tests
-  return AuthRepository(
-    client: SupabaseService.client,
-  );
+  return AuthRepository(client: SupabaseService.client);
 });
 
 /// Repository that coordinates user authentication and session management.
@@ -41,12 +39,11 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
     AuditLogService? auditLog,
     RateLimitService? rateLimitService,
     TokenStorageService? tokenStorage,
-  })  : _client = client ?? Supabase.instance.client,
-        _secureAuth = secureAuth ?? SecurityInitializer.authService,
-        _auditLog = auditLog ?? AuditLogService(client: client),
-        _rateLimitService =
-            rateLimitService ?? RateLimitService(client: client),
-        _tokenStorage = tokenStorage ?? TokenStorageService();
+  }) : _client = client ?? Supabase.instance.client,
+       _secureAuth = secureAuth ?? SecurityInitializer.authService,
+       _auditLog = auditLog ?? AuditLogService(client: client),
+       _rateLimitService = rateLimitService ?? RateLimitService(client: client),
+       _tokenStorage = tokenStorage ?? TokenStorageService();
 
   /// Stream of authentication state changes.
   @override
@@ -69,14 +66,19 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
 
   /// Challenges the user with MFA and verifies the provided code.
   @override
-  Future<void> challengeAndVerify(
-      {required String factorId, required String code}) async {
+  Future<void> challengeAndVerify({
+    required String factorId,
+    required String code,
+  }) async {
     await handleError(
       context: 'AuthRepository.challengeAndVerify',
       operation: () async {
         final challenge = await _client.auth.mfa.challenge(factorId: factorId);
-        await _client.auth.mfa
-            .verify(factorId: factorId, challengeId: challenge.id, code: code);
+        await _client.auth.mfa.verify(
+          factorId: factorId,
+          challengeId: challenge.id,
+          code: code,
+        );
       },
       reportToSentry: true,
     );
@@ -126,8 +128,9 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
     return await handleError(
       context: 'AuthRepository.enrollMFA',
       operation: () async {
-        final response =
-            await _client.auth.mfa.enroll(factorType: supabase.FactorType.totp);
+        final response = await _client.auth.mfa.enroll(
+          factorType: supabase.FactorType.totp,
+        );
         return MfaEnrollment(
           id: response.id,
           type: response.type.name,
@@ -174,10 +177,13 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
     try {
       // 1. --- SERVER-SIDE BRUTE FORCE PROTECTION ---
       // This calls a SECURITY DEFINER function to track attempts even before Supabase Auth sees them.
-      final allowed = await _client.rpc('track_failed_login', params: {
-        'p_email': email,
-        'p_ip_address': await NetworkUtil.getIpAddress(),
-      });
+      final allowed = await _client.rpc(
+        'track_failed_login',
+        params: {
+          'p_email': email,
+          'p_ip_address': await NetworkUtil.getIpAddress(),
+        },
+      );
 
       if (allowed == false) {
         throw const AppAuthException(
@@ -203,24 +209,30 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
       );
 
       // On Success: Clear failed attempts on server
-      await _client.rpc('clear_failed_login_attempts', params: {
-        'p_email': email,
-        'p_ip_address': await NetworkUtil.getIpAddress(),
-      });
+      await _client.rpc(
+        'clear_failed_login_attempts',
+        params: {
+          'p_email': email,
+          'p_ip_address': await NetworkUtil.getIpAddress(),
+        },
+      );
 
       // Save refresh token for session management
       if (response.session?.accessToken != null) {
         try {
           if (response.session?.refreshToken != null) {
-            await _tokenStorage
-                .saveRefreshToken(response.session!.refreshToken!);
+            await _tokenStorage.saveRefreshToken(
+              response.session!.refreshToken!,
+            );
           }
           await _tokenStorage.saveSessionExpiry(
             DateTime.now().add(const Duration(hours: 1)),
           );
         } catch (tokenError) {
-          AppLogger.warning('Failed to save tokens after signin',
-              error: tokenError);
+          AppLogger.warning(
+            'Failed to save tokens after signin',
+            error: tokenError,
+          );
         }
       }
 
@@ -232,8 +244,9 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
       );
 
       return AuthResult(
-        user:
-            response.user != null ? _mapToDomainAuthUser(response.user!) : null,
+        user: response.user != null
+            ? _mapToDomainAuthUser(response.user!)
+            : null,
         session: response.session != null
             ? _mapToDomainAuthSession(response.session!)
             : null,
@@ -302,9 +315,7 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
   // --- OTP Methods ---
 
   /// Requests an OTP for the given phone number.
-  Future<void> signInWithPhone({
-    required String phone,
-  }) async {
+  Future<void> signInWithPhone({required String phone}) async {
     await handleError(
       context: 'AuthRepository.signInWithPhone',
       operation: () => _client.auth.signInWithOtp(phone: phone),
@@ -315,10 +326,7 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
   /// Signs out the current user and clears stored session tokens.
   @override
   Future<void> signOut() async {
-    SentryService.addBreadcrumb(
-      message: 'User signing out',
-      category: 'auth',
-    );
+    SentryService.addBreadcrumb(message: 'User signing out', category: 'auth');
 
     try {
       // Clear stored tokens before signing out
@@ -368,19 +376,23 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
       // 2.1 — Add password strength validation on signup
       if (password.length < 8) {
         throw const AppAuthException(
-            'Password must be at least 8 characters long');
+          'Password must be at least 8 characters long',
+        );
       }
       if (!password.contains(RegExp(r'[A-Z]'))) {
         throw const AppAuthException(
-            'Password must contain at least one uppercase letter');
+          'Password must contain at least one uppercase letter',
+        );
       }
       if (!password.contains(RegExp(r'[0-9]'))) {
         throw const AppAuthException(
-            'Password must contain at least one number');
+          'Password must contain at least one number',
+        );
       }
       if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
         throw const AppAuthException(
-            'Password must contain at least one special character');
+          'Password must contain at least one special character',
+        );
       }
 
       final response = await _secureAuth.signUpWithPassword(
@@ -395,8 +407,9 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
         try {
           // Extract refresh token from response
           if (response.session?.refreshToken != null) {
-            await _tokenStorage
-                .saveRefreshToken(response.session!.refreshToken!);
+            await _tokenStorage.saveRefreshToken(
+              response.session!.refreshToken!,
+            );
             AppLogger.info('Refresh token saved for signup user');
           }
 
@@ -405,8 +418,10 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
             DateTime.now().add(const Duration(hours: 1)),
           );
         } catch (tokenError) {
-          AppLogger.warning('Failed to save tokens after signup',
-              error: tokenError);
+          AppLogger.warning(
+            'Failed to save tokens after signup',
+            error: tokenError,
+          );
           // Don't throw - signup succeeded, token storage is optional fallback
         }
       }
@@ -420,8 +435,9 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
       );
 
       return AuthResult(
-        user:
-            response.user != null ? _mapToDomainAuthUser(response.user!) : null,
+        user: response.user != null
+            ? _mapToDomainAuthUser(response.user!)
+            : null,
         session: response.session != null
             ? _mapToDomainAuthSession(response.session!)
             : null,
@@ -464,24 +480,28 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
 
   /// Verifies an MFA challenge code.
   @override
-  Future<AuthResult?> verifyMFA(
-      {required String factorId,
-      required String challengeId,
-      required String code}) async {
+  Future<AuthResult?> verifyMFA({
+    required String factorId,
+    required String challengeId,
+    required String code,
+  }) async {
     return await handleError(
       context: 'AuthRepository.verifyMFA',
       operation: () async {
-        await _client.auth.mfa
-            .verify(factorId: factorId, challengeId: challengeId, code: code);
+        await _client.auth.mfa.verify(
+          factorId: factorId,
+          challengeId: challengeId,
+          code: code,
+        );
         // Supabase verify returns AuthMFAVerifyResponse which usually contains user/session
         // But the SDK type might be different. Let's assume it has typical response structure.
         // If SDK returns AuthMFAVerifyResponse and it has access_token, we can map it.
         // Actually, let's check if we can get the session from the client after verify.
         return AuthResult(
-            user: currentUser, // user should be updated in client
-            session:
-                null // we might not get session directly from this specific call return in all SDK versions, but client state updates
-            );
+          user: currentUser, // user should be updated in client
+          session:
+              null, // we might not get session directly from this specific call return in all SDK versions, but client state updates
+        );
         // Refinement: If verify returns a response with session, map it.
         // For now, return checks current state.
       },
@@ -547,22 +567,29 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
     );
   }
 
-  Future<void> _checkRateLimit(String action,
-      {int limit = 100, int window = 60}) async {
+  Future<void> _checkRateLimit(
+    String action, {
+    int limit = 100,
+    int window = 60,
+  }) async {
     final user = _client.auth.currentUser;
     if (user == null) return; // Can't limit anonymous here via RPC easily
 
     try {
-      final allowed = await _client.rpc('check_rate_limit', params: {
-        'p_user_id': user.id,
-        'p_action': action,
-        'p_limit': limit,
-        'p_window_seconds': window,
-      });
+      final allowed = await _client.rpc(
+        'check_rate_limit',
+        params: {
+          'p_user_id': user.id,
+          'p_action': action,
+          'p_limit': limit,
+          'p_window_seconds': window,
+        },
+      );
 
       if (allowed == false) {
         throw const AppAuthException(
-            'Rate limit exceeded. Please try again later.');
+          'Rate limit exceeded. Please try again later.',
+        );
       }
     } catch (e, stack) {
       // If function doesn't exist or fails, we log but maybe don't block unless strict
@@ -586,12 +613,15 @@ class AuthRepository with ErrorHandlerMixin implements AuthService {
       email: user.email,
       userMetadata: user.userMetadata ?? {},
       emailConfirmedAt: user.emailConfirmedAt,
-      factors: user.factors
-              ?.map((f) => DomainAuthFactor(
-                    id: f.id,
-                    status: f.status.name,
-                    type: f.factorType.name,
-                  ))
+      factors:
+          user.factors
+              ?.map(
+                (f) => DomainAuthFactor(
+                  id: f.id,
+                  status: f.status.name,
+                  type: f.factorType.name,
+                ),
+              )
               .toList() ??
           [],
     );

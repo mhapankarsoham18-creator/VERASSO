@@ -29,19 +29,24 @@ void main() {
     return ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(mockPrefs),
-        tokenStorageServiceProvider
-            .overrideWithValue(MockTokenStorageService()),
-        offlineSecurityServiceProvider
-            .overrideWithValue(MockOfflineSecurityService()),
-        offlineStorageServiceProvider
-            .overrideWithValue(MockOfflineStorageService()),
+        tokenStorageServiceProvider.overrideWithValue(
+          MockTokenStorageService(),
+        ),
+        offlineSecurityServiceProvider.overrideWithValue(
+          MockOfflineSecurityService(),
+        ),
+        offlineStorageServiceProvider.overrideWithValue(
+          MockOfflineStorageService(),
+        ),
         authRepositoryProvider.overrideWithValue(MockAuthRepository()),
         authStateProvider.overrideWith((ref) => Stream.value(null)),
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
-        biometricAuthServiceProvider
-            .overrideWith((ref) => MockBiometricAuthService()),
-        privacySettingsProvider
-            .overrideWith((ref) => PrivacySettingsNotifier(mockPrefs, ref)),
+        biometricAuthServiceProvider.overrideWith(
+          (ref) => MockBiometricAuthService(),
+        ),
+        privacySettingsProvider.overrideWith(
+          (ref) => PrivacySettingsNotifier(mockPrefs, ref),
+        ),
       ],
       child: MaterialApp(
         localizationsDelegates: [
@@ -50,9 +55,7 @@ void main() {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
-          Locale('en', ''),
-        ],
+        supportedLocales: [Locale('en', '')],
         home: AuthScreen(showResetView: showResetView),
       ),
     );
@@ -97,8 +100,10 @@ void main() {
       await tester.pump();
 
       expect(find.text('Use Master Password'), findsOneWidget);
-      expect(find.byType(TextField),
-          findsNWidgets(1)); // Only Email, Password is gone
+      expect(
+        find.byType(TextField),
+        findsNWidgets(1),
+      ); // Only Email, Password is gone
     });
 
     testWidgets('shows reset password view', (tester) async {
@@ -106,8 +111,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Reset Access'), findsOneWidget);
-      expect(find.text('Enter your email to re-establish neural link'),
-          findsOneWidget);
+      expect(
+        find.text('Enter your email to re-establish neural link'),
+        findsOneWidget,
+      );
     });
   });
 }

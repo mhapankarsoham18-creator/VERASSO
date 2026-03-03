@@ -51,8 +51,12 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
       ),
       body: LiquidBackground(
         child: SingleChildScrollView(
-          padding:
-              const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 40),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 40,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,22 +76,27 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const Text('Estimated Future Value',
-                        style: TextStyle(fontSize: 16, color: Colors.white70)),
+                    const Text(
+                      'Estimated Future Value',
+                      style: TextStyle(fontSize: 16, color: Colors.white70),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       '\$${totalAmount.toStringAsFixed(0)}',
                       style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                     if (adjustForInflation) ...[
                       const SizedBox(height: 8),
                       Text(
                         'Real Value: \$${(totalAmount / pow(1 + inflationRate / 100, years)).toStringAsFixed(0)}',
                         style: const TextStyle(
-                            fontSize: 16, color: Colors.greenAccent),
+                          fontSize: 16,
+                          color: Colors.greenAccent,
+                        ),
                       ),
                       const Text(
                         '(adjusted for inflation)',
@@ -118,10 +127,9 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
                         dotData: const FlDotData(show: false),
                         belowBarData: BarAreaData(
                           show: true,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.2),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.2),
                         ),
                       ),
                     ],
@@ -131,20 +139,42 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
               const SizedBox(height: 24),
 
               // Controls
-              _buildSlider('Initial Principal', principal, 0, 100000, 1000,
-                  (val) => setState(() => principal = val), '\$'),
               _buildSlider(
-                  'Monthly Contribution',
-                  monthlyContribution,
-                  0,
-                  5000,
-                  100,
-                  (val) => setState(() => monthlyContribution = val),
-                  '\$'),
-              _buildSlider('Expected Annual Rate', rate, 1, 30, 0.5,
-                  (val) => setState(() => rate = val), '%'),
-              _buildSlider('Time Period (Years)', years, 1, 50, 1,
-                  (val) => setState(() => years = val), ' yrs'),
+                'Initial Principal',
+                principal,
+                0,
+                100000,
+                1000,
+                (val) => setState(() => principal = val),
+                '\$',
+              ),
+              _buildSlider(
+                'Monthly Contribution',
+                monthlyContribution,
+                0,
+                5000,
+                100,
+                (val) => setState(() => monthlyContribution = val),
+                '\$',
+              ),
+              _buildSlider(
+                'Expected Annual Rate',
+                rate,
+                1,
+                30,
+                0.5,
+                (val) => setState(() => rate = val),
+                '%',
+              ),
+              _buildSlider(
+                'Time Period (Years)',
+                years,
+                1,
+                50,
+                1,
+                (val) => setState(() => years = val),
+                ' yrs',
+              ),
             ],
           ),
         ),
@@ -173,16 +203,24 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final completed =
-          await TutorialService.isTutorialCompleted(TutorialIds.roiSimulator);
+      final completed = await TutorialService.isTutorialCompleted(
+        TutorialIds.roiSimulator,
+      );
       if (!completed && mounted) {
         _showTutorial();
       }
     });
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      double step, Function(double) onChanged, String unit) {
+  Widget _buildSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    double step,
+    Function(double) onChanged,
+    String unit,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Column(
@@ -191,14 +229,18 @@ class _ROISimulatorState extends ConsumerState<ROISimulator> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label,
-                  style: const TextStyle(color: Colors.white70, fontSize: 14)),
+              Text(
+                label,
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
+              ),
               Text(
                 unit.startsWith('\$')
                     ? '\$${value.toStringAsFixed(0)}'
                     : '${value.toStringAsFixed(1)}$unit',
                 style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),

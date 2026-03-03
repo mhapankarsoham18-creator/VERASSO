@@ -18,7 +18,7 @@ class DoubtRepository {
 
   /// Creates a [DoubtRepository] instance.
   DoubtRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Submits a new doubt, optionally with an attached image.
   Future<void> askDoubt({
@@ -87,7 +87,8 @@ class DoubtRepository {
     try {
       await _client
           .from('doubts')
-          .update({'is_solved': true}).eq('id', doubtId);
+          .update({'is_solved': true})
+          .eq('id', doubtId);
     } catch (e, stack) {
       AppLogger.error('Mark doubt solved error', error: e);
       SentryService.captureException(e, stackTrace: stack);

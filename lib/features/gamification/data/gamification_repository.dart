@@ -17,7 +17,7 @@ class GamificationRepository {
 
   /// Creates a [GamificationRepository] with an optional [SupabaseClient].
   GamificationRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Retrieves the leaderboard data sorted by total XP.
   Future<List<UserStats>> getLeaderboard() async {
@@ -69,8 +69,9 @@ class GamificationRepository {
           .select('badge_id')
           .eq('user_id', userId);
 
-      final unlockedBadges =
-          (badgesResponse as List).map((e) => e['badge_id'] as String).toList();
+      final unlockedBadges = (badgesResponse as List)
+          .map((e) => e['badge_id'] as String)
+          .toList();
 
       final profile = response['profiles'] as Map<String, dynamic>?;
 
@@ -84,8 +85,9 @@ class GamificationRepository {
         unlockedBadges: unlockedBadges,
         currentStreak: response['current_streak'],
         longestStreak: response['longest_streak'],
-        subjectProgress:
-            Map<String, int>.from(response['subject_progress'] ?? {}),
+        subjectProgress: Map<String, int>.from(
+          response['subject_progress'] ?? {},
+        ),
         lastActive: DateTime.parse(response['last_active']),
       );
     } catch (e) {
@@ -109,7 +111,8 @@ class GamificationRepository {
       // Calculate difference in days
       final difference = DateTime(now.year, now.month, now.day)
           .difference(
-              DateTime(lastActive.year, lastActive.month, lastActive.day))
+            DateTime(lastActive.year, lastActive.month, lastActive.day),
+          )
           .inDays;
 
       int newStreak = stats.currentStreak;
@@ -130,11 +133,14 @@ class GamificationRepository {
         longestStreak = newStreak;
       }
 
-      await _client.from('user_stats').update({
-        'current_streak': newStreak,
-        'longest_streak': longestStreak,
-        'last_active': now.toIso8601String(),
-      }).eq('user_id', userId);
+      await _client
+          .from('user_stats')
+          .update({
+            'current_streak': newStreak,
+            'longest_streak': longestStreak,
+            'last_active': now.toIso8601String(),
+          })
+          .eq('user_id', userId);
     } catch (e, stack) {
       AppLogger.error('Record activity error', error: e);
       SentryService.captureException(e, stackTrace: stack);
@@ -147,11 +153,14 @@ class GamificationRepository {
     if (userId == null) return;
 
     try {
-      await _client.rpc('claim_badge', params: {
-        'p_user_id': userId,
-        'p_badge_id': badgeId,
-        'p_xp_reward': xpReward,
-      });
+      await _client.rpc(
+        'claim_badge',
+        params: {
+          'p_user_id': userId,
+          'p_badge_id': badgeId,
+          'p_xp_reward': xpReward,
+        },
+      );
     } catch (e, stack) {
       AppLogger.error('Unlock badge error', error: e);
       SentryService.captureException(e, stackTrace: stack);
@@ -172,10 +181,13 @@ class GamificationRepository {
     final newXP = stats.totalXP + additionalXP;
 
     try {
-      await _client.from('user_stats').update({
-        'total_xp': newXP,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('user_id', userId);
+      await _client
+          .from('user_stats')
+          .update({
+            'total_xp': newXP,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('user_id', userId);
     } catch (e, stack) {
       AppLogger.error('Update XP error', error: e);
       SentryService.captureException(e, stackTrace: stack);
@@ -203,7 +215,7 @@ class GamificationRepository {
               .inFilter('id', userIds);
 
           final profileMap = {
-            for (var p in profilesResponse as List) p['id']: p
+            for (var p in profilesResponse as List) p['id']: p,
           };
 
           return data.map((e) {

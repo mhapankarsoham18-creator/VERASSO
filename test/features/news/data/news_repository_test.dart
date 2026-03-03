@@ -23,8 +23,8 @@ void main() {
     title: 'Breaking News',
     content: {
       'ops': [
-        {'insert': 'Content'}
-      ]
+        {'insert': 'Content'},
+      ],
     },
     subject: 'Technology',
     audienceType: 'All',
@@ -43,8 +43,9 @@ void main() {
         offlineStorageServiceProvider.overrideWithValue(mockStorage),
         meshNewsServiceProvider.overrideWith((ref) => mockMesh),
         gamificationRepositoryProvider.overrideWithValue(mockGamification),
-        newsRepositoryProvider
-            .overrideWith((ref) => NewsRepository(mockSupabase, ref)),
+        newsRepositoryProvider.overrideWith(
+          (ref) => NewsRepository(mockSupabase, ref),
+        ),
       ],
     );
 
@@ -57,8 +58,9 @@ void main() {
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockQuery.setResponse([testArticle.copyWith(isFeatured: true).toJson()]);
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'select': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockQuery},
+      );
       mockSupabase.fromStub = (table) => mockQueryBuilder;
 
       final results = await repository.getArticles(featuredOnly: true);
@@ -97,8 +99,9 @@ void main() {
 
     test('publishArticle inserts into Supabase', () async {
       final mockQuery = MockPostgrestFilterBuilder<dynamic>();
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'insert': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'insert': mockQuery},
+      );
       mockSupabase.fromStub = (table) => mockQueryBuilder;
 
       await repository.publishArticle(testArticle);
@@ -106,13 +109,15 @@ void main() {
 
     test('upvoteArticle calls upsert and rewards XP', () async {
       final mockAuth = MockGoTrueClient();
-      mockAuth
-          .setCurrentUser(TestSupabaseUser(id: 'u1', email: 'u1@example.com'));
+      mockAuth.setCurrentUser(
+        TestSupabaseUser(id: 'u1', email: 'u1@example.com'),
+      );
       mockSupabase.setAuth(mockAuth);
 
       final mockQuery = MockPostgrestFilterBuilder<dynamic>();
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(stubs: {'upsert': mockQuery});
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        stubs: {'upsert': mockQuery},
+      );
       mockSupabase.fromStub = (table) => mockQueryBuilder;
 
       await repository.upvoteArticle('a1');
@@ -120,18 +125,20 @@ void main() {
 
     test('vouchArticle restricted to Senior/Editor', () async {
       final mockAuth = MockGoTrueClient();
-      mockAuth
-          .setCurrentUser(TestSupabaseUser(id: 'u1', email: 'u1@example.com'));
+      mockAuth.setCurrentUser(
+        TestSupabaseUser(id: 'u1', email: 'u1@example.com'),
+      );
       mockSupabase.setAuth(mockAuth);
 
       final mockQueryProfile =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockQueryProfile.setResponse([
-        {'journalist_level': 'senior'}
+        {'journalist_level': 'senior'},
       ]);
 
-      final mockProfileBuilder =
-          MockSupabaseQueryBuilder(stubs: {'select': mockQueryProfile});
+      final mockProfileBuilder = MockSupabaseQueryBuilder(
+        stubs: {'select': mockQueryProfile},
+      );
 
       mockSupabase.fromStub = (table) {
         if (table == 'profiles') return mockProfileBuilder;

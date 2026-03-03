@@ -26,7 +26,8 @@ class AIService {
 
       if (apiKey.isEmpty) {
         throw Exception(
-            'AI API Configuration incomplete. Please check your environment setup.');
+          'AI API Configuration incomplete. Please check your environment setup.',
+        );
       }
 
       // 2. Call OpenRouter API
@@ -45,7 +46,7 @@ class AIService {
                 {
                   'role': 'system',
                   'content':
-                      'You are Cosmos AI (Beta), a helpful AI learning assistant for the Verasso platform. Your goal is to guide students in their learning journey.'
+                      'You are Cosmos AI (Beta), a helpful AI learning assistant for the Verasso platform. Your goal is to guide students in their learning journey.',
                 },
                 {'role': 'user', 'content': userMessage},
               ],

@@ -12,22 +12,25 @@ void main() {
     final List<Message> messages = [];
     final Set<String> archived = {};
 
-    mockRepo.sendMessageStub = ({
-      required String senderId,
-      required String receiverId,
-      required String content,
-    }) async {
-      messages.add(Message(
-        id: 'msg-${messages.length}',
-        conversationId: 'temp',
-        senderId: senderId,
-        receiverId: receiverId,
-        content: content,
-        type: MessageType.text,
-        status: MessageStatus.sent,
-        sentAt: DateTime.now(),
-      ));
-    };
+    mockRepo.sendMessageStub =
+        ({
+          required String senderId,
+          required String receiverId,
+          required String content,
+        }) async {
+          messages.add(
+            Message(
+              id: 'msg-${messages.length}',
+              conversationId: 'temp',
+              senderId: senderId,
+              receiverId: receiverId,
+              content: content,
+              type: MessageType.text,
+              status: MessageStatus.sent,
+              sentAt: DateTime.now(),
+            ),
+          );
+        };
 
     mockRepo.getMessagesListStub = (id) async {
       if (id == 'inbox') {
@@ -124,8 +127,10 @@ void main() {
       final after = DateTime.now();
 
       expect(message.sentAt, isNotNull);
-      expect(message.sentAt.isAfter(before.subtract(Duration(seconds: 1))),
-          isTrue);
+      expect(
+        message.sentAt.isAfter(before.subtract(Duration(seconds: 1))),
+        isTrue,
+      );
       expect(message.sentAt.isBefore(after.add(Duration(seconds: 1))), isTrue);
     });
 
@@ -163,8 +168,10 @@ void main() {
         recipientId: userId1,
       );
 
-      final conversation =
-          await messageService.getConversation(userId1, userId2);
+      final conversation = await messageService.getConversation(
+        userId1,
+        userId2,
+      );
       expect(conversation, isNotEmpty);
       expect(conversation.length, equals(2));
     });
@@ -224,8 +231,10 @@ void main() {
     });
 
     test('search with no results returns empty list', () async {
-      final results =
-          await messageService.searchMessages('user-1', 'nonexistent-word');
+      final results = await messageService.searchMessages(
+        'user-1',
+        'nonexistent-word',
+      );
       expect(results, isEmpty);
     });
   });
@@ -240,8 +249,9 @@ void main() {
 
       await messageService.archiveMessage(message.id);
 
-      final archivedResults =
-          await messageService.getArchivedMessages('user-2');
+      final archivedResults = await messageService.getArchivedMessages(
+        'user-2',
+      );
       expect(archivedResults.any((m) => m.id == message.id), isTrue);
     });
 

@@ -13,8 +13,8 @@ final fcmServiceProvider = Provider((ref) {
 /// Provider for the [UnreadNotificationNotifier] which tracks unread count locally.
 final unreadNotificationCountProvider =
     StateNotifierProvider<UnreadNotificationNotifier, int>((ref) {
-  return UnreadNotificationNotifier();
-});
+      return UnreadNotificationNotifier();
+    });
 
 /// Firebase Cloud Messaging (FCM) Service
 /// Service for managing Firebase Cloud Messaging functionality.
@@ -60,7 +60,7 @@ class FcmService {
 
       final enabled =
           settings.authorizationStatus == AuthorizationStatus.authorized ||
-              settings.authorizationStatus == AuthorizationStatus.provisional;
+          settings.authorizationStatus == AuthorizationStatus.provisional;
 
       AppLogger.info('Notifications enabled: $enabled');
       return enabled;
@@ -98,8 +98,9 @@ class FcmService {
     try {
       // Configure foreground messaging
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
-      FirebaseMessaging.onMessageOpenedApp
-          .listen(_handleBackgroundMessageClick);
+      FirebaseMessaging.onMessageOpenedApp.listen(
+        _handleBackgroundMessageClick,
+      );
 
       AppLogger.info('FCM initialized successfully');
     } catch (e) {
@@ -122,12 +123,14 @@ class FcmService {
   /// Mark notification as read
   void markAsRead(String notificationId) {
     try {
-      final index =
-          _notificationHistory.indexWhere((n) => n.id == notificationId);
+      final index = _notificationHistory.indexWhere(
+        (n) => n.id == notificationId,
+      );
       if (index != -1) {
         _notificationHistory[index].isRead = true;
-        _unreadNotifications.value =
-            _notificationHistory.where((n) => !n.isRead).length;
+        _unreadNotifications.value = _notificationHistory
+            .where((n) => !n.isRead)
+            .length;
       }
     } catch (e) {
       AppLogger.error('Mark notification as read error', error: e);

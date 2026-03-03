@@ -81,7 +81,7 @@ enum AssetTransactionType {
   buy,
 
   /// Sale of an asset.
-  sell
+  sell,
 }
 
 /// Represents an event that impacts the market or specific assets.

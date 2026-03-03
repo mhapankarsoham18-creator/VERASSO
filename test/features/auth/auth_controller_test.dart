@@ -45,41 +45,51 @@ void main() {
 
   group('AuthController', () {
     group('signIn', () {
-      test('should update state to loading then success on valid credentials',
-          () async {
-        // Arrange
-        final mockResult = AuthResult(
-          user: DomainAuthUser(
-            id: 'test-user-id',
-            emailConfirmedAt: DateTime.now().toIso8601String(),
-          ),
-        );
-        when(mockAuthRepository.signInWithEmail(
-          email: 'test@example.com',
-          password: 'password123',
-        )).thenAnswer((_) async => mockResult);
+      test(
+        'should update state to loading then success on valid credentials',
+        () async {
+          // Arrange
+          final mockResult = AuthResult(
+            user: DomainAuthUser(
+              id: 'test-user-id',
+              emailConfirmedAt: DateTime.now().toIso8601String(),
+            ),
+          );
+          when(
+            mockAuthRepository.signInWithEmail(
+              email: 'test@example.com',
+              password: 'password123',
+            ),
+          ).thenAnswer((_) async => mockResult);
 
-        // Act
-        final controller = container.read(authControllerProvider.notifier);
-        await controller.signIn(
-            email: 'test@example.com', password: 'password123');
+          // Act
+          final controller = container.read(authControllerProvider.notifier);
+          await controller.signIn(
+            email: 'test@example.com',
+            password: 'password123',
+          );
 
-        // Assert
-        final state = container.read(authControllerProvider);
-        expect(state.hasError, isFalse);
-      });
+          // Assert
+          final state = container.read(authControllerProvider);
+          expect(state.hasError, isFalse);
+        },
+      );
 
       test('should update state to error on invalid credentials', () async {
         // Arrange
-        when(mockAuthRepository.signInWithEmail(
-          email: 'test@example.com',
-          password: 'wrongpassword',
-        )).thenThrow(const AuthException('Invalid login credentials'));
+        when(
+          mockAuthRepository.signInWithEmail(
+            email: 'test@example.com',
+            password: 'wrongpassword',
+          ),
+        ).thenThrow(const AuthException('Invalid login credentials'));
 
         // Act
         final controller = container.read(authControllerProvider.notifier);
         await controller.signIn(
-            email: 'test@example.com', password: 'wrongpassword');
+          email: 'test@example.com',
+          password: 'wrongpassword',
+        );
 
         // Assert
         final state = container.read(authControllerProvider);
@@ -91,11 +101,13 @@ void main() {
       test('should call repository signUp with correct parameters', () async {
         // Arrange
         final mockResult = AuthResult(user: DomainAuthUser(id: 'new-user-id'));
-        when(mockAuthRepository.signUpWithEmail(
-          email: 'new@example.com',
-          password: 'securePass123!',
-          data: anyNamed('data'),
-        )).thenAnswer((_) async => mockResult);
+        when(
+          mockAuthRepository.signUpWithEmail(
+            email: 'new@example.com',
+            password: 'securePass123!',
+            data: anyNamed('data'),
+          ),
+        ).thenAnswer((_) async => mockResult);
 
         // Act
         final controller = container.read(authControllerProvider.notifier);
@@ -106,39 +118,43 @@ void main() {
         );
 
         // Assert
-        verify(mockAuthRepository.signUpWithEmail(
-          email: 'new@example.com',
-          password: 'securePass123!',
-          data: {'username': 'newuser'},
-        )).called(1);
+        verify(
+          mockAuthRepository.signUpWithEmail(
+            email: 'new@example.com',
+            password: 'securePass123!',
+            data: {'username': 'newuser'},
+          ),
+        ).called(1);
       });
     });
 
     group('resetPassword', () {
       test('should call repository resetPassword', () async {
         // Arrange
-        when(mockAuthRepository.resetPasswordForEmail(
-                email: 'test@example.com'))
-            .thenAnswer((_) async => {});
+        when(
+          mockAuthRepository.resetPasswordForEmail(email: 'test@example.com'),
+        ).thenAnswer((_) async => {});
 
         // Act
         final controller = container.read(authControllerProvider.notifier);
         await controller.resetPassword('test@example.com');
 
         // Assert
-        verify(mockAuthRepository.resetPasswordForEmail(
-                email: 'test@example.com'))
-            .called(1);
+        verify(
+          mockAuthRepository.resetPasswordForEmail(email: 'test@example.com'),
+        ).called(1);
       });
     });
 
     group('signOut', () {
       test('should call dependencies during signOut', () async {
         // Arrange
-        when(mockAuthRepository.signOut())
-            .thenAnswer((_) async => Future.value());
-        when(mockOfflineSecurity.clearIdentityHint())
-            .thenAnswer((_) async => Future.value());
+        when(
+          mockAuthRepository.signOut(),
+        ).thenAnswer((_) async => Future.value());
+        when(
+          mockOfflineSecurity.clearIdentityHint(),
+        ).thenAnswer((_) async => Future.value());
 
         // Act
         final controller = container.read(authControllerProvider.notifier);
@@ -152,34 +168,38 @@ void main() {
   });
 
   group('MFA', () {
-    test('enrollMFA should return enrollment response from domain model',
-        () async {
-      // Arrange
-      final mockMfaResponse = MfaEnrollment(
-        id: 'factor-123',
-        type: 'totp',
-        totpSecret: 'secret-key',
-        totpUri: 'otpauth://totp/Verasso:test@example.com?secret=secret-key',
-      );
-      when(mockAuthRepository.enrollMFA())
-          .thenAnswer((_) async => mockMfaResponse);
+    test(
+      'enrollMFA should return enrollment response from domain model',
+      () async {
+        // Arrange
+        final mockMfaResponse = MfaEnrollment(
+          id: 'factor-123',
+          type: 'totp',
+          totpSecret: 'secret-key',
+          totpUri: 'otpauth://totp/Verasso:test@example.com?secret=secret-key',
+        );
+        when(
+          mockAuthRepository.enrollMFA(),
+        ).thenAnswer((_) async => mockMfaResponse);
 
-      // Act
-      final controller = container.read(authControllerProvider.notifier);
-      final response = await controller.enrollMFA();
+        // Act
+        final controller = container.read(authControllerProvider.notifier);
+        final response = await controller.enrollMFA();
 
-      // Assert
-      expect(response, isNotNull);
-      expect(response!.id, 'factor-123');
-      expect(response.totpSecret, 'secret-key');
-      verify(mockAuthRepository.enrollMFA()).called(1);
-    });
+        // Assert
+        expect(response, isNotNull);
+        expect(response!.id, 'factor-123');
+        expect(response.totpSecret, 'secret-key');
+        verify(mockAuthRepository.enrollMFA()).called(1);
+      },
+    );
 
     test('challengeMFA should return challenge response', () async {
       // Arrange
       final mockChallenge = MfaChallenge(id: 'challenge-123');
-      when(mockAuthRepository.challengeMFA(factorId: 'factor-123'))
-          .thenAnswer((_) async => mockChallenge);
+      when(
+        mockAuthRepository.challengeMFA(factorId: 'factor-123'),
+      ).thenAnswer((_) async => mockChallenge);
 
       // Act
       final controller = container.read(authControllerProvider.notifier);
@@ -194,15 +214,19 @@ void main() {
   group('AuthController - Phase 2.1 Expanded', () {
     test('signIn should apply cooling-off on failure', () async {
       // Arrange
-      when(mockAuthRepository.signInWithEmail(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-      )).thenThrow(const AppAuthException('Auth failed'));
+      when(
+        mockAuthRepository.signInWithEmail(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+        ),
+      ).thenThrow(const AppAuthException('Auth failed'));
 
       // Act
       final controller = container.read(authControllerProvider.notifier);
       await controller.signIn(
-          email: 'test@example.com', password: 'password123');
+        email: 'test@example.com',
+        password: 'password123',
+      );
 
       // Assert
       expect(container.read(failedLoginAttemptsProvider), 1);
@@ -220,16 +244,20 @@ void main() {
         ),
         session: DomainAuthSession(accessToken: 'fake-access-token'),
       );
-      when(mockAuthRepository.signInWithEmail(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-      )).thenAnswer((_) async => mockResult);
+      when(
+        mockAuthRepository.signInWithEmail(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+        ),
+      ).thenAnswer((_) async => mockResult);
       when(mockAuthRepository.signOut()).thenAnswer((_) async => {});
 
       // Act
       final controller = container.read(authControllerProvider.notifier);
       await controller.signIn(
-          email: 'test@example.com', password: 'password123');
+        email: 'test@example.com',
+        password: 'password123',
+      );
 
       // Assert
       verify(mockAuthRepository.signOut()).called(1);
@@ -240,10 +268,12 @@ void main() {
     test('signInWithBiometrics should succeed if session is valid', () async {
       // Arrange
       when(mockTokenStorage.isSessionValid()).thenAnswer((_) async => true);
-      when(mockAuthRepository.supabaseClient)
-          .thenReturn(fakes.MockSupabaseClient());
-      when(mockTokenStorage.refreshSession(any))
-          .thenAnswer((_) async => AuthResponse(session: fakes.FakeSession()));
+      when(
+        mockAuthRepository.supabaseClient,
+      ).thenReturn(fakes.MockSupabaseClient());
+      when(
+        mockTokenStorage.refreshSession(any),
+      ).thenAnswer((_) async => AuthResponse(session: fakes.FakeSession()));
 
       // Act
       final controller = container.read(authControllerProvider.notifier);

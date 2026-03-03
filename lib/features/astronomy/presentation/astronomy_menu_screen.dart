@@ -34,23 +34,29 @@ class AstronomyMenuScreen extends ConsumerWidget {
             Positioned.fill(
               child: Opacity(
                 opacity: 0.3,
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1500&q=80',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const SizedBox.shrink(),
-                )
-                    .animate(
-                        onPlay: (controller) => themeState.isPowerSaveMode
-                            ? controller.stop()
-                            : controller.repeat())
-                    .moveY(begin: 0, end: -100, duration: 60.seconds),
+                child:
+                    Image.network(
+                          'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1500&q=80',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const SizedBox.shrink(),
+                        )
+                        .animate(
+                          onPlay: (controller) => themeState.isPowerSaveMode
+                              ? controller.stop()
+                              : controller.repeat(),
+                        )
+                        .moveY(begin: 0, end: -100, duration: 60.seconds),
               ),
             ),
 
             ListView(
               padding: const EdgeInsets.only(
-                  top: 100, left: 16, right: 16, bottom: 20),
+                top: 100,
+                left: 16,
+                right: 16,
+                bottom: 20,
+              ),
               children: [
                 // AR Stargazing
                 _buildMenuCard(
@@ -61,9 +67,11 @@ class AstronomyMenuScreen extends ConsumerWidget {
                   icon: LucideIcons.camera,
                   gradient: [AppColors.primary, AppColors.etherealCyan],
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ArStargazingScreen())),
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ArStargazingScreen(),
+                    ),
+                  ),
                 ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.1),
 
                 // Community Logs
@@ -75,9 +83,11 @@ class AstronomyMenuScreen extends ConsumerWidget {
                   icon: LucideIcons.eye,
                   gradient: [Colors.purpleAccent, Colors.deepPurple],
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const StargazingFeedScreen())),
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StargazingFeedScreen(),
+                    ),
+                  ),
                 ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.1),
 
                 // Solar System 3D
@@ -89,9 +99,11 @@ class AstronomyMenuScreen extends ConsumerWidget {
                   icon: LucideIcons.globe,
                   gradient: [Colors.orangeAccent, Colors.redAccent],
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SolarSystemSimulation())),
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const SolarSystemSimulation(),
+                    ),
+                  ),
                 ).animate().fadeIn(delay: 300.ms).slideX(begin: -0.1),
 
                 const SizedBox(height: 16),
@@ -104,12 +116,19 @@ class AstronomyMenuScreen extends ConsumerWidget {
                     children: [
                       const Row(
                         children: [
-                          Icon(LucideIcons.info,
-                              size: 20, color: AppColors.etherealCyan),
+                          Icon(
+                            LucideIcons.info,
+                            size: 20,
+                            color: AppColors.etherealCyan,
+                          ),
                           SizedBox(width: 8),
-                          Text('Mission Parameters',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          Text(
+                            'Mission Parameters',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -127,7 +146,9 @@ class AstronomyMenuScreen extends ConsumerWidget {
                         child: const Text(
                           '💡 Operational Alert: Best used in dark areas away from light pollution',
                           style: TextStyle(
-                              fontSize: 11, color: Colors.orangeAccent),
+                            fontSize: 11,
+                            color: Colors.orangeAccent,
+                          ),
                         ),
                       ),
                     ],
@@ -176,11 +197,14 @@ class AstronomyMenuScreen extends ConsumerWidget {
             ),
             child: Icon(icon, color: Colors.white),
           ).animate().shimmer(duration: 2.seconds, color: Colors.white24),
-          title: Text(title,
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          subtitle: Text(subtitle,
-              style: const TextStyle(fontSize: 12, color: Colors.white70)),
+          title: Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
           trailing: const Icon(LucideIcons.chevronRight, size: 16),
         ),
       ),

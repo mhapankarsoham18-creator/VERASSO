@@ -12,10 +12,7 @@ void main() {
   late GamificationEventBus mockGamificationEventBus;
   late MessageRepository repository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -49,7 +46,7 @@ void main() {
       );
 
       // Verify XP awarded via event bus stream (simplified check for compilation)
-      // expect(fakeGamification.xpAwarded, 10); 
+      // expect(fakeGamification.xpAwarded, 10);
     });
 
     test('sendMessage should not throw if user logged in', () async {
@@ -122,8 +119,10 @@ void main() {
 /// Fake encryption service that returns plaintext for testing.
 class FakeEncryptionService extends Fake implements EncryptionService {
   @override
-  Future<String> decryptMessage(Map<String, dynamic> messageRow,
-      {bool isGroup = false}) async {
+  Future<String> decryptMessage(
+    Map<String, dynamic> messageRow, {
+    bool isGroup = false,
+  }) async {
     return messageRow['encrypted_content'] as String? ??
         messageRow['content'] as String? ??
         '[No content]';
@@ -131,7 +130,9 @@ class FakeEncryptionService extends Fake implements EncryptionService {
 
   @override
   Future<Map<String, String>> encryptMessage(
-      String content, String receiverId) async {
+    String content,
+    String receiverId,
+  ) async {
     return {
       'content': 'enc_$content',
       'iv': 'fake_iv',
@@ -156,8 +157,10 @@ class FakeGamificationRepository extends Fake {
 /// Encryption service that always throws on decrypt.
 class _ThrowingEncryptionService extends Fake implements EncryptionService {
   @override
-  Future<String> decryptMessage(Map<String, dynamic> messageRow,
-      {bool isGroup = false}) {
+  Future<String> decryptMessage(
+    Map<String, dynamic> messageRow, {
+    bool isGroup = false,
+  }) {
     throw Exception('Decryption failed');
   }
 

@@ -62,13 +62,15 @@ class _LedgerLogicScreenState extends State<LedgerLogicScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _StatItem(
-                        label: 'Assets',
-                        value: '\$${totalAssets.toInt()}',
-                        color: Colors.greenAccent),
+                      label: 'Assets',
+                      value: '\$${totalAssets.toInt()}',
+                      color: Colors.greenAccent,
+                    ),
                     _StatItem(
-                        label: 'Liabilities',
-                        value: '\$${totalLiabilities.toInt()}',
-                        color: Colors.redAccent),
+                      label: 'Liabilities',
+                      value: '\$${totalLiabilities.toInt()}',
+                      color: Colors.redAccent,
+                    ),
                     Icon(
                       isBalanced ? LucideIcons.checkCircle : LucideIcons.scale,
                       color: isBalanced ? Colors.green : Colors.orange,
@@ -96,8 +98,9 @@ class _LedgerLogicScreenState extends State<LedgerLogicScreen> {
                             backgroundColor: isAssetMode
                                 ? Colors.greenAccent
                                 : Colors.white10,
-                            foregroundColor:
-                                isAssetMode ? Colors.black : Colors.white,
+                            foregroundColor: isAssetMode
+                                ? Colors.black
+                                : Colors.white,
                           ),
                         ),
                       ),
@@ -111,8 +114,9 @@ class _LedgerLogicScreenState extends State<LedgerLogicScreen> {
                             backgroundColor: !isAssetMode
                                 ? Colors.redAccent
                                 : Colors.white10,
-                            foregroundColor:
-                                !isAssetMode ? Colors.black : Colors.white,
+                            foregroundColor: !isAssetMode
+                                ? Colors.black
+                                : Colors.white,
                           ),
                         ),
                       ),
@@ -139,26 +143,28 @@ class _LedgerLogicScreenState extends State<LedgerLogicScreen> {
   }
 
   void onARViewCreated(
-      ARSessionManager arSessionManager,
-      ARObjectManager arObjectManager,
-      ARAnchorManager arAnchorManager,
-      ARLocationManager arLocationManager) {
+    ARSessionManager arSessionManager,
+    ARObjectManager arObjectManager,
+    ARAnchorManager arAnchorManager,
+    ARLocationManager arLocationManager,
+  ) {
     this.arSessionManager = arSessionManager;
     this.arObjectManager = arObjectManager;
 
     this.arSessionManager!.onInitialize(
-          showFeaturePoints: false,
-          showPlanes: true,
-          showWorldOrigin: true,
-          handleTaps: true,
-        );
+      showFeaturePoints: false,
+      showPlanes: true,
+      showWorldOrigin: true,
+      handleTaps: true,
+    );
     this.arObjectManager!.onInitialize();
     this.arSessionManager!.onPlaneOrPointTap = onPlaneTap;
   }
 
   Future<void> onPlaneTap(List<ARHitTestResult> hitTestResults) async {
     final singleHitTestResult = hitTestResults.firstWhere(
-        (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane);
+      (hitTestResult) => hitTestResult.type == ARHitTestResultType.plane,
+    );
 
     final newNode = ARNode(
       type: NodeType.localGLTF2,
@@ -193,18 +199,28 @@ class _StatItem extends StatelessWidget {
   final String value;
   final Color color;
 
-  const _StatItem(
-      {required this.label, required this.value, required this.color});
+  const _StatItem({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white60)),
-        Text(value,
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: color)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white60),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
       ],
     );
   }

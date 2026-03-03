@@ -65,8 +65,11 @@ class _StreakCelebrationAnimationState extends State<StreakCelebrationAnimation>
                 builder: (context, val, child) {
                   return Transform.scale(
                     scale: val,
-                    child: const Icon(LucideIcons.flame,
-                        size: 120, color: Colors.deepOrange),
+                    child: const Icon(
+                      LucideIcons.flame,
+                      size: 120,
+                      color: Colors.deepOrange,
+                    ),
                   );
                 },
                 onEnd: () {},

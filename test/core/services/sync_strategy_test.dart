@@ -24,8 +24,12 @@ void main() {
     mockNetwork = MockNetworkConnectivityService();
     mockMesh = MockBluetoothMeshService();
     mockStorage = MockOfflineStorageService();
-    syncService =
-        SyncStrategyService(mockNetwork, mockMesh, mockStorage, mockSupabase);
+    syncService = SyncStrategyService(
+      mockNetwork,
+      mockMesh,
+      mockStorage,
+      mockSupabase,
+    );
   });
 
   group('SyncStrategyService', () {
@@ -62,62 +66,71 @@ void main() {
 
       final pendingAction = {
         'type': 'create_project',
-        'data': {'title': 'New Project'}
+        'data': {'title': 'New Project'},
       };
 
-      when(mockStorage.getPendingActionsMap())
-          .thenReturn({'key1': pendingAction});
+      when(
+        mockStorage.getPendingActionsMap(),
+      ).thenReturn({'key1': pendingAction});
 
       // Act
       await syncService.syncPendingActions();
 
       // Assert
       // Should broadcast to mesh
-      verify(mockMesh.broadcastPacket(
-        MeshPayloadType.feedPost,
-        any,
-        targetSubject: anyNamed('targetSubject'),
-        priority: anyNamed('priority'),
-      )).called(1);
+      verify(
+        mockMesh.broadcastPacket(
+          MeshPayloadType.feedPost,
+          any,
+          targetSubject: anyNamed('targetSubject'),
+          priority: anyNamed('priority'),
+        ),
+      ).called(1);
       // Should NOT delete action (logic says keep it for cloud sync)
       verifyNever(mockStorage.deleteAction('key1'));
     });
 
-    test('syncPendingActions processes via Realtime (Supabase) if Online',
-        () async {
-      // Arrange
-      when(mockMesh.isMeshActive).thenReturn(false);
-      when(mockNetwork.isConnected).thenAnswer((_) async => true);
+    test(
+      'syncPendingActions processes via Realtime (Supabase) if Online',
+      () async {
+        // Arrange
+        when(mockMesh.isMeshActive).thenReturn(false);
+        when(mockNetwork.isConnected).thenAnswer((_) async => true);
 
-      final pendingAction = {
-        'type': 'create_project',
-        'data': {
-          'title': 'New Project',
-          'temp_id': 'tmp1',
-          'leader_id': 'user1'
-        }
-      };
-      when(mockStorage.getPendingActionsMap())
-          .thenReturn({'key1': pendingAction});
+        final pendingAction = {
+          'type': 'create_project',
+          'data': {
+            'title': 'New Project',
+            'temp_id': 'tmp1',
+            'leader_id': 'user1',
+          },
+        };
+        when(
+          mockStorage.getPendingActionsMap(),
+        ).thenReturn({'key1': pendingAction});
 
-      // Mock Supabase interactions
-      final mockBuilder =
-          MockSupabaseQueryBuilder(insertResponse: {'id': 'real_id_1'});
-      mockSupabase.setQueryBuilder('projects', mockBuilder);
-      mockSupabase.setQueryBuilder(
-          'project_members', MockSupabaseQueryBuilder());
+        // Mock Supabase interactions
+        final mockBuilder = MockSupabaseQueryBuilder(
+          insertResponse: {'id': 'real_id_1'},
+        );
+        mockSupabase.setQueryBuilder('projects', mockBuilder);
+        mockSupabase.setQueryBuilder(
+          'project_members',
+          MockSupabaseQueryBuilder(),
+        );
 
-      // Act
-      await syncService.syncPendingActions();
+        // Act
+        await syncService.syncPendingActions();
 
-      // Assert
-      // Should insert to Supabase
-      verify(mockSupabase.from('projects')).called(1);
-      // Verify insert was called on the builder
+        // Assert
+        // Should insert to Supabase
+        verify(mockSupabase.from('projects')).called(1);
+        // Verify insert was called on the builder
 
-      // Should delete action after successful sync
-      verify(mockStorage.deleteAction('key1')).called(1);
-    });
+        // Should delete action after successful sync
+        verify(mockStorage.deleteAction('key1')).called(1);
+      },
+    );
   });
 }
 
@@ -125,60 +138,59 @@ void main() {
 
 class MockBluetoothMeshService extends Mock implements BluetoothMeshService {
   @override
-  bool get isMeshActive => super.noSuchMethod(
-        Invocation.getter(#isMeshActive),
-        returnValue: false,
-      );
+  bool get isMeshActive =>
+      super.noSuchMethod(Invocation.getter(#isMeshActive), returnValue: false);
 
   @override
   Future<void> broadcastPacket(
-          MeshPayloadType type, Map<String, dynamic>? payload,
-          {String? targetSubject, MeshPriority? priority}) async =>
-      super.noSuchMethod(
-        Invocation.method(#broadcastPacket, [
-          type,
-          payload
-        ], {
-          #targetSubject: targetSubject,
-          #priority: priority,
-        }),
-        returnValue: Future.value(),
-        returnValueForMissingStub: Future.value(),
-      );
+    MeshPayloadType type,
+    Map<String, dynamic>? payload, {
+    String? targetSubject,
+    MeshPriority? priority,
+  }) async => super.noSuchMethod(
+    Invocation.method(
+      #broadcastPacket,
+      [type, payload],
+      {#targetSubject: targetSubject, #priority: priority},
+    ),
+    returnValue: Future.value(),
+    returnValueForMissingStub: Future.value(),
+  );
 }
 
 class MockGoTrueClient extends Mock implements GoTrueClient {
   @override
   User? get currentUser => User(
-      id: 'test-user',
-      appMetadata: {},
-      userMetadata: {},
-      aud: 'authenticated',
-      createdAt: '');
+    id: 'test-user',
+    appMetadata: {},
+    userMetadata: {},
+    aud: 'authenticated',
+    createdAt: '',
+  );
 }
 
 class MockNetworkConnectivityService extends Mock
     implements NetworkConnectivityService {
   @override
   Future<bool> get isConnected => super.noSuchMethod(
-        Invocation.getter(#isConnected),
-        returnValue: Future.value(false),
-      );
+    Invocation.getter(#isConnected),
+    returnValue: Future.value(false),
+  );
 }
 
 class MockOfflineStorageService extends Mock implements OfflineStorageService {
   @override
   Future<void> deleteAction(dynamic key) async => super.noSuchMethod(
-        Invocation.method(#deleteAction, [key]),
-        returnValue: Future.value(),
-        returnValueForMissingStub: Future.value(),
-      );
+    Invocation.method(#deleteAction, [key]),
+    returnValue: Future.value(),
+    returnValueForMissingStub: Future.value(),
+  );
 
   @override
   Map<dynamic, dynamic> getPendingActionsMap() => super.noSuchMethod(
-        Invocation.method(#getPendingActionsMap, []),
-        returnValue: <dynamic, dynamic>{},
-      );
+    Invocation.method(#getPendingActionsMap, []),
+    returnValue: <dynamic, dynamic>{},
+  );
 }
 
 class MockPostgrestFilterBuilder<T> extends Mock
@@ -201,8 +213,9 @@ class MockPostgrestFilterBuilder<T> extends Mock
   }
 
   @override
-  PostgrestTransformBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestTransformBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     List<Map<String, dynamic>> listData = [];
     if (_response is List) {
       listData = (_response as List).cast<Map<String, dynamic>>();
@@ -290,14 +303,15 @@ class MockSupabaseQueryBuilder extends Mock implements SupabaseQueryBuilder {
   MockSupabaseQueryBuilder({
     List<Map<String, dynamic>>? selectResponse,
     Map<String, dynamic>? insertResponse,
-  })  : _selectResponse = selectResponse ?? [],
-        _insertResponse = insertResponse;
+  }) : _selectResponse = selectResponse ?? [],
+       _insertResponse = insertResponse;
 
   @override
   PostgrestFilterBuilder insert(Object values, {bool defaultToNull = false}) {
     // Record interaction
     super.noSuchMethod(
-        Invocation.method(#insert, [values], {#defaultToNull: defaultToNull}));
+      Invocation.method(#insert, [values], {#defaultToNull: defaultToNull}),
+    );
 
     if (_insertResponse != null) {
       return MockPostgrestFilterBuilder([_insertResponse]);
@@ -306,8 +320,9 @@ class MockSupabaseQueryBuilder extends Mock implements SupabaseQueryBuilder {
   }
 
   @override
-  PostgrestFilterBuilder<List<Map<String, dynamic>>> select(
-      [String columns = '*']) {
+  PostgrestFilterBuilder<List<Map<String, dynamic>>> select([
+    String columns = '*',
+  ]) {
     return MockPostgrestFilterBuilder(_selectResponse);
   }
 

@@ -77,40 +77,46 @@ class _KineticCodeInputState extends ConsumerState<KineticCodeInput> {
                 final isActive = widget.controller.text.length == index;
 
                 return Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 50,
-                    child: GlassContainer(
-                      opacity: isActive ? 0.2 : 0.1,
-                      child: Center(
-                        child: Text(
-                          char,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                      .animate(target: widget.hasError ? 1 : 0)
-                      .shake(
-                          offset: const Offset(4, 0), hz: 10, duration: 300.ms)
-                      .animate(
-                        onPlay: (controller) => (isActive && !isPowerSave)
-                            ? controller.repeat(reverse: true)
-                            : null,
-                      )
-                      .scale(
-                        begin: const Offset(1, 1),
-                        end: const Offset(1.05, 1.05),
-                        duration: 600.ms,
-                        curve: Curves.easeInOut,
-                      )
-                      .animate()
-                      .fadeIn(delay: (index * 50).ms, duration: 300.ms)
-                      .slideY(begin: 0.2, end: 0, delay: (index * 50).ms),
+                  child:
+                      Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            height: 50,
+                            child: GlassContainer(
+                              opacity: isActive ? 0.2 : 0.1,
+                              child: Center(
+                                child: Text(
+                                  char,
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .animate(target: widget.hasError ? 1 : 0)
+                          .shake(
+                            offset: const Offset(4, 0),
+                            hz: 10,
+                            duration: 300.ms,
+                          )
+                          .animate(
+                            onPlay: (controller) => (isActive && !isPowerSave)
+                                ? controller.repeat(reverse: true)
+                                : null,
+                          )
+                          .scale(
+                            begin: const Offset(1, 1),
+                            end: const Offset(1.05, 1.05),
+                            duration: 600.ms,
+                            curve: Curves.easeInOut,
+                          )
+                          .animate()
+                          .fadeIn(delay: (index * 50).ms, duration: 300.ms)
+                          .slideY(begin: 0.2, end: 0, delay: (index * 50).ms),
                 );
               }),
             ),

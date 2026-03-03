@@ -32,8 +32,9 @@ class _AgeVerificationScreenState extends ConsumerState<AgeVerificationScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Age Verification'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Age Verification'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 120, 24, 24),
@@ -43,13 +44,18 @@ class _AgeVerificationScreenState extends ConsumerState<AgeVerificationScreen> {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const Icon(LucideIcons.contact,
-                        size: 48, color: Colors.blue),
+                    const Icon(
+                      LucideIcons.contact,
+                      size: 48,
+                      color: Colors.blue,
+                    ),
                     const SizedBox(height: 16),
                     const Text(
                       'Provide Identity Document',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
@@ -67,23 +73,31 @@ class _AgeVerificationScreenState extends ConsumerState<AgeVerificationScreen> {
                           color: Colors.white10,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                              color: Colors.white24, style: BorderStyle.solid),
+                            color: Colors.white24,
+                            style: BorderStyle.solid,
+                          ),
                         ),
                         child: _selectedDoc == null
                             ? const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(LucideIcons.upload,
-                                      color: Colors.white54),
+                                  Icon(
+                                    LucideIcons.upload,
+                                    color: Colors.white54,
+                                  ),
                                   SizedBox(height: 8),
-                                  Text('Select Image',
-                                      style: TextStyle(color: Colors.white54)),
+                                  Text(
+                                    'Select Image',
+                                    style: TextStyle(color: Colors.white54),
+                                  ),
                                 ],
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.file(_selectedDoc!,
-                                    fit: BoxFit.cover),
+                                child: Image.file(
+                                  _selectedDoc!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                       ),
                     ),
@@ -99,14 +113,18 @@ class _AgeVerificationScreenState extends ConsumerState<AgeVerificationScreen> {
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(16),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         child: _isSubmitting
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
-                                    color: Colors.white, strokeWidth: 2))
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
                             : const Text('Submit for Verification'),
                       ),
                     ),
@@ -153,8 +171,10 @@ class _AgeVerificationScreenState extends ConsumerState<AgeVerificationScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text(
-                'Verification documents submitted! Your age is now verified (Simulated).')),
+          content: Text(
+            'Verification documents submitted! Your age is now verified (Simulated).',
+          ),
+        ),
       );
       Navigator.pop(context);
     }

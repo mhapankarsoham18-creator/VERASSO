@@ -36,7 +36,8 @@ class VaultService {
 
     final box = Hive.box(_vaultBoxName);
     return List<String>.from(
-        box.get(_hiddenChatsKey, defaultValue: <String>[]));
+      box.get(_hiddenChatsKey, defaultValue: <String>[]),
+    );
   }
 
   /// Hide a conversation
@@ -44,8 +45,9 @@ class VaultService {
     if (!_isSessionValid() && !await authenticateAccess()) return;
 
     final box = Hive.box(_vaultBoxName);
-    final List<String> hiddenIds =
-        List<String>.from(box.get(_hiddenChatsKey, defaultValue: <String>[]));
+    final List<String> hiddenIds = List<String>.from(
+      box.get(_hiddenChatsKey, defaultValue: <String>[]),
+    );
 
     if (!hiddenIds.contains(conversationId)) {
       hiddenIds.add(conversationId);
@@ -58,8 +60,9 @@ class VaultService {
     // We allow checking hidden status without session to filter the chat list
     // BUT we should not allow reading vault contents without session.
     final box = Hive.box(_vaultBoxName);
-    final List<String> hiddenIds =
-        List<String>.from(box.get(_hiddenChatsKey, defaultValue: <String>[]));
+    final List<String> hiddenIds = List<String>.from(
+      box.get(_hiddenChatsKey, defaultValue: <String>[]),
+    );
     return hiddenIds.contains(conversationId);
   }
 
@@ -68,8 +71,9 @@ class VaultService {
     if (!_isSessionValid() && !await authenticateAccess()) return;
 
     final box = Hive.box(_vaultBoxName);
-    final List<String> hiddenIds =
-        List<String>.from(box.get(_hiddenChatsKey, defaultValue: <String>[]));
+    final List<String> hiddenIds = List<String>.from(
+      box.get(_hiddenChatsKey, defaultValue: <String>[]),
+    );
 
     if (hiddenIds.contains(conversationId)) {
       hiddenIds.remove(conversationId);

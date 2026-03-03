@@ -61,9 +61,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
               gravity: 0.2,
             ),
           ),
-          Center(
-            child: _buildLevelContent(),
-          ),
+          Center(child: _buildLevelContent()),
         ],
       ),
     );
@@ -92,13 +90,9 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
       vsync: this,
     );
 
-    _confetti1 = ConfettiController(
-      duration: const Duration(seconds: 4),
-    );
+    _confetti1 = ConfettiController(duration: const Duration(seconds: 4));
 
-    _confetti2 = ConfettiController(
-      duration: const Duration(seconds: 4),
-    );
+    _confetti2 = ConfettiController(duration: const Duration(seconds: 4));
 
     _playAnimation();
   }
@@ -132,10 +126,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                   ],
                 ),
                 child: const Center(
-                  child: Text(
-                    '🛡️',
-                    style: TextStyle(fontSize: 100),
-                  ),
+                  child: Text('🛡️', style: TextStyle(fontSize: 100)),
                 ),
               ),
             );
@@ -164,11 +155,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
         Container(
           decoration: const BoxDecoration(
             gradient: RadialGradient(
-              colors: [
-                Color(0xFF1a1a2e),
-                Color(0xFF0f3460),
-                Color(0xFF16213e),
-              ],
+              colors: [Color(0xFF1a1a2e), Color(0xFF0f3460), Color(0xFF16213e)],
             ),
           ),
         ),
@@ -183,8 +170,8 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                 return Opacity(
                   opacity:
                       (math.sin(_shieldController.value * 3 * math.pi + index) +
-                              1) /
-                          2,
+                          1) /
+                      2,
                   child: const Text('⭐', style: TextStyle(fontSize: 20)),
                 );
               },
@@ -216,18 +203,16 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color:
-                                const Color(0xFF4FACFE).withValues(alpha: 0.8),
+                            color: const Color(
+                              0xFF4FACFE,
+                            ).withValues(alpha: 0.8),
                             blurRadius: 80,
                             spreadRadius: 30,
                           ),
                         ],
                       ),
                       child: const Center(
-                        child: Text(
-                          '💎',
-                          style: TextStyle(fontSize: 130),
-                        ),
+                        child: Text('💎', style: TextStyle(fontSize: 130)),
                       ),
                     ),
                   ),
@@ -243,12 +228,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFB9F2FF),
-                  shadows: [
-                    Shadow(
-                      color: Color(0xFF4FACFE),
-                      blurRadius: 20,
-                    ),
-                  ],
+                  shadows: [Shadow(color: Color(0xFF4FACFE), blurRadius: 20)],
                 ),
               ),
             ),
@@ -257,10 +237,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
               opacity: _textController,
               child: const Text(
                 '🎆 LEGENDARY STATUS ACHIEVED! 🎆',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 24, color: Colors.white),
               ),
             ),
           ],
@@ -300,10 +277,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                     ],
                   ),
                   child: const Center(
-                    child: Text(
-                      '🛡️',
-                      style: TextStyle(fontSize: 110),
-                    ),
+                    child: Text('🛡️', style: TextStyle(fontSize: 110)),
                   ),
                 ),
               ),
@@ -410,8 +384,8 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                 return Opacity(
                   opacity:
                       (math.sin(_shieldController.value * 4 * math.pi + index) +
-                              1) /
-                          2,
+                          1) /
+                      2,
                   child: const Text('⚡', style: TextStyle(fontSize: 60)),
                 );
               },
@@ -446,10 +420,7 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                       ],
                     ),
                     child: const Center(
-                      child: Text(
-                        '🛡️',
-                        style: TextStyle(fontSize: 120),
-                      ),
+                      child: Text('🛡️', style: TextStyle(fontSize: 120)),
                     ),
                   ),
                 );
@@ -507,24 +478,29 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
                     child: Stack(
                       children: [
                         const Center(
-                          child: Text(
-                            '🛡️',
-                            style: TextStyle(fontSize: 100),
-                          ),
+                          child: Text('🛡️', style: TextStyle(fontSize: 100)),
                         ),
                         ...List.generate(8, (index) {
                           final angle = (index / 8) * 2 * math.pi;
                           return Positioned(
-                            left: 100 +
+                            left:
+                                100 +
                                 60 *
-                                    math.cos(angle +
-                                        _shieldController.value * 2 * math.pi),
-                            top: 100 +
+                                    math.cos(
+                                      angle +
+                                          _shieldController.value * 2 * math.pi,
+                                    ),
+                            top:
+                                100 +
                                 60 *
-                                    math.sin(angle +
-                                        _shieldController.value * 2 * math.pi),
-                            child:
-                                const Text('✨', style: TextStyle(fontSize: 20)),
+                                    math.sin(
+                                      angle +
+                                          _shieldController.value * 2 * math.pi,
+                                    ),
+                            child: const Text(
+                              '✨',
+                              style: TextStyle(fontSize: 20),
+                            ),
                           );
                         }),
                       ],

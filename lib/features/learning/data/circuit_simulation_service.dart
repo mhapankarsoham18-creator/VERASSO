@@ -6,8 +6,10 @@ import 'ar_project_model.dart';
 /// Service for validating and simulating electrical circuits in AR.
 class CircuitSimulationService {
   /// Simulate a circuit and return results
-  Future<SimulationResult> simulate(List<ArComponent> components,
-      List<ComponentConnection> connections) async {
+  Future<SimulationResult> simulate(
+    List<ArComponent> components,
+    List<ComponentConnection> connections,
+  ) async {
     try {
       // Basic validation
       if (components.isEmpty) {
@@ -18,8 +20,9 @@ class CircuitSimulationService {
       }
 
       // Find power sources
-      final powerSources =
-          components.where((c) => c.category == 'power').toList();
+      final powerSources = components
+          .where((c) => c.category == 'power')
+          .toList();
       if (powerSources.isEmpty) {
         return const SimulationResult(
           isValid: false,
@@ -37,14 +40,17 @@ class CircuitSimulationService {
           isValid: false,
           errors: [
             'CRITICAL: Short Circuit Detected! The battery is draining rapidly and heating up.',
-            'Remove direct paths between positive and negative terminals.'
+            'Remove direct paths between positive and negative terminals.',
           ],
         );
       }
 
       // 3. Calculate voltages and currents using real Ohm's law and internal resistance
-      final calculations =
-          _calculateCircuit(components, connections, powerSources.first);
+      final calculations = _calculateCircuit(
+        components,
+        connections,
+        powerSources.first,
+      );
 
       // 4. Burnout Detection (Joule Heating & Component Limits)
       final failureCheck = _checkComponentFailures(components, calculations);
@@ -54,8 +60,11 @@ class CircuitSimulationService {
           errors: failureCheck.errors,
           voltages: calculations['voltages'] as Map<String, double>,
           currents: calculations['currents'] as Map<String, double>,
-          componentStates: _determineComponentStates(components, calculations,
-              failures: failureCheck.failedIds),
+          componentStates: _determineComponentStates(
+            components,
+            calculations,
+            failures: failureCheck.failedIds,
+          ),
         );
       }
 
@@ -63,8 +72,10 @@ class CircuitSimulationService {
       final polarityCheck = _checkLEDPolarity(components, connections);
 
       // Determine component states
-      final componentStates =
-          _determineComponentStates(components, calculations);
+      final componentStates = _determineComponentStates(
+        components,
+        calculations,
+      );
 
       return SimulationResult(
         isValid: true,
@@ -75,10 +86,7 @@ class CircuitSimulationService {
         componentStates: componentStates,
       );
     } catch (e) {
-      return SimulationResult(
-        isValid: false,
-        errors: ['Simulation error: $e'],
-      );
+      return SimulationResult(isValid: false, errors: ['Simulation error: $e']);
     }
   }
 
@@ -100,7 +108,8 @@ class CircuitSimulationService {
 
         if (power > maxPower) {
           warnings.add(
-              'Resistor "${component.name}" may overheat! Power: ${power.toStringAsFixed(2)}W (max: ${maxPower}W)');
+            'Resistor "${component.name}" may overheat! Power: ${power.toStringAsFixed(2)}W (max: ${maxPower}W)',
+          );
         }
       }
     }
@@ -151,10 +160,10 @@ class CircuitSimulationService {
         // LEDs have forward voltage drop, add equivalent resistance
         final forwardV =
             (component.properties['forward_voltage'] as num?)?.toDouble() ??
-                2.0;
+            2.0;
         final current =
             (component.properties['current_typical'] as num?)?.toDouble() ??
-                0.02;
+            0.02;
         totalResistance += (forwardV / current);
       }
     }
@@ -178,7 +187,7 @@ class CircuitSimulationService {
       } else if (component.category == 'led') {
         final forwardV =
             (component.properties['forward_voltage'] as num?)?.toDouble() ??
-                2.0;
+            2.0;
         voltages[component.id] = forwardV;
         currents[component.id] = totalCurrent;
       } else {
@@ -197,7 +206,7 @@ class CircuitSimulationService {
 
   /// Check for component failures (Blowout/Overheating)
   ({bool hasFailures, List<String> errors, List<String> failedIds})
-      _checkComponentFailures(
+  _checkComponentFailures(
     List<ArComponent> components,
     Map<String, dynamic> calculations,
   ) {
@@ -217,7 +226,8 @@ class CircuitSimulationService {
         if (power > maxPower * 2) {
           // 2x limit = blowout
           errors.add(
-              'RESISTOR BLOWOUT: "${component.name}" was subjected to ${power.toStringAsFixed(2)}W (Limit: ${maxPower}W)');
+            'RESISTOR BLOWOUT: "${component.name}" was subjected to ${power.toStringAsFixed(2)}W (Limit: ${maxPower}W)',
+          );
           failedIds.add(component.id);
         }
       } else if (component.category == 'led') {
@@ -225,7 +235,8 @@ class CircuitSimulationService {
             (component.properties['current_max'] as num?)?.toDouble() ?? 0.03;
         if (current > maxCurrent) {
           errors.add(
-              'LED BURNOUT: "${component.name}" threshold exceeded at ${(current * 1000).toStringAsFixed(1)}mA');
+            'LED BURNOUT: "${component.name}" threshold exceeded at ${(current * 1000).toStringAsFixed(1)}mA',
+          );
           failedIds.add(component.id);
         }
       }
@@ -234,7 +245,7 @@ class CircuitSimulationService {
     return (
       hasFailures: failedIds.isNotEmpty,
       errors: errors,
-      failedIds: failedIds
+      failedIds: failedIds,
     );
   }
 
@@ -313,7 +324,7 @@ class CircuitSimulationService {
         final current = currents[component.id] ?? 0.0;
         final minCurrent =
             (component.properties['current_typical'] as num?)?.toDouble() ??
-                0.02;
+            0.02;
 
         // LED is on if current is sufficient
         states[component.id] = {

@@ -7,9 +7,9 @@ import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 /// Provider for the [MeshJournalService].
 final meshJournalServiceProvider =
     StateNotifierProvider<MeshJournalService, JournalState>((ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return MeshJournalService(mesh);
-});
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      return MeshJournalService(mesh);
+    });
 
 /// Represents the state of a collaborative mesh journal.
 class JournalState {
@@ -50,11 +50,13 @@ class MeshJournalService extends StateNotifier<JournalState> {
 
   /// Sets up a new [MeshJournalService] with the provided mesh service.
   MeshJournalService(this._meshService)
-      : super(JournalState(
+    : super(
+        JournalState(
           content: "",
           lastUpdated: DateTime.fromMillisecondsSinceEpoch(0),
           updatedBy: "System",
-        )) {
+        ),
+      ) {
     _initListener();
   }
 

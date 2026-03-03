@@ -30,8 +30,10 @@ class ErrorDialogService {
       return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           content: Text(message),
           actions: [
             TextButton(

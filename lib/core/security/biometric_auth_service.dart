@@ -115,11 +115,7 @@ class BiometricAuthResult {
   }
 
   /// Internal constructor for [BiometricAuthResult].
-  BiometricAuthResult._({
-    required this.success,
-    this.error,
-    this.errorMessage,
-  });
+  BiometricAuthResult._({required this.success, this.error, this.errorMessage});
 }
 
 /// Service for biometric authentication (Face ID, Fingerprint, etc.)
@@ -184,7 +180,8 @@ class BiometricAuthService {
       final isAvailable = await isBiometricAvailable();
       if (!isAvailable) {
         throw Exception(
-            'Biometric authentication not available on this device');
+          'Biometric authentication not available on this device',
+        );
       }
 
       // Authenticate to confirm directly bypasses enabled check

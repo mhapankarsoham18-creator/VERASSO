@@ -47,8 +47,10 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
                       children: [
                         Icon(LucideIcons.lineChart, color: Colors.blueAccent),
                         SizedBox(width: 12),
-                        Text('Plasma Concentration Curve',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(
+                          'Plasma Concentration Curve',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 24),
@@ -64,32 +66,46 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
                             horizontalInterval: 10,
                             verticalInterval: 4,
                             getDrawingHorizontalLine: (value) => const FlLine(
-                                color: Colors.white10, strokeWidth: 1),
+                              color: Colors.white10,
+                              strokeWidth: 1,
+                            ),
                             getDrawingVerticalLine: (value) => const FlLine(
-                                color: Colors.white10, strokeWidth: 1),
+                              color: Colors.white10,
+                              strokeWidth: 1,
+                            ),
                           ),
                           titlesData: FlTitlesData(
                             leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                    showTitles: true,
-                                    reservedSize: 40,
-                                    getTitlesWidget: (v, m) => Text(
-                                        '${v.toInt()}',
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white38)))),
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 40,
+                                getTitlesWidget: (v, m) => Text(
+                                  '${v.toInt()}',
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white38,
+                                  ),
+                                ),
+                              ),
+                            ),
                             bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: (v, m) => Text(
-                                        '${v.toInt()}h',
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white38)))),
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (v, m) => Text(
+                                  '${v.toInt()}h',
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white38,
+                                  ),
+                                ),
+                              ),
+                            ),
                             rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
                             topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
                           ),
                           borderData: FlBorderData(show: false),
                           lineBarsData: [
@@ -104,7 +120,7 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.blueAccent.withValues(alpha: 0.3),
-                                    Colors.blueAccent.withValues(alpha: 0)
+                                    Colors.blueAccent.withValues(alpha: 0),
                                   ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
@@ -127,14 +143,34 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    _buildSlider('Dose (mg)', _dose, 100, 1000,
-                        (v) => setState(() => _dose = v)),
-                    _buildSlider('Abs. Rate (ka)', _ka, 0.1, 3.0,
-                        (v) => setState(() => _ka = v)),
-                    _buildSlider('Elim. Rate (ke)', _ke, 0.01, 1.0,
-                        (v) => setState(() => _ke = v)),
-                    _buildSlider('Volume (Vd)', _volume, 1.0, 50.0,
-                        (v) => setState(() => _volume = v)),
+                    _buildSlider(
+                      'Dose (mg)',
+                      _dose,
+                      100,
+                      1000,
+                      (v) => setState(() => _dose = v),
+                    ),
+                    _buildSlider(
+                      'Abs. Rate (ka)',
+                      _ka,
+                      0.1,
+                      3.0,
+                      (v) => setState(() => _ka = v),
+                    ),
+                    _buildSlider(
+                      'Elim. Rate (ke)',
+                      _ke,
+                      0.01,
+                      1.0,
+                      (v) => setState(() => _ke = v),
+                    ),
+                    _buildSlider(
+                      'Volume (Vd)',
+                      _volume,
+                      1.0,
+                      50.0,
+                      (v) => setState(() => _volume = v),
+                    ),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -146,8 +182,13 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
     );
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      ValueChanged<double> onChanged) {
+  Widget _buildSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    ValueChanged<double> onChanged,
+  ) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -156,11 +197,17 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label,
-                  style: const TextStyle(fontSize: 12, color: Colors.white70)),
-              Text(value.toStringAsFixed(2),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+              Text(
+                label,
+                style: const TextStyle(fontSize: 12, color: Colors.white70),
+              ),
+              Text(
+                value.toStringAsFixed(2),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
             ],
           ),
           Slider(
@@ -180,7 +227,8 @@ class _PKPDSimulatorScreenState extends State<PKPDSimulatorScreen> {
     List<FlSpot> spots = [];
     // Simple 1-compartment model: C = (D*ka / V*(ka-ke)) * (e^-ke*t - e^-ka*t)
     for (double t = 0; t <= 24; t += 0.5) {
-      double concentration = (_dose * _ka / (_volume * (_ka - _ke))) *
+      double concentration =
+          (_dose * _ka / (_volume * (_ka - _ke))) *
           (math.exp(-_ke * t) - math.exp(-_ka * t));
       spots.add(FlSpot(t, concentration.clamp(0.0, 1000.0)));
     }

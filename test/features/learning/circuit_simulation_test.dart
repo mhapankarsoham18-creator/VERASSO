@@ -64,7 +64,7 @@ void main() {
           properties: {
             'forward_voltage': 2.0,
             'current_typical': 0.02,
-            'color': 'red'
+            'color': 'red',
           },
         ),
       ];
@@ -131,7 +131,7 @@ void main() {
           properties: {
             'forward_voltage': 2.0,
             'current_typical': 0.02,
-            'color': 'red'
+            'color': 'red',
           },
         ),
         const ArComponent(
@@ -143,7 +143,7 @@ void main() {
           properties: {
             'forward_voltage': 2.1,
             'current_typical': 0.02,
-            'color': 'green'
+            'color': 'green',
           },
         ),
       ];
@@ -182,69 +182,74 @@ void main() {
       expect(result.componentStates['led2'], isNotNull);
     });
 
-    test('Circuit with different resistor values should calculate correctly',
-        () async {
-      final components = [
-        const ArComponent(
-          id: 'battery',
-          componentLibraryId: 'battery_9v',
-          name: '9V Battery',
-          category: 'power',
-          transform: Transform3D(),
-          properties: {'voltage': 9.0},
-        ),
-        const ArComponent(
-          id: 'resistor',
-          componentLibraryId: 'resistor_1k',
-          name: '1kΩ Resistor',
-          category: 'resistor',
-          transform: Transform3D(),
-          properties: {'resistance': 1000},
-        ),
-        const ArComponent(
-          id: 'led',
-          componentLibraryId: 'led_blue',
-          name: 'Blue LED',
-          category: 'led',
-          transform: Transform3D(),
-          properties: {
-            'forward_voltage': 3.2,
-            'current_typical': 0.02,
-            'color': 'blue'
-          },
-        ),
-      ];
+    test(
+      'Circuit with different resistor values should calculate correctly',
+      () async {
+        final components = [
+          const ArComponent(
+            id: 'battery',
+            componentLibraryId: 'battery_9v',
+            name: '9V Battery',
+            category: 'power',
+            transform: Transform3D(),
+            properties: {'voltage': 9.0},
+          ),
+          const ArComponent(
+            id: 'resistor',
+            componentLibraryId: 'resistor_1k',
+            name: '1kΩ Resistor',
+            category: 'resistor',
+            transform: Transform3D(),
+            properties: {'resistance': 1000},
+          ),
+          const ArComponent(
+            id: 'led',
+            componentLibraryId: 'led_blue',
+            name: 'Blue LED',
+            category: 'led',
+            transform: Transform3D(),
+            properties: {
+              'forward_voltage': 3.2,
+              'current_typical': 0.02,
+              'color': 'blue',
+            },
+          ),
+        ];
 
-      final connections = [
-        const ComponentConnection(
-          fromComponentId: 'battery',
-          toComponentId: 'resistor',
-          fromTerminal: 'positive',
-          toTerminal: 'in',
-        ),
-        const ComponentConnection(
-          fromComponentId: 'resistor',
-          toComponentId: 'led',
-          fromTerminal: 'out',
-          toTerminal: 'positive',
-        ),
-        const ComponentConnection(
-          fromComponentId: 'led',
-          toComponentId: 'battery',
-          fromTerminal: 'negative',
-          toTerminal: 'negative',
-        ),
-      ];
+        final connections = [
+          const ComponentConnection(
+            fromComponentId: 'battery',
+            toComponentId: 'resistor',
+            fromTerminal: 'positive',
+            toTerminal: 'in',
+          ),
+          const ComponentConnection(
+            fromComponentId: 'resistor',
+            toComponentId: 'led',
+            fromTerminal: 'out',
+            toTerminal: 'positive',
+          ),
+          const ComponentConnection(
+            fromComponentId: 'led',
+            toComponentId: 'battery',
+            fromTerminal: 'negative',
+            toTerminal: 'negative',
+          ),
+        ];
 
-      final result = await simulationService.simulate(components, connections);
+        final result = await simulationService.simulate(
+          components,
+          connections,
+        );
 
-      expect(result.isValid, true);
-      // With higher resistance, current should be lower
-      // I = V / R_total
-      // R_total = 1000 + (3.2 / 0.02) = 1000 + 160 = 1160 ohms
-      // I = 9 / 1160 = 0.00776 A (< 0.01)
-      expect(result.currents['led'], lessThan(0.01));
-    });
+        expect(result.isValid, true);
+        // With higher resistance, current should be lower
+        // I = V / R_total
+        // R_total = 1000 + (3.2 / 0.02) = 1000 + 160 = 1160 ohms
+        // I = 9 / 1160 = 0.00776 A (< 0.01)
+        expect(result.currents['led'], lessThan(0.01));
+      },
+    );
 
     test('Voltage calculations should be present for all components', () async {
       final components = [
@@ -273,7 +278,7 @@ void main() {
           properties: {
             'forward_voltage': 2.0,
             'current_typical': 0.02,
-            'color': 'red'
+            'color': 'red',
           },
         ),
       ];
@@ -308,7 +313,8 @@ void main() {
       // V_resistor = I * R = 0.01538 * 220 = 3.384V
       // V_led = 2.0V (forward voltage)
       // Total = 5.384V (remaining voltage drop through series path)
-      final totalVoltage = (result.voltages['resistor'] ?? 0.0) +
+      final totalVoltage =
+          (result.voltages['resistor'] ?? 0.0) +
           (result.voltages['led'] ?? 0.0);
       expect(totalVoltage, lessThan(9.0));
     });
@@ -340,7 +346,7 @@ void main() {
           properties: {
             'forward_voltage': 2.0,
             'current_typical': 0.02,
-            'color': 'red'
+            'color': 'red',
           },
         ),
       ];
@@ -469,110 +475,120 @@ void main() {
   });
 
   group('Edge Case Tests', () {
-    test('Circuit with zero resistance should not cause division by zero',
-        () async {
-      final components = [
-        const ArComponent(
-          id: 'battery',
-          componentLibraryId: 'battery_9v',
-          name: '9V Battery',
-          category: 'power',
-          transform: Transform3D(),
-          properties: {'voltage': 9.0},
-        ),
-        const ArComponent(
-          id: 'resistor',
-          componentLibraryId: 'resistor_0',
-          name: '0Ω Resistor (short)',
-          category: 'resistor',
-          transform: Transform3D(),
-          properties: {'resistance': 0.0}, // Edge case
-        ),
-      ];
+    test(
+      'Circuit with zero resistance should not cause division by zero',
+      () async {
+        final components = [
+          const ArComponent(
+            id: 'battery',
+            componentLibraryId: 'battery_9v',
+            name: '9V Battery',
+            category: 'power',
+            transform: Transform3D(),
+            properties: {'voltage': 9.0},
+          ),
+          const ArComponent(
+            id: 'resistor',
+            componentLibraryId: 'resistor_0',
+            name: '0Ω Resistor (short)',
+            category: 'resistor',
+            transform: Transform3D(),
+            properties: {'resistance': 0.0}, // Edge case
+          ),
+        ];
 
-      final connections = [
-        const ComponentConnection(
-          fromComponentId: 'battery',
-          toComponentId: 'resistor',
-        ),
-      ];
+        final connections = [
+          const ComponentConnection(
+            fromComponentId: 'battery',
+            toComponentId: 'resistor',
+          ),
+        ];
 
-      // Should not throw exception even with zero resistance
-      final result = await simulationService.simulate(components, connections);
-      expect(result, isNotNull);
-    });
+        // Should not throw exception even with zero resistance
+        final result = await simulationService.simulate(
+          components,
+          connections,
+        );
+        expect(result, isNotNull);
+      },
+    );
 
-    test('Circuit with multiple parallel LEDs should calculate correctly',
-        () async {
-      final components = [
-        const ArComponent(
-          id: 'battery',
-          componentLibraryId: 'battery_9v',
-          name: '9V Battery',
-          category: 'power',
-          transform: Transform3D(),
-          properties: {'voltage': 9.0},
-        ),
-        const ArComponent(
-          id: 'led1',
-          componentLibraryId: 'led_red',
-          name: 'Red LED 1',
-          category: 'led',
-          transform: Transform3D(),
-          properties: {
-            'forward_voltage': 2.0,
-            'current_typical': 0.02,
-            'color': 'red'
-          },
-        ),
-        const ArComponent(
-          id: 'led2',
-          componentLibraryId: 'led_green',
-          name: 'Green LED 2',
-          category: 'led',
-          transform: Transform3D(),
-          properties: {
-            'forward_voltage': 2.1,
-            'current_typical': 0.02,
-            'color': 'green'
-          },
-        ),
-      ];
+    test(
+      'Circuit with multiple parallel LEDs should calculate correctly',
+      () async {
+        final components = [
+          const ArComponent(
+            id: 'battery',
+            componentLibraryId: 'battery_9v',
+            name: '9V Battery',
+            category: 'power',
+            transform: Transform3D(),
+            properties: {'voltage': 9.0},
+          ),
+          const ArComponent(
+            id: 'led1',
+            componentLibraryId: 'led_red',
+            name: 'Red LED 1',
+            category: 'led',
+            transform: Transform3D(),
+            properties: {
+              'forward_voltage': 2.0,
+              'current_typical': 0.02,
+              'color': 'red',
+            },
+          ),
+          const ArComponent(
+            id: 'led2',
+            componentLibraryId: 'led_green',
+            name: 'Green LED 2',
+            category: 'led',
+            transform: Transform3D(),
+            properties: {
+              'forward_voltage': 2.1,
+              'current_typical': 0.02,
+              'color': 'green',
+            },
+          ),
+        ];
 
-      final connections = [
-        const ComponentConnection(
-          fromComponentId: 'battery',
-          toComponentId: 'led1',
-          fromTerminal: 'positive',
-          toTerminal: 'positive',
-        ),
-        const ComponentConnection(
-          fromComponentId: 'battery',
-          toComponentId: 'led2',
-          fromTerminal: 'positive',
-          toTerminal: 'positive',
-        ),
-        const ComponentConnection(
-          fromComponentId: 'led1',
-          toComponentId: 'battery',
-          fromTerminal: 'negative',
-          toTerminal: 'negative',
-        ),
-        const ComponentConnection(
-          fromComponentId: 'led2',
-          toComponentId: 'battery',
-          fromTerminal: 'negative',
-          toTerminal: 'negative',
-        ),
-      ];
+        final connections = [
+          const ComponentConnection(
+            fromComponentId: 'battery',
+            toComponentId: 'led1',
+            fromTerminal: 'positive',
+            toTerminal: 'positive',
+          ),
+          const ComponentConnection(
+            fromComponentId: 'battery',
+            toComponentId: 'led2',
+            fromTerminal: 'positive',
+            toTerminal: 'positive',
+          ),
+          const ComponentConnection(
+            fromComponentId: 'led1',
+            toComponentId: 'battery',
+            fromTerminal: 'negative',
+            toTerminal: 'negative',
+          ),
+          const ComponentConnection(
+            fromComponentId: 'led2',
+            toComponentId: 'battery',
+            fromTerminal: 'negative',
+            toTerminal: 'negative',
+          ),
+        ];
 
-      final result = await simulationService.simulate(components, connections);
-      // Fails because LEDs connected directly to 9V source will burn out
-      expect(result.isValid, false);
-      expect(result.errors.any((e) => e.contains('BURNOUT')), true);
-      expect(result.componentStates.containsKey('led1'), true);
-      expect(result.componentStates.containsKey('led2'), true);
-    });
+        final result = await simulationService.simulate(
+          components,
+          connections,
+        );
+        // Fails because LEDs connected directly to 9V source will burn out
+        expect(result.isValid, false);
+        expect(result.errors.any((e) => e.contains('BURNOUT')), true);
+        expect(result.componentStates.containsKey('led1'), true);
+        expect(result.componentStates.containsKey('led2'), true);
+      },
+    );
 
     test('Invalid component should be detected', () async {
       final components = [
@@ -640,7 +656,9 @@ void main() {
       final current = result.currents['resistor'] ?? 0.0;
       expect(current, lessThan(0.00001)); // Less than 10µA (9µA is correct)
       expect(
-          current, greaterThan(0.000005)); // Greater than 5µA (9µA is in range)
+        current,
+        greaterThan(0.000005),
+      ); // Greater than 5µA (9µA is in range)
     });
 
     test('ComponentConnection serialization should handle all fields', () {

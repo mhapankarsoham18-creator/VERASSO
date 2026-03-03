@@ -21,7 +21,7 @@ class IpService {
 
       // Fetch fresh IP from multiple sources (fallback strategy)
       String? ipAddress = await _fetchIpFromApi();
-      
+
       if (ipAddress != null) {
         await _cacheIp(ipAddress);
         return ipAddress;
@@ -117,7 +117,10 @@ class IpService {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_ipCacheKey, ipAddress);
-      await prefs.setInt(_ipCacheTimeKey, DateTime.now().millisecondsSinceEpoch);
+      await prefs.setInt(
+        _ipCacheTimeKey,
+        DateTime.now().millisecondsSinceEpoch,
+      );
     } catch (e) {
       // If caching fails, it's not critical - continue without cache
     }
@@ -139,7 +142,7 @@ class IpService {
   Future<Map<String, dynamic>?> getIpInfo() async {
     try {
       final ip = await getClientIpAddress();
-      
+
       if (ip == 'unknown' || ip == '127.0.0.1' || ip.startsWith('192.168.')) {
         return null;
       }

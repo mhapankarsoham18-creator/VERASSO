@@ -46,10 +46,7 @@ void main() {
       // Simulate corrupted encrypted data
       await storage.writeRaw('corrupted', [0xFF, 0xFE, 0xFD, 0xFC]);
 
-      expect(
-        () => storage.read('corrupted'),
-        throwsException,
-      );
+      expect(() => storage.read('corrupted'), throwsException);
     });
 
     test('missing key returns null', () async {

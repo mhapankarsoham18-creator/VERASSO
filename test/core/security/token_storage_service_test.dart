@@ -29,17 +29,19 @@ void main() {
       expect(isValid, isTrue);
     });
 
-    test('isSessionValid returns false and clears tokens for passed expiry',
-        () async {
-      final pastExpiry = DateTime.now().subtract(const Duration(hours: 1));
-      await service.saveSessionExpiry(pastExpiry);
+    test(
+      'isSessionValid returns false and clears tokens for passed expiry',
+      () async {
+        final pastExpiry = DateTime.now().subtract(const Duration(hours: 1));
+        await service.saveSessionExpiry(pastExpiry);
 
-      final isValid = await service.isSessionValid();
-      expect(isValid, isFalse);
+        final isValid = await service.isSessionValid();
+        expect(isValid, isFalse);
 
-      final token = await service.getRefreshToken();
-      expect(token, isNull);
-    });
+        final token = await service.getRefreshToken();
+        expect(token, isNull);
+      },
+    );
 
     test('clearTokens removes all authentication data', () async {
       await service.saveRefreshToken('token');

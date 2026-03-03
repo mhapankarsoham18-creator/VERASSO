@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 /// Provider for the [SessionTimeoutService], used to manage user inactivity.
-final sessionTimeoutProvider =
-    ChangeNotifierProvider((ref) => SessionTimeoutService());
+final sessionTimeoutProvider = ChangeNotifierProvider(
+  (ref) => SessionTimeoutService(),
+);
 
 /// Service that monitors user inactivity and triggers a session lock.
 ///
@@ -17,8 +18,9 @@ class SessionTimeoutService extends ChangeNotifier with WidgetsBindingObserver {
   static const Duration sessionTimeout = Duration(minutes: 60); // 1 hour
 
   /// Duration before [sessionTimeout] to trigger a warning notification.
-  static const Duration warningShowTime =
-      Duration(minutes: 5); // Show warning 5 min before
+  static const Duration warningShowTime = Duration(
+    minutes: 5,
+  ); // Show warning 5 min before
 
   Timer? _inactivityTimer;
   Timer? _warningTimer;
@@ -74,10 +76,7 @@ class SessionTimeoutService extends ChangeNotifier with WidgetsBindingObserver {
     _warningTimer?.cancel();
 
     // Set warning timer (shows warning before timeout)
-    _warningTimer = Timer(
-      _timeoutDuration - warningShowTime,
-      _showWarning,
-    );
+    _warningTimer = Timer(_timeoutDuration - warningShowTime, _showWarning);
 
     // Set actual timeout timer
     _inactivityTimer = Timer(_timeoutDuration, _lockSession);

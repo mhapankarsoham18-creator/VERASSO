@@ -34,15 +34,14 @@ class ArComponent {
 
   /// Creates an [ArComponent] from a JSON-compatible map.
   factory ArComponent.fromJson(Map<String, dynamic> json) => ArComponent(
-        id: json['id'] as String,
-        componentLibraryId: json['componentLibraryId'] as String,
-        name: json['name'] as String,
-        category: json['category'] as String,
-        transform:
-            Transform3D.fromJson(json['transform'] as Map<String, dynamic>),
-        properties: (json['properties'] as Map<String, dynamic>?) ?? {},
-        connectedTo: (json['connectedTo'] as List?)?.cast<String>() ?? [],
-      );
+    id: json['id'] as String,
+    componentLibraryId: json['componentLibraryId'] as String,
+    name: json['name'] as String,
+    category: json['category'] as String,
+    transform: Transform3D.fromJson(json['transform'] as Map<String, dynamic>),
+    properties: (json['properties'] as Map<String, dynamic>?) ?? {},
+    connectedTo: (json['connectedTo'] as List?)?.cast<String>() ?? [],
+  );
 
   /// Creates a copy of this [ArComponent] with optional field overrides.
   ArComponent copyWith({
@@ -53,27 +52,26 @@ class ArComponent {
     Transform3D? transform,
     Map<String, dynamic>? properties,
     List<String>? connectedTo,
-  }) =>
-      ArComponent(
-        id: id ?? this.id,
-        componentLibraryId: componentLibraryId ?? this.componentLibraryId,
-        name: name ?? this.name,
-        category: category ?? this.category,
-        transform: transform ?? this.transform,
-        properties: properties ?? this.properties,
-        connectedTo: connectedTo ?? this.connectedTo,
-      );
+  }) => ArComponent(
+    id: id ?? this.id,
+    componentLibraryId: componentLibraryId ?? this.componentLibraryId,
+    name: name ?? this.name,
+    category: category ?? this.category,
+    transform: transform ?? this.transform,
+    properties: properties ?? this.properties,
+    connectedTo: connectedTo ?? this.connectedTo,
+  );
 
   /// Converts this [ArComponent] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'componentLibraryId': componentLibraryId,
-        'name': name,
-        'category': category,
-        'transform': transform.toJson(),
-        'properties': properties,
-        'connectedTo': connectedTo,
-      };
+    'id': id,
+    'componentLibraryId': componentLibraryId,
+    'name': name,
+    'category': category,
+    'transform': transform.toJson(),
+    'properties': properties,
+    'connectedTo': connectedTo,
+  };
 }
 
 /// Main AR project model
@@ -141,13 +139,16 @@ class ArProject {
       title: json['title'] as String,
       description: json['description'] as String? ?? '',
       thumbnailUrl: json['thumbnail_url'] as String?,
-      components: (projectData['components'] as List?)
+      components:
+          (projectData['components'] as List?)
               ?.map((c) => ArComponent.fromJson(c as Map<String, dynamic>))
               .toList() ??
           [],
-      connections: (projectData['connections'] as List?)
-              ?.map((c) =>
-                  ComponentConnection.fromJson(c as Map<String, dynamic>))
+      connections:
+          (projectData['connections'] as List?)
+              ?.map(
+                (c) => ComponentConnection.fromJson(c as Map<String, dynamic>),
+              )
               .toList() ??
           [],
       lastSimulation: simulationState != null
@@ -174,39 +175,38 @@ class ArProject {
     bool? sharedWithFriends,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) =>
-      ArProject(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-        components: components ?? this.components,
-        connections: connections ?? this.connections,
-        lastSimulation: lastSimulation ?? this.lastSimulation,
-        isPublic: isPublic ?? this.isPublic,
-        sharedWithFriends: sharedWithFriends ?? this.sharedWithFriends,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => ArProject(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+    components: components ?? this.components,
+    connections: connections ?? this.connections,
+    lastSimulation: lastSimulation ?? this.lastSimulation,
+    isPublic: isPublic ?? this.isPublic,
+    sharedWithFriends: sharedWithFriends ?? this.sharedWithFriends,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   /// Converts this [ArProject] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'user_id': userId,
-        'title': title,
-        'description': description,
-        'thumbnail_url': thumbnailUrl,
-        'project_data': {
-          'components': components.map((c) => c.toJson()).toList(),
-          'connections': connections.map((c) => c.toJson()).toList(),
-        },
-        'simulation_state': lastSimulation?.toJson(),
-        'is_public': isPublic,
-        'shared_with_friends': sharedWithFriends,
-        'created_at': createdAt.toIso8601String(),
-        'updated_at': updatedAt.toIso8601String(),
-      };
+    'id': id,
+    'user_id': userId,
+    'title': title,
+    'description': description,
+    'thumbnail_url': thumbnailUrl,
+    'project_data': {
+      'components': components.map((c) => c.toJson()).toList(),
+      'connections': connections.map((c) => c.toJson()).toList(),
+    },
+    'simulation_state': lastSimulation?.toJson(),
+    'is_public': isPublic,
+    'shared_with_friends': sharedWithFriends,
+    'created_at': createdAt.toIso8601String(),
+    'updated_at': updatedAt.toIso8601String(),
+  };
 }
 
 /// Represents a connection between two components
@@ -243,11 +243,11 @@ class ComponentConnection {
 
   /// Converts this [ComponentConnection] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'fromComponentId': fromComponentId,
-        'toComponentId': toComponentId,
-        'fromTerminal': fromTerminal,
-        'toTerminal': toTerminal,
-      };
+    'fromComponentId': fromComponentId,
+    'toComponentId': toComponentId,
+    'fromTerminal': fromTerminal,
+    'toTerminal': toTerminal,
+  };
 }
 
 /// Component library item model
@@ -305,15 +305,15 @@ class ComponentLibraryItem {
 
   /// Converts this [ComponentLibraryItem] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'category': category,
-        'model_url': modelUrl,
-        'icon_url': iconUrl,
-        'properties': properties,
-        'simulation_rules': simulationRules,
-        'is_active': isActive,
-      };
+    'id': id,
+    'name': name,
+    'category': category,
+    'model_url': modelUrl,
+    'icon_url': iconUrl,
+    'properties': properties,
+    'simulation_rules': simulationRules,
+    'is_active': isActive,
+  };
 }
 
 /// Shared project model (for viewing shared projects)
@@ -410,11 +410,13 @@ class SimulationResult {
   factory SimulationResult.fromJson(Map<String, dynamic> json) =>
       SimulationResult(
         isValid: json['isValid'] as bool? ?? false,
-        voltages: (json['voltages'] as Map<String, dynamic>?)?.map(
+        voltages:
+            (json['voltages'] as Map<String, dynamic>?)?.map(
               (k, v) => MapEntry(k, (v as num).toDouble()),
             ) ??
             {},
-        currents: (json['currents'] as Map<String, dynamic>?)?.map(
+        currents:
+            (json['currents'] as Map<String, dynamic>?)?.map(
               (k, v) => MapEntry(k, (v as num).toDouble()),
             ) ??
             {},
@@ -426,13 +428,13 @@ class SimulationResult {
 
   /// Converts this [SimulationResult] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'isValid': isValid,
-        'voltages': voltages,
-        'currents': currents,
-        'errors': errors,
-        'warnings': warnings,
-        'componentStates': componentStates,
-      };
+    'isValid': isValid,
+    'voltages': voltages,
+    'currents': currents,
+    'errors': errors,
+    'warnings': warnings,
+    'componentStates': componentStates,
+  };
 }
 
 /// Represents a 3D position and orientation in AR space
@@ -472,14 +474,14 @@ class Transform3D {
 
   /// Creates a [Transform3D] from a JSON-compatible map.
   factory Transform3D.fromJson(Map<String, dynamic> json) => Transform3D(
-        x: (json['x'] as num?)?.toDouble() ?? 0.0,
-        y: (json['y'] as num?)?.toDouble() ?? 0.0,
-        z: (json['z'] as num?)?.toDouble() ?? 0.0,
-        rotationX: (json['rotationX'] as num?)?.toDouble() ?? 0.0,
-        rotationY: (json['rotationY'] as num?)?.toDouble() ?? 0.0,
-        rotationZ: (json['rotationZ'] as num?)?.toDouble() ?? 0.0,
-        scale: (json['scale'] as num?)?.toDouble() ?? 1.0,
-      );
+    x: (json['x'] as num?)?.toDouble() ?? 0.0,
+    y: (json['y'] as num?)?.toDouble() ?? 0.0,
+    z: (json['z'] as num?)?.toDouble() ?? 0.0,
+    rotationX: (json['rotationX'] as num?)?.toDouble() ?? 0.0,
+    rotationY: (json['rotationY'] as num?)?.toDouble() ?? 0.0,
+    rotationZ: (json['rotationZ'] as num?)?.toDouble() ?? 0.0,
+    scale: (json['scale'] as num?)?.toDouble() ?? 1.0,
+  );
 
   /// Creates a copy of this [Transform3D] with optional field overrides.
   Transform3D copyWith({
@@ -490,25 +492,24 @@ class Transform3D {
     double? rotationY,
     double? rotationZ,
     double? scale,
-  }) =>
-      Transform3D(
-        x: x ?? this.x,
-        y: y ?? this.y,
-        z: z ?? this.z,
-        rotationX: rotationX ?? this.rotationX,
-        rotationY: rotationY ?? this.rotationY,
-        rotationZ: rotationZ ?? this.rotationZ,
-        scale: scale ?? this.scale,
-      );
+  }) => Transform3D(
+    x: x ?? this.x,
+    y: y ?? this.y,
+    z: z ?? this.z,
+    rotationX: rotationX ?? this.rotationX,
+    rotationY: rotationY ?? this.rotationY,
+    rotationZ: rotationZ ?? this.rotationZ,
+    scale: scale ?? this.scale,
+  );
 
   /// Converts this [Transform3D] to a JSON-compatible map.
   Map<String, dynamic> toJson() => {
-        'x': x,
-        'y': y,
-        'z': z,
-        'rotationX': rotationX,
-        'rotationY': rotationY,
-        'rotationZ': rotationZ,
-        'scale': scale,
-      };
+    'x': x,
+    'y': y,
+    'z': z,
+    'rotationX': rotationX,
+    'rotationY': rotationY,
+    'rotationZ': rotationZ,
+    'scale': scale,
+  };
 }

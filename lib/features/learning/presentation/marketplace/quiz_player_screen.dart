@@ -12,8 +12,10 @@ import '../../data/assessment_models.dart';
 import '../../data/assessment_repository.dart';
 
 /// Future provider for fetching questions for a specific quiz.
-final quizQuestionsProvider =
-    FutureProvider.family<List<Question>, String>((ref, quizId) {
+final quizQuestionsProvider = FutureProvider.family<List<Question>, String>((
+  ref,
+  quizId,
+) {
   return ref.watch(assessmentRepositoryProvider).getQuizQuestions(quizId);
 });
 
@@ -43,7 +45,9 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: Text(widget.quiz.title), backgroundColor: Colors.transparent),
+        title: Text(widget.quiz.title),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: questionsAsync.when(
           data: (questions) {
@@ -74,7 +78,9 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
                   Text(
                     currentQuestion.questionText,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 32),
                   ...currentQuestion.options.asMap().entries.map((entry) {
@@ -100,8 +106,8 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
                         onTap: _isAnswerChecked
                             ? null
                             : () => setState(() {
-                                  _selectedOption = idx;
-                                }),
+                                _selectedOption = idx;
+                              }),
                         child: GlassContainer(
                           padding: const EdgeInsets.all(16),
                           border: Border.all(color: borderColor),
@@ -115,13 +121,18 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
                                 child: Text(
                                   String.fromCharCode(65 + idx),
                                   style: const TextStyle(
-                                      fontSize: 10, color: Colors.white),
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
-                                  child: Text(text,
-                                      style: const TextStyle(fontSize: 14))),
+                                child: Text(
+                                  text,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -135,17 +146,19 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
                       onPressed: _selectedOption == null
                           ? null
                           : (_isAnswerChecked
-                              ? () => _nextQuestion(questions.length)
-                              : () => _checkAnswer(currentQuestion)),
+                                ? () => _nextQuestion(questions.length)
+                                : () => _checkAnswer(currentQuestion)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
                         padding: const EdgeInsets.all(16),
                       ),
-                      child: Text(_isAnswerChecked
-                          ? (_currentQuestionIndex < questions.length - 1
-                              ? 'Next Question'
-                              : 'Finish Quiz')
-                          : 'Check Answer'),
+                      child: Text(
+                        _isAnswerChecked
+                            ? (_currentQuestionIndex < questions.length - 1
+                                  ? 'Next Question'
+                                  : 'Finish Quiz')
+                            : 'Check Answer',
+                      ),
                     ),
                   ),
                 ],
@@ -190,14 +203,18 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Icon(LucideIcons.fileCheck,
-                        color: Colors.blueAccent, size: 40),
+                    Icon(
+                      LucideIcons.fileCheck,
+                      color: Colors.blueAccent,
+                      size: 40,
+                    ),
                     SizedBox(height: 12),
                     Text(
                       'Certificate Issued!',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
                     ),
                     SizedBox(height: 4),
                     Text(
@@ -213,8 +230,9 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                style:
-                    ElevatedButton.styleFrom(backgroundColor: Colors.white10),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white10,
+                ),
                 child: const Text('Back to Course'),
               ),
             ),
@@ -252,7 +270,7 @@ class _QuizPlayerScreenState extends ConsumerState<QuizPlayerScreen> {
             'quiz_id': widget.quiz.id,
             'score': percentage,
             'passed': passed,
-            'title': widget.quiz.title
+            'title': widget.quiz.title,
           },
         );
 

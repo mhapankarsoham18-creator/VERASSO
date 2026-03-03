@@ -27,9 +27,9 @@ class CourseRepository {
     SupabaseClient? client,
     TransactionService? txService,
     GamificationEventBus? eventBus,
-  })  : _client = client ?? SupabaseService.client,
-        _txService = txService ?? TransactionService(TransactionRepository()),
-        _eventBus = eventBus;
+  }) : _client = client ?? SupabaseService.client,
+       _txService = txService ?? TransactionService(TransactionRepository()),
+       _eventBus = eventBus;
 
   /// Adds a new chapter to a course.
   Future<Chapter> addChapter({
@@ -78,8 +78,11 @@ class CourseRepository {
   ///
   /// If [paymentId] is provided, it assumes the payment was already processed
   /// externally (e.g., via Razorpay) and proceeds to record the transaction.
-  Future<void> enrollInCourse(String courseId, double price,
-      {String? paymentId}) async {
+  Future<void> enrollInCourse(
+    String courseId,
+    double price, {
+    String? paymentId,
+  }) async {
     final studentId = _client.auth.currentUser?.id;
     if (studentId == null) {
       throw Exception('Not logged in');
@@ -107,7 +110,10 @@ class CourseRepository {
         } else {
           // Process via internal credits
           final success = await _txService.processCoursePurchase(
-              studentId, courseId, price);
+            studentId,
+            courseId,
+            price,
+          );
           if (!success) {
             throw Exception('Insufficient credits or transaction failed');
           }
@@ -121,8 +127,11 @@ class CourseRepository {
       });
 
       // 3. Trigger gamification v2
-      _eventBus?.track(GamificationAction.courseEnrolled, studentId,
-          metadata: {'course_id': courseId});
+      _eventBus?.track(
+        GamificationAction.courseEnrolled,
+        studentId,
+        metadata: {'course_id': courseId},
+      );
     } catch (e) {
       AppLogger.info('Enroll error: $e');
       throw Exception('Failed to enroll in course: $e');
@@ -137,10 +146,7 @@ class CourseRepository {
     try {
       final response = await _client
           .from('enrollments')
-          .insert({
-            'student_id': studentId,
-            'course_id': courseId,
-          })
+          .insert({'student_id': studentId, 'course_id': courseId})
           .select()
           .single();
       return Enrollment.fromJson(response);
@@ -364,8 +370,11 @@ class CourseRepository {
         'completed_at': DateTime.now().toIso8601String(),
       });
       // Award XP for chapter (lesson) completion
-      _eventBus?.track(GamificationAction.lessonCompleted, studentId,
-          metadata: {'chapter_id': chapterId});
+      _eventBus?.track(
+        GamificationAction.lessonCompleted,
+        studentId,
+        metadata: {'chapter_id': chapterId},
+      );
       return true;
     } catch (e) {
       AppLogger.info('Mark chapter complete error: $e');
@@ -375,12 +384,17 @@ class CourseRepository {
 
   /// Records progress or data for a simulation.
   Future<void> saveSimulationData(
-      String postId, Map<String, dynamic> data) async {
+    String postId,
+    Map<String, dynamic> data,
+  ) async {
     try {
-      await _client.from('posts').update({
-        'simulation_data': data,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', postId);
+      await _client
+          .from('posts')
+          .update({
+            'simulation_data': data,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', postId);
     } catch (e) {
       AppLogger.info('Save simulation data error: $e');
       throw Exception('Failed to save simulation data: $e');
@@ -435,17 +449,24 @@ class CourseRepository {
   }
 
   /// Updates a student's progress in a course based on completed chapters.
-  Future<void> updateProgress(String enrollmentId,
-      List<String> completedChapters, int totalChapters) async {
+  Future<void> updateProgress(
+    String enrollmentId,
+    List<String> completedChapters,
+    int totalChapters,
+  ) async {
     final progress = (completedChapters.length / totalChapters * 100).toInt();
 
     try {
-      await _client.from('enrollments').update({
-        'completed_chapters': completedChapters,
-        'progress_percent': progress,
-        'completed_at':
-            progress == 100 ? DateTime.now().toIso8601String() : null,
-      }).eq('id', enrollmentId);
+      await _client
+          .from('enrollments')
+          .update({
+            'completed_chapters': completedChapters,
+            'progress_percent': progress,
+            'completed_at': progress == 100
+                ? DateTime.now().toIso8601String()
+                : null,
+          })
+          .eq('id', enrollmentId);
     } catch (e) {
       AppLogger.info('Update progress error: $e');
       throw Exception('Failed to update progress: $e');

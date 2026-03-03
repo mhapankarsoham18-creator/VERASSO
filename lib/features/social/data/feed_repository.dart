@@ -18,10 +18,7 @@ import 'post_model.dart';
 final feedRepositoryProvider = Provider<FeedRepository>((ref) {
   final eventBus = ref.watch(gamificationEventBusProvider);
   final moderation = ref.watch(moderationServiceProvider);
-  return FeedRepository(
-    eventBus: eventBus,
-    moderationService: moderation,
-  );
+  return FeedRepository(eventBus: eventBus, moderationService: moderation);
 });
 
 /// Repository responsible for managing social feed data and interactions.
@@ -38,9 +35,9 @@ class FeedRepository {
     SupabaseClient? client,
     GamificationEventBus? eventBus,
     ModerationService? moderationService,
-  })  : _client = client ?? SupabaseService.client,
-        _eventBus = eventBus,
-        _moderationService = moderationService ?? ModerationService();
+  }) : _client = client ?? SupabaseService.client,
+       _eventBus = eventBus,
+       _moderationService = moderationService ?? ModerationService();
 
   /// Creates a comment on a post (Bridge method for tests).
   Future<void> createComment(String postId, String content) async {
@@ -83,8 +80,9 @@ class FeedRepository {
     // Upload Images
     for (var image in images) {
       try {
-        final compressedImage =
-            await ImageCompressionService.compressImage(image);
+        final compressedImage = await ImageCompressionService.compressImage(
+          image,
+        );
         final fileName =
             'posts/${DateTime.now().millisecondsSinceEpoch}_${images.indexOf(image)}.jpg';
         await _client.storage.from('posts').upload(fileName, compressedImage);
@@ -216,8 +214,7 @@ class FeedRepository {
     List<String> userInterests = const [],
     int limit = 20,
     int offset = 0,
-  }) =>
-      getFeed(userInterests: userInterests, limit: limit, offset: offset);
+  }) => getFeed(userInterests: userInterests, limit: limit, offset: offset);
 
   /// Returns a feed consisting only of posts authored by accounts the user
   /// follows.
@@ -234,8 +231,10 @@ class FeedRepository {
           .from('relationships')
           .select('target_id')
           .eq('user_id', myId)
-          .eq('status',
-              'friends'); // In this system, 'friends' acts as bidirectional following or simple following
+          .eq(
+            'status',
+            'friends',
+          ); // In this system, 'friends' acts as bidirectional following or simple following
 
       final followingIds = (followResponse as List)
           .map((e) => e['target_id'] as String)
@@ -270,11 +269,15 @@ class FeedRepository {
   Future<Post> getPostById(String postId) async {
     try {
       final myId = _client.auth.currentUser?.id;
-      final response = await _client.from('posts').select('''
+      final response = await _client
+          .from('posts')
+          .select('''
             *,
             profiles:user_id(full_name, avatar_url),
             is_liked:post_likes!left(id).eq(user_id, ${myId != null ? "'$myId'" : "'00000000-0000-0000-0000-000000000000'"})
-          ''').eq('id', postId).single();
+          ''')
+          .eq('id', postId)
+          .single();
 
       final data = Map<String, dynamic>.from(response);
       data['is_liked'] = (data['is_liked'] as List?)?.isNotEmpty ?? false;
@@ -291,11 +294,15 @@ class FeedRepository {
   Future<List<Post>> getUserPosts(String userId) async {
     try {
       final myId = _client.auth.currentUser?.id;
-      final response = await _client.from('posts').select('''
+      final response = await _client
+          .from('posts')
+          .select('''
             *,
             profiles:user_id(full_name, avatar_url),
             is_liked:post_likes!left(id).eq(user_id, ${myId != null ? "'$myId'" : "'00000000-0000-0000-0000-000000000000'"})
-          ''').eq('user_id', userId).order('created_at', ascending: false);
+          ''')
+          .eq('user_id', userId)
+          .order('created_at', ascending: false);
 
       return (response as List).map((e) {
         final data = Map<String, dynamic>.from(e);
@@ -318,10 +325,10 @@ class FeedRepository {
     if (userId == null) throw const AppAuthException('User not logged in');
 
     try {
-      await _client.rpc('toggle_post_like', params: {
-        'p_post_id': postId,
-        'p_user_id': userId,
-      });
+      await _client.rpc(
+        'toggle_post_like',
+        params: {'p_post_id': postId, 'p_user_id': userId},
+      );
 
       // Award XP for liking (if not on cooldown)
       _eventBus?.track(GamificationAction.likeGiven, userId);
@@ -383,10 +390,7 @@ class FeedRepository {
   /// user and marks it as edited.
   ///
   /// Throws [AppAuthException] if there is no authenticated user.
-  Future<void> updatePost(
-    String postId, [
-    String? content,
-  ]) async {
+  Future<void> updatePost(String postId, [String? content]) async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) throw const AppAuthException('User not logged in');
 

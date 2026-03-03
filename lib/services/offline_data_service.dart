@@ -34,27 +34,22 @@ class OfflineDataService {
         ? timestamp + (ttlSeconds * 1000)
         : null;
 
-    await db.insert(
-      'local_cache',
-      {
-        'entity_type': entityType,
-        'entity_id': entityId,
-        'data': jsonEncode(data),
-        'version': 1,
-        'last_sync_at': timestamp,
-        'expires_at': expiresAt,
-        'created_at': timestamp,
-        'updated_at': timestamp,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('local_cache', {
+      'entity_type': entityType,
+      'entity_id': entityId,
+      'data': jsonEncode(data),
+      'version': 1,
+      'last_sync_at': timestamp,
+      'expires_at': expiresAt,
+      'created_at': timestamp,
+      'updated_at': timestamp,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   /// Checks the current network connectivity status.
   Future<bool> checkConnectivity() async {
     final result = await _connectivity.checkConnectivity();
-    return result.isNotEmpty && 
-           result.first != ConnectivityResult.none;
+    return result.isNotEmpty && result.first != ConnectivityResult.none;
   }
 
   /// Clears any cache entries that have passed their expiration time.
@@ -90,15 +85,11 @@ class OfflineDataService {
     if (rows.isEmpty) return null;
 
     final row = rows.first;
-    
+
     // Check if expired
     if (row['expires_at'] != null) {
       if (row['expires_at'] as int < DateTime.now().millisecondsSinceEpoch) {
-        await db.delete(
-          'local_cache',
-          where: 'id = ?',
-          whereArgs: [row['id']],
-        );
+        await db.delete('local_cache', where: 'id = ?', whereArgs: [row['id']]);
         return null;
       }
     }
@@ -130,10 +121,7 @@ class OfflineDataService {
     final db = await database;
     await db.update(
       'pending_changes',
-      {
-        'synced': 1,
-        'updated_at': DateTime.now().millisecondsSinceEpoch,
-      },
+      {'synced': 1, 'updated_at': DateTime.now().millisecondsSinceEpoch},
       where: 'id = ?',
       whereArgs: [changeId],
     );
@@ -158,7 +146,7 @@ class OfflineDataService {
     if (result.isNotEmpty) {
       newAttempts = (result.first['sync_attempts'] as int? ?? 0) + 1;
     }
-    
+
     await db.update(
       'pending_changes',
       {
@@ -181,22 +169,19 @@ class OfflineDataService {
     final db = await database;
     final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-    return db.insert(
-      'pending_changes',
-      {
-        'entity_type': entityType,
-        'entity_id': entityId,
-        'operation': operation,
-        'data': jsonEncode(data),
-        'timestamp': timestamp,
-        'synced': 0,
-        'sync_attempts': 0,
-        'created_at': timestamp,
-        'updated_at': timestamp,
-      },
-    );
+    return db.insert('pending_changes', {
+      'entity_type': entityType,
+      'entity_id': entityId,
+      'operation': operation,
+      'data': jsonEncode(data),
+      'timestamp': timestamp,
+      'synced': 0,
+      'sync_attempts': 0,
+      'created_at': timestamp,
+      'updated_at': timestamp,
+    });
   }
-  
+
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _dbName);
     return openDatabase(

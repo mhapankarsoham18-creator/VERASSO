@@ -10,11 +10,7 @@ class PollOption {
   final int votes;
 
   /// Creates a [PollOption] instance.
-  PollOption({
-    required this.id,
-    required this.text,
-    this.votes = 0,
-  });
+  PollOption({required this.id, required this.text, this.votes = 0});
 
   /// Creates a [PollOption] instance from a JSON map.
   factory PollOption.fromJson(Map<String, dynamic> json) {
@@ -33,11 +29,7 @@ class PollOption {
 
   /// Converts the [PollOption] instance to a JSON map.
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'text': text,
-      'votes': votes,
-    };
+    return {'id': id, 'text': text, 'votes': votes};
   }
 }
 
@@ -136,17 +128,20 @@ class Post {
       commentsCount: json['comments_count'] ?? 0,
       createdAt: DateTime.parse(json['created_at']),
       // Handling joined profile data if available
-      authorName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      authorAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      authorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      authorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
       poll: json['poll'] != null ? PostPoll.fromJson(json['poll']) : null,
       audioUrl: json['audio_url'],
       audioDuration: json['audio_duration'],
       mentions: List<String>.from(json['mentions'] ?? []),
       type: PostType.values.firstWhere(
-          (e) => e.name == (json['type'] ?? 'text'),
-          orElse: () => PostType.text),
+        (e) => e.name == (json['type'] ?? 'text'),
+        orElse: () => PostType.text,
+      ),
       isPersonal: json['is_personal'] ?? false,
       isLiked: json['is_liked'] ?? false,
       simulationData: json['simulation_data'],
@@ -249,8 +244,9 @@ class PostPoll {
   factory PostPoll.fromJson(Map<String, dynamic> json) {
     return PostPoll(
       question: json['question'],
-      options:
-          (json['options'] as List).map((o) => PollOption.fromJson(o)).toList(),
+      options: (json['options'] as List)
+          .map((o) => PollOption.fromJson(o))
+          .toList(),
       expiresAt: json['expires_at'] != null
           ? DateTime.parse(json['expires_at'])
           : null,

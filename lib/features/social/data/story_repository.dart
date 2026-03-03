@@ -13,11 +13,9 @@ class StoryRepository {
   final GamificationEventBus? _eventBus;
 
   /// Creates a [StoryRepository] with an optional [SupabaseClient].
-  StoryRepository({
-    SupabaseClient? supabase,
-    GamificationEventBus? eventBus,
-  })  : _client = supabase ?? SupabaseService.client,
-        _eventBus = eventBus;
+  StoryRepository({SupabaseClient? supabase, GamificationEventBus? eventBus})
+    : _client = supabase ?? SupabaseService.client,
+      _eventBus = eventBus;
 
   /// Archives expired stories.
   Future<void> archiveExpiredStories() async {
@@ -59,8 +57,9 @@ class StoryRepository {
         'media_url': mediaUrl,
         'media_type': mediaType,
         'content': content,
-        'expires_at':
-            DateTime.now().add(const Duration(hours: 24)).toIso8601String(),
+        'expires_at': DateTime.now()
+            .add(const Duration(hours: 24))
+            .toIso8601String(),
       });
 
       // Hook for adding XP for story posted

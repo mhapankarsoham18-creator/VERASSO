@@ -15,11 +15,13 @@ class RelationshipRepository {
 
   /// Creates a [RelationshipRepository] instance.
   RelationshipRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Accepts a pending friend request from [requesterId].
-  Future<void> acceptFriendRequest(String requesterId,
-      {bool allowsPersonal = false}) async {
+  Future<void> acceptFriendRequest(
+    String requesterId, {
+    bool allowsPersonal = false,
+  }) async {
     final myId = _client.auth.currentUser?.id;
     if (myId == null) throw Exception('Not logged in');
 
@@ -44,8 +46,11 @@ class RelationshipRepository {
     if (myId == null) throw Exception('Not logged in');
 
     try {
-      await _client.from('relationships').upsert(
-          {'user_id': myId, 'target_id': targetId, 'status': 'blocked'});
+      await _client.from('relationships').upsert({
+        'user_id': myId,
+        'target_id': targetId,
+        'status': 'blocked',
+      });
     } catch (e) {
       AppLogger.info('Block user error: $e');
       throw Exception('Failed to block user: $e');
@@ -98,8 +103,10 @@ class RelationshipRepository {
     if (myId == otherUserId) return 'self';
 
     try {
-      final response = await _client.rpc('get_relationship_status',
-          params: {'current_user_id': myId, 'other_user_id': otherUserId});
+      final response = await _client.rpc(
+        'get_relationship_status',
+        params: {'current_user_id': myId, 'other_user_id': otherUserId},
+      );
       return response as String;
     } catch (e) {
       AppLogger.info('Get relationship status error: $e');
@@ -108,8 +115,10 @@ class RelationshipRepository {
   }
 
   /// Sends a friend request to the specified [targetId].
-  Future<void> sendFriendRequest(String targetId,
-      {bool allowsPersonal = false}) async {
+  Future<void> sendFriendRequest(
+    String targetId, {
+    bool allowsPersonal = false,
+  }) async {
     final myId = _client.auth.currentUser?.id;
     if (myId == null) throw Exception('Not logged in');
 
@@ -132,8 +141,12 @@ class RelationshipRepository {
     if (myId == null) throw Exception('Not logged in');
 
     try {
-      await _client.from('relationships').delete().or(
-          'and(user_id.eq.$myId,target_id.eq.$otherUserId),and(user_id.eq.$otherUserId,target_id.eq.$myId)');
+      await _client
+          .from('relationships')
+          .delete()
+          .or(
+            'and(user_id.eq.$myId,target_id.eq.$otherUserId),and(user_id.eq.$otherUserId,target_id.eq.$myId)',
+          );
     } catch (e) {
       AppLogger.info('Unfriend error: $e');
       throw Exception('Failed to unfriend: $e');
@@ -142,7 +155,9 @@ class RelationshipRepository {
 
   /// Updates whether [otherUserId] can see personal posts/logs.
   Future<void> updatePersonalVisibility(
-      String otherUserId, bool allowsPersonal) async {
+    String otherUserId,
+    bool allowsPersonal,
+  ) async {
     final myId = _client.auth.currentUser?.id;
     if (myId == null) throw Exception('Not logged in');
 

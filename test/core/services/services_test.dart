@@ -15,8 +15,11 @@ void main() {
     });
 
     test('error logging captures exception', () {
-      AppLogger.error('Test error',
-          error: Exception('test'), stackTrace: StackTrace.current);
+      AppLogger.error(
+        'Test error',
+        error: Exception('test'),
+        stackTrace: StackTrace.current,
+      );
     });
   });
 

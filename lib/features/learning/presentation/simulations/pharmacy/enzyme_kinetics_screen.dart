@@ -43,8 +43,10 @@ class EnzymePainter extends CustomPainter {
     final activeSitePaint = Paint()
       ..color = Colors.black26
       ..style = PaintingStyle.fill;
-    canvas.drawRect(Rect.fromCenter(center: center, width: 30, height: 30),
-        activeSitePaint);
+    canvas.drawRect(
+      Rect.fromCenter(center: center, width: 30, height: 30),
+      activeSitePaint,
+    );
 
     // Draw Substrates
     final substratePaint = Paint()..color = Colors.blueAccent;
@@ -70,7 +72,9 @@ class EnzymePainter extends CustomPainter {
         final pos =
             center + Offset(math.cos(angle) * radius, math.sin(angle) * radius);
         canvas.drawRect(
-            Rect.fromCenter(center: pos, width: 8, height: 8), inhibitorPaint);
+          Rect.fromCenter(center: pos, width: 8, height: 8),
+          inhibitorPaint,
+        );
       }
     }
   }
@@ -112,8 +116,11 @@ class GraphPainter extends CustomPainter {
       ..strokeWidth = 1;
 
     // Axes
-    canvas.drawLine(Offset(10, size.height - 10),
-        Offset(size.width - 10, size.height - 10), paint);
+    canvas.drawLine(
+      Offset(10, size.height - 10),
+      Offset(size.width - 10, size.height - 10),
+      paint,
+    );
     canvas.drawLine(const Offset(10, 10), Offset(10, size.height - 10), paint);
 
     // Curve
@@ -148,7 +155,10 @@ class GraphPainter extends CustomPainter {
         size.height - 10 - (currentV / vMax) * (size.height - 20);
 
     canvas.drawCircle(
-        Offset(currentX, currentY), 4, Paint()..color = Colors.amber);
+      Offset(currentX, currentY),
+      4,
+      Paint()..color = Colors.amber,
+    );
   }
 
   @override
@@ -213,11 +223,11 @@ class _EnzymeKineticsScreenState extends State<EnzymeKineticsScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Kinetic Parameters',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall
-                                      ?.copyWith(color: Colors.amber)),
+                              Text(
+                                'Kinetic Parameters',
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(color: Colors.amber),
+                              ),
                               const SizedBox(height: 16),
                               _ParamSlider(
                                 label: 'Substrate [S]',
@@ -269,10 +279,13 @@ class _EnzymeKineticsScreenState extends State<EnzymeKineticsScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _StatItem(
-                            label: 'Vmax',
-                            value: '${_vMax.toStringAsFixed(0)} units/s'),
+                          label: 'Vmax',
+                          value: '${_vMax.toStringAsFixed(0)} units/s',
+                        ),
                         _StatItem(
-                            label: 'Km', value: '${_km.toStringAsFixed(0)} mM'),
+                          label: 'Km',
+                          value: '${_km.toStringAsFixed(0)} mM',
+                        ),
                         _StatItem(
                           label: 'Velocity (v)',
                           value:
@@ -341,11 +354,18 @@ class _ParamSlider extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label,
-                style: const TextStyle(fontSize: 10, color: Colors.white54)),
-            Text('${value.toStringAsFixed(0)} $unit',
-                style: TextStyle(
-                    fontSize: 10, color: color, fontWeight: FontWeight.bold)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 10, color: Colors.white54),
+            ),
+            Text(
+              '${value.toStringAsFixed(0)} $unit',
+              style: TextStyle(
+                fontSize: 10,
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
         Slider(
@@ -371,14 +391,19 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 10, color: Colors.white38)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: Colors.white38),
+        ),
         const SizedBox(height: 4),
-        Text(value,
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: color ?? Colors.white)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: color ?? Colors.white,
+          ),
+        ),
       ],
     );
   }

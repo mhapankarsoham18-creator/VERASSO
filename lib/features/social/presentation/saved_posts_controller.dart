@@ -12,8 +12,10 @@ final collectionsProvider = StreamProvider<List<Collection>>((ref) {
 });
 
 /// Provider family to check if a specific post is bookmarked.
-final isPostSavedProvider =
-    FutureProvider.family<bool, String>((ref, postId) async {
+final isPostSavedProvider = FutureProvider.family<bool, String>((
+  ref,
+  postId,
+) async {
   final repo = ref.watch(savedPostRepositoryProvider);
   // We want to re-run this when savedPostsProvider changes
   ref.watch(savedPostsProvider);
@@ -23,8 +25,8 @@ final isPostSavedProvider =
 /// Provider for the [SavedPostsController].
 final savedPostsControllerProvider =
     StateNotifierProvider<SavedPostsController, AsyncValue<void>>((ref) {
-  return SavedPostsController(ref.watch(savedPostRepositoryProvider), ref);
-});
+      return SavedPostsController(ref.watch(savedPostRepositoryProvider), ref);
+    });
 
 /// Provider for the list of bookmarked posts.
 final savedPostsProvider = FutureProvider<List<Post>>((ref) async {
@@ -41,12 +43,18 @@ class SavedPostsController extends StateNotifier<AsyncValue<void>> {
   SavedPostsController(this._repo, this._ref) : super(const AsyncData(null));
 
   /// Creates a new curated collection.
-  Future<void> createCollection(String name,
-      {String? description, bool isPrivate = true}) async {
+  Future<void> createCollection(
+    String name, {
+    String? description,
+    bool isPrivate = true,
+  }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await _repo.createCollection(name,
-          description: description, isPrivate: isPrivate);
+      await _repo.createCollection(
+        name,
+        description: description,
+        isPrivate: isPrivate,
+      );
       _ref.invalidate(collectionsProvider);
     });
   }

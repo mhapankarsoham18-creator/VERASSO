@@ -50,10 +50,7 @@ void main() {
 
   group('DiscoveryRepository', () {
     test('getDiscoveryFeed returns posts sorted by relevance score', () async {
-      final profile = Profile(
-        id: 'test-user',
-        interests: ['flutter', 'dart'],
-      );
+      final profile = Profile(id: 'test-user', interests: ['flutter', 'dart']);
 
       final posts = [
         makePost(id: '1', tags: ['python'], likesCount: 5),
@@ -61,12 +58,12 @@ void main() {
         makePost(id: '3', tags: ['flutter'], likesCount: 2),
       ];
 
-      mockFeedRepo.getFeedStub = ({
-        List<String> userInterests = const [],
-        int limit = 20,
-        int offset = 0,
-      }) =>
-          Future.value(posts);
+      mockFeedRepo.getFeedStub =
+          ({
+            List<String> userInterests = const [],
+            int limit = 20,
+            int offset = 0,
+          }) => Future.value(posts);
 
       final c = createContainer(profile: profile);
 
@@ -86,17 +83,14 @@ void main() {
     });
 
     test('getDiscoveryFeed returns empty list when feed is empty', () async {
-      final profile = Profile(
-        id: 'test-user',
-        interests: ['flutter'],
-      );
+      final profile = Profile(id: 'test-user', interests: ['flutter']);
 
-      mockFeedRepo.getFeedStub = ({
-        List<String> userInterests = const [],
-        int limit = 20,
-        int offset = 0,
-      }) =>
-          Future.value([]);
+      mockFeedRepo.getFeedStub =
+          ({
+            List<String> userInterests = const [],
+            int limit = 20,
+            int offset = 0,
+          }) => Future.value([]);
 
       final c = createContainer(profile: profile);
       await c.read(userProfileProvider.future);
@@ -113,12 +107,12 @@ void main() {
         makePost(id: '2', tags: ['dart'], likesCount: 20),
       ];
 
-      mockFeedRepo.getFeedStub = ({
-        List<String> userInterests = const [],
-        int limit = 20,
-        int offset = 0,
-      }) =>
-          Future.value(posts);
+      mockFeedRepo.getFeedStub =
+          ({
+            List<String> userInterests = const [],
+            int limit = 20,
+            int offset = 0,
+          }) => Future.value(posts);
 
       final c = createContainer(profile: null);
       await c.read(userProfileProvider.future);
@@ -133,33 +127,35 @@ void main() {
       expect(result[1].id, '1');
     });
 
-    test('getDiscoveryFeed uses commentsCount × 2 in popularity score',
-        () async {
-      final profile = Profile(id: 'test-user', interests: []);
+    test(
+      'getDiscoveryFeed uses commentsCount × 2 in popularity score',
+      () async {
+        final profile = Profile(id: 'test-user', interests: []);
 
-      final posts = [
-        makePost(id: '1', likesCount: 0, commentsCount: 10),
-        makePost(id: '2', likesCount: 15, commentsCount: 0),
-      ];
+        final posts = [
+          makePost(id: '1', likesCount: 0, commentsCount: 10),
+          makePost(id: '2', likesCount: 15, commentsCount: 0),
+        ];
 
-      mockFeedRepo.getFeedStub = ({
-        List<String> userInterests = const [],
-        int limit = 20,
-        int offset = 0,
-      }) =>
-          Future.value(posts);
+        mockFeedRepo.getFeedStub =
+            ({
+              List<String> userInterests = const [],
+              int limit = 20,
+              int offset = 0,
+            }) => Future.value(posts);
 
-      final c = createContainer(profile: profile);
-      await c.read(userProfileProvider.future);
+        final c = createContainer(profile: profile);
+        await c.read(userProfileProvider.future);
 
-      final repo = c.read(discoveryRepositoryProvider);
-      final result = await repo.getDiscoveryFeed();
+        final repo = c.read(discoveryRepositoryProvider);
+        final result = await repo.getDiscoveryFeed();
 
-      // Post 1: popularity = 0 + (10 * 2) = 20 → score = 20 * 0.1 = 2.0
-      // Post 2: popularity = 15 + (0 * 2) = 15 → score = 15 * 0.1 = 1.5
-      expect(result[0].id, '1');
-      expect(result[1].id, '2');
-    });
+        // Post 1: popularity = 0 + (10 * 2) = 20 → score = 20 * 0.1 = 2.0
+        // Post 2: popularity = 15 + (0 * 2) = 15 → score = 15 * 0.1 = 1.5
+        expect(result[0].id, '1');
+        expect(result[1].id, '2');
+      },
+    );
 
     test('getDiscoveryFeed preserves all post data', () async {
       final profile = Profile(id: 'test-user', interests: ['flutter']);
@@ -171,12 +167,12 @@ void main() {
         commentsCount: 3,
       );
 
-      mockFeedRepo.getFeedStub = ({
-        List<String> userInterests = const [],
-        int limit = 20,
-        int offset = 0,
-      }) =>
-          Future.value([post]);
+      mockFeedRepo.getFeedStub =
+          ({
+            List<String> userInterests = const [],
+            int limit = 20,
+            int offset = 0,
+          }) => Future.value([post]);
 
       final c = createContainer(profile: profile);
       await c.read(userProfileProvider.future);

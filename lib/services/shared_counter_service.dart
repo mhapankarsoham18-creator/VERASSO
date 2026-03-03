@@ -31,10 +31,7 @@ class SharedCounterService {
     try {
       final result = await _supabase.rpc(
         'decrement_shared_counter',
-        params: {
-          'counter_id': counterId,
-          'decrement_amount': amount,
-        },
+        params: {'counter_id': counterId, 'decrement_amount': amount},
       );
       return result as int;
     } catch (e, stack) {
@@ -66,10 +63,7 @@ class SharedCounterService {
     try {
       final result = await _supabase.rpc(
         'increment_shared_counter',
-        params: {
-          'counter_id': counterId,
-          'increment_amount': amount,
-        },
+        params: {'counter_id': counterId, 'increment_amount': amount},
       );
       return result as int;
     } catch (e, stack) {
@@ -83,10 +77,10 @@ class SharedCounterService {
   /// Prevents thundering herd by using advisory locks
   Future<void> initCounter(String counterId, {int initialValue = 0}) async {
     try {
-      await _supabase.rpc('init_shared_counter', params: {
-        'counter_id': counterId,
-        'initial_value': initialValue,
-      });
+      await _supabase.rpc(
+        'init_shared_counter',
+        params: {'counter_id': counterId, 'initial_value': initialValue},
+      );
     } catch (e, stack) {
       AppLogger.error('Error initializing shared counter', error: e);
       SentryService.captureException(e, stackTrace: stack);

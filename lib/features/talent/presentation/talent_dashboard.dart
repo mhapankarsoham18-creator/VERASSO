@@ -32,8 +32,8 @@ import 'verification_gate_dialog.dart';
 /// Provider for the paginated [JobRequest] list.
 final jobsProvider =
     StateNotifierProvider<JobsNotifier, PaginatedState<JobRequest>>((ref) {
-  return JobsNotifier(ref.watch(jobRepositoryProvider));
-});
+      return JobsNotifier(ref.watch(jobRepositoryProvider));
+    });
 
 /// Free-text query used to filter both jobs and talents by skill or title.
 final searchQueryProvider = StateProvider<String>((ref) => '');
@@ -44,8 +44,8 @@ final showMentorsOnlyProvider = StateProvider<bool>((ref) => false);
 /// Provider for the paginated [TalentPost] list.
 final talentsProvider =
     StateNotifierProvider<TalentsNotifier, PaginatedState<TalentPost>>((ref) {
-  return TalentsNotifier(ref.watch(talentRepositoryProvider));
-});
+      return TalentsNotifier(ref.watch(talentRepositoryProvider));
+    });
 
 /// Card widget that displays a single [JobRequest] in the job board.
 class JobRequestCard extends ConsumerWidget {
@@ -58,7 +58,9 @@ class JobRequestCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(analyticsRepositoryProvider).trackEvent(
+      ref
+          .read(analyticsRepositoryProvider)
+          .trackEvent(
             eventType: 'impression',
             targetType: 'job_request',
             targetId: job.id,
@@ -76,24 +78,30 @@ class JobRequestCard extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.amber.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
-                    border:
-                        Border.all(color: Colors.amber.withValues(alpha: 0.5)),
+                    border: Border.all(
+                      color: Colors.amber.withValues(alpha: 0.5),
+                    ),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(LucideIcons.award, size: 10, color: Colors.amber),
                       SizedBox(width: 4),
-                      Text('FEATURED POST',
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 9)),
+                      Text(
+                        'FEATURED POST',
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 9,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -105,13 +113,17 @@ class JobRequestCard extends ConsumerWidget {
                   child: Text(
                     job.title,
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Text(
                   '${job.budget} ${job.currency}',
                   style: const TextStyle(
-                      color: Colors.greenAccent, fontWeight: FontWeight.bold),
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -126,29 +138,34 @@ class JobRequestCard extends ConsumerWidget {
             Wrap(
               spacing: 8,
               children: job.requiredSkills
-                  .map((skill) => Chip(
-                        label:
-                            Text(skill, style: const TextStyle(fontSize: 10)),
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
-                        backgroundColor: Colors.white10,
-                      ))
+                  .map(
+                    (skill) => Chip(
+                      label: Text(skill, style: const TextStyle(fontSize: 10)),
+                      padding: EdgeInsets.zero,
+                      visualDensity: VisualDensity.compact,
+                      backgroundColor: Colors.white10,
+                    ),
+                  )
                   .toList(),
             ),
             const Divider(color: Colors.white10, height: 24),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                ref.read(analyticsRepositoryProvider).trackEvent(
+                ref
+                    .read(analyticsRepositoryProvider)
+                    .trackEvent(
                       eventType: 'view',
                       targetType: 'job_request',
                       targetId: job.id,
                     );
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            ProfessionalProfileScreen(userId: job.clientId)));
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        ProfessionalProfileScreen(userId: job.clientId),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -164,9 +181,13 @@ class JobRequestCard extends ConsumerWidget {
                           : null,
                     ),
                     const SizedBox(width: 8),
-                    Text(job.clientName ?? 'Client',
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.white70)),
+                    Text(
+                      job.clientName ?? 'Client',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white70,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -181,7 +202,8 @@ class JobRequestCard extends ConsumerWidget {
                       backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     child: const Text('Apply Now'),
                   ),
@@ -212,7 +234,8 @@ class JobRequestCard extends ConsumerWidget {
                       backgroundColor: Colors.white.withValues(alpha: 0.1),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     child: const Text('Negotiate'),
                   ),
@@ -231,8 +254,10 @@ class JobRequestCard extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: Text('Apply for ${job.title}',
-            style: const TextStyle(color: Colors.white)),
+        title: Text(
+          'Apply for ${job.title}',
+          style: const TextStyle(color: Colors.white),
+        ),
         content: TextField(
           controller: messageC,
           maxLines: 4,
@@ -244,16 +269,18 @@ class JobRequestCard extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               final myProfile = ref.read(userProfileProvider).value;
               if (myProfile?.isAgeVerified != true) {
                 Navigator.pop(context);
                 showDialog(
-                    context: context,
-                    builder: (_) => const VerificationGateDialog());
+                  context: context,
+                  builder: (_) => const VerificationGateDialog(),
+                );
                 return;
               }
 
@@ -264,20 +291,23 @@ class JobRequestCard extends ConsumerWidget {
                   .read(jobRepositoryProvider)
                   .applyForJob(job.id, user.id, messageC.text);
 
-              await ref.read(notificationServiceProvider).createNotification(
-                targetUserId: job.clientId,
-                title: 'New Application',
-                body:
-                    '${myProfile?.fullName ?? "A talent"} applied for: ${job.title}',
-                type: NotificationType.job,
-                data: {'jobId': job.id},
-              );
+              await ref
+                  .read(notificationServiceProvider)
+                  .createNotification(
+                    targetUserId: job.clientId,
+                    title: 'New Application',
+                    body:
+                        '${myProfile?.fullName ?? "A talent"} applied for: ${job.title}',
+                    type: NotificationType.job,
+                    data: {'jobId': job.id},
+                  );
 
               if (context.mounted) {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                      content: Text('Application sent successfully!')),
+                    content: Text('Application sent successfully!'),
+                  ),
                 );
               }
             },
@@ -304,8 +334,10 @@ class JobsNotifier extends StateNotifier<PaginatedState<JobRequest>> {
     state = state.copyWith(isLoading: true);
 
     try {
-      final newJobs =
-          await _repo.getJobRequests(limit: 10, offset: state.items.length);
+      final newJobs = await _repo.getJobRequests(
+        limit: 10,
+        offset: state.items.length,
+      );
       state = state.copyWith(
         items: [...state.items, ...newJobs],
         isLoading: false,
@@ -372,7 +404,9 @@ class TalentCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(analyticsRepositoryProvider).trackEvent(
+      ref
+          .read(analyticsRepositoryProvider)
+          .trackEvent(
             eventType: 'impression',
             targetType: 'talent',
             targetId: talent.id,
@@ -391,21 +425,31 @@ class TalentCard extends ConsumerWidget {
                   child: talent.mediaUrls.isNotEmpty
                       ? ClipRRect(
                           borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(20)),
-                          child: Image.network(talent.mediaUrls.first,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.broken_image,
-                                      size: 40, color: Colors.white24)),
+                            top: Radius.circular(20),
+                          ),
+                          child: Image.network(
+                            talent.mediaUrls.first,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                                  Icons.broken_image,
+                                  size: 40,
+                                  color: Colors.white24,
+                                ),
+                          ),
                         )
                       : Container(
                           decoration: const BoxDecoration(
                             color: Colors.white10,
-                            borderRadius:
-                                BorderRadius.vertical(top: Radius.circular(20)),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
                           ),
-                          child: const Icon(LucideIcons.image,
-                              color: Colors.white24, size: 40),
+                          child: const Icon(
+                            LucideIcons.image,
+                            color: Colors.white24,
+                            size: 40,
+                          ),
                         ),
                 ),
                 if (talent.isFeatured)
@@ -414,21 +458,30 @@ class TalentCard extends ConsumerWidget {
                     right: 8,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(4)),
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(LucideIcons.sparkles,
-                              size: 8, color: Colors.black),
+                          Icon(
+                            LucideIcons.sparkles,
+                            size: 8,
+                            color: Colors.black,
+                          ),
                           SizedBox(width: 2),
-                          Text('PRIORITY',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 8)),
+                          Text(
+                            'PRIORITY',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -444,7 +497,9 @@ class TalentCard extends ConsumerWidget {
                 Text(
                   talent.title,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 14),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -452,24 +507,29 @@ class TalentCard extends ConsumerWidget {
                 Text(
                   '${talent.price} ${talent.currency}',
                   style: const TextStyle(
-                      color: Colors.greenAccent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12),
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    ref.read(analyticsRepositoryProvider).trackEvent(
+                    ref
+                        .read(analyticsRepositoryProvider)
+                        .trackEvent(
                           eventType: 'view',
                           targetType: 'talent',
                           targetId: talent.id,
                         );
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ProfessionalProfileScreen(
-                                userId: talent.userId)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            ProfessionalProfileScreen(userId: talent.userId),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -489,7 +549,9 @@ class TalentCard extends ConsumerWidget {
                           child: Text(
                             talent.authorName ?? 'User',
                             style: const TextStyle(
-                                fontSize: 10, color: Colors.white70),
+                              fontSize: 10,
+                              color: Colors.white70,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -531,8 +593,10 @@ class TalentsNotifier extends StateNotifier<PaginatedState<TalentPost>> {
     state = state.copyWith(isLoading: true);
 
     try {
-      final newTalents =
-          await _repo.getTalents(limit: 10, offset: state.items.length);
+      final newTalents = await _repo.getTalents(
+        limit: 10,
+        offset: state.items.length,
+      );
       state = state.copyWith(
         items: [...state.items, ...newTalents],
         isLoading: false,
@@ -598,38 +662,47 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
             if (profileAsync.value != null) ...[
               IconButton(
                 icon: const Icon(LucideIcons.listTodo),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const MyJobsScreen())),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MyJobsScreen()),
+                ),
               ),
               IconButton(
                 icon: const Icon(LucideIcons.bell),
                 onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const NotificationsScreen())),
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const NotificationsScreen(),
+                  ),
+                ),
               ),
               IconButton(
                 icon: const Icon(LucideIcons.barChart),
                 onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const AnalyticsDashboardScreen())),
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AnalyticsDashboardScreen(),
+                  ),
+                ),
               ),
             ],
             IconButton(
               icon: const Icon(LucideIcons.users),
               onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const MentorDirectoryScreen())),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const MentorDirectoryScreen(),
+                ),
+              ),
             ),
           ],
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Showcase', icon: Icon(LucideIcons.palette, size: 20)),
               Tab(
-                  text: 'Job Board',
-                  icon: Icon(LucideIcons.briefcase, size: 20)),
+                text: 'Job Board',
+                icon: Icon(LucideIcons.briefcase, size: 20),
+              ),
             ],
             indicatorColor: Colors.blue,
             indicatorWeight: 3,
@@ -653,14 +726,16 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
                         icon: LucideIcons.wallet,
                         color: Colors.greenAccent,
                         onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    const FinanceDashboardScreen())),
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const FinanceDashboardScreen(),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Expanded(
-                          child: _buildJobBoard(context, ref, searchQuery)),
+                        child: _buildJobBoard(context, ref, searchQuery),
+                      ),
                     ],
                   ),
                 ],
@@ -682,11 +757,16 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
                   ? const CreateTalentScreen()
                   : const CreateJobRequestScreen();
               _checkVerificationAndNavigate(
-                  context, profileAsync.value, destination);
+                context,
+                profileAsync.value,
+                destination,
+              );
             },
-            label: Text(DefaultTabController.of(context).index == 0
-                ? 'Post Talent'
-                : 'Post Job'),
+            label: Text(
+              DefaultTabController.of(context).index == 0
+                  ? 'Post Talent'
+                  : 'Post Job',
+            ),
             icon: const Icon(LucideIcons.plus),
           ),
         ),
@@ -709,12 +789,14 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
     _talentsScrollController.addListener(_onTalentsScroll);
   }
 
-  Widget _buildActionCard(BuildContext context,
-      {required String title,
-      required String subtitle,
-      required IconData icon,
-      required Color color,
-      required VoidCallback onTap}) {
+  Widget _buildActionCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: GlassContainer(
@@ -724,7 +806,9 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1), shape: BoxShape.circle),
+                color: color.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, color: color),
             ),
             const SizedBox(width: 16),
@@ -732,12 +816,17 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text(subtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white70)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
                 ],
               ),
             ),
@@ -752,9 +841,10 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
     final state = ref.watch(jobsProvider);
     if (state.error != null && state.items.isEmpty) {
       return AppErrorView(
-          title: 'Error',
-          message: state.error!,
-          onRetry: () => ref.read(jobsProvider.notifier).refresh());
+        title: 'Error',
+        message: state.error!,
+        onRetry: () => ref.read(jobsProvider.notifier).refresh(),
+      );
     }
 
     final filtered = state.items.where((j) {
@@ -772,9 +862,11 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
         itemBuilder: (context, index) {
           if (index == filtered.length) {
             return const Center(
-                child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator()));
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              ),
+            );
           }
           return JobRequestCard(job: filtered[index]);
         },
@@ -808,8 +900,10 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
           child: Row(
             children: [
               FilterChip(
-                label:
-                    const Text('Mentors Only', style: TextStyle(fontSize: 12)),
+                label: const Text(
+                  'Mentors Only',
+                  style: TextStyle(fontSize: 12),
+                ),
                 selected: showMentorsOnly,
                 onSelected: (val) =>
                     ref.read(showMentorsOnlyProvider.notifier).state = val,
@@ -824,10 +918,11 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
               controller: _talentsScrollController,
               padding: const EdgeInsets.all(16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.75),
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.75,
+              ),
               itemCount: filtered.length + (state.isLoading ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == filtered.length) {
@@ -843,13 +938,17 @@ class _TalentDashboardState extends ConsumerState<TalentDashboard> {
   }
 
   void _checkVerificationAndNavigate(
-      BuildContext context, Profile? profile, Widget destination) {
+    BuildContext context,
+    Profile? profile,
+    Widget destination,
+  ) {
     if (profile?.isAgeVerified == true) {
       Navigator.push(context, MaterialPageRoute(builder: (_) => destination));
     } else {
       showDialog(
-          context: context,
-          builder: (context) => const VerificationGateDialog());
+        context: context,
+        builder: (context) => const VerificationGateDialog(),
+      );
     }
   }
 

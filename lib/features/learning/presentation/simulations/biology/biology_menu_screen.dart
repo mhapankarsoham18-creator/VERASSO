@@ -16,9 +16,10 @@ class BiologyMenuScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Biology Lab'),
-          backgroundColor: Colors.transparent,
-          elevation: 0),
+        title: const Text('Biology Lab'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: LiquidBackground(
         child: ListView(
           padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
@@ -30,9 +31,11 @@ class BiologyMenuScreen extends StatelessWidget {
               icon: LucideIcons.atom, // Best fit for cell/nucleus
               color: Colors.green,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const CellStructureSimulation())),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CellStructureSimulation(),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             _buildSimItem(
@@ -42,8 +45,9 @@ class BiologyMenuScreen extends StatelessWidget {
               icon: LucideIcons.dna,
               color: Colors.pinkAccent,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Coming Soon!')));
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Coming Soon!')));
               },
             ),
             const SizedBox(height: 16),
@@ -53,8 +57,10 @@ class BiologyMenuScreen extends StatelessWidget {
               description: "Neuron firing & receptors.",
               icon: LucideIcons.zap,
               color: Colors.amber,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const SynapseSimScreen())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SynapseSimScreen()),
+              ),
             ),
           ],
         ),
@@ -62,12 +68,14 @@ class BiologyMenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSimItem(BuildContext context,
-      {required String title,
-      required String description,
-      required IconData icon,
-      required Color color,
-      required VoidCallback onTap}) {
+  Widget _buildSimItem(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: GlassContainer(
@@ -77,9 +85,10 @@ class BiologyMenuScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: color.withValues(alpha: 0.5))),
+                color: color.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+                border: Border.all(color: color.withValues(alpha: 0.5)),
+              ),
               child: Icon(icon, color: Colors.white, size: 28),
             ),
             const SizedBox(width: 16),
@@ -87,16 +96,22 @@ class BiologyMenuScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(description,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.7))),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
+                  ),
                 ],
               ),
             ),

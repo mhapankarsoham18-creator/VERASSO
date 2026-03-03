@@ -135,9 +135,7 @@ class GeospatialService {
     }
 
     return await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-      ),
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
   }
 
@@ -241,12 +239,12 @@ class NearbyUser {
 
   /// Creates a [NearbyUser] from a JSON map.
   factory NearbyUser.fromJson(Map<String, dynamic> json) => NearbyUser(
-        id: json['user_id'] as String,
-        name: json['display_name'] as String,
-        avatar: json['avatar_url'] as String? ?? '',
-        distance: (json['distance_km'] as num).toDouble(),
-        interests: List<String>.from(json['interests'] as List? ?? []),
-        connectionStrength: json['connection_strength'] as int? ?? 0,
-        isOnline: json['is_online'] as bool? ?? false,
-      );
+    id: json['user_id'] as String,
+    name: json['display_name'] as String,
+    avatar: json['avatar_url'] as String? ?? '',
+    distance: (json['distance_km'] as num).toDouble(),
+    interests: List<String>.from(json['interests'] as List? ?? []),
+    connectionStrength: json['connection_strength'] as int? ?? 0,
+    isOnline: json['is_online'] as bool? ?? false,
+  );
 }

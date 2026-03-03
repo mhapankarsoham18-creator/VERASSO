@@ -46,10 +46,10 @@ class AuthTextField extends StatelessWidget {
           icon: Icon(icon, color: Theme.of(context).colorScheme.primary),
           hintText: label,
           hintStyle: TextStyle(
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.6)),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.6),
+          ),
         ),
       ),
     );

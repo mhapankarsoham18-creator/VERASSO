@@ -30,9 +30,10 @@ class AdvancedAttachmentService {
   Future<void> cancelUpload(String sessionId) async {
     try {
       await _clearUploadProgress(sessionId);
-      await _supabase.rpc('cleanup_upload_session', params: {
-        'session_id': sessionId,
-      });
+      await _supabase.rpc(
+        'cleanup_upload_session',
+        params: {'session_id': sessionId},
+      );
     } catch (e) {
       AppLogger.warning('Error canceling upload', error: e);
     }
@@ -42,9 +43,9 @@ class AdvancedAttachmentService {
   Future<void> deleteAttachment(String attachmentId) async {
     try {
       // Delete from storage
-      await _supabase.storage
-          .from(uploadsBucket)
-          .remove(['form-attachments/$attachmentId']);
+      await _supabase.storage.from(uploadsBucket).remove([
+        'form-attachments/$attachmentId',
+      ]);
 
       // Delete from database
       await _supabase.from('attachments').delete().eq('id', attachmentId);
@@ -77,8 +78,9 @@ class AdvancedAttachmentService {
       final fileName = attachmentData['file_name'] as String;
       final storagePath = 'form-attachments/$attachmentId';
 
-      final fileData =
-          await _supabase.storage.from(uploadsBucket).download(storagePath);
+      final fileData = await _supabase.storage
+          .from(uploadsBucket)
+          .download(storagePath);
 
       // Verify hash
       final downloadHash = sha256.convert(fileData).toString();
@@ -232,10 +234,7 @@ class AdvancedAttachmentService {
     try {
       final result = await _supabase.rpc(
         'verify_attachment_hash',
-        params: {
-          'attachment_id': attachmentId,
-          'expected_hash': expectedHash,
-        },
+        params: {'attachment_id': attachmentId, 'expected_hash': expectedHash},
       );
       return result as bool;
     } catch (e) {
@@ -252,13 +251,16 @@ class AdvancedAttachmentService {
     required int totalChunks,
   }) async {
     try {
-      final result = await _supabase.rpc('assemble_upload_chunks', params: {
-        'session_id': sessionId,
-        'form_id': formId,
-        'field_name': fieldName,
-        'file_hash': fileHash,
-        'total_chunks': totalChunks,
-      });
+      final result = await _supabase.rpc(
+        'assemble_upload_chunks',
+        params: {
+          'session_id': sessionId,
+          'form_id': formId,
+          'field_name': fieldName,
+          'file_hash': fileHash,
+          'total_chunks': totalChunks,
+        },
+      );
 
       final resultData = result as Map<String, dynamic>;
 
@@ -286,10 +288,10 @@ class AdvancedAttachmentService {
 
   Future<void> _clearUploadProgress(String sessionId) async {
     try {
-      await _supabase.from('upload_sessions').delete().eq(
-            'session_id',
-            sessionId,
-          );
+      await _supabase
+          .from('upload_sessions')
+          .delete()
+          .eq('session_id', sessionId);
     } catch (e) {
       AppLogger.warning('Error clearing upload progress', error: e);
     }
@@ -363,11 +365,14 @@ class AdvancedAttachmentService {
     try {
       final uploadPath = 'uploads/$sessionId/chunk_$chunkIndex';
 
-      await _supabase.storage.from(uploadsBucket).uploadBinary(
+      await _supabase.storage
+          .from(uploadsBucket)
+          .uploadBinary(
             uploadPath,
             Uint8List.fromList(chunkData),
-            fileOptions:
-                const FileOptions(contentType: 'application/octet-stream'),
+            fileOptions: const FileOptions(
+              contentType: 'application/octet-stream',
+            ),
           );
 
       // Record chunk metadata for verification
@@ -391,10 +396,10 @@ class AdvancedAttachmentService {
     required int totalChunks,
   }) async {
     try {
-      final result = await _supabase.rpc('verify_upload_chunks', params: {
-        'session_id': sessionId,
-        'total_chunks': totalChunks,
-      });
+      final result = await _supabase.rpc(
+        'verify_upload_chunks',
+        params: {'session_id': sessionId, 'total_chunks': totalChunks},
+      );
 
       if (!(result as bool)) {
         throw Exception('Upload verification failed');
@@ -455,8 +460,9 @@ class FormAttachment {
       fileName: attachmentData['file_name'] as String? ?? 'unknown',
       fileSize: (attachmentData['file_size'] as num? ?? 0).toInt(),
       fileHash: attachmentData['file_hash'] as String? ?? '',
-      metadata: jsonDecode(json['metadata'] as String? ?? '{}')
-          as Map<String, dynamic>,
+      metadata:
+          jsonDecode(json['metadata'] as String? ?? '{}')
+              as Map<String, dynamic>,
       linkedAt: DateTime.parse(json['linked_at'] as String),
     );
   }

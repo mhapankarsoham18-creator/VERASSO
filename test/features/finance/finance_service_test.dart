@@ -40,8 +40,9 @@ void main() {
         },
       ];
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(selectResponse: transactionsJson);
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        selectResponse: transactionsJson,
+      );
       mockSupabase.setQueryBuilder('transactions', mockQueryBuilder);
 
       // Act
@@ -73,8 +74,9 @@ void main() {
         },
       ];
 
-      final mockQueryBuilder =
-          MockSupabaseQueryBuilder(selectResponse: transactionsJson);
+      final mockQueryBuilder = MockSupabaseQueryBuilder(
+        selectResponse: transactionsJson,
+      );
       mockSupabase.setQueryBuilder('transactions', mockQueryBuilder);
 
       // Act

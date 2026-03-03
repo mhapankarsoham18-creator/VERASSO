@@ -30,18 +30,21 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Host Classroom Session')),
       body: LiquidBackground(
-        child:
-            !_isSessionStarted ? _buildSetupView() : _buildActiveSessionView(),
+        child: !_isSessionStarted
+            ? _buildSetupView()
+            : _buildActiveSessionView(),
       ),
     );
   }
 
   Widget _buildActiveSessionView() {
-    final participantsStream =
-        ref.watch(classroomSessionServiceProvider).participantsStream;
+    final participantsStream = ref
+        .watch(classroomSessionServiceProvider)
+        .participantsStream;
     final pollStream = ref.watch(classroomSessionServiceProvider).pollStream;
-    final doubtsStream =
-        ref.watch(classroomSessionServiceProvider).doubtsStream;
+    final doubtsStream = ref
+        .watch(classroomSessionServiceProvider)
+        .doubtsStream;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -58,18 +61,24 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_subjectController.text,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-                      Text(_topicController.text,
-                          style: const TextStyle(color: Colors.white70)),
+                      Text(
+                        _subjectController.text,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        _topicController.text,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
                     ],
                   ),
                 ),
                 Chip(
                   label: const Text('HOST'),
                   backgroundColor: Colors.orange.withValues(alpha: 0.8),
-                )
+                ),
               ],
             ),
           ),
@@ -88,9 +97,13 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                     return GlassContainer(
                       child: Column(
                         children: [
-                          Text('$count',
-                              style: const TextStyle(
-                                  fontSize: 32, fontWeight: FontWeight.bold)),
+                          Text(
+                            '$count',
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const Text('Students Connected'),
                         ],
                       ),
@@ -119,8 +132,10 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
           ),
 
           const SizedBox(height: 24),
-          const Text('Live Activity',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text(
+            'Live Activity',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
 
           // Poll Section
@@ -135,8 +150,11 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                     child: Center(
                       child: Column(
                         children: [
-                          Icon(LucideIcons.barChart2,
-                              size: 32, color: Colors.white70),
+                          Icon(
+                            LucideIcons.barChart2,
+                            size: 32,
+                            color: Colors.white70,
+                          ),
                           SizedBox(height: 8),
                           Text('+ Launch Quick Poll'),
                         ],
@@ -150,8 +168,10 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Poll: ${poll.question}',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Poll: ${poll.question}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 12),
                     ...poll.options.asMap().entries.map((entry) {
                       final opt = entry.value;
@@ -163,9 +183,12 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                         child: Row(
                           children: [
                             Expanded(child: Text(opt)),
-                            Text('$voteCount votes',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
+                            Text(
+                              '$voteCount votes',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                       );
@@ -177,8 +200,10 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
           ),
 
           const SizedBox(height: 24),
-          const Text('Doubts Feed',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text(
+            'Doubts Feed',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
 
           StreamBuilder<List<SessionDoubt>>(
@@ -188,25 +213,33 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
               final doubts = snapshot.data!;
               if (doubts.isEmpty) {
                 return const Center(
-                    child: Text('No doubts raised yet.',
-                        style: TextStyle(color: Colors.white54)));
+                  child: Text(
+                    'No doubts raised yet.',
+                    style: TextStyle(color: Colors.white54),
+                  ),
+                );
               }
 
               return Column(
                 children: doubts
-                    .map((doubt) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: GlassContainer(
-                            child: ListTile(
-                              leading: const CircleAvatar(
-                                  child: Icon(LucideIcons.user)),
-                              title: Text(doubt.question),
-                              subtitle: Text('Asked by ${doubt.userName}'),
-                              trailing:
-                                  const Icon(LucideIcons.thumbsUp, size: 16),
+                    .map(
+                      (doubt) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: GlassContainer(
+                          child: ListTile(
+                            leading: const CircleAvatar(
+                              child: Icon(LucideIcons.user),
+                            ),
+                            title: Text(doubt.question),
+                            subtitle: Text('Asked by ${doubt.userName}'),
+                            trailing: const Icon(
+                              LucideIcons.thumbsUp,
+                              size: 16,
                             ),
                           ),
-                        ))
+                        ),
+                      ),
+                    )
                     .toList(),
               );
             },
@@ -228,21 +261,24 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
             const Text(
               'Start a Mesh Session',
               style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             const SizedBox(height: 24),
             TextField(
               controller: _subjectController,
-              decoration:
-                  const InputDecoration(labelText: 'Subject (e.g. Physics)'),
+              decoration: const InputDecoration(
+                labelText: 'Subject (e.g. Physics)',
+              ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _topicController,
               decoration: const InputDecoration(
-                  labelText: 'Topic (e.g. Thermodynamics)'),
+                labelText: 'Topic (e.g. Thermodynamics)',
+              ),
             ),
             const SizedBox(height: 24),
             SizedBox(
@@ -281,8 +317,9 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
         content: TextField(
           controller: _pollController,
           decoration: const InputDecoration(
-              hintText: 'Ask a question...',
-              hintStyle: TextStyle(color: Colors.white54)),
+            hintText: 'Ask a question...',
+            hintStyle: TextStyle(color: Colors.white54),
+          ),
           style: const TextStyle(color: Colors.white),
         ),
         actions: [
@@ -290,10 +327,7 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
             onPressed: () => Navigator.pop(ctx),
             child: const Text('Cancel'),
           ),
-          ElevatedButton(
-            onPressed: _publishPoll,
-            child: const Text('Publish'),
-          )
+          ElevatedButton(onPressed: _publishPoll, child: const Text('Publish')),
         ],
       ),
     );
@@ -305,11 +339,9 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
     final userId = ref.read(currentUserProvider)?.id;
     if (userId == null) return; // Should show error
 
-    ref.read(classroomSessionServiceProvider).startSession(
-          userId,
-          _subjectController.text,
-          _topicController.text,
-        );
+    ref
+        .read(classroomSessionServiceProvider)
+        .startSession(userId, _subjectController.text, _topicController.text);
 
     setState(() => _isSessionStarted = true);
   }

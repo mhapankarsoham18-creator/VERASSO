@@ -7,9 +7,9 @@ import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 /// Provider for the [RelayGameService].
 final relayGameServiceProvider =
     StateNotifierProvider<RelayGameService, Map<String, RelayChain>>((ref) {
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return RelayGameService(mesh);
-});
+      final mesh = ref.watch(bluetoothMeshServiceProvider);
+      return RelayGameService(mesh);
+    });
 
 /// Represents a chain of users who have "passed" a particular knowledge fact.
 class RelayChain {

@@ -37,7 +37,8 @@ class MyApplicationsScreen extends ConsumerWidget {
           data: (apps) {
             if (apps.isEmpty) {
               return const Center(
-                  child: Text('You haven\'t applied for any jobs yet.'));
+                child: Text('You haven\'t applied for any jobs yet.'),
+              );
             }
             return ListView.builder(
               padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
@@ -84,13 +85,21 @@ class MyApplicationsScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(app.jobTitle ?? 'Job Request',
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      app.jobTitle ?? 'Job Request',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('Applied on ${_formatDate(app.createdAt)}',
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.white38)),
+                    Text(
+                      'Applied on ${_formatDate(app.createdAt)}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white38,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -103,9 +112,10 @@ class MyApplicationsScreen extends ConsumerWidget {
                 child: Text(
                   app.status.toUpperCase(),
                   style: TextStyle(
-                      color: statusColor,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold),
+                    color: statusColor,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -114,9 +124,10 @@ class MyApplicationsScreen extends ConsumerWidget {
           const Text(
             'My Message:',
             style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.white70),
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Colors.white70,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -127,11 +138,16 @@ class MyApplicationsScreen extends ConsumerWidget {
             const Divider(color: Colors.white10, height: 24),
             const Row(
               children: [
-                Icon(LucideIcons.checkCircle2,
-                    size: 16, color: Colors.greenAccent),
+                Icon(
+                  LucideIcons.checkCircle2,
+                  size: 16,
+                  color: Colors.greenAccent,
+                ),
                 SizedBox(width: 8),
-                Text('You have been selected! Check your chat.',
-                    style: TextStyle(color: Colors.greenAccent, fontSize: 12)),
+                Text(
+                  'You have been selected! Check your chat.',
+                  style: TextStyle(color: Colors.greenAccent, fontSize: 12),
+                ),
               ],
             ),
           ],

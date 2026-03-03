@@ -23,8 +23,12 @@ class SimulationsMenuScreen extends StatelessWidget {
       ),
       body: LiquidBackground(
         child: ListView(
-          padding:
-              const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 20),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 20,
+          ),
           children: [
             _buildCategoryCard(
               context,
@@ -48,7 +52,8 @@ class SimulationsMenuScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (_) => const ChemistryMenuScreen()),
+                    builder: (_) => const ChemistryMenuScreen(),
+                  ),
                 );
               },
             ),

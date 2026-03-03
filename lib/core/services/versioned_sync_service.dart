@@ -77,7 +77,8 @@ class VersionedSyncService {
       // 2. Conflict Detection
       if (remoteVersion > localVersion) {
         AppLogger.warning(
-            'SyncConflict: Version mismatch for $table:$id. Local:$localVersion, Remote:$remoteVersion');
+          'SyncConflict: Version mismatch for $table:$id. Local:$localVersion, Remote:$remoteVersion',
+        );
         return SyncResult.conflict(remoteData);
       }
 

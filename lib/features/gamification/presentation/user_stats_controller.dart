@@ -15,10 +15,10 @@ final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) {
 /// Provider for the [UserStatsController].
 final userStatsProvider =
     StateNotifierProvider<UserStatsController, UserStatsState>((ref) {
-  final repo = ref.watch(gamificationRepositoryProvider);
-  final achievementsService = ref.watch(achievementsServiceProvider);
-  return UserStatsController(repo, achievementsService);
-});
+      final repo = ref.watch(gamificationRepositoryProvider);
+      final achievementsService = ref.watch(achievementsServiceProvider);
+      return UserStatsController(repo, achievementsService);
+    });
 
 /// Controller that manages the user's gamification statistics state.
 class UserStatsController extends StateNotifier<UserStatsState> {
@@ -27,7 +27,7 @@ class UserStatsController extends StateNotifier<UserStatsState> {
 
   /// Creates a [UserStatsController] instance and refreshes stats.
   UserStatsController(this._repo, this._achievementsService)
-      : super(UserStatsState.loading()) {
+    : super(UserStatsState.loading()) {
     refreshStats();
   }
 
@@ -43,7 +43,8 @@ class UserStatsController extends StateNotifier<UserStatsState> {
         final newlyEarned = await _achievementsService.checkAchievements();
         if (newlyEarned.isNotEmpty) {
           AppLogger.info(
-              'Unlocked ${newlyEarned.length} achievement(s): ${newlyEarned.map((a) => a.name).join(', ')}');
+            'Unlocked ${newlyEarned.length} achievement(s): ${newlyEarned.map((a) => a.name).join(', ')}',
+          );
         }
       } catch (e) {
         AppLogger.info('Failed to check achievements after XP update: $e');

@@ -134,7 +134,10 @@ class _QuestCard extends StatelessWidget {
                     color: Colors.orangeAccent.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(quest.typeIcon, style: const TextStyle(fontSize: 20)),
+                  child: Text(
+                    quest.typeIcon,
+                    style: const TextStyle(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -168,7 +171,10 @@ class _QuestCard extends StatelessWidget {
               children: [
                 Text(
                   '${progress.currentCount} / ${quest.targetCount}',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   '+${quest.xpReward} XP',
@@ -186,7 +192,9 @@ class _QuestCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress.progressFraction,
                 backgroundColor: Colors.white10,
-                color: progress.isCompleted ? Colors.green : Colors.orangeAccent,
+                color: progress.isCompleted
+                    ? Colors.green
+                    : Colors.orangeAccent,
                 minHeight: 8,
               ),
             ),

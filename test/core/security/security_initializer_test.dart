@@ -10,29 +10,29 @@ void main() {
     // Mock SharedPreferences channel
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.flutter.io/shared_preferences'),
-      (methodCall) async {
-        if (methodCall.method == 'getAll') {
-          return <String, dynamic>{};
-        }
-        return null;
-      },
-    );
+          const MethodChannel('plugins.flutter.io/shared_preferences'),
+          (methodCall) async {
+            if (methodCall.method == 'getAll') {
+              return <String, dynamic>{};
+            }
+            return null;
+          },
+        );
 
     // Mock SecureStorage channel
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
-      (methodCall) async {
-        if (methodCall.method == 'read') {
-          return null;
-        }
-        if (methodCall.method == 'write') {
-          return null;
-        }
-        return null;
-      },
-    );
+          const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
+          (methodCall) async {
+            if (methodCall.method == 'read') {
+              return null;
+            }
+            if (methodCall.method == 'write') {
+              return null;
+            }
+            return null;
+          },
+        );
   });
 
   group('SecurityInitializer Tests', () {
@@ -66,11 +66,12 @@ void main() {
     });
     group('SecurityInitializer Regression Test', () {
       test(
-          'Initialization should succeed even if Supabase is already configured',
-          () async {
-        await SecurityInitializer.initialize();
-        expect(SecurityInitializer.isInitialized, isTrue);
-      });
+        'Initialization should succeed even if Supabase is already configured',
+        () async {
+          await SecurityInitializer.initialize();
+          expect(SecurityInitializer.isInitialized, isTrue);
+        },
+      );
     });
   });
 }

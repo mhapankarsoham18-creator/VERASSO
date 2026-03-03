@@ -49,10 +49,7 @@ void main() {
     });
 
     test('markAsRead updates is_read flag', () {
-      final notifData = {
-        'id': 'notif-1',
-        'is_read': false,
-      };
+      final notifData = {'id': 'notif-1', 'is_read': false};
 
       // Simulate marking as read
       notifData['is_read'] = true;

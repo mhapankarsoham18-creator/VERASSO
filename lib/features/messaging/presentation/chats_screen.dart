@@ -37,11 +37,14 @@ class ChatsScreen extends ConsumerWidget {
                 color: Colors.blueAccent.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Text('BETA',
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent)),
+              child: const Text(
+                'BETA',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
             ),
           ],
         ),
@@ -67,10 +70,11 @@ class ChatsScreen extends ConsumerWidget {
                 .toList();
             if (currentUserId == null) {
               return const Center(
-                  child: EmptyStateWidget(
-                title: 'Not signed in',
-                message: 'Sign in to view your messages.',
-              ));
+                child: EmptyStateWidget(
+                  title: 'Not signed in',
+                  message: 'Sign in to view your messages.',
+                ),
+              );
             }
             if (visible.isEmpty) {
               return const Padding(
@@ -85,24 +89,31 @@ class ChatsScreen extends ConsumerWidget {
             }
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, left: 16, right: 16, bottom: 20),
+                top: 100,
+                left: 16,
+                right: 16,
+                bottom: 20,
+              ),
               itemCount: visible.length,
               itemBuilder: (context, index) {
                 final conv = visible[index];
                 return _ConversationTile(
                   conversation: conv,
                   currentUserId: currentUserId,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ChatDetailScreen(
-                        conversationId: conv.id,
-                        otherUserId: conv.getOtherParticipantId(currentUserId),
-                      ),
-                    ),
-                  ).then((_) {
-                    ref.invalidate(conversationsProvider);
-                  }),
+                  onTap: () =>
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ChatDetailScreen(
+                            conversationId: conv.id,
+                            otherUserId: conv.getOtherParticipantId(
+                              currentUserId,
+                            ),
+                          ),
+                        ),
+                      ).then((_) {
+                        ref.invalidate(conversationsProvider);
+                      }),
                   onLongPress: () => _hideChat(context, ref, conv),
                 );
               },
@@ -123,18 +134,23 @@ class ChatsScreen extends ConsumerWidget {
   }
 
   static Future<void> _hideChat(
-      BuildContext context, WidgetRef ref, Conversation conversation) async {
+    BuildContext context,
+    WidgetRef ref,
+    Conversation conversation,
+  ) async {
     final vaultService = ref.read(vaultServiceProvider);
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Hide this chat?'),
         content: const Text(
-            'This conversation will be moved to your Private Vault and hidden from this list.'),
+          'This conversation will be moved to your Private Vault and hidden from this list.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
@@ -170,7 +186,9 @@ class ChatsScreen extends ConsumerWidget {
   }
 
   static Future<void> _startNewConversation(
-      BuildContext context, WidgetRef ref) async {
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final currentUserId = ref.read(currentUserProvider)?.id;
     if (currentUserId == null) return;
 
@@ -261,7 +279,9 @@ class _ConversationTile extends StatelessWidget {
                         ? otherUserId.substring(0, 2).toUpperCase()
                         : 'U',
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 if (hasUnread)
@@ -292,16 +312,18 @@ class _ConversationTile extends StatelessWidget {
                         _displayName(otherUserId),
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight:
-                              hasUnread ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: hasUnread
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                       Text(
                         last != null ? _formatTime(last.sentAt) : '',
                         style: TextStyle(
                           fontSize: 10,
-                          color:
-                              hasUnread ? Colors.greenAccent : Colors.white54,
+                          color: hasUnread
+                              ? Colors.greenAccent
+                              : Colors.white54,
                         ),
                       ),
                     ],
@@ -319,8 +341,9 @@ class _ConversationTile extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             color: hasUnread ? Colors.white : Colors.white70,
-                            fontWeight:
-                                hasUnread ? FontWeight.w600 : FontWeight.normal,
+                            fontWeight: hasUnread
+                                ? FontWeight.w600
+                                : FontWeight.normal,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -329,7 +352,9 @@ class _ConversationTile extends StatelessWidget {
                       if (hasUnread)
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.greenAccent,
                             borderRadius: BorderRadius.circular(10),
@@ -337,9 +362,10 @@ class _ConversationTile extends StatelessWidget {
                           child: Text(
                             '${conversation.unreadCount}',
                             style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 10,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                     ],

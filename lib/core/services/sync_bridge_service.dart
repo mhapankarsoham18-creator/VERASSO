@@ -59,8 +59,9 @@ class SyncBridgeService {
   }
 
   Future<void> _onMeshPacket(MeshPacket packet) async {
-    final isOnline =
-        await _ref.read(networkConnectivityServiceProvider).isConnected;
+    final isOnline = await _ref
+        .read(networkConnectivityServiceProvider)
+        .isConnected;
     if (!isOnline) return;
 
     // Bridge node logic: Forward important data to Supabase
@@ -82,7 +83,9 @@ class SyncBridgeService {
 
     switch (type) {
       case 'send_message':
-        await _ref.read(messageRepositoryProvider).sendMessage(
+        await _ref
+            .read(messageRepositoryProvider)
+            .sendMessage(
               senderId: data['senderId'],
               receiverId: data['receiverId'],
               content: data['content'],
@@ -90,14 +93,18 @@ class SyncBridgeService {
             );
         break;
       case 'create_post':
-        await _ref.read(feedRepositoryProvider).createPost(
+        await _ref
+            .read(feedRepositoryProvider)
+            .createPost(
               userId: data['userId'],
               content: data['content'],
               tags: List<String>.from(data['tags'] ?? []),
             );
         break;
       case 'ask_doubt':
-        await _ref.read(doubtRepositoryProvider).askDoubt(
+        await _ref
+            .read(doubtRepositoryProvider)
+            .askDoubt(
               userId: data['userId'],
               title: data['title'],
               description: data['description'],
@@ -105,11 +112,9 @@ class SyncBridgeService {
             );
         break;
       case 'apply_for_job':
-        await _ref.read(jobRepositoryProvider).applyForJob(
-              data['job_id'],
-              data['talent_id'],
-              data['message'],
-            );
+        await _ref
+            .read(jobRepositoryProvider)
+            .applyForJob(data['job_id'], data['talent_id'], data['message']);
         break;
       case 'create_job':
         await _ref
@@ -125,13 +130,15 @@ class SyncBridgeService {
     AppLogger.info('SyncBridge: Background sync completed for $table:$id');
     final userId = SupabaseService.client.auth.currentUser?.id;
     if (userId != null) {
-      _ref.read(notificationServiceProvider).createNotification(
-        targetUserId: userId,
-        type: NotificationType.system,
-        title: 'Sync Complete',
-        body: 'Your $table update has been synchronized successfully.',
-        data: {'table': table, 'id': id},
-      );
+      _ref
+          .read(notificationServiceProvider)
+          .createNotification(
+            targetUserId: userId,
+            type: NotificationType.system,
+            title: 'Sync Complete',
+            body: 'Your $table update has been synchronized successfully.',
+            data: {'table': table, 'id': id},
+          );
     }
   }
 
@@ -161,7 +168,8 @@ class SyncBridgeService {
 
           if (result.isConflict) {
             AppLogger.warning(
-                'SyncBridge: Conflict detected for $table:$id. Resolving via strategy...');
+              'SyncBridge: Conflict detected for $table:$id. Resolving via strategy...',
+            );
             // In a real app, this would trigger a UI prompt or use a conflict resolution strategy
             // For now, we'll mark it for manual resolution or keep it as pending
             continue;
@@ -191,14 +199,18 @@ class SyncBridgeService {
       switch (packet.type) {
         case MeshPayloadType.chatMessage:
           if (payload['action'] == 'apply_for_job') {
-            await _ref.read(jobRepositoryProvider).applyForJob(
+            await _ref
+                .read(jobRepositoryProvider)
+                .applyForJob(
                   payload['job_id'],
                   packet.senderId,
                   payload['message'],
                 );
             AppLogger.info('Uplinked mesh job application: ${packet.id}');
           } else {
-            await _ref.read(messageRepositoryProvider).sendMessage(
+            await _ref
+                .read(messageRepositoryProvider)
+                .sendMessage(
                   senderId: packet.senderId,
                   receiverId: payload['receiverId'],
                   content: payload['content'],
@@ -214,7 +226,9 @@ class SyncBridgeService {
                 .createJobRequest(JobRequest.fromJson(payload));
             AppLogger.info('Uplinked mesh job request: ${packet.id}');
           } else {
-            await _ref.read(feedRepositoryProvider).createPost(
+            await _ref
+                .read(feedRepositoryProvider)
+                .createPost(
                   userId: packet.senderId,
                   content: payload['content'],
                   tags: List<String>.from(payload['tags'] ?? []),
@@ -223,7 +237,9 @@ class SyncBridgeService {
           }
           break;
         case MeshPayloadType.doubtPost:
-          await _ref.read(doubtRepositoryProvider).askDoubt(
+          await _ref
+              .read(doubtRepositoryProvider)
+              .askDoubt(
                 userId: packet.senderId,
                 title: payload['title'],
                 description: payload['description'],

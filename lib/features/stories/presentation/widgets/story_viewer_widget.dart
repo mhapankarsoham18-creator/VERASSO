@@ -123,10 +123,7 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
         ),
         child: Text(
           caption,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 14),
           textAlign: TextAlign.center,
         ),
       ),
@@ -168,10 +165,7 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
                 ),
                 Text(
                   _formatTimestamp(story.createdAt),
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),
@@ -198,20 +192,28 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
-                      leading:
-                          const Icon(LucideIcons.share, color: Colors.white),
-                      title: const Text('Share story',
-                          style: TextStyle(color: Colors.white)),
+                      leading: const Icon(
+                        LucideIcons.share,
+                        color: Colors.white,
+                      ),
+                      title: const Text(
+                        'Share story',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onTap: () {
                         Navigator.pop(context);
                         AppLogger.info('Sharing story: ${story.id}');
                       },
                     ),
                     ListTile(
-                      leading: const Icon(LucideIcons.alertTriangle,
-                          color: Colors.red),
-                      title: const Text('Report story',
-                          style: TextStyle(color: Colors.red)),
+                      leading: const Icon(
+                        LucideIcons.alertTriangle,
+                        color: Colors.red,
+                      ),
+                      title: const Text(
+                        'Report story',
+                        style: TextStyle(color: Colors.red),
+                      ),
                       onTap: () {
                         Navigator.pop(context);
                         AppLogger.warning('Story reported: ${story.id}');
@@ -243,8 +245,8 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
                 value: index < _currentIndex
                     ? 1.0
                     : index == _currentIndex
-                        ? _progressController.value
-                        : 0.0,
+                    ? _progressController.value
+                    : 0.0,
                 backgroundColor: Colors.white30,
                 valueColor: const AlwaysStoppedAnimation(Colors.white),
               ),
@@ -264,10 +266,7 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
           color: Colors.white24,
           shape: BoxShape.circle,
         ),
-        child: Text(
-          emoji,
-          style: const TextStyle(fontSize: 28),
-        ),
+        child: Text(emoji, style: const TextStyle(fontSize: 28)),
       ),
     );
   }
@@ -283,10 +282,7 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withValues(alpha: 0.7),
-            ],
+            colors: [Colors.transparent, Colors.black.withValues(alpha: 0.7)],
           ),
         ),
         child: Row(
@@ -321,9 +317,7 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
           ),
         );
       }
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
   }
 
@@ -364,8 +358,9 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
     if (_currentIndex < widget.stories.length - 1) {
       setState(() {
         _currentIndex++;
-        _progressController.duration =
-            Duration(seconds: widget.stories[_currentIndex].duration);
+        _progressController.duration = Duration(
+          seconds: widget.stories[_currentIndex].duration,
+        );
       });
       _startStory();
     } else {
@@ -392,8 +387,9 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
     if (_currentIndex > 0) {
       setState(() {
         _currentIndex--;
-        _progressController.duration =
-            Duration(seconds: widget.stories[_currentIndex].duration);
+        _progressController.duration = Duration(
+          seconds: widget.stories[_currentIndex].duration,
+        );
       });
       _startStory();
     }
@@ -433,18 +429,21 @@ class _StoryViewerWidgetState extends State<StoryViewerWidget>
     if (story.mediaType == 'video') {
       _videoController =
           VideoPlayerController.networkUrl(Uri.parse(story.mediaUrl))
-            ..initialize().then((_) {
-              if (!mounted) return;
-              setState(() {
-                _isVideoInitialized = true;
-                _progressController.duration = _videoController!.value.duration;
-                _videoController!.play();
-                _progressController.forward();
-              });
-            }).catchError((e) {
-              AppLogger.error('Failed to initialize video', error: e);
-              _nextStory();
-            });
+            ..initialize()
+                .then((_) {
+                  if (!mounted) return;
+                  setState(() {
+                    _isVideoInitialized = true;
+                    _progressController.duration =
+                        _videoController!.value.duration;
+                    _videoController!.play();
+                    _progressController.forward();
+                  });
+                })
+                .catchError((e) {
+                  AppLogger.error('Failed to initialize video', error: e);
+                  _nextStory();
+                });
     } else {
       _progressController.duration = Duration(seconds: story.duration);
       _progressController.forward();

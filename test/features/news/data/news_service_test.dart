@@ -33,16 +33,14 @@ void main() {
           'category': 'science',
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final mockFilterBuilder =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('news', qb);
 
       // Act
@@ -65,16 +63,14 @@ void main() {
           'importance': 1,
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final mockFilterBuilder =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('news', qb);
 
       // Act
@@ -97,16 +93,14 @@ void main() {
           'category': 'world',
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
-        }
+        },
       ];
 
       final mockFilterBuilder =
           MockPostgrestFilterBuilder<List<Map<String, dynamic>>>();
       mockFilterBuilder.setResponse(mockResponse);
 
-      final qb = MockSupabaseQueryBuilder(stubs: {
-        'select': mockFilterBuilder,
-      });
+      final qb = MockSupabaseQueryBuilder(stubs: {'select': mockFilterBuilder});
       mockClient.setQueryBuilder('news', qb);
 
       // Act

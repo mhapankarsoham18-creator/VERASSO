@@ -58,16 +58,18 @@ class AppConfig {
 
   /// Combined list of all trusted pins.
   static List<String> get allCertificatePins => [
-        ...supabaseCertificatePins,
-        ...supabaseBackupPins
-      ].where((pin) => pin.isNotEmpty).toList();
+    ...supabaseCertificatePins,
+    ...supabaseBackupPins,
+  ].where((pin) => pin.isNotEmpty).toList();
 
   /// Validates that the current configuration is safe for the detected environment.
   ///
   /// Throws an [Exception] if critical environment variables are missing in production.
   static Future<void> validateConfig() async {
-    const isProduction =
-        bool.fromEnvironment('dart.vm.product', defaultValue: false);
+    const isProduction = bool.fromEnvironment(
+      'dart.vm.product',
+      defaultValue: false,
+    );
     const hasEnvironmentDefinedUrl = bool.hasEnvironment('SUPABASE_URL');
     const hasEnvironmentDefinedKey = bool.hasEnvironment('SUPABASE_ANON_KEY');
 
@@ -82,7 +84,8 @@ class AppConfig {
 
     if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
       throw Exception(
-          'Supabase configuration missing. Ensure SUPABASE_URL and SUPABASE_ANON_KEY are provided via --dart-define');
+        'Supabase configuration missing. Ensure SUPABASE_URL and SUPABASE_ANON_KEY are provided via --dart-define',
+      );
     }
   }
 }

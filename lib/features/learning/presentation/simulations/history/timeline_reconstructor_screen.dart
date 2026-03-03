@@ -57,8 +57,9 @@ class _TimelineReconstructorScreenState
                 decoration: BoxDecoration(
                   color: Colors.amber.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border:
-                      Border.all(color: Colors.amber.withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: Colors.amber.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: const Row(
                   children: [
@@ -136,22 +137,28 @@ class _TimelineReconstructorScreenState
                 color: Colors.white10,
                 shape: BoxShape.circle,
               ),
-              child: Text('${index + 1}',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(
+                '${index + 1}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(gameEvent.event.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(gameEvent.event.date,
-                      style:
-                          const TextStyle(color: Colors.amber, fontSize: 12)),
-                  Text(gameEvent.event.description,
-                      style:
-                          const TextStyle(color: Colors.white54, fontSize: 10)),
+                  Text(
+                    gameEvent.event.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    gameEvent.event.date,
+                    style: const TextStyle(color: Colors.amber, fontSize: 12),
+                  ),
+                  Text(
+                    gameEvent.event.description,
+                    style: const TextStyle(color: Colors.white54, fontSize: 10),
+                  ),
                 ],
               ),
             ),
@@ -193,10 +200,7 @@ class _TimelineReconstructorScreenState
 
     // 3. Create GameEvents with correct indices
     final gameEvents = selectedEvents.map((e) {
-      return GameEvent(
-        event: e,
-        correctIndex: sortedEvents.indexOf(e),
-      );
+      return GameEvent(event: e, correctIndex: sortedEvents.indexOf(e));
     }).toList();
 
     // 4. Shuffle for the game

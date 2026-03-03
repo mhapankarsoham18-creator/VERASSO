@@ -73,8 +73,9 @@ class MentorshipBooking {
       priceAtBooking: (json['price_at_booking'] ?? 0.0).toDouble(),
       currencyAtBooking: json['currency_at_booking'] ?? 'USD',
       startDate: DateTime.parse(json['start_date']),
-      endDate:
-          json['end_date'] != null ? DateTime.parse(json['end_date']) : null,
+      endDate: json['end_date'] != null
+          ? DateTime.parse(json['end_date'])
+          : null,
       createdAt: DateTime.parse(json['created_at']),
       mentorName: json['mentor']?['full_name'],
       studentName: json['student']?['full_name'],

@@ -10,15 +10,9 @@ void main() {
   late ProfileRepository profileRepository;
   late FollowRepository followRepository;
 
-  final testUser = TestSupabaseUser(
-    id: 'user-1',
-    email: 'test@example.com',
-  );
+  final testUser = TestSupabaseUser(id: 'user-1', email: 'test@example.com');
 
-  final otherUser = TestSupabaseUser(
-    id: 'user-2',
-    email: 'other@example.com',
-  );
+  final otherUser = TestSupabaseUser(id: 'user-2', email: 'other@example.com');
 
   setUp(() {
     mockSupabase = MockSupabaseClient();
@@ -29,35 +23,39 @@ void main() {
   });
 
   group('Profile Integration Tests', () {
-    test('complete profile creation flow: signup → auto-create profile',
-        () async {
-      final profilesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('profiles', profilesBuilder);
+    test(
+      'complete profile creation flow: signup → auto-create profile',
+      () async {
+        final profilesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('profiles', profilesBuilder);
 
-      await expectLater(
-        profileRepository.createProfile(
-          userId: testUser.id,
-          fullName: 'Test User',
-          email: testUser.email,
-        ),
-        completes,
-      );
+        await expectLater(
+          profileRepository.createProfile(
+            userId: testUser.id,
+            fullName: 'Test User',
+            email: testUser.email,
+          ),
+          completes,
+        );
 
-      expect(mockSupabase.lastInsertTable, 'profiles');
-    });
+        expect(mockSupabase.lastInsertTable, 'profiles');
+      },
+    );
 
     test('profile appears after creation', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Test User',
-          'email': testUser.email,
-          'avatar_url': null,
-          'bio': null,
-          'created_at': DateTime.now().toIso8601String(),
-          'updated_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'full_name': 'Test User',
+            'email': testUser.email,
+            'avatar_url': null,
+            'bio': null,
+            'created_at': DateTime.now().toIso8601String(),
+            'updated_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -124,15 +122,17 @@ void main() {
     });
 
     test('follower count increments after follow', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': otherUser.id,
-          'full_name': 'Other User',
-          'followers_count': 1,
-          'following_count': 0,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': otherUser.id,
+            'full_name': 'Other User',
+            'followers_count': 1,
+            'following_count': 0,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(otherUser.id);
@@ -156,24 +156,26 @@ void main() {
     });
 
     test('fetch followers list with pagination', () async {
-      final followersBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'follower_id': 'user-3',
-          'profiles': {
-            'id': 'user-3',
-            'full_name': 'Follower 1',
-            'avatar_url': null,
-          }
-        },
-        {
-          'follower_id': 'user-4',
-          'profiles': {
-            'id': 'user-4',
-            'full_name': 'Follower 2',
-            'avatar_url': null,
-          }
-        }
-      ]);
+      final followersBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'follower_id': 'user-3',
+            'profiles': {
+              'id': 'user-3',
+              'full_name': 'Follower 1',
+              'avatar_url': null,
+            },
+          },
+          {
+            'follower_id': 'user-4',
+            'profiles': {
+              'id': 'user-4',
+              'full_name': 'Follower 2',
+              'avatar_url': null,
+            },
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('follows', followersBuilder);
 
       final followers = await followRepository.getFollowers(testUser.id);
@@ -183,16 +185,18 @@ void main() {
     });
 
     test('fetch following list', () async {
-      final followingBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'following_id': otherUser.id,
-          'profiles': {
-            'id': otherUser.id,
-            'full_name': 'Other User',
-            'avatar_url': null,
-          }
-        }
-      ]);
+      final followingBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'following_id': otherUser.id,
+            'profiles': {
+              'id': otherUser.id,
+              'full_name': 'Other User',
+              'avatar_url': null,
+            },
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('follows', followingBuilder);
 
       final following = await followRepository.getFollowing(testUser.id);
@@ -202,19 +206,21 @@ void main() {
     });
 
     test('fetch user profile with stats aggregation', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Test User',
-          'email': testUser.email,
-          'posts_count': 15,
-          'followers_count': 42,
-          'following_count': 28,
-          'trust_score': 5000,
-          'level': 5,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'full_name': 'Test User',
+            'email': testUser.email,
+            'posts_count': 15,
+            'followers_count': 42,
+            'following_count': 28,
+            'trust_score': 5000,
+            'level': 5,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -237,13 +243,15 @@ void main() {
     });
 
     test('profile deactivation soft deletes records', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'is_private': true,
-          'deactivated_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'is_private': true,
+            'deactivated_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -254,13 +262,15 @@ void main() {
 
   group('Profile Integration - Data Consistency', () {
     test('profile update maintains referential integrity', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Test User',
-          'updated_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'full_name': 'Test User',
+            'updated_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -269,14 +279,16 @@ void main() {
     });
 
     test('follower statistics stay accurate after follows/unfollows', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'full_name': 'Test User',
-          'followers_count': 5,
-          'following_count': 3,
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': testUser.id,
+            'full_name': 'Test User',
+            'followers_count': 5,
+            'following_count': 3,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -286,12 +298,11 @@ void main() {
     });
 
     test('avatar URL persists correctly', () async {
-      final profileBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': testUser.id,
-          'avatar_url': 'https://example.com/avatar.jpg',
-        }
-      ]);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {'id': testUser.id, 'avatar_url': 'https://example.com/avatar.jpg'},
+        ],
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profile = await profileRepository.getProfile(testUser.id);
@@ -313,8 +324,9 @@ void main() {
         },
       );
 
-      final profileBuilder =
-          MockSupabaseQueryBuilder(selectResponse: largeProfileList);
+      final profileBuilder = MockSupabaseQueryBuilder(
+        selectResponse: largeProfileList,
+      );
       mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
       final profileIds = List.generate(1000, (i) => 'user-$i');
@@ -339,10 +351,7 @@ void main() {
         );
       }).toList();
 
-      await expectLater(
-        Future.wait(futures),
-        completes,
-      );
+      await expectLater(Future.wait(futures), completes);
     });
 
     test('handle 10,000 followers in relationship table', () async {
@@ -350,15 +359,13 @@ void main() {
         10000,
         (i) => {
           'follower_id': 'user-$i',
-          'profiles': {
-            'id': 'user-$i',
-            'full_name': 'User $i',
-          }
+          'profiles': {'id': 'user-$i', 'full_name': 'User $i'},
         },
       );
 
       final followsBuilder = MockSupabaseQueryBuilder(
-          selectResponse: enormousFollowerList.take(100).toList());
+        selectResponse: enormousFollowerList.take(100).toList(),
+      );
       mockSupabase.setQueryBuilder('follows', followsBuilder);
 
       final followers = await followRepository.getFollowers(testUser.id);
@@ -368,16 +375,20 @@ void main() {
   });
 
   group('Profile Integration - Error Handling', () {
-    test('profile fetch of non-existent user returns null gracefully',
-        () async {
-      final profileBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: false);
-      mockSupabase.setQueryBuilder('profiles', profileBuilder);
+    test(
+      'profile fetch of non-existent user returns null gracefully',
+      () async {
+        final profileBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [],
+          shouldThrow: false,
+        );
+        mockSupabase.setQueryBuilder('profiles', profileBuilder);
 
-      final profile = await profileRepository.getProfile('non-existent-id');
+        final profile = await profileRepository.getProfile('non-existent-id');
 
-      expect(profile, null);
-    });
+        expect(profile, null);
+      },
+    );
 
     test('follow own profile rejected', () async {
       // Authorization check should prevent self-follow

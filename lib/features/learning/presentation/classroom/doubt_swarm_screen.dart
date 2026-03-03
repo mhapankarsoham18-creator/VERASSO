@@ -25,7 +25,7 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
     "Chemistry",
     "Biology",
     "Mathematics",
-    "Computer Science"
+    "Computer Science",
   ];
 
   @override
@@ -53,10 +53,13 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("My Expertise",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                      const Text(
+                        "My Expertise",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       Wrap(
                         spacing: 8,
@@ -66,8 +69,9 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                             label: Text(sub),
                             selected: isExpert,
                             onSelected: (val) {
-                              final current =
-                                  List<String>.from(meshService.expertise);
+                              final current = List<String>.from(
+                                meshService.expertise,
+                              );
                               if (val) {
                                 current.add(sub);
                               } else {
@@ -76,11 +80,12 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                               meshService.setExpertise(current);
                               setState(() {});
                             },
-                            selectedColor:
-                                Colors.blueAccent.withValues(alpha: 0.5),
+                            selectedColor: Colors.blueAccent.withValues(
+                              alpha: 0.5,
+                            ),
                             labelStyle: TextStyle(
-                                color:
-                                    isExpert ? Colors.white : Colors.white70),
+                              color: isExpert ? Colors.white : Colors.white70,
+                            ),
                           );
                         }).toList(),
                       ),
@@ -96,8 +101,10 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                     children: [
                       Row(
                         children: [
-                          const Icon(LucideIcons.helpCircle,
-                              color: Colors.orangeAccent),
+                          const Icon(
+                            LucideIcons.helpCircle,
+                            color: Colors.orangeAccent,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: DropdownButton<String>(
@@ -106,11 +113,17 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                               isExpanded: true,
                               underline: Container(),
                               items: _subjects
-                                  .map((s) => DropdownMenuItem(
+                                  .map(
+                                    (s) => DropdownMenuItem(
                                       value: s,
-                                      child: Text(s,
-                                          style: const TextStyle(
-                                              color: Colors.white))))
+                                      child: Text(
+                                        s,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (val) =>
                                   setState(() => _selectedSubject = val!),
@@ -129,17 +142,22 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                       const SizedBox(height: 10),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orangeAccent),
+                          backgroundColor: Colors.orangeAccent,
+                        ),
                         icon: const Icon(LucideIcons.send),
                         label: const Text("Swarm Help!"),
                         onPressed: () {
                           if (_questionController.text.isNotEmpty) {
                             swarmService.requestHelp(
-                                _questionController.text, _selectedSubject);
+                              _questionController.text,
+                              _selectedSubject,
+                            );
                             _questionController.clear();
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Swarm Request Sent!")));
+                              const SnackBar(
+                                content: Text("Swarm Request Sent!"),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -150,18 +168,23 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                 const SizedBox(height: 20),
 
                 // 3. Incoming Requests (For Me as Expert)
-                const Text("Requests for You (Expert)",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                const Text(
+                  "Requests for You (Expert)",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Expanded(
                   child: swarmDoubts.isEmpty
                       ? const Center(
                           child: Text(
-                              "Waiting for doubts in your expertise area...",
-                              style: TextStyle(color: Colors.white54)))
+                            "Waiting for doubts in your expertise area...",
+                            style: TextStyle(color: Colors.white54),
+                          ),
+                        )
                       : ListView.builder(
                           itemCount: swarmDoubts.length,
                           itemBuilder: (context, index) {
@@ -173,25 +196,32 @@ class _DoubtSwarmScreenState extends ConsumerState<DoubtSwarmScreen> {
                                   backgroundColor: Colors.blueAccent,
                                   child: Text(request.senderName[0]),
                                 ),
-                                title: Text(request.question,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold)),
+                                title: Text(
+                                  request.question,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 subtitle: Text(
-                                    "From: ${request.senderName} • ${request.subject}",
-                                    style:
-                                        const TextStyle(color: Colors.white70)),
+                                  "From: ${request.senderName} • ${request.subject}",
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
                                 trailing: IconButton(
-                                  icon: const Icon(LucideIcons.messageSquare,
-                                      color: Colors.greenAccent),
+                                  icon: const Icon(
+                                    LucideIcons.messageSquare,
+                                    color: Colors.greenAccent,
+                                  ),
                                   onPressed: () {
                                     // Future: Deep link to chat or quick reply
                                   },
                                 ),
                               ),
-                            )
-                                .animate()
-                                .slideX(begin: 1, end: 0, duration: 300.ms);
+                            ).animate().slideX(
+                              begin: 1,
+                              end: 0,
+                              duration: 300.ms,
+                            );
                           },
                         ),
                 ),

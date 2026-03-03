@@ -20,10 +20,12 @@ class DesktopLanTransport implements MeshTransport {
 
   @override
   Future<void> acceptConnection(String endpointId) async {
-    _connectionEvents.add(MeshConnectionEvent(
-      endpointId: endpointId,
-      state: MeshConnectionState.connected,
-    ));
+    _connectionEvents.add(
+      MeshConnectionEvent(
+        endpointId: endpointId,
+        state: MeshConnectionState.connected,
+      ),
+    );
   }
 
   @override
@@ -87,15 +89,16 @@ class DesktopLanTransport implements MeshTransport {
         final datagram = _socket?.receive();
         if (datagram != null) {
           final peerId = datagram.address.address;
-          _connectionEvents.add(MeshConnectionEvent(
-            endpointId: peerId,
-            endpointName: 'Desktop Peer ($peerId)',
-            state: MeshConnectionState.connected,
-          ));
-          _dataEvents.add(MeshDataPayload(
-            endpointId: peerId,
-            data: datagram.data,
-          ));
+          _connectionEvents.add(
+            MeshConnectionEvent(
+              endpointId: peerId,
+              endpointName: 'Desktop Peer ($peerId)',
+              state: MeshConnectionState.connected,
+            ),
+          );
+          _dataEvents.add(
+            MeshDataPayload(endpointId: peerId, data: datagram.data),
+          );
         }
       }
     });

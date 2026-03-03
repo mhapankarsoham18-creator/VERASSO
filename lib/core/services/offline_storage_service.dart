@@ -47,8 +47,9 @@ class OfflineStorageService {
   /// Removes all chunks for a specific file.
   Future<void> clearFileChunks(String fileId) async {
     final box = Hive.box(fileChunksBox);
-    final keysToDelete =
-        box.keys.where((k) => (k as String).startsWith('${fileId}_'));
+    final keysToDelete = box.keys.where(
+      (k) => (k as String).startsWith('${fileId}_'),
+    );
     await box.deleteAll(keysToDelete);
   }
 
@@ -110,8 +111,11 @@ class OfflineStorageService {
   /// Optionally accepts an [id] to prevent duplicate actions for the same entity.
   /// If an action with the same [id] exists, it will only be replaced if the
   /// new one is newer based on [timestamp].
-  Future<void> queueAction(String actionType, Map<String, dynamic> data,
-      {String? id}) async {
+  Future<void> queueAction(
+    String actionType,
+    Map<String, dynamic> data, {
+    String? id,
+  }) async {
     final box = Hive.box(pendingActionsBox);
     final timestamp = DateTime.now().toIso8601String();
 
@@ -145,7 +149,10 @@ class OfflineStorageService {
 
   /// Tracks a file part for multi-part upload.
   Future<void> saveFileChunk(
-      String fileId, int chunkIndex, List<int> data) async {
+    String fileId,
+    int chunkIndex,
+    List<int> data,
+  ) async {
     final box = Hive.box(fileChunksBox);
     await box.put('${fileId}_$chunkIndex', data);
   }

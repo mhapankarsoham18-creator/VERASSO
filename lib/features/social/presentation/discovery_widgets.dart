@@ -44,8 +44,10 @@ class TrendingCarousel extends StatelessWidget {
             children: [
               Icon(LucideIcons.trendingUp, color: Colors.amber, size: 18),
               SizedBox(width: 8),
-              Text('Trending Courses',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                'Trending Courses',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ),
@@ -65,10 +67,11 @@ class TrendingCarousel extends StatelessWidget {
                   onTap: () {
                     HapticFeedback.lightImpact();
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) =>
-                                CoursePlayerScreen(course: course)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CoursePlayerScreen(course: course),
+                      ),
+                    );
                   },
                   child: Container(
                     width: 240,
@@ -81,7 +84,8 @@ class TrendingCarousel extends StatelessWidget {
                           Expanded(
                             child: ClipRRect(
                               borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(16)),
+                                top: Radius.circular(16),
+                              ),
                               child: course.coverUrl != null
                                   ? CachedImage(
                                       imageUrl: course.coverUrl!,
@@ -89,11 +93,15 @@ class TrendingCarousel extends StatelessWidget {
                                       fit: BoxFit.cover,
                                     )
                                   : Container(
-                                      color: Colors.blueAccent
-                                          .withValues(alpha: 0.1),
+                                      color: Colors.blueAccent.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       child: const Center(
-                                          child: Icon(LucideIcons.bookOpen,
-                                              color: Colors.blueAccent)),
+                                        child: Icon(
+                                          LucideIcons.bookOpen,
+                                          color: Colors.blueAccent,
+                                        ),
+                                      ),
                                     ),
                             ),
                           ),
@@ -102,28 +110,36 @@ class TrendingCarousel extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(course.title,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13)),
+                                Text(
+                                  course.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
+                                ),
                                 const SizedBox(height: 4),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                        course.creatorName ??
-                                            'Verified Instructor',
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white54)),
-                                    Text('\$${course.price.toStringAsFixed(0)}',
-                                        style: const TextStyle(
-                                            color: Colors.greenAccent,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12)),
+                                      course.creatorName ??
+                                          'Verified Instructor',
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                    Text(
+                                      '\$${course.price.toStringAsFixed(0)}',
+                                      style: const TextStyle(
+                                        color: Colors.greenAccent,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -150,8 +166,9 @@ class _NewsTickerState extends ConsumerState<NewsTicker> {
   @override
   Widget build(BuildContext context) {
     // Determine category based on cycling index or just fetch tech/general
-    final newsStream =
-        ref.watch(newsRepositoryProvider).watchArticles(subject: 'global');
+    final newsStream = ref
+        .watch(newsRepositoryProvider)
+        .watchArticles(subject: 'global');
 
     return StreamBuilder<List<NewsArticle>>(
       stream: newsStream,
@@ -165,7 +182,9 @@ class _NewsTickerState extends ConsumerState<NewsTicker> {
 
         return GestureDetector(
           onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (_) => const NewsScreen())),
+            context,
+            MaterialPageRoute(builder: (_) => const NewsScreen()),
+          ),
           child: Container(
             height: 32,
             width: double.infinity,
@@ -174,16 +193,22 @@ class _NewsTickerState extends ConsumerState<NewsTicker> {
             child: Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(4)),
-                  child: const Text('LIVE',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold)),
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Text(
+                    'LIVE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -191,32 +216,41 @@ class _NewsTickerState extends ConsumerState<NewsTicker> {
                     duration: const Duration(milliseconds: 500),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
-                      return FadeTransition(
-                          opacity: animation,
-                          child: SlideTransition(
-                            position: Tween<Offset>(
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position:
+                                  Tween<Offset>(
                                     begin: const Offset(0, 0.5),
-                                    end: Offset.zero)
-                                .animate(CurvedAnimation(
-                                    parent: animation,
-                                    curve: DesignSystem.easingStandard)),
-                            child: child,
-                          ));
-                    },
+                                    end: Offset.zero,
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: DesignSystem.easingStandard,
+                                    ),
+                                  ),
+                              child: child,
+                            ),
+                          );
+                        },
                     child: Text(
                       article.title, // Display Title
                       key: ValueKey<String>(article.id),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontSize: 11,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+                        fontSize: 11,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
-                const Icon(LucideIcons.chevronRight,
-                    color: Colors.white54, size: 14),
+                const Icon(
+                  LucideIcons.chevronRight,
+                  color: Colors.white54,
+                  size: 14,
+                ),
               ],
             ),
           ),
@@ -239,8 +273,9 @@ class _NewsTickerState extends ConsumerState<NewsTicker> {
 
   void _startTicker() {
     // Skip timer in tests to avoid pending timer issues (flutter_animate/timers)
-    if (RegExp(r'test')
-            .hasMatch(Stream.fromIterable([]).runtimeType.toString()) ||
+    if (RegExp(
+          r'test',
+        ).hasMatch(Stream.fromIterable([]).runtimeType.toString()) ||
         WidgetsBinding.instance is WidgetsFlutterBinding == false) {
       return;
     }

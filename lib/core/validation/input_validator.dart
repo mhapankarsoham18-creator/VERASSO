@@ -67,8 +67,13 @@ class InputValidator {
   }
 
   /// Validates field length boundaries.
-  static (bool, String?) validateLength(String value, String fieldName,
-      int minLength, int maxLength, AppLocalizations l10n) {
+  static (bool, String?) validateLength(
+    String value,
+    String fieldName,
+    int minLength,
+    int maxLength,
+    AppLocalizations l10n,
+  ) {
     final trimmed = value.trim();
     if (trimmed.length < minLength) {
       return (false, l10n.fieldTooShort(fieldName, minLength.toString()));
@@ -100,7 +105,9 @@ class InputValidator {
 
   /// Validates a password's complexity.
   static (bool, String?) validatePassword(
-      String password, AppLocalizations l10n) {
+    String password,
+    AppLocalizations l10n,
+  ) {
     if (password.isEmpty) {
       return (false, l10n.passwordRequired);
     }
@@ -124,7 +131,10 @@ class InputValidator {
 
   /// Checks if two password strings match.
   static (bool, String?) validatePasswordConfirmation(
-      String password, String confirmation, AppLocalizations l10n) {
+    String password,
+    String confirmation,
+    AppLocalizations l10n,
+  ) {
     if (confirmation.isEmpty) {
       return (false, l10n.confirmPasswordRequired);
     }
@@ -153,7 +163,10 @@ class InputValidator {
 
   /// Validates a generic required field.
   static (bool, String?) validateRequired(
-      String? value, String fieldName, AppLocalizations l10n) {
+    String? value,
+    String fieldName,
+    AppLocalizations l10n,
+  ) {
     if (value == null || value.trim().isEmpty) {
       return (false, l10n.fieldRequired(fieldName));
     }
@@ -162,7 +175,9 @@ class InputValidator {
 
   /// Validates a username.
   static (bool, String?) validateUsername(
-      String username, AppLocalizations l10n) {
+    String username,
+    AppLocalizations l10n,
+  ) {
     final trimmed = username.trim();
     if (trimmed.isEmpty) {
       return (false, l10n.usernameRequired);

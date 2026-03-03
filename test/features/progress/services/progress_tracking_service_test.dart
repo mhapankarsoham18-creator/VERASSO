@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   // Unit tests for ProgressTrackingService have been moved to integration tests

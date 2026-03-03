@@ -38,7 +38,10 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
           const Text(
             "Create Live Poll",
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 20),
           TextField(
@@ -49,8 +52,9 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
               labelStyle: const TextStyle(color: Colors.white70),
               filled: true,
               fillColor: Colors.white.withValues(alpha: 0.1),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -66,11 +70,14 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
                   filled: true,
                   fillColor: Colors.white.withValues(alpha: 0.1),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   suffixIcon: index > 1
                       ? IconButton(
-                          icon: const Icon(LucideIcons.trash,
-                              color: Colors.redAccent),
+                          icon: const Icon(
+                            LucideIcons.trash,
+                            color: Colors.redAccent,
+                          ),
                           onPressed: () {
                             setState(() {
                               _optionControllers.removeAt(index);
@@ -89,8 +96,10 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
               });
             },
             icon: const Icon(LucideIcons.plus, color: Colors.blueAccent),
-            label: const Text("Add Option",
-                style: TextStyle(color: Colors.blueAccent)),
+            label: const Text(
+              "Add Option",
+              style: TextStyle(color: Colors.blueAccent),
+            ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -98,7 +107,8 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
               backgroundColor: Colors.blueAccent,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             onPressed: () {
               if (_questionController.text.isEmpty) return;
@@ -111,8 +121,10 @@ class _PollCreationSheetState extends State<PollCreationSheet> {
               widget.onCreate(_questionController.text, options);
               Navigator.pop(context);
             },
-            child: const Text("Broadcast Poll",
-                style: TextStyle(fontSize: 16, color: Colors.white)),
+            child: const Text(
+              "Broadcast Poll",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
           ),
         ],
       ),

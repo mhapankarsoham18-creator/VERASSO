@@ -56,11 +56,7 @@ class _ArCircuitBuilderScreenState
     }
 
     if (!_isCameraInitialized) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -91,9 +87,7 @@ class _ArCircuitBuilderScreenState
         children: [
           // Camera preview
           if (_cameraController != null)
-            Positioned.fill(
-              child: CameraPreview(_cameraController!),
-            ),
+            Positioned.fill(child: CameraPreview(_cameraController!)),
 
           // Hand tracking overlay
           if (_currentHandPosition != null) _buildHandTrackingOverlay(),
@@ -180,17 +174,16 @@ class _ArCircuitBuilderScreenState
     return Column(
       children: [
         const SizedBox(height: 100),
-        const Text('2D INTERACTION MODE',
-            style: TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2)),
-        const SizedBox(height: 20),
-        Expanded(
-          child: Stack(
-            children: _buildComponentOverlays(),
+        const Text(
+          '2D INTERACTION MODE',
+          style: TextStyle(
+            color: Colors.blueAccent,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
           ),
         ),
+        const SizedBox(height: 20),
+        Expanded(child: Stack(children: _buildComponentOverlays())),
       ],
     );
   }
@@ -210,22 +203,19 @@ class _ArCircuitBuilderScreenState
               'Add',
               () => setState(() => _showComponentMenu = true),
             ),
-            _buildToolbarButton(
-              LucideIcons.link,
-              'Connect',
-              () {
-                setState(() {
-                  _isConnectionMode = !_isConnectionMode;
-                  _connectionStart = null;
-                });
-                if (_isConnectionMode) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Select two components to connect')),
-                  );
-                }
-              },
-            ),
+            _buildToolbarButton(LucideIcons.link, 'Connect', () {
+              setState(() {
+                _isConnectionMode = !_isConnectionMode;
+                _connectionStart = null;
+              });
+              if (_isConnectionMode) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Select two components to connect'),
+                  ),
+                );
+              }
+            }),
             _buildToolbarButton(
               LucideIcons.info,
               'Help',
@@ -328,8 +318,10 @@ class _ArCircuitBuilderScreenState
         children: [
           Icon(icon, color: color, size: 20),
           const SizedBox(width: 8),
-          Text(text,
-              style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+          Text(
+            text,
+            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     ).animate().fadeIn().scale();
@@ -346,18 +338,23 @@ class _ArCircuitBuilderScreenState
     return Positioned(
       left: x - 20,
       top: y - 20,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.greenAccent.withValues(alpha: 0.5),
-          border: Border.all(color: Colors.greenAccent, width: 2),
-        ),
-        child: const Icon(LucideIcons.hand, size: 20, color: Colors.white),
-      )
-          .animate(onPlay: (controller) => controller.repeat())
-          .shimmer(duration: 1000.ms),
+      child:
+          Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.greenAccent.withValues(alpha: 0.5),
+                  border: Border.all(color: Colors.greenAccent, width: 2),
+                ),
+                child: const Icon(
+                  LucideIcons.hand,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              )
+              .animate(onPlay: (controller) => controller.repeat())
+              .shimmer(duration: 1000.ms),
     );
   }
 
@@ -376,8 +373,10 @@ class _ArCircuitBuilderScreenState
             child: Icon(icon, color: Colors.white),
           ),
           const SizedBox(height: 4),
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
         ],
       ),
     );
@@ -424,21 +423,25 @@ class _ArCircuitBuilderScreenState
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-                Text('Selected ${component.name}. Select another to connect.')),
+          content: Text(
+            'Selected ${component.name}. Select another to connect.',
+          ),
+        ),
       );
     } else if (_connectionStart!.id != component.id) {
       setState(() {
-        _connections.add(ComponentConnection(
-          fromComponentId: _connectionStart!.id,
-          toComponentId: component.id,
-        ));
+        _connections.add(
+          ComponentConnection(
+            fromComponentId: _connectionStart!.id,
+            toComponentId: component.id,
+          ),
+        );
         _isConnectionMode = false;
         _connectionStart = null;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Components connected!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Components connected!')));
     }
   }
 
@@ -567,15 +570,15 @@ class _ArCircuitBuilderScreenState
         );
         await repo.updateProject(updated);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Project updated!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Project updated!')));
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to update: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Failed to update: $e')));
         }
       }
     } else {
@@ -590,15 +593,15 @@ class _ArCircuitBuilderScreenState
           connections: _connections,
         );
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Project saved!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Project saved!')));
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to save: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Failed to save: $e')));
         }
       }
     }
@@ -640,15 +643,15 @@ class _ArCircuitBuilderScreenState
             .read(arProjectRepositoryProvider)
             .shareProjectWithFriend(widget.existingProject!.id, result);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Project shared!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Project shared!')));
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to share: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Failed to share: $e')));
         }
       }
     }
@@ -664,12 +667,18 @@ class _ArCircuitBuilderScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _GestureHelpItem(
-                icon: LucideIcons.hand, text: 'Pinch: Grab component'),
+              icon: LucideIcons.hand,
+              text: 'Pinch: Grab component',
+            ),
             _GestureHelpItem(
-                icon: LucideIcons.hand, text: 'Open Palm: Release'),
+              icon: LucideIcons.hand,
+              text: 'Open Palm: Release',
+            ),
             _GestureHelpItem(icon: LucideIcons.hand, text: 'Fist: Delete'),
             _GestureHelpItem(
-                icon: LucideIcons.hand, text: 'Point: Select menu'),
+              icon: LucideIcons.hand,
+              text: 'Point: Select menu',
+            ),
           ],
         ),
         actions: [
@@ -719,11 +728,7 @@ class _GestureHelpItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
-        children: [
-          Icon(icon, size: 24),
-          const SizedBox(width: 12),
-          Text(text),
-        ],
+        children: [Icon(icon, size: 24), const SizedBox(width: 12), Text(text)],
       ),
     );
   }

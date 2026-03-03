@@ -55,8 +55,9 @@ void main() {
 
       // So setting response on QueryBuilder's select should propagate if chain returns 'this'.
 
-      final queryBuilder =
-          MockSupabaseQueryBuilder(selectResponse: mockResponse);
+      final queryBuilder = MockSupabaseQueryBuilder(
+        selectResponse: mockResponse,
+      );
       mockSupabase.setQueryBuilder('profiles', queryBuilder);
 
       final result = await repository.searchUsers('test');

@@ -72,21 +72,22 @@ void main() {
           session: mockSession,
         );
 
-        mockSecureAuth.signUpWithPasswordStub = ({
-          required email,
-          required password,
-          required username,
-          fullName,
-          metadata,
-        }) async =>
-            mockAuthResponse;
+        mockSecureAuth.signUpWithPasswordStub =
+            ({
+              required email,
+              required password,
+              required username,
+              fullName,
+              metadata,
+            }) async => mockAuthResponse;
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         final result = await authRepository.signUpWithEmail(
           email: email,
@@ -104,22 +105,24 @@ void main() {
         const password = 'SecurePassword123!';
         const username = 'testuser';
 
-        mockSecureAuth.signUpWithPasswordStub = ({
-          required email,
-          required password,
-          required username,
-          fullName,
-          metadata,
-        }) async {
-          throw const AuthException('Invalid email format');
-        };
+        mockSecureAuth.signUpWithPasswordStub =
+            ({
+              required email,
+              required password,
+              required username,
+              fullName,
+              metadata,
+            }) async {
+              throw const AuthException('Invalid email format');
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
           () => authRepository.signUpWithEmail(
@@ -136,23 +139,26 @@ void main() {
         const password = '123'; // Too weak
         const username = 'testuser';
 
-        mockSecureAuth.signUpWithPasswordStub = ({
-          required email,
-          required password,
-          required username,
-          fullName,
-          metadata,
-        }) async {
-          throw const AuthException(
-              'Password does not meet strength requirements');
-        };
+        mockSecureAuth.signUpWithPasswordStub =
+            ({
+              required email,
+              required password,
+              required username,
+              fullName,
+              metadata,
+            }) async {
+              throw const AuthException(
+                'Password does not meet strength requirements',
+              );
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
           () => authRepository.signUpWithEmail(
@@ -169,22 +175,24 @@ void main() {
         const password = 'SecurePassword123!';
         const username = 'newuser';
 
-        mockSecureAuth.signUpWithPasswordStub = ({
-          required email,
-          required password,
-          required username,
-          fullName,
-          metadata,
-        }) async {
-          throw const AuthException('User already exists');
-        };
+        mockSecureAuth.signUpWithPasswordStub =
+            ({
+              required email,
+              required password,
+              required username,
+              fullName,
+              metadata,
+            }) async {
+              throw const AuthException('User already exists');
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
           () => authRepository.signUpWithEmail(
@@ -237,18 +245,16 @@ void main() {
           session: mockSession,
         );
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async =>
-            mockAuthResponse;
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async => mockAuthResponse;
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         final result = await authRepository.signInWithEmail(
           email: email,
@@ -263,19 +269,18 @@ void main() {
         const email = 'test@example.com';
         const wrongPassword = 'WrongPassword123!';
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async {
-          throw const AuthException('Invalid credentials');
-        };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException('Invalid credentials');
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
           () => authRepository.signInWithEmail(
@@ -290,25 +295,22 @@ void main() {
         const email = 'nonexistent@example.com';
         const password = 'SomePassword123!';
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async {
-          throw const AuthException('User not found');
-        };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException('User not found');
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
-          () => authRepository.signInWithEmail(
-            email: email,
-            password: password,
-          ),
+          () =>
+              authRepository.signInWithEmail(email: email, password: password),
           throwsA(isA<AppAuthException>()),
         );
       });
@@ -317,26 +319,24 @@ void main() {
         const email = 'test@example.com';
         const password = 'WrongPassword';
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async {
-          throw const AuthException(
-              'Too many login attempts. Please try again later.');
-        };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException(
+                'Too many login attempts. Please try again later.',
+              );
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
-          () => authRepository.signInWithEmail(
-            email: email,
-            password: password,
-          ),
+          () =>
+              authRepository.signInWithEmail(email: email, password: password),
           throwsA(isA<AppAuthException>()),
         );
       });
@@ -355,19 +355,21 @@ void main() {
         await authRepository.resetPasswordForEmail(email: email);
       });
 
-      test('resetPasswordForEmail should fail with non-existent email',
-          () async {
-        const email = 'nonexistent@example.com';
+      test(
+        'resetPasswordForEmail should fail with non-existent email',
+        () async {
+          const email = 'nonexistent@example.com';
 
-        mockSecureAuth.resetPasswordForEmailStub = (email) async {
-          throw const AuthException('User not found');
-        };
+          mockSecureAuth.resetPasswordForEmailStub = (email) async {
+            throw const AuthException('User not found');
+          };
 
-        expect(
-          () => authRepository.resetPasswordForEmail(email: email),
-          throwsA(isA<Exception>()),
-        );
-      });
+          expect(
+            () => authRepository.resetPasswordForEmail(email: email),
+            throwsA(isA<Exception>()),
+          );
+        },
+      );
 
       test('updateUserPassword should change password', () async {
         const newPassword = 'NewSecurePassword456!';
@@ -382,7 +384,8 @@ void main() {
 
         mockSecureAuth.setNewPasswordStub = (password) async {
           throw const AuthException(
-              'Password does not meet strength requirements');
+            'Password does not meet strength requirements',
+          );
         };
 
         expect(
@@ -440,12 +443,9 @@ void main() {
           session: mockSession,
         );
 
-        mockSecureAuth.verifyOTPStub = ({
-          required email,
-          required token,
-          required type,
-        }) async =>
-            mockAuthResponse;
+        mockSecureAuth.verifyOTPStub =
+            ({required email, required token, required type}) async =>
+                mockAuthResponse;
 
         final result = await authRepository.verifyOtp(
           token: token,
@@ -461,13 +461,10 @@ void main() {
         const email = 'test@example.com';
         const invalidToken = '000000';
 
-        mockSecureAuth.verifyOTPStub = ({
-          required email,
-          required token,
-          required type,
-        }) async {
-          throw const AuthException('Invalid or expired OTP');
-        };
+        mockSecureAuth.verifyOTPStub =
+            ({required email, required token, required type}) async {
+              throw const AuthException('Invalid or expired OTP');
+            };
 
         try {
           await authRepository.verifyOtp(
@@ -485,13 +482,10 @@ void main() {
         const email = 'test@example.com';
         const expiredToken = '654321';
 
-        mockSecureAuth.verifyOTPStub = ({
-          required email,
-          required token,
-          required type,
-        }) async {
-          throw const AuthException('OTP has expired');
-        };
+        mockSecureAuth.verifyOTPStub =
+            ({required email, required token, required type}) async {
+              throw const AuthException('OTP has expired');
+            };
 
         try {
           await authRepository.verifyOtp(
@@ -515,25 +509,24 @@ void main() {
         const email = 'test@example.com';
         const password = 'SecurePassword123!';
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async {
-          throw const AuthException('Network error: Unable to reach server');
-        };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException(
+                'Network error: Unable to reach server',
+              );
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
-          () => authRepository.signInWithEmail(
-            email: email,
-            password: password,
-          ),
+          () =>
+              authRepository.signInWithEmail(email: email, password: password),
           throwsA(isA<AppAuthException>()),
         );
       });
@@ -543,15 +536,16 @@ void main() {
         const password = 'SecurePassword123!';
         const username = 'testuser';
 
-        mockSecureAuth.signUpWithPasswordStub = ({
-          required email,
-          required password,
-          required username,
-          fullName,
-          metadata,
-        }) async {
-          throw const AuthException('Email is required');
-        };
+        mockSecureAuth.signUpWithPasswordStub =
+            ({
+              required email,
+              required password,
+              required username,
+              fullName,
+              metadata,
+            }) async {
+              throw const AuthException('Email is required');
+            };
 
         expect(
           () => authRepository.signUpWithEmail(
@@ -567,25 +561,24 @@ void main() {
         const email = 'test@example.com';
         const password = 'SecurePassword123!';
 
-        mockSecureAuth.signInWithPasswordStub = ({
-          required email,
-          required password,
-        }) async {
-          throw const AuthException('Server error: 500 Internal Server Error');
-        };
+        mockSecureAuth.signInWithPasswordStub =
+            ({required email, required password}) async {
+              throw const AuthException(
+                'Server error: 500 Internal Server Error',
+              );
+            };
 
-        mockAuditLog.logEventStub = ({
-          required type,
-          required action,
-          required severity,
-          metadata,
-        }) async {};
+        mockAuditLog.logEventStub =
+            ({
+              required type,
+              required action,
+              required severity,
+              metadata,
+            }) async {};
 
         expect(
-          () => authRepository.signInWithEmail(
-            email: email,
-            password: password,
-          ),
+          () =>
+              authRepository.signInWithEmail(email: email, password: password),
           throwsA(isA<AppAuthException>()),
         );
       });
@@ -609,8 +602,10 @@ Session createMockSession({
 }
 
 // Helper function to create test User object
-User createMockUser(
-    {String id = 'user123', String email = 'test@example.com'}) {
+User createMockUser({
+  String id = 'user123',
+  String email = 'test@example.com',
+}) {
   return User(
     id: id,
     aud: 'authenticated',

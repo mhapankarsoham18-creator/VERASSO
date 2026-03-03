@@ -51,12 +51,12 @@ void main() {
     mockStoryRepo = MockStoryRepository();
 
     // FeedRepository stubs
-    mockFeedRepo.getFeedStub = ({
-      List<String> userInterests = const [],
-      int limit = 20,
-      int offset = 0,
-    }) async =>
-        [testPost];
+    mockFeedRepo.getFeedStub =
+        ({
+          List<String> userInterests = const [],
+          int limit = 20,
+          int offset = 0,
+        }) async => [testPost];
     mockFeedRepo.watchFeedStub = () => Stream.value([testPost]);
     mockFeedRepo.getFollowingFeedStub = ({String? userId}) async => [testPost];
     mockFeedRepo.likePostStub = (postId) async {};
@@ -90,16 +90,20 @@ void main() {
         moderationServiceProvider.overrideWithValue(mockModeration),
         sharedPreferencesProvider.overrideWithValue(mockPrefs),
         // Security fakes
-        tokenStorageServiceProvider
-            .overrideWithValue(MockTokenStorageService()),
-        offlineSecurityServiceProvider
-            .overrideWithValue(MockOfflineSecurityService()),
-        offlineStorageServiceProvider
-            .overrideWithValue(MockOfflineStorageService()),
+        tokenStorageServiceProvider.overrideWithValue(
+          MockTokenStorageService(),
+        ),
+        offlineSecurityServiceProvider.overrideWithValue(
+          MockOfflineSecurityService(),
+        ),
+        offlineStorageServiceProvider.overrideWithValue(
+          MockOfflineStorageService(),
+        ),
         // Theme & Privacy
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
-        privacySettingsProvider
-            .overrideWith((ref) => PrivacySettingsNotifier(mockPrefs, ref)),
+        privacySettingsProvider.overrideWith(
+          (ref) => PrivacySettingsNotifier(mockPrefs, ref),
+        ),
       ],
       child: const MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,

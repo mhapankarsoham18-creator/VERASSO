@@ -23,19 +23,19 @@ class TalentPortfolioList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (portfolioUrls.isEmpty) {
-      return const Text('No portfolio links listed.',
-          style: TextStyle(color: Colors.white38));
+      return const Text(
+        'No portfolio links listed.',
+        style: TextStyle(color: Colors.white38),
+      );
     }
     return Column(
       children: portfolioUrls
           .asMap()
           .entries
-          .map((entry) => _PortfolioItem(
-                entry.value,
-                entry.key,
-                isEditing,
-                onRemove,
-              ))
+          .map(
+            (entry) =>
+                _PortfolioItem(entry.value, entry.key, isEditing, onRemove),
+          )
           .toList(),
     );
   }
@@ -55,22 +55,30 @@ class _PortfolioItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          const Icon(LucideIcons.externalLink,
-              size: 16, color: Colors.blueAccent),
+          const Icon(
+            LucideIcons.externalLink,
+            size: 16,
+            color: Colors.blueAccent,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               url,
               style: const TextStyle(
-                  color: Colors.blue, decoration: TextDecoration.underline),
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           if (isEditing)
             IconButton(
-              icon: const Icon(LucideIcons.trash2,
-                  size: 14, color: Colors.redAccent),
+              icon: const Icon(
+                LucideIcons.trash2,
+                size: 14,
+                color: Colors.redAccent,
+              ),
               onPressed: () => onRemove(index),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

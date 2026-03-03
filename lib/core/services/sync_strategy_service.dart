@@ -41,8 +41,12 @@ class SyncStrategyService {
   final SupabaseClient _supabaseClient;
 
   /// Creates a [SyncStrategyService] with required dependencies.
-  SyncStrategyService(this._networkService, this._meshService,
-      this._storageService, this._supabaseClient);
+  SyncStrategyService(
+    this._networkService,
+    this._meshService,
+    this._storageService,
+    this._supabaseClient,
+  );
 
   /// Access to the underlying [BluetoothMeshService].
   BluetoothMeshService get meshService => _meshService;
@@ -52,7 +56,9 @@ class SyncStrategyService {
   // For "Every feature works on mesh", we want immediate broadcast.
   /// Directly broadcasts a [payload] of a specific [type] to the mesh network.
   Future<void> broadcastToMesh(
-      MeshPayloadType type, Map<String, dynamic> payload) async {
+    MeshPayloadType type,
+    Map<String, dynamic> payload,
+  ) async {
     await _meshService.broadcastPacket(type, payload);
   }
 
@@ -107,7 +113,9 @@ class SyncStrategyService {
 
   // Returns the mode used to process (Mesh or Realtime)
   Future<SyncMode> _processAction(
-      Map<dynamic, dynamic> action, SyncMode currentMode) async {
+    Map<dynamic, dynamic> action,
+    SyncMode currentMode,
+  ) async {
     final type = action['type'];
     final data = action['data'] as Map<dynamic, dynamic>;
     final supabase = _supabaseClient;
@@ -131,8 +139,11 @@ class SyncStrategyService {
     if (type == 'create_project') {
       final cleanData = Map<String, dynamic>.from(data)..remove('temp_id');
       try {
-        final response =
-            await supabase.from('projects').insert(cleanData).select().single();
+        final response = await supabase
+            .from('projects')
+            .insert(cleanData)
+            .select()
+            .single();
         final realId = response['id'];
         if (cleanData.containsKey('leader_id')) {
           await supabase.from('project_members').insert({
@@ -161,16 +172,20 @@ class SyncStrategyService {
         return SyncMode.realtime;
       }
 
-      await supabase.from('project_tasks').update({
-        'status': status,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', taskId);
+      await supabase
+          .from('project_tasks')
+          .update({
+            'status': status,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', taskId);
     } else if (type == 'toggle_mentor_status') {
       final userId = supabase.auth.currentUser?.id;
       if (userId != null) {
         await supabase
             .from('profiles')
-            .update({'is_alumni_mentor': data['is_open']}).eq('id', userId);
+            .update({'is_alumni_mentor': data['is_open']})
+            .eq('id', userId);
       }
     } else if (type == 'create_job') {
       await supabase
@@ -194,7 +209,7 @@ class SyncStrategyService {
         'host_id': sessionData['host_id'],
         'subject': sessionData['subject'],
         'topic': sessionData['topic'],
-        'created_at': sessionData['createdAt']
+        'created_at': sessionData['createdAt'],
       });
     } else if (type == 'publish_poll') {
       final pollData = Map<String, dynamic>.from(data);
@@ -209,7 +224,7 @@ class SyncStrategyService {
       await supabase.from('session_doubts').insert({
         'session_id': doubtData['sessionId'],
         'user_id': supabase.auth.currentUser?.id,
-        'question': doubtData['question']
+        'question': doubtData['question'],
       });
     }
 

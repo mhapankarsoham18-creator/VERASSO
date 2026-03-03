@@ -14,7 +14,7 @@ class PinnedHttpClient extends http.BaseClient {
 
   /// Creates a [PinnedHttpClient] with the specified host and allowed SHA-256 fingerprints.
   PinnedHttpClient({required String expectedHost, List<String>? allowedShas})
-      : _client = _createPinnedClient(expectedHost, allowedShas);
+    : _client = _createPinnedClient(expectedHost, allowedShas);
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
@@ -36,12 +36,17 @@ class PinnedHttpClient extends http.BaseClient {
     }
 
     if (host == expectedHost) {
-      final sha256Fingerprint =
-          sha256.convert(cert.der).toString().toLowerCase().replaceAll(':', '');
+      final sha256Fingerprint = sha256
+          .convert(cert.der)
+          .toString()
+          .toLowerCase()
+          .replaceAll(':', '');
 
       for (final allowedSha in allowedShas) {
-        final normalizedAllowedSha =
-            allowedSha.toLowerCase().replaceAll(':', '');
+        final normalizedAllowedSha = allowedSha.toLowerCase().replaceAll(
+          ':',
+          '',
+        );
         if (sha256Fingerprint == normalizedAllowedSha) {
           return true; // Pin match!
         }
@@ -52,7 +57,9 @@ class PinnedHttpClient extends http.BaseClient {
   }
 
   static http.Client _createPinnedClient(
-      String expectedHost, List<String>? allowedShas) {
+    String expectedHost,
+    List<String>? allowedShas,
+  ) {
     // SECURITY IMPROVEMENT:
     // By creating a SecurityContext with withTrustedRoots: false,
     // we ensure that the standard OS trust check will fail for ALL hosts.
@@ -65,8 +72,14 @@ class PinnedHttpClient extends http.BaseClient {
 
     httpClient.badCertificateCallback =
         (X509Certificate cert, String host, int port) {
-      return validateCertificate(cert, host, port, expectedHost, allowedShas);
-    };
+          return validateCertificate(
+            cert,
+            host,
+            port,
+            expectedHost,
+            allowedShas,
+          );
+        };
 
     return IOClient(httpClient);
   }

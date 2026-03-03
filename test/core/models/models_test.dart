@@ -233,11 +233,7 @@ void main() {
   group('Model Validation Tests', () {
     test('user email validation', () {
       expect(
-        () => UserModel(
-          id: 'user-1',
-          name: 'Test',
-          email: 'invalid-email',
-        ),
+        () => UserModel(id: 'user-1', name: 'Test', email: 'invalid-email'),
         throwsException,
       );
     });
@@ -335,35 +331,34 @@ class CourseModel {
     DateTime? createdAt,
     List<Map<String, dynamic>>? lessons,
     int? enrollmentCount,
-  }) =>
-      CourseModel(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        instructorId: instructorId ?? this.instructorId,
-        createdAt: createdAt ?? this.createdAt,
-        lessons: lessons ?? this.lessons,
-        enrollmentCount: enrollmentCount ?? this.enrollmentCount,
-      );
+  }) => CourseModel(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    instructorId: instructorId ?? this.instructorId,
+    createdAt: createdAt ?? this.createdAt,
+    lessons: lessons ?? this.lessons,
+    enrollmentCount: enrollmentCount ?? this.enrollmentCount,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'description': description,
-        'instructorId': instructorId,
-        'createdAt': createdAt?.toIso8601String(),
-        'enrollmentCount': enrollmentCount,
-      };
+    'id': id,
+    'title': title,
+    'description': description,
+    'instructorId': instructorId,
+    'createdAt': createdAt?.toIso8601String(),
+    'enrollmentCount': enrollmentCount,
+  };
 
   static CourseModel fromJson(Map<String, dynamic> json) => CourseModel(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        description: json['description'] as String,
-        instructorId: json['instructorId'] as String,
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'] as String)
-            : null,
-      );
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    instructorId: json['instructorId'] as String,
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'] as String)
+        : null,
+  );
 }
 
 class MessageModel {
@@ -397,38 +392,37 @@ class MessageModel {
     DateTime? timestamp,
     bool? isRead,
     bool? isArchived,
-  }) =>
-      MessageModel(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        senderId: senderId ?? this.senderId,
-        recipientId: recipientId ?? this.recipientId,
-        timestamp: timestamp ?? this.timestamp,
-        isRead: isRead ?? this.isRead,
-        isArchived: isArchived ?? this.isArchived,
-      );
+  }) => MessageModel(
+    id: id ?? this.id,
+    content: content ?? this.content,
+    senderId: senderId ?? this.senderId,
+    recipientId: recipientId ?? this.recipientId,
+    timestamp: timestamp ?? this.timestamp,
+    isRead: isRead ?? this.isRead,
+    isArchived: isArchived ?? this.isArchived,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'content': content,
-        'senderId': senderId,
-        'recipientId': recipientId,
-        'timestamp': timestamp?.toIso8601String(),
-        'isRead': isRead,
-        'isArchived': isArchived,
-      };
+    'id': id,
+    'content': content,
+    'senderId': senderId,
+    'recipientId': recipientId,
+    'timestamp': timestamp?.toIso8601String(),
+    'isRead': isRead,
+    'isArchived': isArchived,
+  };
 
   static MessageModel fromJson(Map<String, dynamic> json) => MessageModel(
-        id: json['id'] as String,
-        content: json['content'] as String,
-        senderId: json['senderId'] as String,
-        recipientId: json['recipientId'] as String,
-        timestamp: json['timestamp'] != null
-            ? DateTime.parse(json['timestamp'] as String)
-            : null,
-        isRead: json['isRead'] as bool? ?? false,
-        isArchived: json['isArchived'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    content: json['content'] as String,
+    senderId: json['senderId'] as String,
+    recipientId: json['recipientId'] as String,
+    timestamp: json['timestamp'] != null
+        ? DateTime.parse(json['timestamp'] as String)
+        : null,
+    isRead: json['isRead'] as bool? ?? false,
+    isArchived: json['isArchived'] as bool? ?? false,
+  );
 }
 
 // import 'package:verasso/core/models/user_model.dart';
@@ -479,32 +473,31 @@ class UserModel {
     String? profileImageUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) =>
-      UserModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        email: email ?? this.email,
-        profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => UserModel(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    email: email ?? this.email,
+    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'email': email,
-        'profileImageUrl': profileImageUrl,
-        'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
-      };
+    'id': id,
+    'name': name,
+    'email': email,
+    'profileImageUrl': profileImageUrl,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+  };
 
   static UserModel fromJson(Map<String, dynamic> json) => UserModel(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        email: json['email'] as String,
-        profileImageUrl: json['profileImageUrl'] as String?,
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'] as String)
-            : null,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    email: json['email'] as String,
+    profileImageUrl: json['profileImageUrl'] as String?,
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'] as String)
+        : null,
+  );
 }

@@ -124,7 +124,9 @@ void main() {
     test('login fails with nonexistent email', () async {
       expect(
         () => authService.login(
-            email: 'nonexistent@example.com', password: 'Password123!'),
+          email: 'nonexistent@example.com',
+          password: 'Password123!',
+        ),
         throwsException,
       );
     });
@@ -283,9 +285,7 @@ void main() {
 
       final verificationToken = await authService.sendVerificationEmail(email);
 
-      final verified = await authService.verifyEmail(
-        token: verificationToken,
-      );
+      final verified = await authService.verifyEmail(token: verificationToken);
 
       expect(verified.isEmailVerified, isTrue);
     });
@@ -301,10 +301,7 @@ void main() {
 
       await authService.login(email: email, password: 'Password123!');
 
-      expect(
-        () => authService.accessProtectedFeature(),
-        throwsException,
-      );
+      expect(() => authService.accessProtectedFeature(), throwsException);
     });
   });
 }

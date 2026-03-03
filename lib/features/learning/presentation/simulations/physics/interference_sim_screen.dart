@@ -39,14 +39,16 @@ class InterferencePainter extends CustomPainter {
       // sin(θ) ≈ tan(θ) = y/L
       // Phase difference φ = (2π/λ) * d * (y/L)
 
-      final double theta =
-          math.atan(normalizedX * 0.1); // Small angle approximation
+      final double theta = math.atan(
+        normalizedX * 0.1,
+      ); // Small angle approximation
       final double phase =
           (math.pi * slitDistance * math.sin(theta)) / wavelength;
       final double intensity = math.pow(math.cos(phase), 2).toDouble();
 
-      paint.color = _getColorForWavelength(wavelength)
-          .withValues(alpha: intensity.clamp(0.0, 1.0));
+      paint.color = _getColorForWavelength(
+        wavelength,
+      ).withValues(alpha: intensity.clamp(0.0, 1.0));
       canvas.drawLine(Offset(x, 0), Offset(x, height), paint);
     }
 
@@ -106,11 +108,14 @@ class _InfoItem extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label,
-                style: const TextStyle(fontSize: 10, color: Colors.white38)),
-            Text(value,
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 10, color: Colors.white38),
+            ),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ],
@@ -162,9 +167,9 @@ class _InterferenceSimScreenState extends State<InterferenceSimScreen> {
                     Text(
                       'Double Slit Parameters',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.amber,
-                          ),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.amber,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     _ParameterSlider(
@@ -265,13 +270,18 @@ class _ParameterSlider extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.white60)),
-            Text('${value.toStringAsFixed(0)} $unit',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: color ?? Colors.white)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 12, color: Colors.white60),
+            ),
+            Text(
+              '${value.toStringAsFixed(0)} $unit',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: color ?? Colors.white,
+              ),
+            ),
           ],
         ),
         Slider(

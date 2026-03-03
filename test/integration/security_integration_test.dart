@@ -65,15 +65,11 @@ void main() {
       });
 
       test('rejects weak passwords', () {
-        const weakPasswords = [
-          '123456',
-          'password',
-          'Pass123',
-          'P@ss1',
-        ];
+        const weakPasswords = ['123456', 'password', 'Pass123', 'P@ss1'];
 
         for (final password in weakPasswords) {
-          final isWeak = password.length < 8 ||
+          final isWeak =
+              password.length < 8 ||
               !password.contains(RegExp(r'[A-Z]')) ||
               !password.contains(RegExp(r'[0-9]'));
           expect(isWeak, isTrue);
@@ -113,17 +109,16 @@ void main() {
         ];
 
         for (final phone in validPhones) {
-          expect(
-            phone.replaceAll(RegExp(r'[\d\s\-+]'), '').isEmpty,
-            isTrue,
-          );
+          expect(phone.replaceAll(RegExp(r'[\d\s\-+]'), '').isEmpty, isTrue);
         }
       });
 
       test('sanitizes user input by removing dangerous tags', () {
         const dangerous = '<script>alert("xss")</script>Hello';
         final sanitized = dangerous.replaceAll(
-            RegExp(r'<script[^>]*>.*?</script>', caseSensitive: false), '');
+          RegExp(r'<script[^>]*>.*?</script>', caseSensitive: false),
+          '',
+        );
 
         expect(sanitized.contains('<script>'), isFalse);
         expect(sanitized.contains('Hello'), isTrue);
@@ -156,8 +151,9 @@ void main() {
         const password = 'SecurePassword123';
         const salt = 'randomsalt12345';
 
-        final withSalt =
-            sha256.convert(utf8.encode(password + salt)).toString();
+        final withSalt = sha256
+            .convert(utf8.encode(password + salt))
+            .toString();
         final withoutSalt = sha256.convert(utf8.encode(password)).toString();
 
         expect(withSalt, isNot(withoutSalt));
@@ -243,7 +239,8 @@ void main() {
       });
 
       test('validates JWT token format', () {
-        const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+        const validToken =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
             '.eyJzdWIiOiIxMjM0NTY3ODkwIn0'
             '.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
 

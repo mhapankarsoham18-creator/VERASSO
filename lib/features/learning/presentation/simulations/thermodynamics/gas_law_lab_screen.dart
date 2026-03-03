@@ -61,8 +61,8 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
                             height: 20,
                             color: Colors.grey,
                             margin: EdgeInsets.only(
-                                bottom: (_volume * 3).clamp(
-                                    0, 300)), // Move piston based on Volume
+                              bottom: (_volume * 3).clamp(0, 300),
+                            ), // Move piston based on Volume
                           ),
                           // Particles
                           SizedBox(
@@ -71,10 +71,13 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
                             child: ClipRect(
                               child: CustomPaint(
                                 painter: _ParticlePainter(
-                                    _moles, _temperature, _volume),
+                                  _moles,
+                                  _temperature,
+                                  _volume,
+                                ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -89,15 +92,18 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                'Pressure: ${_pressure.toStringAsFixed(1)} kPa',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                              'Pressure: ${_pressure.toStringAsFixed(1)} kPa',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                             const SizedBox(height: 5),
                             const Text('PV = nRT'),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -110,12 +116,30 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      _buildSlider('Volume (V)', _volume, 10, 100,
-                          (v) => setState(() => _volume = v), 'L'),
-                      _buildSlider('Temperature (T)', _temperature, 100, 1000,
-                          (v) => setState(() => _temperature = v), 'K'),
-                      _buildSlider('Moles (n)', _moles, 0.5, 5.0,
-                          (v) => setState(() => _moles = v), 'mol'),
+                      _buildSlider(
+                        'Volume (V)',
+                        _volume,
+                        10,
+                        100,
+                        (v) => setState(() => _volume = v),
+                        'L',
+                      ),
+                      _buildSlider(
+                        'Temperature (T)',
+                        _temperature,
+                        100,
+                        1000,
+                        (v) => setState(() => _temperature = v),
+                        'K',
+                      ),
+                      _buildSlider(
+                        'Moles (n)',
+                        _moles,
+                        0.5,
+                        5.0,
+                        (v) => setState(() => _moles = v),
+                        'mol',
+                      ),
                     ],
                   ),
                 ),
@@ -127,14 +151,23 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
     );
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      ValueChanged<double> onChanged, String unit) {
+  Widget _buildSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    ValueChanged<double> onChanged,
+    String unit,
+  ) {
     return Row(
       children: [
         SizedBox(
-            width: 100,
-            child: Text(label,
-                style: const TextStyle(color: Colors.white70, fontSize: 12))),
+          width: 100,
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+        ),
         Expanded(
           child: Slider(
             value: value,
@@ -145,9 +178,12 @@ class _GasLawLabScreenState extends State<GasLawLabScreen> {
           ),
         ),
         SizedBox(
-            width: 60,
-            child: Text('${value.toStringAsFixed(1)} $unit',
-                style: const TextStyle(color: Colors.white, fontSize: 12))),
+          width: 60,
+          child: Text(
+            '${value.toStringAsFixed(1)} $unit',
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ),
       ],
     );
   }
@@ -197,6 +233,5 @@ class _ParticlePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _ParticlePainter oldDelegate) =>
-      true; // Redraw for "jitter" effect if we used ticker, but here just on state change.
+  bool shouldRepaint(covariant _ParticlePainter oldDelegate) => true; // Redraw for "jitter" effect if we used ticker, but here just on state change.
 }

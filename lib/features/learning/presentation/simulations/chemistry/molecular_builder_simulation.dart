@@ -31,7 +31,10 @@ class _MolecularBuilderSimulationState
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(onPressed: _clear, icon: const Icon(LucideIcons.refreshCw))
+          IconButton(
+            onPressed: _clear,
+            icon: const Icon(LucideIcons.refreshCw),
+          ),
         ],
       ),
       body: LiquidBackground(
@@ -90,7 +93,8 @@ class _MolecularBuilderSimulationState
                                             ? 'Drop atom here!'
                                             : 'Drag atoms here to build molecules',
                                         style: const TextStyle(
-                                            color: Colors.white30),
+                                          color: Colors.white30,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                     ],
@@ -111,9 +115,10 @@ class _MolecularBuilderSimulationState
                     Text(
                       _result,
                       style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: _resultColor),
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: _resultColor,
+                      ),
                     ),
                   ],
                 ),
@@ -127,9 +132,13 @@ class _MolecularBuilderSimulationState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Drag Atoms',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
+                    const Text(
+                      'Drag Atoms',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     const Text(
                       'Tap or drag atoms into the builder area',
@@ -160,14 +169,19 @@ class _MolecularBuilderSimulationState
         _atoms.add(atom);
         _checkMolecule();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Tray is full! Clear to start over.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Tray is full! Clear to start over.')),
+        );
       }
     });
   }
 
-  Widget _buildAtomButton(String symbol, Color color, String name,
-      {bool isDragging = false}) {
+  Widget _buildAtomButton(
+    String symbol,
+    Color color,
+    String name, {
+    bool isDragging = false,
+  }) {
     return Column(
       children: [
         Container(
@@ -179,9 +193,10 @@ class _MolecularBuilderSimulationState
             boxShadow: isDragging
                 ? [
                     BoxShadow(
-                        color: color.withValues(alpha: 0.5),
-                        blurRadius: 20,
-                        spreadRadius: 5)
+                      color: color.withValues(alpha: 0.5),
+                      blurRadius: 20,
+                      spreadRadius: 5,
+                    ),
                   ]
                 : [const BoxShadow(color: Colors.black26, blurRadius: 4)],
           ),
@@ -224,9 +239,14 @@ class _MolecularBuilderSimulationState
         boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
       ),
       alignment: Alignment.center,
-      child: Text(symbol,
-          style: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
+      child: Text(
+        symbol,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
     );
   }
 
@@ -282,12 +302,15 @@ class _MolecularBuilderSimulationState
       try {
         final userId = Supabase.instance.client.auth.currentUser?.id;
         if (userId != null) {
-          Supabase.instance.client.from('user_simulation_results').insert({
-            'user_id': userId,
-            'sim_id': 'molecular_builder',
-            'parameters': {'atoms': _atoms},
-            'results': {'molecule': _result},
-          }).then((_) => debugPrint('Molecular builder result saved'));
+          Supabase.instance.client
+              .from('user_simulation_results')
+              .insert({
+                'user_id': userId,
+                'sim_id': 'molecular_builder',
+                'parameters': {'atoms': _atoms},
+                'results': {'molecule': _result},
+              })
+              .then((_) => debugPrint('Molecular builder result saved'));
         }
       } catch (e) {
         debugPrint('Error persisting molecular builder result: $e');

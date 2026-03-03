@@ -5,15 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 /// Feed screen widget tests
 void main() {
   group('FeedScreen Widget Tests', () {
-    testWidgets('displays loading state initially',
-        (WidgetTester tester) async {
+    testWidgets('displays loading state initially', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: _MockLoadingFeed(),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: _MockLoadingFeed())),
         ),
       );
 
@@ -23,26 +20,19 @@ void main() {
     testWidgets('displays posts when loaded', (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: _MockLoadedFeed(),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: _MockLoadedFeed())),
         ),
       );
 
       expect(find.byType(Card), findsNWidgets(3));
     });
 
-    testWidgets('displays empty state when no posts',
-        (WidgetTester tester) async {
+    testWidgets('displays empty state when no posts', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: _MockEmptyFeed(),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: _MockEmptyFeed())),
         ),
       );
 
@@ -74,11 +64,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: _MockPostCard(
-                onLike: () => liked = true,
-              ),
-            ),
+            home: Scaffold(body: _MockPostCard(onLike: () => liked = true)),
           ),
         ),
       );
@@ -96,9 +82,7 @@ void main() {
         ProviderScope(
           child: MaterialApp(
             home: Scaffold(
-              body: _MockPostCard(
-                onComment: () => commentTapped = true,
-              ),
+              body: _MockPostCard(onComment: () => commentTapped = true),
             ),
           ),
         ),
@@ -128,10 +112,9 @@ class _MockLoadedFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: List.generate(
-          3,
-          (index) => Card(
-                child: ListTile(title: Text('Post $index')),
-              )),
+        3,
+        (index) => Card(child: ListTile(title: Text('Post $index'))),
+      ),
     );
   }
 }

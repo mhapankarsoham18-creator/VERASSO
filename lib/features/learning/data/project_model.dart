@@ -56,10 +56,12 @@ class Project {
       githubUrl: json['github_url'],
       demoUrl: json['demo_url'],
       createdAt: DateTime.parse(json['created_at']),
-      leaderName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      leaderAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      leaderName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      leaderAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 }
@@ -98,8 +100,9 @@ class ProjectMember {
       userId: json['user_id'],
       role: json['role'],
       userName: json['profiles'] != null ? json['profiles']['full_name'] : null,
-      userAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      userAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 }
@@ -147,10 +150,12 @@ class ProjectTask {
       assignedTo: json['assigned_to'],
       title: json['title'],
       status: json['status'],
-      assigneeName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      assigneeAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      assigneeName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      assigneeAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 }

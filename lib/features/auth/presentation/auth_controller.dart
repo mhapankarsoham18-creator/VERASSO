@@ -17,13 +17,13 @@ import '../domain/mfa_models.dart';
 /// Provider for the [AuthController] which manages user session and authentication actions.
 final authControllerProvider =
     StateNotifierProvider<AuthController, AsyncValue<void>>((ref) {
-  return AuthController(
-    ref.watch(authRepositoryProvider),
-    ref,
-    ref.watch(tokenStorageServiceProvider),
-    ref.watch(offlineSecurityServiceProvider),
-  );
-});
+      return AuthController(
+        ref.watch(authRepositoryProvider),
+        ref,
+        ref.watch(tokenStorageServiceProvider),
+        ref.watch(offlineSecurityServiceProvider),
+      );
+    });
 
 /// Stream provider for the current [DomainAuthUser] from Supabase.
 final authStateProvider = StreamProvider<DomainAuthUser?>((ref) {
@@ -44,8 +44,9 @@ final failedLoginAttemptsProvider = StateProvider<int>((ref) => 0);
 final loginCooldownUntilProvider = StateProvider<DateTime?>((ref) => null);
 
 /// State provider for signaling when an MFA challenge is required during login.
-final mfaRequirementProvider =
-    StateProvider<AuthMFARequirement?>((ref) => null);
+final mfaRequirementProvider = StateProvider<AuthMFARequirement?>(
+  (ref) => null,
+);
 
 /// Controller responsible for authentication logic, session management, and MFA flows.
 class AuthController extends StateNotifier<AsyncValue<void>> {
@@ -56,8 +57,11 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
 
   /// Creates an [AuthController].
   AuthController(
-      this._repo, this._ref, this._tokenStorage, this._offlineSecurity)
-      : super(const AsyncData(null));
+    this._repo,
+    this._ref,
+    this._tokenStorage,
+    this._offlineSecurity,
+  ) : super(const AsyncData(null));
 
   /// Initiates a multi-factor authentication challenge for the specific [factorId].
   Future<MfaChallenge> challengeMFA(String factorId) async {
@@ -74,8 +78,9 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   /// Sends a password reset email to the specified [email] address.
   Future<void> resetPassword(String email) async {
     state = const AsyncLoading();
-    state =
-        await AsyncValue.guard(() => _repo.resetPasswordForEmail(email: email));
+    state = await AsyncValue.guard(
+      () => _repo.resetPasswordForEmail(email: email),
+    );
   }
 
   /// Authenticates a user with [email] and [password].
@@ -84,21 +89,21 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   /// On repeated failures, applies client-side cooling-off (Phase 2.1).
   Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
-    final result = await AsyncValue.guard(() => _repo.signInWithEmail(
-          email: email,
-          password: password,
-        ));
+    final result = await AsyncValue.guard(
+      () => _repo.signInWithEmail(email: email, password: password),
+    );
 
     if (result.hasError) {
       final attempts = _ref.read(failedLoginAttemptsProvider) + 1;
       _ref.read(failedLoginAttemptsProvider.notifier).state = attempts;
       final cooldownSeconds = (30 * (attempts.clamp(1, 4))).clamp(30, 120);
-      _ref.read(loginCooldownUntilProvider.notifier).state =
-          DateTime.now().add(Duration(seconds: cooldownSeconds));
+      _ref.read(loginCooldownUntilProvider.notifier).state = DateTime.now().add(
+        Duration(seconds: cooldownSeconds),
+      );
       state = AsyncError(
-          result.error ??
-              const AppAuthException('Unknown authentication error'),
-          result.stackTrace ?? StackTrace.current);
+        result.error ?? const AppAuthException('Unknown authentication error'),
+        result.stackTrace ?? StackTrace.current,
+      );
       AppLogger.warning('Signin failed', error: result.error);
       return;
     }
@@ -112,16 +117,19 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       if (factors.isNotEmpty) {
         final totpFactor = factors.firstWhere(
           (f) => f.type == 'totp' && f.status == 'verified',
-          orElse: () => factors.firstWhere((f) => f.type == 'totp',
-              orElse: () => factors.first),
+          orElse: () => factors.firstWhere(
+            (f) => f.type == 'totp',
+            orElse: () => factors.first,
+          ),
         );
 
         if (totpFactor.type == 'totp') {
           // Initiate challenge
           try {
             final challenge = await _repo.challengeMFA(factorId: totpFactor.id);
-            _ref.read(mfaRequirementProvider.notifier).state =
-                AuthMFARequirement(
+            _ref
+                .read(mfaRequirementProvider.notifier)
+                .state = AuthMFARequirement(
               factorId: totpFactor.id,
               challengeId: challenge.id,
             );
@@ -142,7 +150,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       await _repo.signOut(); // Sign out unverified user session
       state = AsyncError(
         const AppAuthException(
-            'Email link not confirmed. Please verify your neural uplink.'),
+          'Email link not confirmed. Please verify your neural uplink.',
+        ),
         StackTrace.current,
       );
       return;
@@ -162,7 +171,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   Future<void> signInWithApple() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-        () => _repo.signInWithOAuth(supabase.OAuthProvider.apple));
+      () => _repo.signInWithOAuth(supabase.OAuthProvider.apple),
+    );
   }
 
   /// Attempts to sign in using biometrics.
@@ -178,11 +188,13 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       if (!isValid) {
         state = AsyncError(
           const AppAuthException(
-              'Session expired. Please login with your password.'),
+            'Session expired. Please login with your password.',
+          ),
           StackTrace.current,
         );
         AppLogger.info(
-            'Biometric signin - session expired, user must re-login');
+          'Biometric signin - session expired, user must re-login',
+        );
         return;
       }
 
@@ -197,8 +209,10 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
           return;
         }
       } catch (refreshError, stack) {
-        AppLogger.warning('Failed to refresh session during biometric signin',
-            error: refreshError);
+        AppLogger.warning(
+          'Failed to refresh session during biometric signin',
+          error: refreshError,
+        );
         SentryService.captureException(refreshError, stackTrace: stack);
 
         // --- OFFLINE FALLBACK ---
@@ -206,14 +220,16 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
         if (await offlineSec.hasIdentityHint()) {
           state = const AsyncData(null);
           AppLogger.info(
-              'Offline Identity Hint verified - Allowing Local Pioneer access');
+            'Offline Identity Hint verified - Allowing Local Pioneer access',
+          );
           return;
         }
       }
 
       state = AsyncError(
         const AppAuthException(
-            'Unable to refresh your session. Please login with your password.'),
+          'Unable to refresh your session. Please login with your password.',
+        ),
         StackTrace.current,
       );
       AppLogger.warning('Biometric signin failed - could not refresh session');
@@ -230,7 +246,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   Future<void> signInWithGoogle() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-        () => _repo.signInWithOAuth(supabase.OAuthProvider.google));
+      () => _repo.signInWithOAuth(supabase.OAuthProvider.google),
+    );
   }
 
   /// Initiates a magic link (OTP) login for the specified [email].
@@ -248,10 +265,11 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   }
 
   /// Registers a new user with [email], [password], and [username].
-  Future<void> signUp(
-      {required String email,
-      required String password,
-      required String username}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
     // Phase 2.1: Password Strength Validation
     if (password.length < 8) {
       state = AsyncError(
@@ -266,7 +284,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
         !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       state = AsyncError(
         const AppAuthException(
-            'Password must contain an uppercase letter, a number, and a special character'),
+          'Password must contain an uppercase letter, a number, and a special character',
+        ),
         StackTrace.current,
       );
       return;
@@ -282,7 +301,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       if (!isAvailable) {
         state = AsyncError(
           const AppAuthException(
-              'Username is already taken. Please choose another one.'),
+            'Username is already taken. Please choose another one.',
+          ),
           StackTrace.current,
         );
         return;
@@ -292,11 +312,13 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       AppLogger.warning('Pre-signup username check failed', error: e);
     }
 
-    final result = await AsyncValue.guard(() => _repo.signUpWithEmail(
-          email: email,
-          password: password,
-          data: {'username': username},
-        ));
+    final result = await AsyncValue.guard(
+      () => _repo.signUpWithEmail(
+        email: email,
+        password: password,
+        data: {'username': username},
+      ),
+    );
 
     if (result.hasError) {
       state = AsyncError(result.error!, result.stackTrace!);
@@ -311,7 +333,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   Future<void> updatePassword(String newPassword) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-        () => _repo.updateUserPassword(password: newPassword));
+      () => _repo.updateUserPassword(password: newPassword),
+    );
   }
 
   /// Verifies an MFA backup [code] as a failover for TOTP.
@@ -326,7 +349,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
         // In production, we'd call an Edge Function to exchange the valid
         // backup code for a high-integrity session token (AAL2).
         AppLogger.info(
-            'Backup code verified. Initiating Identity Exchange bridge...');
+          'Backup code verified. Initiating Identity Exchange bridge...',
+        );
 
         // Simulation: Refresh session to simulate "elevation"
         final client = _repo.supabaseClient;
@@ -352,11 +376,13 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
     required String code,
   }) async {
     state = const AsyncLoading();
-    final result = await AsyncValue.guard(() => _repo.verifyMFA(
-          factorId: factorId,
-          challengeId: challengeId,
-          code: code,
-        ));
+    final result = await AsyncValue.guard(
+      () => _repo.verifyMFA(
+        factorId: factorId,
+        challengeId: challengeId,
+        code: code,
+      ),
+    );
     state = const AsyncData(null); // Reset state after verification
 
     // We re-throw if it failed to let UI handle it, or we could return response.
@@ -371,8 +397,13 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   /// Verifies the OTP [token] sent to the user's [email].
   Future<void> verifyOtp({required String email, required String token}) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _repo.verifyOtp(
-        email: email, token: token, type: supabase.OtpType.email));
+    state = await AsyncValue.guard(
+      () => _repo.verifyOtp(
+        email: email,
+        token: token,
+        type: supabase.OtpType.email,
+      ),
+    );
   }
 }
 

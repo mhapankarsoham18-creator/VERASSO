@@ -30,7 +30,8 @@ class GeographyMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const InteractiveGlobeScreen()),
+                  builder: (_) => const InteractiveGlobeScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -49,7 +50,8 @@ class GeographyMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const EcoSphereComparisonScreen()),
+                  builder: (_) => const EcoSphereComparisonScreen(),
+                ),
               ),
             ),
           ],
@@ -90,12 +92,20 @@ class _SimCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text(subtitle,
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.white60)),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white60,
+                      ),
+                    ),
                   ],
                 ),
               ),

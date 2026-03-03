@@ -27,10 +27,11 @@ class AppException implements Exception {
 /// Exception thrown when a database or Supabase operation fails.
 class DatabaseException extends AppException {
   /// Creates a [DatabaseException].
-  const DatabaseException(
-      [super.message = 'Database operation failed',
-      super.code,
-      super.originalError]);
+  const DatabaseException([
+    super.message = 'Database operation failed',
+    super.code,
+    super.originalError,
+  ]);
 }
 
 /// Exception thrown when an error occurs within the mesh network.
@@ -42,8 +43,10 @@ class MeshException extends AppException {
 /// Exception thrown when a network-related failure occurs.
 class NetworkException extends AppException {
   /// Creates a [NetworkException].
-  const NetworkException(
-      [super.message = 'Network connection error', super.code]);
+  const NetworkException([
+    super.message = 'Network connection error',
+    super.code,
+  ]);
 }
 
 /// Exception thrown when data validation fails.

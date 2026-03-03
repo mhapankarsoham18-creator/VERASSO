@@ -108,7 +108,9 @@ class _SavedPostsScreenState extends ConsumerState<SavedPostsScreen>
                       Text(
                         '${coll.postIds.length} posts',
                         style: const TextStyle(
-                            fontSize: 12, color: Colors.white70),
+                          fontSize: 12,
+                          color: Colors.white70,
+                        ),
                       ),
                     ],
                   ),

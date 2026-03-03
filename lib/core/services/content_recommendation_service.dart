@@ -21,7 +21,7 @@ class ContentRecommendationService {
 
   /// Creates a [ContentRecommendationService].
   ContentRecommendationService(this._courseRepository, {SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Fetches recommended posts using collaborative filtering RPC
   Future<List<PostRecommendation>> fetchRecommendedPosts({
@@ -33,21 +33,21 @@ class ContentRecommendationService {
     try {
       final response = await _client.rpc(
         'get_recommended_posts',
-        params: {
-          'p_user_id': userId,
-          'p_limit': limit,
-        },
+        params: {'p_user_id': userId, 'p_limit': limit},
       );
 
-      final posts =
-          (response as List).map((json) => Post.fromJson(json)).toList();
+      final posts = (response as List)
+          .map((json) => Post.fromJson(json))
+          .toList();
 
       return posts
-          .map((p) => PostRecommendation(
-                postId: p.id,
-                score: 0.9, // Default RPC score
-                reason: 'Users with similar interests liked this',
-              ))
+          .map(
+            (p) => PostRecommendation(
+              postId: p.id,
+              score: 0.9, // Default RPC score
+              reason: 'Users with similar interests liked this',
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.error('Failed to fetch recommended posts', error: e);
@@ -65,18 +65,17 @@ class ContentRecommendationService {
     try {
       final response = await _client.rpc(
         'get_recommended_users',
-        params: {
-          'p_user_id': userId,
-          'p_limit': limit,
-        },
+        params: {'p_user_id': userId, 'p_limit': limit},
       );
 
       return (response as List)
-          .map((json) => UserRecommendation(
-                userId: json['id'],
-                score: 0.7,
-                reason: 'Followed by people you follow',
-              ))
+          .map(
+            (json) => UserRecommendation(
+              userId: json['id'],
+              score: 0.7,
+              reason: 'Followed by people you follow',
+            ),
+          )
           .toList();
     } catch (e) {
       AppLogger.error('Failed to fetch recommended users', error: e);
@@ -120,11 +119,13 @@ class ContentRecommendationService {
       final theirLikes = userPostLikes[similarUser.userId] ?? [];
       for (final postId in theirLikes) {
         if (!likedPosts.contains(postId)) {
-          recommendations.add(PostRecommendation(
-            postId: postId,
-            score: similarUser.similarity * 0.8,
-            reason: 'Users with similar interests liked this',
-          ));
+          recommendations.add(
+            PostRecommendation(
+              postId: postId,
+              score: similarUser.similarity * 0.8,
+              reason: 'Users with similar interests liked this',
+            ),
+          );
         }
       }
     }
@@ -133,11 +134,13 @@ class ContentRecommendationService {
     for (final followedId in followedUsers) {
       final posts = userPostLikes[followedId] ?? [];
       for (final postId in posts) {
-        recommendations.add(PostRecommendation(
-          postId: postId,
-          score: 0.9,
-          reason: 'From someone you follow',
-        ));
+        recommendations.add(
+          PostRecommendation(
+            postId: postId,
+            score: 0.9,
+            reason: 'From someone you follow',
+          ),
+        );
       }
     }
 
@@ -168,36 +171,48 @@ class ContentRecommendationService {
     // 1. Matching by Interests (Database Weighted)
     if (interestMap.isNotEmpty) {
       for (final entry in interestMap.entries) {
-        final matching = allCourses.where((c) =>
-            (c.title.toLowerCase().contains(entry.key.toLowerCase()) ||
-                (c.description
-                        ?.toLowerCase()
-                        .contains(entry.key.toLowerCase()) ??
-                    false)) &&
-            !completedSimulations.contains(c.id));
+        final matching = allCourses.where(
+          (c) =>
+              (c.title.toLowerCase().contains(entry.key.toLowerCase()) ||
+                  (c.description?.toLowerCase().contains(
+                        entry.key.toLowerCase(),
+                      ) ??
+                      false)) &&
+              !completedSimulations.contains(c.id),
+        );
 
-        recommendations.addAll(matching.map((c) => SimulationRecommendation(
+        recommendations.addAll(
+          matching.map(
+            (c) => SimulationRecommendation(
               simulationId: c.id,
               score: 0.95,
               reason: 'Selected for you based on your interest in ${entry.key}',
-            )));
+            ),
+          ),
+        );
       }
     } else {
       // Fallback to legacy interests list
       for (final interest in interests) {
-        final matching = allCourses.where((c) =>
-            (c.title.toLowerCase().contains(interest.toLowerCase()) ||
-                (c.description
-                        ?.toLowerCase()
-                        .contains(interest.toLowerCase()) ??
-                    false)) &&
-            !completedSimulations.contains(c.id));
+        final matching = allCourses.where(
+          (c) =>
+              (c.title.toLowerCase().contains(interest.toLowerCase()) ||
+                  (c.description?.toLowerCase().contains(
+                        interest.toLowerCase(),
+                      ) ??
+                      false)) &&
+              !completedSimulations.contains(c.id),
+        );
 
-        recommendations.addAll(matching.map((c) => SimulationRecommendation(
+        recommendations.addAll(
+          matching.map(
+            (c) => SimulationRecommendation(
               simulationId: c.id,
               score: 0.9,
               reason: 'Matches your interest: $interest',
-            )));
+            ),
+          ),
+        );
       }
     }
 
@@ -207,31 +222,42 @@ class ContentRecommendationService {
           .reduce((a, b) => a.value > b.value ? a : b)
           .key;
 
-      final categoryMatches = allCourses.where((c) =>
-          c.title.toLowerCase().contains(topCategory.toLowerCase()) &&
-          !completedSimulations.contains(c.id));
+      final categoryMatches = allCourses.where(
+        (c) =>
+            c.title.toLowerCase().contains(topCategory.toLowerCase()) &&
+            !completedSimulations.contains(c.id),
+      );
 
-      recommendations
-          .addAll(categoryMatches.map((c) => SimulationRecommendation(
-                simulationId: c.id,
-                score: 0.85,
-                reason: 'Similar to your progress in $topCategory',
-              )));
+      recommendations.addAll(
+        categoryMatches.map(
+          (c) => SimulationRecommendation(
+            simulationId: c.id,
+            score: 0.85,
+            reason: 'Similar to your progress in $topCategory',
+          ),
+        ),
+      );
     }
 
     // 3. General "Hot" recommendations
     if (recommendations.length < limit) {
       final remaining = allCourses
-          .where((c) =>
-              !completedSimulations.contains(c.id) &&
-              !recommendations.any((r) => r.simulationId == c.id))
+          .where(
+            (c) =>
+                !completedSimulations.contains(c.id) &&
+                !recommendations.any((r) => r.simulationId == c.id),
+          )
           .take(limit - recommendations.length);
 
-      recommendations.addAll(remaining.map((c) => SimulationRecommendation(
+      recommendations.addAll(
+        remaining.map(
+          (c) => SimulationRecommendation(
             simulationId: c.id,
             score: 0.7,
             reason: 'Trending in the community',
-          )));
+          ),
+        ),
+      );
     }
 
     return _scoreAndRank(recommendations).take(limit).toList();
@@ -253,11 +279,13 @@ class ContentRecommendationService {
       for (final potentialFollow in theirFollows) {
         if (potentialFollow != userId &&
             !followedUsers.contains(potentialFollow)) {
-          recommendations.add(UserRecommendation(
-            userId: potentialFollow,
-            score: 0.7,
-            reason: 'Followed by people you follow',
-          ));
+          recommendations.add(
+            UserRecommendation(
+              userId: potentialFollow,
+              score: 0.7,
+              reason: 'Followed by people you follow',
+            ),
+          );
         }
       }
     }
@@ -267,11 +295,13 @@ class ContentRecommendationService {
 
       final overlap = _calculateInterestOverlap(myInterests, entry.value);
       if (overlap > 0.3) {
-        recommendations.add(UserRecommendation(
-          userId: entry.key,
-          score: overlap,
-          reason: 'Similar interests',
-        ));
+        recommendations.add(
+          UserRecommendation(
+            userId: entry.key,
+            score: overlap,
+            reason: 'Similar interests',
+          ),
+        );
       }
     }
 
@@ -279,7 +309,9 @@ class ContentRecommendationService {
   }
 
   double _calculateInterestOverlap(
-      List<String> myInterests, List<String> theirInterests) {
+    List<String> myInterests,
+    List<String> theirInterests,
+  ) {
     final overlap = myInterests.where((i) => theirInterests.contains(i)).length;
     return myInterests.isEmpty ? 0.0 : overlap / myInterests.length;
   }
@@ -304,8 +336,9 @@ class ContentRecommendationService {
       final similarity = _calculateJaccardSimilarity(myLikes, theirLikes);
 
       if (similarity > 0.2) {
-        similarities
-            .add(SimilarUser(userId: entry.key, similarity: similarity));
+        similarities.add(
+          SimilarUser(userId: entry.key, similarity: similarity),
+        );
       }
     }
 
@@ -342,7 +375,8 @@ class ContentRecommendationService {
   }
 
   List<SimulationRecommendation> _scoreAndRank(
-      List<SimulationRecommendation> recs) {
+    List<SimulationRecommendation> recs,
+  ) {
     final Map<String, SimulationRecommendation> uniqueRecs = {};
     for (final rec in recs) {
       if (!uniqueRecs.containsKey(rec.simulationId) ||

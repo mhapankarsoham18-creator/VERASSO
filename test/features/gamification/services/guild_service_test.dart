@@ -60,8 +60,9 @@ void main() {
       mockSupabase.setQueryBuilder('guilds', mockQueryBuilder);
 
       expect(
-          () => guildService.updateMemberRole('guild-1', 'user-2', 'officer'),
-          throwsA(isA<DatabaseException>()));
+        () => guildService.updateMemberRole('guild-1', 'user-2', 'officer'),
+        throwsA(isA<DatabaseException>()),
+      );
     });
   });
 }

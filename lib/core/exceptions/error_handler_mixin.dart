@@ -38,8 +38,12 @@ mixin ErrorHandlerMixin {
   }
 
   /// Helper to record an error without throwing
-  void logError(dynamic error, StackTrace? stackTrace, String context,
-      {bool critical = false}) {
+  void logError(
+    dynamic error,
+    StackTrace? stackTrace,
+    String context, {
+    bool critical = false,
+  }) {
     AppLogger.error('Error in $context', error: error, stackTrace: stackTrace);
     if (critical) {
       SentryService.captureException(error, stackTrace: stackTrace);

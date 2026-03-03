@@ -72,8 +72,9 @@ void main() {
         {'id': 'c2', 'title': 'Course 2', 'creator_id': instructorId},
       ]);
 
-      final courses =
-          await courseRepository.getCoursesByInstructor(instructorId);
+      final courses = await courseRepository.getCoursesByInstructor(
+        instructorId,
+      );
       expect(courses.length, equals(2));
     });
   });
@@ -115,13 +116,13 @@ void main() {
           'id': 'ch1',
           'course_id': courseId,
           'title': 'Chapter 1',
-          'order_index': 1
+          'order_index': 1,
         },
         {
           'id': 'ch2',
           'course_id': courseId,
           'title': 'Chapter 2',
-          'order_index': 2
+          'order_index': 2,
         },
       ]);
 
@@ -206,9 +207,7 @@ void main() {
 
       final mockQueryBuilder = MockSupabaseQueryBuilder();
       mockSupabase.setQueryBuilder('enrollments', mockQueryBuilder);
-      mockQueryBuilder.setResponse({
-        'progress_percent': 75.0,
-      });
+      mockQueryBuilder.setResponse({'progress_percent': 75.0});
 
       final completion = await courseRepository.getCourseCompletion(
         courseId: courseId,

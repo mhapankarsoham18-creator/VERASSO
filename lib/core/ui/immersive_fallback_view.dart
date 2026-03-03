@@ -29,11 +29,7 @@ class ImmersiveFallbackView extends StatelessWidget {
     return Stack(
       children: [
         // 2.5D Perspective Background
-        Positioned.fill(
-          child: CustomPaint(
-            painter: _PerspectiveGridPainter(),
-          ),
-        ),
+        Positioned.fill(child: CustomPaint(painter: _PerspectiveGridPainter())),
 
         // Content Area
         Center(
@@ -44,13 +40,18 @@ class ImmersiveFallbackView extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const Icon(LucideIcons.cameraOff,
-                        size: 48, color: Colors.blueAccent),
+                    const Icon(
+                      LucideIcons.cameraOff,
+                      size: 48,
+                      color: Colors.blueAccent,
+                    ),
                     const SizedBox(height: 16),
                     Text(
                       title,
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(

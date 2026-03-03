@@ -7,8 +7,8 @@ import '../data/story_repository.dart';
 /// Provider for the list of active stories.
 final storiesProvider =
     StateNotifierProvider<StoriesNotifier, AsyncValue<List<Story>>>((ref) {
-  return StoriesNotifier(ref.watch(storyRepositoryProvider));
-});
+      return StoriesNotifier(ref.watch(storyRepositoryProvider));
+    });
 
 /// Provider for the [StoryRepository].
 final storyRepositoryProvider = Provider((ref) => StoryRepository());

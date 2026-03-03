@@ -22,7 +22,7 @@ class FinanceRepository {
 
   /// Creates a [FinanceRepository] with an optional [SupabaseClient].
   FinanceRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Persists a new [JournalEntry].
   Future<void> addEntry(JournalEntry entry) async {
@@ -42,13 +42,16 @@ class FinanceRepository {
     final journalId = journalResponse['id'];
 
     final linesData = entry.lines
-        .map((l) => {
-              'journal_entry_id': journalId,
-              'account_name': l.accountName,
-              'amount': l.amount,
-              'transaction_type':
-                  l.type == TransactionType.debit ? 'debit' : 'credit',
-            })
+        .map(
+          (l) => {
+            'journal_entry_id': journalId,
+            'account_name': l.accountName,
+            'amount': l.amount,
+            'transaction_type': l.type == TransactionType.debit
+                ? 'debit'
+                : 'credit',
+          },
+        )
         .toList();
 
     await _client.from('finance_transaction_lines').insert(linesData);
@@ -97,15 +100,14 @@ class FinanceRepository {
     required String category,
     String? description,
     String currency = 'USD',
-  }) =>
-      recordTransaction(
-        userId: userId,
-        type: type,
-        amount: amount,
-        category: category,
-        description: description,
-        currency: currency,
-      );
+  }) => recordTransaction(
+    userId: userId,
+    type: type,
+    amount: amount,
+    category: category,
+    description: description,
+    currency: currency,
+  );
 
   /// Deletes a transaction.
   Future<void> deleteTransaction(String transactionId) async {
@@ -138,7 +140,11 @@ class FinanceRepository {
     final response = await query.maybeSingle();
     if (response == null) {
       return Budget(
-          userId: userId, category: category ?? 'all', limit: 0.0, spent: 0.0);
+        userId: userId,
+        category: category ?? 'all',
+        limit: 0.0,
+        spent: 0.0,
+      );
     }
     return Budget.fromJson(response);
   }
@@ -209,13 +215,15 @@ class FinanceRepository {
         description: json['description'],
         date: DateTime.parse(json['date']),
         lines: linesJson
-            .map((l) => TransactionLine(
-                  accountName: l['account_name'],
-                  amount: (l['amount'] as num).toDouble(),
-                  type: l['transaction_type'] == 'debit'
-                      ? TransactionType.debit
-                      : TransactionType.credit,
-                ))
+            .map(
+              (l) => TransactionLine(
+                accountName: l['account_name'],
+                amount: (l['amount'] as num).toDouble(),
+                type: l['transaction_type'] == 'debit'
+                    ? TransactionType.debit
+                    : TransactionType.credit,
+              ),
+            )
             .toList(),
       );
     }).toList();
@@ -226,16 +234,15 @@ class FinanceRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return {};
 
-    final response =
-        await _client.from('finance_ledgers').select().eq('user_id', userId);
+    final response = await _client
+        .from('finance_ledgers')
+        .select()
+        .eq('user_id', userId);
 
     final Map<String, LedgerAccount> ledgers = {};
     for (var row in (response as List)) {
       final name = row['account_name'];
-      ledgers[name] = LedgerAccount(
-        name: name,
-        transactions: [],
-      );
+      ledgers[name] = LedgerAccount(name: name, transactions: []);
     }
     return ledgers;
   }
@@ -243,15 +250,15 @@ class FinanceRepository {
   /// Fetches monthly earnings.
   Future<Map<String, double>> getMonthlyEarnings(String userId) async {
     try {
-      final response = await _client.rpc('get_monthly_finance_stats', params: {
-        'p_user_id': userId,
-        'p_months': 6,
-      });
+      final response = await _client.rpc(
+        'get_monthly_finance_stats',
+        params: {'p_user_id': userId, 'p_months': 6},
+      );
 
       final Map<String, double> monthlyData = {};
       for (var row in (response as List)) {
-        monthlyData[row['month_name']] =
-            (row['total_amount'] as num).toDouble();
+        monthlyData[row['month_name']] = (row['total_amount'] as num)
+            .toDouble();
       }
       return monthlyData;
     } catch (e, stack) {
@@ -299,8 +306,10 @@ class FinanceRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return [];
 
-    final response =
-        await _client.from('portfolio_holdings').select().eq('user_id', userId);
+    final response = await _client
+        .from('portfolio_holdings')
+        .select()
+        .eq('user_id', userId);
     return (response as List).cast<Map<String, dynamic>>();
   }
 
@@ -406,10 +415,7 @@ class FinanceRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return;
 
-    await _client.from('business_states').upsert({
-      'user_id': userId,
-      ...data,
-    });
+    await _client.from('business_states').upsert({'user_id': userId, ...data});
   }
 
   /// Updates portfolio meta.
@@ -460,9 +466,10 @@ class FinanceRepository {
       await _client.storage.from('finance').upload(fileName, file);
       final url = _client.storage.from('finance').getPublicUrl(fileName);
 
-      await _client.from('transactions').update({
-        'receipt_url': url,
-      }).eq('id', transactionId);
+      await _client
+          .from('transactions')
+          .update({'receipt_url': url})
+          .eq('id', transactionId);
 
       return url;
     } catch (e) {

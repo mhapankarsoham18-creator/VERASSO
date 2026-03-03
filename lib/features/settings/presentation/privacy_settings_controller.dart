@@ -8,9 +8,9 @@ import 'package:verasso/features/profile/presentation/profile_controller.dart';
 /// Provider for the [PrivacySettingsNotifier].
 final privacySettingsProvider =
     StateNotifierProvider<PrivacySettingsNotifier, PrivacySettings>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return PrivacySettingsNotifier(prefs, ref);
-});
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return PrivacySettingsNotifier(prefs, ref);
+    });
 
 /// Provider for [SharedPreferences].
 ///
@@ -18,7 +18,8 @@ final privacySettingsProvider =
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   // This is overridden in main.dart
   return throw UnimplementedError(
-      'sharedPreferencesProvider must be overridden');
+    'sharedPreferencesProvider must be overridden',
+  );
 });
 
 /// Data model for user privacy settings.
@@ -286,8 +287,9 @@ class PrivacySettingsNotifier extends StateNotifier<PrivacySettings> {
       autoShieldChats: _prefs.getBool('auto_shield_chats') ?? false,
       autoBlurInBackground: _prefs.getBool('auto_blur') ?? true,
       requireBiometric: _prefs.getBool('require_biometric') ?? false,
-      sessionTimeout:
-          Duration(minutes: _prefs.getInt('session_timeout_minutes') ?? 5),
+      sessionTimeout: Duration(
+        minutes: _prefs.getInt('session_timeout_minutes') ?? 5,
+      ),
       meshOnlyModeCurrent: _prefs.getBool('mesh_only_mode') ?? false,
       trustScoreNotifications: _prefs.getBool('trust_notifications') ?? true,
       privateProfile: _prefs.getBool('private_profile') ?? false,

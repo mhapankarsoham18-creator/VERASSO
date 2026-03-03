@@ -16,7 +16,7 @@ class ModerationService {
 
   /// Creates a [ModerationService] with an optional [client].
   ModerationService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Returns a list of user IDs that the specified [userId] has muted.
   Future<List<String>> getMutedUserIds(String userId) async {

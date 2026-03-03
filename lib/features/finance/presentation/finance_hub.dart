@@ -29,8 +29,12 @@ class FinanceHub extends StatelessWidget {
       ),
       body: LiquidBackground(
         child: ListView(
-          padding:
-              const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 40),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 40,
+          ),
           children: [
             GlassContainer(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -68,8 +72,10 @@ class FinanceHub extends StatelessWidget {
               subtitle: l10n.roiSubtitle,
               icon: LucideIcons.trendingUp,
               color: Colors.greenAccent,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const ROISimulator())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ROISimulator()),
+              ),
             ),
             const SizedBox(height: 12),
 
@@ -78,8 +84,10 @@ class FinanceHub extends StatelessWidget {
               subtitle: l10n.economicsSubtitle,
               icon: LucideIcons.barChart3,
               color: Colors.blueAccent,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const EconomicsHub())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EconomicsHub()),
+              ),
             ),
             const SizedBox(height: 12),
 
@@ -89,9 +97,9 @@ class FinanceHub extends StatelessWidget {
               icon: LucideIcons.calculator,
               color: Colors.purpleAccent,
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const AccountingSimulator())),
+                context,
+                MaterialPageRoute(builder: (_) => const AccountingSimulator()),
+              ),
             ),
             const SizedBox(height: 12),
 
@@ -100,8 +108,10 @@ class FinanceHub extends StatelessWidget {
               subtitle: l10n.businessSubtitle,
               icon: LucideIcons.briefcase,
               color: Colors.orangeAccent,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const BusinessWorkflow())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const BusinessWorkflow()),
+              ),
             ),
             const SizedBox(height: 12),
 
@@ -110,16 +120,20 @@ class FinanceHub extends StatelessWidget {
               subtitle: l10n.portfolioSubtitle,
               icon: LucideIcons.pieChart,
               color: Colors.cyanAccent,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const PortfolioTracker())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PortfolioTracker()),
+              ),
             ),
             _FinanceModuleCard(
               title: l10n.ledgerLogicAR,
               subtitle: l10n.ledgerLogicSubtitle,
               icon: LucideIcons.box,
               color: Colors.pinkAccent,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const LedgerLogicScreen())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LedgerLogicScreen()),
+              ),
             ),
             const SizedBox(height: 24),
 
@@ -129,9 +143,13 @@ class FinanceHub extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.yourProgress,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    l10n.yourProgress,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,10 +173,14 @@ class FinanceHub extends StatelessWidget {
       children: [
         Icon(icon, color: Colors.amber, size: 24),
         const SizedBox(height: 8),
-        Text(value,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.white54)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white54),
+        ),
       ],
     );
   }
@@ -200,13 +222,18 @@ class _FinanceModuleCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(subtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white70)),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
                 ],
               ),
             ),

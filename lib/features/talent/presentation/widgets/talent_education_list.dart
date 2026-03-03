@@ -25,19 +25,19 @@ class TalentEducationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (education.isEmpty) {
-      return const Text('No education listed.',
-          style: TextStyle(color: Colors.white38));
+      return const Text(
+        'No education listed.',
+        style: TextStyle(color: Colors.white38),
+      );
     }
     return Column(
       children: education
           .asMap()
           .entries
-          .map((entry) => _EducationItem(
-                entry.value,
-                entry.key,
-                isEditing,
-                onRemove,
-              ))
+          .map(
+            (entry) =>
+                _EducationItem(entry.value, entry.key, isEditing, onRemove),
+          )
           .toList(),
     );
   }
@@ -57,8 +57,11 @@ class _EducationItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          const Icon(LucideIcons.graduationCap,
-              size: 20, color: Colors.orangeAccent),
+          const Icon(
+            LucideIcons.graduationCap,
+            size: 20,
+            color: Colors.orangeAccent,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -67,26 +70,33 @@ class _EducationItem extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: Text(e.school,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold))),
+                      child: Text(
+                        e.school,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     if (isEditing)
                       IconButton(
-                        icon: const Icon(LucideIcons.trash2,
-                            size: 14, color: Colors.redAccent),
+                        icon: const Icon(
+                          LucideIcons.trash2,
+                          size: 14,
+                          color: Colors.redAccent,
+                        ),
                         onPressed: () => onRemove(index),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                       ),
                   ],
                 ),
-                Text(e.degree,
-                    style:
-                        const TextStyle(color: Colors.white60, fontSize: 13)),
+                Text(
+                  e.degree,
+                  style: const TextStyle(color: Colors.white60, fontSize: 13),
+                ),
                 if (e.startDate != null)
-                  Text('${e.startDate} - ${e.endDate ?? "Present"}',
-                      style:
-                          const TextStyle(color: Colors.white38, fontSize: 11)),
+                  Text(
+                    '${e.startDate} - ${e.endDate ?? "Present"}',
+                    style: const TextStyle(color: Colors.white38, fontSize: 11),
+                  ),
               ],
             ),
           ),

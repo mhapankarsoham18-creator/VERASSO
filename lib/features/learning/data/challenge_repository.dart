@@ -69,7 +69,8 @@ class ChallengeRepository {
   // 4. Submit an Entry
   /// Retrieves all submissions for a specific challenge.
   Future<List<ChallengeSubmission>> getSubmissionsForChallenge(
-      String challengeId) async {
+    String challengeId,
+  ) async {
     final response = await _client
         .from('challenge_submissions')
         .select('*, profiles:user_id(full_name, avatar_url)')
@@ -83,12 +84,15 @@ class ChallengeRepository {
 
   // 5. Fetch Submissions for a Challenge (For Review)
   /// Reviews a challenge submission (Approve/Reject).
-  Future<void> reviewSubmission(String submissionId, String status,
-      {String? feedback}) async {
-    await _client.from('challenge_submissions').update({
-      'status': status,
-      'feedback': feedback,
-    }).eq('id', submissionId);
+  Future<void> reviewSubmission(
+    String submissionId,
+    String status, {
+    String? feedback,
+  }) async {
+    await _client
+        .from('challenge_submissions')
+        .update({'status': status, 'feedback': feedback})
+        .eq('id', submissionId);
 
     // Future: Trigger Karma transaction if Approved
   }

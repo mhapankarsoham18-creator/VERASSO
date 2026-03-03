@@ -24,9 +24,9 @@ class InfiniteScrollIndicator extends StatelessWidget {
         child: Center(
           child: Text(
             'No more items to load',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.grey,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ),
       );
@@ -99,9 +99,9 @@ class PaginationControls extends StatelessWidget {
         child: Center(
           child: Text(
             'No more posts',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
           ),
         ),
       );
@@ -170,8 +170,9 @@ class PaginationFooter extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           ElevatedButton.icon(
-            onPressed:
-                currentPage < totalPages - 1 && !isLoading ? onNextPage : null,
+            onPressed: currentPage < totalPages - 1 && !isLoading
+                ? onNextPage
+                : null,
             icon: const Icon(LucideIcons.chevronRight),
             label: const Text('Next'),
           ),

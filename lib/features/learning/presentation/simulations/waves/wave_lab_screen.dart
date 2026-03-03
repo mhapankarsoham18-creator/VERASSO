@@ -32,18 +32,20 @@ class _WaveLabScreenState extends State<WaveLabScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Wave Machine'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Wave Machine'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: Column(
           children: [
             Expanded(
               child: CustomPaint(
                 painter: _WavePainter(
-                    amplitude: _amplitude,
-                    wavelength: _wavelength,
-                    phase: _phase,
-                    color: Theme.of(context).colorScheme.primary),
+                  amplitude: _amplitude,
+                  wavelength: _wavelength,
+                  phase: _phase,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 child: Container(),
               ),
             ),
@@ -53,11 +55,26 @@ class _WaveLabScreenState extends State<WaveLabScreen>
               child: Column(
                 children: [
                   _buildControlSlider(
-                      'Amplitude', _amplitude, 10, 150, (v) => _amplitude = v),
-                  _buildControlSlider('Frequency / Wavelength', _wavelength, 50,
-                      400, (v) => _wavelength = v),
+                    'Amplitude',
+                    _amplitude,
+                    10,
+                    150,
+                    (v) => _amplitude = v,
+                  ),
                   _buildControlSlider(
-                      'Speed', _speed, 0, 300, (v) => _speed = v),
+                    'Frequency / Wavelength',
+                    _wavelength,
+                    50,
+                    400,
+                    (v) => _wavelength = v,
+                  ),
+                  _buildControlSlider(
+                    'Speed',
+                    _speed,
+                    0,
+                    300,
+                    (v) => _speed = v,
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -65,8 +82,9 @@ class _WaveLabScreenState extends State<WaveLabScreen>
                       FloatingActionButton(
                         heroTag: 'play_wave',
                         onPressed: _togglePlay,
-                        child:
-                            Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                        child: Icon(
+                          _isPlaying ? Icons.pause : Icons.play_arrow,
+                        ),
                       ),
                       const SizedBox(width: 20),
                       FloatingActionButton(
@@ -76,10 +94,10 @@ class _WaveLabScreenState extends State<WaveLabScreen>
                         child: const Icon(LucideIcons.refreshCw),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -98,23 +116,34 @@ class _WaveLabScreenState extends State<WaveLabScreen>
     _ticker = createTicker(_onTick)..start();
   }
 
-  Widget _buildControlSlider(String label, double value, double min, double max,
-      Function(double) onChanged) {
+  Widget _buildControlSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged,
+  ) {
     return Row(
       children: [
         SizedBox(
-            width: 80,
-            child: Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.white70))),
+          width: 80,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
+        ),
         Expanded(
           child: Slider(
-              value: value,
-              min: min,
-              max: max,
-              onChanged: (v) => setState(() => onChanged(v))),
+            value: value,
+            min: min,
+            max: max,
+            onChanged: (v) => setState(() => onChanged(v)),
+          ),
         ),
-        Text(value.toStringAsFixed(0),
-            style: const TextStyle(color: Colors.white)),
+        Text(
+          value.toStringAsFixed(0),
+          style: const TextStyle(color: Colors.white),
+        ),
       ],
     );
   }
@@ -151,11 +180,12 @@ class _WavePainter extends CustomPainter {
   final Color color;
 
   /// Creates a [_WavePainter] instance.
-  _WavePainter(
-      {required this.amplitude,
-      required this.wavelength,
-      required this.phase,
-      required this.color});
+  _WavePainter({
+    required this.amplitude,
+    required this.wavelength,
+    required this.phase,
+    required this.color,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {

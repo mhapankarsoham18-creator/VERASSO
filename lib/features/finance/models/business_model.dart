@@ -196,15 +196,8 @@ class BusinessState {
       employees: [],
       cashFlowHistory: [],
       monthsInBusiness: 0,
-      fixedCosts: {
-        'Rent': 2000,
-        'Utilities': 500,
-        'Insurance': 300,
-      },
-      variableCosts: {
-        'Marketing': 1000,
-        'Supplies': 500,
-      },
+      fixedCosts: {'Rent': 2000, 'Utilities': 500, 'Insurance': 300},
+      variableCosts: {'Marketing': 1000, 'Supplies': 500},
       availableDecisions: [],
     );
   }

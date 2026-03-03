@@ -15,7 +15,7 @@ class DataDeletionService {
 
   /// Creates a [DataDeletionService].
   DataDeletionService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Permanently deletes the current user's account and all associated data.
   ///

@@ -135,7 +135,7 @@ class RateLimitService {
 
   /// Creates a [RateLimitService], optionally with a custom [SupabaseClient].
   RateLimitService({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Clean up old attempts (run periodically via background task)
   Future<void> cleanupOldAttempts({int olderThanDays = 7}) async {
@@ -230,8 +230,10 @@ class RateLimitService {
 
       return remaining > 0 ? remaining : 0;
     } catch (e, stack) {
-      AppLogger.error('RateLimitService get lockout time remaining error',
-          error: e);
+      AppLogger.error(
+        'RateLimitService get lockout time remaining error',
+        error: e,
+      );
       SentryService.captureException(e, stackTrace: stack);
       return 0;
     }
@@ -259,8 +261,10 @@ class RateLimitService {
 
       return remaining > 0 ? remaining : 0;
     } catch (e, stack) {
-      AppLogger.error('RateLimitService get remaining attempts error',
-          error: e);
+      AppLogger.error(
+        'RateLimitService get remaining attempts error',
+        error: e,
+      );
       SentryService.captureException(e, stackTrace: stack);
       return -1; // Error state
     }
@@ -274,11 +278,14 @@ class RateLimitService {
 
       // NEW: Call server-side RPC for enforcement
       // This is much safer as it uses the same source of truth for all clients
-      final response = await _client.rpc('check_rate_limit', params: {
-        'p_user_id': _client.auth.currentUser?.id,
-        'p_ip_address': await NetworkUtil.getIpAddress(),
-        'p_endpoint': type.name,
-      });
+      final response = await _client.rpc(
+        'check_rate_limit',
+        params: {
+          'p_user_id': _client.auth.currentUser?.id,
+          'p_ip_address': await NetworkUtil.getIpAddress(),
+          'p_endpoint': type.name,
+        },
+      );
 
       if (response != null && response['allowed'] == false) {
         AppLogger.warning('Server-side rate limit hit for ${type.name}');

@@ -67,8 +67,9 @@ class _MFAEnrollmentScreenState extends ConsumerState<MFAEnrollmentScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                       child: QrImageView(
                         data: _enrollResponse!.totpUri ?? '',
                         version: QrVersions.auto,
@@ -83,15 +84,16 @@ class _MFAEnrollmentScreenState extends ConsumerState<MFAEnrollmentScreen> {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ] else ...[
-                    const CircularProgressIndicator()
+                    const CircularProgressIndicator(),
                   ],
                   const SizedBox(height: 32),
                   const Text('Enter the 6-digit code from your app:'),
                   const SizedBox(height: 8),
                   AuthTextField(
-                      controller: _codeController,
-                      label: '000 000',
-                      icon: LucideIcons.shieldCheck),
+                    controller: _codeController,
+                    label: '000 000',
+                    icon: LucideIcons.shieldCheck,
+                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
@@ -102,13 +104,18 @@ class _MFAEnrollmentScreenState extends ConsumerState<MFAEnrollmentScreen> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       child: mfaState.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text('Verify & Enable',
+                          : const Text(
+                              'Verify & Enable',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ],

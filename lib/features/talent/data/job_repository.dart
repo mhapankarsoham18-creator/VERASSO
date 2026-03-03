@@ -26,8 +26,12 @@ class JobRepository {
   final BluetoothMeshService _meshService;
 
   /// Creates a [JobRepository].
-  JobRepository(this._client, this._networkService, this._storageService,
-      this._meshService);
+  JobRepository(
+    this._client,
+    this._networkService,
+    this._storageService,
+    this._meshService,
+  );
 
   /// Submits a job application.
   ///
@@ -46,8 +50,10 @@ class JobRepository {
 
     if (_meshService.isMeshActive) {
       await _storageService.queueAction('apply_for_job', data);
-      await _meshService.broadcastPacket(
-          MeshPayloadType.chatMessage, {'action': 'apply_for_job', ...data});
+      await _meshService.broadcastPacket(MeshPayloadType.chatMessage, {
+        'action': 'apply_for_job',
+        ...data,
+      });
       return;
     }
 
@@ -87,8 +93,10 @@ class JobRepository {
   Future<void> createJobRequest(JobRequest request) async {
     if (_meshService.isMeshActive) {
       await _storageService.queueAction('create_job', request.toJson());
-      await _meshService.broadcastPacket(MeshPayloadType.feedPost,
-          {'action': 'create_job', ...request.toJson()});
+      await _meshService.broadcastPacket(MeshPayloadType.feedPost, {
+        'action': 'create_job',
+        ...request.toJson(),
+      });
       return;
     }
 
@@ -136,8 +144,10 @@ class JobRepository {
   }
 
   /// Fetches all open job requests with pagination support.
-  Future<List<JobRequest>> getJobRequests(
-      {int limit = 20, int offset = 0}) async {
+  Future<List<JobRequest>> getJobRequests({
+    int limit = 20,
+    int offset = 0,
+  }) async {
     final String cacheKey = 'job_requests_open_${limit}_$offset';
 
     if (await _networkService.isConnected) {
@@ -282,7 +292,8 @@ class JobRepository {
       try {
         await _client
             .from('job_applications')
-            .update({'status': status}).eq('id', appId);
+            .update({'status': status})
+            .eq('id', appId);
       } catch (e, stack) {
         AppLogger.error('Update application status error', error: e);
         SentryService.captureException(e, stackTrace: stack);
@@ -297,7 +308,8 @@ class JobRepository {
       try {
         await _client
             .from('job_requests')
-            .update({'status': status}).eq('id', jobId);
+            .update({'status': status})
+            .eq('id', jobId);
       } catch (e, stack) {
         AppLogger.error('Update job status error', error: e);
         SentryService.captureException(e, stackTrace: stack);

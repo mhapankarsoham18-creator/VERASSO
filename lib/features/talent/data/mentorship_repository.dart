@@ -15,13 +15,15 @@ class MentorshipRepository {
 
   /// Creates a [MentorshipRepository].
   MentorshipRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   // --- Booking Management ---
 
   /// Completes a session and processes the payment.
   Future<void> completeSessionAndProcessPayment(
-      String sessionId, double amount) async {
+    String sessionId,
+    double amount,
+  ) async {
     // 1. Mark session as completed
     await updateSessionStatus(sessionId, 'Completed');
 
@@ -67,7 +69,8 @@ class MentorshipRepository {
     final response = await _client
         .from('mentorship_bookings')
         .select(
-            '*, student:profiles!student_id(full_name, avatar_url), talents!talent_post_id(title)')
+          '*, student:profiles!student_id(full_name, avatar_url), talents!talent_post_id(title)',
+        )
         .eq('mentor_id', mentorId)
         .order('created_at', ascending: false);
 
@@ -84,7 +87,8 @@ class MentorshipRepository {
     final response = await _client
         .from('mentorship_bookings')
         .select(
-            '*, mentor:profiles!mentor_id(full_name, avatar_url), talents!talent_post_id(title)')
+          '*, mentor:profiles!mentor_id(full_name, avatar_url), talents!talent_post_id(title)',
+        )
         .eq('student_id', studentId)
         .order('created_at', ascending: false);
 
@@ -118,7 +122,8 @@ class MentorshipRepository {
   Future<void> updateBookingStatus(String bookingId, String status) async {
     await _client
         .from('mentorship_bookings')
-        .update({'status': status}).eq('id', bookingId);
+        .update({'status': status})
+        .eq('id', bookingId);
   }
 
   // --- Payment Processing (Phase 24) ---
@@ -126,6 +131,7 @@ class MentorshipRepository {
   Future<void> updateSessionStatus(String sessionId, String status) async {
     await _client
         .from('session_schedule')
-        .update({'status': status}).eq('id', sessionId);
+        .update({'status': status})
+        .eq('id', sessionId);
   }
 }

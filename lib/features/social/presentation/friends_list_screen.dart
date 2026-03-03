@@ -16,8 +16,9 @@ final friendsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) {
 });
 
 /// Provider for the list of pending incoming friend requests.
-final pendingRequestsProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) {
+final pendingRequestsProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) {
   return ref.watch(relationshipRepositoryProvider).getPendingRequests();
 });
 
@@ -54,10 +55,7 @@ class _FriendsListScreenState extends ConsumerState<FriendsListScreen> {
               ),
               Expanded(
                 child: TabBarView(
-                  children: [
-                    _buildFriendsTab(),
-                    _buildPendingTab(),
-                  ],
+                  children: [_buildFriendsTab(), _buildPendingTab()],
                 ),
               ),
             ],
@@ -79,12 +77,15 @@ class _FriendsListScreenState extends ConsumerState<FriendsListScreen> {
               children: [
                 const Icon(LucideIcons.users, size: 64, color: Colors.white24),
                 const SizedBox(height: 16),
-                const Text('You have no friends yet.',
-                    style: TextStyle(color: Colors.white54)),
+                const Text(
+                  'You have no friends yet.',
+                  style: TextStyle(color: Colors.white54),
+                ),
                 const SizedBox(height: 8),
                 TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Find New Connections'))
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Find New Connections'),
+                ),
               ],
             ),
           );
@@ -107,15 +108,21 @@ class _FriendsListScreenState extends ConsumerState<FriendsListScreen> {
                       ? const Icon(LucideIcons.user)
                       : null,
                 ),
-                title: Text(profile['full_name'] ?? 'User',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(
+                  profile['full_name'] ?? 'User',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 subtitle: Text('@${profile['username']}'),
-                trailing:
-                    const Icon(LucideIcons.chevronRight, color: Colors.white54),
+                trailing: const Icon(
+                  LucideIcons.chevronRight,
+                  color: Colors.white54,
+                ),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) =>
-                          UserProfileScreen(userId: profile['id'])));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => UserProfileScreen(userId: profile['id']),
+                    ),
+                  );
                 },
               ),
             );
@@ -142,8 +149,10 @@ class _FriendsListScreenState extends ConsumerState<FriendsListScreen> {
               children: [
                 Icon(LucideIcons.userPlus, size: 64, color: Colors.white24),
                 SizedBox(height: 16),
-                Text('No pending requests.',
-                    style: TextStyle(color: Colors.white54)),
+                Text(
+                  'No pending requests.',
+                  style: TextStyle(color: Colors.white54),
+                ),
               ],
             ),
           );
@@ -166,8 +175,10 @@ class _FriendsListScreenState extends ConsumerState<FriendsListScreen> {
                       ? const Icon(LucideIcons.user)
                       : null,
                 ),
-                title: Text(profile['full_name'] ?? 'User',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(
+                  profile['full_name'] ?? 'User',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 subtitle: Text('@${profile['username']}'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,

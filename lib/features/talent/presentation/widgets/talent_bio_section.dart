@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class TalentBioSection extends StatelessWidget {
   /// The current bio text.
   final String? bio;
+
   /// Whether the section is in editing mode.
   final bool isEditing;
+
   /// Controller for the bio text field.
   final TextEditingController bioController;
 
@@ -24,10 +26,13 @@ class TalentBioSection extends StatelessWidget {
         controller: bioController,
         maxLines: 3,
         decoration: const InputDecoration(
-            hintText: 'Tell us about your professional background...'),
+          hintText: 'Tell us about your professional background...',
+        ),
       );
     }
-    return Text(bio ?? 'No bio provided.',
-        style: const TextStyle(color: Colors.white70));
+    return Text(
+      bio ?? 'No bio provided.',
+      style: const TextStyle(color: Colors.white70),
+    );
   }
 }

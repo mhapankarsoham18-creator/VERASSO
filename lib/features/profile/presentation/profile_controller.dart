@@ -7,8 +7,10 @@ import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 
 /// Provider to check if current user is following a target user.
-final isFollowingProvider =
-    FutureProvider.family<bool, String>((ref, targetId) async {
+final isFollowingProvider = FutureProvider.family<bool, String>((
+  ref,
+  targetId,
+) async {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return false;
   return ref
@@ -19,8 +21,8 @@ final isFollowingProvider =
 /// Provider for the [ProfileController] which handles profile updates and privacy settings.
 final profileControllerProvider =
     StateNotifierProvider<ProfileController, AsyncValue<void>>((ref) {
-  return ProfileController(ref.watch(profileRepositoryProvider), ref);
-});
+      return ProfileController(ref.watch(profileRepositoryProvider), ref);
+    });
 
 /// Future provider that fetches the [Profile] for the currently authenticated user.
 final userProfileProvider = FutureProvider<Profile?>((ref) async {
@@ -148,14 +150,18 @@ class ProfileController extends StateNotifier<AsyncValue<void>> {
     final currentProfile = await _ref.read(userProfileProvider.future);
 
     // 4.1 — Apply input sanitization to user-provided fields
-    final sanitizedFullName =
-        fullName != null ? SanitizerUtils.sanitizeString(fullName) : null;
-    final sanitizedBio =
-        bio != null ? SanitizerUtils.sanitizeString(bio) : null;
-    final sanitizedWebsite =
-        website != null ? SanitizerUtils.sanitizeString(website) : null;
-    final sanitizedUsername =
-        username != null ? SanitizerUtils.sanitizeUsername(username) : null;
+    final sanitizedFullName = fullName != null
+        ? SanitizerUtils.sanitizeString(fullName)
+        : null;
+    final sanitizedBio = bio != null
+        ? SanitizerUtils.sanitizeString(bio)
+        : null;
+    final sanitizedWebsite = website != null
+        ? SanitizerUtils.sanitizeString(website)
+        : null;
+    final sanitizedUsername = username != null
+        ? SanitizerUtils.sanitizeUsername(username)
+        : null;
 
     // Create updated profile object
     final updatedProfile = Profile(

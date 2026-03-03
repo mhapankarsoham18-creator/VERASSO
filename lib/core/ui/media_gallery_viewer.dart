@@ -50,9 +50,8 @@ class _MediaGalleryViewerState extends State<MediaGalleryViewer> {
           );
         },
         itemCount: widget.mediaUrls.length,
-        loadingBuilder: (context, event) => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loadingBuilder: (context, event) =>
+            const Center(child: CircularProgressIndicator()),
         pageController: _pageController,
         onPageChanged: (index) {
           setState(() {

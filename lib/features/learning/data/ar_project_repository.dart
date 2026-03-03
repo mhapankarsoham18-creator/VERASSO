@@ -100,7 +100,8 @@ class ArProjectRepository {
 
   /// Get components by category
   Future<List<ComponentLibraryItem>> getComponentsByCategory(
-      String category) async {
+    String category,
+  ) async {
     try {
       final response = await _supabase
           .from('ar_project_components')
@@ -148,13 +149,15 @@ class ArProjectRepository {
   // ========== COMPONENT LIBRARY ==========
 
   /// Get public projects
-  Future<List<ArProject>> getPublicProjects(
-      {int limit = 50, int offset = 0}) async {
+  Future<List<ArProject>> getPublicProjects({
+    int limit = 50,
+    int offset = 0,
+  }) async {
     try {
-      final response = await _supabase.rpc('get_public_ar_projects', params: {
-        'limit_param': limit,
-        'offset_param': offset,
-      });
+      final response = await _supabase.rpc(
+        'get_public_ar_projects',
+        params: {'limit_param': limit, 'offset_param': offset},
+      );
 
       // Transform the response to ArProject objects
       return (response as List).map((json) {
@@ -183,9 +186,10 @@ class ArProjectRepository {
       final userId = _supabase.auth.currentUser?.id;
       if (userId == null) throw Exception('User not authenticated');
 
-      final response = await _supabase.rpc('get_friend_ar_projects', params: {
-        'user_id_param': userId,
-      });
+      final response = await _supabase.rpc(
+        'get_friend_ar_projects',
+        params: {'user_id_param': userId},
+      );
 
       return (response as List)
           .map((json) => SharedArProject.fromJson(json))
@@ -222,7 +226,8 @@ class ArProjectRepository {
     try {
       await _supabase
           .from('ar_projects')
-          .update({'is_public': isPublic}).eq('id', projectId);
+          .update({'is_public': isPublic})
+          .eq('id', projectId);
     } catch (e) {
       throw Exception('Failed to update project visibility: $e');
     }
@@ -274,7 +279,9 @@ class ArProjectRepository {
 
   /// Share a project with a friend
   Future<void> shareProjectWithFriend(
-      String projectId, String friendUserId) async {
+    String projectId,
+    String friendUserId,
+  ) async {
     try {
       final userId = _supabase.auth.currentUser?.id;
       if (userId == null) throw Exception('User not authenticated');
@@ -341,7 +348,8 @@ class ArProjectRepository {
       // Update project with thumbnail URL
       await _supabase
           .from('ar_projects')
-          .update({'thumbnail_url': url}).eq('id', projectId);
+          .update({'thumbnail_url': url})
+          .eq('id', projectId);
 
       return url;
     } catch (e) {

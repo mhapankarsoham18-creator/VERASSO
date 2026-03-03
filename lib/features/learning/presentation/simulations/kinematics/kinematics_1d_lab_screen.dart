@@ -33,8 +33,9 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Kinematics: 1D Motion'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Kinematics: 1D Motion'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: Column(
           children: [
@@ -58,11 +59,18 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
                     top: MediaQuery.of(context).size.height * 0.2 - 20,
                     child: Column(
                       children: [
-                        const Icon(LucideIcons.car,
-                            color: Colors.cyanAccent, size: 40),
-                        Text('${_position.toStringAsFixed(1)}m',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10))
+                        const Icon(
+                          LucideIcons.car,
+                          color: Colors.cyanAccent,
+                          size: 40,
+                        ),
+                        Text(
+                          '${_position.toStringAsFixed(1)}m',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -80,11 +88,12 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
                           Text('Pos (x): ${_position.toStringAsFixed(2)}m'),
                           Text('Vel (v): ${_velocity.toStringAsFixed(2)}m/s'),
                           Text(
-                              'Acc (a): ${_acceleration.toStringAsFixed(2)}m/s²'),
+                            'Acc (a): ${_acceleration.toStringAsFixed(2)}m/s²',
+                          ),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -97,15 +106,27 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    const Text('Controls',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Controls',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 10),
-                    _buildControlSlider('Initial Velocity', _velocity, -20, 50,
-                        (v) => _velocity = v,
-                        enabled: !_isPlaying),
-                    _buildControlSlider('Acceleration', _acceleration, -10, 10,
-                        (v) => _acceleration = v,
-                        enabled: true), // Can change acceleration while running
+                    _buildControlSlider(
+                      'Initial Velocity',
+                      _velocity,
+                      -20,
+                      50,
+                      (v) => _velocity = v,
+                      enabled: !_isPlaying,
+                    ),
+                    _buildControlSlider(
+                      'Acceleration',
+                      _acceleration,
+                      -10,
+                      10,
+                      (v) => _acceleration = v,
+                      enabled: true,
+                    ), // Can change acceleration while running
 
                     const Spacer(),
                     Row(
@@ -114,8 +135,9 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
                         FloatingActionButton(
                           heroTag: 'play_k1d',
                           onPressed: _togglePlay,
-                          child:
-                              Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                          child: Icon(
+                            _isPlaying ? Icons.pause : Icons.play_arrow,
+                          ),
                         ),
                         const SizedBox(width: 20),
                         FloatingActionButton(
@@ -125,7 +147,7 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
                           child: const Icon(LucideIcons.refreshCw),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -148,26 +170,38 @@ class _Kinematics1DLabScreenState extends State<Kinematics1DLabScreen>
     _ticker = createTicker(_onTick);
   }
 
-  Widget _buildControlSlider(String label, double value, double min, double max,
-      Function(double) onChanged,
-      {bool enabled = true}) {
+  Widget _buildControlSlider(
+    String label,
+    double value,
+    double min,
+    double max,
+    Function(double) onChanged, {
+    bool enabled = true,
+  }) {
     return Row(
       children: [
         SizedBox(
-            width: 100,
-            child: Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.white70))),
+          width: 100,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
+        ),
         Expanded(
           child: Slider(
-              value: value,
-              min: min,
-              max: max,
-              onChanged: enabled ? (v) => setState(() => onChanged(v)) : null),
+            value: value,
+            min: min,
+            max: max,
+            onChanged: enabled ? (v) => setState(() => onChanged(v)) : null,
+          ),
         ),
         SizedBox(
-            width: 40,
-            child: Text(value.toStringAsFixed(1),
-                style: const TextStyle(color: Colors.white, fontSize: 12))),
+          width: 40,
+          child: Text(
+            value.toStringAsFixed(1),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ),
       ],
     );
   }

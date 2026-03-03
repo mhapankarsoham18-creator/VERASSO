@@ -41,12 +41,12 @@ class HandGestureService {
 
   /// Creates a [HandGestureService] instance.
   HandGestureService()
-      : _poseDetector = PoseDetector(
-          options: PoseDetectorOptions(
-            mode: PoseDetectionMode.stream,
-            model: PoseDetectionModel.accurate,
-          ),
-        );
+    : _poseDetector = PoseDetector(
+        options: PoseDetectorOptions(
+          mode: PoseDetectionMode.stream,
+          model: PoseDetectionModel.accurate,
+        ),
+      );
 
   /// Initialize gesture detection stream
   /// Returns a stream of detected hand positions and gestures.
@@ -158,7 +158,7 @@ class HandGestureService {
           InputImageRotation.rotation90deg; // Assuming portrait
       final inputImageFormat =
           InputImageFormatValue.fromRawValue(image.format.raw) ??
-              InputImageFormat.nv21;
+          InputImageFormat.nv21;
 
       final inputImageData = InputImageMetadata(
         size: Size(image.width.toDouble(), image.height.toDouble()),
@@ -187,11 +187,13 @@ class HandGestureService {
     }
 
     // Calculate distances between landmarks
-    final thumbIndexDist =
-        thumb != null ? _distance(thumb, index) : double.infinity;
+    final thumbIndexDist = thumb != null
+        ? _distance(thumb, index)
+        : double.infinity;
     final wristIndexDist = _distance(wrist, index);
-    final wristPinkyDist =
-        pinky != null ? _distance(wrist, pinky) : double.infinity;
+    final wristPinkyDist = pinky != null
+        ? _distance(wrist, pinky)
+        : double.infinity;
 
     // Pinch gesture: thumb and index finger close together
     if (thumb != null && thumbIndexDist < 30 * sensitivity) {
@@ -251,12 +253,11 @@ class HandGestureServiceState {
     HandPosition? currentPosition,
     bool? isActive,
     String? error,
-  }) =>
-      HandGestureServiceState(
-        currentPosition: currentPosition ?? this.currentPosition,
-        isActive: isActive ?? this.isActive,
-        error: error,
-      );
+  }) => HandGestureServiceState(
+    currentPosition: currentPosition ?? this.currentPosition,
+    isActive: isActive ?? this.isActive,
+    error: error,
+  );
 }
 
 /// Hand position in 3D space (from camera perspective)
@@ -293,12 +294,11 @@ class HandPosition {
     double? z,
     HandGesture? gesture,
     double? confidence,
-  }) =>
-      HandPosition(
-        x: x ?? this.x,
-        y: y ?? this.y,
-        z: z ?? this.z,
-        gesture: gesture ?? this.gesture,
-        confidence: confidence ?? this.confidence,
-      );
+  }) => HandPosition(
+    x: x ?? this.x,
+    y: y ?? this.y,
+    z: z ?? this.z,
+    gesture: gesture ?? this.gesture,
+    confidence: confidence ?? this.confidence,
+  );
 }

@@ -115,13 +115,29 @@ class ConstellationData {
   static void updatePlanetPositions(DateTime date) {
     planets = {
       'Mars': Planet(
-          'Mars', '♂', (14.5 + date.day * 0.05) % 24, 15.0 + date.month * 0.1),
-      'Jupiter': Planet('Jupiter', '♃', (20.0 + date.day * 0.02) % 24,
-          -10.0 + date.month * 0.05),
-      'Saturn': Planet('Saturn', '♄', (22.5 + date.day * 0.01) % 24,
-          -5.0 + date.month * 0.02),
+        'Mars',
+        '♂',
+        (14.5 + date.day * 0.05) % 24,
+        15.0 + date.month * 0.1,
+      ),
+      'Jupiter': Planet(
+        'Jupiter',
+        '♃',
+        (20.0 + date.day * 0.02) % 24,
+        -10.0 + date.month * 0.05,
+      ),
+      'Saturn': Planet(
+        'Saturn',
+        '♄',
+        (22.5 + date.day * 0.01) % 24,
+        -5.0 + date.month * 0.02,
+      ),
       'Venus': Planet(
-          'Venus', '♀', (18.0 + date.day * 0.1) % 24, 20.0 + date.month * 0.2),
+        'Venus',
+        '♀',
+        (18.0 + date.day * 0.1) % 24,
+        20.0 + date.month * 0.2,
+      ),
     };
   }
 }

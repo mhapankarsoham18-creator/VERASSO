@@ -7,7 +7,7 @@ import 'package:verasso/core/ui/glass_container.dart';
 class ArComponentMenu extends StatefulWidget {
   /// Callback triggered when a component is selected from the menu.
   final Function(String componentId, String name, String category)
-      onComponentSelected;
+  onComponentSelected;
 
   /// Callback triggered when the menu is closed.
   final VoidCallback onClose;
@@ -49,35 +49,83 @@ class _ArComponentMenuState extends State<ArComponentMenu>
   final Map<String, List<ComponentMenuItem>> _categories = {
     'Power': [
       const ComponentMenuItem(
-          'battery_aa', 'AA Battery', LucideIcons.battery, Colors.redAccent),
+        'battery_aa',
+        'AA Battery',
+        LucideIcons.battery,
+        Colors.redAccent,
+      ),
       const ComponentMenuItem(
-          'battery_9v', '9V Battery', LucideIcons.battery, Colors.red),
+        'battery_9v',
+        '9V Battery',
+        LucideIcons.battery,
+        Colors.red,
+      ),
     ],
     'Resistors': [
       const ComponentMenuItem(
-          'resistor_100', '100Ω', LucideIcons.wind, Colors.orangeAccent),
+        'resistor_100',
+        '100Ω',
+        LucideIcons.wind,
+        Colors.orangeAccent,
+      ),
       const ComponentMenuItem(
-          'resistor_220', '220Ω', LucideIcons.wind, Colors.orange),
+        'resistor_220',
+        '220Ω',
+        LucideIcons.wind,
+        Colors.orange,
+      ),
       const ComponentMenuItem(
-          'resistor_1k', '1kΩ', LucideIcons.wind, Colors.deepOrange),
+        'resistor_1k',
+        '1kΩ',
+        LucideIcons.wind,
+        Colors.deepOrange,
+      ),
       const ComponentMenuItem(
-          'resistor_10k', '10kΩ', LucideIcons.wind, Colors.deepOrangeAccent),
+        'resistor_10k',
+        '10kΩ',
+        LucideIcons.wind,
+        Colors.deepOrangeAccent,
+      ),
     ],
     'LEDs': [
       const ComponentMenuItem(
-          'led_red', 'Red LED', LucideIcons.lightbulb, Colors.redAccent),
+        'led_red',
+        'Red LED',
+        LucideIcons.lightbulb,
+        Colors.redAccent,
+      ),
       const ComponentMenuItem(
-          'led_green', 'Green LED', LucideIcons.lightbulb, Colors.greenAccent),
+        'led_green',
+        'Green LED',
+        LucideIcons.lightbulb,
+        Colors.greenAccent,
+      ),
       const ComponentMenuItem(
-          'led_blue', 'Blue LED', LucideIcons.lightbulb, Colors.blueAccent),
+        'led_blue',
+        'Blue LED',
+        LucideIcons.lightbulb,
+        Colors.blueAccent,
+      ),
     ],
     'Others': [
-      const ComponentMenuItem('capacitor_100u', '100µF Cap',
-          LucideIcons.database, Colors.purpleAccent),
       const ComponentMenuItem(
-          'capacitor_10u', '10µF Cap', LucideIcons.database, Colors.purple),
+        'capacitor_100u',
+        '100µF Cap',
+        LucideIcons.database,
+        Colors.purpleAccent,
+      ),
       const ComponentMenuItem(
-          'switch_spst', 'Switch', LucideIcons.toggleRight, Colors.greenAccent),
+        'capacitor_10u',
+        '10µF Cap',
+        LucideIcons.database,
+        Colors.purple,
+      ),
+      const ComponentMenuItem(
+        'switch_spst',
+        'Switch',
+        LucideIcons.toggleRight,
+        Colors.greenAccent,
+      ),
     ],
   };
 
@@ -157,15 +205,20 @@ class _ArComponentMenuState extends State<ArComponentMenu>
   }
 
   Widget _buildComponentCard(
-      ComponentMenuItem item, String category, int index) {
+    ComponentMenuItem item,
+    String category,
+    int index,
+  ) {
     return GestureDetector(
       onTap: () => widget.onComponentSelected(item.id, item.name, category),
       child: Container(
         decoration: BoxDecoration(
           color: item.color.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
-          border:
-              Border.all(color: item.color.withValues(alpha: 0.5), width: 2),
+          border: Border.all(
+            color: item.color.withValues(alpha: 0.5),
+            width: 2,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

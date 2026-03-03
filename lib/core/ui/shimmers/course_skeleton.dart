@@ -35,11 +35,7 @@ class _CourseSkeletonItem extends StatelessWidget {
         children: [
           // Course Thumbnail
           ShimmerLoading(
-            child: SkeletonBox(
-              height: 180,
-              width: double.infinity,
-              radius: 16,
-            ),
+            child: SkeletonBox(height: 180, width: double.infinity, radius: 16),
           ),
           SizedBox(height: 16),
 
@@ -68,9 +64,7 @@ class _CourseSkeletonItem extends StatelessWidget {
                   child: SkeletonBox(width: double.infinity, height: 24),
                 ),
                 SizedBox(height: 8),
-                ShimmerLoading(
-                  child: SkeletonBox(width: 200, height: 24),
-                ),
+                ShimmerLoading(child: SkeletonBox(width: 200, height: 24)),
                 SizedBox(height: 16),
 
                 // Meta info (author/stats)
@@ -78,7 +72,10 @@ class _CourseSkeletonItem extends StatelessWidget {
                   children: [
                     ShimmerLoading(
                       child: SkeletonBox(
-                          width: 32, height: 32, shape: BoxShape.circle),
+                        width: 32,
+                        height: 32,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                     SizedBox(width: 12),
                     Expanded(

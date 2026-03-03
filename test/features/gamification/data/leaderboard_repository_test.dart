@@ -73,9 +73,7 @@ void main() {
     });
 
     test('LeaderboardEntry.fromJson handles missing fields', () {
-      final entry = LeaderboardEntry.fromJson({
-        'user_id': 'u3',
-      });
+      final entry = LeaderboardEntry.fromJson({'user_id': 'u3'});
 
       expect(entry.username, 'Anonymous');
       expect(entry.score, 0);

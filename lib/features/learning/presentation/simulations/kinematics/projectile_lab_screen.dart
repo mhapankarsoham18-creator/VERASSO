@@ -55,36 +55,45 @@ class _ProjectileLabScreenState extends State<ProjectileLabScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: [
-                    const Text('Angle'),
-                    Expanded(
+                  Row(
+                    children: [
+                      const Text('Angle'),
+                      Expanded(
                         child: Slider(
-                            min: 0,
-                            max: 90,
-                            value: _angleDeg,
-                            onChanged: (v) => setState(() => _angleDeg = v))),
-                    Text('${_angleDeg.toInt()}°')
-                  ]),
-                  Row(children: [
-                    const Text('Velocity'),
-                    Expanded(
+                          min: 0,
+                          max: 90,
+                          value: _angleDeg,
+                          onChanged: (v) => setState(() => _angleDeg = v),
+                        ),
+                      ),
+                      Text('${_angleDeg.toInt()}°'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('Velocity'),
+                      Expanded(
                         child: Slider(
-                            min: 10,
-                            max: 100,
-                            value: _velocity,
-                            onChanged: (v) => setState(() => _velocity = v))),
-                    Text('${_velocity.toInt()}')
-                  ]),
+                          min: 10,
+                          max: 100,
+                          value: _velocity,
+                          onChanged: (v) => setState(() => _velocity = v),
+                        ),
+                      ),
+                      Text('${_velocity.toInt()}'),
+                    ],
+                  ),
                   ElevatedButton(
                     onPressed: _fire,
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
                     child: const Text('FIRE CANNON'),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -147,25 +156,32 @@ class _ProjectilePainter extends CustomPainter {
     // Draw Ground
     final groundY = size.height - 150;
     canvas.drawLine(
-        Offset(0, groundY),
-        Offset(size.width, groundY),
-        Paint()
-          ..color = Colors.white
-          ..strokeWidth = 2);
+      Offset(0, groundY),
+      Offset(size.width, groundY),
+      Paint()
+        ..color = Colors.white
+        ..strokeWidth = 2,
+    );
 
     // Draw Cannon (Simple Arc)
-    canvas.drawArc(Rect.fromLTWH(20, groundY - 30, 60, 60), pi, pi / 2, true,
-        Paint()..color = Colors.grey);
+    canvas.drawArc(
+      Rect.fromLTWH(20, groundY - 30, 60, 60),
+      pi,
+      pi / 2,
+      true,
+      Paint()..color = Colors.grey,
+    );
 
     // Draw Trail
     if (trail.isNotEmpty) {
       final points = trail.map((e) => e).toList(); // copy
       canvas.drawPoints(
-          ui.PointMode.polygon,
-          points,
-          Paint()
-            ..color = Colors.white54
-            ..strokeWidth = 1);
+        ui.PointMode.polygon,
+        points,
+        Paint()
+          ..color = Colors.white54
+          ..strokeWidth = 1,
+      );
     }
 
     // Draw Ball

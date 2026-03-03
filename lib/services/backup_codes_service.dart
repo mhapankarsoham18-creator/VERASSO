@@ -61,10 +61,12 @@ class BackupCodesService {
       }
 
       // Call the Supabase function to generate codes
-      final response = await _supabase.rpc(
-        'generate_backup_codes',
-        params: {'p_user_id': userId},
-      ) as List<dynamic>;
+      final response =
+          await _supabase.rpc(
+                'generate_backup_codes',
+                params: {'p_user_id': userId},
+              )
+              as List<dynamic>;
 
       // Extract plain codes from response
       final codes = response
@@ -108,10 +110,12 @@ class BackupCodesService {
         throw Exception('User not authenticated');
       }
 
-      final count = await _supabase.rpc(
-        'count_unused_backup_codes',
-        params: {'p_user_id': userId},
-      ) as int;
+      final count =
+          await _supabase.rpc(
+                'count_unused_backup_codes',
+                params: {'p_user_id': userId},
+              )
+              as int;
 
       return count;
     } catch (e) {
@@ -138,10 +142,12 @@ class BackupCodesService {
         throw Exception('User not authenticated');
       }
 
-      final response = await _supabase.rpc(
-        'regenerate_backup_codes',
-        params: {'p_user_id': userId},
-      ) as List<dynamic>;
+      final response =
+          await _supabase.rpc(
+                'regenerate_backup_codes',
+                params: {'p_user_id': userId},
+              )
+              as List<dynamic>;
 
       final codes = response
           .map((item) => (item as Map<String, dynamic>)['code'] as String)
@@ -163,13 +169,15 @@ class BackupCodesService {
         throw Exception('User not authenticated');
       }
 
-      final response = await _supabase.rpc(
-        'verify_backup_code',
-        params: {
-          'p_user_id': userId,
-          'p_code': code.toUpperCase().trim(),
-        },
-      ) as bool;
+      final response =
+          await _supabase.rpc(
+                'verify_backup_code',
+                params: {
+                  'p_user_id': userId,
+                  'p_code': code.toUpperCase().trim(),
+                },
+              )
+              as bool;
 
       return response;
     } catch (e) {

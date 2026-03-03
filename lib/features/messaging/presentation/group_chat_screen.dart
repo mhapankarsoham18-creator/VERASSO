@@ -35,10 +35,7 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
       appBar: AppBar(
         title: Text(widget.groupName),
         actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.info),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(LucideIcons.info), onPressed: () {}),
         ],
       ),
       body: Column(
@@ -78,7 +75,8 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                 ? const SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2))
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(LucideIcons.send),
             onPressed: _isLoading ? null : _sendMessage,
           ),
@@ -146,9 +144,9 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
       });
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send message: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to send message: $e')));
     } finally {
       setState(() => _isLoading = false);
     }

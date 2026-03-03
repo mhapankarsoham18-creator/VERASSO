@@ -32,9 +32,11 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => const CreateStargazingLogScreen()));
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CreateStargazingLogScreen(),
+            ),
+          );
           if (result == true) {
             setState(() {}); // Refresh feed
           }
@@ -65,9 +67,10 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
                     Icon(LucideIcons.sparkle, size: 64, color: Colors.white54),
                     SizedBox(height: 16),
                     Text(
-                        'No one has looked up yet.\nBe the first to log a sighting!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white70)),
+                      'No one has looked up yet.\nBe the first to log a sighting!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white70),
+                    ),
                   ],
                 ),
               );
@@ -75,7 +78,11 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
 
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, bottom: 80, left: 16, right: 16),
+                top: 100,
+                bottom: 80,
+                left: 16,
+                right: 16,
+              ),
               itemCount: logs.length,
               itemBuilder: (context, index) {
                 return _buildLogCard(logs[index]);
@@ -99,10 +106,11 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
               children: [
                 GestureDetector(
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              UserProfileScreen(userId: log.userId))),
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => UserProfileScreen(userId: log.userId),
+                    ),
+                  ),
                   child: CircleAvatar(
                     backgroundImage: log.creatorAvatar != null
                         ? NetworkImage(log.creatorAvatar!)
@@ -114,11 +122,16 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(log.creatorName ?? 'Astronomer',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  log.creatorName ?? 'Astronomer',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const Spacer(),
-                const Icon(LucideIcons.calendar,
-                    size: 14, color: Colors.white54),
+                const Icon(
+                  LucideIcons.calendar,
+                  size: 14,
+                  color: Colors.white54,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   "${log.createdAt.day}/${log.createdAt.month}",
@@ -129,14 +142,20 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
             const Divider(color: Colors.white10),
             Row(
               children: [
-                const Icon(LucideIcons.scanLine,
-                    color: Colors.purpleAccent, size: 20),
+                const Icon(
+                  LucideIcons.scanLine,
+                  color: Colors.purpleAccent,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
-                Text(log.celestialObject,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.purpleAccent)),
+                Text(
+                  log.celestialObject,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purpleAccent,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -149,22 +168,29 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
             ),
             if (log.notes != null && log.notes!.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Text(log.notes!,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic)),
+              Text(
+                log.notes!,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.white70,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
             ],
             if (log.locationName != null && log.locationName!.isNotEmpty) ...[
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(LucideIcons.mapPin,
-                      size: 12, color: Colors.white54),
+                  const Icon(
+                    LucideIcons.mapPin,
+                    size: 12,
+                    color: Colors.white54,
+                  ),
                   const SizedBox(width: 4),
-                  Text(log.locationName!,
-                      style:
-                          const TextStyle(fontSize: 12, color: Colors.white54)),
+                  Text(
+                    log.locationName!,
+                    style: const TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
                 ],
               ),
             ],
@@ -186,8 +212,10 @@ class _StargazingFeedScreenState extends ConsumerState<StargazingFeedScreen> {
         children: [
           Icon(icon, size: 12, color: Colors.white70),
           const SizedBox(width: 4),
-          Text(text,
-              style: const TextStyle(fontSize: 11, color: Colors.white70)),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 11, color: Colors.white70),
+          ),
         ],
       ),
     );

@@ -21,11 +21,9 @@ class TalentRepository {
 
   /// Creates a [TalentRepository] that uses the provided Supabase [client] or
   /// falls back to the global [SupabaseService.client].
-  TalentRepository({
-    SupabaseClient? client,
-    GamificationEventBus? eventBus,
-  })  : _client = client ?? SupabaseService.client,
-        _eventBus = eventBus;
+  TalentRepository({SupabaseClient? client, GamificationEventBus? eventBus})
+    : _client = client ?? SupabaseService.client,
+      _eventBus = eventBus;
 
   /// Creates a new [talent] record in the `talents` table.
   ///
@@ -63,10 +61,13 @@ class TalentRepository {
   /// The optional [docUrl] can be used to persist a verification document
   /// reference alongside the boolean [isVerified] flag.
   Future<void> updateVerificationStatus(
-      String userId, String? docUrl, bool isVerified) async {
-    await _client.from('profiles').update({
-      'is_age_verified': isVerified,
-      'verification_url': docUrl,
-    }).eq('id', userId);
+    String userId,
+    String? docUrl,
+    bool isVerified,
+  ) async {
+    await _client
+        .from('profiles')
+        .update({'is_age_verified': isVerified, 'verification_url': docUrl})
+        .eq('id', userId);
   }
 }

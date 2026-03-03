@@ -70,8 +70,10 @@ class GlassContainer extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius ?? DesignSystem.borderMedium,
         child: BackdropFilter(
-          filter:
-              ImageFilter.blur(sigmaX: effectiveBlur, sigmaY: effectiveBlur),
+          filter: ImageFilter.blur(
+            sigmaX: effectiveBlur,
+            sigmaY: effectiveBlur,
+          ),
           child: Semantics(
             container: true,
             child: Container(
@@ -79,21 +81,25 @@ class GlassContainer extends StatelessWidget {
               height: height,
               padding: padding,
               decoration: BoxDecoration(
-                color: color?.withValues(
+                color:
+                    color?.withValues(
                       alpha: Theme.of(context).brightness == Brightness.dark
                           ? (effectiveOpacity - 0.05).clamp(0.0, 1.0)
                           : effectiveOpacity,
                     ) ??
                     (Theme.of(context).brightness == Brightness.dark
                         ? Colors.black.withValues(
-                            alpha: (effectiveOpacity - 0.05).clamp(0.0, 1.0))
+                            alpha: (effectiveOpacity - 0.05).clamp(0.0, 1.0),
+                          )
                         : Colors.white.withValues(alpha: effectiveOpacity)),
                 borderRadius: borderRadius ?? DesignSystem.borderMedium,
-                border: border ??
+                border:
+                    border ??
                     Border.all(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? AppColors.primary.withValues(
-                              alpha: (0.3 + (meshStress * 0.2)).clamp(0.0, 1.0))
+                              alpha: (0.3 + (meshStress * 0.2)).clamp(0.0, 1.0),
+                            )
                           : Colors.white.withValues(alpha: 0.2),
                       width: 1.5 + (meshStress * 1.5),
                     ),
@@ -102,10 +108,12 @@ class GlassContainer extends StatelessWidget {
                   end: Alignment.bottomRight,
                   colors: Theme.of(context).brightness == Brightness.dark
                       ? [
-                          AppColors.primary
-                              .withValues(alpha: 0.1 + (meshStress * 0.1)),
-                          AppColors.deepSpace
-                              .withValues(alpha: 0.8 + (meshStress * 0.1)),
+                          AppColors.primary.withValues(
+                            alpha: 0.1 + (meshStress * 0.1),
+                          ),
+                          AppColors.deepSpace.withValues(
+                            alpha: 0.8 + (meshStress * 0.1),
+                          ),
                         ]
                       : [
                           Colors.white.withValues(alpha: 0.4),
@@ -116,18 +124,18 @@ class GlassContainer extends StatelessWidget {
                     ? [
                         BoxShadow(
                           color: AppColors.primary.withValues(
-                              alpha:
-                                  (0.05 + (meshStress * 0.1)).clamp(0.0, 1.0)),
+                            alpha: (0.05 + (meshStress * 0.1)).clamp(0.0, 1.0),
+                          ),
                           blurRadius: 20 + (meshStress * 20),
                           spreadRadius: -5,
-                        )
+                        ),
                       ]
                     : [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           spreadRadius: -2,
-                        )
+                        ),
                       ],
               ),
               child: child,
@@ -138,10 +146,7 @@ class GlassContainer extends StatelessWidget {
     );
 
     if (margin != null) {
-      return Padding(
-        padding: margin!,
-        child: glassWidget,
-      );
+      return Padding(padding: margin!, child: glassWidget);
     }
 
     return glassWidget;

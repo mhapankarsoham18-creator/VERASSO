@@ -18,7 +18,7 @@ class FollowRepository {
 
   /// Creates a [FollowRepository] instance.
   FollowRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   /// Follows a user by creating a follow relationship.
   Future<void> followUser({

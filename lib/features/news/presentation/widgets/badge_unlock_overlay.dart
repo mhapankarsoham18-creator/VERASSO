@@ -52,13 +52,13 @@ class _BadgeUnlockOverlayState extends State<BadgeUnlockOverlay> {
               ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.5),
               const SizedBox(height: 8),
               Text(
-                widget.level.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 42,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                ),
-              )
+                    widget.level.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  )
                   .animate()
                   .fadeIn(delay: 400.ms)
                   .scale(begin: const Offset(0.8, 0.8)),
@@ -66,10 +66,7 @@ class _BadgeUnlockOverlayState extends State<BadgeUnlockOverlay> {
               Text(
                 _getCongratulationText(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white54,
-                ),
+                style: const TextStyle(fontSize: 16, color: Colors.white54),
               ).animate().fadeIn(delay: 600.ms),
               const SizedBox(height: 48),
               const GlassContainer(
@@ -100,51 +97,71 @@ class _BadgeUnlockOverlayState extends State<BadgeUnlockOverlay> {
     switch (widget.level.toLowerCase()) {
       case 'editor':
         return Container(
-          padding: const EdgeInsets.all(40),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                  color: color.withValues(alpha: 0.5),
-                  blurRadius: 40,
-                  spreadRadius: 10),
-            ],
-          ),
-          child: const Icon(LucideIcons.crown, size: 80, color: Colors.white),
-        )
+              padding: const EdgeInsets.all(40),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.5),
+                    blurRadius: 40,
+                    spreadRadius: 10,
+                  ),
+                ],
+              ),
+              child: const Icon(
+                LucideIcons.crown,
+                size: 80,
+                color: Colors.white,
+              ),
+            )
             .animate(onPlay: (c) => c.repeat())
             .shimmer(duration: 2.seconds, color: Colors.white24)
             .scale(duration: 1.seconds, curve: Curves.elasticOut)
             .shake(hz: 2);
 
       case 'senior':
-        return const Icon(LucideIcons.award,
-                size: 80, color: Colors.purpleAccent)
+        return const Icon(
+              LucideIcons.award,
+              size: 80,
+              color: Colors.purpleAccent,
+            )
             .animate()
             .scale(duration: 800.ms, curve: Curves.easeOutBack)
             .rotate(begin: -0.1, end: 0)
             .boxShadow(
-                begin: const BoxShadow(blurRadius: 0),
-                end: const BoxShadow(color: Colors.purple, blurRadius: 30));
+              begin: const BoxShadow(blurRadius: 0),
+              end: const BoxShadow(color: Colors.purple, blurRadius: 30),
+            );
 
       case 'staff':
-        return const Icon(LucideIcons.shieldCheck,
-                size: 80, color: Colors.blueAccent)
+        return const Icon(
+              LucideIcons.shieldCheck,
+              size: 80,
+              color: Colors.blueAccent,
+            )
             .animate()
             .slideY(
-                begin: 1, end: 0, duration: 600.ms, curve: Curves.easeOutBack)
+              begin: 1,
+              end: 0,
+              duration: 600.ms,
+              curve: Curves.easeOutBack,
+            )
             .fadeIn();
 
       case 'junior':
       default:
-        return const Icon(LucideIcons.medal,
-                size: 80, color: Colors.greenAccent)
+        return const Icon(
+              LucideIcons.medal,
+              size: 80,
+              color: Colors.greenAccent,
+            )
             .animate()
             .scale(
-                begin: const Offset(0, 0),
-                end: const Offset(1, 1),
-                duration: 500.ms,
-                curve: Curves.elasticOut)
+              begin: const Offset(0, 0),
+              end: const Offset(1, 1),
+              duration: 500.ms,
+              curve: Curves.elasticOut,
+            )
             .tint(color: Colors.green);
     }
   }

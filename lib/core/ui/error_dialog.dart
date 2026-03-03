@@ -40,11 +40,7 @@ class ErrorDialog extends StatelessWidget {
           Icon(Icons.error_outline, color: Colors.red[400]),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
           ),
         ],
       ),
@@ -53,10 +49,7 @@ class ErrorDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            Text(message, style: Theme.of(context).textTheme.bodyMedium),
             if (showDetails && details != null) ...[
               const SizedBox(height: 16),
               Container(
@@ -69,9 +62,9 @@ class ErrorDialog extends StatelessWidget {
                 child: Text(
                   details!,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey[700],
-                        fontFamily: 'monospace',
-                      ),
+                    color: Colors.grey[700],
+                    fontFamily: 'monospace',
+                  ),
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                 ),

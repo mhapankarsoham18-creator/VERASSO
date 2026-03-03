@@ -43,8 +43,10 @@ class PasswordHashingService {
     try {
       // Bcrypt automatically generates unique salt and embeds it in hash
       // Work factor of 12 means 2^12 = 4096 iterations
-      final hashedPassword =
-          BCrypt.hashpw(password, BCrypt.gensalt(logRounds: workFactor));
+      final hashedPassword = BCrypt.hashpw(
+        password,
+        BCrypt.gensalt(logRounds: workFactor),
+      );
 
       return hashedPassword;
     } catch (e) {
@@ -91,7 +93,9 @@ class PasswordHashingService {
   ///
   /// Returns: true if password matches
   static Future<bool> verifyPassword(
-      String password, String hashedPassword) async {
+    String password,
+    String hashedPassword,
+  ) async {
     try {
       // BCrypt.checkpw uses constant-time comparison to prevent timing attacks
       return BCrypt.checkpw(password, hashedPassword);

@@ -40,8 +40,8 @@ void main() {
     mockCourseRepository.getPublishedCoursesStub = () async => [];
     mockCommunityRepository.searchCommunitiesStub = (query) async => [];
     mockTalentProfileRepository.searchMentorsStub = (query) async => [];
-    mockNewsRepository.watchArticlesStub =
-        ({featuredOnly = false, subject}) => Stream.value([]);
+    mockNewsRepository.watchArticlesStub = ({featuredOnly = false, subject}) =>
+        Stream.value([]);
   });
 
   Widget createSubject() {
@@ -52,21 +52,21 @@ void main() {
         communityRepositoryProvider.overrideWithValue(mockCommunityRepository),
         courseRepositoryProvider.overrideWithValue(mockCourseRepository),
         profileRepositoryProvider.overrideWithValue(mockProfileRepository),
-        talentProfileRepositoryProvider
-            .overrideWithValue(mockTalentProfileRepository),
+        talentProfileRepositoryProvider.overrideWithValue(
+          mockTalentProfileRepository,
+        ),
         newsRepositoryProvider.overrideWithValue(mockNewsRepository),
         // Disable infinite animations in LiquidBackground
         themeControllerProvider.overrideWith((ref) => MockThemeController()),
       ],
-      child: const MaterialApp(
-        home: DiscoverScreen(),
-      ),
+      child: const MaterialApp(home: DiscoverScreen()),
     );
   }
 
   group('DiscoverScreen (SearchScreen) Widget Tests', () {
-    testWidgets('renders search bar and initial sections',
-        (WidgetTester tester) async {
+    testWidgets('renders search bar and initial sections', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createSubject());
       await tester.pumpAndSettle();
 
@@ -75,8 +75,9 @@ void main() {
       expect(find.text('Explore Community'), findsOneWidget);
     });
 
-    testWidgets('entering text in search bar triggers search',
-        (WidgetTester tester) async {
+    testWidgets('entering text in search bar triggers search', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createSubject());
       await tester.pumpAndSettle();
 
@@ -91,24 +92,26 @@ void main() {
 
 class MockNewsRepository extends Fake implements NewsRepository {
   Stream<List<NewsArticle>> Function({String? subject, bool featuredOnly})?
-      watchArticlesStub;
+  watchArticlesStub;
 
   @override
-  Stream<List<NewsArticle>> watchArticles(
-          {String? subject, bool featuredOnly = false}) =>
+  Stream<List<NewsArticle>> watchArticles({
+    String? subject,
+    bool featuredOnly = false,
+  }) =>
       watchArticlesStub?.call(subject: subject, featuredOnly: featuredOnly) ??
       Stream.value([]);
 }
 
 class MockSearchController extends sc.SearchController {
   MockSearchController()
-      : super(
-          MockProfileRepository(),
-          MockFeedRepository(),
-          MockCourseRepository(),
-          MockTalentProfileRepository(),
-          MockCommunityRepository(),
-        );
+    : super(
+        MockProfileRepository(),
+        MockFeedRepository(),
+        MockCourseRepository(),
+        MockTalentProfileRepository(),
+        MockCommunityRepository(),
+      );
 
   @override
   Future<void> search(String query) async {

@@ -33,9 +33,7 @@ class _GroupCard extends ConsumerWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => GroupChatScreen(group: group),
-            ),
+            MaterialPageRoute(builder: (_) => GroupChatScreen(group: group)),
           );
         },
         child: Row(
@@ -65,8 +63,11 @@ class _GroupCard extends ConsumerWidget {
                       ),
                       if (group.isPrivate) ...[
                         const SizedBox(width: 8),
-                        const Icon(LucideIcons.lock,
-                            size: 14, color: Colors.white70),
+                        const Icon(
+                          LucideIcons.lock,
+                          size: 14,
+                          color: Colors.white70,
+                        ),
                       ],
                     ],
                   ),
@@ -85,10 +86,7 @@ class _GroupCard extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     '${group.memberCount} members',
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Colors.white54,
-                    ),
+                    style: const TextStyle(fontSize: 11, color: Colors.white54),
                   ),
                 ],
               ),
@@ -110,9 +108,9 @@ class _GroupCard extends ConsumerWidget {
                       (context as Element).markNeedsBuild();
                     } catch (e) {
                       if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: $e')),
-                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
                       }
                     }
                   },
@@ -154,8 +152,10 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text('Error: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red)),
+                child: Text(
+                  'Error: ${snapshot.error}',
+                  style: const TextStyle(color: Colors.red),
+                ),
               );
             }
 
@@ -170,8 +170,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(LucideIcons.users,
-                        size: 64, color: Colors.white38),
+                    const Icon(
+                      LucideIcons.users,
+                      size: 64,
+                      color: Colors.white38,
+                    ),
                     const SizedBox(height: 16),
                     const Text(
                       'No groups yet',
@@ -190,7 +193,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
             return ListView.builder(
               padding: const EdgeInsets.only(
-                  top: 100, left: 16, right: 16, bottom: 20),
+                top: 100,
+                left: 16,
+                right: 16,
+                bottom: 20,
+              ),
               itemCount: groups.length,
               itemBuilder: (context, index) {
                 return _GroupCard(group: groups[index]);
@@ -264,9 +271,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   setState(() {}); // Refresh list
                 } catch (e) {
                   if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
                 }
               },
               child: const Text('Create'),

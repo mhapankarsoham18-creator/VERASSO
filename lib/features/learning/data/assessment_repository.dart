@@ -10,8 +10,10 @@ final assessmentRepositoryProvider = Provider((ref) => AssessmentRepository());
 /// Provider for fetching certificates earned by a user.
 final userCertificatesProvider =
     FutureProvider.family<List<Certificate>, String>((ref, userId) {
-  return ref.watch(assessmentRepositoryProvider).getStudentCertificates(userId);
-});
+      return ref
+          .watch(assessmentRepositoryProvider)
+          .getStudentCertificates(userId);
+    });
 
 /// Repository for managing assessments, including quizzes, questions, and certificates.
 class AssessmentRepository {
@@ -19,7 +21,7 @@ class AssessmentRepository {
 
   /// Creates an [AssessmentRepository] instance.
   AssessmentRepository({SupabaseClient? client})
-      : _client = client ?? SupabaseService.client;
+    : _client = client ?? SupabaseService.client;
 
   // --- Quiz Management ---
 
@@ -68,8 +70,10 @@ class AssessmentRepository {
 
   /// Retrieves all questions associated with a specific quiz.
   Future<List<Question>> getQuizQuestions(String quizId) async {
-    final response =
-        await _client.from('questions').select().eq('quiz_id', quizId);
+    final response = await _client
+        .from('questions')
+        .select()
+        .eq('quiz_id', quizId);
 
     return (response as List).map((json) => Question.fromJson(json)).toList();
   }
@@ -89,7 +93,9 @@ class AssessmentRepository {
 
   /// Checks if a student already has a certificate for a specific course.
   Future<bool> hasCertificateForCourse(
-      String studentId, String courseId) async {
+    String studentId,
+    String courseId,
+  ) async {
     final response = await _client
         .from('certificates')
         .select('id')

@@ -30,80 +30,77 @@ void main() {
 
   group('E2E: Post Creation Flow', () {
     test(
-        'complete post creation: compose → add media → publish → appear in feed',
-        () async {
-      // Step 1: User on feed page, clicks create post button
-      expect(mockAuth.currentUser?.id, testUser.id);
+      'complete post creation: compose → add media → publish → appear in feed',
+      () async {
+        // Step 1: User on feed page, clicks create post button
+        expect(mockAuth.currentUser?.id, testUser.id);
 
-      // Step 2: Navigate to post creation screen
-      // (UI state management would handle navigation)
-      const postContent = 'Just finished my Flutter project! 🚀';
+        // Step 2: Navigate to post creation screen
+        // (UI state management would handle navigation)
+        const postContent = 'Just finished my Flutter project! 🚀';
 
-      // Step 3: User enters text content
-      expect(postContent.length, greaterThan(0));
+        // Step 3: User enters text content
+        expect(postContent.length, greaterThan(0));
 
-      // Step 4: User selects 2 images from device
-      final imageUrls = [
-        'file:///data/user/0/app/image1.jpg',
-        'file:///data/user/0/app/image2.jpg',
-      ];
+        // Step 4: User selects 2 images from device
+        final imageUrls = [
+          'file:///data/user/0/app/image1.jpg',
+          'file:///data/user/0/app/image2.jpg',
+        ];
 
-      expect(imageUrls.length, 2);
+        expect(imageUrls.length, 2);
 
-      // Step 5: Images upload to storage
-      final storageBuilder = MockSupabaseStorageBucket();
-      mockSupabase.setStorageBucket('posts', storageBuilder);
+        // Step 5: Images upload to storage
+        final storageBuilder = MockSupabaseStorageBucket();
+        mockSupabase.setStorageBucket('posts', storageBuilder);
 
-      // Simulate upload completing
-      final uploadedUrls = [
-        'https://example.com/storage/posts/img-1.jpg',
-        'https://example.com/storage/posts/img-2.jpg',
-      ];
+        // Simulate upload completing
+        final uploadedUrls = [
+          'https://example.com/storage/posts/img-1.jpg',
+          'https://example.com/storage/posts/img-2.jpg',
+        ];
 
-      expect(uploadedUrls.length, 2);
+        expect(uploadedUrls.length, 2);
 
-      // Step 6: User clicks publish
-      final postsBuilder = MockSupabaseQueryBuilder(selectResponse: null);
-      mockSupabase.setQueryBuilder('posts', postsBuilder);
+        // Step 6: User clicks publish
+        final postsBuilder = MockSupabaseQueryBuilder(selectResponse: null);
+        mockSupabase.setQueryBuilder('posts', postsBuilder);
 
-      await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: postContent,
-        ),
-        completes,
-      );
+        await expectLater(
+          feedRepository.createPost(userId: testUser.id, content: postContent),
+          completes,
+        );
 
-      expect(mockSupabase.lastInsertTable, 'posts');
+        expect(mockSupabase.lastInsertTable, 'posts');
 
-      // Step 7: Publish confirmation shown
-      // (UI would dismiss keyboard, show success)
+        // Step 7: Publish confirmation shown
+        // (UI would dismiss keyboard, show success)
 
-      // Step 8: Navigate back to feed
-      // User sees their post at top of feed
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'new-post-1',
-          'user_id': testUser.id,
-          'content': postContent,
-          'media_urls': uploadedUrls,
-          'created_at': DateTime.now().toIso8601String(),
-          'like_count': 0,
-          'comment_count': 0,
-          'profiles': {
-            'full_name': 'Creator User',
-            'avatar_url': null,
-          }
-        }
-      ]);
-      mockSupabase.setQueryBuilder('posts', feedBuilder);
+        // Step 8: Navigate back to feed
+        // User sees their post at top of feed
+        final feedBuilder = MockSupabaseQueryBuilder(
+          selectResponse: [
+            {
+              'id': 'new-post-1',
+              'user_id': testUser.id,
+              'content': postContent,
+              'media_urls': uploadedUrls,
+              'created_at': DateTime.now().toIso8601String(),
+              'like_count': 0,
+              'comment_count': 0,
+              'profiles': {'full_name': 'Creator User', 'avatar_url': null},
+            },
+          ],
+        );
+        mockSupabase.setQueryBuilder('posts', feedBuilder);
 
-      final feedPosts = await feedRepository.getFeed();
+        final feedPosts = await feedRepository.getFeed();
 
-      expect(feedPosts, isNotEmpty);
-      expect(feedPosts[0].content, postContent);
-      expect(feedPosts[0].mediaUrls.length, 2);
-    });
+        expect(feedPosts, isNotEmpty);
+        expect(feedPosts[0].content, postContent);
+        expect(feedPosts[0].mediaUrls.length, 2);
+      },
+    );
 
     test('post creation with single image', () async {
       const postContent = 'Single image post';
@@ -112,10 +109,7 @@ void main() {
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: postContent,
-        ),
+        feedRepository.createPost(userId: testUser.id, content: postContent),
         completes,
       );
 
@@ -129,10 +123,7 @@ void main() {
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: postContent,
-        ),
+        feedRepository.createPost(userId: testUser.id, content: postContent),
         completes,
       );
 
@@ -146,10 +137,7 @@ void main() {
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: longContent,
-        ),
+        feedRepository.createPost(userId: testUser.id, content: longContent),
         completes,
       );
     });
@@ -189,10 +177,7 @@ void main() {
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       await expectLater(
-        feedRepository.createPost(
-          userId: testUser.id,
-          content: postContent,
-        ),
+        feedRepository.createPost(userId: testUser.id, content: postContent),
         completes,
       );
     });
@@ -203,10 +188,7 @@ void main() {
       final likesBuilder = MockSupabaseQueryBuilder(selectResponse: null);
       mockSupabase.setQueryBuilder('likes', likesBuilder);
 
-      await expectLater(
-        feedRepository.likePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.likePost('post-1'), completes);
 
       expect(mockSupabase.lastInsertTable, 'likes');
     });
@@ -215,10 +197,7 @@ void main() {
       final likesBuilder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('likes', likesBuilder);
 
-      await expectLater(
-        feedRepository.unlikePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.unlikePost('post-1'), completes);
     });
 
     test('comment on post shows immediately', () async {
@@ -233,14 +212,16 @@ void main() {
       );
 
       // Refresh comments to verify
-      final refreshBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'comment-1',
-          'post_id': 'post-1',
-          'content': comment,
-          'user_id': testUser.id,
-        }
-      ]);
+      final refreshBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'comment-1',
+            'post_id': 'post-1',
+            'content': comment,
+            'user_id': testUser.id,
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('comments', refreshBuilder);
 
       expect(true, true);
@@ -264,10 +245,7 @@ void main() {
       final postsBuilder = MockSupabaseQueryBuilder(selectResponse: []);
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
-      await expectLater(
-        feedRepository.deletePost('post-1'),
-        completes,
-      );
+      await expectLater(feedRepository.deletePost('post-1'), completes);
 
       // Feed refresh should not show deleted post
       final updatedFeed = MockSupabaseQueryBuilder(selectResponse: []);
@@ -368,14 +346,16 @@ void main() {
     test('feed refresh loads new post within 2 seconds', () async {
       final stopwatch = Stopwatch()..start();
 
-      final feedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'new-post-1',
-          'user_id': testUser.id,
-          'content': 'New post',
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final feedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'new-post-1',
+            'user_id': testUser.id,
+            'content': 'New post',
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', feedBuilder);
 
       await feedRepository.getFeed();
@@ -422,14 +402,16 @@ void main() {
       );
 
       // Followers' feeds should update
-      final followerFeedBuilder = MockSupabaseQueryBuilder(selectResponse: [
-        {
-          'id': 'post-for-followers',
-          'user_id': testUser.id,
-          'content': postContent,
-          'created_at': DateTime.now().toIso8601String(),
-        }
-      ]);
+      final followerFeedBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [
+          {
+            'id': 'post-for-followers',
+            'user_id': testUser.id,
+            'content': postContent,
+            'created_at': DateTime.now().toIso8601String(),
+          },
+        ],
+      );
       mockSupabase.setQueryBuilder('posts', followerFeedBuilder);
 
       expect(true, true);
@@ -449,8 +431,10 @@ void main() {
 
   group('E2E: Post Creation - Error Recovery', () {
     test('network error during publish shows retry button', () async {
-      final postsBuilder =
-          MockSupabaseQueryBuilder(selectResponse: [], shouldThrow: true);
+      final postsBuilder = MockSupabaseQueryBuilder(
+        selectResponse: [],
+        shouldThrow: true,
+      );
       mockSupabase.setQueryBuilder('posts', postsBuilder);
 
       // Should handle gracefully with retry option

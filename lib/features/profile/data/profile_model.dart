@@ -120,8 +120,9 @@ class Profile {
       mentorVerificationStatus: json['mentor_verification_status'] ?? 'none',
       fcmToken: json['fcm_token'],
       journalistLevel: json['journalist_level'],
-      privacySettings:
-          Map<String, dynamic>.from(json['privacy_settings'] ?? {}),
+      privacySettings: Map<String, dynamic>.from(
+        json['privacy_settings'] ?? {},
+      ),
       email: json['email'],
     );
   }

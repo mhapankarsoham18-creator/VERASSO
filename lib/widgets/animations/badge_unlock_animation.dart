@@ -61,19 +61,25 @@ class SpecificBadgeAnimations {
                 offset: Offset(0, -yOffset + 100), // Start lower, go up
                 child: Transform.rotate(
                   angle: rotate,
-                  child: const Icon(LucideIcons.graduationCap,
-                      size: 100, color: Colors.yellowAccent),
+                  child: const Icon(
+                    LucideIcons.graduationCap,
+                    size: 100,
+                    color: Colors.yellowAccent,
+                  ),
                 ),
               ),
               if (t > 0.8)
                 FadeTransition(
                   opacity: AlwaysStoppedAnimation((t - 0.8) * 5),
-                  child: const Text('Expert!',
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
-                )
+                  child: const Text(
+                    'Expert!',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
             ],
           ),
         );
@@ -95,12 +101,14 @@ class SpecificBadgeAnimations {
               left: 100,
               top: 200 - (controller.value * 200),
               child: Opacity(
-                opacity:
-                    (math.sin(controller.value * 3.14 * 4) > 0) ? 1.0 : 0.0,
-                child: const Icon(LucideIcons.ban,
-                    size: 50,
-                    color:
-                        Colors.white), // Using standard icon as footprint proxy
+                opacity: (math.sin(controller.value * 3.14 * 4) > 0)
+                    ? 1.0
+                    : 0.0,
+                child: const Icon(
+                  LucideIcons.ban,
+                  size: 50,
+                  color: Colors.white,
+                ), // Using standard icon as footprint proxy
               ),
             ),
             // Right foot
@@ -111,8 +119,11 @@ class SpecificBadgeAnimations {
                 opacity: (math.sin(controller.value * 3.14 * 4 + 3.14) > 0)
                     ? 1.0
                     : 0.0,
-                child: const Icon(LucideIcons.ban,
-                    size: 50, color: Colors.white12),
+                child: const Icon(
+                  LucideIcons.ban,
+                  size: 50,
+                  color: Colors.white12,
+                ),
               ),
             ),
             Center(
@@ -121,14 +132,20 @@ class SpecificBadgeAnimations {
                 child: const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.footprints,
-                        size: 100, color: Colors.orangeAccent),
+                    Icon(
+                      LucideIcons.footprints,
+                      size: 100,
+                      color: Colors.orangeAccent,
+                    ),
                     SizedBox(height: 10),
-                    Text('First Steps!',
-                        style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                    Text(
+                      'First Steps!',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -156,16 +173,22 @@ class SpecificBadgeAnimations {
               Transform.rotate(
                 angle: angle,
                 alignment: Alignment.bottomRight,
-                child: const Icon(LucideIcons.wrench,
-                    size: 120, color: Colors.brown),
+                child: const Icon(
+                  LucideIcons.wrench,
+                  size: 120,
+                  color: Colors.brown,
+                ),
               ),
               const SizedBox(height: 20),
               if (swing.abs() > 0.8)
-                const Text('BAM!',
-                    style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orange)),
+                const Text(
+                  'BAM!',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange,
+                  ),
+                ),
             ],
           ),
         );
@@ -191,11 +214,14 @@ class SpecificBadgeAnimations {
               children: [
                 Icon(LucideIcons.bookOpen, size: 120, color: Colors.blueAccent),
                 SizedBox(height: 20),
-                Text('Scholar!',
-                    style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                Text(
+                  'Scholar!',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -219,11 +245,14 @@ class SpecificBadgeAnimations {
               children: [
                 Icon(LucideIcons.flame, size: 120, color: Colors.deepOrange),
                 SizedBox(height: 10),
-                Text('Week Warrior!',
-                    style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orangeAccent)),
+                Text(
+                  'Week Warrior!',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orangeAccent,
+                  ),
+                ),
               ],
             ),
           ),
@@ -420,11 +449,9 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
       curve: Curves.elasticOut,
     );
 
-    _rotateAnimation =
-        Tween<double>(begin: 0, end: 2 * 3.14159).animate(CurvedAnimation(
-      parent: _rotateController,
-      curve: Curves.easeInOut,
-    ));
+    _rotateAnimation = Tween<double>(begin: 0, end: 2 * 3.14159).animate(
+      CurvedAnimation(parent: _rotateController, curve: Curves.easeInOut),
+    );
 
     _fadeAnimation = CurvedAnimation(
       parent: _fadeController,
@@ -486,9 +513,11 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
               final angle = (index / 20) * 2 * 3.14159 + _rotateAnimation.value;
               const radius = 150.0;
               return Positioned(
-                left: MediaQuery.of(context).size.width / 2 +
+                left:
+                    MediaQuery.of(context).size.width / 2 +
                     radius * math.cos(angle),
-                top: MediaQuery.of(context).size.height / 2 +
+                top:
+                    MediaQuery.of(context).size.height / 2 +
                     radius * math.sin(angle),
                 child: Opacity(
                   opacity:

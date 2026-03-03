@@ -16,7 +16,7 @@ class UserPasswordSecurityService {
   /// If [encryption] is not provided, it initializes a new [EncryptionService]
   /// using the provided [SupabaseClient].
   UserPasswordSecurityService(this._supabase, {EncryptionService? encryption})
-      : _encryption = encryption ?? EncryptionService(client: _supabase);
+    : _encryption = encryption ?? EncryptionService(client: _supabase);
 
   // ============================================================
   // PASSWORD MANAGEMENT
@@ -31,12 +31,15 @@ class UserPasswordSecurityService {
     final tokenHash = _hashToken(token);
 
     // Store hashed token in database
-    await _supabase.rpc('create_recovery_token', params: {
-      'p_user_id': userId,
-      'p_token_hash': tokenHash,
-      'p_token_type': 'password_reset',
-      'p_expires_in_hours': 24,
-    });
+    await _supabase.rpc(
+      'create_recovery_token',
+      params: {
+        'p_user_id': userId,
+        'p_token_hash': tokenHash,
+        'p_token_type': 'password_reset',
+        'p_expires_in_hours': 24,
+      },
+    );
 
     // Return plain token (only shown once to user)
     return token;
@@ -47,11 +50,14 @@ class UserPasswordSecurityService {
     final encData = await _encryption.encryptMessage(phoneNumber, userId);
     final encryptedPhone = jsonEncode(encData);
 
-    await _supabase.rpc('enable_2fa', params: {
-      'p_user_id': userId,
-      'p_method': 'sms',
-      'p_phone_number': encryptedPhone,
-    });
+    await _supabase.rpc(
+      'enable_2fa',
+      params: {
+        'p_user_id': userId,
+        'p_method': 'sms',
+        'p_phone_number': encryptedPhone,
+      },
+    );
   }
 
   /// Enable TOTP 2FA
@@ -60,11 +66,14 @@ class UserPasswordSecurityService {
     final encData = await _encryption.encryptMessage(totpSecret, userId);
     final encryptedSecret = jsonEncode(encData);
 
-    await _supabase.rpc('enable_2fa', params: {
-      'p_user_id': userId,
-      'p_method': 'totp',
-      'p_secret': encryptedSecret,
-    });
+    await _supabase.rpc(
+      'enable_2fa',
+      params: {
+        'p_user_id': userId,
+        'p_method': 'totp',
+        'p_secret': encryptedSecret,
+      },
+    );
 
     return totpSecret;
   }
@@ -75,7 +84,8 @@ class UserPasswordSecurityService {
 
   /// Get password change history
   Future<List<Map<String, dynamic>>> getPasswordChangeHistory(
-      String userId) async {
+    String userId,
+  ) async {
     final response = await _supabase
         .from('password_change_log')
         .select()
@@ -155,12 +165,15 @@ class UserPasswordSecurityService {
     await setPassword(userId: userId, password: newPassword);
 
     // Log reset
-    await _supabase.rpc('log_password_change', params: {
-      'p_user_id': userId,
-      'p_change_type': 'reset',
-      'p_new_strength': _calculatePasswordStrength(newPassword),
-      'p_reason': 'Password reset via recovery token',
-    });
+    await _supabase.rpc(
+      'log_password_change',
+      params: {
+        'p_user_id': userId,
+        'p_change_type': 'reset',
+        'p_new_strength': _calculatePasswordStrength(newPassword),
+        'p_reason': 'Password reset via recovery token',
+      },
+    );
   }
 
   // ============================================================
@@ -194,20 +207,26 @@ class UserPasswordSecurityService {
     };
 
     // Store in database using secure function
-    await _supabase.rpc('set_user_password', params: {
-      'p_user_id': userId,
-      'p_password_hash': passwordHash,
-      'p_strength_score': strength,
-      'p_password_length': password.length,
-      'p_metadata': metadata,
-    });
+    await _supabase.rpc(
+      'set_user_password',
+      params: {
+        'p_user_id': userId,
+        'p_password_hash': passwordHash,
+        'p_strength_score': strength,
+        'p_password_length': password.length,
+        'p_metadata': metadata,
+      },
+    );
 
     // Log password change
-    await _supabase.rpc('log_password_change', params: {
-      'p_user_id': userId,
-      'p_change_type': 'created',
-      'p_new_strength': strength,
-    });
+    await _supabase.rpc(
+      'log_password_change',
+      params: {
+        'p_user_id': userId,
+        'p_change_type': 'created',
+        'p_new_strength': strength,
+      },
+    );
   }
 
   /// Set security question and answer
@@ -219,8 +238,9 @@ class UserPasswordSecurityService {
   }) async {
     // Hash answer with bcrypt (case-insensitive)
     final normalizedAnswer = answer.toLowerCase().trim();
-    final answerHash =
-        await PasswordHashingService.hashPassword(normalizedAnswer);
+    final answerHash = await PasswordHashingService.hashPassword(
+      normalizedAnswer,
+    );
 
     await _supabase.from('user_security_questions').upsert({
       'user_id': userId,
@@ -243,16 +263,23 @@ class UserPasswordSecurityService {
     }
 
     // Check if new password was used before (prevents reuse)
-    final newPasswordHash =
-        await PasswordHashingService.hashPassword(newPassword);
-    final isReused = await _supabase.rpc('is_password_reused', params: {
-      'p_user_id': userId,
-      'p_new_password_hash': newPasswordHash,
-    }) as bool;
+    final newPasswordHash = await PasswordHashingService.hashPassword(
+      newPassword,
+    );
+    final isReused =
+        await _supabase.rpc(
+              'is_password_reused',
+              params: {
+                'p_user_id': userId,
+                'p_new_password_hash': newPasswordHash,
+              },
+            )
+            as bool;
 
     if (isReused) {
       throw Exception(
-          'Password was used previously. Please choose a different password.');
+        'Password was used previously. Please choose a different password.',
+      );
     }
 
     // Get old strength
@@ -262,13 +289,16 @@ class UserPasswordSecurityService {
     await setPassword(userId: userId, password: newPassword);
 
     // Log change
-    await _supabase.rpc('log_password_change', params: {
-      'p_user_id': userId,
-      'p_change_type': 'updated',
-      'p_old_strength': oldStrength,
-      'p_new_strength': _calculatePasswordStrength(newPassword),
-      'p_reason': 'User-initiated password change',
-    });
+    await _supabase.rpc(
+      'log_password_change',
+      params: {
+        'p_user_id': userId,
+        'p_change_type': 'updated',
+        'p_old_strength': oldStrength,
+        'p_new_strength': _calculatePasswordStrength(newPassword),
+        'p_reason': 'User-initiated password change',
+      },
+    );
   }
 
   // ============================================================
@@ -301,9 +331,12 @@ class UserPasswordSecurityService {
   Future<String?> verifyPasswordResetToken(String token) async {
     final tokenHash = _hashToken(token);
 
-    final response = await _supabase.rpc('verify_recovery_token', params: {
-      'p_token_hash': tokenHash,
-    }) as Map<String, dynamic>;
+    final response =
+        await _supabase.rpc(
+              'verify_recovery_token',
+              params: {'p_token_hash': tokenHash},
+            )
+            as Map<String, dynamic>;
 
     if (response['valid'] == true) {
       return response['user_id'] as String;
@@ -330,7 +363,9 @@ class UserPasswordSecurityService {
       final normalizedAnswer = answer.toLowerCase().trim();
 
       return await PasswordHashingService.verifyPassword(
-          normalizedAnswer, storedHash);
+        normalizedAnswer,
+        storedHash,
+      );
     } catch (e) {
       return false;
     }

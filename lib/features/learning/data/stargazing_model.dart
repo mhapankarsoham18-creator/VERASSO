@@ -61,10 +61,12 @@ class StargazingLog {
       notes: json['notes'],
       mediaUrl: json['media_url'],
       createdAt: DateTime.parse(json['created_at']),
-      creatorName:
-          json['profiles'] != null ? json['profiles']['full_name'] : null,
-      creatorAvatar:
-          json['profiles'] != null ? json['profiles']['avatar_url'] : null,
+      creatorName: json['profiles'] != null
+          ? json['profiles']['full_name']
+          : null,
+      creatorAvatar: json['profiles'] != null
+          ? json['profiles']['avatar_url']
+          : null,
     );
   }
 

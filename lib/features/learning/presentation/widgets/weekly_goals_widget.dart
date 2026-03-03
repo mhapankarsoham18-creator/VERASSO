@@ -62,8 +62,10 @@ class _WeeklyGoalsWidgetState extends State<WeeklyGoalsWidget> {
                 itemCount: _goals.length,
                 itemBuilder: (context, index) {
                   final goal = _goals[index];
-                  final progress =
-                      (goal.currentValue / goal.targetValue).clamp(0.0, 1.0);
+                  final progress = (goal.currentValue / goal.targetValue).clamp(
+                    0.0,
+                    1.0,
+                  );
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
@@ -120,8 +122,10 @@ class _WeeklyGoalsWidgetState extends State<WeeklyGoalsWidget> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Set New Weekly Goal',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text(
+              'Set New Weekly Goal',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 20),
             ListTile(
               leading: const Icon(LucideIcons.clock, color: Colors.blue),
@@ -136,8 +140,10 @@ class _WeeklyGoalsWidgetState extends State<WeeklyGoalsWidget> {
               onTap: () => Navigator.pop(context, 'lessons_completed'),
             ),
             ListTile(
-              leading:
-                  const Icon(LucideIcons.checkCircle, color: Colors.orange),
+              leading: const Icon(
+                LucideIcons.checkCircle,
+                color: Colors.orange,
+              ),
               title: const Text('Quizzes Passed'),
               subtitle: const Text('Target: 3 quizzes'),
               onTap: () => Navigator.pop(context, 'quizzes_passed'),

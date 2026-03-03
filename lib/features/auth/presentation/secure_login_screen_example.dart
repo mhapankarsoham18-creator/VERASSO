@@ -100,14 +100,19 @@ class _SecureLoginScreenState extends ConsumerState<SecureLoginScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(LucideIcons.alertCircle,
-                          color: Colors.red, size: 20),
+                      const Icon(
+                        LucideIcons.alertCircle,
+                        color: Colors.red,
+                        size: 20,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           _errorMessage!,
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 12),
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -163,8 +168,11 @@ class _SecureLoginScreenState extends ConsumerState<SecureLoginScreen> {
                 color: Colors.blue.withValues(alpha: 0.1),
                 child: const Column(
                   children: [
-                    Icon(LucideIcons.shield,
-                        color: Colors.blueAccent, size: 32),
+                    Icon(
+                      LucideIcons.shield,
+                      color: Colors.blueAccent,
+                      size: 32,
+                    ),
                     SizedBox(height: 12),
                     Text(
                       'Protected by',
@@ -184,18 +192,24 @@ class _SecureLoginScreenState extends ConsumerState<SecureLoginScreen> {
                       spacing: 8,
                       children: [
                         Chip(
-                          label: Text('Rate Limited',
-                              style: TextStyle(fontSize: 10)),
+                          label: Text(
+                            'Rate Limited',
+                            style: TextStyle(fontSize: 10),
+                          ),
                           backgroundColor: Colors.green,
                         ),
                         Chip(
-                          label: Text('Bcrypt Hashed',
-                              style: TextStyle(fontSize: 10)),
+                          label: Text(
+                            'Bcrypt Hashed',
+                            style: TextStyle(fontSize: 10),
+                          ),
                           backgroundColor: Colors.blue,
                         ),
                         Chip(
-                          label:
-                              Text('Auto-Lock', style: TextStyle(fontSize: 10)),
+                          label: Text(
+                            'Auto-Lock',
+                            style: TextStyle(fontSize: 10),
+                          ),
                           backgroundColor: Colors.purple,
                         ),
                       ],
@@ -257,20 +271,24 @@ class _SecureLoginScreenState extends ConsumerState<SecureLoginScreen> {
     } on AuthException catch (e) {
       setState(() {
         if (e.message.contains('locked')) {
-          _errorMessage = '🔒 Account locked due to multiple failed attempts.\n'
+          _errorMessage =
+              '🔒 Account locked due to multiple failed attempts.\n'
               'Please try again in 15 minutes.';
         } else if (e.message.contains('Rate limit')) {
           // Extract retry time
           final match = RegExp(r'(\d+) seconds').firstMatch(e.message);
           final seconds = match?.group(1) ?? '300';
           final minutes = (int.parse(seconds) / 60).ceil();
-          _errorMessage = '⏱️ Too many login attempts.\n'
+          _errorMessage =
+              '⏱️ Too many login attempts.\n'
               'Please wait $minutes minute(s) before trying again.';
         } else if (e.message.contains('Invalid')) {
-          _errorMessage = '❌ Invalid email or password.\n'
+          _errorMessage =
+              '❌ Invalid email or password.\n'
               'Please check your credentials.';
         } else if (e.message.contains('Authentication failed')) {
-          _errorMessage = '🚨 Security verification failed.\n'
+          _errorMessage =
+              '🚨 Security verification failed.\n'
               'Your password may need to be reset.';
         } else {
           _errorMessage = e.message;

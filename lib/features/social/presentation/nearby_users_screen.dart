@@ -35,49 +35,48 @@ class _NearbyUsersScreenState extends ConsumerState<NearbyUsersScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _nearbyUsers.isEmpty
-              ? const EmptyStateWidget(
-                  icon: LucideIcons.users,
-                  title: 'No one nearby',
-                  message:
-                      'Try moving to a more active area or check back later.',
-                )
-              : ListView.builder(
-                  itemCount: _nearbyUsers.length,
-                  itemBuilder: (context, index) {
-                    final user = _nearbyUsers[index];
-                    final distance = user['dist_meters'] != null
-                        ? (user['dist_meters'] / 1000).toStringAsFixed(1)
-                        : '?';
+          ? const EmptyStateWidget(
+              icon: LucideIcons.users,
+              title: 'No one nearby',
+              message: 'Try moving to a more active area or check back later.',
+            )
+          : ListView.builder(
+              itemCount: _nearbyUsers.length,
+              itemBuilder: (context, index) {
+                final user = _nearbyUsers[index];
+                final distance = user['dist_meters'] != null
+                    ? (user['dist_meters'] / 1000).toStringAsFixed(1)
+                    : '?';
 
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(user['full_name']?[0] ?? 'U'),
-                      ),
-                      title: Text(user['full_name'] ?? 'Unknown Explorer'),
-                      subtitle: Text('$distance km away'),
-                      trailing: IconButton(
-                        icon: const Icon(LucideIcons.messageSquare),
-                        onPressed: () {
-                          final myId = ref.read(currentUserProvider)?.id;
-                          if (myId == null) return;
-                          final otherId = user['id'] as String;
-                          final parts = [myId, otherId]..sort();
-                          final convId = 'conv_${parts.join('_')}';
+                return ListTile(
+                  leading: CircleAvatar(
+                    child: Text(user['full_name']?[0] ?? 'U'),
+                  ),
+                  title: Text(user['full_name'] ?? 'Unknown Explorer'),
+                  subtitle: Text('$distance km away'),
+                  trailing: IconButton(
+                    icon: const Icon(LucideIcons.messageSquare),
+                    onPressed: () {
+                      final myId = ref.read(currentUserProvider)?.id;
+                      if (myId == null) return;
+                      final otherId = user['id'] as String;
+                      final parts = [myId, otherId]..sort();
+                      final convId = 'conv_${parts.join('_')}';
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatDetailScreen(
-                                conversationId: convId,
-                                otherUserId: otherId,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatDetailScreen(
+                            conversationId: convId,
+                            otherUserId: otherId,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
     );
   }
 
@@ -111,7 +110,8 @@ class _NearbyUsersScreenState extends ConsumerState<NearbyUsersScreen> {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     return await Geolocator.getCurrentPosition();

@@ -17,9 +17,9 @@ class SecureAuthService {
 
   /// Creates a [SecureAuthService] with the required [SupabaseClient].
   SecureAuthService(this._supabase)
-      : _passwordSecurity = UserPasswordSecurityService(_supabase),
-        _ipService = IpService(),
-        _auditLog = AuditLogService(client: _supabase);
+    : _passwordSecurity = UserPasswordSecurityService(_supabase),
+      _ipService = IpService(),
+      _auditLog = AuditLogService(client: _supabase);
 
   // ============================================================
   // SIGNUP WITH BCRYPT
@@ -56,10 +56,7 @@ class SecureAuthService {
         .maybeSingle();
 
     if (response == null) {
-      return {
-        'attempt_count': 0,
-        'locked': false,
-      };
+      return {'attempt_count': 0, 'locked': false};
     }
 
     final lockedUntil = response['locked_until'] != null
@@ -97,7 +94,8 @@ class SecureAuthService {
   Future<void> invalidateSession(String sessionId) async {
     await _supabase
         .from('auth_sessions')
-        .update({'is_active': false}).eq('id', sessionId);
+        .update({'is_active': false})
+        .eq('id', sessionId);
   }
 
   /// Request password reset with rate limiting
@@ -107,9 +105,11 @@ class SecureAuthService {
     try {
       await _supabase.auth.resetPasswordForEmail(email);
     } catch (e, stackTrace) {
-      await SentryService.captureException(e,
-          stackTrace: stackTrace,
-          hint: 'Password reset request failed for $email');
+      await SentryService.captureException(
+        e,
+        stackTrace: stackTrace,
+        hint: 'Password reset request failed for $email',
+      );
       rethrow;
     }
   }
@@ -120,15 +120,10 @@ class SecureAuthService {
     if (userId == null) throw const AuthException('Not authenticated');
 
     // Set password in our table
-    await _passwordSecurity.setPassword(
-      userId: userId,
-      password: newPassword,
-    );
+    await _passwordSecurity.setPassword(userId: userId, password: newPassword);
 
     // Update Supabase auth
-    await _supabase.auth.updateUser(
-      UserAttributes(password: newPassword),
-    );
+    await _supabase.auth.updateUser(UserAttributes(password: newPassword));
   }
 
   // ============================================================
@@ -145,8 +140,11 @@ class SecureAuthService {
         emailRedirectTo: 'io.supabase.verasso://login-callback',
       );
     } catch (e, stackTrace) {
-      await SentryService.captureException(e,
-          stackTrace: stackTrace, hint: 'OTP request failed for $email');
+      await SentryService.captureException(
+        e,
+        stackTrace: stackTrace,
+        hint: 'OTP request failed for $email',
+      );
       rethrow;
     }
   }
@@ -167,7 +165,8 @@ class SecureAuthService {
     final canAttempt = await _trackFailedAttempt(email, isSuccessful: false);
     if (!canAttempt) {
       throw const AuthException(
-          'Account temporarily locked due to multiple failed attempts');
+        'Account temporarily locked due to multiple failed attempts',
+      );
     }
 
     try {
@@ -237,8 +236,11 @@ class SecureAuthService {
         metadata: {'email': email, 'error': e.toString()},
       );
 
-      await SentryService.captureException(e,
-          stackTrace: stackTrace, hint: 'Login failed for $email');
+      await SentryService.captureException(
+        e,
+        stackTrace: stackTrace,
+        hint: 'Login failed for $email',
+      );
       rethrow;
     }
   }
@@ -249,9 +251,10 @@ class SecureAuthService {
 
     if (session != null) {
       // Invalidate session in database
-      await _supabase.rpc('invalidate_session', params: {
-        'p_session_token': session.accessToken,
-      });
+      await _supabase.rpc(
+        'invalidate_session',
+        params: {'p_session_token': session.accessToken},
+      );
     }
 
     await _supabase.auth.signOut();
@@ -300,10 +303,13 @@ class SecureAuthService {
         );
 
         // Log password strength
-        await _supabase.rpc('log_password_strength', params: {
-          'p_user_id': response.user?.id ?? '',
-          'p_password': password,
-        });
+        await _supabase.rpc(
+          'log_password_strength',
+          params: {
+            'p_user_id': response.user?.id ?? '',
+            'p_password': password,
+          },
+        );
 
         // Clear any failed attempts
         await _clearFailedAttempts(email);
@@ -318,8 +324,11 @@ class SecureAuthService {
 
       return response;
     } catch (e, stackTrace) {
-      await SentryService.captureException(e,
-          stackTrace: stackTrace, hint: 'Signup failed for $email');
+      await SentryService.captureException(
+        e,
+        stackTrace: stackTrace,
+        hint: 'Signup failed for $email',
+      );
       throw AuthException('Signup failed: $e');
     }
   }
@@ -376,11 +385,14 @@ class SecureAuthService {
       final userId = _supabase.auth.currentUser?.id;
       final ipAddress = await _ipService.getClientIpAddress();
 
-      final response = await _supabase.rpc('check_rate_limit', params: {
-        'p_user_id': userId,
-        'p_ip_address': ipAddress,
-        'p_endpoint': endpoint,
-      });
+      final response = await _supabase.rpc(
+        'check_rate_limit',
+        params: {
+          'p_user_id': userId,
+          'p_ip_address': ipAddress,
+          'p_endpoint': endpoint,
+        },
+      );
 
       final result = response as Map<String, dynamic>;
 
@@ -401,10 +413,10 @@ class SecureAuthService {
     try {
       final ipAddress = await _ipService.getClientIpAddress();
 
-      await _supabase.rpc('clear_failed_login_attempts', params: {
-        'p_email': email,
-        'p_ip_address': ipAddress,
-      });
+      await _supabase.rpc(
+        'clear_failed_login_attempts',
+        params: {'p_email': email, 'p_ip_address': ipAddress},
+      );
     } catch (e) {
       // Ignore errors in clearing attempts
     }
@@ -419,15 +431,18 @@ class SecureAuthService {
       final ipAddress = await _ipService.getClientIpAddress();
       final ipInfo = await _ipService.getIpInfo();
 
-      await _supabase.rpc('create_auth_session', params: {
-        'p_user_id': userId,
-        'p_session_token': sessionToken,
-        'p_ip_address': ipAddress,
-        'p_user_agent':
-            null, // In a real app, use a package like device_info_plus
-        'p_device_info': ipInfo ?? {},
-        'p_is_new_ip': ipInfo != null, // Simplified logic for demo
-      });
+      await _supabase.rpc(
+        'create_auth_session',
+        params: {
+          'p_user_id': userId,
+          'p_session_token': sessionToken,
+          'p_ip_address': ipAddress,
+          'p_user_agent':
+              null, // In a real app, use a package like device_info_plus
+          'p_device_info': ipInfo ?? {},
+          'p_is_new_ip': ipInfo != null, // Simplified logic for demo
+        },
+      );
 
       // If IP info indicates a new country/city, trigger alert
       if (ipInfo != null && ipInfo['country_name'] != null) {
@@ -438,7 +453,7 @@ class SecureAuthService {
           'metadata': {
             'ip': ipAddress,
             'location': '${ipInfo['city']}, ${ipInfo['country_name']}',
-          }
+          },
         });
       }
     } catch (e) {
@@ -447,18 +462,25 @@ class SecureAuthService {
   }
 
   /// Track failed login attempt
-  Future<bool> _trackFailedAttempt(String email,
-      {required bool isSuccessful}) async {
+  Future<bool> _trackFailedAttempt(
+    String email, {
+    required bool isSuccessful,
+  }) async {
     if (isSuccessful) return true;
 
     try {
       final ipAddress = await _ipService.getClientIpAddress();
 
-      final canAttempt = await _supabase.rpc('track_failed_login', params: {
-        'p_email': email,
-        'p_ip_address': ipAddress,
-        'p_user_agent': null,
-      }) as bool;
+      final canAttempt =
+          await _supabase.rpc(
+                'track_failed_login',
+                params: {
+                  'p_email': email,
+                  'p_ip_address': ipAddress,
+                  'p_user_agent': null,
+                },
+              )
+              as bool;
 
       return canAttempt;
     } catch (e) {

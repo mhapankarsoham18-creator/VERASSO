@@ -33,8 +33,9 @@ class _MentorOnboardingScreenState
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Mentor Application'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Mentor Application'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 120),
@@ -45,27 +46,39 @@ class _MentorOnboardingScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Professional Foundation',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Professional Foundation',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 16),
                     _buildTextField(
-                        _headlineController,
-                        'Professional Headline',
-                        'e.g. Senior Product Designer'),
-                    const SizedBox(height: 12),
-                    _buildTextField(_expController,
-                        'Years of Industry Experience', 'e.g. 5',
-                        keyboardType: TextInputType.number),
+                      _headlineController,
+                      'Professional Headline',
+                      'e.g. Senior Product Designer',
+                    ),
                     const SizedBox(height: 12),
                     _buildTextField(
-                        _specializationController,
-                        'Specializations',
-                        'e.g. UI/UX, Flutter, Dart (comma separated)'),
+                      _expController,
+                      'Years of Industry Experience',
+                      'e.g. 5',
+                      keyboardType: TextInputType.number,
+                    ),
                     const SizedBox(height: 12),
-                    _buildTextField(_bioController, 'Professional Bio',
-                        'Tell us about your journey...',
-                        maxLines: 4),
+                    _buildTextField(
+                      _specializationController,
+                      'Specializations',
+                      'e.g. UI/UX, Flutter, Dart (comma separated)',
+                    ),
+                    const SizedBox(height: 12),
+                    _buildTextField(
+                      _bioController,
+                      'Professional Bio',
+                      'Tell us about your journey...',
+                      maxLines: 4,
+                    ),
                   ],
                 ),
               ),
@@ -78,24 +91,31 @@ class _MentorOnboardingScreenState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Educational Degrees',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Educational Degrees',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: _addDegree,
-                            icon: const Icon(LucideIcons.plusCircle,
-                                color: Colors.blueAccent)),
+                          onPressed: _addDegree,
+                          icon: const Icon(
+                            LucideIcons.plusCircle,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    ..._degrees
-                        .asMap()
-                        .entries
-                        .map((entry) => _buildDegreeFields(entry.key)),
+                    ..._degrees.asMap().entries.map(
+                      (entry) => _buildDegreeFields(entry.key),
+                    ),
                     if (_degrees.isEmpty)
-                      const Text('Add your degrees to boost credibility.',
-                          style:
-                              TextStyle(color: Colors.white38, fontSize: 12)),
+                      const Text(
+                        'Add your degrees to boost credibility.',
+                        style: TextStyle(color: Colors.white38, fontSize: 12),
+                      ),
                   ],
                 ),
               ),
@@ -106,7 +126,8 @@ class _MentorOnboardingScreenState
                 child: ElevatedButton(
                   onPressed: _isSubmitting ? null : _submitApplication,
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent),
+                    backgroundColor: Colors.blueAccent,
+                  ),
                   child: _isSubmitting
                       ? const CircularProgressIndicator(color: Colors.white)
                       : const Text('Apply for Verification'),
@@ -132,14 +153,16 @@ class _MentorOnboardingScreenState
         children: [
           TextField(
             onChanged: (val) => _degrees[index]['title'] = val,
-            decoration:
-                const InputDecoration(labelText: 'Degree Title (e.g. B.Tech)'),
+            decoration: const InputDecoration(
+              labelText: 'Degree Title (e.g. B.Tech)',
+            ),
             style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
           TextField(
             onChanged: (val) => _degrees[index]['institution'] = val,
-            decoration:
-                const InputDecoration(labelText: 'Institution (e.g. Stanford)'),
+            decoration: const InputDecoration(
+              labelText: 'Institution (e.g. Stanford)',
+            ),
             style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
         ],
@@ -148,8 +171,12 @@ class _MentorOnboardingScreenState
   }
 
   Widget _buildTextField(
-      TextEditingController controller, String label, String hint,
-      {int maxLines = 1, TextInputType keyboardType = TextInputType.text}) {
+    TextEditingController controller,
+    String label,
+    String hint, {
+    int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
@@ -161,7 +188,8 @@ class _MentorOnboardingScreenState
         labelStyle: const TextStyle(color: Colors.white70),
         hintStyle: const TextStyle(color: Colors.white38),
         enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white10)),
+          borderSide: BorderSide(color: Colors.white10),
+        ),
       ),
     );
   }
@@ -190,12 +218,14 @@ class _MentorOnboardingScreenState
       await ref.read(mentorRepositoryProvider).registerAsMentor(profile);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Application Submitted Successfully!')));
+        const SnackBar(content: Text('Application Submitted Successfully!')),
+      );
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }

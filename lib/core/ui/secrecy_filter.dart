@@ -41,10 +41,10 @@ class SecrecyFilter extends StatelessWidget {
       return Text(
         maskText!,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              letterSpacing: 2,
-              fontWeight: FontWeight.bold,
-              color: Colors.white70,
-            ),
+          letterSpacing: 2,
+          fontWeight: FontWeight.bold,
+          color: Colors.white70,
+        ),
       );
     }
 
@@ -58,9 +58,7 @@ class SecrecyFilter extends StatelessWidget {
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.1),
-              ),
+              child: Container(color: Colors.black.withValues(alpha: 0.1)),
             ),
           ),
         ],

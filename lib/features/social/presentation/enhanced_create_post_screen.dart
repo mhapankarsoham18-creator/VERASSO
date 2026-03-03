@@ -57,9 +57,11 @@ class _EnhancedCreatePostScreenState
         actions: [
           TextButton(
             onPressed: _post,
-            child: const Text('Post',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          )
+            child: const Text(
+              'Post',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ),
         ],
       ),
       body: LiquidBackground(
@@ -76,9 +78,15 @@ class _EnhancedCreatePostScreenState
                   children: [
                     _buildTypeButton(Icons.text_fields, 'Text', PostType.text),
                     _buildTypeButton(
-                        LucideIcons.image, 'Media', PostType.media),
+                      LucideIcons.image,
+                      'Media',
+                      PostType.media,
+                    ),
                     _buildTypeButton(
-                        LucideIcons.barChart, 'Poll', PostType.poll),
+                      LucideIcons.barChart,
+                      'Poll',
+                      PostType.poll,
+                    ),
                     _buildTypeButton(LucideIcons.mic, 'Audio', PostType.audio),
                   ],
                 ),
@@ -88,14 +96,21 @@ class _EnhancedCreatePostScreenState
               GlassContainer(
                 margin: const EdgeInsets.only(bottom: 16),
                 child: SwitchListTile(
-                  title: const Text('Personal Post',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                  subtitle: const Text('Only approved friends can see this',
-                      style: TextStyle(color: Colors.white70, fontSize: 12)),
+                  title: const Text(
+                    'Personal Post',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Only approved friends can see this',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
                   secondary: Icon(
-                      _isPersonal ? LucideIcons.lock : LucideIcons.globe,
-                      color: _isPersonal ? Colors.orange : Colors.blue),
+                    _isPersonal ? LucideIcons.lock : LucideIcons.globe,
+                    color: _isPersonal ? Colors.orange : Colors.blue,
+                  ),
                   value: _isPersonal,
                   onChanged: (val) => setState(() => _isPersonal = val),
                   activeThumbColor: Colors.orange,
@@ -113,9 +128,10 @@ class _EnhancedCreatePostScreenState
                       maxLines: 5,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
-                          hintText: "What's on your mind?",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.white54)),
+                        hintText: "What's on your mind?",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(color: Colors.white54),
+                      ),
                     ),
 
                     // Media preview
@@ -133,25 +149,35 @@ class _EnhancedCreatePostScreenState
                     Row(
                       children: [
                         IconButton(
-                            onPressed: _pickMedia,
-                            icon: const Icon(LucideIcons.image,
-                                color: Colors.white)),
+                          onPressed: _pickMedia,
+                          icon: const Icon(
+                            LucideIcons.image,
+                            color: Colors.white,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: _pickVideo,
-                            icon: const Icon(LucideIcons.video,
-                                color: Colors.white)),
+                          onPressed: _pickVideo,
+                          icon: const Icon(
+                            LucideIcons.video,
+                            color: Colors.white,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: _createPoll,
-                            icon: const Icon(LucideIcons.barChart,
-                                color: Colors.white)),
+                          onPressed: _createPoll,
+                          icon: const Icon(
+                            LucideIcons.barChart,
+                            color: Colors.white,
+                          ),
+                        ),
                         IconButton(
-                            onPressed: _toggleRecording,
-                            icon: Icon(
-                                _isRecording ? Icons.stop : LucideIcons.mic,
-                                color:
-                                    _isRecording ? Colors.red : Colors.white)),
+                          onPressed: _toggleRecording,
+                          icon: Icon(
+                            _isRecording ? Icons.stop : LucideIcons.mic,
+                            color: _isRecording ? Colors.red : Colors.white,
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -207,8 +233,10 @@ class _EnhancedCreatePostScreenState
       ),
       child: Row(
         children: [
-          Icon(_isRecording ? Icons.mic : Icons.mic_off,
-              color: _isRecording ? Colors.red : Colors.white70),
+          Icon(
+            _isRecording ? Icons.mic : Icons.mic_off,
+            color: _isRecording ? Colors.red : Colors.white70,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -276,8 +304,11 @@ class _EnhancedCreatePostScreenState
                           color: Colors.black54,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(LucideIcons.x,
-                            size: 16, color: Colors.white),
+                        child: const Icon(
+                          LucideIcons.x,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -301,8 +332,10 @@ class _EnhancedCreatePostScreenState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 12),
-        const Text('Create a Poll',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const Text(
+          'Create a Poll',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: _pollQuestionController,
@@ -347,7 +380,8 @@ class _EnhancedCreatePostScreenState
   }
 
   Widget _buildTypeButton(IconData icon, String label, PostType type) {
-    final isActive = (_postType == type && type != PostType.text) ||
+    final isActive =
+        (_postType == type && type != PostType.text) ||
         (type == PostType.text &&
             _postType == PostType.text &&
             _selectedMedia.isEmpty);
@@ -368,10 +402,13 @@ class _EnhancedCreatePostScreenState
             child: Icon(icon, color: isActive ? Colors.blue : Colors.white70),
           ),
           const SizedBox(height: 4),
-          Text(label,
-              style: TextStyle(
-                  fontSize: 10,
-                  color: isActive ? Colors.blue : Colors.white70)),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: isActive ? Colors.blue : Colors.white70,
+            ),
+          ),
         ],
       ),
     );
@@ -395,7 +432,8 @@ class _EnhancedCreatePostScreenState
     if (images.isNotEmpty) {
       setState(() {
         _selectedMedia.addAll(
-            images.map((x) => File(x.path)).take(10 - _selectedMedia.length));
+          images.map((x) => File(x.path)).take(10 - _selectedMedia.length),
+        );
         _postType = PostType.media;
       });
     }
@@ -425,7 +463,9 @@ class _EnhancedCreatePostScreenState
     final userId = user.id;
 
     try {
-      await ref.read(feedProvider.notifier).createPost(
+      await ref
+          .read(feedProvider.notifier)
+          .createPost(
             userId: userId,
             content: content,
             images: _postType == PostType.media ? _selectedMedia : [],
@@ -443,9 +483,9 @@ class _EnhancedCreatePostScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to post: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to post: $e')));
       }
     }
   }

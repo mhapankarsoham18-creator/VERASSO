@@ -17,7 +17,9 @@ void main() {
   group('RateLimitService Tests', () {
     test('cleanupOldAttempts calls delete with correct filters', () async {
       mockSupabaseClient.setQueryBuilder(
-          'rate_limit_attempts', mockQueryBuilder);
+        'rate_limit_attempts',
+        mockQueryBuilder,
+      );
       // ... setup mock to return filter and lt
       // Since it's a Fake, we might need a better mock if we want to verify calls
     });
@@ -25,8 +27,10 @@ void main() {
     test('isLimited returns true when server-side limit hit', () async {
       mockSupabaseClient.setRpcResponse('check_rate_limit', {'allowed': false});
 
-      final result =
-          await rateLimitService.isLimited('test-user', RateLimitType.login);
+      final result = await rateLimitService.isLimited(
+        'test-user',
+        RateLimitType.login,
+      );
 
       expect(result, isTrue);
     });
@@ -35,10 +39,14 @@ void main() {
       mockSupabaseClient.setRpcResponse('check_rate_limit', {'allowed': true});
       // Also need to handle the fallback local check
       mockSupabaseClient.setQueryBuilder(
-          'rate_limit_attempts', mockQueryBuilder);
+        'rate_limit_attempts',
+        mockQueryBuilder,
+      );
 
-      final result =
-          await rateLimitService.isLimited('test-user', RateLimitType.login);
+      final result = await rateLimitService.isLimited(
+        'test-user',
+        RateLimitType.login,
+      );
 
       expect(result, isFalse);
     });

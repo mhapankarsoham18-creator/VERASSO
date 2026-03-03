@@ -16,14 +16,14 @@ import '../data/post_model.dart';
 /// Provider for the [SearchController].
 final searchControllerProvider =
     StateNotifierProvider<SearchController, SearchState>((ref) {
-  return SearchController(
-    ref.watch(profileRepositoryProvider),
-    ref.watch(feedRepositoryProvider),
-    ref.watch(courseRepositoryProvider),
-    ref.watch(talentProfileRepositoryProvider),
-    ref.watch(communityRepositoryProvider),
-  );
-});
+      return SearchController(
+        ref.watch(profileRepositoryProvider),
+        ref.watch(feedRepositoryProvider),
+        ref.watch(courseRepositoryProvider),
+        ref.watch(talentProfileRepositoryProvider),
+        ref.watch(communityRepositoryProvider),
+      );
+    });
 
 /// Controller for managing global search across users, posts, courses, and communities.
 class SearchController extends StateNotifier<SearchState> {
@@ -35,9 +35,13 @@ class SearchController extends StateNotifier<SearchState> {
   Timer? _debounce;
 
   /// Creates a [SearchController] instance.
-  SearchController(this._userRepo, this._feedRepo, this._courseRepo,
-      this._talentRepo, this._communityRepo)
-      : super(SearchState());
+  SearchController(
+    this._userRepo,
+    this._feedRepo,
+    this._courseRepo,
+    this._talentRepo,
+    this._communityRepo,
+  ) : super(SearchState());
 
   @override
   void dispose() {
@@ -101,13 +105,14 @@ class SearchState {
   final bool isLoading;
 
   /// Creates a [SearchState] instance.
-  SearchState(
-      {this.userResults = const [],
-      this.postResults = const [],
-      this.courseResults = const [],
-      this.mentorResults = const [],
-      this.communityResults = const [],
-      this.isLoading = false});
+  SearchState({
+    this.userResults = const [],
+    this.postResults = const [],
+    this.courseResults = const [],
+    this.mentorResults = const [],
+    this.communityResults = const [],
+    this.isLoading = false,
+  });
 
   /// Creates a copy of this state with the given fields replaced.
   SearchState copyWith({

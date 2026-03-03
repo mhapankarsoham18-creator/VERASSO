@@ -32,8 +32,9 @@ class _CreateJobRequestScreenState
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          title: const Text('Post Job Request'),
-          backgroundColor: Colors.transparent),
+        title: const Text('Post Job Request'),
+        backgroundColor: Colors.transparent,
+      ),
       body: LiquidBackground(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 24),
@@ -47,9 +48,10 @@ class _CreateJobRequestScreenState
                     controller: _titleController,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                        labelText: 'Job Title',
-                        hintText: 'e.g. Need Logo Design',
-                        labelStyle: TextStyle(color: Colors.white70)),
+                      labelText: 'Job Title',
+                      hintText: 'e.g. Need Logo Design',
+                      labelStyle: TextStyle(color: Colors.white70),
+                    ),
                     validator: (v) => v?.isEmpty == true ? 'Required' : null,
                   ),
                   const SizedBox(height: 16),
@@ -58,8 +60,9 @@ class _CreateJobRequestScreenState
                     style: const TextStyle(color: Colors.white),
                     maxLines: 4,
                     decoration: const InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: TextStyle(color: Colors.white70)),
+                      labelText: 'Description',
+                      labelStyle: TextStyle(color: Colors.white70),
+                    ),
                     validator: (v) => v?.isEmpty == true ? 'Required' : null,
                   ),
                   const SizedBox(height: 16),
@@ -68,18 +71,20 @@ class _CreateJobRequestScreenState
                     style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                        labelText: 'Budget',
-                        prefixText: '\$',
-                        labelStyle: TextStyle(color: Colors.white70)),
+                      labelText: 'Budget',
+                      prefixText: '\$',
+                      labelStyle: TextStyle(color: Colors.white70),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _skillsController,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                        labelText: 'Required Skills (comma separated)',
-                        hintText: 'e.g. Flutter, UI Design',
-                        labelStyle: TextStyle(color: Colors.white70)),
+                      labelText: 'Required Skills (comma separated)',
+                      hintText: 'e.g. Flutter, UI Design',
+                      labelStyle: TextStyle(color: Colors.white70),
+                    ),
                   ),
                   const SizedBox(height: 32),
                   SizedBox(
@@ -91,14 +96,18 @@ class _CreateJobRequestScreenState
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.all(16),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: _isLoading
                           ? const SizedBox(
                               height: 20,
                               width: 20,
                               child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2))
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
                           : const Text('Post Job'),
                     ),
                   ),
@@ -136,14 +145,16 @@ class _CreateJobRequestScreenState
       await ref.read(jobRepositoryProvider).createJobRequest(job);
       if (mounted) {
         ref.invalidate(jobsProvider);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Job request posted!')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Job request posted!')));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

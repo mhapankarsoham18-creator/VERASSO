@@ -133,18 +133,18 @@ class SmartSyncEngine {
     };
   }
 
-  void _emitError(String title, String message,
-      [dynamic error, StackTrace? stack]) {
+  void _emitError(
+    String title,
+    String message, [
+    dynamic error,
+    StackTrace? stack,
+  ]) {
     AppLogger.error('$title: $message', error: error);
     if (error != null) {
       SentryService.captureException(error, stackTrace: stack);
     }
     _syncErrorController.sink.add(
-      SyncError(
-        title: title,
-        message: message,
-        timestamp: DateTime.now(),
-      ),
+      SyncError(title: title, message: message, timestamp: DateTime.now()),
     );
   }
 
@@ -201,8 +201,9 @@ class SmartSyncEngine {
 
   /// Monitor connectivity changes and sync when online
   void _monitorConnectivity() {
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((results) {
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((
+      results,
+    ) {
       final isOnline = !results.contains(ConnectivityResult.none);
       if (isOnline) {
         _emitProgress('Connected', 0);
@@ -239,8 +240,10 @@ class SmartSyncEngine {
         try {
           await _syncDocument(doc);
           completed++;
-          _emitProgress('Syncing: $completed/${unsyncedDocs.length}',
-              ((completed / unsyncedDocs.length) * 100).toInt());
+          _emitProgress(
+            'Syncing: $completed/${unsyncedDocs.length}',
+            ((completed / unsyncedDocs.length) * 100).toInt(),
+          );
         } catch (e, stack) {
           _emitError('Failed to sync ${doc.id}', e.toString(), e, stack);
         } finally {
@@ -269,7 +272,9 @@ class SmartSyncEngine {
 
     final backoffMs = _calculateBackoff(_consecutiveFailures);
     _emitProgress(
-        'Sync scheduled in ${(backoffMs / 1000).toStringAsFixed(1)}s', 0);
+      'Sync scheduled in ${(backoffMs / 1000).toStringAsFixed(1)}s',
+      0,
+    );
 
     _retryTimer = Timer(Duration(milliseconds: backoffMs), () {
       _performSync();
@@ -330,14 +335,15 @@ class SmartSyncEngine {
       );
 
       // Send delta to server
-      final response = await _sendDelta(
-        documentId: document.id,
-        delta: delta,
-        vectorClock: document.vectorClock,
-      ).timeout(
-        const Duration(seconds: 30),
-        onTimeout: () => throw TimeoutException('Sync timeout'),
-      );
+      final response =
+          await _sendDelta(
+            documentId: document.id,
+            delta: delta,
+            vectorClock: document.vectorClock,
+          ).timeout(
+            const Duration(seconds: 30),
+            onTimeout: () => throw TimeoutException('Sync timeout'),
+          );
 
       // Handle server response
       if (response.statusCode == 200) {
@@ -361,7 +367,8 @@ class SmartSyncEngine {
         );
       } else {
         throw Exception(
-            'Sync failed: ${response.statusCode} - ${response.body}');
+          'Sync failed: ${response.statusCode} - ${response.body}',
+        );
       }
     } on TimeoutException {
       _consecutiveFailures++;

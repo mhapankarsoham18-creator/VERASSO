@@ -128,9 +128,10 @@ class _ClimateZonesScreenState extends State<ClimateZonesScreen> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 20,
-                                spreadRadius: 5),
+                              color: Colors.black26,
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                            ),
                           ],
                         ),
                         child: ClipOval(
@@ -170,8 +171,9 @@ class _ClimateZonesScreenState extends State<ClimateZonesScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                              color: Colors.blue.withValues(alpha: 0.3),
-                              width: 4),
+                            color: Colors.blue.withValues(alpha: 0.3),
+                            width: 4,
+                          ),
                         ),
                       ),
                     ],
@@ -221,20 +223,34 @@ class _ClimateZonesScreenState extends State<ClimateZonesScreen> {
                             Text(
                               _selectedZone!.description,
                               style: const TextStyle(
-                                  fontSize: 16, color: Colors.white70),
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
                             ),
                             const SizedBox(height: 24),
-                            _buildInfoRow(LucideIcons.thermometer, 'Temp Range',
-                                _selectedZone!.temperatureRange),
+                            _buildInfoRow(
+                              LucideIcons.thermometer,
+                              'Temp Range',
+                              _selectedZone!.temperatureRange,
+                            ),
                             const SizedBox(height: 12),
-                            _buildInfoRow(LucideIcons.cloudRain,
-                                'Precipitation', _selectedZone!.precipitation),
+                            _buildInfoRow(
+                              LucideIcons.cloudRain,
+                              'Precipitation',
+                              _selectedZone!.precipitation,
+                            ),
                             const SizedBox(height: 12),
-                            _buildInfoRow(LucideIcons.flower, 'Flora',
-                                _selectedZone!.flora),
+                            _buildInfoRow(
+                              LucideIcons.flower,
+                              'Flora',
+                              _selectedZone!.flora,
+                            ),
                             const SizedBox(height: 12),
-                            _buildInfoRow(LucideIcons.footprints, 'Fauna',
-                                _selectedZone!.fauna),
+                            _buildInfoRow(
+                              LucideIcons.footprints,
+                              'Fauna',
+                              _selectedZone!.fauna,
+                            ),
                           ],
                         ),
                       ),
@@ -253,14 +269,13 @@ class _ClimateZonesScreenState extends State<ClimateZonesScreen> {
         const SizedBox(width: 12),
         Text(
           '$label: ',
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(color: Colors.white70),
-          ),
+          child: Text(value, style: const TextStyle(color: Colors.white70)),
         ),
       ],
     );

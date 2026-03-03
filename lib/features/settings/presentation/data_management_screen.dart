@@ -41,13 +41,15 @@ class _DataManagementScreenState extends State<DataManagementScreen> {
                   ListTile(
                     leading: const Icon(LucideIcons.download),
                     title: const Text('Export My Data'),
-                    subtitle:
-                        const Text('Get a copy of your activity and profile'),
+                    subtitle: const Text(
+                      'Get a copy of your activity and profile',
+                    ),
                     trailing: _isExporting
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2))
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : const Icon(LucideIcons.chevronRight),
                     onTap: _isExporting ? null : _handleExport,
                   ),
@@ -67,17 +69,24 @@ class _DataManagementScreenState extends State<DataManagementScreen> {
               child: Text(
                 'Danger Zone',
                 style: TextStyle(
-                    color: Colors.redAccent, fontWeight: FontWeight.bold),
+                  color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             GlassContainer(
               child: ListTile(
-                leading:
-                    const Icon(LucideIcons.trash2, color: Colors.redAccent),
-                title: const Text('Delete Account',
-                    style: TextStyle(color: Colors.redAccent)),
-                subtitle:
-                    const Text('Permanently remove your data from Verasso'),
+                leading: const Icon(
+                  LucideIcons.trash2,
+                  color: Colors.redAccent,
+                ),
+                title: const Text(
+                  'Delete Account',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+                subtitle: const Text(
+                  'Permanently remove your data from Verasso',
+                ),
                 onTap: _isDeleting ? null : _handleDeleteAccount,
               ),
             ),
@@ -121,9 +130,9 @@ class _DataManagementScreenState extends State<DataManagementScreen> {
         // Auth state will trigger logout automatically via router redirect
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Deletion failed: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Deletion failed: $e')));
         }
       } finally {
         if (mounted) setState(() => _isDeleting = false);
@@ -142,7 +151,8 @@ class _DataManagementScreenState extends State<DataManagementScreen> {
           builder: (context) => AlertDialog(
             title: const Text('Data Export Ready'),
             content: const Text(
-                'Your data has been compiled into a JSON format. In a production app, this would be sent to your email or downloaded.'),
+              'Your data has been compiled into a JSON format. In a production app, this would be sent to your email or downloaded.',
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
@@ -162,9 +172,9 @@ class _DataManagementScreenState extends State<DataManagementScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Export failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Export failed: $e')));
       }
     } finally {
       if (mounted) setState(() => _isExporting = false);

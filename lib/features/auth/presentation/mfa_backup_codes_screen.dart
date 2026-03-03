@@ -19,8 +19,11 @@ class _ActionButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _ActionButton(
-      {required this.icon, required this.label, required this.onTap});
+  const _ActionButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,10 @@ class _ActionButton extends StatelessWidget {
         children: [
           Icon(icon, size: 20, color: Colors.white70),
           const SizedBox(height: 4),
-          Text(label,
-              style: const TextStyle(fontSize: 12, color: Colors.white70)),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
         ],
       ),
     );
@@ -58,8 +63,11 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(LucideIcons.shieldAlert,
-                  size: 48, color: Colors.orangeAccent),
+              const Icon(
+                LucideIcons.shieldAlert,
+                size: 48,
+                color: Colors.orangeAccent,
+              ),
               const SizedBox(height: 24),
               const Text(
                 'Save your backup codes',
@@ -96,11 +104,11 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 3,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 8,
-                        ),
+                              crossAxisCount: 2,
+                              childAspectRatio: 3,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 8,
+                            ),
                         itemCount: _codes.length,
                         itemBuilder: (context, index) {
                           return Container(
@@ -126,10 +134,12 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
                             label: 'Copy',
                             onTap: () {
                               ClipboardService.copyToClipboard(
-                                  _codes.join('\n'));
+                                _codes.join('\n'),
+                              );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Codes copied to clipboard')),
+                                  content: Text('Codes copied to clipboard'),
+                                ),
                               );
                             },
                           ),
@@ -150,11 +160,13 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
               ),
               const SizedBox(height: 12),
               const _TipItem(
-                  text:
-                      'Store these codes in a secure digital vault or print them out.'),
+                text:
+                    'Store these codes in a secure digital vault or print them out.',
+              ),
               const _TipItem(text: 'Each code can only be used once.'),
               const _TipItem(
-                  text: 'Generating new codes will invalidate the old ones.'),
+                text: 'Generating new codes will invalidate the old ones.',
+              ),
               const SizedBox(height: 48),
               SizedBox(
                 width: double.infinity,
@@ -164,11 +176,14 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('I HAVE SAVED THESE CODES',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'I HAVE SAVED THESE CODES',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
@@ -198,9 +213,9 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load codes: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load codes: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -214,9 +229,9 @@ class _MFABackupCodesScreenState extends State<MFABackupCodesScreen> {
       if (mounted) setState(() => _codes = newCodes);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to regenerate: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to regenerate: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -237,8 +252,11 @@ class _TipItem extends StatelessWidget {
         children: [
           const Text('• ', style: TextStyle(color: Colors.orangeAccent)),
           Expanded(
-              child: Text(text,
-                  style: const TextStyle(fontSize: 14, color: Colors.white54))),
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 14, color: Colors.white54),
+            ),
+          ),
         ],
       ),
     );
