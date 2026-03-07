@@ -17,7 +17,11 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.29.0
+
+      - name: Disable Analytics
+        run: |
+          flutter config --no-analytics
+          flutter config --no-cli-animations
 
       - name: Show Flutter Version
         run: flutter --version
