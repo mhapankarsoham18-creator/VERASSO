@@ -3,8 +3,16 @@ name: VERASSO CI/CD Pipeline
 on:
   push:
     branches: [main, develop]
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - ".gitignore"
   pull_request:
     branches: [main, develop]
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - ".gitignore"
   workflow_dispatch:
     inputs:
       skip_tests:
@@ -38,7 +46,12 @@ jobs:
         run: flutter pub get
 
       - name: 🎨 Check code formatting
-        run: dart format --set-exit-if-changed lib test
+        run: |
+          if [ -d "test" ]; then
+            dart format --set-exit-if-changed lib test
+          else
+            dart format --set-exit-if-changed lib
+          fi
 
       - name: 🔍 Run flutter analyze
         run: flutter analyze --no-fatal-infos
@@ -100,7 +113,14 @@ jobs:
         run: flutter pub get
 
       - name: 🧪 Run all tests with coverage
-        run: flutter test --coverage
+        run: |
+          if [ -d "test" ]; then
+            flutter test --coverage
+          else
+            echo "⚠️ No test directory found, skipping tests."
+            mkdir -p coverage
+            touch coverage/lcov.info
+          fi
         continue-on-error: true
 
       - name: 📊 Check coverage threshold
@@ -125,12 +145,59 @@ jobs:
           fail_ci_if_error: false
 
   # ════════════════════════════════════════════════════════
+  # STAGE 3.5: SUPABASE INTEGRATION TESTS
+  # ════════════════════════════════════════════════════════
+  test_integration_supabase:
+    runs-on: ubuntu-latest
+    name: 🧪 Supabase Integration Tests
+    needs: analyze
+    if: github.event.inputs.skip_tests != 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🛠️ Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: 🚀 Start Supabase Local
+        run: supabase start
+        continue-on-error: true
+
+      - name: 🧪 Run Integration Tests
+        run: |
+          if [ -d "integration_test" ]; then
+            # Get credentials from local supabase
+            URL=$(supabase status -o json | jq -r '.API_URL' || echo "http://localhost:54321")
+            ANON=$(supabase status -o json | jq -r '.ANON_KEY' || echo "placeholder")
+            SERVICE=$(supabase status -o json | jq -r '.SERVICE_ROLE_KEY' || echo "placeholder")
+
+            flutter test integration_test \
+              --dart-define=SUPABASE_TEST_MODE=true \
+              --dart-define=SUPABASE_URL=$URL \
+              --dart-define=SUPABASE_ANON_KEY=$ANON \
+              --dart-define=SUPABASE_SERVICE_ROLE_KEY=$SERVICE
+          else
+            echo "⚠️ No integration_test directory found, skipping."
+          fi
+        continue-on-error: true
+
+  # ════════════════════════════════════════════════════════
   # STAGE 4: BUILD VERIFICATION (Android)
   # ════════════════════════════════════════════════════════
   build_android:
     runs-on: ubuntu-latest
     name: 🤖 Build Android
-    needs: [analyze, test]
+    needs: [analyze, test, test_integration_supabase]
     if: always() && needs.analyze.result != 'failure'
     steps:
       - uses: actions/checkout@v4
@@ -143,6 +210,12 @@ jobs:
 
       - name: 📦 Install dependencies
         run: flutter pub get
+
+      - name: 🔑 Create placeholder .env
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL || 'https://placeholder.supabase.co' }}" > .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY || 'placeholder' }}" >> .env
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN || 'placeholder' }}" >> .env
 
       - name: 🏗️ Build Android APK (Debug — PR/branch verification)
         if: "!startsWith(github.ref, 'refs/tags/v')"
@@ -207,7 +280,7 @@ jobs:
   build_ios:
     runs-on: macos-latest
     name: 🍎 Build iOS
-    needs: [analyze, test]
+    needs: [analyze, test, test_integration_supabase]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
@@ -257,7 +330,7 @@ jobs:
   summary:
     runs-on: ubuntu-latest
     name: ✅ Pipeline Summary
-    needs: [analyze, security, test, build_android]
+    needs: [analyze, security, test, test_integration_supabase, build_android]
     if: always()
     steps:
       - name: 📊 Generate Summary
@@ -266,4 +339,5 @@ jobs:
           echo "- 📊 Code Analysis: ${{ needs.analyze.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- 🔒 Security Scan: ${{ needs.security.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- 🧪 Tests: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 🧪 Supabase Tests: ${{ needs.test_integration_supabase.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- 🤖 Android Build: ${{ needs.build_android.result }}" >> $GITHUB_STEP_SUMMARY

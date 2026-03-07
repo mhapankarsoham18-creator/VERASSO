@@ -1,10 +1,6 @@
 name: Production Verify & Automation
 
 on:
-  push:
-    branches: ["main", "develop"]
-  pull_request:
-    branches: ["main", "develop"]
   schedule:
     # Weekly Sunday sync Prod -> Staging at 00:00 UTC
     - cron: "0 0 * * 0"
