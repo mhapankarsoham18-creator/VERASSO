@@ -57,7 +57,7 @@ class UpcomingEventsCarousel extends ConsumerWidget {
         height: 160,
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (_, _) => const SizedBox.shrink(),
+      error: (err, stack) => const SizedBox.shrink(),
     );
   }
 

@@ -22,14 +22,12 @@ import '../../../core/exceptions/user_friendly_error_handler.dart';
 import '../../../core/ui/error_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../data/post_model.dart';
-import 'enhanced_create_post_screen.dart';
+import 'create_post_screen.dart';
 import 'feed_controller.dart';
 import 'feed_tutorial_steps.dart';
 import 'post_detail_screen.dart';
 import 'saved_posts_controller.dart';
-import 'story_widgets.dart';
 import 'user_profile_screen.dart';
-import 'widgets/video_post_card.dart';
 
 /// Main social feed experience for browsing, saving, and creating posts.
 ///
@@ -142,14 +140,14 @@ class PostCard extends ConsumerWidget {
             Row(
               children: [
                 _PostAction(
-                      icon: LucideIcons.heart,
-                      label: '${post.likesCount}',
-                      color: AppColors.accent,
-                      onTap: () {
-                        HapticFeedback.selectionClick();
-                        ref.read(feedProvider.notifier).toggleLike(post.id);
-                      },
-                    )
+                  icon: LucideIcons.heart,
+                  label: '${post.likesCount}',
+                  color: AppColors.accent,
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    ref.read(feedProvider.notifier).toggleLike(post.id);
+                  },
+                )
                     .animate(
                       onPlay: (controller) => controller.repeat(reverse: true),
                     )
@@ -189,29 +187,22 @@ class PostCard extends ConsumerWidget {
                         .toggleSave(post.id);
                   },
                   icon: isSavedAsync.when(
-                    data: (saved) =>
-                        Icon(
-                              saved
-                                  ? LucideIcons.bookmark
-                                  : LucideIcons.bookmark,
-                              size: 22,
-                              color: saved
-                                  ? AppColors.etherealCyan
-                                  : Colors.white70,
-                            )
-                            .animate(target: saved ? 1 : 0)
-                            .scale(
-                              begin: const Offset(1, 1),
-                              end: const Offset(1.1, 1.1),
-                              curve: DesignSystem.easingStandard,
-                              duration: DesignSystem.durationFast,
-                            ),
+                    data: (saved) => Icon(
+                      saved ? LucideIcons.bookmark : LucideIcons.bookmark,
+                      size: 22,
+                      color: saved ? AppColors.etherealCyan : Colors.white70,
+                    ).animate(target: saved ? 1 : 0).scale(
+                          begin: const Offset(1, 1),
+                          end: const Offset(1.1, 1.1),
+                          curve: DesignSystem.easingStandard,
+                          duration: DesignSystem.durationFast,
+                        ),
                     loading: () => const SizedBox(
                       width: 22,
                       height: 22,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                    error: (_, _) => const Icon(
+                    error: (err, stack) => const Icon(
                       LucideIcons.bookmark,
                       size: 22,
                       color: Colors.white70,
@@ -434,9 +425,7 @@ class PostCard extends ConsumerWidget {
             onPressed: () async {
               final myId = ref.read(currentUserProvider)?.id;
               if (myId != null && reasonController.text.isNotEmpty) {
-                await ref
-                    .read(moderationServiceProvider)
-                    .reportContent(
+                await ref.read(moderationServiceProvider).reportContent(
                       reporterId: myId,
                       targetId: post.id,
                       targetType: 'post',
@@ -516,7 +505,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     if (post.mediaUrls.isNotEmpty &&
                         (post.mediaUrls.first.endsWith('.mp4') ||
                             post.mediaUrls.first.endsWith('.mov'))) {
-                      return VideoPostCard(post: post);
+                      return PostCard(post: post); // Video cards removed for MVP
                     }
                     return PostCard(post: post); // Fallback for mixed content
                   },
@@ -537,10 +526,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 itemCount: itemCount + 1, // +1 for StoryCarousel
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return const Padding(
-                      padding: EdgeInsets.only(bottom: 16.0),
-                      child: StoryCarousel(),
-                    );
+                    return const SizedBox(height: 16); // StoryCarousel removed for MVP
                   }
                   final postIndex = index - 1;
                   if (postIndex == posts.length) {
@@ -586,7 +572,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const EnhancedCreatePostScreen()),
+            MaterialPageRoute(builder: (_) => const CreatePostScreen()),
           );
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -611,8 +597,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     bool isVideo = false,
   }) {
     final isVideoTabActive = ref.watch(isVideoFeedProvider);
-    final isActive =
-        (isVideo == isVideoTabActive) &&
+    final isActive = (isVideo == isVideoTabActive) &&
         (isVideo || (type == activeType && !isVideoTabActive));
 
     return GestureDetector(

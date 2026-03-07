@@ -9,7 +9,7 @@ import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 import 'package:verasso/core/services/resource_service.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
-import 'package:verasso/features/finance/data/financial_sandbox_service.dart';
+// Financial sandbox import removed — finance feature pruned for MVP
 import 'package:verasso/features/learning/core/generative_lab_service.dart';
 
 /// Represents an excipient used in pharmaceutical formulation.
@@ -470,21 +470,11 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
   }
 
   Future<void> _purchaseUpgrade() async {
-    final success = await ref
-        .read(financialSandboxProvider.notifier)
-        .processPayment(50.0, 'Precision Scale');
-
+    // Finance feature removed for MVP
     if (!mounted) return;
-
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Equipment Upgraded Successfully')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Insufficient Funds in Wallet')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Upgrade purchases — coming soon!')),
+    );
   }
 
   void _updateStability() {

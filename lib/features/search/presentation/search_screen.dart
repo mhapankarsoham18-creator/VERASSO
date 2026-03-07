@@ -39,10 +39,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: GlassContainer(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: TextField(
@@ -111,12 +109,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
 
         return ListView(
-          padding: const EdgeInsets.only(
-            top: 180,
-            left: 16,
-            right: 16,
-            bottom: 20,
-          ),
+          padding:
+              const EdgeInsets.only(top: 180, left: 16, right: 16, bottom: 20),
           children: [
             if (results.users.isNotEmpty) ...[
               _buildSectionHeader('People', results.users.length),
@@ -181,12 +175,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 180,
-            left: 16,
-            right: 16,
-            bottom: 20,
-          ),
+          padding:
+              const EdgeInsets.only(top: 180, left: 16, right: 16, bottom: 20),
           itemCount: results.groups.length,
           itemBuilder: (context, index) =>
               _buildGroupTile(results.groups[index]),
@@ -207,12 +197,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: group.avatarUrl != null
-                ? NetworkImage(group.avatarUrl!)
-                : null,
-            child: group.avatarUrl == null
-                ? const Icon(LucideIcons.users)
-                : null,
+            backgroundImage:
+                group.avatarUrl != null ? NetworkImage(group.avatarUrl!) : null,
+            child:
+                group.avatarUrl == null ? const Icon(LucideIcons.users) : null,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -229,13 +217,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 if (group.description != null)
                   Text(
                     group.description!,
-                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white70,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 Text(
                   '${group.memberCount} members',
-                  style: const TextStyle(fontSize: 11, color: Colors.white54),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Colors.white54,
+                  ),
                 ),
               ],
             ),
@@ -256,12 +250,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 180,
-            left: 16,
-            right: 16,
-            bottom: 20,
-          ),
+          padding:
+              const EdgeInsets.only(top: 180, left: 16, right: 16, bottom: 20),
           itemCount: results.posts.length,
           itemBuilder: (context, index) => _buildPostTile(results.posts[index]),
         );
@@ -338,12 +328,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 180,
-            left: 16,
-            right: 16,
-            bottom: 20,
-          ),
+          padding:
+              const EdgeInsets.only(top: 180, left: 16, right: 16, bottom: 20),
           itemCount: results.users.length,
           itemBuilder: (context, index) => _buildUserTile(results.users[index]),
         );
@@ -363,9 +349,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: user.avatarUrl != null
-                ? NetworkImage(user.avatarUrl!)
-                : null,
+            backgroundImage:
+                user.avatarUrl != null ? NetworkImage(user.avatarUrl!) : null,
             child: user.avatarUrl == null
                 ? Text(user.fullName[0].toUpperCase())
                 : null,
@@ -385,7 +370,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 if (user.bio != null)
                   Text(
                     user.bio!,
-                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white70,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

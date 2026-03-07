@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:verasso/core/ui/error_dialog.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
@@ -64,19 +63,24 @@ class _MFAEnrollmentScreenState extends ConsumerState<MFAEnrollmentScreen> {
                   ),
                   const SizedBox(height: 24),
                   if (_enrollResponse != null) ...[
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                      // QR code placeholder (qr_flutter removed for MVP)
+                      // NOTE: Re-add QR display when qr_flutter is restored
+                      Container(
+                        width: 200,
+                        height: 200,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'QR Code\\n(Install qr_flutter)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ),
                       ),
-                      child: QrImageView(
-                        data: _enrollResponse!.totpUri ?? '',
-                        version: QrVersions.auto,
-                        size: 200.0,
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
                     const SizedBox(height: 16),
                     SelectableText(
                       'Or enter this secret key:\n${_enrollResponse!.totpSecret ?? ''}',

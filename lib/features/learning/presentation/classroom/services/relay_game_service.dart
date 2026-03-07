@@ -67,8 +67,7 @@ class RelayGameService extends StateNotifier<Map<String, RelayChain>> {
     if (relay == null) return;
 
     final myId = _meshService.myId;
-    if (myId == null) return;
-    final myName = _meshService.myName ?? "Explorer";
+    final myName = _meshService.myName;
 
     if (relay.idChain.contains(myId)) return; // Already passed
 
@@ -100,8 +99,7 @@ class RelayGameService extends StateNotifier<Map<String, RelayChain>> {
   Future<void> startNewRelay(String fact) async {
     final relayId = DateTime.now().millisecondsSinceEpoch.toString();
     final myId = _meshService.myId;
-    if (myId == null) return;
-    final myName = _meshService.myName ?? "Expert";
+    final myName = _meshService.myName;
 
     final relay = RelayChain(
       id: relayId,

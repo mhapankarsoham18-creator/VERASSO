@@ -1,91 +1,27 @@
-/// CodeMaster Odyssey — A gamified coding education module for VERASSO.
-///
-/// This package provides a complete coding education experience through
-/// an RPG-style world map with realms, challenges, multiplayer duels,
-/// mentorship, and enterprise certification features.
-///
-/// ## Quick Start
-/// ```dart
-/// import 'package:codemaster_odyssey/codemaster_odyssey.dart';
-///
-/// // Embed in your app:
-/// Navigator.push(context, MaterialPageRoute(
-///   builder: (_) => const OdysseyMapScreen(),
-/// ));
-///
-/// // Or run standalone:
-/// runApp(const CodemasterOdysseyApp());
-/// ```
-///
-/// ## Features
-/// - **Map & Realms**: Fantasy world map with realm progression
-/// - **Lessons**: 90-second micro-lessons with instant feedback
-/// - **Editor**: Odyssey IDE with syntax highlighting
-/// - **AI Tutor**: Contextual hints and submission analysis
-/// - **Challenges**: 75+ multi-technology coding challenges
-/// - **Avatar**: Customizable character with skill trees
-/// - **Badges**: Achievement celebrations
-/// - **Quests**: Daily quests with streak multipliers
-/// - **Multiplayer**: Code duels and mesh collaboration
-/// - **Collaboration**: Mentorship and classroom analytics
-/// - **Academic**: Cross-module linking with science/history
-/// - **Enterprise**: ZK identity proofs and certifications
-/// - **Global**: Cultural themes and community hub
+/// CodeMaster Odyssey — A 2D Pixel-Art Coding Action RPG for VERASSO.
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'src/features/map/presentation/odyssey_map_screen.dart';
+import 'src/game/odyssey_game_screen.dart';
 
-// ── Core ──────────────────────────────────────────────────────────────
-export 'src/core/theme/odyssey_colors.dart';
-// ── Features (Public API) ─────────────────────────────────────────────
-export 'src/features/academic/academic.dart';
-export 'src/features/ai_tutor/ai_tutor.dart';
-export 'src/features/avatar/avatar.dart';
-export 'src/features/badge/badge.dart';
-export 'src/features/challenge/challenge.dart';
-export 'src/features/collaboration/collaboration.dart';
-export 'src/features/editor/editor.dart';
-export 'src/features/enterprise/enterprise.dart';
-export 'src/features/global/global.dart';
-export 'src/features/lesson/lesson.dart';
-export 'src/features/map/map.dart';
-export 'src/features/multiplayer/multiplayer.dart';
-export 'src/features/quest/quest.dart';
+export 'src/features/lesson/data/history_providers.dart';
+export 'src/game/components/player/aria_player.dart';
+export 'src/game/odyssey_game.dart';
+export 'src/game/odyssey_game_screen.dart';
 
 /// The main entry widget for the CodeMaster Odyssey module.
-///
-/// Can be embedded into the main app or run standalone for testing.
-/// When embedded, assumes the parent provides a [ProviderScope].
 class CodemasterOdysseyApp extends StatelessWidget {
-  /// Whether to wrap the app in a [ProviderScope].
-  /// Set to true for standalone runs, false when embedding in an app
-  /// that already has a [ProviderScope].
-  final bool useStandaloneScope;
-
-  /// Creates a [CodemasterOdysseyApp] instance.
-  const CodemasterOdysseyApp({super.key, this.useStandaloneScope = true});
+  const CodemasterOdysseyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const OdysseyMapScreen();
-
-    if (useStandaloneScope) {
-      content = ProviderScope(child: content);
-    }
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF1E1E2E),
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF6C63FF),
-          secondary: Color(0xFF00E5FF),
-        ),
       ),
-      home: content,
+      home: const OdysseyGameScreen(),
     );
   }
 }

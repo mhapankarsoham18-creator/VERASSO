@@ -17,15 +17,14 @@ class AppConfig {
 
   /// The API key for OpenAI/OpenRouter services.
   static const String openaiApiKey = String.fromEnvironment(
-    'O_R_SPECIAL_K', // Obfuscated to bypass scanners
-    defaultValue:
-        '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',
+    'OPENAI_API_KEY',
+    defaultValue: String.fromEnvironment('O_R_SPECIAL_K'),
   );
 
   /// The API key for Google Gemini AI services.
   static const String geminiApiKey = String.fromEnvironment(
-    'G_M_SPECIAL_K', // Obfuscated to bypass scanners
-    defaultValue: '',
+    'GEMINI_API_KEY',
+    defaultValue: String.fromEnvironment('G_M_SPECIAL_K'),
   );
 
   /// The Key ID for Razorpay payments.

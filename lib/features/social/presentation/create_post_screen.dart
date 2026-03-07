@@ -8,7 +8,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
-import '../../../core/services/image_editor_service.dart';
+// ImageEditorService removed for MVP
 import '../../auth/presentation/auth_controller.dart';
 import '../data/post_model.dart';
 import 'feed_controller.dart';
@@ -219,21 +219,16 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   Future<void> _applyFilter() async {
     if (_selectedImage == null) return;
-    final filtered = await ImageEditorService.applyFilter(
-      context,
-      _selectedImage!,
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Filters coming soon')),
     );
-    if (filtered != null) {
-      setState(() => _selectedImage = filtered);
-    }
   }
 
   Future<void> _cropImage() async {
     if (_selectedImage == null) return;
-    final cropped = await ImageEditorService.cropImage(_selectedImage!);
-    if (cropped != null) {
-      setState(() => _selectedImage = cropped);
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Crop coming soon')),
+    );
   }
 
   Future<void> _pickImage() async {

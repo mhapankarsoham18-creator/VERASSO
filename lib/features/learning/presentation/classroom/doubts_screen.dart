@@ -124,7 +124,8 @@ class _DoubtsScreenState extends ConsumerState<DoubtsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     scrollDirection: Axis.horizontal,
                     itemCount: _subjects.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 10),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 10),
                     itemBuilder: (context, index) {
                       final subject = _subjects[index];
                       final isSelected = subject == _selectedSubject;

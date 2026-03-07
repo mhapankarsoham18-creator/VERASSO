@@ -3,4 +3,4 @@
 /// Reusable UI components for the Social experience.
 library;
 
-export 'video_post_card.dart';
+// export 'video_post_card.dart'; // Removed — video_player dependency pruned

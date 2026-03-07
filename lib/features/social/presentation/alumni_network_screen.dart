@@ -40,9 +40,7 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
             children: [
               _buildVolunteerToggle(),
               Expanded(
-                child: ref
-                    .watch(alumniMentorsProvider)
-                    .when(
+                child: ref.watch(alumniMentorsProvider).when(
                       data: (alumni) {
                         if (alumni.isEmpty) {
                           return const Center(
@@ -56,7 +54,7 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
                         return ListView.separated(
                           padding: const EdgeInsets.all(16),
                           itemCount: alumni.length,
-                          separatorBuilder: (_, _) =>
+                          separatorBuilder: (context, index) =>
                               const SizedBox(height: 16),
                           itemBuilder: (context, index) {
                             return _buildAlumniCard(alumni[index]);

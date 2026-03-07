@@ -56,7 +56,7 @@ class NotificationBadge extends ConsumerWidget {
             );
           },
           loading: () => const SizedBox.shrink(),
-          error: (_, _) => const SizedBox.shrink(),
+          error: (err, stack) => const SizedBox.shrink(),
         ),
       ],
     );

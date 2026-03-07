@@ -60,7 +60,7 @@ class DashboardSkeleton extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 3,
-              itemBuilder: (_, _) => const Padding(
+              itemBuilder: (context, index) => const Padding(
                 padding: EdgeInsets.only(bottom: 12),
                 child: GlassContainer(
                   height: 100,

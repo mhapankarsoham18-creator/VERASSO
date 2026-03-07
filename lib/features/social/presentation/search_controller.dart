@@ -6,8 +6,7 @@ import '../../learning/data/course_models.dart';
 import '../../learning/data/course_repository.dart';
 import '../../profile/data/profile_model.dart';
 import '../../profile/data/profile_repository.dart';
-import '../../talent/data/talent_profile_model.dart';
-import '../../talent/data/talent_profile_repository.dart';
+// Talent imports removed — feature pruned for MVP
 import '../data/community_model.dart';
 import '../data/community_repository.dart';
 import '../data/feed_repository.dart';
@@ -20,7 +19,6 @@ final searchControllerProvider =
         ref.watch(profileRepositoryProvider),
         ref.watch(feedRepositoryProvider),
         ref.watch(courseRepositoryProvider),
-        ref.watch(talentProfileRepositoryProvider),
         ref.watch(communityRepositoryProvider),
       );
     });
@@ -30,7 +28,6 @@ class SearchController extends StateNotifier<SearchState> {
   final ProfileRepository _userRepo;
   final FeedRepository _feedRepo;
   final CourseRepository _courseRepo;
-  final TalentProfileRepository _talentRepo;
   final CommunityRepository _communityRepo;
   Timer? _debounce;
 
@@ -39,7 +36,6 @@ class SearchController extends StateNotifier<SearchState> {
     this._userRepo,
     this._feedRepo,
     this._courseRepo,
-    this._talentRepo,
     this._communityRepo,
   ) : super(SearchState());
 
@@ -65,7 +61,7 @@ class SearchController extends StateNotifier<SearchState> {
           _userRepo.searchUsers(query),
           _feedRepo.searchPosts(query),
           _courseRepo.searchCourses(query),
-          _talentRepo.searchMentors(query),
+          Future.value(<dynamic>[]), // Talent search removed for MVP
           _communityRepo.searchCommunities(query),
         ]);
 
@@ -73,7 +69,7 @@ class SearchController extends StateNotifier<SearchState> {
           userResults: results[0] as List<Profile>,
           postResults: results[1] as List<Post>,
           courseResults: results[2] as List<Course>,
-          mentorResults: results[3] as List<TalentProfile>,
+          mentorResults: const [], // Talent feature pruned
           communityResults: results[4] as List<Community>,
           isLoading: false,
         );
@@ -95,8 +91,8 @@ class SearchState {
   /// Matching learning courses.
   final List<Course> courseResults;
 
-  /// Matching mentors/talents.
-  final List<TalentProfile> mentorResults;
+  /// Matching mentors (placeholder — talent feature pruned for MVP).
+  final List<dynamic> mentorResults;
 
   /// Matching learning communities.
   final List<Community> communityResults;
@@ -119,7 +115,7 @@ class SearchState {
     List<Profile>? userResults,
     List<Post>? postResults,
     List<Course>? courseResults,
-    List<TalentProfile>? mentorResults,
+    List<dynamic>? mentorResults,
     List<Community>? communityResults,
     bool? isLoading,
   }) {

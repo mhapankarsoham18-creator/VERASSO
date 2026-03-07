@@ -14,7 +14,7 @@ import 'package:verasso/features/messaging/data/message_repository.dart';
 import 'package:verasso/features/notifications/data/notification_service.dart';
 import 'package:verasso/features/notifications/models/notification_model.dart';
 import 'package:verasso/features/social/data/feed_repository.dart';
-import 'package:verasso/features/talent/data/job_model.dart';
+import 'package:verasso/features/learning/data/classroom_session_service.dart';
 import 'package:verasso/features/talent/data/job_repository.dart';
 
 /// Provider for the [SyncBridgeService] instance.
@@ -112,14 +112,40 @@ class SyncBridgeService {
             );
         break;
       case 'apply_for_job':
-        await _ref
-            .read(jobRepositoryProvider)
-            .applyForJob(data['job_id'], data['talent_id'], data['message']);
+        await _ref.read(jobRepositoryProvider).applyForJob(
+              jobId: data['jobId'],
+              talentId: data['talentId'],
+              proposal: data['proposal'],
+            );
         break;
       case 'create_job':
-        await _ref
-            .read(jobRepositoryProvider)
-            .createJobRequest(JobRequest.fromJson(data));
+        await _ref.read(jobRepositoryProvider).createJob(
+              creatorId: data['creatorId'],
+              title: data['title'],
+              description: data['description'],
+              tags: List<String>.from(data['tags'] ?? []),
+              budget: data['budget'],
+            );
+        break;
+      case 'start_session':
+        await _ref.read(classroomSessionServiceProvider).startSession(
+              data['hostId'],
+              data['subject'],
+              data['topic'],
+            );
+        break;
+      case 'publish_poll':
+        await _ref.read(classroomSessionServiceProvider).publishPoll(
+              data['question'],
+              List<String>.from(data['options']),
+            );
+        break;
+      case 'raise_doubt':
+        await _ref.read(classroomSessionServiceProvider).raiseDoubt(
+              data['userId'],
+              data['userName'],
+              data['question'],
+            );
         break;
       default:
         AppLogger.warning('Unknown pending action type: $type');
@@ -199,12 +225,10 @@ class SyncBridgeService {
       switch (packet.type) {
         case MeshPayloadType.chatMessage:
           if (payload['action'] == 'apply_for_job') {
-            await _ref
-                .read(jobRepositoryProvider)
-                .applyForJob(
-                  payload['job_id'],
-                  packet.senderId,
-                  payload['message'],
+            await _ref.read(jobRepositoryProvider).applyForJob(
+                  jobId: payload['jobId'],
+                  talentId: packet.senderId,
+                  proposal: payload['proposal'],
                 );
             AppLogger.info('Uplinked mesh job application: ${packet.id}');
           } else {
@@ -221,9 +245,13 @@ class SyncBridgeService {
           break;
         case MeshPayloadType.feedPost:
           if (payload['action'] == 'create_job') {
-            await _ref
-                .read(jobRepositoryProvider)
-                .createJobRequest(JobRequest.fromJson(payload));
+            await _ref.read(jobRepositoryProvider).createJob(
+                  creatorId: packet.senderId,
+                  title: payload['title'],
+                  description: payload['description'],
+                  tags: List<String>.from(payload['tags'] ?? []),
+                  budget: payload['budget'],
+                );
             AppLogger.info('Uplinked mesh job request: ${packet.id}');
           } else {
             await _ref

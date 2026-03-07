@@ -6,6 +6,8 @@ import 'package:verasso/core/ui/liquid_background.dart';
 import 'biology/biology_menu_screen.dart';
 import 'chemistry/chemistry_menu_screen.dart';
 import 'physics/physics_menu_screen.dart';
+import 'geography/geography_menu_screen.dart';
+import 'astronomy/astronomy_menu_screen.dart';
 
 /// A screen that serves as the main entry point for different categories of interactive simulations.
 class SimulationsMenuScreen extends StatelessWidget {
@@ -67,6 +69,32 @@ class SimulationsMenuScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const BiologyMenuScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildCategoryCard(
+              context,
+              title: 'Geography',
+              description: 'Climate, tectonics, and interactive globe.',
+              icon: LucideIcons.globe,
+              color: Colors.blueAccent,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const GeographyMenuScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildCategoryCard(
+              context,
+              title: 'Astronomy',
+              description: 'Solar system, stargazing, and logs.',
+              icon: LucideIcons.moon,
+              color: Colors.deepPurple,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AstronomyMenuScreen()),
                 );
               },
             ),

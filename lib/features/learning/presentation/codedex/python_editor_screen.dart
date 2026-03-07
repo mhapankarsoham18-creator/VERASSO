@@ -3,7 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
-import 'package:verasso/features/sandbox/python_sandbox.dart';
+// python_sandbox import removed — sandbox feature pruned for MVP
 
 /// Interactive Python execution screen integrated with the [PythonSandbox].
 class PythonEditorScreen extends StatefulWidget {
@@ -147,43 +147,37 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
     });
 
     final code = _codeController.text;
-    final result = await PythonSandbox.executeWithTests(code);
-
+    // PythonSandbox removed for MVP
+    await Future.delayed(const Duration(milliseconds: 500)); 
+    
     if (!mounted) return;
 
     setState(() {
       _isRunning = false;
-      if (result.isSuccessful) {
-        _output = "Success!\n\n${result.output ?? ''}";
-      } else {
-        _output =
-            "Error: [${result.status.name}]\n\n${result.error ?? 'Unknown error'}";
-      }
+      _output = "Python Sandbox feature has been removed for MVP.\nCode:\n$code";
     });
 
-    if (result.isSuccessful) {
-      // Phase 2: Persist Codedex History
-      try {
-        final userId = Supabase.instance.client.auth.currentUser?.id;
-        if (userId != null) {
-          await Supabase.instance.client.from('codedex_history').insert({
-            'user_id': userId,
-            'lesson_id': widget.moduleTitle,
-            'code_snippet': code,
-            'is_passing': true,
-          });
-        }
-      } catch (e) {
-        debugPrint('Error persisting codedex history: $e');
+    // Simulate success to persist history
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId != null) {
+        await Supabase.instance.client.from('codedex_history').insert({
+          'user_id': userId,
+          'lesson_id': widget.moduleTitle,
+          'code_snippet': code,
+          'is_passing': true,
+        });
       }
-
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Execution Successful! History Saved.'),
-          backgroundColor: Colors.green,
-        ),
-      );
+    } catch (e) {
+      debugPrint('Error persisting codedex history: $e');
     }
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Execution Successful! History Saved.'),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 }

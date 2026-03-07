@@ -5,15 +5,11 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 import 'package:verasso/core/ui/shimmers/dashboard_skeleton.dart';
-import 'package:verasso/features/astronomy/presentation/astronomy_menu_screen.dart';
-import 'package:verasso/features/finance/presentation/finance_hub.dart';
+// Astronomy/Finance/Talent imports removed — features pruned for MVP
 import 'package:verasso/features/learning/data/collaboration_models.dart';
 import 'package:verasso/features/learning/data/collaboration_repository.dart';
 import 'package:verasso/features/learning/data/course_models.dart';
 import 'package:verasso/features/learning/data/course_repository.dart';
-import 'package:verasso/features/talent/presentation/mentor_directory_screen.dart';
-import 'package:verasso/features/talent/presentation/mentorship_management_screen.dart';
-import 'package:verasso/features/talent/presentation/talent_dashboard.dart';
 import 'package:verasso/l10n/app_localizations.dart';
 
 import '../../core/config/feature_flags.dart';
@@ -26,11 +22,13 @@ import 'presentation/marketplace/decks_screen.dart';
 import 'presentation/marketplace/resource_library_screen.dart';
 import 'presentation/simulations/biology/biology_menu_screen.dart';
 import 'presentation/simulations/chemistry/chemistry_menu_screen.dart';
-import 'presentation/simulations/cs/cs_menu_screen.dart';
 import 'presentation/simulations/geography/geography_menu_screen.dart';
+import 'presentation/simulations/physics/physics_menu_screen.dart';
+import 'presentation/simulations/astronomy/astronomy_menu_screen.dart';
 import 'presentation/simulations/history/history_menu_screen.dart';
 import 'presentation/simulations/pharmacy/pharmacy_menu_screen.dart';
-import 'presentation/simulations/physics/physics_menu_screen.dart';
+import 'presentation/simulations/finance/finance_menu_screen.dart';
+import '../social/presentation/alumni_network_screen.dart';
 import 'presentation/widgets/upcoming_events_carousel.dart';
 
 /// Provider that fetches active daily challenges from the [CollaborationRepository].
@@ -71,9 +69,7 @@ class LearningDashboard extends ConsumerWidget {
             const UpcomingEventsCarousel(),
 
             // Progress Section
-            ref
-                .watch(myEnrollmentsProvider)
-                .when(
+            ref.watch(myEnrollmentsProvider).when(
                   data: (enrollments) {
                     if (enrollments.isEmpty) return const SizedBox.shrink();
                     final inProgress = enrollments
@@ -152,13 +148,11 @@ class LearningDashboard extends ConsumerWidget {
                     );
                   },
                   loading: () => const SizedBox.shrink(),
-                  error: (_, _) => const SizedBox.shrink(),
+                  error: (err, stack) => const SizedBox.shrink(),
                 ),
 
             // Daily Challenge Widget
-            ref
-                .watch(activeChallengesProvider)
-                .when(
+            ref.watch(activeChallengesProvider).when(
                   data: (challenges) {
                     if (challenges.isEmpty) return const SizedBox.shrink();
                     final challenge = challenges.first;
@@ -248,7 +242,7 @@ class LearningDashboard extends ConsumerWidget {
                     );
                   },
                   loading: () => const DashboardSkeleton(),
-                  error: (_, _) => const SizedBox.shrink(),
+                  error: (err, stack) => const SizedBox.shrink(),
                 ),
 
             _ModuleCard(
@@ -303,12 +297,11 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Find industry professionals',
               icon: LucideIcons.graduationCap,
               color: Colors.purpleAccent,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const MentorDirectoryScreen(),
-                ),
-              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AlumniNetworkScreen()),
+                );
+              },
             ),
             const SizedBox(height: 16),
             _ModuleCard(
@@ -316,12 +309,11 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Track your growth sessions',
               icon: LucideIcons.calendarCheck,
               color: Colors.blueAccent,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const MentorshipManagementScreen(),
-                ),
-              ),
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Mentorships — coming soon!')),
+                );
+              },
             ),
 
             _ModuleCard(
@@ -391,9 +383,7 @@ class LearningDashboard extends ConsumerWidget {
               color: Colors.deepPurple,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const AstronomyMenuScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const AstronomyMenuScreen()),
                 );
               },
             ),
@@ -404,9 +394,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.trendingUp,
               color: Colors.amber,
               onTap: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const FinanceHub()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const FinanceMenuScreen()),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -452,9 +442,9 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.users,
               color: Colors.indigoAccent,
               onTap: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const CSMenuScreen()));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('CS Labs — coming soon!')),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -476,8 +466,8 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.graduationCap,
               color: Colors.redAccent,
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const TalentDashboard()),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Tutors — coming soon!')),
                 );
               },
             ),

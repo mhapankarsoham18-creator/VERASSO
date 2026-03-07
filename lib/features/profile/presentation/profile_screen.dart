@@ -22,9 +22,9 @@ import 'profile_controller.dart';
 /// Future provider that fetches profile statistics (e.g., friend count) for a given [userId].
 final profileStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
-      final repo = ref.watch(profileRepositoryProvider);
-      return repo.getProfileStats(userId);
-    });
+  final repo = ref.watch(profileRepositoryProvider);
+  return repo.getProfileStats(userId);
+});
 
 /// The user's main profile screen displaying their information, stats, and interests.
 class ProfileScreen extends ConsumerWidget {
@@ -121,7 +121,8 @@ class ProfileScreen extends ConsumerWidget {
                               '${stats['friends_count'] ?? 0}',
                             ),
                             loading: () => _buildStatItem(l10n.friends, '...'),
-                            error: (_, _) => _buildStatItem(l10n.friends, '0'),
+                            error: (err, stack) =>
+                                _buildStatItem(l10n.friends, '0'),
                           ),
                           _buildStatItem(
                             l10n.following,
@@ -212,7 +213,7 @@ class ProfileScreen extends ConsumerWidget {
                   onPressed: () {
                     final certificates =
                         ref.read(userCertificatesProvider(profile.id)).value ??
-                        [];
+                            [];
                     _exportTranscript(
                       context,
                       ref,
@@ -285,9 +286,8 @@ class ProfileScreen extends ConsumerWidget {
     };
 
     // Mastery transcript signing requires a persistent secure key.
-    final signingKey = await ref
-        .read(masterySignatureServiceProvider)
-        .getGlobalSigningKey();
+    final signingKey =
+        await ref.read(masterySignatureServiceProvider).getGlobalSigningKey();
     if (!context.mounted) return;
     if (signingKey == null) {
       showDialog(
@@ -308,13 +308,12 @@ class ProfileScreen extends ConsumerWidget {
       return;
     }
 
-    final transcript = ref
-        .read(masterySignatureServiceProvider)
-        .generateSignedTranscript(
-          userId: profile.id,
-          skills: realSkills,
-          signingKey: signingKey,
-        );
+    final transcript =
+        ref.read(masterySignatureServiceProvider).generateSignedTranscript(
+              userId: profile.id,
+              skills: realSkills,
+              signingKey: signingKey,
+            );
 
     showDialog(
       context: context,

@@ -5,7 +5,6 @@ import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
 import '../../../settings/presentation/mesh_network_screen.dart';
-import '../ar_builder/ar_circuit_builder_screen.dart';
 import 'ar_lab_screen.dart';
 import 'classroom_session_screen.dart';
 import 'doubt_swarm_screen.dart';
@@ -109,12 +108,11 @@ class MeshLabsScreen extends StatelessWidget {
                 subtitle: "Build circuits with hand gestures in AR",
                 icon: LucideIcons.cpu,
                 color: Colors.cyanAccent,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ArCircuitBuilderScreen(),
-                  ),
-                ),
+                onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('AR Circuit Builder — coming soon!')),
+                );
+              },
               ).animate().fadeIn(delay: 600.ms).slideX(),
               const SizedBox(height: 32),
               const Center(

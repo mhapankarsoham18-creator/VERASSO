@@ -10,17 +10,17 @@ import '../../features/gamification/presentation/leaderboard_screen.dart';
 import '../../features/learning/presentation/classroom/mesh_labs_screen.dart';
 import '../../features/learning/presentation/physics/physics_menu_screen.dart';
 import '../../features/messaging/presentation/chats_screen.dart';
-import '../../features/news/presentation/news_screen.dart';
 import '../../features/notifications/data/notification_service.dart';
 import '../../features/notifications/presentation/notifications_screen.dart';
 import '../../features/profile/presentation/profile_controller.dart';
-import '../../features/recommendations/presentation/for_you_screen.dart';
 import '../../features/settings/presentation/help_support_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/social/presentation/friends_list_screen.dart';
 import '../../features/social/presentation/saved_posts_screen.dart';
 import '../../features/support/presentation/feedback_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../../features/learning/presentation/simulations/finance/finance_menu_screen.dart';
+import '../../features/social/presentation/alumni_network_screen.dart';
 import '../config/app_config.dart';
 import 'glass_container.dart';
 
@@ -49,9 +49,7 @@ class AppDrawer extends ConsumerWidget {
             // Header
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ref
-                  .watch(userProfileProvider)
-                  .when(
+              child: ref.watch(userProfileProvider).when(
                     data: (profile) => Row(
                       children: [
                         ClipOval(
@@ -63,16 +61,16 @@ class AppDrawer extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) =>
                                       Shimmer.fromColors(
-                                        baseColor: Colors.white10,
-                                        highlightColor: Colors.white24,
-                                        child: Container(color: Colors.white),
-                                      ),
+                                    baseColor: Colors.white10,
+                                    highlightColor: Colors.white24,
+                                    child: Container(color: Colors.white),
+                                  ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(
-                                        LucideIcons.user,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
+                                    LucideIcons.user,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
                                 )
                               : Container(
                                   width: 60,
@@ -138,7 +136,7 @@ class AppDrawer extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    error: (_, _) => const Icon(LucideIcons.user),
+                    error: (err, stack) => const Icon(LucideIcons.user),
                   ),
             ),
             const Divider(color: Colors.white24),
@@ -166,9 +164,7 @@ class AppDrawer extends ConsumerWidget {
                   _DrawerItem(
                     icon: LucideIcons.bell,
                     title: l10n.notifications,
-                    trailing: ref
-                        .watch(unreadNotificationCountProvider)
-                        .when(
+                    trailing: ref.watch(unreadNotificationCountProvider).when(
                           data: (count) => count > 0
                               ? Container(
                                   padding: const EdgeInsets.symmetric(
@@ -190,7 +186,7 @@ class AppDrawer extends ConsumerWidget {
                                 )
                               : null,
                           loading: () => null,
-                          error: (_, _) => null,
+                          error: (err, stack) => null,
                         ),
                     onTap: () {
                       Navigator.pop(context); // Close drawer
@@ -207,9 +203,8 @@ class AppDrawer extends ConsumerWidget {
                     title: l10n.forYou,
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const ForYouScreen()),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('For You — coming soon!')),
                       );
                     },
                   ),
@@ -237,10 +232,10 @@ class AppDrawer extends ConsumerWidget {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('🎨 Talent Showcase coming soon!'),
-                            duration: Duration(seconds: 2),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AlumniNetworkScreen(),
                           ),
                         );
                       },
@@ -306,10 +301,10 @@ class AppDrawer extends ConsumerWidget {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('💰 Finance Hub coming soon!'),
-                            duration: Duration(seconds: 2),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const FinanceMenuScreen(),
                           ),
                         );
                       },
@@ -346,9 +341,8 @@ class AppDrawer extends ConsumerWidget {
                     title: l10n.newsFeed,
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const NewsScreen()),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('News Feed — coming soon!')),
                       );
                     },
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/theme/design_system.dart';
 import 'package:verasso/core/ui/app_drawer.dart'; // Import Drawer
@@ -8,11 +9,8 @@ import 'package:verasso/core/ui/network_status_indicator.dart';
 import 'package:verasso/widgets/notification_badge.dart';
 
 import '../../gamification/presentation/level_up_listener.dart'; // Import LevelUpListener
-import '../../learning/learning_dashboard.dart';
 import '../../profile/presentation/profile_screen.dart';
 import '../../social/presentation/feed_screen.dart'; // Ensure correct import
-import '../../social/presentation/search_screen.dart';
-import '../../stories/presentation/story_feed_screen.dart'; // Import Story Screen
 
 /// The main navigation hub of the application, managing top-level screens.
 class HomeScreen extends StatefulWidget {
@@ -35,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Reduces jank and preserves scroll state (Phase 1.3).
   late final List<Widget> _pages = [
     _KeepAliveTab(child: const FeedScreen()),
-    _KeepAliveTab(child: const DiscoverScreen()),
-    _KeepAliveTab(child: const StoryFeedScreen()),
-    _KeepAliveTab(child: const LearningDashboard()),
+    // Removed non-core tabs for Codemaster Odyssey MVP Focus
     _KeepAliveTab(child: const ProfileScreen()),
   ];
 
@@ -134,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
+          // Game Shortcut (Replaced Discover)
           Animate(
             effects: [
               FadeEffect(
@@ -148,12 +145,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             child: _NavBarItem(
-              icon: LucideIcons.compass,
-              label: 'Discover',
-              isSelected: _currentIndex == 1,
+              icon: LucideIcons.gamepad2,
+              label: 'Codemaster',
+              isSelected: false,
               onTap: () {
                 HapticFeedback.selectionClick();
-                setState(() => _currentIndex = 1);
+                // Navigate directly to game to encourage testing the MVP
+                GoRouter.of(context).push('/game');
               },
             ),
           ),
@@ -171,58 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             child: _NavBarItem(
-              icon: LucideIcons.camera,
-              label: 'Stories',
-              isSelected: _currentIndex == 2,
-              onTap: () {
-                HapticFeedback.selectionClick();
-                setState(() => _currentIndex = 2);
-              },
-            ),
-          ),
-          Animate(
-            effects: [
-              FadeEffect(
-                delay: 150.ms,
-                duration: DesignSystem.durationMedium,
-                curve: DesignSystem.easingStandard,
-              ),
-              const MoveEffect(
-                begin: Offset(0, 10),
-                end: Offset.zero,
-                curve: DesignSystem.easingStandard,
-              ),
-            ],
-            child: _NavBarItem(
-              icon: LucideIcons.graduationCap,
-              label: 'Learning',
-              isSelected: _currentIndex == 3,
-              onTap: () {
-                HapticFeedback.selectionClick();
-                setState(() => _currentIndex = 3);
-              },
-            ),
-          ),
-          Animate(
-            effects: [
-              FadeEffect(
-                delay: 200.ms,
-                duration: DesignSystem.durationMedium,
-                curve: DesignSystem.easingStandard,
-              ),
-              const MoveEffect(
-                begin: Offset(0, 10),
-                end: Offset.zero,
-                curve: DesignSystem.easingStandard,
-              ),
-            ],
-            child: _NavBarItem(
               icon: LucideIcons.user,
               label: 'Profile',
-              isSelected: _currentIndex == 4,
+              isSelected: _currentIndex == 1,
               onTap: () {
                 HapticFeedback.selectionClick();
-                setState(() => _currentIndex = 4);
+                setState(() => _currentIndex = 1);
               },
             ),
           ),

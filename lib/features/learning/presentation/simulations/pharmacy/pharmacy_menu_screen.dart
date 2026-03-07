@@ -3,12 +3,11 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
-import 'ar_drug_viewer_screen.dart';
-import 'enzyme_kinetics_screen.dart';
 import 'formulation_lab_screen.dart';
 import 'pkpd_simulator_screen.dart';
+import 'enzyme_kinetics_screen.dart';
 
-/// A screen that displays a menu of available pharmacy and pharmacology simulations.
+/// Entry point for Pharmacy and Pharmacology simulations.
 class PharmacyMenuScreen extends StatelessWidget {
   /// Creates a [PharmacyMenuScreen] instance.
   const PharmacyMenuScreen({super.key});
@@ -26,123 +25,52 @@ class PharmacyMenuScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
           children: [
-            const GlassContainer(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Pharmacology Command Center',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Explore pharmaceutical sciences through high-fidelity AR simulations and interactive labs.',
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                ],
+            _buildActionCard(
+              context,
+              title: 'Formulation Lab',
+              subtitle: 'Compound your own medicine',
+              icon: LucideIcons.beaker,
+              color: Colors.redAccent,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const FormulationLabScreen()),
               ),
             ),
-            const SizedBox(height: 24),
-            _MenuCard(
-              title: 'AR Molecule Viewer',
-              subtitle: 'Visualize drug structures in 3D AR',
-              icon: LucideIcons.box,
-              color: Colors.blueAccent,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ARDrugViewerScreen(
-                      drugName: 'Paracetamol',
-                      modelPath:
-                          'assets/models/paracetamol.glb', // Local asset required or remote URL
-                      description:
-                          'N-acetyl-p-aminophenol, a widely used analgesic and antipyretic agent.',
-                    ),
-                  ),
-                );
-              },
-            ),
             const SizedBox(height: 16),
-            _MenuCard(
-              title: 'Drug-Drug Interactions',
-              subtitle: 'Simulate biochemical synergism',
-              icon: LucideIcons.activity,
-              color: Colors.greenAccent,
-              onTap: () {
-                // Navigate to Interaction Simulator
-              },
-            ),
-            const SizedBox(height: 16),
-            _MenuCard(
-              title: 'Virtual Formulation Lab',
-              subtitle: 'Drag-and-drop excipient mixer',
-              icon: LucideIcons.beaker,
+            _buildActionCard(
+              context,
+              title: 'PK/PD Simulator',
+              subtitle: 'Drug Concentration over Time',
+              icon: LucideIcons.trendingUp,
               color: Colors.orangeAccent,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FormulationLabScreen(),
-                  ),
-                );
-              },
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const PKPDSimulatorScreen()),
+              ),
             ),
             const SizedBox(height: 16),
-            _MenuCard(
-              title: 'Clinical Pharmacology',
-              subtitle: 'PK/PD Math Simulator',
-              icon: LucideIcons.stethoscope,
-              color: Colors.purpleAccent,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PKPDSimulatorScreen(),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            _MenuCard(
-              title: 'Molecular Binding',
-              subtitle: 'Enzyme-Substrate Kinetics',
-              icon: LucideIcons.zap,
-              color: Colors.amber,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EnzymeKineticsScreen(),
-                  ),
-                );
-              },
+            _buildActionCard(
+              context,
+              title: 'Enzyme Kinetics',
+              subtitle: 'Michaelis-Menten Simulation',
+              icon: LucideIcons.dna,
+              color: Colors.greenAccent,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const EnzymeKineticsScreen()),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class _MenuCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
-
-  const _MenuCard({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildActionCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: GlassContainer(
@@ -152,35 +80,24 @@ class _MenuCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
+                color: color.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 28),
             ),
             const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(fontSize: 12, color: Colors.white60),
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Text(subtitle, style: const TextStyle(color: Colors.white70)),
+              ],
             ),
-            const Icon(
-              LucideIcons.chevronRight,
-              size: 16,
-              color: Colors.white38,
-            ),
+            const Spacer(),
+            const Icon(LucideIcons.chevronRight, color: Colors.white54),
           ],
         ),
       ),

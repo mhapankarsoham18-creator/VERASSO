@@ -5,11 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../academic/presentation/academic_fusion_screen.dart';
 import '../../avatar/presentation/avatar_screen.dart';
 import '../../challenge/presentation/challenge_list_screen.dart';
-import '../../collaboration/presentation/collaboration_screen.dart';
 import '../../enterprise/presentation/enterprise_sync_screen.dart';
 import '../../global/presentation/global_community_screen.dart';
-import '../../multiplayer/presentation/code_duel_widget.dart';
-import '../../multiplayer/presentation/collaboration_overlay.dart';
 import '../../quest/presentation/quest_list_widget.dart';
 import '../data/realm_repository.dart';
 import 'widgets/realm_node.dart';
@@ -95,6 +92,7 @@ class OdysseyMapScreen extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(width: 16),
+                  /*
                   const CodeDuelWidget(),
                   const SizedBox(width: 16),
                   _MapActionButton(
@@ -110,6 +108,7 @@ class OdysseyMapScreen extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(width: 16),
+                  */
                   _MapActionButton(
                     icon: Icons.business,
                     label: 'ENTERPRISE',
@@ -217,7 +216,7 @@ class OdysseyMapScreen extends ConsumerWidget {
           ),
 
           // MESH Multiplayer Overlay
-          const CollaborationOverlay(),
+          // const CollaborationOverlay(),
         ],
       ),
     );

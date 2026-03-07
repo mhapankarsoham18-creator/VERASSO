@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
@@ -551,12 +550,13 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
     _confetti1.play();
     _confetti2.play();
 
-    // Play sound effect based on level
+    // Audio playback stubbed out — audioplayers dependency removed for MVP
+    // NOTE: Re-enable with Flame audio or audioplayers when game audio is added
     try {
-      final player = AudioPlayer();
-      await player.play(AssetSource('audio/level_up_${widget.level}.mp3'));
+      // final player = AudioPlayer();
+      // await player.play(AssetSource('audio/level_up_${widget.level}.mp3'));
     } catch (e) {
-      AppLogger.warning('Audio playback failed', error: e);
+      AppLogger.warning('Audio playback skipped (dependency removed)', error: e);
     }
 
     await Future.delayed(const Duration(milliseconds: 4000));

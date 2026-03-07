@@ -126,7 +126,34 @@ class MeshSyncManager {
     // Listen for incoming packets to store in history and respond to requests
     _meshSubscription = _meshService.meshStream.listen((packet) {
       try {
+        if (_packetHistory.containsKey(packet.id)) return; // Avoid duplicate processing
+
         _storeInHistory(packet);
+
+        // Active Relay Logic: Proactively forward critical packets
+        if (packet.senderId != _meshService.myId && packet.ttl > 0) {
+          final criticalTypes = [
+            MeshPayloadType.chatMessage,
+            MeshPayloadType.doubtRaise,
+            MeshPayloadType.scienceData,
+          ];
+
+          if (criticalTypes.contains(packet.type)) {
+            AppLogger.info('Mesh Sync: Proactively relaying packet ${packet.id} (TTL: ${packet.ttl})');
+            
+            // Decrement TTL and add self to seenBy
+            final relayedPacket = packet.copyWith(
+              ttl: packet.ttl - 1,
+              seenBy: [...packet.seenBy, _meshService.myId],
+            );
+
+            _meshService.broadcastPacket(
+              relayedPacket.type,
+              relayedPacket.payload,
+            );
+          }
+        }
+
         if (packet.type == MeshPayloadType.meshSummary) {
           _handleSummary(packet);
         } else if (packet.type == MeshPayloadType.packetRequest) {

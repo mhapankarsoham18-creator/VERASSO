@@ -14,14 +14,11 @@ import 'package:verasso/l10n/app_localizations.dart';
 import '../../learning/data/course_models.dart';
 import '../../learning/data/course_repository.dart';
 import '../../learning/presentation/marketplace/course_player_screen.dart';
-import '../../news/presentation/news_screen.dart';
-import '../../talent/data/talent_profile_model.dart';
-import '../../talent/presentation/professional_profile_screen.dart';
+// news, talent, discovery_widgets imports removed — features pruned for MVP
 import '../data/community_model.dart';
 import '../data/community_repository.dart';
 import '../data/post_model.dart';
 import '../presentation/feed_controller.dart';
-import 'discovery_widgets.dart';
 import 'search_controller.dart'
     as sc; // Alias to avoid clash with Flutter's SearchController if needed
 import 'user_profile_screen.dart';
@@ -59,8 +56,8 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           // Use SafeArea roughly or custom padding
           child: Column(
             children: [
-              // News Ticker
-              const NewsTicker(),
+              // News Ticker removed for MVP
+              const SizedBox(height: 8),
 
               // Search Bar
               Padding(
@@ -129,17 +126,17 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                     .getRecommendedCommunities(),
                                 builder: (context, snapshot) =>
                                     _buildCommunityCarousel(
-                                      snapshot.data ?? [],
-                                    ),
+                                  snapshot.data ?? [],
+                                ),
                               ),
                               FutureBuilder<List<Course>>(
                                 future: ref
                                     .read(courseRepositoryProvider)
                                     .getPublishedCourses(),
-                                builder: (context, snapshot) =>
-                                    snapshot.hasData &&
+                                builder: (context, snapshot) => snapshot
+                                            .hasData &&
                                         snapshot.data!.isNotEmpty
-                                    ? TrendingCarousel(courses: snapshot.data!)
+                                    ? const SizedBox.shrink() // TrendingCarousel removed for MVP
                                     : const SizedBox.shrink(),
                               ),
                               _buildRecommendedUsers(exploreAsync),
@@ -197,9 +194,8 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                 label: const Text('Global Pulse'),
                 onPressed: () {
                   HapticFeedback.lightImpact();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const NewsScreen()),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('News — coming soon!')),
                   );
                 },
                 backgroundColor: Colors.orangeAccent.withValues(alpha: 0.1),
@@ -407,14 +403,14 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         final filtered = _selectedCategory == 'All'
             ? posts
             : posts
-                  .where(
-                    (p) =>
-                        p.content?.toLowerCase().contains(
-                          _selectedCategory.toLowerCase(),
-                        ) ??
-                        false,
-                  )
-                  .toList();
+                .where(
+                  (p) =>
+                      p.content?.toLowerCase().contains(
+                            _selectedCategory.toLowerCase(),
+                          ) ??
+                      false,
+                )
+                .toList();
 
         if (filtered.isEmpty) {
           return const EmptyStateWidget(
@@ -438,82 +434,81 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           itemBuilder: (context, index) {
             final post = filtered[index];
             return GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => UserProfileScreen(userId: post.userId),
-                    ),
-                  ),
-                  child: GlassContainer(
-                    padding: EdgeInsets.zero,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                            child: post.mediaUrls.isNotEmpty
-                                ? Image.network(
-                                    post.mediaUrls.first,
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(
-                                              Icons.broken_image,
-                                              size: 40,
-                                              color: Colors.white24,
-                                            ),
-                                  )
-                                : Container(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withValues(alpha: 0.05),
-                                    padding: const EdgeInsets.all(12),
-                                    child: Text(
-                                      post.content ?? '',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white70,
-                                      ),
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-                          ),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => UserProfileScreen(userId: post.userId),
+                ),
+              ),
+              child: GlassContainer(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(16),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 10,
-                                backgroundImage: post.authorAvatar != null
-                                    ? NetworkImage(post.authorAvatar!)
-                                    : null,
-                                child: post.authorAvatar == null
-                                    ? const Icon(LucideIcons.user, size: 10)
-                                    : null,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
+                        child: post.mediaUrls.isNotEmpty
+                            ? Image.network(
+                                post.mediaUrls.first,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                  Icons.broken_image,
+                                  size: 40,
+                                  color: Colors.white24,
+                                ),
+                              )
+                            : Container(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withValues(alpha: 0.05),
+                                padding: const EdgeInsets.all(12),
                                 child: Text(
-                                  post.authorName ?? 'User',
+                                  post.content ?? '',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 11,
+                                    fontSize: 12,
+                                    color: Colors.white70,
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  overflow: TextOverflow.fade,
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                )
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundImage: post.authorAvatar != null
+                                ? NetworkImage(post.authorAvatar!)
+                                : null,
+                            child: post.authorAvatar == null
+                                ? const Icon(LucideIcons.user, size: 10)
+                                : null,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              post.authorName ?? 'User',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
                 .animate()
                 .fadeIn(
                   delay: (index * 30).ms,
@@ -537,46 +532,12 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
     );
   }
 
-  /// List view of mentor profile results from the talent search.
-  Widget _buildMentorResults(List<TalentProfile> results) {
-    var filtered = results;
-    // If we have rating field in TalentProfile, we could filter here
-    // if (_filterTopRated) filtered = filtered.where((m) => m.rating >= 4.5).toList();
-
-    if (filtered.isEmpty) {
-      return const EmptyStateWidget(
-        title: 'No Pioneers Found',
-        message: 'No matching mentors found.',
-        icon: LucideIcons.graduationCap,
-      );
-    }
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: filtered.length,
-      itemBuilder: (context, index) {
-        final mentor = filtered[index];
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: mentor.avatarUrl != null
-                ? NetworkImage(mentor.avatarUrl!)
-                : null,
-            child: mentor.avatarUrl == null
-                ? const Icon(LucideIcons.graduationCap)
-                : null,
-          ),
-          title: Text(
-            mentor.fullName ?? 'Mentor',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(mentor.headline ?? 'Expert Professional'),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ProfessionalProfileScreen(userId: mentor.id),
-            ),
-          ),
-        );
-      },
+  /// List view of mentor profile results (talent feature pruned for MVP).
+  Widget _buildMentorResults(List<dynamic> results) {
+    return const EmptyStateWidget(
+      title: 'Mentors Coming Soon',
+      message: 'Mentor search will be available in a future release.',
+      icon: LucideIcons.graduationCap,
     );
   }
 
@@ -740,7 +701,7 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         );
       },
       loading: () => const SizedBox(height: 120),
-      error: (_, _) => const SizedBox.shrink(),
+      error: (err, stack) => const SizedBox.shrink(),
     );
   }
 

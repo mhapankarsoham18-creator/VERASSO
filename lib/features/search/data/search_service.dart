@@ -17,7 +17,7 @@ class SearchService {
 
   /// Creates a [SearchService] with an optional [SupabaseClient].
   SearchService({SupabaseClient? client})
-    : _client = client ?? SupabaseService.client;
+      : _client = client ?? SupabaseService.client;
 
   /// Get search suggestions.
   Future<List<String>> getSuggestions(String query) async {
@@ -106,25 +106,18 @@ class SearchService {
   }
 
   /// Search by date range.
-  Future<SearchResults> searchByDateRange({
-    required String query,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) async {
+  Future<SearchResults> searchByDateRange(
+      {required String query, DateTime? startDate, DateTime? endDate}) async {
     try {
       var queryBuilder = _client.from('search_index').select();
       queryBuilder = queryBuilder.ilike('title', '%$query%');
       if (startDate != null) {
-        queryBuilder = queryBuilder.gte(
-          'created_at',
-          startDate.toIso8601String(),
-        );
+        queryBuilder =
+            queryBuilder.gte('created_at', startDate.toIso8601String());
       }
       if (endDate != null) {
-        queryBuilder = queryBuilder.lte(
-          'created_at',
-          endDate.toIso8601String(),
-        );
+        queryBuilder =
+            queryBuilder.lte('created_at', endDate.toIso8601String());
       }
       final response = await queryBuilder;
       return _mapResults(response as List);
@@ -134,10 +127,8 @@ class SearchService {
   }
 
   /// Search by user.
-  Future<SearchResults> searchByUser({
-    required String query,
-    String? userId,
-  }) async {
+  Future<SearchResults> searchByUser(
+      {required String query, String? userId}) async {
     try {
       var queryBuilder = _client.from('search_index').select();
       queryBuilder = queryBuilder.ilike('title', '%$query%');
@@ -192,8 +183,7 @@ class SearchService {
       final response = await _client
           .from('posts')
           .select(
-            'id, user_id, content, created_at, profiles:user_id(full_name, avatar_url)',
-          )
+              'id, user_id, content, created_at, profiles:user_id(full_name, avatar_url)')
           .filter('deleted_at', 'is', null)
           .or('content.ilike.%$query%,tags.cs.{$query}')
           .order('created_at', ascending: false)
@@ -229,12 +219,12 @@ class SearchService {
   }
 
   /// Search with filters.
-  Future<SearchResults> searchWithFilters({
-    required String query,
-    Map<String, dynamic>? filters,
-    int? page,
-    int? pageSize,
-  }) => search(query, page: page, pageSize: pageSize);
+  Future<SearchResults> searchWithFilters(
+          {required String query,
+          Map<String, dynamic>? filters,
+          int? page,
+          int? pageSize}) =>
+      search(query, page: page, pageSize: pageSize);
 
   SearchResults _mapResults(List results) {
     final users = <UserSearchResult>[];

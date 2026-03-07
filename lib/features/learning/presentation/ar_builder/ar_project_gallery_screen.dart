@@ -8,7 +8,6 @@ import 'package:verasso/core/ui/liquid_background.dart';
 import 'package:verasso/features/learning/data/ar_project_repository.dart';
 
 import '../../data/ar_project_model.dart';
-import 'ar_circuit_builder_screen.dart';
 import 'ar_project_viewer_screen.dart';
 
 /// Project gallery showing saved and shared AR projects
@@ -71,9 +70,8 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ArCircuitBuilderScreen()),
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('AR Builder — coming soon!')),
           );
         },
         icon: const Icon(LucideIcons.plus),
@@ -275,16 +273,15 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ArCircuitBuilderScreen(existingProject: project),
+        builder: (_) => ArProjectViewerScreen(project: project),
       ),
     );
   }
 
   Future<void> _remixProject(ArProject project) async {
     try {
-      final remixed = await ref
-          .read(arProjectRepositoryProvider)
-          .remixProject(project.id);
+      final remixed =
+          await ref.read(arProjectRepositoryProvider).remixProject(project.id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Project remixed: ${remixed.title}')),
@@ -358,7 +355,8 @@ class _ProjectGridItem extends StatelessWidget {
                         child: Image.network(
                           project.thumbnailUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => _buildPlaceholder(),
+                          errorBuilder: (ctx, err, stack) =>
+                              _buildPlaceholder(),
                         ),
                       )
                     : _buildPlaceholder(),

@@ -1,17 +1,54 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
 
-/// Service for Sentry error reporting and monitoring
+/// Service for Sentry error reporting and monitoring.
+/// All secrets are passed via --dart-define at build time.
 class SentryService {
   static const String _sentryDsn = String.fromEnvironment(
     'SENTRY_DSN',
-    defaultValue: '', // Add your Sentry DSN here or via --dart-define
+    defaultValue: '',
   );
 
-  /// Add breadcrumb for debugging context
-  /// Example: User navigated to a screen, tapped a button, etc.
+  /// Initialize Sentry. Should be called before runApp() in main.dart.
+  static Future<void> initialize({
+    required FutureOr<void> Function() appRunner,
+    String? environment,
+  }) async {
+    if (_sentryDsn.isEmpty) {
+      AppLogger.info('Sentry DSN not configured. Running without Sentry.');
+      await appRunner();
+      return;
+    }
+
+    try {
+      await SentryFlutter.init(
+        (options) {
+          options.dsn = _sentryDsn;
+          options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
+          options.environment =
+              environment ?? (kDebugMode ? 'development' : 'production');
+          options.enableAutoPerformanceTracing = true;
+          options.sendDefaultPii = false;
+          options.attachStacktrace = true;
+          options.attachScreenshot = true;
+          options.debug = kDebugMode;
+          options.release = 'verasso@1.2.0+3';
+          options.beforeSend = (event, hint) => event;
+        },
+        appRunner: appRunner,
+      );
+      AppLogger.info('Sentry initialized [env: $environment]');
+    } catch (e) {
+      AppLogger.error('Failed to initialize Sentry', error: e);
+      await appRunner();
+    }
+  }
+
+  /// Add breadcrumb for debugging context.
   static void addBreadcrumb({
     required String message,
     String? category,
@@ -29,7 +66,7 @@ class SentryService {
     );
   }
 
-  /// Capture an exception
+  /// Capture an exception and send to Sentry.
   static Future<SentryId> captureException(
     dynamic exception, {
     dynamic stackTrace,
@@ -46,7 +83,7 @@ class SentryService {
     );
   }
 
-  /// Capture a message
+  /// Capture a message.
   static Future<SentryId> captureMessage(
     String message, {
     SentryLevel level = SentryLevel.info,
@@ -65,76 +102,7 @@ class SentryService {
     );
   }
 
-  /// Clear user context
-  /// Call this after user logs out
-  static Future<void> clearUser() async {
-    await Sentry.configureScope((scope) {
-      scope.setUser(null);
-    });
-  }
-
-  /// Initialize Sentry
-  /// Should be called before runApp() in main.dart
-  static Future<void> initialize({
-    required Function() appRunner,
-    String? dsn,
-    String environment = 'production',
-  }) async {
-    final sentryDsn = dsn ?? _sentryDsn;
-
-    // Skip Sentry in debug mode if DSN is empty
-    if (sentryDsn.isEmpty && kDebugMode) {
-      if (kDebugMode) {
-        AppLogger.warning(
-          'Sentry DSN not provided, skipping Sentry initialization',
-        );
-      }
-      appRunner();
-      return;
-    }
-
-    await SentryFlutter.init((options) {
-      options.dsn = sentryDsn;
-      options.environment = kDebugMode ? 'development' : environment;
-      options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
-
-      // Capture failed HTTP requests
-      options.captureFailedRequests = true;
-
-      // Report errors in debug mode
-      options.debug = kDebugMode;
-
-      // Attach screenshots on errors (mobile only)
-      options.attachScreenshot = true;
-
-      // Set release version
-      options.release = 'verasso@1.2.0+3';
-
-      // Attach stack trace for all messages
-      options.attachStacktrace = true;
-
-      // Filter out personally identifiable information
-      // Filter out personally identifiable information
-      options.beforeSend = (event, hint) => event;
-    }, appRunner: appRunner);
-  }
-
-  /// Set custom context
-  static Future<void> setContext(String key, Map<String, dynamic> value) async {
-    await Sentry.configureScope((scope) {
-      scope.setContexts(key, value);
-    });
-  }
-
-  /// Set a custom tag
-  static Future<void> setTag(String key, String value) async {
-    await Sentry.configureScope((scope) {
-      scope.setTag(key, value);
-    });
-  }
-
-  /// Set user context for error tracking
-  /// Call this after user logs in
+  /// Set user context for error tracking.
   static Future<void> setUser({
     required String userId,
     String? email,
@@ -145,7 +113,14 @@ class SentryService {
     });
   }
 
-  /// Automatically set user from Supabase session
+  /// Clear user context (e.g. on logout).
+  static Future<void> clearUser() async {
+    await Sentry.configureScope((scope) {
+      scope.setUser(null);
+    });
+  }
+
+  /// Sync user from current Supabase session to Sentry.
   static Future<void> syncUserFromSupabase() async {
     try {
       final user = Supabase.instance.client.auth.currentUser;
@@ -163,33 +138,17 @@ class SentryService {
     }
   }
 
-  /// Helper to wrap async operations with error capture
-  static Future<T?> wrapAsync<T>(
-    Future<T> Function() operation, {
-    String? operationName,
-  }) async {
-    try {
-      if (operationName != null) {
-        addBreadcrumb(
-          message: 'Starting: $operationName',
-          category: 'operation',
-        );
-      }
+  /// Set custom context.
+  static Future<void> setContext(String key, Map<String, dynamic> value) async {
+    await Sentry.configureScope((scope) {
+      scope.setContexts(key, value);
+    });
+  }
 
-      final result = await operation();
-
-      if (operationName != null) {
-        addBreadcrumb(
-          message: 'Completed: $operationName',
-          category: 'operation',
-          level: SentryLevel.debug,
-        );
-      }
-
-      return result;
-    } catch (e, stackTrace) {
-      await captureException(e, stackTrace: stackTrace, hint: operationName);
-      return null;
-    }
+  /// Set a custom tag.
+  static Future<void> setTag(String key, String value) async {
+    await Sentry.configureScope((scope) {
+      scope.setTag(key, value);
+    });
   }
 }

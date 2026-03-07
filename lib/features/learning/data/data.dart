@@ -14,7 +14,7 @@ export 'course_repository.dart';
 export 'event_repository.dart';
 export 'federated_sync_service.dart';
 export 'flashcard_repository.dart';
-export 'hand_gesture_service.dart';
+// export 'hand_gesture_service.dart'; // Removed — google_mlkit dependency pruned
 // export 'learning_path_repository.dart'; // Does not exist
 export 'project_repository.dart';
 // export 'simulation_repository.dart'; // Does not exist

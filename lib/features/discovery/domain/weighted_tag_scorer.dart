@@ -26,11 +26,9 @@ class WeightedTagScorer {
         score += matchWeight;
       } else {
         // Check for partial matches (e.g., "flutter" matches "flutter dev")
-        bool partial = userInterests.any(
-          (interest) =>
-              interest.contains(normalizedTag) ||
-              normalizedTag.contains(interest),
-        );
+        bool partial = userInterests.any((interest) =>
+            interest.contains(normalizedTag) ||
+            normalizedTag.contains(interest));
         if (partial) {
           score += secondaryMatchWeight;
         }

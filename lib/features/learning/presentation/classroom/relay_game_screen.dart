@@ -262,7 +262,7 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                       final relay = activeRelays.values.elementAt(index);
                       final myId = ref.read(bluetoothMeshServiceProvider).myId;
                       final canPass =
-                          myId != null && !relay.idChain.contains(myId);
+                          !relay.idChain.contains(myId);
 
                       return GlassContainer(
                         margin: const EdgeInsets.only(bottom: 16),
@@ -318,7 +318,6 @@ class _RelayGameScreenState extends ConsumerState<RelayGameScreen>
                                         relay.userChain[i],
                                         style: TextStyle(
                                           color:
-                                              myId != null &&
                                                   relay.userChain[i].contains(
                                                     myId,
                                                   )

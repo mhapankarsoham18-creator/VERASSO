@@ -182,20 +182,21 @@ class FeedRepository {
       }).toList();
 
       if (userInterests.isNotEmpty) {
-        // Sort by relevance score
         posts.sort((a, b) {
           final scoreA = WeightedTagScorer.score(
             itemTags: a.tags,
             userInterests: userInterests,
-            popularityScore: a.likesCount,
             createdAt: a.createdAt,
           );
           final scoreB = WeightedTagScorer.score(
             itemTags: b.tags,
             userInterests: userInterests,
-            popularityScore: b.likesCount,
             createdAt: b.createdAt,
           );
+
+          if (scoreA == scoreB) {
+            return b.createdAt.compareTo(a.createdAt);
+          }
           return scoreB.compareTo(scoreA); // Descending
         });
       }

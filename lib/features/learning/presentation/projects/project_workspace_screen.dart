@@ -68,15 +68,12 @@ class _ProjectWorkspaceScreenState
                     }
 
                     final tasks = snapshot.data!;
-                    final todo = tasks
-                        .where((t) => t.status == 'Todo')
-                        .toList();
-                    final doing = tasks
-                        .where((t) => t.status == 'Doing')
-                        .toList();
-                    final done = tasks
-                        .where((t) => t.status == 'Done')
-                        .toList();
+                    final todo =
+                        tasks.where((t) => t.status == 'Todo').toList();
+                    final doing =
+                        tasks.where((t) => t.status == 'Doing').toList();
+                    final done =
+                        tasks.where((t) => t.status == 'Done').toList();
 
                     return ListView(
                       scrollDirection: Axis.horizontal,
@@ -132,7 +129,7 @@ class _ProjectWorkspaceScreenState
             Expanded(
               child: ListView.separated(
                 itemCount: tasks.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 8),
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
                 itemBuilder: (context, index) {
                   final task = tasks[index];
                   return Container(

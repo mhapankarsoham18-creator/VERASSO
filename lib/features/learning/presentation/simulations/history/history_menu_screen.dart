@@ -3,11 +3,12 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
-import 'ar_temple_reconstruction_screen.dart';
 import 'historical_atlas_screen.dart';
+import 'civilizations_screen.dart';
+import 'war_strategy_screen.dart';
 import 'timeline_reconstructor_screen.dart';
 
-/// A screen that displays a menu of available history simulations and heritage experiences.
+/// Entry point for historical simulations and archaeological reconstructions.
 class HistoryMenuScreen extends StatelessWidget {
   /// Creates a [HistoryMenuScreen] instance.
   const HistoryMenuScreen({super.key});
@@ -17,121 +18,99 @@ class HistoryMenuScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('History & Heritage'),
+        title: const Text('History Labs'),
         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: LiquidBackground(
         child: ListView(
-          padding: const EdgeInsets.only(top: 120, left: 16, right: 16),
+          padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
           children: [
-            _HistoryCard(
+            _buildActionCard(
+              context,
               title: 'Historical Atlas',
-              subtitle: 'Timelines & trade routes across regions',
+              subtitle: 'Interactive Global Timeline',
               icon: LucideIcons.map,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const HistoricalAtlasScreen(),
-                ),
+              color: Colors.brown,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const HistoricalAtlasScreen()),
               ),
             ),
             const SizedBox(height: 16),
-            _HistoryCard(
-              title: 'Timeline Reconstructor',
-              subtitle: 'Reorder scrambled historical events',
-              icon: LucideIcons.calendar,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const TimelineReconstructorScreen(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            _HistoryCard(
-              title: 'AR Temple Reconstruction',
-              subtitle: 'Visualize ancient architecture in 3D AR',
+            _buildActionCard(
+              context,
+              title: 'Ancient Civilizations',
+              subtitle: 'Explore lost cultures',
               icon: LucideIcons.landmark,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ARTempleReconstructionScreen(),
-                ),
+              color: Colors.amber,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const CivilizationsScreen()),
               ),
             ),
             const SizedBox(height: 16),
-            _HistoryCard(
-              title: 'AI Historical Interviews',
-              subtitle: 'Talk to legacy figures (Coming Soon)',
-              icon: LucideIcons.messageSquare,
-              onTap: () {},
-              isEnabled: false,
+            _buildActionCard(
+              context,
+              title: 'War Strategy',
+              subtitle: 'Historical Battle Simulations',
+              icon: LucideIcons.sword,
+              color: Colors.redAccent,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const WarStrategyScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildActionCard(
+              context,
+              title: 'Timeline Reconstructor',
+              subtitle: 'Archaeological Puzzle',
+              icon: LucideIcons.hourglass,
+              color: Colors.orange,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const TimelineReconstructorScreen()),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class _HistoryCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool isEnabled;
-
-  const _HistoryCard({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.onTap,
-    this.isEnabled = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: isEnabled ? 1.0 : 0.5,
-      child: GestureDetector(
-        onTap: isEnabled ? onTap : null,
-        child: GlassContainer(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.amber.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: Colors.amber, size: 30),
+  Widget _buildActionCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: GlassContainer(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white60,
-                      ),
-                    ),
-                  ],
+              child: Icon(icon, color: color, size: 28),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-              ),
-              const Icon(LucideIcons.chevronRight, color: Colors.white24),
-            ],
-          ),
+                Text(subtitle, style: const TextStyle(color: Colors.white70)),
+              ],
+            ),
+            const Spacer(),
+            const Icon(LucideIcons.chevronRight, color: Colors.white54),
+          ],
         ),
       ),
     );

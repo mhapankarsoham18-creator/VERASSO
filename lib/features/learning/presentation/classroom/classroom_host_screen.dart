@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 import 'package:verasso/features/auth/presentation/auth_controller.dart';
@@ -112,19 +111,17 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                 ),
               ),
               const SizedBox(width: 16),
-              // QR Code Placeholder (future feature: easy join)
+              // QR Code Placeholder (qr_flutter removed for MVP)
               GlassContainer(
-                child: QrImageView(
-                  data: 'verasso_session_123', // Demo ID
-                  version: QrVersions.auto,
-                  size: 80,
-                  eyeStyle: const QrEyeStyle(
-                    eyeShape: QrEyeShape.square,
-                    color: Colors.white,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white30),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  dataModuleStyle: const QrDataModuleStyle(
-                    dataModuleShape: QrDataModuleShape.square,
-                    color: Colors.white,
+                  child: const Center(
+                    child: Icon(LucideIcons.qrCode, color: Colors.white54, size: 40),
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ import 'core/monitoring/app_logger.dart';
 import 'core/monitoring/bug_report_dialog.dart';
 import 'core/monitoring/sentry_service.dart';
 import 'core/security/mobile_security_service.dart';
+import 'core/security/secure_config.dart';
 import 'core/security/security_initializer.dart';
 import 'core/security/session_timeout_service.dart';
 import 'core/services/background_sync_manager.dart';
@@ -30,14 +32,14 @@ import 'features/auth/presentation/auth_controller.dart';
 import 'features/auth/presentation/auth_screen.dart';
 import 'features/auth/presentation/screen_lock_overlay.dart';
 import 'features/home/presentation/home_screen.dart';
-import 'features/learning/presentation/cognitive_dashboard.dart';
-import 'features/messaging/presentation/group_chat_screen.dart';
-import 'features/news/presentation/article_detail_screen.dart';
 import 'features/notifications/data/notification_service.dart';
 import 'features/settings/presentation/privacy_settings_controller.dart';
 import 'features/settings/presentation/theme_controller.dart';
-import 'features/social/presentation/post_detail_screen.dart';
+import 'features/learning/presentation/cognitive_dashboard.dart';
+import 'features/social/presentation/article_detail_screen.dart';
 import 'features/support/presentation/feedback_screen.dart';
+import 'features/social/presentation/group_chat_screen.dart';
+import 'features/social/models/group_models.dart';
 import 'l10n/app_localizations.dart';
 
 // Sentry configuration is managed via SentryService.
@@ -50,6 +52,15 @@ import 'l10n/app_localizations.dart';
 /// the [VerassoApp].
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // OWASP A05: Validate all required secrets are present before starting
+  SecureConfig.validateConfiguration();
+
+  // Lock to landscape
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
 
   // Initialize with Sentry error reporting
   await SentryService.initialize(
@@ -186,19 +197,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) =>
             HomeScreen(inviteCode: state.pathParameters['code']),
       ),
+
       GoRoute(
         path: '/dashboard/cognitive',
         builder: (context, state) => const CognitiveDashboard(),
       ),
       GoRoute(
-        path: '/post/:id',
-        builder: (context, state) =>
-            PostDetailScreen(postId: state.pathParameters['id']),
-      ),
-      GoRoute(
         path: '/news/:id',
         builder: (context, state) =>
-            ArticleDetailScreen(articleId: state.pathParameters['id']),
+            ArticleDetailScreen(articleId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/feedback',
@@ -206,9 +213,26 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/group-chat/:groupId/:name',
-        builder: (context, state) => GroupChatScreen(
-          groupId: state.pathParameters['groupId']!,
-          groupName: state.pathParameters['name']!,
+        builder: (context, state) {
+          final group = state.extra as Group? ??
+              Group(
+                id: state.pathParameters['groupId']!,
+                name: state.pathParameters['name']!,
+                ownerId: '', // Placeholder
+                isPrivate: false,
+                memberCount: 0,
+                createdAt: DateTime.now(),
+              );
+          return GroupChatScreen(group: group);
+        },
+      ),
+      GoRoute(
+        path: '/game',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const OdysseyGameScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
         ),
       ),
     ],

@@ -14,7 +14,7 @@ import '../../messaging/presentation/chat_screen.dart';
 import '../../profile/data/profile_model.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/profile_controller.dart';
-import '../../stories/presentation/widgets/highlights_bar.dart';
+// Stories feature disabled
 import '../data/feed_repository.dart';
 import '../data/post_model.dart';
 import 'post_detail_screen.dart';
@@ -37,9 +37,9 @@ final otherUserProfileProvider = FutureProvider.family<Profile?, String>((
 /// Provider family to fetch profile statistics (friends, posts, etc.) for a [userId].
 final otherUserStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
-      final repo = ref.watch(profileRepositoryProvider);
-      return repo.getProfileStats(userId);
-    });
+  final repo = ref.watch(profileRepositoryProvider);
+  return repo.getProfileStats(userId);
+});
 
 /// Provider family to fetch all posts created by a specific [userId].
 final userPostsProvider = FutureProvider.family<List<Post>, String>((
@@ -173,7 +173,7 @@ class UserProfileScreen extends ConsumerWidget {
                             '${stats['friends_count'] ?? 0}',
                           ),
                           loading: () => _buildStatItem('Friends', '...'),
-                          error: (_, _) => _buildStatItem('Friends', '0'),
+                          error: (err, stack) => _buildStatItem('Friends', '0'),
                         ),
                         _buildStatItem(
                           'Following',
@@ -239,7 +239,7 @@ class UserProfileScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      HighlightsBar(userId: userId, isOwner: isMe),
+                      // HighlightsBar removed for MVP
                       const SizedBox(height: 20),
                       _buildUserPostsGrid(ref, userId),
                       const SizedBox(height: 40),
@@ -382,7 +382,7 @@ class UserProfileScreen extends ConsumerWidget {
         width: 20,
         child: CircularProgressIndicator(strokeWidth: 2),
       ),
-      error: (_, _) => const SizedBox.shrink(),
+      error: (err, stack) => const SizedBox.shrink(),
     );
   }
 

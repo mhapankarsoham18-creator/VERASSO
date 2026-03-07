@@ -3,7 +3,7 @@ description: "A new Flutter package project."
 version: 0.0.1
 
 environment:
-  sdk: ">=3.11.0 <4.0.0"
+  sdk: ">=3.8.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -22,6 +22,11 @@ dependencies:
   meta: ^1.16.0
   riverpod_annotation: ^4.0.2
   json_annotation: ^4.11.0
+  flame: ^1.35.1
+  flame_tiled: ^1.21.0
+  flame_audio: ^2.1.0
+  lucide_icons: ^0.257.0
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +40,14 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/characters/
+    - assets/images/characters/aria/
+    - assets/images/characters/lyra/
+    - assets/images/characters/enemies/python/
+    - assets/images/characters/bosses/
+    - assets/images/environment/
+    - assets/tiles/
+    - assets/audio/
+    - assets/audio/music/

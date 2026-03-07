@@ -7,8 +7,8 @@ import '../models/search_results.dart';
 /// Provider for the [SearchController] which manages search state.
 final searchControllerProvider =
     StateNotifierProvider<SearchController, AsyncValue<SearchResults>>((ref) {
-      return SearchController(ref.watch(searchServiceProvider));
-    });
+  return SearchController(ref.watch(searchServiceProvider));
+});
 
 /// Controller that manages search state and execution.
 class SearchController extends StateNotifier<AsyncValue<SearchResults>> {
@@ -16,7 +16,7 @@ class SearchController extends StateNotifier<AsyncValue<SearchResults>> {
 
   /// Creates a [SearchController] and initializes with empty data.
   SearchController(this._searchService)
-    : super(AsyncData(SearchResults(users: [], posts: [], groups: [])));
+      : super(AsyncData(SearchResults(users: [], posts: [], groups: [])));
 
   /// Clears the current search state.
   void clear() {

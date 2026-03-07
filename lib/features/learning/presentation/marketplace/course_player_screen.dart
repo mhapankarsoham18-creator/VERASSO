@@ -3,7 +3,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart' as md_plus;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
-import 'package:verasso/core/services/payment_service.dart';
+// Removed: import 'package:verasso/core/services/payment_service.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 import 'package:verasso/features/auth/presentation/auth_controller.dart';
@@ -14,7 +14,6 @@ import 'package:verasso/features/learning/data/course_models.dart';
 import 'package:verasso/features/learning/data/course_repository.dart';
 import 'package:verasso/features/learning/presentation/marketplace/quiz_player_screen.dart';
 import 'package:verasso/features/progress/services/progress_tracking_service.dart';
-import 'package:video_player/video_player.dart';
 
 /// Future provider for fetching chapters of a specific course.
 final chaptersProvider = FutureProvider.family<List<Chapter>, String>((
@@ -55,7 +54,8 @@ class CoursePlayerScreen extends ConsumerStatefulWidget {
 class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
   int _currentChapterIndex = 0;
   bool _isEnrolling = false;
-  VideoPlayerController? _videoController;
+  // VideoPlayerController removed — video_player dependency pruned for MVP
+  // NOTE: Re-add video playback when video_player is restored
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +76,6 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
 
         final currentChapter = chapters[_currentChapterIndex];
 
-        if (_videoController == null &&
-            currentChapter.videoUrl != null &&
-            currentChapter.videoUrl!.isNotEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (_videoController == null) {
-              _initializeVideo(currentChapter.videoUrl);
-            }
-          });
-        }
 
         return Scaffold(
           extendBodyBehindAppBar: true,
@@ -112,26 +103,7 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child:
-                            _videoController != null &&
-                                _videoController!.value.isInitialized
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-                                    VideoPlayer(_videoController!),
-                                    VideoProgressIndicator(
-                                      _videoController!,
-                                      allowScrubbing: true,
-                                      colors: const VideoProgressColors(
-                                        playedColor: Colors.blueAccent,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : const Center(
+                        child: const Center(
                                 child: Icon(
                                   LucideIcons.playCircle,
                                   color: Colors.white,
@@ -161,8 +133,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                 IconButton(
                                   icon: Icon(
                                     enrollment.completedChapters.contains(
-                                          currentChapter.id,
-                                        )
+                                      currentChapter.id,
+                                    )
                                         ? LucideIcons.checkCircle2
                                         : LucideIcons.circle,
                                     color: Colors.greenAccent,
@@ -226,8 +198,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                               MaterialPageRoute(
                                                 builder: (_) =>
                                                     QuizPlayerScreen(
-                                                      quiz: quiz,
-                                                    ),
+                                                  quiz: quiz,
+                                                ),
                                               ),
                                             ),
                                             style: ElevatedButton.styleFrom(
@@ -235,8 +207,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                                   Colors.blueAccent,
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                  ),
+                                                horizontal: 16,
+                                              ),
                                             ),
                                             child: const Text(
                                               'Start Quiz',
@@ -248,11 +220,11 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                     );
                                   },
                                   loading: () => const SizedBox.shrink(),
-                                  error: (_, _) => const SizedBox.shrink(),
+                                  error: (err, stack) =>
+                                      const SizedBox.shrink(),
                                 ),
                           md_plus.Markdown(
-                            data:
-                                currentChapter.contentMarkdown ??
+                            data: currentChapter.contentMarkdown ??
                                 'No content for this chapter.',
                             styleSheet: md_plus.MarkdownStyleSheet(
                               p: const TextStyle(
@@ -301,8 +273,7 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                       : FontWeight.normal,
                                 ),
                               ),
-                              trailing:
-                                  enrollment?.completedChapters.contains(
+                              trailing: enrollment?.completedChapters.contains(
                                         ch.id,
                                       ) ==
                                       true
@@ -350,7 +321,6 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
 
   @override
   void dispose() {
-    _videoController?.dispose();
     super.dispose();
   }
 
@@ -358,6 +328,7 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
     setState(() => _isEnrolling = true);
     try {
       if (widget.course.price > 0) {
+        /*
         // Trigger external payment
         final paymentService = ref.read(paymentServiceProvider);
 
@@ -375,6 +346,22 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
         // Note: Real confirmation would happen via handlePaymentSuccess
         // which would then trigger the enrollment in the background or via state updates.
         // For this demo, we'll wait a bit and then show a placeholder or handle success logic.
+        */
+
+        // Bypassing payment for now per design decision to prune dependencies.
+        await ref
+            .read(courseRepositoryProvider)
+            .enrollInCourse(widget.course.id, widget.course.price);
+        ref.invalidate(enrollmentProvider(widget.course.id));
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Successfully enrolled in course (Payment Bypassed)!',
+              ),
+            ),
+          );
+        }
       } else {
         // Free course
         await ref
@@ -403,17 +390,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
   }
 
   void _initializeVideo(String? url) {
-    _videoController?.dispose();
-    if (url == null || url.isEmpty) {
-      setState(() => _videoController = null);
-      return;
-    }
-
-    _videoController = VideoPlayerController.networkUrl(Uri.parse(url))
-      ..initialize().then((_) {
-        setState(() {});
-        _videoController?.play();
-      });
+    // Video player removed — dependency pruned for MVP
+    // NOTE: Restore video playback when video_player dependency is added back
   }
 
   void _toggleChapterCompletion(
