@@ -148,13 +148,14 @@ class _PythonEditorScreenState extends State<PythonEditorScreen> {
 
     final code = _codeController.text;
     // PythonSandbox removed for MVP
-    await Future.delayed(const Duration(milliseconds: 500)); 
-    
+    await Future.delayed(const Duration(milliseconds: 500));
+
     if (!mounted) return;
 
     setState(() {
       _isRunning = false;
-      _output = "Python Sandbox feature has been removed for MVP.\nCode:\n$code";
+      _output =
+          "Python Sandbox feature has been removed for MVP.\nCode:\n$code";
     });
 
     // Simulate success to persist history

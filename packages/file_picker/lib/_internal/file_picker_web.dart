@@ -35,7 +35,8 @@ class FilePickerWeb extends FilePicker {
   }) async {
     if (type != FileType.custom && (allowedExtensions?.isNotEmpty ?? false)) {
       throw Exception(
-          'You are setting a type [$type]. Custom extension filters are only allowed with FileType.custom, please change it or remove filters.');
+        'You are setting a type [$type]. Custom extension filters are only allowed with FileType.custom, please change it or remove filters.',
+      );
     }
 
     final Completer<List<PlatformFile>?> filesCompleter =
@@ -77,13 +78,15 @@ class FilePickerWeb extends FilePicker {
         String? path,
         Stream<List<int>>? readStream,
       ) {
-        pickedFiles.add(PlatformFile(
-          name: file.name,
-          path: path,
-          size: bytes != null ? bytes.length : file.size,
-          bytes: bytes,
-          readStream: readStream,
-        ));
+        pickedFiles.add(
+          PlatformFile(
+            name: file.name,
+            path: path,
+            size: bytes != null ? bytes.length : file.size,
+            bytes: bytes,
+            readStream: readStream,
+          ),
+        );
 
         if (pickedFiles.length >= files.length) {
           if (onFileLoading != null) {
@@ -112,10 +115,11 @@ class FilePickerWeb extends FilePicker {
         final FileReader reader = FileReader();
         reader.onloadend = (Event e) {
           addPickedFile(
-              file,
-              (reader.result as JSArrayBuffer).toDart.asUint8List(),
-              null,
-              null);
+            file,
+            (reader.result as JSArrayBuffer).toDart.asUint8List(),
+            null,
+            null,
+          );
           syncCompleter.complete();
         }.toJS;
         reader.readAsArrayBuffer(file);
@@ -127,10 +131,11 @@ class FilePickerWeb extends FilePicker {
 
     void cancelledEventListener(_) {
       window.removeEventListener(
-          'focus',
-          (Event e) {
-            cancelledEventListener(e);
-          }.toJS);
+        'focus',
+        (Event e) {
+          cancelledEventListener(e);
+        }.toJS,
+      );
 
       // This listener is called before the input changed event,
       // and the `uploadInput.files` value is still null
@@ -147,22 +152,25 @@ class FilePickerWeb extends FilePicker {
       changeEventListener(e);
     }.toJS;
     uploadInput.addEventListener(
-        'change',
-        (Event e) {
-          changeEventListener(e);
-        }.toJS);
+      'change',
+      (Event e) {
+        changeEventListener(e);
+      }.toJS,
+    );
     uploadInput.addEventListener(
-        'cancel',
-        (Event e) {
-          cancelledEventListener(e);
-        }.toJS);
+      'cancel',
+      (Event e) {
+        cancelledEventListener(e);
+      }.toJS,
+    );
 
     // Listen focus event for cancelled
     window.addEventListener(
-        'focus',
-        (Event e) {
-          cancelledEventListener(e);
-        }.toJS);
+      'focus',
+      (Event e) {
+        cancelledEventListener(e);
+      }.toJS,
+    );
 
     //Add input element to the page body
     _target.innerHTML = ''.toJS;
@@ -232,8 +240,10 @@ class FilePickerWeb extends FilePicker {
         return 'video/*|image/*';
 
       case FileType.custom:
-        return allowedExtensions!
-            .fold('', (prev, next) => '${prev.isEmpty ? '' : '$prev,'} .$next');
+        return allowedExtensions!.fold(
+          '',
+          (prev, next) => '${prev.isEmpty ? '' : '$prev,'} .$next',
+        );
     }
   }
 }

@@ -49,7 +49,9 @@ class AppDrawer extends ConsumerWidget {
             // Header
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ref.watch(userProfileProvider).when(
+              child: ref
+                  .watch(userProfileProvider)
+                  .when(
                     data: (profile) => Row(
                       children: [
                         ClipOval(
@@ -61,16 +63,16 @@ class AppDrawer extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) =>
                                       Shimmer.fromColors(
-                                    baseColor: Colors.white10,
-                                    highlightColor: Colors.white24,
-                                    child: Container(color: Colors.white),
-                                  ),
+                                        baseColor: Colors.white10,
+                                        highlightColor: Colors.white24,
+                                        child: Container(color: Colors.white),
+                                      ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(
-                                    LucideIcons.user,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
+                                        LucideIcons.user,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                                 )
                               : Container(
                                   width: 60,
@@ -164,7 +166,9 @@ class AppDrawer extends ConsumerWidget {
                   _DrawerItem(
                     icon: LucideIcons.bell,
                     title: l10n.notifications,
-                    trailing: ref.watch(unreadNotificationCountProvider).when(
+                    trailing: ref
+                        .watch(unreadNotificationCountProvider)
+                        .when(
                           data: (count) => count > 0
                               ? Container(
                                   padding: const EdgeInsets.symmetric(
@@ -342,7 +346,9 @@ class AppDrawer extends ConsumerWidget {
                     onTap: () {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('News Feed — coming soon!')),
+                        const SnackBar(
+                          content: Text('News Feed — coming soon!'),
+                        ),
                       );
                     },
                   ),

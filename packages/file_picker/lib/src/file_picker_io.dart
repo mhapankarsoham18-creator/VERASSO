@@ -11,8 +11,9 @@ final MethodChannel _channel = MethodChannel(
       : const StandardMethodCodec(),
 );
 
-const EventChannel _eventChannel =
-    EventChannel('miguelruivo.flutter.plugins.filepickerevent');
+const EventChannel _eventChannel = EventChannel(
+  'miguelruivo.flutter.plugins.filepickerevent',
+);
 
 /// An implementation of [FilePicker] that uses method channels.
 class FilePickerIO extends FilePicker {
@@ -33,17 +34,16 @@ class FilePickerIO extends FilePicker {
     bool? withReadStream = false,
     bool lockParentWindow = false,
     bool readSequential = false,
-  }) =>
-      _getPath(
-        type,
-        allowMultiple,
-        allowCompression,
-        allowedExtensions,
-        onFileLoading,
-        withData,
-        withReadStream,
-        compressionQuality,
-      );
+  }) => _getPath(
+    type,
+    allowMultiple,
+    allowCompression,
+    allowedExtensions,
+    onFileLoading,
+    withData,
+    withReadStream,
+    compressionQuality,
+  );
 
   @override
   Future<bool?> clearTemporaryFiles() async =>
@@ -60,7 +60,8 @@ class FilePickerIO extends FilePicker {
     } on PlatformException catch (ex) {
       if (ex.code == "unknown_path") {
         print(
-            '[$_tag] Could not resolve directory path. Maybe it\'s a protected one or unsupported (such as Downloads folder). If you are on Android, make sure that you are on SDK 21 or above.');
+          '[$_tag] Could not resolve directory path. Maybe it\'s a protected one or unsupported (such as Downloads folder). If you are on Android, make sure that you are on SDK 21 or above.',
+        );
       }
     }
     return null;
@@ -89,11 +90,11 @@ class FilePickerIO extends FilePicker {
       _eventSubscription?.cancel();
       if (onFileLoading != null) {
         _eventSubscription = _eventChannel.receiveBroadcastStream().listen(
-              (data) => onFileLoading((data as bool)
-                  ? FilePickerStatus.picking
-                  : FilePickerStatus.done),
-              onError: (error) => throw Exception(error),
-            );
+          (data) => onFileLoading(
+            (data as bool) ? FilePickerStatus.picking : FilePickerStatus.done,
+          ),
+          onError: (error) => throw Exception(error),
+        );
       }
 
       final List<Map>? result = await _channel.invokeListMethod(type, {
@@ -127,7 +128,8 @@ class FilePickerIO extends FilePicker {
       rethrow;
     } catch (e) {
       print(
-          '[$_tag] Unsupported operation. Method not found. The exception thrown was: $e');
+        '[$_tag] Unsupported operation. Method not found. The exception thrown was: $e',
+      );
       rethrow;
     }
   }

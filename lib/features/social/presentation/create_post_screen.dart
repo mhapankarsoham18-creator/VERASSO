@@ -219,16 +219,16 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
   Future<void> _applyFilter() async {
     if (_selectedImage == null) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Filters coming soon')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Filters coming soon')));
   }
 
   Future<void> _cropImage() async {
     if (_selectedImage == null) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Crop coming soon')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Crop coming soon')));
   }
 
   Future<void> _pickImage() async {

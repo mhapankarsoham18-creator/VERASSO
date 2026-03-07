@@ -32,7 +32,9 @@ class AstronomyMenuScreen extends StatelessWidget {
               icon: LucideIcons.sun,
               color: Colors.orangeAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const SolarSystemSimulation()),
+                MaterialPageRoute(
+                  builder: (_) => const SolarSystemSimulation(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -54,7 +56,9 @@ class AstronomyMenuScreen extends StatelessWidget {
               icon: LucideIcons.pencil,
               color: Colors.blueAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const CreateStargazingLogScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const CreateStargazingLogScreen(),
+                ),
               ),
             ),
           ],
@@ -91,7 +95,10 @@ class AstronomyMenuScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
                 Text(subtitle, style: const TextStyle(color: Colors.white70)),
               ],

@@ -107,7 +107,9 @@ class SecureConfig {
         AppLogger.warning(message);
       }
     } else {
-      AppLogger.info('SecureConfig: All required configuration present [env: $environment]');
+      AppLogger.info(
+        'SecureConfig: All required configuration present [env: $environment]',
+      );
     }
   }
 
@@ -117,11 +119,16 @@ class SecureConfig {
   /// Returns true if the key has a value.
   static bool hasKey(String keyName) {
     switch (keyName) {
-      case 'SUPABASE_URL': return supabaseUrl.isNotEmpty;
-      case 'SUPABASE_ANON_KEY': return supabaseAnonKey.isNotEmpty;
-      case 'SENTRY_DSN': return sentryDsn.isNotEmpty;
-      case 'GEMINI_API_KEY': return geminiApiKey.isNotEmpty;
-      default: return false;
+      case 'SUPABASE_URL':
+        return supabaseUrl.isNotEmpty;
+      case 'SUPABASE_ANON_KEY':
+        return supabaseAnonKey.isNotEmpty;
+      case 'SENTRY_DSN':
+        return sentryDsn.isNotEmpty;
+      case 'GEMINI_API_KEY':
+        return geminiApiKey.isNotEmpty;
+      default:
+        return false;
     }
   }
 

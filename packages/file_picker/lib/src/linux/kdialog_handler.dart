@@ -48,10 +48,7 @@ class KDialogHandler implements DialogHandler {
   }
 
   @override
-  String fileTypeToFileFilter(
-    FileType type,
-    List<String>? allowedExtensions,
-  ) {
+  String fileTypeToFileFilter(FileType type, List<String>? allowedExtensions) {
     switch (type) {
       case FileType.any:
         return '';

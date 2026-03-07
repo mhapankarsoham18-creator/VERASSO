@@ -112,14 +112,18 @@ class SyncBridgeService {
             );
         break;
       case 'apply_for_job':
-        await _ref.read(jobRepositoryProvider).applyForJob(
+        await _ref
+            .read(jobRepositoryProvider)
+            .applyForJob(
               jobId: data['jobId'],
               talentId: data['talentId'],
               proposal: data['proposal'],
             );
         break;
       case 'create_job':
-        await _ref.read(jobRepositoryProvider).createJob(
+        await _ref
+            .read(jobRepositoryProvider)
+            .createJob(
               creatorId: data['creatorId'],
               title: data['title'],
               description: data['description'],
@@ -128,24 +132,19 @@ class SyncBridgeService {
             );
         break;
       case 'start_session':
-        await _ref.read(classroomSessionServiceProvider).startSession(
-              data['hostId'],
-              data['subject'],
-              data['topic'],
-            );
+        await _ref
+            .read(classroomSessionServiceProvider)
+            .startSession(data['hostId'], data['subject'], data['topic']);
         break;
       case 'publish_poll':
-        await _ref.read(classroomSessionServiceProvider).publishPoll(
-              data['question'],
-              List<String>.from(data['options']),
-            );
+        await _ref
+            .read(classroomSessionServiceProvider)
+            .publishPoll(data['question'], List<String>.from(data['options']));
         break;
       case 'raise_doubt':
-        await _ref.read(classroomSessionServiceProvider).raiseDoubt(
-              data['userId'],
-              data['userName'],
-              data['question'],
-            );
+        await _ref
+            .read(classroomSessionServiceProvider)
+            .raiseDoubt(data['userId'], data['userName'], data['question']);
         break;
       default:
         AppLogger.warning('Unknown pending action type: $type');
@@ -225,7 +224,9 @@ class SyncBridgeService {
       switch (packet.type) {
         case MeshPayloadType.chatMessage:
           if (payload['action'] == 'apply_for_job') {
-            await _ref.read(jobRepositoryProvider).applyForJob(
+            await _ref
+                .read(jobRepositoryProvider)
+                .applyForJob(
                   jobId: payload['jobId'],
                   talentId: packet.senderId,
                   proposal: payload['proposal'],
@@ -245,7 +246,9 @@ class SyncBridgeService {
           break;
         case MeshPayloadType.feedPost:
           if (payload['action'] == 'create_job') {
-            await _ref.read(jobRepositoryProvider).createJob(
+            await _ref
+                .read(jobRepositoryProvider)
+                .createJob(
                   creatorId: packet.senderId,
                   title: payload['title'],
                   description: payload['description'],

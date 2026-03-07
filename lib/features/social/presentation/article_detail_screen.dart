@@ -21,7 +21,12 @@ class ArticleDetailScreen extends StatelessWidget {
       ),
       body: LiquidBackground(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 20),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,7 +38,11 @@ class ArticleDetailScreen extends StatelessWidget {
                     height: 200,
                     width: double.infinity,
                     color: Colors.blueGrey.withValues(alpha: 0.3),
-                    child: const Icon(Icons.article, size: 64, color: Colors.white24),
+                    child: const Icon(
+                      Icons.article,
+                      size: 64,
+                      color: Colors.white24,
+                    ),
                   ),
                 ),
               ),
@@ -61,7 +70,10 @@ class ArticleDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               const Center(
-                child: Text('No comments yet.', style: TextStyle(color: Colors.white54)),
+                child: Text(
+                  'No comments yet.',
+                  style: TextStyle(color: Colors.white54),
+                ),
               ),
             ],
           ),

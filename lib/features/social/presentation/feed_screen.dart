@@ -140,14 +140,14 @@ class PostCard extends ConsumerWidget {
             Row(
               children: [
                 _PostAction(
-                  icon: LucideIcons.heart,
-                  label: '${post.likesCount}',
-                  color: AppColors.accent,
-                  onTap: () {
-                    HapticFeedback.selectionClick();
-                    ref.read(feedProvider.notifier).toggleLike(post.id);
-                  },
-                )
+                      icon: LucideIcons.heart,
+                      label: '${post.likesCount}',
+                      color: AppColors.accent,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        ref.read(feedProvider.notifier).toggleLike(post.id);
+                      },
+                    )
                     .animate(
                       onPlay: (controller) => controller.repeat(reverse: true),
                     )
@@ -187,16 +187,23 @@ class PostCard extends ConsumerWidget {
                         .toggleSave(post.id);
                   },
                   icon: isSavedAsync.when(
-                    data: (saved) => Icon(
-                      saved ? LucideIcons.bookmark : LucideIcons.bookmark,
-                      size: 22,
-                      color: saved ? AppColors.etherealCyan : Colors.white70,
-                    ).animate(target: saved ? 1 : 0).scale(
-                          begin: const Offset(1, 1),
-                          end: const Offset(1.1, 1.1),
-                          curve: DesignSystem.easingStandard,
-                          duration: DesignSystem.durationFast,
-                        ),
+                    data: (saved) =>
+                        Icon(
+                              saved
+                                  ? LucideIcons.bookmark
+                                  : LucideIcons.bookmark,
+                              size: 22,
+                              color: saved
+                                  ? AppColors.etherealCyan
+                                  : Colors.white70,
+                            )
+                            .animate(target: saved ? 1 : 0)
+                            .scale(
+                              begin: const Offset(1, 1),
+                              end: const Offset(1.1, 1.1),
+                              curve: DesignSystem.easingStandard,
+                              duration: DesignSystem.durationFast,
+                            ),
                     loading: () => const SizedBox(
                       width: 22,
                       height: 22,
@@ -425,7 +432,9 @@ class PostCard extends ConsumerWidget {
             onPressed: () async {
               final myId = ref.read(currentUserProvider)?.id;
               if (myId != null && reasonController.text.isNotEmpty) {
-                await ref.read(moderationServiceProvider).reportContent(
+                await ref
+                    .read(moderationServiceProvider)
+                    .reportContent(
                       reporterId: myId,
                       targetId: post.id,
                       targetType: 'post',
@@ -505,7 +514,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                     if (post.mediaUrls.isNotEmpty &&
                         (post.mediaUrls.first.endsWith('.mp4') ||
                             post.mediaUrls.first.endsWith('.mov'))) {
-                      return PostCard(post: post); // Video cards removed for MVP
+                      return PostCard(
+                        post: post,
+                      ); // Video cards removed for MVP
                     }
                     return PostCard(post: post); // Fallback for mixed content
                   },
@@ -526,7 +537,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 itemCount: itemCount + 1, // +1 for StoryCarousel
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return const SizedBox(height: 16); // StoryCarousel removed for MVP
+                    return const SizedBox(
+                      height: 16,
+                    ); // StoryCarousel removed for MVP
                   }
                   final postIndex = index - 1;
                   if (postIndex == posts.length) {
@@ -571,9 +584,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const CreatePostScreen()),
-          );
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const CreatePostScreen()));
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(LucideIcons.plus, color: Colors.white),
@@ -597,7 +610,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     bool isVideo = false,
   }) {
     final isVideoTabActive = ref.watch(isVideoFeedProvider);
-    final isActive = (isVideo == isVideoTabActive) &&
+    final isActive =
+        (isVideo == isVideoTabActive) &&
         (isVideo || (type == activeType && !isVideoTabActive));
 
     return GestureDetector(

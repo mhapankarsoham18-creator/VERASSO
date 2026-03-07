@@ -1,5 +1,4 @@
 @TestOn('linux')
-
 import 'package:file_picker/src/linux/dialog_handler.dart';
 import 'package:file_picker/src/linux/kdialog_handler.dart';
 import 'package:file_picker/src/linux/qarma_and_zenity_handler.dart';
@@ -8,10 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('DialogHandler Factory', () {
     test('should return an instance of KDialogHandler for kdialog', () {
-      expect(
-        DialogHandler('/usr/bin/kdialog'),
-        isInstanceOf<KDialogHandler>(),
-      );
+      expect(DialogHandler('/usr/bin/kdialog'), isInstanceOf<KDialogHandler>());
     });
 
     test('should return an instance of QarmaAndZenityHandler for qarma', () {

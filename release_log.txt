@@ -1,0 +1,97 @@
+ 
+Git Status: 
+On branch main
+Your branch and 'origin/main' have diverged,
+and have 5 and 1 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Changes to be committed:
+	modified:   lib/core/monitoring/sentry_service.dart
+	modified:   lib/core/security/input_validator.dart
+	modified:   lib/core/security/rate_limiter.dart
+	modified:   lib/core/security/secure_config.dart
+	modified:   lib/core/services/bluetooth_mesh_service.dart
+	modified:   lib/core/services/mesh_sync_manager.dart
+	modified:   lib/core/services/sync_bridge_service.dart
+	modified:   lib/core/ui/app_drawer.dart
+	modified:   lib/core/ui/network_status_indicator.dart
+	modified:   lib/features/auth/presentation/mfa_enrollment_screen.dart
+	modified:   lib/features/discovery/domain/weighted_tag_scorer.dart
+	modified:   lib/features/learning/learning_dashboard.dart
+	modified:   lib/features/learning/presentation/ar_builder/ar_project_gallery_screen.dart
+	modified:   lib/features/learning/presentation/classroom/classroom_host_screen.dart
+	modified:   lib/features/learning/presentation/classroom/mesh_labs_screen.dart
+	modified:   lib/features/learning/presentation/classroom/relay_game_screen.dart
+	modified:   lib/features/learning/presentation/codedex/python_editor_screen.dart
+	modified:   lib/features/learning/presentation/marketplace/course_player_screen.dart
+	modified:   lib/features/learning/presentation/projects/project_workspace_screen.dart
+	modified:   lib/features/learning/presentation/simulations/astronomy/astronomy_menu_screen.dart
+	modified:   lib/features/learning/presentation/simulations/chemistry/chemistry_menu_screen.dart
+	modified:   lib/features/learning/presentation/simulations/finance/finance_menu_screen.dart
+	modified:   lib/features/learning/presentation/simulations/history/history_menu_screen.dart
+	modified:   lib/features/learning/presentation/simulations/pharmacy/ar_drug_viewer_screen.dart
+	modified:   lib/features/learning/presentation/simulations/pharmacy/pharmacy_menu_screen.dart
+	modified:   lib/features/learning/presentation/simulations/simulations_menu_screen.dart
+	modified:   lib/features/messaging/presentation/messaging_widgets.dart
+	modified:   lib/features/notifications/presentation/notification_widgets.dart
+	modified:   lib/features/profile/presentation/profile_screen.dart
+	modified:   lib/features/search/data/search_service.dart
+	modified:   lib/features/search/presentation/search_controller.dart
+	modified:   lib/features/search/presentation/search_screen.dart
+	modified:   lib/features/search/services/full_text_search_service.dart
+	modified:   lib/features/social/presentation/alumni_network_screen.dart
+	modified:   lib/features/social/presentation/article_detail_screen.dart
+	modified:   lib/features/social/presentation/create_post_screen.dart
+	modified:   lib/features/social/presentation/feed_screen.dart
+	modified:   lib/features/social/presentation/search_screen.dart
+	modified:   lib/features/social/presentation/user_profile_screen.dart
+	modified:   lib/main.dart
+	modified:   lib/widgets/animations/level_milestone_animation.dart
+	modified:   packages/codemaster_odyssey/lib/src/game/components/enemies/python/variable_viper.dart
+	modified:   packages/codemaster_odyssey/lib/src/game/components/environment/region_portal.dart
+	modified:   packages/codemaster_odyssey/lib/src/game/components/progression/region_portal.dart
+	modified:   packages/codemaster_odyssey/lib/src/game/engine/combat/python_challenges.dart
+	modified:   packages/codemaster_odyssey/lib/src/game/ui/damage_text.dart
+	modified:   packages/file_picker/example/lib/src/file_picker_demo.dart
+	modified:   packages/file_picker/lib/_internal/file_picker_web.dart
+	modified:   packages/file_picker/lib/src/file_picker.dart
+	modified:   packages/file_picker/lib/src/file_picker_io.dart
+	modified:   packages/file_picker/lib/src/file_picker_macos.dart
+	modified:   packages/file_picker/lib/src/file_picker_result.dart
+	modified:   packages/file_picker/lib/src/linux/file_picker_linux.dart
+	modified:   packages/file_picker/lib/src/linux/kdialog_handler.dart
+	modified:   packages/file_picker/lib/src/platform_file.dart
+	modified:   packages/file_picker/lib/src/utils.dart
+	modified:   packages/file_picker/lib/src/windows/file_picker_windows.dart
+	modified:   packages/file_picker/lib/src/windows/file_picker_windows_ffi_types.dart
+	modified:   packages/file_picker/test/common.dart
+	modified:   packages/file_picker/test/file_picker_macos_test.dart
+	modified:   packages/file_picker/test/file_picker_utils_test.dart
+	modified:   packages/file_picker/test/file_picker_windows_test.dart
+	modified:   packages/file_picker/test/linux/dialog_handler_test.dart
+	modified:   packages/file_picker/test/linux/kdialog_handler_test.dart
+	modified:   packages/file_picker/test/linux/qarma_and_zenity_handler_test.dart
+	modified:   pubspec.lock
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   .flutter-plugins-dependencies
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	release_log.txt
+	release_v1.bat
+
+--- 
+Aborting merge if any... 
+Pulling changes... 
+Auto-merging .flutter-plugins-dependencies
+CONFLICT (content): Merge conflict in .flutter-plugins-dependencies
+Automatic merge failed; fix conflicts and then commit the result.
+Resolving .flutter-plugins-dependencies conflict... 
+Updated 1 path from the index
+Adding files... 

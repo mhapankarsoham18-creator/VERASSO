@@ -8,7 +8,8 @@ class PythonChallenges {
   static const List<Map<String, dynamic>> _challenges = [
     // Region 1: Basic Syntax
     {
-      'question': 'Which line has a syntax error?\n\n'
+      'question':
+          'Which line has a syntax error?\n\n'
           '1: x = 10\n'
           '2: if x > 5\n'
           '3:     print("big")\n',
@@ -22,50 +23,39 @@ class PythonChallenges {
     },
     // Region 2: Variables & Types
     {
-      'question': 'What is the output?\n\n'
+      'question':
+          'What is the output?\n\n'
           'x = "3"\n'
           'y = 2\n'
           'print(x * y)\n',
-      'options': [
-        '6',
-        '"33"',
-        'TypeError',
-        '5',
-      ],
+      'options': ['6', '"33"', 'TypeError', '5'],
       'correct_answer': '"33"',
     },
     // Region 3: Loops
     {
-      'question': 'How many times does this loop run?\n\n'
+      'question':
+          'How many times does this loop run?\n\n'
           'for i in range(3):\n'
           '    for j in range(2):\n'
           '        print(i, j)\n',
-      'options': [
-        '3 times',
-        '5 times',
-        '6 times',
-        '2 times',
-      ],
+      'options': ['3 times', '5 times', '6 times', '2 times'],
       'correct_answer': '6 times',
     },
     // Region 4: Recursion
     {
-      'question': 'What does this return?\n\n'
+      'question':
+          'What does this return?\n\n'
           'def f(n):\n'
           '    if n <= 1: return n\n'
           '    return f(n-1) + f(n-2)\n\n'
           'f(5)\n',
-      'options': [
-        '5',
-        '8',
-        '3',
-        '13',
-      ],
+      'options': ['5', '8', '3', '13'],
       'correct_answer': '5',
     },
     // Region 5: Classes & OOP
     {
-      'question': 'What prints?\n\n'
+      'question':
+          'What prints?\n\n'
           'class Dog:\n'
           '    def __init__(self, name):\n'
           '        self.name = name\n'

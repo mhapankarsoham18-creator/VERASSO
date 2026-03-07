@@ -556,7 +556,10 @@ class _LevelMilestoneAnimationState extends State<LevelMilestoneAnimation>
       // final player = AudioPlayer();
       // await player.play(AssetSource('audio/level_up_${widget.level}.mp3'));
     } catch (e) {
-      AppLogger.warning('Audio playback skipped (dependency removed)', error: e);
+      AppLogger.warning(
+        'Audio playback skipped (dependency removed)',
+        error: e,
+      );
     }
 
     await Future.delayed(const Duration(milliseconds: 4000));

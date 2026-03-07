@@ -40,7 +40,9 @@ class _AlumniNetworkScreenState extends ConsumerState<AlumniNetworkScreen> {
             children: [
               _buildVolunteerToggle(),
               Expanded(
-                child: ref.watch(alumniMentorsProvider).when(
+                child: ref
+                    .watch(alumniMentorsProvider)
+                    .when(
                       data: (alumni) {
                         if (alumni.isEmpty) {
                           return const Center(

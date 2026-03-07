@@ -127,8 +127,9 @@ class NotificationItem extends ConsumerWidget {
         title: Text(
           notification.title,
           style: TextStyle(
-            fontWeight:
-                notification.isRead ? FontWeight.normal : FontWeight.bold,
+            fontWeight: notification.isRead
+                ? FontWeight.normal
+                : FontWeight.bold,
           ),
         ),
         subtitle: Column(

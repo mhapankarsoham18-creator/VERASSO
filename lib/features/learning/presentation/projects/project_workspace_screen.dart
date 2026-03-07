@@ -68,12 +68,15 @@ class _ProjectWorkspaceScreenState
                     }
 
                     final tasks = snapshot.data!;
-                    final todo =
-                        tasks.where((t) => t.status == 'Todo').toList();
-                    final doing =
-                        tasks.where((t) => t.status == 'Doing').toList();
-                    final done =
-                        tasks.where((t) => t.status == 'Done').toList();
+                    final todo = tasks
+                        .where((t) => t.status == 'Todo')
+                        .toList();
+                    final doing = tasks
+                        .where((t) => t.status == 'Doing')
+                        .toList();
+                    final done = tasks
+                        .where((t) => t.status == 'Done')
+                        .toList();
 
                     return ListView(
                       scrollDirection: Axis.horizontal,

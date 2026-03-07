@@ -10,31 +10,36 @@ final fullTextSearchServiceProvider = Provider((ref) {
 });
 
 /// Provider for user search history.
-final searchHistoryProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final searchHistoryProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
   final service = ref.read(fullTextSearchServiceProvider);
   return service.getUserSearchHistory();
 });
 
 /// Family provider for searching with a query and filters.
 final searchResultsProvider =
-    FutureProvider.family<List<SearchResult>, (String, SearchFilter?)>(
-  (ref, params) async {
-    final service = ref.read(fullTextSearchServiceProvider);
-    return service.search(params.$1, filter: params.$2);
-  },
-);
+    FutureProvider.family<List<SearchResult>, (String, SearchFilter?)>((
+      ref,
+      params,
+    ) async {
+      final service = ref.read(fullTextSearchServiceProvider);
+      return service.search(params.$1, filter: params.$2);
+    });
 
 /// Family provider for search suggestions.
-final searchSuggestionsProvider =
-    FutureProvider.family<List<String>, String>((ref, query) async {
+final searchSuggestionsProvider = FutureProvider.family<List<String>, String>((
+  ref,
+  query,
+) async {
   final service = ref.read(fullTextSearchServiceProvider);
   return service.getSearchSuggestions(query);
 });
 
 /// Provider for trending hashtags.
-final trendingHashtagsProvider =
-    FutureProvider<List<SearchResult>>((ref) async {
+final trendingHashtagsProvider = FutureProvider<List<SearchResult>>((
+  ref,
+) async {
   final service = ref.read(fullTextSearchServiceProvider);
   return service.getTrendingHashtags();
 });
@@ -73,8 +78,10 @@ class FullTextSearchService {
   }
 
   /// Get search suggestions/autocomplete
-  Future<List<String>> getSearchSuggestions(String query,
-      {int limit = 5}) async {
+  Future<List<String>> getSearchSuggestions(
+    String query, {
+    int limit = 5,
+  }) async {
     try {
       if (query.isEmpty || query.length > 50) return [];
 
@@ -110,8 +117,10 @@ class FullTextSearchService {
           .limit(limit);
 
       return (response as List)
-          .map((json) =>
-              SearchResult.fromHashtagJson(json as Map<String, dynamic>))
+          .map(
+            (json) =>
+                SearchResult.fromHashtagJson(json as Map<String, dynamic>),
+          )
           .toList();
     } catch (e, stack) {
       AppLogger.error('Get trending hashtags error', error: e);
@@ -237,15 +246,18 @@ class FullTextSearchService {
       if (userId == null) return;
 
       // Non-blocking insert
-      _client.from('search_history').insert({
-        'user_id': userId,
-        'query': query,
-        'result_type': type?.toString().split('.').last,
-        'created_at': DateTime.now().toIso8601String(),
-      }).then(
-        (_) => AppLogger.info('Search history recorded'),
-        onError: (e) => AppLogger.info('Record search history error: $e'),
-      );
+      _client
+          .from('search_history')
+          .insert({
+            'user_id': userId,
+            'query': query,
+            'result_type': type?.toString().split('.').last,
+            'created_at': DateTime.now().toIso8601String(),
+          })
+          .then(
+            (_) => AppLogger.info('Search history recorded'),
+            onError: (e) => AppLogger.info('Record search history error: $e'),
+          );
     } catch (e) {
       AppLogger.info('Record search history error: $e');
     }
@@ -265,8 +277,11 @@ class FullTextSearchService {
     int offset,
   ) async {
     try {
-      var request = _client.from('hashtags').select(
-          'hashtag, usage_count, trending_score, last_used_at, created_at');
+      var request = _client
+          .from('hashtags')
+          .select(
+            'hashtag, usage_count, trending_score, last_used_at, created_at',
+          );
 
       // Normalize hashtag query
       final hashtagQuery = query.startsWith('#') ? query.substring(1) : query;
@@ -281,8 +296,10 @@ class FullTextSearchService {
       final response = await paginatedRequest;
 
       return (response as List)
-          .map((json) =>
-              SearchResult.fromHashtagJson(json as Map<String, dynamic>))
+          .map(
+            (json) =>
+                SearchResult.fromHashtagJson(json as Map<String, dynamic>),
+          )
           .toList();
     } catch (e) {
       AppLogger.info('Search hashtags error: $e');
@@ -298,8 +315,11 @@ class FullTextSearchService {
     int offset,
   ) async {
     try {
-      var request = _client.from('posts').select(
-          'id, title, content, featured_image_url, created_at, views, likes');
+      var request = _client
+          .from('posts')
+          .select(
+            'id, title, content, featured_image_url, created_at, views, likes',
+          );
 
       // Apply text search using PostgreSQL full-text search
       request = request.or('title.ilike.%$query%,content.ilike.%$query%');
@@ -310,8 +330,10 @@ class FullTextSearchService {
       }
 
       if (filter?.dateFrom != null) {
-        request =
-            request.gte('created_at', filter!.dateFrom!.toIso8601String());
+        request = request.gte(
+          'created_at',
+          filter!.dateFrom!.toIso8601String(),
+        );
       }
 
       if (filter?.dateTo != null) {
@@ -324,8 +346,10 @@ class FullTextSearchService {
 
       // Apply sorting
       final sortOrder = filter?.sortByRecent ?? false ? 'desc' : 'asc';
-      var sortedRequest =
-          request.order('created_at', ascending: sortOrder == 'asc');
+      var sortedRequest = request.order(
+        'created_at',
+        ascending: sortOrder == 'asc',
+      );
 
       final paginatedRequest = sortedRequest.range(offset, offset + limit - 1);
 
@@ -333,7 +357,8 @@ class FullTextSearchService {
 
       return (response as List)
           .map(
-              (json) => SearchResult.fromPostJson(json as Map<String, dynamic>))
+            (json) => SearchResult.fromPostJson(json as Map<String, dynamic>),
+          )
           .toList();
     } catch (e) {
       AppLogger.info('Search posts error: $e');
@@ -362,7 +387,8 @@ class FullTextSearchService {
 
       return (response as List)
           .map(
-              (json) => SearchResult.fromUserJson(json as Map<String, dynamic>))
+            (json) => SearchResult.fromUserJson(json as Map<String, dynamic>),
+          )
           .toList();
     } catch (e) {
       AppLogger.info('Search users error: $e');
@@ -455,7 +481,8 @@ class SearchResult {
       subtitle: '${json['usage_count'] ?? 0} posts',
       relevanceScore: (json['trending_score'] as num?)?.toDouble() ?? 0.0,
       createdAt: DateTime.parse(
-          json['created_at'] ?? DateTime.now().toIso8601String()),
+        json['created_at'] ?? DateTime.now().toIso8601String(),
+      ),
       views: json['usage_count'] as int?,
     );
   }
@@ -470,7 +497,8 @@ class SearchResult {
       imageUrl: json['featured_image_url'],
       relevanceScore: 0.0, // Calculated separately
       createdAt: DateTime.parse(
-          json['created_at'] ?? DateTime.now().toIso8601String()),
+        json['created_at'] ?? DateTime.now().toIso8601String(),
+      ),
       views: json['views'] as int?,
       likes: json['likes'] as int?,
     );
@@ -486,7 +514,8 @@ class SearchResult {
       imageUrl: json['avatar_url'],
       relevanceScore: 0.0, // Calculated separately
       createdAt: DateTime.parse(
-          json['created_at'] ?? DateTime.now().toIso8601String()),
+        json['created_at'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 }

@@ -126,15 +126,15 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
                                     .getRecommendedCommunities(),
                                 builder: (context, snapshot) =>
                                     _buildCommunityCarousel(
-                                  snapshot.data ?? [],
-                                ),
+                                      snapshot.data ?? [],
+                                    ),
                               ),
                               FutureBuilder<List<Course>>(
                                 future: ref
                                     .read(courseRepositoryProvider)
                                     .getPublishedCourses(),
-                                builder: (context, snapshot) => snapshot
-                                            .hasData &&
+                                builder: (context, snapshot) =>
+                                    snapshot.hasData &&
                                         snapshot.data!.isNotEmpty
                                     ? const SizedBox.shrink() // TrendingCarousel removed for MVP
                                     : const SizedBox.shrink(),
@@ -403,14 +403,14 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
         final filtered = _selectedCategory == 'All'
             ? posts
             : posts
-                .where(
-                  (p) =>
-                      p.content?.toLowerCase().contains(
-                            _selectedCategory.toLowerCase(),
-                          ) ??
-                      false,
-                )
-                .toList();
+                  .where(
+                    (p) =>
+                        p.content?.toLowerCase().contains(
+                          _selectedCategory.toLowerCase(),
+                        ) ??
+                        false,
+                  )
+                  .toList();
 
         if (filtered.isEmpty) {
           return const EmptyStateWidget(
@@ -434,81 +434,82 @@ class _DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           itemBuilder: (context, index) {
             final post = filtered[index];
             return GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => UserProfileScreen(userId: post.userId),
-                ),
-              ),
-              child: GlassContainer(
-                padding: EdgeInsets.zero,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16),
-                        ),
-                        child: post.mediaUrls.isNotEmpty
-                            ? Image.network(
-                                post.mediaUrls.first,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Icon(
-                                  Icons.broken_image,
-                                  size: 40,
-                                  color: Colors.white24,
-                                ),
-                              )
-                            : Container(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withValues(alpha: 0.05),
-                                padding: const EdgeInsets.all(12),
-                                child: Text(
-                                  post.content ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white70,
-                                  ),
-                                  overflow: TextOverflow.fade,
-                                ),
-                              ),
-                      ),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => UserProfileScreen(userId: post.userId),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 10,
-                            backgroundImage: post.authorAvatar != null
-                                ? NetworkImage(post.authorAvatar!)
-                                : null,
-                            child: post.authorAvatar == null
-                                ? const Icon(LucideIcons.user, size: 10)
-                                : null,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              post.authorName ?? 'User',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                  ),
+                  child: GlassContainer(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(16),
                             ),
+                            child: post.mediaUrls.isNotEmpty
+                                ? Image.network(
+                                    post.mediaUrls.first,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                              Icons.broken_image,
+                                              size: 40,
+                                              color: Colors.white24,
+                                            ),
+                                  )
+                                : Container(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary
+                                        .withValues(alpha: 0.05),
+                                    padding: const EdgeInsets.all(12),
+                                    child: Text(
+                                      post.content ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                      ),
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                  ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 10,
+                                backgroundImage: post.authorAvatar != null
+                                    ? NetworkImage(post.authorAvatar!)
+                                    : null,
+                                child: post.authorAvatar == null
+                                    ? const Icon(LucideIcons.user, size: 10)
+                                    : null,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  post.authorName ?? 'User',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            )
+                  ),
+                )
                 .animate()
                 .fadeIn(
                   delay: (index * 30).ms,

@@ -22,7 +22,7 @@ class RegionPortal extends SpriteAnimationComponent
       game.state.nextRegion();
       game.saveState(); // Local save
       game.regionManager.loadCurrentRegion();
-      
+
       // Fire and forget remote sync
       CodemasterSyncService().syncState(game.state);
     }
