@@ -214,7 +214,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/group-chat/:groupId/:name',
         builder: (context, state) {
-          final group = state.extra as Group? ??
+          final group =
+              state.extra as Group? ??
               Group(
                 id: state.pathParameters['groupId']!,
                 name: state.pathParameters['name']!,

@@ -76,7 +76,6 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
 
         final currentChapter = chapters[_currentChapterIndex];
 
-
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -104,12 +103,12 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Center(
-                                child: Icon(
-                                  LucideIcons.playCircle,
-                                  color: Colors.white,
-                                  size: 64,
-                                ),
-                              ),
+                          child: Icon(
+                            LucideIcons.playCircle,
+                            color: Colors.white,
+                            size: 64,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -133,8 +132,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                 IconButton(
                                   icon: Icon(
                                     enrollment.completedChapters.contains(
-                                      currentChapter.id,
-                                    )
+                                          currentChapter.id,
+                                        )
                                         ? LucideIcons.checkCircle2
                                         : LucideIcons.circle,
                                     color: Colors.greenAccent,
@@ -198,8 +197,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                               MaterialPageRoute(
                                                 builder: (_) =>
                                                     QuizPlayerScreen(
-                                                  quiz: quiz,
-                                                ),
+                                                      quiz: quiz,
+                                                    ),
                                               ),
                                             ),
                                             style: ElevatedButton.styleFrom(
@@ -207,8 +206,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                                   Colors.blueAccent,
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                horizontal: 16,
-                                              ),
+                                                    horizontal: 16,
+                                                  ),
                                             ),
                                             child: const Text(
                                               'Start Quiz',
@@ -224,7 +223,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                       const SizedBox.shrink(),
                                 ),
                           md_plus.Markdown(
-                            data: currentChapter.contentMarkdown ??
+                            data:
+                                currentChapter.contentMarkdown ??
                                 'No content for this chapter.',
                             styleSheet: md_plus.MarkdownStyleSheet(
                               p: const TextStyle(
@@ -273,7 +273,8 @@ class _CoursePlayerScreenState extends ConsumerState<CoursePlayerScreen> {
                                       : FontWeight.normal,
                                 ),
                               ),
-                              trailing: enrollment?.completedChapters.contains(
+                              trailing:
+                                  enrollment?.completedChapters.contains(
                                         ch.id,
                                       ) ==
                                       true

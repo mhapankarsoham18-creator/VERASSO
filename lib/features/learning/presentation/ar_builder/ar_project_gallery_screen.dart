@@ -280,8 +280,9 @@ class _ArProjectGalleryScreenState extends ConsumerState<ArProjectGalleryScreen>
 
   Future<void> _remixProject(ArProject project) async {
     try {
-      final remixed =
-          await ref.read(arProjectRepositoryProvider).remixProject(project.id);
+      final remixed = await ref
+          .read(arProjectRepositoryProvider)
+          .remixProject(project.id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Project remixed: ${remixed.title}')),

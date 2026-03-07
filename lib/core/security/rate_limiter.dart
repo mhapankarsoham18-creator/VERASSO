@@ -4,7 +4,7 @@ import 'dart:collection';
 ///
 /// Implements IP + user-based rate limiting with configurable windows.
 /// Returns HTTP 429 (Too Many Requests) equivalent when limits are exceeded.
-/// 
+///
 /// Usage:
 /// ```dart
 /// final limiter = RateLimiter();
@@ -28,23 +28,56 @@ class RateLimiter {
   /// Per-endpoint configuration overrides
   static final Map<String, _RateLimitConfig> _endpointConfigs = {
     // Auth endpoints — strict limits to prevent brute force
-    '/auth/login': _RateLimitConfig(maxRequests: _authMaxRequests, window: _authWindow),
-    '/auth/register': _RateLimitConfig(maxRequests: 3, window: const Duration(minutes: 30)),
-    '/auth/reset-password': _RateLimitConfig(maxRequests: 3, window: const Duration(minutes: 30)),
-    '/auth/mfa/verify': _RateLimitConfig(maxRequests: 5, window: const Duration(minutes: 5)),
+    '/auth/login': _RateLimitConfig(
+      maxRequests: _authMaxRequests,
+      window: _authWindow,
+    ),
+    '/auth/register': _RateLimitConfig(
+      maxRequests: 3,
+      window: const Duration(minutes: 30),
+    ),
+    '/auth/reset-password': _RateLimitConfig(
+      maxRequests: 3,
+      window: const Duration(minutes: 30),
+    ),
+    '/auth/mfa/verify': _RateLimitConfig(
+      maxRequests: 5,
+      window: const Duration(minutes: 5),
+    ),
 
     // Content creation — moderate limits
-    '/api/posts': _RateLimitConfig(maxRequests: 10, window: const Duration(minutes: 1)),
-    '/api/comments': _RateLimitConfig(maxRequests: 20, window: const Duration(minutes: 1)),
-    '/api/messages': _RateLimitConfig(maxRequests: 30, window: const Duration(minutes: 1)),
+    '/api/posts': _RateLimitConfig(
+      maxRequests: 10,
+      window: const Duration(minutes: 1),
+    ),
+    '/api/comments': _RateLimitConfig(
+      maxRequests: 20,
+      window: const Duration(minutes: 1),
+    ),
+    '/api/messages': _RateLimitConfig(
+      maxRequests: 30,
+      window: const Duration(minutes: 1),
+    ),
 
     // Game endpoints — allow higher throughput
-    '/game/save': _RateLimitConfig(maxRequests: 10, window: const Duration(minutes: 1)),
-    '/game/challenge': _RateLimitConfig(maxRequests: 20, window: const Duration(minutes: 1)),
+    '/game/save': _RateLimitConfig(
+      maxRequests: 10,
+      window: const Duration(minutes: 1),
+    ),
+    '/game/challenge': _RateLimitConfig(
+      maxRequests: 20,
+      window: const Duration(minutes: 1),
+    ),
 
     // AI endpoints — expensive, limit aggressively
-    '/ai/hint': _RateLimitConfig(maxRequests: 10, window: const Duration(minutes: 5)),
-    '/ai/tutor': _RateLimitConfig(maxRequests: 5, window: const Duration(minutes: 5)),
+    '/ai/hint': _RateLimitConfig(
+      maxRequests: 10,
+      window: const Duration(minutes: 5),
+    ),
+    '/ai/tutor': _RateLimitConfig(
+      maxRequests: 5,
+      window: const Duration(minutes: 5),
+    ),
   };
 
   /// In-memory request log: key = "userId:endpoint", value = list of timestamps
@@ -54,13 +87,14 @@ class RateLimiter {
   ///
   /// Returns `true` if the request is within limits, `false` if rate limited.
   /// When `false`, the caller should return HTTP 429 with appropriate headers.
-  bool allowRequest({
-    required String? userId,
-    required String endpoint,
-  }) {
+  bool allowRequest({required String? userId, required String endpoint}) {
     final key = '${userId ?? 'anon'}:$endpoint';
-    final config = _endpointConfigs[endpoint] ??
-        _RateLimitConfig(maxRequests: _defaultMaxRequests, window: _defaultWindow);
+    final config =
+        _endpointConfigs[endpoint] ??
+        _RateLimitConfig(
+          maxRequests: _defaultMaxRequests,
+          window: _defaultWindow,
+        );
 
     final now = DateTime.now();
     final cutoff = now.subtract(config.window);
@@ -86,13 +120,14 @@ class RateLimiter {
 
   /// Get remaining requests for a user/endpoint combo.
   /// Useful for setting X-RateLimit-Remaining headers.
-  int remainingRequests({
-    required String? userId,
-    required String endpoint,
-  }) {
+  int remainingRequests({required String? userId, required String endpoint}) {
     final key = '${userId ?? 'anon'}:$endpoint';
-    final config = _endpointConfigs[endpoint] ??
-        _RateLimitConfig(maxRequests: _defaultMaxRequests, window: _defaultWindow);
+    final config =
+        _endpointConfigs[endpoint] ??
+        _RateLimitConfig(
+          maxRequests: _defaultMaxRequests,
+          window: _defaultWindow,
+        );
 
     final now = DateTime.now();
     final cutoff = now.subtract(config.window);
@@ -110,13 +145,14 @@ class RateLimiter {
 
   /// Get the time until the rate limit resets.
   /// Returns Duration.zero if not rate limited.
-  Duration retryAfter({
-    required String? userId,
-    required String endpoint,
-  }) {
+  Duration retryAfter({required String? userId, required String endpoint}) {
     final key = '${userId ?? 'anon'}:$endpoint';
-    final config = _endpointConfigs[endpoint] ??
-        _RateLimitConfig(maxRequests: _defaultMaxRequests, window: _defaultWindow);
+    final config =
+        _endpointConfigs[endpoint] ??
+        _RateLimitConfig(
+          maxRequests: _defaultMaxRequests,
+          window: _defaultWindow,
+        );
 
     final queue = _requestLog[key];
     if (queue == null || queue.isEmpty) return Duration.zero;
@@ -153,5 +189,6 @@ class RateLimitExceededException implements Exception {
   RateLimitExceededException(this.message, {this.retryAfter = Duration.zero});
 
   @override
-  String toString() => 'RateLimitExceededException: $message (retry after: ${retryAfter.inSeconds}s)';
+  String toString() =>
+      'RateLimitExceededException: $message (retry after: ${retryAfter.inSeconds}s)';
 }

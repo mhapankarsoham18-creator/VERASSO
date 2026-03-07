@@ -126,7 +126,8 @@ class MeshSyncManager {
     // Listen for incoming packets to store in history and respond to requests
     _meshSubscription = _meshService.meshStream.listen((packet) {
       try {
-        if (_packetHistory.containsKey(packet.id)) return; // Avoid duplicate processing
+        if (_packetHistory.containsKey(packet.id))
+          return; // Avoid duplicate processing
 
         _storeInHistory(packet);
 
@@ -139,8 +140,10 @@ class MeshSyncManager {
           ];
 
           if (criticalTypes.contains(packet.type)) {
-            AppLogger.info('Mesh Sync: Proactively relaying packet ${packet.id} (TTL: ${packet.ttl})');
-            
+            AppLogger.info(
+              'Mesh Sync: Proactively relaying packet ${packet.id} (TTL: ${packet.ttl})',
+            );
+
             // Decrement TTL and add self to seenBy
             final relayedPacket = packet.copyWith(
               ttl: packet.ttl - 1,

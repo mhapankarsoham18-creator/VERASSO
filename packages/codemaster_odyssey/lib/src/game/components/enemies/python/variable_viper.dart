@@ -116,7 +116,8 @@ class VariableViper extends SpriteAnimationComponent
     } else if (direction.length > 5) {
       // Passive: slow approach with weaving
       direction.normalize();
-      final weave = Vector2(-direction.y, direction.x) *
+      final weave =
+          Vector2(-direction.y, direction.x) *
           ((_behaviorTimer * 4).remainder(1.0) > 0.5 ? 1 : -1) *
           30;
       position.add((direction * moveSpeed * 0.5 + weave) * dt);

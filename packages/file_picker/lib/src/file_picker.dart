@@ -11,19 +11,9 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 const String defaultDialogTitle = '';
 
-enum FileType {
-  any,
-  media,
-  image,
-  video,
-  audio,
-  custom,
-}
+enum FileType { any, media, image, video, audio, custom }
 
-enum FilePickerStatus {
-  picking,
-  done,
-}
+enum FilePickerStatus { picking, done }
 
 /// The interface that implementations of file_picker must implement.
 ///
@@ -113,8 +103,7 @@ abstract class FilePicker extends PlatformInterface {
     bool withReadStream = false,
     bool lockParentWindow = false,
     bool readSequential = false,
-  }) async =>
-      throw UnimplementedError('pickFiles() has not been implemented.');
+  }) async => throw UnimplementedError('pickFiles() has not been implemented.');
 
   /// Asks the underlying platform to remove any temporary files created by this plugin.
   ///
@@ -126,7 +115,8 @@ abstract class FilePicker extends PlatformInterface {
   ///
   /// Returns `true` if the files were removed with success, `false` otherwise.
   Future<bool?> clearTemporaryFiles() async => throw UnimplementedError(
-      'clearTemporaryFiles() has not been implemented.');
+    'clearTemporaryFiles() has not been implemented.',
+  );
 
   /// Selects a directory and returns its absolute path.
   ///
@@ -193,6 +183,5 @@ abstract class FilePicker extends PlatformInterface {
     FileType type = FileType.any,
     List<String>? allowedExtensions,
     bool lockParentWindow = false,
-  }) async =>
-      throw UnimplementedError('saveFile() has not been implemented.');
+  }) async => throw UnimplementedError('saveFile() has not been implemented.');
 }

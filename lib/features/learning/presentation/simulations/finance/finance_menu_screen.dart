@@ -14,7 +14,7 @@ class FinanceMenuScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(currentUserProvider)?.id;
-    
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -23,21 +23,21 @@ class FinanceMenuScreen extends ConsumerWidget {
         elevation: 0,
       ),
       body: LiquidBackground(
-        child: userId == null 
-          ? const Center(child: Text('Please log in to see finance data'))
-          : ListView(
-            padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
-            children: [
-              _buildBalanceCard(ref, userId),
-              const SizedBox(height: 24),
-              const Text(
-                'Recent Transactions',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        child: userId == null
+            ? const Center(child: Text('Please log in to see finance data'))
+            : ListView(
+                padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
+                children: [
+                  _buildBalanceCard(ref, userId),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Recent Transactions',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildTransactionList(ref, userId),
+                ],
               ),
-              const SizedBox(height: 12),
-              _buildTransactionList(ref, userId),
-            ],
-          ),
       ),
     );
   }
@@ -74,7 +74,9 @@ class FinanceMenuScreen extends ConsumerWidget {
 
   Widget _buildTransactionList(WidgetRef ref, String userId) {
     return FutureBuilder<List<Transaction>>(
-      future: ref.read(transactionRepositoryProvider).getTransactionHistory(userId),
+      future: ref
+          .read(transactionRepositoryProvider)
+          .getTransactionHistory(userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -86,15 +88,14 @@ class FinanceMenuScreen extends ConsumerWidget {
             child: Center(child: Text('No transactions found')),
           );
         }
-        return Column(
-          children: txs.map((tx) => _buildTxTile(tx)).toList(),
-        );
+        return Column(children: txs.map((tx) => _buildTxTile(tx)).toList());
       },
     );
   }
 
   Widget _buildTxTile(Transaction tx) {
-    final isPositive = tx.type == TransactionType.reward || tx.type == TransactionType.deposit;
+    final isPositive =
+        tx.type == TransactionType.reward || tx.type == TransactionType.deposit;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: GlassContainer(

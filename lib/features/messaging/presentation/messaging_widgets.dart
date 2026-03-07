@@ -153,8 +153,9 @@ class MessageBubble extends ConsumerWidget {
 
   Widget _buildReadReceiptIcon(WidgetRef ref, String messageId) {
     return FutureBuilder<MessageReadStatus?>(
-      future:
-          ref.read(messageReadReceiptProvider).getMessageReadStatus(messageId),
+      future: ref
+          .read(messageReadReceiptProvider)
+          .getMessageReadStatus(messageId),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isRead) {
@@ -243,8 +244,9 @@ class ReadReceiptIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<MessageReadStatus?>(
-      future:
-          ref.read(messageReadReceiptProvider).getMessageReadStatus(messageId),
+      future: ref
+          .read(messageReadReceiptProvider)
+          .getMessageReadStatus(messageId),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final status = snapshot.data!;
@@ -317,7 +319,8 @@ class UnreadBadge extends ConsumerWidget {
           padding: const EdgeInsets.all(6),
           child: Text(
             count > 99 ? '99+' : count.toString(),
-            style: textStyle ??
+            style:
+                textStyle ??
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

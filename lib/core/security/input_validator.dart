@@ -19,19 +19,19 @@ class InputValidator {
 
   /// Max lengths for common fields — prevents buffer overflow and DoS
   static const Map<String, int> fieldMaxLengths = {
-    'email': 254,       // RFC 5321
-    'password': 128,    // Generous but bounded
-    'username': 30,     // Display name
+    'email': 254, // RFC 5321
+    'password': 128, // Generous but bounded
+    'username': 30, // Display name
     'displayName': 50,
     'bio': 500,
     'title': 200,
-    'content': 10000,   // Post/comment body
-    'message': 2000,    // Chat messages
-    'code': 5000,       // Code challenge answers
+    'content': 10000, // Post/comment body
+    'message': 2000, // Chat messages
+    'code': 5000, // Code challenge answers
     'searchQuery': 100,
-    'inviteCode': 36,   // UUID format
+    'inviteCode': 36, // UUID format
     'feedbackText': 2000,
-    'url': 2048,        // RFC 2616
+    'url': 2048, // RFC 2616
   };
 
   // ─────────────── Regex Patterns ───────────────
@@ -282,7 +282,8 @@ class InputValidator {
       final value = data[fieldName];
 
       // Required check
-      if (field.required && (value == null || (value is String && value.trim().isEmpty))) {
+      if (field.required &&
+          (value == null || (value is String && value.trim().isEmpty))) {
         errors[fieldName] = '$fieldName is required';
         continue;
       }
@@ -298,7 +299,9 @@ class InputValidator {
 
       // Custom validator
       if (field.validator != null) {
-        final error = field.validator!(value is String ? value : value.toString());
+        final error = field.validator!(
+          value is String ? value : value.toString(),
+        );
         if (error != null) {
           errors[fieldName] = error;
         }
@@ -320,9 +323,5 @@ class SchemaField {
   /// Custom validation function (returns null if valid, error message if invalid)
   final String? Function(String?)? validator;
 
-  const SchemaField({
-    this.type,
-    this.required = false,
-    this.validator,
-  });
+  const SchemaField({this.type, this.required = false, this.validator});
 }

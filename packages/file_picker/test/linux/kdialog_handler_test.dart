@@ -1,5 +1,4 @@
 @TestOn('linux')
-
 import 'package:file_picker/src/file_picker.dart';
 import 'package:file_picker/src/linux/kdialog_handler.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,7 +38,8 @@ void main() {
       expect(
         dialogHandler.fileTypeToFileFilter(FileType.video, null),
         equals(
-            'Video File (*.avi *.flv *.mkv *.mov *.mp4 *.mpeg *.webm *.wmv)'),
+          'Video File (*.avi *.flv *.mkv *.mov *.mp4 *.mpeg *.webm *.wmv)',
+        ),
       );
     });
 
@@ -60,9 +60,7 @@ void main() {
 
   group('resultStringToFilePaths()', () {
     test('should interpret the result of picking a single file', () {
-      final filePaths = KDialogHandler().resultStringToFilePaths(
-        imageTestFile,
-      );
+      final filePaths = KDialogHandler().resultStringToFilePaths(imageTestFile);
 
       expect(filePaths.length, equals(1));
       expect(filePaths[0], imageTestFile);
@@ -135,7 +133,8 @@ void main() {
       expect(
         cliArguments.join(' '),
         equals(
-            """--title Select output file: --getsavefilename ${p.absolute('test.out')}"""),
+          """--title Select output file: --getsavefilename ${p.absolute('test.out')}""",
+        ),
       );
     });
 
@@ -155,40 +154,42 @@ void main() {
     });
 
     test(
-        'should generate the arguments for picking a single file with a custom file filter',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Select a file:',
-        fileFilter: 'DART File, YML File (*.dart *.yml)',
-        multipleFiles: false,
-        pickDirectory: false,
-      );
+      'should generate the arguments for picking a single file with a custom file filter',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Select a file:',
+          fileFilter: 'DART File, YML File (*.dart *.yml)',
+          multipleFiles: false,
+          pickDirectory: false,
+        );
 
-      expect(
-        cliArguments.join(' '),
-        equals(
-          """--title Select a file: --getopenfilename . DART File, YML File (*.dart *.yml)""",
-        ),
-      );
-    });
+        expect(
+          cliArguments.join(' '),
+          equals(
+            """--title Select a file: --getopenfilename . DART File, YML File (*.dart *.yml)""",
+          ),
+        );
+      },
+    );
 
     test(
-        'should generate the arguments for picking multiple files with a custom file filter',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Select HTML files:',
-        fileFilter: 'HTML File (*.html)',
-        multipleFiles: true,
-        pickDirectory: false,
-      );
+      'should generate the arguments for picking multiple files with a custom file filter',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Select HTML files:',
+          fileFilter: 'HTML File (*.html)',
+          multipleFiles: true,
+          pickDirectory: false,
+        );
 
-      expect(
-        cliArguments.join(' '),
-        equals(
-          """--title Select HTML files: --getopenfilename . HTML File (*.html) --multiple --separate-output""",
-        ),
-      );
-    });
+        expect(
+          cliArguments.join(' '),
+          equals(
+            """--title Select HTML files: --getopenfilename . HTML File (*.html) --multiple --separate-output""",
+          ),
+        );
+      },
+    );
 
     test('should generate the arguments for picking a directory', () {
       final cliArguments = KDialogHandler().generateCommandLineArguments(
@@ -203,65 +204,70 @@ void main() {
     });
 
     test(
-        'should generate the arguments for picking a file when an initial directory is given',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Select a file:',
-        initialDirectory: '/etc/python3.8',
-      );
+      'should generate the arguments for picking a file when an initial directory is given',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Select a file:',
+          initialDirectory: '/etc/python3.8',
+        );
 
-      expect(
-        cliArguments.join(' '),
-        equals("""--title Select a file: --getopenfilename /etc/python3.8"""),
-      );
-    });
-
-    test(
-        'should generate the arguments for saving a file when an initial directory is given',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Save as:',
-        initialDirectory: '/home/user/Desktop/',
-        saveFile: true,
-      );
-
-      expect(
-        cliArguments.join(' '),
-        equals("""--title Save as: --getsavefilename /home/user/Desktop/"""),
-      );
-    });
+        expect(
+          cliArguments.join(' '),
+          equals("""--title Select a file: --getopenfilename /etc/python3.8"""),
+        );
+      },
+    );
 
     test(
-        'should generate the arguments for saving a file when an initial directory and the filename is given',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Save as:',
-        fileName: 'output.pdf',
-        initialDirectory: '/tmp',
-        saveFile: true,
-      );
+      'should generate the arguments for saving a file when an initial directory is given',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Save as:',
+          initialDirectory: '/home/user/Desktop/',
+          saveFile: true,
+        );
 
-      expect(
-        cliArguments.join(' '),
-        equals("""--title Save as: --getsavefilename /tmp/output.pdf"""),
-      );
-    });
+        expect(
+          cliArguments.join(' '),
+          equals("""--title Save as: --getsavefilename /home/user/Desktop/"""),
+        );
+      },
+    );
 
     test(
-        'should set the KDialog option "startDir" to the current directory if a file filter is given but fileName and initialDir are empty',
-        () {
-      final cliArguments = KDialogHandler().generateCommandLineArguments(
-        'Select a file:',
-        fileFilter: 'HTML File (*.html)',
-        fileName: '',
-        initialDirectory: '',
-      );
+      'should generate the arguments for saving a file when an initial directory and the filename is given',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Save as:',
+          fileName: 'output.pdf',
+          initialDirectory: '/tmp',
+          saveFile: true,
+        );
 
-      expect(
-        cliArguments.join(' '),
-        equals(
-            """--title Select a file: --getopenfilename . HTML File (*.html)"""),
-      );
-    });
+        expect(
+          cliArguments.join(' '),
+          equals("""--title Save as: --getsavefilename /tmp/output.pdf"""),
+        );
+      },
+    );
+
+    test(
+      'should set the KDialog option "startDir" to the current directory if a file filter is given but fileName and initialDir are empty',
+      () {
+        final cliArguments = KDialogHandler().generateCommandLineArguments(
+          'Select a file:',
+          fileFilter: 'HTML File (*.html)',
+          fileName: '',
+          initialDirectory: '',
+        );
+
+        expect(
+          cliArguments.join(' '),
+          equals(
+            """--title Select a file: --getopenfilename . HTML File (*.html)""",
+          ),
+        );
+      },
+    );
   });
 }

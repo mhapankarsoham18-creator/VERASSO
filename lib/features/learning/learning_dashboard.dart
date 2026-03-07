@@ -69,7 +69,9 @@ class LearningDashboard extends ConsumerWidget {
             const UpcomingEventsCarousel(),
 
             // Progress Section
-            ref.watch(myEnrollmentsProvider).when(
+            ref
+                .watch(myEnrollmentsProvider)
+                .when(
                   data: (enrollments) {
                     if (enrollments.isEmpty) return const SizedBox.shrink();
                     final inProgress = enrollments
@@ -152,7 +154,9 @@ class LearningDashboard extends ConsumerWidget {
                 ),
 
             // Daily Challenge Widget
-            ref.watch(activeChallengesProvider).when(
+            ref
+                .watch(activeChallengesProvider)
+                .when(
                   data: (challenges) {
                     if (challenges.isEmpty) return const SizedBox.shrink();
                     final challenge = challenges.first;
@@ -299,7 +303,9 @@ class LearningDashboard extends ConsumerWidget {
               color: Colors.purpleAccent,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AlumniNetworkScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const AlumniNetworkScreen(),
+                  ),
                 );
               },
             ),
@@ -383,7 +389,9 @@ class LearningDashboard extends ConsumerWidget {
               color: Colors.deepPurple,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AstronomyMenuScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const AstronomyMenuScreen(),
+                  ),
                 );
               },
             ),

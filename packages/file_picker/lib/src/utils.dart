@@ -10,9 +10,9 @@ Future<List<PlatformFile>> filePathsToPlatformFiles(
   bool withData,
 ) {
   return Future.wait(
-    filePaths
-        .where((String filePath) => filePath.isNotEmpty)
-        .map((String filePath) async {
+    filePaths.where((String filePath) => filePath.isNotEmpty).map((
+      String filePath,
+    ) async {
       final file = File(filePath);
 
       if (withReadStream) {
@@ -33,14 +33,13 @@ Future<PlatformFile> createPlatformFile(
   File file,
   Uint8List? bytes,
   Stream<List<int>>? readStream,
-) async =>
-    PlatformFile(
-      bytes: bytes,
-      name: basename(file.path),
-      path: file.path,
-      readStream: readStream,
-      size: file.existsSync() ? file.lengthSync() : 0,
-    );
+) async => PlatformFile(
+  bytes: bytes,
+  name: basename(file.path),
+  path: file.path,
+  readStream: readStream,
+  size: file.existsSync() ? file.lengthSync() : 0,
+);
 
 Future<String?> runExecutableWithArguments(
   String executable,
@@ -57,9 +56,7 @@ Future<String?> runExecutableWithArguments(
 Future<String> isExecutableOnPath(String executable) async {
   final path = await runExecutableWithArguments('which', [executable]);
   if (path == null) {
-    throw Exception(
-      'Couldn\'t find the executable $executable in the path.',
-    );
+    throw Exception('Couldn\'t find the executable $executable in the path.');
   }
   return path;
 }

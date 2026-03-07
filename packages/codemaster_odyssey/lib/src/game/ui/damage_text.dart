@@ -10,20 +10,18 @@ class DamageText extends TextComponent {
     required Vector2 position,
     bool isCritical = false,
   }) : super(
-          text: '-${damage.toInt()}',
-          position: position,
-          anchor: Anchor.center,
-          textRenderer: TextPaint(
-            style: TextStyle(
-              color: isCritical ? const Color(0xFFFF4444) : Colors.white,
-              fontSize: isCritical ? 20.0 : 14.0,
-              fontWeight: isCritical ? FontWeight.bold : FontWeight.normal,
-              shadows: const [
-                Shadow(offset: Offset(1, 1), blurRadius: 2),
-              ],
-            ),
-          ),
-        );
+         text: '-${damage.toInt()}',
+         position: position,
+         anchor: Anchor.center,
+         textRenderer: TextPaint(
+           style: TextStyle(
+             color: isCritical ? const Color(0xFFFF4444) : Colors.white,
+             fontSize: isCritical ? 20.0 : 14.0,
+             fontWeight: isCritical ? FontWeight.bold : FontWeight.normal,
+             shadows: const [Shadow(offset: Offset(1, 1), blurRadius: 2)],
+           ),
+         ),
+       );
 
   @override
   Future<void> onLoad() async {
@@ -50,24 +48,20 @@ class DamageText extends TextComponent {
 /// A floating heal number (green, drifts up).
 class HealText extends TextComponent {
   /// Creates a floating [HealText].
-  HealText({
-    required double amount,
-    required Vector2 position,
-  }) : super(
-          text: '+${amount.toInt()}',
-          position: position,
-          anchor: Anchor.center,
-          textRenderer: TextPaint(
-            style: const TextStyle(
-              color: Color(0xFF00FF88),
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(offset: Offset(1, 1), blurRadius: 2),
-              ],
-            ),
+  HealText({required double amount, required Vector2 position})
+    : super(
+        text: '+${amount.toInt()}',
+        position: position,
+        anchor: Anchor.center,
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            color: Color(0xFF00FF88),
+            fontSize: 14.0,
+            fontWeight: FontWeight.bold,
+            shadows: [Shadow(offset: Offset(1, 1), blurRadius: 2)],
           ),
-        );
+        ),
+      );
 
   @override
   Future<void> onLoad() async {
@@ -95,20 +89,18 @@ class LootPickupText extends TextComponent {
     required Color rarityColor,
     required Vector2 position,
   }) : super(
-          text: itemName,
-          position: position,
-          anchor: Anchor.center,
-          textRenderer: TextPaint(
-            style: TextStyle(
-              color: rarityColor,
-              fontSize: 12.0,
-              fontWeight: FontWeight.bold,
-              shadows: const [
-                Shadow(offset: Offset(1, 1), blurRadius: 2),
-              ],
-            ),
-          ),
-        );
+         text: itemName,
+         position: position,
+         anchor: Anchor.center,
+         textRenderer: TextPaint(
+           style: TextStyle(
+             color: rarityColor,
+             fontSize: 12.0,
+             fontWeight: FontWeight.bold,
+             shadows: const [Shadow(offset: Offset(1, 1), blurRadius: 2)],
+           ),
+         ),
+       );
 
   @override
   Future<void> onLoad() async {

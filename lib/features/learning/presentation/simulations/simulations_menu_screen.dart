@@ -81,7 +81,9 @@ class SimulationsMenuScreen extends StatelessWidget {
               color: Colors.blueAccent,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const GeographyMenuScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const GeographyMenuScreen(),
+                  ),
                 );
               },
             ),
@@ -94,7 +96,9 @@ class SimulationsMenuScreen extends StatelessWidget {
               color: Colors.deepPurple,
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AstronomyMenuScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const AstronomyMenuScreen(),
+                  ),
                 );
               },
             ),

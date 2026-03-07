@@ -25,22 +25,19 @@ class SentryService {
     }
 
     try {
-      await SentryFlutter.init(
-        (options) {
-          options.dsn = _sentryDsn;
-          options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
-          options.environment =
-              environment ?? (kDebugMode ? 'development' : 'production');
-          options.enableAutoPerformanceTracing = true;
-          options.sendDefaultPii = false;
-          options.attachStacktrace = true;
-          options.attachScreenshot = true;
-          options.debug = kDebugMode;
-          options.release = 'verasso@1.2.0+3';
-          options.beforeSend = (event, hint) => event;
-        },
-        appRunner: appRunner,
-      );
+      await SentryFlutter.init((options) {
+        options.dsn = _sentryDsn;
+        options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
+        options.environment =
+            environment ?? (kDebugMode ? 'development' : 'production');
+        options.enableAutoPerformanceTracing = true;
+        options.sendDefaultPii = false;
+        options.attachStacktrace = true;
+        options.attachScreenshot = true;
+        options.debug = kDebugMode;
+        options.release = 'verasso@1.2.0+3';
+        options.beforeSend = (event, hint) => event;
+      }, appRunner: appRunner);
       AppLogger.info('Sentry initialized [env: $environment]');
     } catch (e) {
       AppLogger.error('Failed to initialize Sentry', error: e);

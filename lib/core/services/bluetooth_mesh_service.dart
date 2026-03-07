@@ -11,12 +11,12 @@ import '../../core/monitoring/app_logger.dart';
 class BluetoothMeshService {
   final _meshController = StreamController<MeshPacket>.broadcast();
   final _devicesController = StreamController<List<String>>.broadcast();
-  
+
   final Map<String, String> _connectedDevices = {}; // endpointId -> deviceName
-  
+
   bool _isAdvertising = false;
   bool _isDiscovering = false;
-  
+
   String _myId = const Uuid().v4();
   String? _myName;
 
@@ -32,7 +32,7 @@ class BluetoothMeshService {
   Future<void> initialize([String? name, String? id]) async {
     _myName = name;
     if (id != null) _myId = id;
-    
+
     // Request permissions
     await [
       Permission.bluetooth,
@@ -41,7 +41,7 @@ class BluetoothMeshService {
       Permission.bluetoothScan,
       Permission.location,
     ].request();
-    
+
     AppLogger.info('BluetoothMeshService initialized as $myName ($myId)');
   }
 
@@ -112,7 +112,9 @@ class BluetoothMeshService {
   }
 
   void _onConnectionInitiated(String id, ConnectionInfo info) {
-    AppLogger.info('Mesh: Connection initiated with ${info.endpointName} ($id)');
+    AppLogger.info(
+      'Mesh: Connection initiated with ${info.endpointName} ($id)',
+    );
     Nearby().acceptConnection(
       id,
       onPayLoadRecieved: (id, payload) {
@@ -133,7 +135,7 @@ class BluetoothMeshService {
   void _onConnectionResult(String id, Status status) {
     if (status == Status.CONNECTED) {
       AppLogger.info('Mesh: Connected to $id');
-      _connectedDevices[id] = id; 
+      _connectedDevices[id] = id;
       _devicesController.add(_connectedDevices.values.toList());
     } else {
       AppLogger.warning('Mesh: Connection result to $id: $status');
@@ -145,26 +147,35 @@ class BluetoothMeshService {
     _connectedDevices.remove(id);
     _devicesController.add(_connectedDevices.values.toList());
   }
-  
-  Future<void> broadcastPacket(dynamic type, dynamic payload, {dynamic targetSubject}) async {
+
+  Future<void> broadcastPacket(
+    dynamic type,
+    dynamic payload, {
+    dynamic targetSubject,
+  }) async {
     final packet = MeshPacket(
       id: const Uuid().v4(),
-      type: type is MeshPayloadType ? type : MeshPayloadType.values.firstWhere((e) => e.toString() == type.toString(), orElse: () => MeshPayloadType.scienceData),
+      type: type is MeshPayloadType
+          ? type
+          : MeshPayloadType.values.firstWhere(
+              (e) => e.toString() == type.toString(),
+              orElse: () => MeshPayloadType.scienceData,
+            ),
       senderId: myId,
       senderName: myName,
       payload: Map<String, dynamic>.from(payload),
       timestamp: DateTime.now().toIso8601String(),
     );
-    
+
     final Map<String, dynamic> map = packet.toMap();
     final data = jsonEncode(map);
     final bytes = utf8.encode(data);
-    
+
     for (var id in _connectedDevices.keys) {
       Nearby().sendBytesPayload(id, Uint8List.fromList(bytes));
     }
   }
-  
+
   void setExpertise(dynamic level) {}
   void setTrustThreshold(dynamic threshold) {}
 }

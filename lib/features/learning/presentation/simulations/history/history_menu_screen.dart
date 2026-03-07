@@ -33,7 +33,9 @@ class HistoryMenuScreen extends StatelessWidget {
               icon: LucideIcons.map,
               color: Colors.brown,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const HistoricalAtlasScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const HistoricalAtlasScreen(),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -66,7 +68,9 @@ class HistoryMenuScreen extends StatelessWidget {
               icon: LucideIcons.hourglass,
               color: Colors.orange,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const TimelineReconstructorScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const TimelineReconstructorScreen(),
+                ),
               ),
             ),
           ],
@@ -103,7 +107,10 @@ class HistoryMenuScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
                 Text(subtitle, style: const TextStyle(color: Colors.white70)),
               ],

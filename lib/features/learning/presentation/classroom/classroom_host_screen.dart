@@ -121,7 +121,11 @@ class _ClassroomHostScreenState extends ConsumerState<ClassroomHostScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Center(
-                    child: Icon(LucideIcons.qrCode, color: Colors.white54, size: 40),
+                    child: Icon(
+                      LucideIcons.qrCode,
+                      color: Colors.white54,
+                      size: 40,
+                    ),
                   ),
                 ),
               ),

@@ -118,10 +118,7 @@ class FilePickerMacOS extends FilePicker {
     bool readSequential = false,
   }) async {
     final String executable = await isExecutableOnPath('osascript');
-    final String fileFilter = fileTypeToFileFilter(
-      type,
-      allowedExtensions,
-    );
+    final String fileFilter = fileTypeToFileFilter(type, allowedExtensions);
     final List<String> arguments = generateCommandLineArguments(
       escapeDialogTitle(dialogTitle ?? defaultDialogTitle),
       fileFilter: fileFilter,
@@ -138,9 +135,7 @@ class FilePickerMacOS extends FilePicker {
       return null;
     }
 
-    final List<String> filePaths = resultStringToFilePaths(
-      fileSelectionResult,
-    );
+    final List<String> filePaths = resultStringToFilePaths(fileSelectionResult);
     final List<PlatformFile> platformFiles = await filePathsToPlatformFiles(
       filePaths,
       withReadStream,
@@ -191,10 +186,7 @@ class FilePickerMacOS extends FilePicker {
     bool lockParentWindow = false,
   }) async {
     final String executable = await isExecutableOnPath('osascript');
-    final String fileFilter = fileTypeToFileFilter(
-      type,
-      allowedExtensions,
-    );
+    final String fileFilter = fileTypeToFileFilter(type, allowedExtensions);
     final List<String> arguments = generateCommandLineArguments(
       escapeDialogTitle(dialogTitle ?? defaultDialogTitle),
       fileFilter: fileFilter,

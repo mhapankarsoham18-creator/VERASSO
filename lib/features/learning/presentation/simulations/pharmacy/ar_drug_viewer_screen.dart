@@ -6,8 +6,6 @@ class ARDrugViewerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Pharmacy AR removed.")),
-    );
+    return const Scaffold(body: Center(child: Text("Pharmacy AR removed.")));
   }
 }

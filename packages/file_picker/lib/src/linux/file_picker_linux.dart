@@ -64,12 +64,12 @@ class FilePickerLinux extends FilePicker {
     String? initialDirectory,
   }) async {
     final executable = await _getPathToExecutable();
-    final List<String> arguments =
-        DialogHandler(executable).generateCommandLineArguments(
-      dialogTitle ?? defaultDialogTitle,
-      initialDirectory: initialDirectory ?? '',
-      pickDirectory: true,
-    );
+    final List<String> arguments = DialogHandler(executable)
+        .generateCommandLineArguments(
+          dialogTitle ?? defaultDialogTitle,
+          initialDirectory: initialDirectory ?? '',
+          pickDirectory: true,
+        );
     return await runExecutableWithArguments(executable, arguments);
   }
 

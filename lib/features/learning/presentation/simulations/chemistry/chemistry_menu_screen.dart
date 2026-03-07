@@ -25,7 +25,12 @@ class ChemistryMenuScreen extends StatelessWidget {
       ),
       body: LiquidBackground(
         child: ListView(
-          padding: const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 20),
+          padding: const EdgeInsets.only(
+            top: 100,
+            left: 16,
+            right: 16,
+            bottom: 20,
+          ),
           children: [
             _buildSimItem(
               context,

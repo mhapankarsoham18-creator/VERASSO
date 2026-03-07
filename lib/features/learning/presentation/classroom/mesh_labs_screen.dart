@@ -109,10 +109,12 @@ class MeshLabsScreen extends StatelessWidget {
                 icon: LucideIcons.cpu,
                 color: Colors.cyanAccent,
                 onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('AR Circuit Builder — coming soon!')),
-                );
-              },
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('AR Circuit Builder — coming soon!'),
+                    ),
+                  );
+                },
               ).animate().fadeIn(delay: 600.ms).slideX(),
               const SizedBox(height: 32),
               const Center(

@@ -37,9 +37,9 @@ final otherUserProfileProvider = FutureProvider.family<Profile?, String>((
 /// Provider family to fetch profile statistics (friends, posts, etc.) for a [userId].
 final otherUserStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
-  final repo = ref.watch(profileRepositoryProvider);
-  return repo.getProfileStats(userId);
-});
+      final repo = ref.watch(profileRepositoryProvider);
+      return repo.getProfileStats(userId);
+    });
 
 /// Provider family to fetch all posts created by a specific [userId].
 final userPostsProvider = FutureProvider.family<List<Post>, String>((
