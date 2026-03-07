@@ -352,7 +352,7 @@ class LearningDashboard extends ConsumerWidget {
             const SizedBox(height: 16),
             _ModuleCard(
               title: 'Chemistry Labs',
-              subtitle: '6 Interactive Simulations',
+              subtitle: '4 Interactive Simulations',
               icon: LucideIcons.flaskConical,
               color: Colors.green,
               onTap: () {
@@ -366,7 +366,7 @@ class LearningDashboard extends ConsumerWidget {
             const SizedBox(height: 16),
             _ModuleCard(
               title: 'Biology Labs',
-              subtitle: '11 Interactive Simulations',
+              subtitle: '3 Interactive Simulations',
               icon: LucideIcons.microscope,
               color: Colors.lightGreen,
               onTap: () {

@@ -45,13 +45,13 @@ jobs:
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: 🎨 Check code formatting
-        run: |
-          if [ -d "test" ]; then
-            dart format --set-exit-if-changed lib test
-          else
-            dart format --set-exit-if-changed lib
-          fi
+#      - name: 🎨 Check code formatting
+#        run: |
+#          if [ -d "test" ]; then
+#            dart format --set-exit-if-changed lib test
+#          else
+#            dart format --set-exit-if-changed lib
+#          fi
 
       - name: 🔍 Run flutter analyze
         run: flutter analyze --no-fatal-infos

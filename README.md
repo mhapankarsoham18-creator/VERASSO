@@ -1,8 +1,8 @@
 # 🌌 VERASSO
 
-### THE DECENTRALIZED COGNITIVE ECOSYSTEM
+## THE DECENTRALIZED COGNITIVE ECOSYSTEM
 
-**Verasso** is not just an app; it is a digital nervous system designed to thrive where the internet dies. It fuses **Neural Mesh Networking**, **Zero-Knowledge Identity**, and **3D Immersive Learning** into a single, cohesive platform for growth, work, and discovery.
+**Verasso** is a "digital nervous system" designed to thrive where the internet dies. It fuses **Neural Mesh Networking**, **Zero-Knowledge Identity**, and **3D Immersive Learning** into a single, cohesive platform for growth, work, and discovery.
 
 ---
 
@@ -10,24 +10,50 @@
 
 ### 🧠 NEURAL MESH (P2P)
 
-Gone are the days of server reliance. Verasso utilizes a custom-engineered **Reinforcement Learning (Multi-Armed Bandit)** routing algorithm to navigate peer-to-peer data.
+VERASSO utilizes a sophisticated hybrid P2P architecture to ensure connectivity even in dead zones.
 
-- **Offline Autonomy**: Trade jobs, send E2E encrypted messages, and sync learning progress via Bluetooth & WiFi Direct.
-- **Expertise-Aware TTL**: Data propagates smarter, not harder, by prioritizing nodes with relevant domain knowledge.
+- **Discovery**: Uses `nearby_connections` (P2P_CLUSTER) for reliable local peer-to-peer discovery.
+- **RL-Routing**: A custom **Multi-Armed Bandit** algorithm navigates data through the mesh based on node reliability and expertise.
+- **Proactive Relay**: `MeshSyncManager` supports multi-hop relaying for critical packets (chat, doubts, science data) with expertise-aware TTL.
+- **Cloud Bridge**: `SyncBridgeService` uplinks packets to Supabase automatically when a gateway node finds internet.
 
 ### 🛡️ COGNITIVE SOVEREIGNTY (ZK-PRIVACY)
 
-Your identity is your own. Using **Zero-Knowledge Proofs (ZK)**, Verasso allows you to verify your skills and credentials across the network without ever exposing your private profile or global IDs.
+Your identity and achievements are cryptographically secured.
 
-- **Blinded Identifiers**: Session-based anonymity for every mesh interaction.
-- **Proof of skill**: Cryptographic commitments to your mastery.
+- **Zero-Knowledge Proofs**: Verify skills and credentials without exposing your global identity.
+- **Proof of Mastery**: Cryptographic signatures of learning progress (`MasterySignatureService`) ensure untamperable academic records.
+- **Blinded Identifiers**: Session-based anonymity for all mesh interactions.
 
-### 🧪 IMMERSIVE LEARNING (3D/AR)
+---
 
-Experience knowledge as a physical reality. With 65+ specialized simulations spanning Physics, Chemistry, Biology, and Astronomy, learning is an active pursuit.
+## 🧪 THE LEARNING HUB
 
-- **Cognitive Dashboard**: Explore your knowledge profile in a reactive, 3D node-graph visualization.
-- **Liquid Glass 2.0**: A UI that breaths with the network—frosted glass aesthetics that react dynamically to mesh congestion.
+### 🎮 CODEMASTER ODYSSEY (Integrated RPG)
+
+A flagship retro-RPG learning experience built directly into the ecosystem.
+
+- **Python Combat**: Defeat enemies like the `Variable Viper` and `Syntax Error` by solving real-time coding challenges.
+- **Region Management**: Explore 5+ distinct regions, each focusing on different programming paradigms.
+
+### 🔬 SCIENCE SIMULATIONS (3D/AR)
+
+Immersive 3D environments for specialized domains:
+
+- **Biology**: 3+ Interactive simulations (Cell Structure, Synaptic Transmission).
+- **Chemistry**: 4+ Interactive simulations (Molecular Builder, Titration Lab, Periodic Table, Gas Law Lab).
+- **Physics**: 12+ Interactive simulations across 6 specialized lab categories.
+- **Astronomy**: Interactive stellar maps and planetary simulations.
+- **Pharmacy (AR)**: Augmented Reality drug viewer and chemical interaction lab.
+- **Finance**: Dynamic ROI calculators and economic modeling simulations.
+- **History**: AR Archaeological reconstructions and timeline explorer.
+
+### 🏫 CLASSROOM 2.0
+
+Collaborative learning that works offline:
+
+- **Mesh-Labs**: Conduct experiments in collaborative mesh groups even without Wi-Fi.
+- **Relay-Game**: Gamified collaborative problem-solving across the network.
 
 ---
 
@@ -35,18 +61,20 @@ Experience knowledge as a physical reality. With 65+ specialized simulations spa
 
 A decentralized marketplace for the global workforce.
 
-- **The Ledger**: A cryptographic record of work and reputation, ensuring transaction integrity even when the cloud is out of reach.
-- **Mentor Discovery**: Find guides in the mesh or the cloud, supported by high-fidelity portfolio tracking.
+- **The Job Ledger**: A cryptographic record of work, reputation, and payouts.
+- **Job Repository**: Proactively match skills with local or cloud-based opportunities.
+- **MFA Security**: Multi-factor authentication (Biometrics + OTP) for all sensitive financial operations.
 
 ---
 
 ## 🛠️ TECH STACK
 
-- **Engine**: Flutter (Dart)
-- **State**: Riverpod (Signal-driven architecture)
-- **Mesh**: Nearby Connections + Custom RL Routing
-- **Security**: Ed25519 (Signing), X25519 (E2E Key Exchange), AES-256 (Encryption)
-- **Storage**: Hybrid Supabase (Cloud) + Hive (Encrypted Local) + SQLite (Offline Queue)
+- **Framework**: Flutter 3.41.0 (Stable)
+- **State Management**: Riverpod (Signal-driven architecture)
+- **Mesh Layer**: Nearby Connections + Custom Multi-hop Routing
+- **Intelligence**: Integrated Gemini & OpenRouter AI support
+- **Backend**: Hybrid Supabase (Cloud) + Encrypted SQLite/Hive (Local)
+- **CI/CD**: Consolidated GitHub Actions with **Auto-Formatting** and automated security scanning.
 
 ---
 
@@ -54,39 +82,27 @@ A decentralized marketplace for the global workforce.
 
 ### Prerequisites
 
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) (≥3.3.0)
-- Dart SDK (included with Flutter)
-- Android Studio / Xcode (for device emulators)
-- A [Supabase](https://supabase.com/) project (free tier works)
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.41.0)
+- [Supabase CLI](https://supabase.com/docs/guides/cli)
+- Android Studio / Xcode
 
 ### Setup
 
 ```bash
-# 1. Clone the repository
+# 1. Clone & Install
 git clone <repo-url> && cd VERASSO
-
-# 2. Install dependencies
 flutter pub get
 
-# 3. Configure environment
+# 2. Configure Environment
 cp .env.example .env
-# Edit .env with your Supabase URL, anon key, and Sentry DSN
+# Fill in your SUPABASE_URL and SUPABASE_ANON_KEY
 
-# 4. Generate code (Riverpod, JSON serialization, mocks)
+# 3. Code Generation
 dart run build_runner build --delete-conflicting-outputs
 
-# 5. Run the app
+# 4. Launch
 flutter run --dart-define-from-file=.env
-
-# 6. Run tests
-flutter test
 ```
-
-### Firebase Setup
-
-1. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com)
-2. Add Android app → download `google-services.json` to `android/app/`
-3. Add iOS app → download `GoogleService-Info.plist` to `ios/Runner/`
 
 ---
 

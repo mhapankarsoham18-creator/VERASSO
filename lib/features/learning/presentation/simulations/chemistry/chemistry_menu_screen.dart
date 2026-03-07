@@ -3,6 +3,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
 
+import '../thermodynamics/gas_law_lab_screen.dart';
+
 import 'molecular_builder_simulation.dart';
 import 'periodic_table_screen.dart';
 import 'titration_lab_screen.dart';
@@ -23,7 +25,7 @@ class ChemistryMenuScreen extends StatelessWidget {
       ),
       body: LiquidBackground(
         child: ListView(
-          padding: const EdgeInsets.only(top: 100, left: 16, right: 16),
+          padding: const EdgeInsets.only(top: 100, left: 16, right: 16, bottom: 20),
           children: [
             _buildSimItem(
               context,
@@ -60,6 +62,18 @@ class ChemistryMenuScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const TitrationLabScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildSimItem(
+              context,
+              title: "Gas Law Lab",
+              description: "Boyle, Charles, and Avogadro.",
+              icon: LucideIcons.wind,
+              color: Colors.cyanAccent,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const GasLawLabScreen()),
               ),
             ),
           ],

@@ -1,0 +1,56 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+          channel: stable
+
+      - name: Show Flutter Version
+        run: flutter --version
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Format Code
+        run: dart format .
+
+      - name: Analyze Code
+        run: flutter analyze
+
+      - name: Run Tests
+        run: |
+          if [ -d "test" ]; then
+            flutter test
+          fi
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Build AAB (Play Store)
+        run: flutter build appbundle --release
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
