@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:verasso/core/mesh/models/mesh_packet.dart';
-import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 import 'package:verasso/features/auth/presentation/auth_controller.dart';
 import 'package:verasso/features/learning/data/doubt_model.dart';
 import 'package:verasso/features/learning/data/doubt_repository.dart';
@@ -57,17 +55,7 @@ class DoubtController extends StateNotifier<AsyncValue<void>> {
         image: image,
       );
 
-      // Broadcast over Mesh if active
-      final mesh = _ref.read(bluetoothMeshServiceProvider);
-      if (mesh.isMeshActive) {
-        await mesh.broadcastPacket(MeshPayloadType.doubtPost, {
-          'id': 'temp_${DateTime.now().millisecondsSinceEpoch}',
-          'userId': user.id,
-          'title': title,
-          'description': description,
-          'subject': subject,
-        });
-      }
+      // Mesh broadcasting removed for single player
 
       // Refresh the 'All' list and the specific subject list
       _ref.invalidate(doubtsProvider('All'));

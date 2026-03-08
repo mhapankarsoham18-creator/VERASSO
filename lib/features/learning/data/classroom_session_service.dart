@@ -4,20 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
-import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 import 'package:verasso/core/services/offline_storage_service.dart';
 import 'package:verasso/core/services/supabase_service.dart';
 import 'package:verasso/features/learning/data/course_models.dart';
 
-import '../../../core/mesh/models/mesh_packet.dart';
-
 /// Provides a scoped [ClassroomSessionService] that is disposed with the UI.
 final classroomSessionServiceProvider =
     Provider.autoDispose<ClassroomSessionService>((ref) {
-      final mesh = ref.watch(bluetoothMeshServiceProvider);
       final storage = ref.watch(offlineStorageServiceProvider);
       final client = SupabaseService.client;
-      final service = ClassroomSessionService(mesh, storage, client: client);
+      final service = ClassroomSessionService(storage, client: client);
       ref.onDispose(() => service.dispose());
       return service;
     });
@@ -74,7 +70,6 @@ class ClassroomSession {
 
 /// Mesh-backed service for coordinating live classroom sessions, polls and doubts.
 class ClassroomSessionService {
-  final BluetoothMeshService _meshService;
   final OfflineStorageService _storageService;
   final SupabaseClient _client;
 
@@ -94,11 +89,10 @@ class ClassroomSessionService {
 
   /// Creates a [ClassroomSessionService] and subscribes to mesh packets.
   ClassroomSessionService(
-    this._meshService,
     this._storageService, {
     required SupabaseClient client,
   }) : _client = client {
-    _initListener();
+    // Mesh listener removed
   }
 
   /// Stream of all doubts raised in the current session.
@@ -172,10 +166,7 @@ class ClassroomSessionService {
   Future<void> joinSessionRequest(String userName) async {
     if (_currentSession == null) return;
 
-    await _meshService.broadcastPacket(MeshPayloadType.joinSession, {
-      'sessionId': _currentSession!.id,
-      'userName': userName,
-    });
+    // Mesh join request removed for single player
   }
 
   // --- Host Actions ---
@@ -197,7 +188,8 @@ class ClassroomSessionService {
     _activePoll = SessionPoll(id: pollId, question: question, options: options);
     _pollController.add(_activePoll);
 
-    await _meshService.broadcastPacket(MeshPayloadType.pollPublish, pollData);
+    _pollController.add(_activePoll);
+
     await _storageService.queueAction('publish_poll', pollData);
   }
 
@@ -220,13 +212,7 @@ class ClassroomSessionService {
     _doubts.add(doubt);
     _doubtsController.add(_doubts);
 
-    await _meshService.broadcastPacket(MeshPayloadType.doubtRaise, {
-      'id': doubt.id,
-      'sessionId': _currentSession!.id,
-      'userId': userId,
-      'userName': userName,
-      'question': question,
-    });
+    _doubtsController.add(_doubts);
 
     // Queue for cloud
     await _storageService.queueAction('raise_doubt', {
@@ -253,11 +239,7 @@ class ClassroomSessionService {
 
     _updateStreams();
 
-    // Broadcast to Mesh
-    await _meshService.broadcastPacket(
-      MeshPayloadType.startSession,
-      session.toMap(),
-    );
+    // Broadcast to Mesh removed
 
     // Save to Offline Queue for Cloud Sync
     await _storageService.queueAction('start_session', session.toMap());
@@ -268,12 +250,12 @@ class ClassroomSessionService {
 
   /// Starts mesh discovery so nearby students can discover this session.
   Future<void> startStudentDiscovery() async {
-    await _meshService.startDiscovery();
+    // Mesh student discovery removed
   }
 
   /// Stops the current session, shuts down mesh communication, and clears internal state.
   Future<void> stopSession() async {
-    _meshService.stopAll();
+    // Mesh stop removed
     _currentSession = null;
     _activePoll = null;
     _doubts.clear();
@@ -283,102 +265,13 @@ class ClassroomSessionService {
 
   /// Casts a vote for [optionIndex] in the poll [pollId] on behalf of [userId].
   Future<void> votePoll(String pollId, int optionIndex, String userId) async {
+    // Mesh poll vote removed
     if (_activePoll == null || _activePoll!.id != pollId) return;
-
-    await _meshService.broadcastPacket(MeshPayloadType.pollVote, {
-      'pollId': pollId,
-      'optionIndex': optionIndex,
-      'userId': userId,
-    });
-
-    // Optimistic update locally? No, wait for updates if needed,
-    // but for now student app just sends.
   }
 
   // --- Packet Handling ---
 
-  void _handlePacket(MeshPacket packet) {
-    final data = packet.payload;
-
-    switch (packet.type) {
-      case MeshPayloadType.startSession:
-        // Student sees a session started
-        if (!_isHost) {
-          _currentSession = ClassroomSession.fromMap(data);
-          _sessionController.add(_currentSession);
-          // Auto-join? Or wait for UI? Let's assume UI prompts or auto-joins for this MVP
-        }
-        break;
-
-      case MeshPayloadType.joinSession:
-        if (_isHost && data['sessionId'] == _currentSession?.id) {
-          final name = data['userName'];
-          if (!_participants.contains(name)) {
-            _participants.add(name);
-            _participantsController.add(_participants);
-          }
-        }
-        break;
-
-      case MeshPayloadType.pollPublish:
-        if (!_isHost && data['sessionId'] == _currentSession?.id) {
-          _activePoll = SessionPoll(
-            id: data['id'],
-            question: data['question'],
-            options: List<String>.from(data['options']),
-          );
-          _pollController.add(_activePoll);
-        }
-        break;
-
-      case MeshPayloadType.pollVote:
-        if (_isHost &&
-            _activePoll != null &&
-            data['pollId'] == _activePoll!.id) {
-          final optIndex = data['optionIndex'] as int;
-          // Naive aggregation in MVP (Host aggregates)
-          final currentVotes = Map<String, int>.from(_activePoll!.votes);
-          final key = optIndex.toString();
-          currentVotes[key] = (currentVotes[key] ?? 0) + 1;
-
-          _activePoll = SessionPoll(
-            id: _activePoll!.id,
-            question: _activePoll!.question,
-            options: _activePoll!.options,
-            votes: currentVotes,
-          );
-          _pollController.add(_activePoll);
-        }
-        break;
-
-      case MeshPayloadType.doubtRaise:
-        if (data['sessionId'] == _currentSession?.id) {
-          final doubt = SessionDoubt(
-            id: data['id'],
-            userId: data['userId'],
-            userName: data['userName'],
-            question: data['question'],
-          );
-          // Avoid duplicates
-          if (!_doubts.any((d) => d.id == doubt.id)) {
-            _doubts.add(doubt);
-            _doubtsController.add(_doubts);
-          }
-        }
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  // --- Supabase Integration ---
-
-  void _initListener() {
-    _meshService.meshStream.listen((packet) {
-      _handlePacket(packet);
-    });
-  }
+  // Mesh packet handling removed
 
   /// Syncs a session start to the cloud.
   Future<void> _syncSessionStart(ClassroomSession session) async {

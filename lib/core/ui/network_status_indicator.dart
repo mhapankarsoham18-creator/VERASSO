@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../services/bluetooth_mesh_service.dart';
 import '../services/network_connectivity_service.dart';
 
 /// A floating indicator that displays the current network and Bluetooth mesh status.
@@ -16,14 +15,12 @@ class NetworkStatusIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final networkStatus = ref.watch(networkStatusProvider);
-    final connectedMeshDevices = ref.watch(connectedMeshDevicesProvider);
+    // Mesh devices tracking removed for single player
 
     return networkStatus.when(
       data: (status) {
         final isOffline = status == NetworkStatus.offline;
-        final meshCount = connectedMeshDevices.value?.length ?? 0;
-
-        if (!isOffline && meshCount == 0) return const SizedBox.shrink();
+        if (!isOffline) return const SizedBox.shrink();
 
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -44,17 +41,13 @@ class NetworkStatusIndicator extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                isOffline ? LucideIcons.wifiOff : LucideIcons.bluetooth,
+                isOffline ? LucideIcons.wifiOff : LucideIcons.checkCircle,
                 color: Colors.white,
                 size: 14,
               ),
               const SizedBox(width: 8),
               Text(
-                isOffline
-                    ? (meshCount > 0
-                          ? 'Offline (Mesh Active: $meshCount)'
-                          : 'Offline')
-                    : 'Mesh: $meshCount Devices',
+                isOffline ? 'Offline' : 'Online',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,

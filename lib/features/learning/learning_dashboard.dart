@@ -12,9 +12,7 @@ import 'package:verasso/features/learning/data/course_models.dart';
 import 'package:verasso/features/learning/data/course_repository.dart';
 import 'package:verasso/l10n/app_localizations.dart';
 
-import '../../core/config/feature_flags.dart';
 import 'presentation/classroom/doubts_screen.dart';
-import 'presentation/classroom/mesh_labs_screen.dart';
 import 'presentation/classroom/study_groups_screen.dart';
 import 'presentation/codedex/codedex_menu_screen.dart';
 import 'presentation/marketplace/course_marketplace_screen.dart';
@@ -284,17 +282,7 @@ class LearningDashboard extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            if (FeatureFlags.enableMeshLabs)
-              _ModuleCard(
-                title: 'Mesh Labs (Offline)',
-                subtitle: 'Collaborative mesh experiments',
-                icon: LucideIcons.wifiOff,
-                color: Colors.cyanAccent,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const MeshLabsScreen()),
-                ),
-              ),
+            // Mesh Labs removed for single player
 
             _ModuleCard(
               title: 'Mentors',

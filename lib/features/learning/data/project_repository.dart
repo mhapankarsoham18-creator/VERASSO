@@ -1,19 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
+import 'package:verasso/core/services/network_connectivity_service.dart';
+import 'package:verasso/core/services/offline_storage_service.dart';
 
-import '../../../core/mesh/models/mesh_packet.dart';
-import '../../../core/services/bluetooth_mesh_service.dart';
-import '../../../core/services/network_connectivity_service.dart';
-import '../../../core/services/offline_storage_service.dart';
 import 'project_model.dart';
 
 /// Provider for the [ProjectRepository] instance.
 final projectRepositoryProvider = Provider<ProjectRepository>((ref) {
   final network = ref.watch(networkConnectivityServiceProvider);
   final storage = ref.watch(offlineStorageServiceProvider);
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return ProjectRepository(Supabase.instance.client, network, storage, mesh);
+  return ProjectRepository(Supabase.instance.client, network, storage);
 });
 
 /// Repository for managing collaborative projects, tasks, and memberships.
@@ -22,14 +19,12 @@ class ProjectRepository {
   final SupabaseClient _client;
   final NetworkConnectivityService _networkService;
   final OfflineStorageService _storageService;
-  final BluetoothMeshService _meshService;
 
   /// Creates a [ProjectRepository] instance.
   ProjectRepository(
     this._client,
     this._networkService,
     this._storageService,
-    this._meshService,
   );
 
   // 1. Create Project
@@ -45,18 +40,7 @@ class ProjectRepository {
       'description': description,
     };
 
-    // PRIMARY: Mesh Network
-    if (_meshService.isMeshActive) {
-      await _storageService.queueAction('create_project', {
-        ...projectData,
-        'temp_id': DateTime.now().millisecondsSinceEpoch.toString(),
-      });
-      await _meshService.broadcastPacket(MeshPayloadType.feedPost, {
-        'action': 'create_project',
-        ...projectData,
-      });
-      return;
-    }
+    // Mesh Network logic removed for single player
 
     if (await _networkService.isConnected) {
       // Fallback: Direct Cloud
@@ -85,14 +69,7 @@ class ProjectRepository {
   Future<void> createTask(String projectId, String title) async {
     final data = {'project_id': projectId, 'title': title, 'status': 'Todo'};
 
-    if (_meshService.isMeshActive) {
-      await _storageService.queueAction('create_task', data);
-      await _meshService.broadcastPacket(MeshPayloadType.scienceData, {
-        'action': 'create_task',
-        ...data,
-      });
-      return;
-    }
+    // Mesh Network logic removed for single player
 
     if (await _networkService.isConnected) {
       await _client.from('project_tasks').insert(data);
@@ -227,14 +204,7 @@ class ProjectRepository {
   Future<void> joinProject(String projectId, String userId, String role) async {
     final data = {'project_id': projectId, 'user_id': userId, 'role': role};
 
-    if (_meshService.isMeshActive) {
-      await _storageService.queueAction('join_project', data);
-      await _meshService.broadcastPacket(MeshPayloadType.feedPost, {
-        'action': 'join_project',
-        ...data,
-      });
-      return;
-    }
+    // Mesh Network logic removed for single player
 
     if (await _networkService.isConnected) {
       await _client
@@ -249,14 +219,7 @@ class ProjectRepository {
   Future<void> updateTaskStatus(String taskId, String newStatus) async {
     final data = {'task_id': taskId, 'status': newStatus};
 
-    if (_meshService.isMeshActive) {
-      await _storageService.queueAction('update_task_status', data);
-      await _meshService.broadcastPacket(MeshPayloadType.scienceData, {
-        'action': 'update_task_status',
-        ...data,
-      });
-      return;
-    }
+    // Mesh Network logic removed for single player
 
     if (await _networkService.isConnected) {
       await _client

@@ -2,8 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:verasso/core/monitoring/app_logger.dart';
 
-import '../../../core/mesh/models/mesh_packet.dart';
-import '../../../core/services/bluetooth_mesh_service.dart';
 import '../../../core/services/network_connectivity_service.dart';
 import '../../../core/services/offline_storage_service.dart';
 import '../../auth/data/user_profile_model.dart';
@@ -12,8 +10,7 @@ import '../../auth/data/user_profile_model.dart';
 final alumniRepositoryProvider = Provider<AlumniRepository>((ref) {
   final network = ref.watch(networkConnectivityServiceProvider);
   final storage = ref.watch(offlineStorageServiceProvider);
-  final mesh = ref.watch(bluetoothMeshServiceProvider);
-  return AlumniRepository(Supabase.instance.client, network, storage, mesh);
+  return AlumniRepository(Supabase.instance.client, network, storage);
 });
 
 /// Repository for managing alumni-user interactions, mentoring, and course-based lists.
@@ -21,14 +18,12 @@ class AlumniRepository {
   final SupabaseClient _client;
   final NetworkConnectivityService _networkService;
   final OfflineStorageService _storageService;
-  final BluetoothMeshService _meshService;
 
   /// Creates an [AlumniRepository] instance.
   AlumniRepository(
     this._client,
     this._networkService,
     this._storageService,
-    this._meshService,
   );
 
   // 1. Get Alumni for a specific Course
@@ -95,16 +90,7 @@ class AlumniRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return;
 
-    if (_meshService.isMeshActive) {
-      await _storageService.queueAction('toggle_mentor_status', {
-        'is_open': isOpen,
-      });
-      await _meshService.broadcastPacket(MeshPayloadType.profileSync, {
-        'userId': userId,
-        'is_alumni_mentor': isOpen,
-      });
-      return;
-    }
+    // Mesh syncing removed for single player
 
     if (await _networkService.isConnected) {
       await _client

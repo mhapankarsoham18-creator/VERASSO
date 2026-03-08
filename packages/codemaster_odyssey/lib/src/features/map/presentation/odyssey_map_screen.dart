@@ -92,23 +92,6 @@ class OdysseyMapScreen extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(width: 16),
-                  /*
-                  const CodeDuelWidget(),
-                  const SizedBox(width: 16),
-                  _MapActionButton(
-                    icon: Icons.group,
-                    label: 'COLLABORATE',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CollaborationScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 16),
-                  */
                   _MapActionButton(
                     icon: Icons.business,
                     label: 'ENTERPRISE',
@@ -215,8 +198,6 @@ class OdysseyMapScreen extends ConsumerWidget {
             ),
           ),
 
-          // MESH Multiplayer Overlay
-          // const CollaborationOverlay(),
         ],
       ),
     );

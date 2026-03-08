@@ -11,7 +11,6 @@ import '../../auth/presentation/mfa_backup_codes_screen.dart';
 import '../../auth/presentation/mfa_enrollment_screen.dart';
 import '../../profile/presentation/profile_controller.dart';
 import 'data_management_screen.dart';
-import 'mesh_network_screen.dart';
 import 'privacy_policy_screen.dart';
 import 'privacy_settings_controller.dart';
 import 'terms_service_screen.dart';
@@ -99,27 +98,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _buildSectionHeader(AppLocalizations.of(context)!.connectivity),
-            GlassContainer(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(LucideIcons.radio),
-                    title: Text(AppLocalizations.of(context)!.meshNetwork),
-                    subtitle: const Text('Offline Peer-to-Peer Settings'),
-                    trailing: const Icon(LucideIcons.chevronRight),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const MeshNetworkScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
+            // Connectivity section removed for single player
             const SizedBox(height: 24),
             _buildSectionHeader(AppLocalizations.of(context)!.account),
             GlassContainer(

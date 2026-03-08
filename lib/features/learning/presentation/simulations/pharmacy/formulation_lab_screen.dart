@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:verasso/core/services/battery_saver_service.dart';
-import 'package:verasso/core/services/bluetooth_mesh_service.dart';
 import 'package:verasso/core/services/resource_service.dart';
 import 'package:verasso/core/ui/glass_container.dart';
 import 'package:verasso/core/ui/liquid_background.dart';
@@ -135,8 +134,7 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
                       ),
                     ],
                   ),
-                  // Mesh Peer Presence Indicator
-                  const _PeerPresenceIndicator(),
+                  // Mesh Peer Presence Indicator removed for single player
                 ],
               ),
             ),
@@ -488,37 +486,3 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
   }
 }
 
-class _PeerPresenceIndicator extends ConsumerWidget {
-  const _PeerPresenceIndicator();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mesh = ref.watch(bluetoothMeshServiceProvider);
-    // connectedEndpoints is the correct property in BluetoothMeshService
-    final peerCount = mesh.connectedEndpointsCount;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.blueAccent.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.blueAccent.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(LucideIcons.users, size: 14, color: Colors.blueAccent),
-          const SizedBox(width: 8),
-          Text(
-            '$peerCount Peers Nearby',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

@@ -22,7 +22,7 @@ dependencies:
   meta: ^1.16.0
   riverpod_annotation: ^4.0.2
   json_annotation: ^4.11.0
-  flame: ^1.35.1
+  flame: ^1.36.0
   flame_tiled: ^1.21.0
   flame_audio: ^2.1.0
   lucide_icons: ^0.257.0

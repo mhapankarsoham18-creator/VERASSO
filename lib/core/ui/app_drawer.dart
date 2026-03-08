@@ -7,7 +7,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../features/auth/presentation/auth_controller.dart';
 import '../../features/gamification/presentation/achievements_screen.dart';
 import '../../features/gamification/presentation/leaderboard_screen.dart';
-import '../../features/learning/presentation/classroom/mesh_labs_screen.dart';
 import '../../features/learning/presentation/physics/physics_menu_screen.dart';
 import '../../features/messaging/presentation/chats_screen.dart';
 import '../../features/notifications/data/notification_service.dart';
@@ -352,19 +351,7 @@ class AppDrawer extends ConsumerWidget {
                       );
                     },
                   ),
-                  _DrawerItem(
-                    icon: LucideIcons.presentation,
-                    title: l10n.classroomLabs,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const MeshLabsScreen(),
-                        ),
-                      );
-                    },
-                  ),
+                  // Classroom Labs removed for single player
                   const Divider(color: Colors.white24, height: 30),
                   _DrawerItem(
                     icon: LucideIcons.settings,
