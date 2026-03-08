@@ -20,11 +20,8 @@ import 'core/security/secure_config.dart';
 import 'core/security/security_initializer.dart';
 import 'core/security/session_timeout_service.dart';
 import 'core/services/background_sync_manager.dart';
-import 'core/services/mesh_power_manager.dart';
-import 'core/services/mesh_sync_manager.dart';
 import 'core/services/offline_storage_service.dart';
 import 'core/services/supabase_service.dart';
-import 'core/services/sync_bridge_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/ui/route_error_screen.dart';
 import 'core/ui/secrecy_filter.dart';
@@ -125,17 +122,8 @@ void main() async {
       // Initialize Background Sync Manager
       container.read(backgroundSyncManagerProvider);
 
-      // Initialize Mesh Sync Manager
-      container.read(meshSyncManagerProvider);
-
-      // Initialize Mesh Power Manager (Adaptive Duty Cycle)
-      container.read(meshPowerManagerProvider);
-
       // Initialize Notification Service (FCM & Local)
       await container.read(notificationServiceProvider).initializeFCM();
-
-      // Initialize Sync Bridge (Mesh <-> Cloud)
-      container.read(syncBridgeServiceProvider);
 
       runApp(
         UncontrolledProviderScope(

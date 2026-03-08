@@ -19,23 +19,8 @@ CREATE TABLE IF NOT EXISTS public.labs (
     ),
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
--- 3. Create classroom_sessions table to persist mesh-based sessions to cloud
-CREATE TABLE IF NOT EXISTS public.classroom_sessions (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    host_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
-    course_id UUID REFERENCES public.courses(id) ON DELETE
-    SET NULL,
-        subject TEXT,
-        topic TEXT,
-        is_live BOOLEAN DEFAULT true,
-        created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-        ended_at TIMESTAMPTZ
-);
 ALTER TABLE public.labs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.classroom_sessions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Labs viewable by all" ON public.labs FOR
-SELECT USING (true);
-CREATE POLICY "Classroom sessions viewable by all" ON public.classroom_sessions FOR
 SELECT USING (true);
 -- Indexing
 CREATE INDEX idx_courses_is_lab ON public.courses(is_lab)

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -225,6 +226,20 @@ class ProfileScreen extends ConsumerWidget {
                   icon: const Icon(LucideIcons.fileSignature),
                   label: Text(l10n.exportTranscript),
                 ),
+                if (kDebugMode) ...[
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.redAccent,
+                      side: const BorderSide(color: Colors.redAccent),
+                    ),
+                    onPressed: () {
+                      throw Exception('Sentry Test Crash from VERASSO Profile');
+                    },
+                    icon: const Icon(LucideIcons.alertTriangle),
+                    label: const Text('Test Crash (Debug Only)'),
+                  ),
+                ],
               ],
             );
           },

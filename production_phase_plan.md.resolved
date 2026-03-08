@@ -1,0 +1,169 @@
+# 🚀 VERASSO — Phase-Wise Production Plan
+
+**Goal**: Take VERASSO from current state (35/100) to production-ready (80+/100)
+
+---
+
+## Phase Overview
+
+```mermaid
+gantt
+    title Production Readiness Roadmap
+    dateFormat YYYY-MM-DD
+    section Phase 1 - Code Hygiene
+        Delete dead code           :p1a, 2026-03-09, 2d
+        Fix offline sync           :p1b, after p1a, 2d
+        Refactor god files         :p1c, after p1b, 3d
+    section Phase 2 - Critical Tests
+        Auth unit tests            :p2a, after p1c, 4d
+        Gamification tests         :p2b, after p1c, 3d
+        Codemaster tests fix       :p2c, after p1c, 2d
+        Integration tests          :p2d, after p2a, 5d
+    section Phase 3 - Security
+        Verify encryption          :p3a, after p2d, 3d
+        Server-side rate limiting  :p3b, after p2d, 2d
+        Penetration testing        :p3c, after p3a, 3d
+    section Phase 4 - CI/CD
+        Fix secrets & workflows    :p4a, after p3c, 2d
+        Deploy edge functions      :p4b, after p4a, 2d
+        Staging environment        :p4c, after p4b, 3d
+    section Phase 5 - Launch
+        Beta testing               :p5a, after p4c, 7d
+        Performance tuning         :p5b, after p5a, 3d
+        Production deployment      :p5c, after p5b, 2d
+```
+
+---
+
+## Phase 1: Code Hygiene (~ 1 week)
+
+**Goal**: Eliminate all dead code, fix broken service paths, achieve a clean codebase.
+
+### Tasks
+
+| # | Task | Priority | Est. Time |
+|---|---|---|---|
+| 1.1 | **Delete `multiplayer/` and `collaboration/` from Codemaster Odyssey package** | 🔴 Critical | 1 hour |
+| 1.2 | **Delete orphaned files**: [relay_game_screen.dart](file:///d:/Games/VERASSO/lib/features/learning/presentation/classroom/relay_game_screen.dart), [relay_game_service.dart](file:///d:/Games/VERASSO/lib/features/learning/presentation/classroom/services/relay_game_service.dart), example auth screens | 🔴 Critical | 1 hour |
+| 1.3 | **Delete `lib/core/mesh/` directory** entirely (models + transports are all stubs) | 🟠 High | 30 min |
+| 1.4 | **Remove `lib/error.txt`** from source | 🟡 Low | 5 min |
+| 1.5 | **Fix `BackgroundSyncManager`**: Remove mesh listener, implement real Supabase sync for pending `OfflineStorageService` actions | 🔴 Critical | 1 day |
+| 1.6 | **Refactor `learning_dashboard.dart`** (22KB) — extract into smaller widgets | 🟡 Medium | 1 day |
+| 1.7 | **Clean up stubbed providers in `main.dart`**: Remove imports for `mesh_power_manager`, `mesh_sync_manager`, `sync_bridge_service` | 🟠 High | 1 hour |
+
+### Exit Criteria
+- [ ] `flutter analyze` passes with 0 issues
+- [ ] No file in the project references "mesh" in active code paths
+- [ ] Offline action queue actually syncs to Supabase when network is restored
+
+---
+
+## Phase 2: Critical Testing (~2 weeks)
+
+**Goal**: Achieve minimum 60% test coverage on auth, gamification, and core game mechanics.
+
+### Tasks
+
+| # | Task | Priority | Est. Time |
+|---|---|---|---|
+| 2.1 | **Auth unit tests**: Sign in, sign up, sign out, MFA enrollment, MFA verification, OTP, password validation, cooldown logic | 🔴 Critical | 4 days |
+| 2.2 | **Auth integration tests**: Full login flow, OAuth redirect, biometric fallback, session refresh | 🔴 Critical | 2 days |
+| 2.3 | **Gamification unit tests**: XP calculation, badge requirements, tier progression, streak calculation, leaderboard | 🟠 High | 3 days |
+| 2.4 | **Fix existing Codemaster Odyssey tests**: Run all 11 tests, fix failures from `google_fonts` removal and single-player conversion | 🟠 High | 2 days |
+| 2.5 | **Core service tests**: `OfflineStorageService` queue/dequeue, `NetworkConnectivityService` status changes, `ContentRecommendationService` | 🟠 High | 3 days |
+| 2.6 | **Social feature smoke tests**: Feed loading, post creation, comment submission | 🟡 Medium | 2 days |
+
+### Exit Criteria
+- [ ] `flutter test` passes with 0 failures
+- [ ] Auth flows have >80% branch coverage
+- [ ] Every Supabase RPC call is tested with mock responses
+- [ ] Codemaster Odyssey's 11 existing tests all pass
+
+---
+
+## Phase 3: Security Verification (~1.5 weeks)
+
+**Goal**: Validate that the security architecture actually works, not just compiles.
+
+### Tasks
+
+| # | Task | Priority | Est. Time |
+|---|---|---|---|
+| 3.1 | **Test `EncryptionService`**: Verify AES-GCM encrypt/decrypt roundtrip, key derivation, Hive key generation | 🔴 Critical | 1 day |
+| 3.2 | **Test `InputValidator`**: Fuzz test all 10KB of validation rules with malicious inputs (XSS, SQL injection, Unicode exploits) | 🔴 Critical | 2 days |
+| 3.3 | **Deploy `rate-limiter` edge function** and verify it blocks brute-force auth attempts | 🔴 Critical | 1 day |
+| 3.4 | **Add server-side password policy** via Supabase Auth config (minimum length, complexity) | 🟠 High | 2 hours |
+| 3.5 | **Verify RLS policies**: Write integration tests that attempt unauthorized data access and confirm it's blocked | 🔴 Critical | 2 days |
+| 3.6 | **Test `SessionTimeoutService`**: Verify auto-logout on idle, session refresh, screen lock trigger | 🟡 Medium | 1 day |
+| 3.7 | **Certificate pinning verification**: Confirm `PinnedHttpClient` is actually used by the Supabase client (it likely isn't — Supabase Flutter SDK manages its own HTTP client) | 🟠 High | 4 hours |
+
+### Exit Criteria
+- [ ] All security services have unit tests
+- [ ] Rate limiting is active on auth endpoints
+- [ ] RLS policies block cross-user data access
+- [ ] Encryption roundtrip is verified
+
+---
+
+## Phase 4: CI/CD Hardening (~1 week)
+
+**Goal**: Reliable, automated build and deployment pipeline.
+
+### Tasks
+
+| # | Task | Priority | Est. Time |
+|---|---|---|---|
+| 4.1 | **Fix GitHub Actions secrets**: Add all required secrets (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SENTRY_DSN`, `GEMINI_API_KEY`, etc.) to the repository | 🔴 Critical | 1 hour |
+| 4.2 | **Fix Android build on CI**: Verify Gradle config works on Linux (CI) where drive mismatch doesn't apply | 🟠 High | 2 hours |
+| 4.3 | **Deploy all 5 edge functions** to Supabase production | 🔴 Critical | 1 day |
+| 4.4 | **Run `999_verify_deployment.sql`** against production Supabase to confirm all tables, RPCs, and triggers exist | 🔴 Critical | 2 hours |
+| 4.5 | **Set up staging environment**: Create a Supabase staging project for pre-production testing | 🟠 High | 1 day |
+| 4.6 | **Add `flutter test` to CI pipeline** and block merges on failure | 🟠 High | 2 hours |
+| 4.7 | **Add `flutter analyze --fatal-infos` to CI** | 🟡 Medium | 30 min |
+
+### Exit Criteria
+- [ ] CI pipeline runs: analyze → test → build (Android APK)
+- [ ] All edge functions deployed and responding
+- [ ] Staging environment mirrors production schema
+
+---
+
+## Phase 5: Launch Preparation (~2 weeks)
+
+**Goal**: Validated, monitored production deployment.
+
+### Tasks
+
+| # | Task | Priority | Est. Time |
+|---|---|---|---|
+| 5.1 | **Closed beta test** with 10-20 users on staging | 🔴 Critical | 7 days |
+| 5.2 | **Verify Sentry error reporting** with intentional test exceptions | 🟠 High | 2 hours |
+| 5.3 | **Verify Firebase push notifications** end-to-end | 🟠 High | 1 day |
+| 5.4 | **Performance profiling**: Test on low-end Android device, check for jank in the 22KB learning dashboard | 🟠 High | 2 days |
+| 5.5 | **Localization check**: Verify `AppLocalizations` works for target languages | 🟡 Medium | 1 day |
+| 5.6 | **Asset completion**: Ensure all Codemaster Odyssey game assets are in place (you mentioned you're working on this) | 🟠 High | Ongoing |
+| 5.7 | **App Store / Play Store preparation**: Screenshots, descriptions, privacy policy, age rating | 🟡 Medium | 2 days |
+| 5.8 | **Production deployment**: Build release APK/AAB with correct `--dart-define` keys, deploy to Play Store | 🔴 Critical | 1 day |
+
+### Exit Criteria
+- [ ] Zero crashes in 7-day beta
+- [ ] Sentry captures and reports errors correctly
+- [ ] APK size < 100MB
+- [ ] Play Store listing approved
+
+---
+
+## Priority Summary
+
+| Phase | Duration | Effort | Impact on Score |
+|---|---|---|---|
+| Phase 1: Code Hygiene | ~1 week | Low | 35 → 45 |
+| Phase 2: Critical Tests | ~2 weeks | High | 45 → 65 |
+| Phase 3: Security Verification | ~1.5 weeks | High | 65 → 75 |
+| Phase 4: CI/CD Hardening | ~1 week | Medium | 75 → 82 |
+| Phase 5: Launch Prep | ~2 weeks | Medium | 82 → 90 |
+
+**Total estimated time: ~7.5 weeks** from today to production-ready.
+
+> [!TIP]
+> **Quick wins**: Phase 1 tasks 1.1-1.4 and Phase 4 task 4.1 can be done **today** and will immediately reduce risk. Start there.

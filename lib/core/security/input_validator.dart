@@ -36,9 +36,9 @@ class InputValidator {
 
   // ─────────────── Regex Patterns ───────────────
 
-  /// Email: RFC 5322 simplified
+  /// Email: RFC 5322 simplified with stricter domain requirements
   static final RegExp _emailPattern = RegExp(
-    r'^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$',
+    r'^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$',
   );
 
   /// Username: alphanumeric + underscore, 3-30 chars
@@ -51,11 +51,42 @@ class InputValidator {
 
   /// Dangerous patterns that indicate injection attacks
   static final RegExp _dangerousPatterns = RegExp(
-    r'(<script|javascript:|on\w+=|eval\(|exec\(|union\s+select|drop\s+table|insert\s+into|delete\s+from|update\s+.*set|;\s*--|\/\*|\*\/)',
+    r'(<script|javascript:|on\w+\s*=|eval\s*\(|exec\s*\(|union\s+select|drop\s+table|insert\s+into|delete\s+from|update\s+.*set|;\s*--|/\*|\*/|\x27\s*--|\x27\s*or\s*\x27|\x27\s*or\s*"|alert\s*\(|xp_cmdshell)',
     caseSensitive: false,
   );
 
   // ─────────────── Validation Methods ───────────────
+
+  /// Sanitize a string by removing dangerous characters.
+  /// Use AFTER validation, before storage/display.
+  static String sanitize(String input) {
+    // 1. Trim whitespace
+    var sanitized = input.trim();
+
+    // 2. Remove null bytes (OWASP: Null Byte Injection)
+    sanitized = sanitized.replaceAll('\x00', '');
+
+    // 3. Encode HTML entities to prevent XSS
+    sanitized = _escapeHtml(sanitized);
+
+    return sanitized;
+  }
+
+  /// Sanitize for database queries (strips SQL-dangerous chars).
+  /// Note: Always use parameterized queries via Supabase — this is defense-in-depth.
+  static String sanitizeForQuery(String input) {
+    var sanitized = sanitize(input);
+
+    // Remove SQL comment markers
+    sanitized = sanitized.replaceAll('--', '');
+    sanitized = sanitized.replaceAll('/*', '');
+    sanitized = sanitized.replaceAll('*/', '');
+
+    // Remove semicolons (statement terminators)
+    sanitized = sanitized.replaceAll(';', '');
+
+    return sanitized;
+  }
 
   /// Validate an email address.
   /// Returns null if valid, error message if invalid.
@@ -105,146 +136,6 @@ class InputValidator {
 
     return null; // Valid
   }
-
-  /// Validate a username.
-  static String? validateUsername(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Username is required';
-    }
-
-    final trimmed = value.trim();
-
-    if (trimmed.length < 3) {
-      return 'Username must be at least 3 characters';
-    }
-
-    if (trimmed.length > fieldMaxLengths['username']!) {
-      return 'Username is too long (max ${fieldMaxLengths['username']} characters)';
-    }
-
-    if (!_usernamePattern.hasMatch(trimmed)) {
-      return 'Username can only contain letters, numbers, and underscores';
-    }
-
-    return null; // Valid
-  }
-
-  /// Validate a UUID string (for IDs, invite codes, etc.)
-  static String? validateUuid(String? value, {String fieldName = 'ID'}) {
-    if (value == null || value.trim().isEmpty) {
-      return '$fieldName is required';
-    }
-
-    if (!_uuidPattern.hasMatch(value.trim())) {
-      return 'Invalid $fieldName format';
-    }
-
-    return null; // Valid
-  }
-
-  /// Validate a generic text field with length limits.
-  static String? validateText(
-    String? value, {
-    required String fieldName,
-    int minLength = 0,
-    int? maxLength,
-    bool required = true,
-  }) {
-    if (value == null || value.trim().isEmpty) {
-      if (required) return '$fieldName is required';
-      return null; // Optional and empty = valid
-    }
-
-    final trimmed = value.trim();
-    final limit = maxLength ?? fieldMaxLengths[fieldName] ?? 1000;
-
-    if (trimmed.length < minLength) {
-      return '$fieldName must be at least $minLength characters';
-    }
-
-    if (trimmed.length > limit) {
-      return '$fieldName is too long (max $limit characters)';
-    }
-
-    // Check for injection patterns
-    if (_dangerousPatterns.hasMatch(trimmed)) {
-      return '$fieldName contains invalid characters';
-    }
-
-    return null; // Valid
-  }
-
-  /// Validate a URL.
-  static String? validateUrl(String? value, {bool required = true}) {
-    if (value == null || value.trim().isEmpty) {
-      if (required) return 'URL is required';
-      return null;
-    }
-
-    final trimmed = value.trim();
-
-    if (trimmed.length > fieldMaxLengths['url']!) {
-      return 'URL is too long';
-    }
-
-    // Only allow http and https schemes
-    if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
-      return 'URL must start with http:// or https://';
-    }
-
-    try {
-      Uri.parse(trimmed);
-    } catch (_) {
-      return 'Invalid URL format';
-    }
-
-    return null; // Valid
-  }
-
-  // ─────────────── Sanitization Methods ───────────────
-
-  /// Sanitize a string by removing dangerous characters.
-  /// Use AFTER validation, before storage/display.
-  static String sanitize(String input) {
-    // 1. Trim whitespace
-    var sanitized = input.trim();
-
-    // 2. Remove null bytes (OWASP: Null Byte Injection)
-    sanitized = sanitized.replaceAll('\x00', '');
-
-    // 3. Encode HTML entities to prevent XSS
-    sanitized = _escapeHtml(sanitized);
-
-    return sanitized;
-  }
-
-  /// Sanitize for database queries (strips SQL-dangerous chars).
-  /// Note: Always use parameterized queries via Supabase — this is defense-in-depth.
-  static String sanitizeForQuery(String input) {
-    var sanitized = sanitize(input);
-
-    // Remove SQL comment markers
-    sanitized = sanitized.replaceAll('--', '');
-    sanitized = sanitized.replaceAll('/*', '');
-    sanitized = sanitized.replaceAll('*/', '');
-
-    // Remove semicolons (statement terminators)
-    sanitized = sanitized.replaceAll(';', '');
-
-    return sanitized;
-  }
-
-  /// Escape HTML special characters to prevent XSS.
-  static String _escapeHtml(String input) {
-    return input
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#x27;');
-  }
-
-  // ─────────────── Schema Validation ───────────────
 
   /// Validate a structured data map against a schema.
   ///
@@ -309,6 +200,115 @@ class InputValidator {
     }
 
     return errors;
+  }
+
+  /// Validate a generic text field with length limits.
+  static String? validateText(
+    String? value, {
+    required String fieldName,
+    int minLength = 0,
+    int? maxLength,
+    bool required = true,
+  }) {
+    if (value == null || value.trim().isEmpty) {
+      if (required) return '$fieldName is required';
+      return null; // Optional and empty = valid
+    }
+
+    final trimmed = value.trim();
+    final limit = maxLength ?? fieldMaxLengths[fieldName] ?? 1000;
+
+    if (trimmed.length < minLength) {
+      return '$fieldName must be at least $minLength characters';
+    }
+
+    if (trimmed.length > limit) {
+      return '$fieldName is too long (max $limit characters)';
+    }
+
+    // Check for injection patterns
+    if (_dangerousPatterns.hasMatch(trimmed)) {
+      return '$fieldName contains invalid characters';
+    }
+
+    return null; // Valid
+  }
+
+  // ─────────────── Sanitization Methods ───────────────
+
+  /// Validate a URL.
+  static String? validateUrl(String? value, {bool required = true}) {
+    if (value == null || value.trim().isEmpty) {
+      if (required) return 'URL is required';
+      return null;
+    }
+
+    final trimmed = value.trim();
+
+    if (trimmed.length > fieldMaxLengths['url']!) {
+      return 'URL is too long';
+    }
+
+    // Only allow http and https schemes
+    if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
+      return 'URL must start with http:// or https://';
+    }
+
+    try {
+      Uri.parse(trimmed);
+    } catch (_) {
+      return 'Invalid URL format';
+    }
+
+    return null; // Valid
+  }
+
+  /// Validate a username.
+  static String? validateUsername(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Username is required';
+    }
+
+    final trimmed = value.trim();
+
+    if (trimmed.length < 3) {
+      return 'Username must be at least 3 characters';
+    }
+
+    if (trimmed.length > fieldMaxLengths['username']!) {
+      return 'Username is too long (max ${fieldMaxLengths['username']} characters)';
+    }
+
+    if (!_usernamePattern.hasMatch(trimmed)) {
+      return 'Username can only contain letters, numbers, and underscores';
+    }
+
+    return null; // Valid
+  }
+
+  /// Validate a UUID string (for IDs, invite codes, etc.)
+  static String? validateUuid(String? value, {String fieldName = 'ID'}) {
+    if (value == null || value.trim().isEmpty) {
+      return '$fieldName is required';
+    }
+
+    if (!_uuidPattern.hasMatch(value.trim())) {
+      return 'Invalid $fieldName format';
+    }
+
+    return null; // Valid
+  }
+
+  // ─────────────── Schema Validation ───────────────
+
+  /// Escape HTML special characters to prevent XSS.
+  static String _escapeHtml(String input) {
+    return input
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#x27;');
   }
 }
 

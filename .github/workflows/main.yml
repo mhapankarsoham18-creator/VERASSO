@@ -54,8 +54,7 @@ jobs:
 #          fi
 
       - name: 🔍 Run flutter analyze
-        run: flutter analyze --no-fatal-infos
-        continue-on-error: true
+        run: flutter analyze --fatal-infos
 
   # ════════════════════════════════════════════════════════
   # STAGE 2: SECURITY SCANNING
@@ -121,7 +120,6 @@ jobs:
             mkdir -p coverage
             touch coverage/lcov.info
           fi
-        continue-on-error: true
 
       - name: 📊 Check coverage threshold
         run: |

@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'sentry_service.dart';
@@ -6,14 +7,20 @@ import 'sentry_service.dart';
 /// Replaces print() statements with proper structured logging
 /// Logs to console in debug mode and to Sentry for monitoring
 class AppLogger {
+  static bool suppressLogs = Platform.environment.containsKey('FLUTTER_TEST');
+
+  static void _logToConsole(String message) {
+    if (kDebugMode && !suppressLogs) {
+      debugPrint(message);
+    }
+  }
+
   /// Log debug information (only in debug mode)
   /// Used for detailed technical information
   static void debug(String message, {Object? error, StackTrace? stackTrace}) {
-    if (kDebugMode) {
-      debugPrint('[DEBUG] $message');
-      if (error != null) {
-        debugPrint('[DEBUG] Error: $error');
-      }
+    _logToConsole('[DEBUG] $message');
+    if (error != null) {
+      _logToConsole('[DEBUG] Error: $error');
     }
 
     // Always send to Sentry as breadcrumb for context
@@ -27,9 +34,7 @@ class AppLogger {
   /// Log info messages
   /// Used for general informational updates
   static void info(String message) {
-    if (kDebugMode) {
-      debugPrint('[INFO] $message');
-    }
+    _logToConsole('[INFO] $message');
 
     SentryService.addBreadcrumb(
       message: message,
@@ -41,11 +46,9 @@ class AppLogger {
   /// Log warning messages
   /// Used for potentially problematic situations
   static void warning(String message, {Object? error}) {
-    if (kDebugMode) {
-      debugPrint('[WARNING] $message');
-      if (error != null) {
-        debugPrint('[WARNING] Error: $error');
-      }
+    _logToConsole('[WARNING] $message');
+    if (error != null) {
+      _logToConsole('[WARNING] Error: $error');
     }
 
     SentryService.addBreadcrumb(
@@ -63,12 +66,10 @@ class AppLogger {
     required Object error,
     StackTrace? stackTrace,
   }) {
-    if (kDebugMode) {
-      debugPrint('[ERROR] $message');
-      debugPrint('[ERROR] Exception: $error');
-      if (stackTrace != null) {
-        debugPrint('[ERROR] Stack Trace:\n$stackTrace');
-      }
+    _logToConsole('[ERROR] $message');
+    _logToConsole('[ERROR] Exception: $error');
+    if (stackTrace != null) {
+      _logToConsole('[ERROR] Stack Trace:\n$stackTrace');
     }
 
     // Send to Sentry for monitoring
@@ -86,10 +87,8 @@ class AppLogger {
     required Object error,
     StackTrace? stackTrace,
   }) {
-    if (kDebugMode) {
-      debugPrint('[CRITICAL] $message');
-      debugPrint('[CRITICAL] Exception: $error');
-    }
+    _logToConsole('[CRITICAL] $message');
+    _logToConsole('[CRITICAL] Exception: $error');
 
     SentryService.captureException(
       error,
