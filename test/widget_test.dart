@@ -10,11 +10,7 @@ void main() {
   testWidgets('Basic widget test passes', (WidgetTester tester) async {
     // Build a simple widget
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(
-          body: Text('Test'),
-        ),
-      ),
+      const MaterialApp(home: Scaffold(body: Text('Test'))),
     );
 
     // Verify the widget is found

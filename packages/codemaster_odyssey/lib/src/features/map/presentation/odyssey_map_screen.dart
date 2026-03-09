@@ -197,7 +197,6 @@ class OdysseyMapScreen extends ConsumerWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

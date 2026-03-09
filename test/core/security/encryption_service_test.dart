@@ -63,7 +63,7 @@ void main() {
   group('EncryptionService Verification (Phase 3.1)', () {
     test('Initialization generates and stores master keys', () async {
       await encryptionService.initialize();
-      
+
       final key = await mockStorage.read(key: 'encryption_master_key');
       final iv = await mockStorage.read(key: 'encryption_master_iv');
       final hiveKey = await mockStorage.read(key: 'hive_encryption_key');
@@ -88,10 +88,16 @@ void main() {
       const password = 'StrongPassword123!';
       const plainText = 'Sensitive Project Data';
 
-      final encrypted = await encryptionService.encryptWithPassword(plainText, password);
+      final encrypted = await encryptionService.encryptWithPassword(
+        plainText,
+        password,
+      );
       expect(encrypted.split(':').length, 3); // salt:iv:cipher
 
-      final decrypted = await encryptionService.decryptWithPassword(encrypted, password);
+      final decrypted = await encryptionService.decryptWithPassword(
+        encrypted,
+        password,
+      );
       expect(decrypted, plainText);
     });
 
@@ -99,8 +105,11 @@ void main() {
       const password = 'StrongPassword123!';
       const plainText = 'Sensitive Project Data';
 
-      final encrypted = await encryptionService.encryptWithPassword(plainText, password);
-      
+      final encrypted = await encryptionService.encryptWithPassword(
+        plainText,
+        password,
+      );
+
       expect(
         () => encryptionService.decryptWithPassword(encrypted, 'WrongPassword'),
         throwsException,

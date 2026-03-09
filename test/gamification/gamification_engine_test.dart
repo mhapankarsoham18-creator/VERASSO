@@ -38,45 +38,27 @@ void main() {
       });
 
       test('returns correct XP for perfect quiz', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz', quizScore: 100),
-          15,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 100), 15);
       });
 
       test('returns correct XP for 90-99 quiz', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz', quizScore: 95),
-          10,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 95), 10);
       });
 
       test('returns correct XP for 80-89 quiz', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz', quizScore: 85),
-          8,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 85), 8);
       });
 
       test('returns correct XP for 70-79 quiz', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz', quizScore: 75),
-          5,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 75), 5);
       });
 
       test('returns 0 for quiz below 70', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz', quizScore: 65),
-          0,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz', quizScore: 65), 0);
       });
 
       test('returns 0 for quiz with null score', () {
-        expect(
-          XPRewardEngine.calculateActivityXP('quiz'),
-          0,
-        );
+        expect(XPRewardEngine.calculateActivityXP('quiz'), 0);
       });
     });
 
@@ -236,8 +218,11 @@ void main() {
 
       test('all badges have positive XP rewards', () {
         for (final badge in BadgeSystem.badges.values) {
-          expect(badge.xpReward, greaterThan(0),
-              reason: 'Badge ${badge.id} should have positive XP reward');
+          expect(
+            badge.xpReward,
+            greaterThan(0),
+            reason: 'Badge ${badge.id} should have positive XP reward',
+          );
         }
       });
 
@@ -270,15 +255,40 @@ void main() {
       test('python_padawan requires module 1 completed', () {
         final badge = BadgeSystem.badges['python_padawan']!;
         expect(badge.requirement({'modules_completed': []}), isFalse);
-        expect(badge.requirement({'modules_completed': [1]}), isTrue);
-        expect(badge.requirement({'modules_completed': [2]}), isFalse);
-        expect(badge.requirement({'modules_completed': [1, 2]}), isTrue);
+        expect(
+          badge.requirement({
+            'modules_completed': [1],
+          }),
+          isTrue,
+        );
+        expect(
+          badge.requirement({
+            'modules_completed': [2],
+          }),
+          isFalse,
+        );
+        expect(
+          badge.requirement({
+            'modules_completed': [1, 2],
+          }),
+          isTrue,
+        );
       });
 
       test('function_master requires module 2 completed', () {
         final badge = BadgeSystem.badges['function_master']!;
-        expect(badge.requirement({'modules_completed': [1]}), isFalse);
-        expect(badge.requirement({'modules_completed': [2]}), isTrue);
+        expect(
+          badge.requirement({
+            'modules_completed': [1],
+          }),
+          isFalse,
+        );
+        expect(
+          badge.requirement({
+            'modules_completed': [2],
+          }),
+          isTrue,
+        );
       });
 
       test('challenge_champion requires 30 challenges solved', () {

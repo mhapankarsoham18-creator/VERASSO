@@ -20,11 +20,7 @@ class AlumniRepository {
   final OfflineStorageService _storageService;
 
   /// Creates an [AlumniRepository] instance.
-  AlumniRepository(
-    this._client,
-    this._networkService,
-    this._storageService,
-  );
+  AlumniRepository(this._client, this._networkService, this._storageService);
 
   // 1. Get Alumni for a specific Course
   /// Retrieves a list of alumni who completed a specific course, with offline caching support.

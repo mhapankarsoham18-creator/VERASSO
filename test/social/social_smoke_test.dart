@@ -14,22 +14,26 @@ class MockFeedRepository extends Mock implements FeedRepository {
     List<String> userInterests = const [],
     int limit = 20,
     int offset = 0,
-  }) => super.noSuchMethod(
-        Invocation.method(#getFeed, [], {
-          #userInterests: userInterests,
-          #limit: limit,
-          #offset: offset,
-        }),
-        returnValue: Future.value(<Post>[]),
-      ) as Future<List<Post>>;
+  }) =>
+      super.noSuchMethod(
+            Invocation.method(#getFeed, [], {
+              #userInterests: userInterests,
+              #limit: limit,
+              #offset: offset,
+            }),
+            returnValue: Future.value(<Post>[]),
+          )
+          as Future<List<Post>>;
 }
 
 class MockCommentRepository extends Mock implements CommentRepository {
   @override
-  Future<List<Comment>> getComments(String postId) => super.noSuchMethod(
-        Invocation.method(#getComments, [postId]),
-        returnValue: Future.value(<Comment>[]),
-      ) as Future<List<Comment>>;
+  Future<List<Comment>> getComments(String postId) =>
+      super.noSuchMethod(
+            Invocation.method(#getComments, [postId]),
+            returnValue: Future.value(<Comment>[]),
+          )
+          as Future<List<Comment>>;
 }
 
 void main() {
@@ -63,15 +67,16 @@ void main() {
         ),
       ];
 
-      when(mockFeedRepo.getFeed(limit: 20, offset: 0))
-          .thenAnswer((_) async => posts);
+      when(
+        mockFeedRepo.getFeed(limit: 20, offset: 0),
+      ).thenAnswer((_) async => posts);
 
       // Trigger load via feedProvider
       container.read(feedProvider);
-      
+
       // Wait for async initialization
       await Future.delayed(Duration.zero);
-      
+
       final state = container.read(feedProvider);
       expect(state.value, posts);
       verify(mockFeedRepo.getFeed(limit: 20, offset: 0)).called(1);
@@ -91,7 +96,7 @@ void main() {
       when(mockCommentRepo.getComments('1')).thenAnswer((_) async => comments);
 
       final result = await mockCommentRepo.getComments('1');
-      
+
       expect(result, comments);
       verify(mockCommentRepo.getComments('1')).called(1);
     });

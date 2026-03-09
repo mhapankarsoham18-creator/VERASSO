@@ -485,4 +485,3 @@ class _FormulationLabScreenState extends ConsumerState<FormulationLabScreen> {
     });
   }
 }
-

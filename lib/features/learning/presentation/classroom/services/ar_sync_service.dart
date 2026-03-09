@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/legacy.dart';
 
 /// No-op provider for AR Sync Service.
-final arSyncServiceProvider = StateNotifierProvider<ArSyncService, ArExperimentState>((ref) {
-  return ArSyncService();
-});
+final arSyncServiceProvider =
+    StateNotifierProvider<ArSyncService, ArExperimentState>((ref) {
+      return ArSyncService();
+    });
 
 /// No-op implementation of AR Sync Service.
 class ArSyncService extends StateNotifier<ArExperimentState> {

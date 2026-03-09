@@ -41,8 +41,7 @@ class LearningDashboard extends ConsumerWidget {
           children: [
             Text(
               AppLocalizations.of(context)!.learningHub,
-              style:
-                  const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
 
@@ -96,9 +95,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.graduationCap,
               color: Colors.purpleAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const AlumniNetworkScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const AlumniNetworkScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -109,8 +106,7 @@ class LearningDashboard extends ConsumerWidget {
               color: Colors.blueAccent,
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Mentorships — coming soon!')),
+                  const SnackBar(content: Text('Mentorships — coming soon!')),
                 );
               },
             ),
@@ -119,9 +115,9 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Ask & answer questions',
               icon: LucideIcons.helpCircle,
               color: Colors.orange,
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const DoubtsScreen()),
-              ),
+              onTap: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const DoubtsScreen())),
             ),
             const SizedBox(height: 16),
             ModuleCard(
@@ -129,9 +125,9 @@ class LearningDashboard extends ConsumerWidget {
               subtitle: 'Flashcards, Planner, Notes',
               icon: LucideIcons.library,
               color: Colors.blue,
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const DecksScreen()),
-              ),
+              onTap: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const DecksScreen())),
             ),
             const SizedBox(height: 16),
             ModuleCard(
@@ -140,8 +136,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.atom,
               color: Colors.purple,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const PhysicsMenuScreen()),
+                MaterialPageRoute(builder: (_) => const PhysicsMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -151,8 +146,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.flaskConical,
               color: Colors.green,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const ChemistryMenuScreen()),
+                MaterialPageRoute(builder: (_) => const ChemistryMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -162,8 +156,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.microscope,
               color: Colors.lightGreen,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const BiologyMenuScreen()),
+                MaterialPageRoute(builder: (_) => const BiologyMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -173,8 +166,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.moon,
               color: Colors.deepPurple,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const AstronomyMenuScreen()),
+                MaterialPageRoute(builder: (_) => const AstronomyMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -184,8 +176,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.trendingUp,
               color: Colors.amber,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const FinanceMenuScreen()),
+                MaterialPageRoute(builder: (_) => const FinanceMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -195,8 +186,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.pill,
               color: Colors.redAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const PharmacyMenuScreen()),
+                MaterialPageRoute(builder: (_) => const PharmacyMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),
@@ -206,8 +196,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.globe,
               color: Colors.blueAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const GeographyMenuScreen()),
+                MaterialPageRoute(builder: (_) => const GeographyMenuScreen()),
               ),
             ),
             ModuleCard(
@@ -216,8 +205,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.landmark,
               color: Colors.amber,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const HistoryMenuScreen()),
+                MaterialPageRoute(builder: (_) => const HistoryMenuScreen()),
               ),
             ),
             ModuleCard(
@@ -238,8 +226,7 @@ class LearningDashboard extends ConsumerWidget {
               icon: LucideIcons.terminal,
               color: Colors.lightBlueAccent,
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const CodedexMenuScreen()),
+                MaterialPageRoute(builder: (_) => const CodedexMenuScreen()),
               ),
             ),
             const SizedBox(height: 16),

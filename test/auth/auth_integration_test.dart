@@ -20,9 +20,7 @@ void main() {
   setUp(() {
     mockRepository = MockAuthRepository();
     container = ProviderContainer(
-      overrides: [
-        authRepositoryProvider.overrideWithValue(mockRepository),
-      ],
+      overrides: [authRepositoryProvider.overrideWithValue(mockRepository)],
     );
   });
 
@@ -37,50 +35,62 @@ void main() {
     });
 
     test('signIn success updates state correctly', () async {
-      when(mockRepository.signInWithEmail(
-        email: 'test@example.com',
-        password: 'Password123!',
-      )).thenAnswer((_) async => AuthResult(
-        user: DomainAuthUser(
-          id: '123',
-          emailConfirmedAt: DateTime.now().toIso8601String(), // Email verified
+      when(
+        mockRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'Password123!',
         ),
-        session: DomainAuthSession(accessToken: 'token'),
-      ));
+      ).thenAnswer(
+        (_) async => AuthResult(
+          user: DomainAuthUser(
+            id: '123',
+            emailConfirmedAt: DateTime.now()
+                .toIso8601String(), // Email verified
+          ),
+          session: DomainAuthSession(accessToken: 'token'),
+        ),
+      );
 
       final controller = container.read(authControllerProvider.notifier);
-      
+
       final future = controller.signIn(
         email: 'test@example.com',
         password: 'Password123!',
       );
-      
+
       // Should show loading
       expect(container.read(authControllerProvider), isA<AsyncLoading>());
-      
+
       await future;
-      
+
       // Should be back to data (null) on success, as session is handled by client internally
-      expect(container.read(authControllerProvider), const AsyncData<void>(null));
-      verify(mockRepository.signInWithEmail(
-        email: 'test@example.com',
-        password: 'Password123!',
-      )).called(1);
+      expect(
+        container.read(authControllerProvider),
+        const AsyncData<void>(null),
+      );
+      verify(
+        mockRepository.signInWithEmail(
+          email: 'test@example.com',
+          password: 'Password123!',
+        ),
+      ).called(1);
     });
 
     test('signIn failure sets error state', () async {
-      when(mockRepository.signInWithEmail(
-        email: 'fail@example.com',
-        password: 'Password123!',
-      )).thenThrow(const AppAuthException('Invalid credentials'));
+      when(
+        mockRepository.signInWithEmail(
+          email: 'fail@example.com',
+          password: 'Password123!',
+        ),
+      ).thenThrow(const AppAuthException('Invalid credentials'));
 
       final controller = container.read(authControllerProvider.notifier);
-      
+
       await controller.signIn(
         email: 'fail@example.com',
         password: 'Password123!',
       );
-      
+
       final state = container.read(authControllerProvider);
       expect(state, isA<AsyncError>());
       expect(state.error, isA<AppAuthException>());
@@ -88,10 +98,13 @@ void main() {
 
     test('signOut successful clears state', () async {
       final controller = container.read(authControllerProvider.notifier);
-      
+
       await controller.signOut();
-      
-      expect(container.read(authControllerProvider), const AsyncData<void>(null));
+
+      expect(
+        container.read(authControllerProvider),
+        const AsyncData<void>(null),
+      );
       verify(mockRepository.signOut()).called(1);
     });
   });
@@ -103,16 +116,23 @@ class MockAuthRepository extends Mock implements AuthRepository {
   Future<AuthResult> signInWithEmail({
     required String email,
     required String password,
-  }) => super.noSuchMethod(
-        Invocation.method(#signInWithEmail, [], {#email: email, #password: password}),
-        returnValue: Future.value(AuthResult()),
-        returnValueForMissingStub: Future.value(AuthResult()),
-      ) as Future<AuthResult>;
+  }) =>
+      super.noSuchMethod(
+            Invocation.method(#signInWithEmail, [], {
+              #email: email,
+              #password: password,
+            }),
+            returnValue: Future.value(AuthResult()),
+            returnValueForMissingStub: Future.value(AuthResult()),
+          )
+          as Future<AuthResult>;
 
   @override
-  Future<void> signOut() => super.noSuchMethod(
-        Invocation.method(#signOut, []),
-        returnValue: Future<void>.value(),
-        returnValueForMissingStub: Future<void>.value(),
-      ) as Future<void>;
+  Future<void> signOut() =>
+      super.noSuchMethod(
+            Invocation.method(#signOut, []),
+            returnValue: Future<void>.value(),
+            returnValueForMissingStub: Future<void>.value(),
+          )
+          as Future<void>;
 }

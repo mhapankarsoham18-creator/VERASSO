@@ -15,24 +15,24 @@ class GeminiAIService {
 
   void _init() {
     if (_isInitialized) return;
-    
+
     final apiKey = SecureConfig.geminiApiKey;
     if (apiKey.isEmpty) {
-      AppLogger.warning('Gemini API Key is missing. AI features will be disabled.');
+      AppLogger.warning(
+        'Gemini API Key is missing. AI features will be disabled.',
+      );
       return;
     }
 
-    _model = GenerativeModel(
-      model: 'gemini-1.5-flash',
-      apiKey: apiKey,
-    );
+    _model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
     _isInitialized = true;
   }
 
   /// Sends a message and gets a full response.
   Future<String> sendMessage(String message, {String? systemPrompt}) async {
     _init();
-    if (!_isInitialized) return "Gemini AI is not configured. Please add an API key.";
+    if (!_isInitialized)
+      return "Gemini AI is not configured. Please add an API key.";
 
     try {
       final content = [

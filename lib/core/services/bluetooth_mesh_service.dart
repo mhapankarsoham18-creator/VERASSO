@@ -8,7 +8,7 @@ class BluetoothMeshService {
   bool get isMeshActive => false;
   Stream<dynamic> get meshStream => const Stream.empty();
   Stream<List<dynamic>> get connectedDevicesStream => const Stream.empty();
-  
+
   Future<void> broadcastPacket(dynamic type, dynamic payload) async {}
   Future<void> startDiscovery() async {}
   void stopAll() {}

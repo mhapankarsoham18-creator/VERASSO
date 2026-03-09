@@ -23,7 +23,10 @@ class AIService {
   /// Sends a message to the AI and retrieves a response via Gemini.
   Future<String> sendMessage(String userMessage) async {
     try {
-      return await _gemini.sendMessage(userMessage, systemPrompt: _systemPrompt);
+      return await _gemini.sendMessage(
+        userMessage,
+        systemPrompt: _systemPrompt,
+      );
     } catch (e) {
       AppLogger.error('AIService Exception', error: e);
       return "Cosmos AI service interrupted. Please check your network connection.";

@@ -21,11 +21,7 @@ class ProjectRepository {
   final OfflineStorageService _storageService;
 
   /// Creates a [ProjectRepository] instance.
-  ProjectRepository(
-    this._client,
-    this._networkService,
-    this._storageService,
-  );
+  ProjectRepository(this._client, this._networkService, this._storageService);
 
   // 1. Create Project
   /// Creates a new collaborative project.

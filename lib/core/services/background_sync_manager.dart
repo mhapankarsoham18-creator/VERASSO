@@ -83,13 +83,17 @@ class BackgroundSyncManager {
           AppLogger.info("Synced action: $type");
         } catch (e) {
           if (retries >= 3) {
-            AppLogger.error("Action $type failed 3 times, discarding.",
-                error: e);
+            AppLogger.error(
+              "Action $type failed 3 times, discarding.",
+              error: e,
+            );
             await _storageService.deleteAction(entry.key);
           } else {
             await _storageService.updateActionRetry(entry.key, retries + 1);
-            AppLogger.warning("Action $type failed (retry ${retries + 1}/3)",
-                error: e);
+            AppLogger.warning(
+              "Action $type failed (retry ${retries + 1}/3)",
+              error: e,
+            );
           }
         }
       }

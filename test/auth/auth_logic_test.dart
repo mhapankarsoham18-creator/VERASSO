@@ -92,9 +92,7 @@ void main() {
         email: 'test@example.com',
         userMetadata: {'username': 'testuser'},
         emailConfirmedAt: '2026-01-01T00:00:00Z',
-        factors: [
-          DomainAuthFactor(id: 'f1', status: 'verified', type: 'totp'),
-        ],
+        factors: [DomainAuthFactor(id: 'f1', status: 'verified', type: 'totp')],
       );
 
       expect(user.id, 'user-123');

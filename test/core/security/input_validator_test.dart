@@ -14,10 +14,13 @@ void main() {
       ];
 
       for (final payload in xssPayloads) {
-        final result = InputValidator.validateText(payload, fieldName: 'content');
+        final result = InputValidator.validateText(
+          payload,
+          fieldName: 'content',
+        );
         expect(
-          result, 
-          contains('invalid characters'), 
+          result,
+          contains('invalid characters'),
           reason: 'Failed to reject XSS payload: $payload',
         );
       }
@@ -34,10 +37,13 @@ void main() {
       ];
 
       for (final payload in sqliPayloads) {
-        final result = InputValidator.validateText(payload, fieldName: 'content');
+        final result = InputValidator.validateText(
+          payload,
+          fieldName: 'content',
+        );
         expect(
-          result, 
-          contains('invalid characters'), 
+          result,
+          contains('invalid characters'),
           reason: 'Failed to reject SQLi payload: $payload',
         );
       }
@@ -49,14 +55,17 @@ void main() {
 
       // Should remove null byte
       expect(sanitized, isNot(contains('\x00')));
-      
+
       // Should escape HTML
       expect(sanitized, contains('&lt;script&gt;'));
       expect(sanitized, contains('&amp;'));
       expect(sanitized, contains('&quot;'));
-      
+
       // Final outcome check
-      expect(sanitized, 'Hello &lt;script&gt;World&lt;/script&gt; &amp; &quot;Test&quot;');
+      expect(
+        sanitized,
+        'Hello &lt;script&gt;World&lt;/script&gt; &amp; &quot;Test&quot;',
+      );
     });
 
     test('sanitizeForQuery removes SQL comment markers', () {
@@ -73,14 +82,26 @@ void main() {
       expect(InputValidator.validateEmail('not-an-email'), isNotNull);
       expect(InputValidator.validateEmail('test@'), isNotNull);
       expect(InputValidator.validateEmail('test@domain'), isNotNull);
-      expect(InputValidator.validateEmail('a' * 300 + '@test.com'), contains('too long'));
+      expect(
+        InputValidator.validateEmail('a' * 300 + '@test.com'),
+        contains('too long'),
+      );
     });
 
     test('validatePassword enforces complexity (OWASP)', () {
       expect(InputValidator.validatePassword('short'), contains('at least 8'));
-      expect(InputValidator.validatePassword('alllowercase'), contains('uppercase letter'));
-      expect(InputValidator.validatePassword('ALLUPPERCASE'), contains('lowercase letter'));
-      expect(InputValidator.validatePassword('NoNumberCase'), contains('number'));
+      expect(
+        InputValidator.validatePassword('alllowercase'),
+        contains('uppercase letter'),
+      );
+      expect(
+        InputValidator.validatePassword('ALLUPPERCASE'),
+        contains('lowercase letter'),
+      );
+      expect(
+        InputValidator.validatePassword('NoNumberCase'),
+        contains('number'),
+      );
       expect(InputValidator.validatePassword('ValidPass123'), isNull);
     });
 
