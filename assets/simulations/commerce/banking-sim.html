@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #1976d2;color:#1976d2;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#1976d2;border:1px solid #1976d2;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#1976d2;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: BANKING SIMULATOR</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,balance=1000,interest=5,month=0,history=[1000];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{if(e.clientX<W/2){balance+=100;history.push(balance)}else{month++;balance*=(1+interest/100/12);history.push(balance)}});
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+x.fillStyle='#1976d2';x.font='bold 28px Courier';x.textAlign='center';x.fillText('$'+balance.toFixed(2),W/2,H*0.15);
+x.fillStyle='#ccc';x.font='14px Courier';x.fillText(`Month ${month} | Rate: ${interest}% APR`,W/2,H*0.22);
+let maxV=Math.max(...history,1);let gx=W*0.1,gy=H*0.3,gw=W*0.8,gh=H*0.4;x.strokeStyle='#333';x.strokeRect(gx,gy,gw,gh);
+x.beginPath();history.forEach((v,i)=>{let px=gx+i/Math.max(history.length-1,1)*gw;let py=gy+gh-(v/maxV)*gh;i===0?x.moveTo(px,py):x.lineTo(px,py)});x.strokeStyle='#1976d2';x.lineWidth=2;x.stroke();
+x.fillStyle='#4caf50';x.fillRect(W*0.1,H*0.8,W*0.35,40);x.fillStyle='#fff';x.font='14px Courier';x.fillText('DEPOSIT $100',W*0.275,H*0.8+25);
+x.fillStyle='#ff9800';x.fillRect(W*0.55,H*0.8,W*0.35,40);x.fillText('NEXT MONTH',W*0.725,H*0.8+25);
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

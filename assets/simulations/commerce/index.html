@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; background: #111; color: #FFF; font-family: 'Courier New', Courier, monospace; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; overflow: hidden; }
+        #hud { margin-top: 20px; text-align: center; }
+        canvas { border: 2px solid #00FFCC; margin-top: 20px; background: #000; box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+        .controls { margin-top: 20px; display: flex; gap: 20px; }
+        button { background: #00FFCC; color: #000; font-weight: bold; padding: 15px 30px; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; box-shadow: 0 4px 0 #009977; }
+        button:active { transform: translateY(4px); box-shadow: none; }
+        .red-btn { background: #FF5252; box-shadow: 0 4px 0 #990000; }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <h2>COMMERCE & TRADE MODULUS</h2>
+        <h3 id="wealth">FUNDS: $1000.00 | ASSETS: 0</h3>
+        <h3 id="price" style="color: #00FFCC;">MARKET PRICE: $100.00</h3>
+    </div>
+    
+    <canvas id="chart" width="300" height="200"></canvas>
+    
+    <div class="controls">
+        <button onclick="buy()">BUY (1)</button>
+        <button class="red-btn" onclick="sell()">SELL (1)</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const wealthEl = document.getElementById('wealth');
+        const priceEl = document.getElementById('price');
+        
+        let funds = 1000.00;
+        let assets = 0;
+        let currentPrice = 100.00;
+        let history = [100];
+        
+        function updateUI() {
+            wealthEl.innerText = `FUNDS: $${funds.toFixed(2)} | ASSETS: ${assets}`;
+            priceEl.innerText = `MARKET PRICE: $${currentPrice.toFixed(2)}`;
+            priceEl.style.color = history[history.length - 1] >= history[history.length - 2 || 0] ? '#00FFCC' : '#FF5252';
+            drawChart();
+        }
+
+        function drawChart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - (history[0] || 0));
+            
+            let step = canvas.width / 50; // max 50 points
+            let start = Math.max(0, history.length - 50);
+            
+            for(let i=start; i<history.length; i++) {
+                let x = (i - start) * step;
+                let y = canvas.height - (history[i] / 200 * canvas.height); // Normalize to 200 max
+                ctx.lineTo(x, y);
+            }
+            
+            ctx.strokeStyle = priceEl.style.color;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        setInterval(() => {
+            let volatility = (Math.random() - 0.5) * 10;
+            currentPrice += volatility;
+            if(currentPrice < 1) currentPrice = 1;
+            if(currentPrice > 200) currentPrice = 200;
+            history.push(currentPrice);
+            if(history.length > 200) history.shift();
+            updateUI();
+        }, 1000);
+
+        window.buy = function() {
+            if(funds >= currentPrice) {
+                funds -= currentPrice;
+                assets++;
+                updateUI();
+            }
+        };
+
+        window.sell = function() {
+            if(assets > 0) {
+                funds += currentPrice;
+                assets--;
+                updateUI();
+            }
+        };
+        
+        updateUI();
+    </script>
+</body>
+</html>

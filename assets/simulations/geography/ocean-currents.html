@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #0097a7;color:#0097a7;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#0097a7;border:1px solid #0097a7;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#0097a7;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: OCEAN CURRENTS</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<div class="ctrl"><button class="a" onclick="setMode('surface')">Surface</button><button onclick="setMode('deep')">Deep</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,mode='surface',particles=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.age=0;this.maxAge=100+Math.random()*200}
+update(){let lat=this.y/H,lon=this.x/W;let fx=Math.sin(lat*Math.PI*3)*2+(mode==='deep'?-1:1);let fy=Math.cos(lon*Math.PI*4)*(mode==='deep'?0.5:1);
+this.x+=fx;this.y+=fy*0.5;this.age++;if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0;if(this.age>this.maxAge)this.reset()}
+draw(){let a=1-this.age/this.maxAge;let col=mode==='surface'?`rgba(0,150,200,${a})`:`rgba(0,80,160,${a})`;x.beginPath();x.arc(this.x,this.y,2,0,Math.PI*2);x.fillStyle=col;x.fill()}}
+for(let i=0;i<500;i++)particles.push(new P());
+function loop(){x.fillStyle='rgba(10,10,40,0.1)';x.fillRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw()});requestAnimationFrame(loop)}
+window.setMode=m=>{mode=m;document.querySelectorAll('.ctrl button').forEach(b=>b.classList.remove('a'));event.target.classList.add('a')};loop();
+</script>
+</body>
+</html>

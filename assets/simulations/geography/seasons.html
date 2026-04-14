@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Seasons Simulator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FFC107;color:#FFC107;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FFC107;border:1px solid #FFC107;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FFC107;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FFC107;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>SEASONS</b><br>Drag Earth around the Sun<div id="info">Earth's 23.5° axial tilt causes seasons</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,earthAngle=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+let dragging=false;
+c.addEventListener('pointerdown',()=>dragging=true);
+c.addEventListener('pointermove',e=>{if(dragging)earthAngle=Math.atan2(e.clientY-H/2,e.clientX-W/2)});
+c.addEventListener('pointerup',()=>dragging=false);
+function getSeason(){let d=((earthAngle*180/Math.PI)%360+360)%360;
+  if(d<90)return'SUMMER (N) / WINTER (S)';if(d<180)return'AUTUMN (N) / SPRING (S)';
+  if(d<270)return'WINTER (N) / SUMMER (S)';return'SPRING (N) / AUTUMN (S)'}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cx=W/2,cy=H/2,orb=Math.min(W,H)*0.3;
+  // Orbit
+  x.strokeStyle='rgba(255,255,255,0.15)';x.lineWidth=1;x.beginPath();x.arc(cx,cy,orb,0,Math.PI*2);x.stroke();
+  // Sun
+  x.fillStyle='#FFC107';x.beginPath();x.arc(cx,cy,25,0,Math.PI*2);x.fill();
+  let grd=x.createRadialGradient(cx,cy,20,cx,cy,60);grd.addColorStop(0,'rgba(255,193,7,0.3)');grd.addColorStop(1,'transparent');
+  x.fillStyle=grd;x.beginPath();x.arc(cx,cy,60,0,Math.PI*2);x.fill();
+  // Earth
+  let ex=cx+Math.cos(earthAngle)*orb,ey=cy+Math.sin(earthAngle)*orb;
+  x.fillStyle='#1565C0';x.beginPath();x.arc(ex,ey,14,0,Math.PI*2);x.fill();
+  // Tilt axis
+  x.strokeStyle='#fff';x.lineWidth=1;x.save();x.translate(ex,ey);x.rotate(23.5*Math.PI/180);
+  x.beginPath();x.moveTo(0,-22);x.lineTo(0,22);x.stroke();
+  x.fillStyle='#E53935';x.fillRect(-2,-22,4,3);x.restore();
+  // Season label
+  x.fillStyle='#FFC107';x.font='bold 14px Courier';x.textAlign='center';
+  x.fillText(getSeason(),W/2,H-30);
+  x.fillStyle='#888';x.font='11px Courier';
+  x.fillText('Drag Earth around the Sun',W/2,H-12);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

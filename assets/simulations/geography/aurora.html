@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Aurora Borealis</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #76FF03;color:#76FF03;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#76FF03;border:1px solid #76FF03;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#76FF03;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #76FF03;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>AURORA BOREALIS</b><br>Solar particles hit Earth's magnetic field<div id="info">Watch charged particles create light</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+let particles=[];
+for(let i=0;i<150;i++)particles.push({x:Math.random()*1.5*W-W*0.25,y:H*0.2+Math.random()*H*0.3,vy:Math.random()*0.5,h:Math.random()*120+90,a:Math.random()});
+function draw(){x.fillStyle='rgba(5,5,20,0.1)';x.fillRect(0,0,W,H);
+  // Stars
+  if(Math.random()<0.05){x.fillStyle='#fff';x.fillRect(Math.random()*W,Math.random()*H*0.5,1,1)}
+  // Aurora curtains
+  particles.forEach(p=>{
+    p.x+=Math.sin(Date.now()*0.001+p.y*0.01)*0.5;
+    p.a=0.3+0.3*Math.sin(Date.now()*0.002+p.x*0.01);
+    let grd=x.createLinearGradient(p.x,p.y,p.x,p.y+H*0.4);
+    grd.addColorStop(0,`hsla(${p.h},80%,60%,${p.a})`);
+    grd.addColorStop(0.5,`hsla(${p.h+30},70%,50%,${p.a*0.5})`);
+    grd.addColorStop(1,'transparent');
+    x.fillStyle=grd;x.fillRect(p.x,p.y,3,H*0.4);
+  });
+  // Ground
+  x.fillStyle='#1a1a2e';x.fillRect(0,H*0.75,W,H*0.25);
+  // Trees silhouette
+  for(let i=0;i<20;i++){let tx=i*W/20;x.fillStyle='#0a0a15';
+    x.beginPath();x.moveTo(tx,H*0.75);x.lineTo(tx+8,H*0.6+Math.random()*10);x.lineTo(tx+16,H*0.75);x.fill()}
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

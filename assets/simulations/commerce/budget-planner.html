@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #66bb6a;color:#66bb6a;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#66bb6a;border:1px solid #66bb6a;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#66bb6a;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: BUDGET PLANNER</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,sel=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const cats=[{name:'Housing',pct:30,color:'#e53935'},{name:'Food',pct:15,color:'#ff9800'},{name:'Transport',pct:12,color:'#ffc107'},{name:'Savings',pct:20,color:'#4caf50'},{name:'Education',pct:10,color:'#2196f3'},{name:'Entertainment',pct:8,color:'#9c27b0'},{name:'Other',pct:5,color:'#607d8b'}];
+c.addEventListener('pointerdown',()=>{sel=(sel+1)%cats.length});
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);let cx2=W/2,cy=H*0.4,r=Math.min(W,H)*0.25,startA=-Math.PI/2;
+cats.forEach((ct,i)=>{let angle=ct.pct/100*Math.PI*2;x.beginPath();x.moveTo(cx2,cy);x.arc(cx2,cy,i===sel?r+10:r,startA,startA+angle);x.closePath();x.fillStyle=ct.color;x.fill();startA+=angle});
+x.beginPath();x.arc(cx2,cy,r*0.5,0,Math.PI*2);x.fillStyle='#0a0a1a';x.fill();
+x.fillStyle='#fff';x.font='bold 16px Courier';x.textAlign='center';x.fillText('MONTHLY BUDGET',cx2,cy-5);x.font='12px Courier';x.fillText('Tap to select',cx2,cy+15);
+let ct=cats[sel];x.fillStyle=ct.color;x.font='bold 20px Courier';x.fillText(`${ct.name}: ${ct.pct}%`,W/2,H*0.78);
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

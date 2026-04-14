@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Sorting Algorithms</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF9800;color:#FF9800;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF9800;border:1px solid #FF9800;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF9800;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF9800;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>SORTING VISUALIZER</b><br>Pick an algorithm and watch it sort<div id="info">Algorithm: Bubble Sort | Comparisons: 0</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="setAlgo('bubble')" class="a">BUBBLE</button>
+<button onclick="setAlgo('selection')">SELECT</button>
+<button onclick="setAlgo('insertion')">INSERT</button>
+<button onclick="setAlgo('quick')">QUICK</button>
+<button onclick="shuffle()">SHUFFLE</button>
+<button onclick="startSort()">▶ SORT</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+let arr=[],n=40,algo='bubble',sorting=false,comps=0,swaps=[],highlight=[-1,-1];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function shuffle(){arr=[];for(let i=0;i<n;i++)arr.push(Math.random());sorting=false;comps=0;highlight=[-1,-1]}
+shuffle();
+
+function setAlgo(a){algo=a;document.querySelectorAll('.ctrl button').forEach(b=>b.classList.remove('a'));event.target.classList.add('a');shuffle()}
+
+async function startSort(){
+  if(sorting)return;sorting=true;comps=0;
+  if(algo==='bubble')await bubbleSort();
+  else if(algo==='selection')await selectionSort();
+  else if(algo==='insertion')await insertionSort();
+  else if(algo==='quick')await quickSort(0,arr.length-1);
+  sorting=false;highlight=[-1,-1];
+}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+async function swap(i,j){let t=arr[i];arr[i]=arr[j];arr[j]=t;highlight=[i,j];comps++;
+  document.getElementById('info').textContent='Algorithm: '+algo.toUpperCase()+' | Comparisons: '+comps;await delay(30)}
+
+async function bubbleSort(){for(let i=0;i<arr.length;i++)for(let j=0;j<arr.length-i-1;j++){comps++;highlight=[j,j+1];if(arr[j]>arr[j+1])await swap(j,j+1);else await delay(10)}}
+async function selectionSort(){for(let i=0;i<arr.length;i++){let m=i;for(let j=i+1;j<arr.length;j++){comps++;highlight=[m,j];if(arr[j]<arr[m])m=j;await delay(10)}if(m!==i)await swap(i,m)}}
+async function insertionSort(){for(let i=1;i<arr.length;i++){let j=i;while(j>0&&arr[j-1]>arr[j]){await swap(j-1,j);j--}}}
+async function quickSort(lo,hi){if(lo>=hi)return;let p=await partition(lo,hi);await quickSort(lo,p-1);await quickSort(p+1,hi)}
+async function partition(lo,hi){let pivot=arr[hi],i=lo;for(let j=lo;j<hi;j++){comps++;highlight=[j,hi];if(arr[j]<pivot){await swap(i,j);i++}else await delay(10)}await swap(i,hi);return i}
+
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let bw=W/arr.length;
+  arr.forEach((v,i)=>{
+    let h=v*(H-100);
+    x.fillStyle=i===highlight[0]?'#FF5252':i===highlight[1]?'#4CAF50':'#FF9800';
+    x.fillRect(i*bw+1,H-60-h,bw-2,h);
+  });
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Plate Tectonics</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5722;color:#FF5722;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF5722;border:1px solid #FF5722;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF5722;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5722;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>PLATE TECTONICS</b><br>Drag plates to see effects<div id="info">Mode: Convergent</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="setMode('convergent')" class="a">CONVERGENT</button>
+<button onclick="setMode('divergent')">DIVERGENT</button>
+<button onclick="setMode('transform')">TRANSFORM</button>
+<button onclick="reset()">RESET</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,mode='convergent',plateL,plateR,speed=0,mountains=[],lava=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight;reset()}
+addEventListener('resize',resize);resize();
+
+function reset(){
+  plateL={x:W*0.1,w:W*0.35,y:H*0.5};
+  plateR={x:W*0.55,w:W*0.35,y:H*0.5};
+  speed=0;mountains=[];lava=[];
+}
+function setMode(m){mode=m;reset();
+  document.getElementById('info').textContent='Mode: '+m.charAt(0).toUpperCase()+m.slice(1);
+  document.querySelectorAll('.ctrl button').forEach(b=>b.classList.remove('a'));
+  event.target.classList.add('a');
+}
+
+let dragging=null,dragOff=0;
+c.addEventListener('pointerdown',e=>{
+  if(e.clientX<W/2){dragging='L';dragOff=e.clientX-plateL.x}
+  else{dragging='R';dragOff=e.clientX-plateR.x}
+});
+c.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  if(dragging==='L')plateL.x=e.clientX-dragOff;
+  else plateR.x=e.clientX-dragOff;
+});
+c.addEventListener('pointerup',()=>dragging=null);
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Mantle
+  let grad=x.createLinearGradient(0,H*0.5,0,H);
+  grad.addColorStop(0,'#8B0000');grad.addColorStop(1,'#FF4500');
+  x.fillStyle=grad;x.fillRect(0,H*0.55,W,H*0.45);
+
+  // Plates
+  x.fillStyle='#5D4037';x.fillRect(plateL.x,plateL.y-40,plateL.w,40);
+  x.fillStyle='#4E342E';x.fillRect(plateL.x,plateL.y-80,plateL.w,40);
+  x.fillStyle='#6D4C41';x.fillRect(plateR.x,plateR.y-40,plateR.w,40);
+  x.fillStyle='#5D4037';x.fillRect(plateR.x,plateR.y-80,plateR.w,40);
+
+  // Labels
+  x.fillStyle='#fff';x.font='bold 14px Courier';x.textAlign='center';
+  x.fillText('PLATE A',plateL.x+plateL.w/2,plateL.y-50);
+  x.fillText('PLATE B',plateR.x+plateR.w/2,plateR.y-50);
+
+  let gap=plateR.x-(plateL.x+plateL.w);
+
+  // Convergent — mountains grow when plates touch
+  if(mode==='convergent'&&gap<30){
+    let h=Math.min(200,(30-gap)*3);
+    for(let i=0;i<5;i++){
+      let mx=plateL.x+plateL.w-10+i*12;
+      x.fillStyle='#795548';
+      x.beginPath();x.moveTo(mx-15,plateL.y-80);x.lineTo(mx,plateL.y-80-h*(1-i*0.15));x.lineTo(mx+15,plateL.y-80);x.fill();
+      // Snow caps
+      if(h>100){x.fillStyle='#fff';x.beginPath();x.moveTo(mx-5,plateL.y-80-h*(1-i*0.15)+20);x.lineTo(mx,plateL.y-80-h*(1-i*0.15));x.lineTo(mx+5,plateL.y-80-h*(1-i*0.15)+20);x.fill()}
+    }
+    x.fillStyle='#FF5722';x.font='12px Courier';x.textAlign='center';
+    x.fillText('⬆ MOUNTAIN FORMATION',W/2,plateL.y-80-h-10);
+  }
+
+  // Divergent — magma rises in gap
+  if(mode==='divergent'&&gap>20){
+    x.fillStyle='#FF4500';x.fillRect(plateL.x+plateL.w,plateL.y-40,gap,40);
+    for(let i=0;i<8;i++){
+      let ly=plateL.y-40-Math.random()*gap*2;
+      x.fillStyle=`rgba(255,${100+Math.random()*100},0,${0.5+Math.random()*0.5})`;
+      x.fillRect(plateL.x+plateL.w+Math.random()*gap,ly,4,4);
+    }
+    x.fillStyle='#FF5722';x.font='12px Courier';x.textAlign='center';
+    x.fillText('⬆ MAGMA RISING — NEW CRUST',W/2,plateL.y-100);
+  }
+
+  // Transform — earthquake waves
+  if(mode==='transform'){
+    x.strokeStyle='rgba(255,200,0,0.6)';x.lineWidth=2;
+    let boundary=plateL.x+plateL.w;
+    for(let i=0;i<10;i++){
+      x.beginPath();
+      x.arc(boundary,plateL.y-40,10+i*15+Math.sin(Date.now()*0.005)*5,0,Math.PI*2);
+      x.stroke();
+    }
+    x.fillStyle='#FFAB00';x.font='12px Courier';x.textAlign='center';
+    x.fillText('⚡ EARTHQUAKE ZONE',W/2,plateL.y-120);
+  }
+
+  // Arrows
+  x.fillStyle='rgba(255,255,255,0.3)';x.font='24px Courier';
+  if(mode==='convergent'){x.fillText('→',plateL.x+plateL.w/2,plateL.y+30);x.fillText('←',plateR.x+plateR.w/2,plateR.y+30)}
+  if(mode==='divergent'){x.fillText('←',plateL.x+plateL.w/2,plateL.y+30);x.fillText('→',plateR.x+plateR.w/2,plateR.y+30)}
+  if(mode==='transform'){x.fillText('↑',plateL.x+plateL.w/2,plateL.y+30);x.fillText('↓',plateR.x+plateR.w/2,plateR.y+30)}
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

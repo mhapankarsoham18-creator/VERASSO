@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Solar System Scale</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #7C4DFF;color:#7C4DFF;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#7C4DFF;border:1px solid #7C4DFF;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#7C4DFF;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #7C4DFF;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>SOLAR SYSTEM SCALE</b><br>Scroll/drag to explore distances<div id="info">Tap a planet for info</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="scaleMode='size'" class="a">SIZE SCALE</button>
+<button onclick="scaleMode='dist'">DISTANCE SCALE</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,camX=0,scaleMode='size';
+const planets=[
+  {name:'Sun',r:40,dist:0,color:'#FFC107',info:'Star. Diameter: 1,391,000 km. Surface temp: 5,500°C. Mass: 333,000x Earth.'},
+  {name:'Mercury',r:3,dist:80,color:'#9E9E9E',info:'Smallest planet. Diameter: 4,879 km. No atmosphere. Temp: -180°C to 430°C.'},
+  {name:'Venus',r:6,dist:140,color:'#FFB74D',info:'Hottest planet (462°C). Diameter: 12,104 km. Dense CO₂ atmosphere. Rotates backwards.'},
+  {name:'Earth',r:6.5,dist:200,color:'#42A5F5',info:'Our home. Diameter: 12,742 km. Only known planet with life. 71% water surface.'},
+  {name:'Mars',r:4,dist:280,color:'#E53935',info:'Red Planet. Diameter: 6,779 km. Olympus Mons: tallest volcano (21.9 km). Thin CO₂ atmosphere.'},
+  {name:'Jupiter',r:22,dist:500,color:'#FFB74D',info:'Largest planet. Diameter: 139,820 km. Great Red Spot storm. 79+ moons. Gas giant.'},
+  {name:'Saturn',r:18,dist:750,color:'#FDD835',info:'Famous rings. Diameter: 116,460 km. Less dense than water! 82+ moons. Titan has lakes.'},
+  {name:'Uranus',r:12,dist:1000,color:'#80DEEA',info:'Ice giant. Diameter: 50,724 km. Rotates on its side (98° tilt). Very cold: -224°C.'},
+  {name:'Neptune',r:11,dist:1250,color:'#42A5F5',info:'Windiest planet (2,100 km/h). Diameter: 49,244 km. Deep blue color from methane.'},
+];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+addEventListener('resize',resize);resize();
+
+let dragging=false,lastX=0;
+c.addEventListener('pointerdown',e=>{
+  dragging=true;lastX=e.clientX;
+  // Check planet click
+  planets.forEach(p=>{
+    let px=p.dist*3-camX+80;
+    if(Math.abs(e.clientX-px)<p.r+10&&Math.abs(e.clientY-H/2)<p.r+10){
+      document.getElementById('info').innerHTML='<b>'+p.name+'</b><br>'+p.info;
+    }
+  });
+});
+c.addEventListener('pointermove',e=>{if(dragging){camX-=(e.clientX-lastX);lastX=e.clientX}});
+c.addEventListener('pointerup',()=>dragging=false);
+c.addEventListener('wheel',e=>{camX+=e.deltaY*2});
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Stars
+  for(let i=0;i<60;i++){x.fillStyle='rgba(255,255,255,'+Math.random()*0.5+')';x.fillRect(Math.random()*W,Math.random()*H,2,2)}
+  // Orbit line
+  x.strokeStyle='rgba(255,255,255,0.1)';x.beginPath();x.moveTo(0,H/2);x.lineTo(W*5,H/2);x.stroke();
+
+  planets.forEach(p=>{
+    let px=p.dist*3-camX+80,py=H/2;
+    if(px<-60||px>W+60)return;
+    // Glow
+    let grd=x.createRadialGradient(px,py,0,px,py,p.r*2);
+    grd.addColorStop(0,p.color+'44');grd.addColorStop(1,'transparent');
+    x.fillStyle=grd;x.fillRect(px-p.r*2,py-p.r*2,p.r*4,p.r*4);
+    // Planet
+    x.fillStyle=p.color;x.beginPath();x.arc(px,py,p.r,0,Math.PI*2);x.fill();
+    // Saturn rings
+    if(p.name==='Saturn'){x.strokeStyle=p.color+'88';x.lineWidth=3;x.beginPath();x.ellipse(px,py,p.r*1.8,p.r*0.4,0,0,Math.PI*2);x.stroke();x.lineWidth=1}
+    // Label
+    x.fillStyle='#ccc';x.font='10px Courier';x.textAlign='center';x.fillText(p.name,px,py+p.r+14);
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

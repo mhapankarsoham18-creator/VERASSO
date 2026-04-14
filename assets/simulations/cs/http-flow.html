@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>HTTP Request Flow</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #2196F3;color:#2196F3;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#2196F3;border:1px solid #2196F3;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#2196F3;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #2196F3;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>HTTP REQUEST FLOW</b><br>Watch a request travel through the internet<div id="info">Tap SEND to start a request</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="sendReq('GET')">GET</button>
+<button onclick="sendReq('POST')">POST</button>
+<button onclick="sendReq('PUT')">PUT</button>
+<button onclick="sendReq('DELETE')">DELETE</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,packets=[],method='';
+const stages=['CLIENT','DNS','FIREWALL','LOAD\nBALANCER','SERVER','DATABASE'];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function sendReq(m){method=m;packets.push({stage:0,dir:'out',method:m,progress:0})}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let sw=W/(stages.length),cy=H*0.4;
+  stages.forEach((s,i)=>{
+    x.fillStyle='#1a1a2e';x.fillRect(i*sw+10,cy-25,sw-20,50);
+    x.strokeStyle='#2196F3';x.strokeRect(i*sw+10,cy-25,sw-20,50);
+    x.fillStyle='#2196F3';x.font='bold 10px Courier';x.textAlign='center';x.fillText(s,i*sw+sw/2,cy+5);
+    if(i<stages.length-1){x.strokeStyle='#333';x.beginPath();x.moveTo(i*sw+sw-10,cy);x.lineTo((i+1)*sw+10,cy);x.stroke()}
+  });
+  packets.forEach(p=>{
+    p.progress+=0.02;
+    let si=Math.floor(p.progress);
+    if(p.dir==='out'&&si>=stages.length-1){p.dir='back';p.progress=stages.length-1}
+    if(p.dir==='back')p.progress-=0.04;
+    let px=p.progress*sw+sw/2;
+    x.fillStyle=p.dir==='out'?'#4CAF50':'#FF9800';
+    x.beginPath();x.arc(px,cy,8,0,Math.PI*2);x.fill();
+    x.fillStyle='#fff';x.font='bold 8px Courier';x.textAlign='center';
+    x.fillText(p.method,px,cy+3);
+  });
+  packets=packets.filter(p=>p.progress>0);
+  x.fillStyle='#888';x.font='11px Courier';x.textAlign='center';
+  x.fillText('🟢 Request (outgoing) → 🟠 Response (returning)',W/2,H-30);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

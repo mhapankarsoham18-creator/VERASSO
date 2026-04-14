@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Cellular Automata — Conway's Game of Life</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#0a0a0a;color:#e0e0e0;font-family:'Courier New',monospace;overflow:hidden;touch-action:none;height:100vh;display:flex;flex-direction:column}
+header{background:#111;border-bottom:2px solid #00e676;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+header h1{font-size:13px;color:#00e676;letter-spacing:2px;font-weight:900}
+.gen{font-size:11px;color:#76ff03;font-weight:700}
+.controls{display:flex;gap:6px;padding:6px 10px;background:#111;border-bottom:1px solid #333;flex-wrap:wrap;flex-shrink:0;align-items:center}
+.btn{background:#1a1a1a;border:2px solid #00e676;color:#00e676;font-family:'Courier New',monospace;font-size:11px;font-weight:900;padding:6px 10px;cursor:pointer;letter-spacing:1px;min-width:42px;text-align:center;border-radius:2px}
+.btn:active{background:#00e676;color:#000}
+.btn.active{background:#00e676;color:#000}
+.btn.danger{border-color:#ff5252;color:#ff5252}
+.btn.danger:active{background:#ff5252;color:#000}
+.presets{display:flex;gap:6px;padding:4px 10px;background:#0d0d0d;border-bottom:1px solid #222;flex-wrap:wrap;flex-shrink:0;align-items:center}
+.presets label{font-size:10px;color:#888;letter-spacing:1px;font-weight:700;margin-right:4px}
+.speed-row{display:flex;align-items:center;gap:6px;padding:4px 10px;background:#0d0d0d;border-bottom:1px solid #222;flex-shrink:0}
+.speed-row label{font-size:10px;color:#888;letter-spacing:1px;font-weight:700}
+.speed-row input[type=range]{flex:1;accent-color:#00e676;height:16px}
+.speed-row span{font-size:11px;color:#76ff03;font-weight:700;min-width:40px;text-align:right}
+.canvas-wrap{flex:1;position:relative;overflow:hidden;background:#050505}
+canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+.info-bar{background:#111;border-top:2px solid #00e676;padding:6px 10px;display:flex;justify-content:space-between;font-size:10px;color:#888;letter-spacing:1px;flex-shrink:0}
+.info-bar span{color:#00e676;font-weight:700}
+.rules-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:10;padding:16px;overflow-y:auto}
+.rules-overlay.show{display:block}
+.rules-overlay h2{color:#00e676;font-size:14px;margin-bottom:10px;letter-spacing:2px}
+.rules-overlay p{color:#aaa;font-size:12px;line-height:1.6;margin-bottom:8px}
+.rules-overlay .rule{color:#76ff03;font-weight:700;margin:4px 0}
+.close-rules{position:absolute;top:10px;right:14px;font-size:20px;color:#ff5252;cursor:pointer;font-weight:900}
+</style>
+</head>
+<body>
+<header>
+  <h1>CELLULAR AUTOMATA</h1>
+  <div class="gen" id="genLabel">GEN: 0</div>
+</header>
+
+<div class="controls">
+  <div class="btn" id="playBtn" ontouchstart="togglePlay()">▶ PLAY</div>
+  <div class="btn" id="stepBtn" ontouchstart="step()">STEP</div>
+  <div class="btn danger" id="clearBtn" ontouchstart="clearGrid()">CLEAR</div>
+  <div class="btn" id="randBtn" ontouchstart="randomize()">RANDOM</div>
+  <div class="btn" id="rulesBtn" ontouchstart="toggleRules()">? RULES</div>
+</div>
+
+<div class="presets">
+  <label>PRESETS:</label>
+  <div class="btn" ontouchstart="loadPreset('glider')">GLIDER</div>
+  <div class="btn" ontouchstart="loadPreset('blinker')">BLINKER</div>
+  <div class="btn" ontouchstart="loadPreset('pulsar')">PULSAR</div>
+  <div class="btn" ontouchstart="loadPreset('gliderGun')">GOSPER GUN</div>
+  <div class="btn" ontouchstart="loadPreset('lwss')">LWSS</div>
+</div>
+
+<div class="speed-row">
+  <label>SPEED:</label>
+  <input type="range" id="speedSlider" min="1" max="30" value="10">
+  <span id="speedVal">10 fps</span>
+</div>
+
+<div class="canvas-wrap">
+  <canvas id="grid"></canvas>
+  <div class="rules-overlay" id="rulesOverlay">
+    <span class="close-rules" ontouchstart="toggleRules()">✕</span>
+    <h2>CONWAY'S GAME OF LIFE</h2>
+    <p>A zero-player cellular automaton devised by mathematician John Conway in 1970. The "game" evolves based on its initial state with no further input.</p>
+    <p class="rule">1. UNDERPOPULATION: A live cell with fewer than 2 live neighbours dies.</p>
+    <p class="rule">2. SURVIVAL: A live cell with 2 or 3 live neighbours lives on.</p>
+    <p class="rule">3. OVERPOPULATION: A live cell with more than 3 live neighbours dies.</p>
+    <p class="rule">4. REPRODUCTION: A dead cell with exactly 3 live neighbours becomes alive.</p>
+    <p style="margin-top:12px;color:#888">Tap cells to toggle them alive/dead. Use presets to load famous patterns. Press PLAY to watch the simulation evolve!</p>
+  </div>
+</div>
+
+<div class="info-bar">
+  <div>ALIVE: <span id="aliveCount">0</span></div>
+  <div>GRID: <span id="gridSize">-</span></div>
+  <div>TAP TO DRAW</div>
+</div>
+
+<script>
+const canvas=document.getElementById('grid');
+const ctx=canvas.getContext('2d');
+const CELL=12;
+let cols,rows,cells,running=false,generation=0,animId=null,lastTime=0;
+let fps=10;
+
+function init(){
+  const wrap=canvas.parentElement;
+  canvas.width=wrap.clientWidth;
+  canvas.height=wrap.clientHeight;
+  cols=Math.floor(canvas.width/CELL);
+  rows=Math.floor(canvas.height/CELL);
+  cells=new Uint8Array(cols*rows);
+  document.getElementById('gridSize').textContent=cols+'×'+rows;
+  generation=0;
+  updateUI();
+  draw();
+}
+
+function idx(x,y){return y*cols+x}
+
+function countNeighbors(x,y){
+  let c=0;
+  for(let dy=-1;dy<=1;dy++){
+    for(let dx=-1;dx<=1;dx++){
+      if(dx===0&&dy===0)continue;
+      const nx=(x+dx+cols)%cols;
+      const ny=(y+dy+rows)%rows;
+      c+=cells[idx(nx,ny)];
+    }
+  }
+  return c;
+}
+
+function step(){
+  const next=new Uint8Array(cols*rows);
+  for(let y=0;y<rows;y++){
+    for(let x=0;x<cols;x++){
+      const i=idx(x,y);
+      const n=countNeighbors(x,y);
+      if(cells[i]){
+        next[i]=(n===2||n===3)?1:0;
+      }else{
+        next[i]=(n===3)?1:0;
+      }
+    }
+  }
+  cells=next;
+  generation++;
+  updateUI();
+  draw();
+}
+
+function draw(){
+  ctx.fillStyle='#050505';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  
+  // Grid lines
+  ctx.strokeStyle='#151515';
+  ctx.lineWidth=0.5;
+  for(let x=0;x<=cols;x++){
+    ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,rows*CELL);ctx.stroke();
+  }
+  for(let y=0;y<=rows;y++){
+    ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(cols*CELL,y*CELL);ctx.stroke();
+  }
+  
+  // Alive cells
+  for(let y=0;y<rows;y++){
+    for(let x=0;x<cols;x++){
+      if(cells[idx(x,y)]){
+        const heat=countNeighbors(x,y);
+        const g=Math.min(255,180+heat*20);
+        ctx.fillStyle=`rgb(0,${g},${Math.floor(g*0.45)})`;
+        ctx.fillRect(x*CELL+1,y*CELL+1,CELL-2,CELL-2);
+        // Pixel highlight
+        ctx.fillStyle='rgba(255,255,255,0.15)';
+        ctx.fillRect(x*CELL+1,y*CELL+1,CELL/2-1,CELL/2-1);
+      }
+    }
+  }
+}
+
+function gameLoop(timestamp){
+  if(!running)return;
+  const interval=1000/fps;
+  if(timestamp-lastTime>=interval){
+    lastTime=timestamp;
+    step();
+  }
+  animId=requestAnimationFrame(gameLoop);
+}
+
+function togglePlay(){
+  running=!running;
+  document.getElementById('playBtn').textContent=running?'⏸ PAUSE':'▶ PLAY';
+  document.getElementById('playBtn').classList.toggle('active',running);
+  if(running){lastTime=performance.now();animId=requestAnimationFrame(gameLoop);}
+  else if(animId){cancelAnimationFrame(animId);}
+}
+
+function clearGrid(){
+  if(running)togglePlay();
+  cells.fill(0);
+  generation=0;
+  updateUI();
+  draw();
+}
+
+function randomize(){
+  if(running)togglePlay();
+  for(let i=0;i<cells.length;i++){
+    cells[i]=Math.random()<0.3?1:0;
+  }
+  generation=0;
+  updateUI();
+  draw();
+}
+
+function updateUI(){
+  document.getElementById('genLabel').textContent='GEN: '+generation;
+  let alive=0;for(let i=0;i<cells.length;i++)alive+=cells[i];
+  document.getElementById('aliveCount').textContent=alive;
+}
+
+function toggleRules(){
+  document.getElementById('rulesOverlay').classList.toggle('show');
+}
+
+// Presets
+const PRESETS={
+  glider:[[1,0],[2,1],[0,2],[1,2],[2,2]],
+  blinker:[[0,0],[1,0],[2,0]],
+  pulsar:[
+    [2,0],[3,0],[4,0],[8,0],[9,0],[10,0],
+    [0,2],[5,2],[7,2],[12,2],
+    [0,3],[5,3],[7,3],[12,3],
+    [0,4],[5,4],[7,4],[12,4],
+    [2,5],[3,5],[4,5],[8,5],[9,5],[10,5],
+    [2,7],[3,7],[4,7],[8,7],[9,7],[10,7],
+    [0,8],[5,8],[7,8],[12,8],
+    [0,9],[5,9],[7,9],[12,9],
+    [0,10],[5,10],[7,10],[12,10],
+    [2,12],[3,12],[4,12],[8,12],[9,12],[10,12]
+  ],
+  gliderGun:[
+    [24,0],[22,1],[24,1],[12,2],[13,2],[20,2],[21,2],[34,2],[35,2],
+    [11,3],[15,3],[20,3],[21,3],[34,3],[35,3],
+    [0,4],[1,4],[10,4],[16,4],[20,4],[21,4],
+    [0,5],[1,5],[10,5],[14,5],[16,5],[17,5],[22,5],[24,5],
+    [10,6],[16,6],[24,6],
+    [11,7],[15,7],
+    [12,8],[13,8]
+  ],
+  lwss:[[1,0],[4,0],[0,1],[0,2],[4,2],[0,3],[1,3],[2,3],[3,3]]
+};
+
+function loadPreset(name){
+  if(running)togglePlay();
+  cells.fill(0);
+  generation=0;
+  const p=PRESETS[name];
+  if(!p)return;
+  const ox=Math.floor(cols/2)-6;
+  const oy=Math.floor(rows/2)-6;
+  p.forEach(([px,py])=>{
+    const x=ox+px;
+    const y=oy+py;
+    if(x>=0&&x<cols&&y>=0&&y<rows)cells[idx(x,y)]=1;
+  });
+  updateUI();
+  draw();
+}
+
+// Touch/Mouse drawing
+let drawing=false;
+canvas.addEventListener('mousedown',(e)=>{handleDraw(e);drawing=true});
+canvas.addEventListener('mousemove',(e)=>{if(drawing)handleDraw(e)});
+canvas.addEventListener('mouseup',()=>drawing=false);
+canvas.addEventListener('touchstart',(e)=>{e.preventDefault();handleTouch(e)},{passive:false});
+canvas.addEventListener('touchmove',(e)=>{e.preventDefault();handleTouch(e)},{passive:false});
+
+function handleDraw(e){
+  const rect=canvas.getBoundingClientRect();
+  const sx=canvas.width/rect.width;
+  const sy=canvas.height/rect.height;
+  const x=Math.floor((e.clientX-rect.left)*sx/CELL);
+  const y=Math.floor((e.clientY-rect.top)*sy/CELL);
+  if(x>=0&&x<cols&&y>=0&&y<rows){
+    cells[idx(x,y)]=cells[idx(x,y)]?0:1;
+    updateUI();
+    draw();
+  }
+}
+
+function handleTouch(e){
+  for(const t of e.touches){
+    const rect=canvas.getBoundingClientRect();
+    const sx=canvas.width/rect.width;
+    const sy=canvas.height/rect.height;
+    const x=Math.floor((t.clientX-rect.left)*sx/CELL);
+    const y=Math.floor((t.clientY-rect.top)*sy/CELL);
+    if(x>=0&&x<cols&&y>=0&&y<rows){
+      cells[idx(x,y)]=1;
+    }
+  }
+  updateUI();
+  draw();
+}
+
+// Speed slider
+const slider=document.getElementById('speedSlider');
+slider.addEventListener('input',()=>{
+  fps=parseInt(slider.value);
+  document.getElementById('speedVal').textContent=fps+' fps';
+});
+
+// Init
+window.addEventListener('resize',init);
+init();
+</script>
+</body>
+</html>

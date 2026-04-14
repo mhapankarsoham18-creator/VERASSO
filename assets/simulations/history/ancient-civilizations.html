@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #ffab00;color:#ffab00;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#ffab00;border:1px solid #ffab00;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#ffab00;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: ANCIENT CIVILIZATIONS</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,sel=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const civs=[{name:'MESOPOTAMIA',year:'3500 BCE',desc:'Writing, wheel, irrigation',color:'#ff8f00',x:0.55,y:0.4},{name:'EGYPT',year:'3100 BCE',desc:'Pyramids, hieroglyphs, papyrus',color:'#ffc107',x:0.48,y:0.45},{name:'INDUS VALLEY',year:'2600 BCE',desc:'Urban planning, drainage systems',color:'#ff7043',x:0.65,y:0.45},{name:'CHINA',year:'2070 BCE',desc:'Silk, bronze, writing systems',color:'#ef5350',x:0.75,y:0.38},{name:'GREECE',year:'800 BCE',desc:'Democracy, philosophy, Olympics',color:'#42a5f5',x:0.47,y:0.35},{name:'ROME',year:'753 BCE',desc:'Republic, engineering, law',color:'#ab47bc',x:0.45,y:0.37},{name:'MAYA',year:'2000 BCE',desc:'Calendar, mathematics, astronomy',color:'#66bb6a',x:0.18,y:0.5}];
+c.addEventListener('pointerdown',()=>{sel=(sel+1)%civs.length});
+function loop(){x.fillStyle='#1a1a2e';x.fillRect(0,0,W,H);
+civs.forEach((cv,i)=>{let px=cv.x*W,py=cv.y*H,r=i===sel?25:12;
+x.beginPath();x.arc(px,py,r,0,Math.PI*2);x.fillStyle=i===sel?cv.color:cv.color+'44';x.fill();x.strokeStyle=cv.color;x.lineWidth=i===sel?3:1;x.stroke()});
+let cv=civs[sel];x.fillStyle=cv.color;x.font='bold 24px Courier New';x.textAlign='center';x.fillText(cv.name,W/2,H*0.78);x.fillStyle='#fff';x.font='16px Courier New';x.fillText(cv.year,W/2,H*0.84);x.fillStyle='#ccc';x.font='13px Courier New';x.fillText(cv.desc,W/2,H*0.9);
+x.fillStyle='#555';x.font='11px Courier New';x.fillText(`[${sel+1}/${civs.length}] Tap to cycle`,W/2,H*0.96);requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

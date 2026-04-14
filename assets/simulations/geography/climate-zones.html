@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Climate Zones</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF9800;color:#FF9800;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF9800;border:1px solid #FF9800;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF9800;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF9800;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>CLIMATE ZONES</b><br>Tap a zone to learn about it</div>
+<div class="info" id="detail">Select a climate zone to see details.</div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,selected=-1;
+const zones=[
+  {name:'ARCTIC',yStart:0,yEnd:0.1,color:'#B3E5FC',desc:'Extreme cold year-round. Permafrost, tundra vegetation. Avg temp below -10°C. Home to polar bears, seals.'},
+  {name:'SUBARCTIC',yStart:0.1,yEnd:0.2,color:'#81D4FA',desc:'Long cold winters, short cool summers. Taiga/boreal forests. Avg -5°C to 5°C. Coniferous forests dominate.'},
+  {name:'TEMPERATE',yStart:0.2,yEnd:0.35,color:'#AED581',desc:'Four distinct seasons. Moderate rainfall. Avg 5°C to 20°C. Deciduous forests, agriculture zones.'},
+  {name:'SUBTROPICAL',yStart:0.35,yEnd:0.45,color:'#FFD54F',desc:'Hot humid summers, mild winters. Avg 15°C to 25°C. Diverse ecosystems, citrus farming regions.'},
+  {name:'TROPICAL',yStart:0.45,yEnd:0.55,color:'#FF8A65',desc:'Hot and wet year-round. Avg 25°C to 30°C. Rainforests, highest biodiversity on Earth. >2000mm rain/year.'},
+  {name:'SUBTROPICAL (S)',yStart:0.55,yEnd:0.65,color:'#FFD54F',desc:'Southern hemisphere subtropical. Similar to northern counterpart. Mediterranean climates common.'},
+  {name:'TEMPERATE (S)',yStart:0.65,yEnd:0.8,color:'#AED581',desc:'Southern temperate zone. New Zealand, Patagonia. Oceanic influence moderates temperatures.'},
+  {name:'SUBARCTIC (S)',yStart:0.8,yEnd:0.9,color:'#81D4FA',desc:'Sub-Antarctic zone. Very few landmasses. Strong winds, cold ocean currents.'},
+  {name:'ANTARCTIC',yStart:0.9,yEnd:1.0,color:'#B3E5FC',desc:'Coldest place on Earth. Ice sheets up to 4km thick. Avg -50°C. Penguins, krill, research stations.'},
+];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+addEventListener('resize',resize);resize();
+
+c.addEventListener('pointerdown',e=>{
+  let ny=e.clientY/H;
+  for(let i=0;i<zones.length;i++){
+    if(ny>=zones[i].yStart&&ny<zones[i].yEnd){selected=i;break}
+  }
+  if(selected>=0)document.getElementById('detail').innerHTML='<b>'+zones[selected].name+'</b><br>'+zones[selected].desc;
+});
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  zones.forEach((z,i)=>{
+    let y1=z.yStart*H,y2=z.yEnd*H;
+    x.fillStyle=i===selected?'rgba(255,255,255,0.15)':'rgba(0,0,0,0)';
+    x.fillRect(0,y1,W,y2-y1);
+    x.fillStyle=z.color;x.globalAlpha=0.5;x.fillRect(0,y1,W,y2-y1);x.globalAlpha=1;
+    // Label
+    x.fillStyle='#fff';x.font='bold 13px Courier';x.textAlign='center';
+    x.fillText(z.name,W/2,y1+(y2-y1)/2+5);
+    // Latitude lines
+    x.strokeStyle='rgba(255,255,255,0.2)';x.setLineDash([4,4]);
+    x.beginPath();x.moveTo(0,y1);x.lineTo(W,y1);x.stroke();x.setLineDash([]);
+    // Latitude label
+    let lat=Math.round(90-z.yStart*180);
+    x.fillStyle='#888';x.font='10px Courier';x.textAlign='left';
+    x.fillText(lat+'°',5,y1+12);
+  });
+  // Sun indicator
+  let sunY=H*0.5+Math.sin(Date.now()*0.001)*H*0.1;
+  x.fillStyle='#FFC107';x.beginPath();x.arc(W-30,sunY,12,0,Math.PI*2);x.fill();
+  x.fillStyle='#fff';x.font='10px Courier';x.textAlign='right';x.fillText('☀ SUN',W-10,sunY-18);
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

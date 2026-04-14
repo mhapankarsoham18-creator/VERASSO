@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Binary Counter</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00e676;color:#00e676;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#00e676;border:1px solid #00e676;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#00e676;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00e676;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>BINARY COUNTER</b><br>Tap bits to toggle | Tap number to increment<div id="info">DEC: 0 | HEX: 0x00 | OCT: 000</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="num=0;updateInfo()">RESET</button>
+<button onclick="num=(num+1)%256;updateInfo()">+1</button>
+<button onclick="num=(num-1+256)%256;updateInfo()">-1</button>
+<button onclick="num=Math.floor(Math.random()*256);updateInfo()">RANDOM</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,num=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function updateInfo(){document.getElementById('info').textContent=
+  'DEC: '+num+' | HEX: 0x'+num.toString(16).toUpperCase().padStart(2,'0')+' | OCT: '+num.toString(8).padStart(3,'0')}
+c.addEventListener('pointerdown',e=>{
+  let bw=W/10;
+  for(let i=0;i<8;i++){
+    let bx=W/2-4*bw+i*bw+bw*0.1,by=H*0.3;
+    if(e.clientX>bx&&e.clientX<bx+bw*0.8&&e.clientY>by&&e.clientY<by+bw*0.8){
+      num^=(1<<(7-i));num=((num%256)+256)%256;updateInfo();return;
+    }
+  }
+  // Tap on decimal number to increment
+  if(e.clientY>H*0.55&&e.clientY<H*0.8){num=(num+1)%256;updateInfo()}
+});
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let bin=num.toString(2).padStart(8,'0'),bw=W/10;
+  for(let i=0;i<8;i++){
+    let bx=W/2-4*bw+i*bw+bw*0.1,by=H*0.3;
+    // Bit box
+    x.fillStyle=bin[i]==='1'?'#00e676':'#1a1a2e';x.fillRect(bx,by,bw*0.8,bw*0.8);
+    x.strokeStyle='#00e676';x.lineWidth=2;x.strokeRect(bx,by,bw*0.8,bw*0.8);
+    // Bit value
+    x.fillStyle='#fff';x.font='bold '+Math.floor(bw*0.45)+'px Courier';x.textAlign='center';
+    x.fillText(bin[i],bx+bw*0.4,by+bw*0.55);
+    // Power of 2 label
+    x.fillStyle='#555';x.font='10px Courier';x.fillText(Math.pow(2,7-i).toString(),bx+bw*0.4,by+bw+15);
+    // Bit position
+    x.fillStyle='#333';x.font='9px Courier';x.fillText('bit '+i,bx+bw*0.4,by-8);
+  }
+  // Decimal display
+  x.fillStyle='#00e676';x.font='bold 52px Courier';x.textAlign='center';x.fillText(num.toString(),W/2,H*0.7);
+  x.fillStyle='#666';x.font='12px Courier';x.fillText('Tap bits to toggle | Tap number to increment',W/2,H*0.9);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        body { margin: 0; background: #2E2E2E; color: #FFF; font-family: 'Courier New', Courier, monospace; overflow-x: hidden; }
+        #timeline { display: flex; align-items: center; height: 100vh; width: 500vw; background: linear-gradient(90deg, #1A1A1A, #4A4A4A); overflow-y: hidden; }
+        .era { width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 4px dashed #D32F2F; flex-shrink: 0; }
+        h1 { font-size: 3rem; margin: 0; color: #FFEB3B; }
+        p { font-size: 1.2rem; max-width: 80%; text-align: center; }
+        .hud { position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid #D32F2F; color: #00FFCC; z-index: 100; }
+    </style>
+</head>
+<body>
+    <div class="hud">MODULE: TEMPORAL NAVIGATION<br>Swipe left/right to traverse eras.</div>
+    <div id="timeline">
+        <div class="era">
+            <h1>3000 BCE</h1>
+            <p>The dawn of written language in Mesopotamia.</p>
+        </div>
+        <div class="era">
+            <h1>476 CE</h1>
+            <p>The fall of the Western Roman Empire.</p>
+        </div>
+        <div class="era">
+            <h1>1492 CE</h1>
+            <p>Columbus reaches the Americas, altering global exchange.</p>
+        </div>
+        <div class="era">
+            <h1>1969 CE</h1>
+            <p>Apollo 11 context: Humankind sets foot on the Moon.</p>
+        </div>
+        <div class="era">
+            <h1>2026 CE</h1>
+            <p>The VERASSO Grid goes online.</p>
+        </div>
+    </div>
+    <script>
+        const timeline = document.getElementById('timeline');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        timeline.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - timeline.offsetLeft;
+            scrollLeft = document.documentElement.scrollLeft;
+        });
+        timeline.addEventListener('mouseleave', () => { isDown = false; });
+        timeline.addEventListener('mouseup', () => { isDown = false; });
+        timeline.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - timeline.offsetLeft;
+            const walk = (x - startX) * 2; 
+            window.scrollTo(scrollLeft - walk, 0);
+        });
+
+        // Touch support
+        timeline.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - timeline.offsetLeft;
+            scrollLeft = document.documentElement.scrollLeft;
+        });
+        timeline.addEventListener('touchend', () => { isDown = false; });
+        timeline.addEventListener('touchmove', (e) => {
+            if(!isDown) return;
+            const x = e.touches[0].pageX - timeline.offsetLeft;
+            const walk = (x - startX) * 2;
+            window.scrollTo(scrollLeft - walk, 0);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>CPU Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #E91E63;color:#E91E63;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#E91E63;border:1px solid #E91E63;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#E91E63;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #E91E63;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>CPU PIPELINE</b><br>Watch instructions flow through stages<div id="info">5-stage RISC pipeline</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl"><button onclick="addInstr()">ADD INSTRUCTION</button><button onclick="instructions=[];tick=0">RESET</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,instructions=[],tick=0,counter=1;
+const stages=['FETCH','DECODE','EXECUTE','MEMORY','WRITEBACK'];
+const stageColors=['#42A5F5','#66BB6A','#FF9800','#E91E63','#7C4DFF'];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function addInstr(){instructions.push({id:counter++,stage:0,name:'INSTR #'+(counter-1)})}
+setInterval(()=>{instructions.forEach(inst=>{if(inst.stage<5)inst.stage++});tick++},800);
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let sw=W/5;
+  stages.forEach((s,i)=>{
+    x.fillStyle=stageColors[i]+'33';x.fillRect(i*sw,40,sw-4,H-100);
+    x.fillStyle=stageColors[i];x.font='bold 12px Courier';x.textAlign='center';
+    x.fillText(s,i*sw+sw/2,30);
+  });
+  instructions.forEach(inst=>{
+    if(inst.stage>=5)return;
+    let ix=inst.stage*sw+10,iy=80+(inst.id-1)*40;
+    if(iy>H-80)return;
+    x.fillStyle=stageColors[inst.stage];x.fillRect(ix,iy,sw-24,30);
+    x.fillStyle='#fff';x.font='bold 11px Courier';x.textAlign='center';
+    x.fillText(inst.name,ix+(sw-24)/2,iy+20);
+  });
+  x.fillStyle='#888';x.font='11px Courier';x.textAlign='center';
+  x.fillText('CLOCK CYCLE: '+tick,W/2,H-20);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

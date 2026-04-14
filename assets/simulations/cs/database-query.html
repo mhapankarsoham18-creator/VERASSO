@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Database Queries</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF6F00;color:#FF6F00;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF6F00;border:1px solid #FF6F00;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF6F00;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF6F00;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>SQL QUERY VISUALIZER</b><br>Type SQL to query the table<div id="info">Try: SELECT * FROM students WHERE grade > 80</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl" style="flex-direction:column;align-items:center">
+<input type="text" id="sql" value="SELECT * FROM students WHERE grade > 80" style="width:90%;max-width:400px;background:#111;color:#FF6F00;border:1px solid #FF6F00;padding:8px;font-family:inherit;font-size:11px">
+<button onclick="runQuery()" style="margin-top:4px">▶ RUN QUERY</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+const data=[
+  {id:1,name:'Alice',grade:92,age:17},{id:2,name:'Bob',grade:78,age:18},
+  {id:3,name:'Carol',grade:85,age:17},{id:4,name:'Dave',grade:65,age:19},
+  {id:5,name:'Eve',grade:95,age:16},{id:6,name:'Frank',grade:72,age:18},
+  {id:7,name:'Grace',grade:88,age:17},{id:8,name:'Hank',grade:55,age:19},
+];
+let results=[...data],highlight=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function runQuery(){
+  let sql=document.getElementById('sql').value.toLowerCase();results=[...data];highlight=[];
+  // Parse WHERE clause
+  let whereMatch=sql.match(/where\s+(\w+)\s*([><=!]+)\s*(\w+)/);
+  if(whereMatch){
+    let[_,col,op,val]=whereMatch;
+    results=data.filter(row=>{
+      let v=row[col];let target=isNaN(val)?val:+val;
+      if(op==='>')return v>target;if(op==='<')return v<target;
+      if(op==='='||op==='==')return v==target;if(op==='>=')return v>=target;
+      if(op==='<=')return v<=target;if(op==='!='||op==='<>')return v!=target;return true;
+    });
+    highlight=results.map(r=>r.id);
+  }
+  document.getElementById('info').textContent='Results: '+results.length+' rows';
+}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cols=['id','name','grade','age'],colW=W/cols.length,rowH=28,startY=50;
+  // Header
+  cols.forEach((col,i)=>{x.fillStyle='#FF6F00';x.font='bold 12px Courier';x.textAlign='center';x.fillText(col.toUpperCase(),i*colW+colW/2,startY)});
+  x.strokeStyle='#FF6F00';x.beginPath();x.moveTo(0,startY+8);x.lineTo(W,startY+8);x.stroke();
+  // Rows
+  data.forEach((row,ri)=>{
+    let y=startY+30+ri*rowH;
+    let isHighlighted=highlight.includes(row.id);
+    if(isHighlighted){x.fillStyle='rgba(255,111,0,0.15)';x.fillRect(0,y-12,W,rowH)}
+    cols.forEach((col,ci)=>{
+      x.fillStyle=isHighlighted?'#FF6F00':'#888';x.font='11px Courier';x.textAlign='center';
+      x.fillText(row[col].toString(),ci*colW+colW/2,y+5);
+    });
+  });
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

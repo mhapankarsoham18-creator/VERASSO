@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Time Zones</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FFC107;color:#FFC107;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FFC107;border:1px solid #FFC107;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FFC107;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FFC107;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>WORLD TIME ZONES</b><br>Drag the slider to change the hour<div id="info">UTC+0 | 12:00</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,utcOff=0;
+const cities=[
+  {name:'London',off:0},{name:'Paris',off:1},{name:'Cairo',off:2},{name:'Moscow',off:3},
+  {name:'Dubai',off:4},{name:'Mumbai',off:5.5},{name:'Bangkok',off:7},{name:'Beijing',off:8},
+  {name:'Tokyo',off:9},{name:'Sydney',off:11},{name:'Auckland',off:13},
+  {name:'Anchorage',off:-9},{name:'Los Angeles',off:-8},{name:'Denver',off:-7},
+  {name:'Chicago',off:-6},{name:'New York',off:-5},{name:'São Paulo',off:-3},
+];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+addEventListener('resize',resize);resize();
+
+let dragging=false;
+c.addEventListener('pointerdown',()=>dragging=true);
+c.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  utcOff=Math.round(((e.clientX/W)*26-13)*2)/2; // -13 to +13 in 0.5 steps
+  let h=12+utcOff;if(h<0)h+=24;if(h>=24)h-=24;
+  let hStr=Math.floor(h).toString().padStart(2,'0')+':'+(h%1===0.5?'30':'00');
+  document.getElementById('info').textContent='UTC'+(utcOff>=0?'+':'')+utcOff+' | '+hStr;
+});
+c.addEventListener('pointerup',()=>dragging=false);
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+
+  // Day/night gradient
+  let sunX=(utcOff+13)/26*W;
+  let dayGrad=x.createLinearGradient(sunX-W*0.3,0,sunX+W*0.3,0);
+  dayGrad.addColorStop(0,'rgba(255,200,50,0.05)');dayGrad.addColorStop(0.5,'rgba(255,200,50,0.15)');dayGrad.addColorStop(1,'rgba(255,200,50,0.05)');
+  x.fillStyle=dayGrad;x.fillRect(0,0,W,H);
+
+  // Time zone columns
+  for(let i=-12;i<=13;i++){
+    let lx=(i+13)/26*W;
+    x.strokeStyle='rgba(255,255,255,0.1)';x.beginPath();x.moveTo(lx,40);x.lineTo(lx,H-60);x.stroke();
+    x.fillStyle='#555';x.font='9px Courier';x.textAlign='center';
+    x.fillText((i>=0?'+':'')+i,lx,35);
+  }
+
+  // Cities
+  cities.forEach(city=>{
+    let cx=(city.off+13)/26*W,cy=H*0.3+Math.random()*0;
+    let localH=12+city.off;if(localH<0)localH+=24;if(localH>=24)localH-=24;
+    let isDay=localH>=6&&localH<18;
+    x.fillStyle=isDay?'#FFC107':'#5C6BC0';
+    x.beginPath();x.arc(cx,H*0.45,6,0,Math.PI*2);x.fill();
+    x.fillStyle='#fff';x.font='10px Courier';x.textAlign='center';
+    x.fillText(city.name,cx,H*0.45+20);
+    let hStr=Math.floor(localH).toString().padStart(2,'0')+':'+(localH%1===0.5?'30':'00');
+    x.fillStyle=isDay?'#FFC107':'#7986CB';x.fillText(hStr,cx,H*0.45+32);
+  });
+
+  // Slider bar
+  x.fillStyle='#333';x.fillRect(20,H-40,W-40,8);
+  let knobX=(utcOff+13)/26*(W-40)+20;
+  x.fillStyle='#FFC107';x.beginPath();x.arc(knobX,H-36,12,0,Math.PI*2);x.fill();
+  x.fillStyle='#000';x.font='bold 9px Courier';x.textAlign='center';
+  x.fillText((utcOff>=0?'+':'')+utcOff,knobX,H-33);
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

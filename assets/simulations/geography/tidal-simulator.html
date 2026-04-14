@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Tidal Simulator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #0288D1;color:#0288D1;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#0288D1;border:1px solid #0288D1;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#0288D1;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #0288D1;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>TIDAL SIMULATOR</b><br>Watch tides change with Moon position<div id="info">Drag the moon to see tides change</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,moonAngle=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+let dragging=false;
+c.addEventListener('pointerdown',()=>dragging=true);
+c.addEventListener('pointermove',e=>{if(dragging)moonAngle=Math.atan2(e.clientY-H/2,e.clientX-W/2)});
+c.addEventListener('pointerup',()=>dragging=false);
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cx=W/2,cy=H/2,er=Math.min(W,H)*0.15;
+  // Stars
+  for(let i=0;i<30;i++){x.fillStyle='rgba(255,255,255,0.3)';x.fillRect(Math.random()*W,Math.random()*H,1,1)}
+  // Earth
+  x.fillStyle='#1565C0';x.beginPath();x.arc(cx,cy,er,0,Math.PI*2);x.fill();
+  x.fillStyle='#2E7D32';x.beginPath();x.arc(cx-er*0.2,cy-er*0.1,er*0.3,0,Math.PI*2);x.fill();
+  // Tidal bulge
+  let bulgeX=Math.cos(moonAngle)*er*0.3,bulgeY=Math.sin(moonAngle)*er*0.3;
+  x.fillStyle='rgba(66,165,245,0.5)';
+  x.beginPath();x.ellipse(cx+bulgeX,cy+bulgeY,er*1.25,er*0.9,moonAngle,0,Math.PI*2);x.fill();
+  x.beginPath();x.ellipse(cx-bulgeX,cy-bulgeY,er*1.2,er*0.85,moonAngle,0,Math.PI*2);x.fill();
+  // Moon
+  let mr=Math.min(W,H)*0.35;
+  let mx=cx+Math.cos(moonAngle)*mr,my=cy+Math.sin(moonAngle)*mr;
+  x.fillStyle='#E0E0E0';x.beginPath();x.arc(mx,my,18,0,Math.PI*2);x.fill();
+  x.fillStyle='#BDBDBD';x.beginPath();x.arc(mx-5,my-5,4,0,Math.PI*2);x.fill();
+  x.fillText('MOON',mx,my+30);
+  // Labels
+  x.fillStyle='#fff';x.font='10px Courier';x.textAlign='center';
+  x.fillText('EARTH',cx,cy+er+15);
+  x.fillText('High Tide ↑',cx+bulgeX*2.5,cy+bulgeY*2.5);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

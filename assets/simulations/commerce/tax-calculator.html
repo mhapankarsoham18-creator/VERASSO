@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #26a69a;color:#26a69a;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#26a69a;border:1px solid #26a69a;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#26a69a;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: TAX CALCULATOR</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,income=50000;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointermove',e=>{income=Math.max(0,Math.floor(e.clientX/W*500000))});
+const brackets=[{rate:0,upto:10000,color:'#4caf50'},{rate:10,upto:25000,color:'#8bc34a'},{rate:15,upto:50000,color:'#ffc107'},{rate:20,upto:100000,color:'#ff9800'},{rate:25,upto:250000,color:'#ff5722'},{rate:30,upto:500000,color:'#f44336'}];
+function calcTax(inc){let tax=0,prev=0;for(let b of brackets){let taxable=Math.min(inc,b.upto)-prev;if(taxable<=0)break;tax+=taxable*b.rate/100;prev=b.upto}return tax}
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);let tax=calcTax(income);let eff=(tax/Math.max(income,1))*100;
+x.fillStyle='#26a69a';x.font='bold 20px Courier';x.textAlign='center';x.fillText('PROGRESSIVE TAX CALCULATOR',W/2,40);
+x.fillStyle='#fff';x.font='bold 28px Courier';x.fillText('$'+income.toLocaleString(),W/2,90);x.font='16px Courier';x.fillStyle='#f44336';x.fillText('Tax: $'+tax.toFixed(0)+` (${eff.toFixed(1)}% effective)`,W/2,120);
+x.fillStyle='#4caf50';x.fillText('Take-home: $'+(income-tax).toFixed(0),W/2,145);
+let by=180,bh=35;brackets.forEach((b,i)=>{let y=by+i*(bh+5);x.fillStyle=b.color+'44';x.fillRect(50,y,W-100,bh);
+let filled=Math.min(1,Math.max(0,(income-((i>0)?brackets[i-1].upto:0))/(b.upto-((i>0)?brackets[i-1].upto:0))));
+x.fillStyle=b.color+'88';x.fillRect(50,y,(W-100)*filled,bh);x.strokeStyle=b.color;x.strokeRect(50,y,W-100,bh);
+x.fillStyle='#fff';x.font='11px Courier';x.textAlign='left';x.fillText(`${b.rate}% up to $${b.upto.toLocaleString()}`,60,y+22)});
+x.fillStyle='#666';x.font='11px Courier';x.textAlign='center';x.fillText('Move pointer left/right to change income',W/2,H-20);
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

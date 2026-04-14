@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #d32f2f;color:#d32f2f;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#d32f2f;border:1px solid #d32f2f;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#d32f2f;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: WORLD WARS TIMELINE</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,scroll=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const events=[{year:1914,title:'WWI Begins',desc:'Assassination of Archduke Franz Ferdinand'},{year:1916,title:'Battle of Somme',desc:'1M+ casualties in 5 months'},{year:1917,title:'US Enters WWI',desc:'Zimmermann Telegram intercepted'},{year:1918,title:'WWI Ends',desc:'Armistice signed Nov 11'},{year:1929,title:'Great Depression',desc:'Stock market crash'},{year:1939,title:'WWII Begins',desc:'Germany invades Poland'},{year:1941,title:'Pearl Harbor',desc:'US enters WWII'},{year:1944,title:'D-Day',desc:'Allied invasion of Normandy'},{year:1945,title:'WWII Ends',desc:'Hiroshima, Nagasaki, surrender'}];
+let drag=false,ly=0;c.addEventListener('pointerdown',e=>{drag=true;ly=e.clientY});c.addEventListener('pointerup',()=>drag=false);
+c.addEventListener('pointermove',e=>{if(drag){scroll+=e.clientY-ly;ly=e.clientY;scroll=Math.min(0,Math.max(-(events.length*120-H+100),scroll))}});
+function loop(){x.fillStyle='#1a0a0a';x.fillRect(0,0,W,H);
+let lineX=W*0.15;x.strokeStyle='#d32f2f';x.lineWidth=3;x.beginPath();x.moveTo(lineX,0);x.lineTo(lineX,H);x.stroke();
+events.forEach((ev,i)=>{let py=100+i*120+scroll;if(py<-50||py>H+50)return;
+x.beginPath();x.arc(lineX,py,8,0,Math.PI*2);x.fillStyle='#d32f2f';x.fill();
+x.fillStyle='#ff8a80';x.font='bold 16px Courier New';x.textAlign='left';x.fillText(ev.year+' - '+ev.title,lineX+25,py-5);
+x.fillStyle='#ccc';x.font='12px Courier New';x.fillText(ev.desc,lineX+25,py+15)});
+x.fillStyle='#666';x.font='10px Courier New';x.textAlign='center';x.fillText('Drag to scroll',W/2,H-15);requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

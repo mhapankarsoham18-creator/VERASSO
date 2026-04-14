@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #42a5f5;color:#42a5f5;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#42a5f5;border:1px solid #42a5f5;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#42a5f5;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: GDP TRACKER</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const countries=[{name:'USA',gdp:25.5,color:'#4caf50'},{name:'China',gdp:18.3,color:'#f44336'},{name:'Japan',gdp:4.2,color:'#ff9800'},{name:'Germany',gdp:4.1,color:'#2196f3'},{name:'India',gdp:3.7,color:'#ff9800'},{name:'UK',gdp:3.1,color:'#9c27b0'},{name:'France',gdp:2.8,color:'#00bcd4'},{name:'Brazil',gdp:1.9,color:'#8bc34a'}];
+let maxGDP=Math.max(...countries.map(c=>c.gdp));
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+x.fillStyle='#42a5f5';x.font='bold 18px Courier';x.textAlign='center';x.fillText('GDP BY COUNTRY (Trillion USD)',W/2,35);
+let barH=H*0.08,gap=10,startY=60;countries.forEach((ct,i)=>{let y=startY+i*(barH+gap);let bw=(ct.gdp/maxGDP)*(W*0.6);
+x.fillStyle=ct.color+'88';x.fillRect(W*0.25,y,bw,barH);x.strokeStyle=ct.color;x.strokeRect(W*0.25,y,bw,barH);
+x.fillStyle='#fff';x.font='bold 12px Courier';x.textAlign='right';x.fillText(ct.name,W*0.23,y+barH*0.65);
+x.textAlign='left';x.fillText('$'+ct.gdp+'T',W*0.25+bw+10,y+barH*0.65)});
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

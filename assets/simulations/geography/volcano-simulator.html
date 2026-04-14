@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0b0c10; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; }
+        canvas { display: block; }
+        .hud { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.85); padding: 12px; border: 2px solid #ff6f00; color: #ff6f00; z-index: 10; font-size: 12px; }
+        .controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+        .controls button { background: #1a1a1a; color: #ff6f00; border: 1px solid #ff6f00; padding: 10px 16px; font-family: inherit; cursor: pointer; font-size: 11px; }
+        .controls button.active { background: #ff6f00; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="hud">
+        <div>MODULE: VOLCANO SIMULATOR</div>
+        <div id="info">Tap the volcano to erupt!</div>
+    </div>
+    <canvas id="c"></canvas>
+    <div class="controls">
+        <button onclick="erupt('shield')">Shield</button>
+        <button onclick="erupt('strato')">Stratovolcano</button>
+        <button onclick="erupt('caldera')">Caldera</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        let particles = [], lavas = [], smoke = [], erupting = false, type = 'strato';
+        let shakeX = 0, shakeY = 0;
+
+        canvas.addEventListener('pointerdown', (e) => {
+            let vx = W/2, vy = H*0.45;
+            if(Math.abs(e.clientX-vx) < 80 && Math.abs(e.clientY-vy) < 100) erupt(type);
+        });
+
+        window.erupt = function(t) {
+            type = t; erupting = true;
+            let power = t === 'shield' ? 30 : t === 'strato' ? 80 : 150;
+            let spread = t === 'shield' ? 4 : t === 'strato' ? 8 : 15;
+            for(let i=0;i<power;i++) {
+                particles.push({
+                    x: W/2 + (Math.random()-0.5)*20,
+                    y: H*0.4,
+                    vx: (Math.random()-0.5)*spread,
+                    vy: -(5+Math.random()*10) * (t==='caldera'?1.5:1),
+                    life: 100+Math.random()*100,
+                    r: 2+Math.random()*4,
+                    type: 'bomb'
+                });
+            }
+            for(let i=0;i<power*2;i++) {
+                smoke.push({
+                    x: W/2 + (Math.random()-0.5)*30,
+                    y: H*0.38,
+                    vx: (Math.random()-0.5)*3,
+                    vy: -(1+Math.random()*3),
+                    life: 150+Math.random()*100,
+                    r: 5+Math.random()*15,
+                    alpha: 0.6
+                });
+            }
+            shakeX = 10; shakeY = 10;
+            setTimeout(() => erupting = false, 3000);
+        };
+
+        function drawVolcano() {
+            // Mountain
+            ctx.beginPath();
+            ctx.moveTo(W*0.2, H*0.85);
+            ctx.lineTo(W*0.42, H*0.42);
+            ctx.lineTo(W*0.48, H*0.4);
+            ctx.lineTo(W*0.52, H*0.4);
+            ctx.lineTo(W*0.58, H*0.42);
+            ctx.lineTo(W*0.8, H*0.85);
+            ctx.closePath();
+            let grad = ctx.createLinearGradient(W/2, H*0.4, W/2, H*0.85);
+            grad.addColorStop(0, '#5d4037');
+            grad.addColorStop(0.3, '#4e342e');
+            grad.addColorStop(1, '#3e2723');
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Crater
+            ctx.beginPath();
+            ctx.ellipse(W/2, H*0.4, 20, 8, 0, 0, Math.PI*2);
+            ctx.fillStyle = erupting ? '#ff3d00' : '#bf360c';
+            ctx.fill();
+
+            // Lava streaks on mountainside
+            if(erupting) {
+                for(let i=0;i<3;i++) {
+                    ctx.beginPath();
+                    let sx = W/2 + (i-1)*15;
+                    ctx.moveTo(sx, H*0.4);
+                    ctx.quadraticCurveTo(sx+(i-1)*30, H*0.6, sx+(i-1)*50, H*0.85);
+                    ctx.strokeStyle = `rgba(255,${100+Math.random()*100|0},0,0.6)`;
+                    ctx.lineWidth = 3+Math.random()*4;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function loop() {
+            let sx = erupting ? (Math.random()-0.5)*shakeX : 0;
+            let sy = erupting ? (Math.random()-0.5)*shakeY : 0;
+            shakeX *= 0.95; shakeY *= 0.95;
+
+            ctx.save();
+            ctx.translate(sx, sy);
+
+            // Sky gradient
+            let skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+            skyGrad.addColorStop(0, erupting ? '#1a0000' : '#0b0c10');
+            skyGrad.addColorStop(1, '#263238');
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Ground
+            ctx.fillStyle = '#1b5e20';
+            ctx.fillRect(0, H*0.85, W, H*0.15);
+
+            drawVolcano();
+
+            // Smoke
+            for(let i=smoke.length-1;i>=0;i--) {
+                let s = smoke[i];
+                s.x += s.vx; s.y += s.vy; s.life--; s.alpha -= 0.003; s.r += 0.2;
+                if(s.life<=0||s.alpha<=0) { smoke.splice(i,1); continue; }
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(80,80,80,${s.alpha})`; ctx.fill();
+            }
+
+            // Volcanic bombs
+            for(let i=particles.length-1;i>=0;i--) {
+                let p = particles[i];
+                p.vy += 0.15;
+                p.x += p.vx; p.y += p.vy; p.life--;
+                if(p.life<=0||p.y>H) { particles.splice(i,1); continue; }
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                ctx.fillStyle = `rgb(${200+Math.random()*55|0},${Math.random()*100|0},0)`;
+                ctx.fill();
+                // Glow
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r*3, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(255,100,0,0.1)'; ctx.fill();
+            }
+
+            ctx.restore();
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Compass Navigation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5252;color:#FF5252;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF5252;border:1px solid #FF5252;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF5252;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5252;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>COMPASS</b><br>Drag the red needle to navigate<div id="info">Bearing: 0° N</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,angle=0,target=Math.random()*360;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+addEventListener('resize',resize);resize();
+
+let dragging=false;
+c.addEventListener('pointerdown',()=>dragging=true);
+c.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  let cx=W/2,cy=H/2;
+  angle=Math.atan2(e.clientY-cy,e.clientX-cx)+Math.PI/2;
+  let deg=((angle*180/Math.PI)%360+360)%360;
+  let dir='N';
+  if(deg>22.5&&deg<=67.5)dir='NE';else if(deg>67.5&&deg<=112.5)dir='E';
+  else if(deg>112.5&&deg<=157.5)dir='SE';else if(deg>157.5&&deg<=202.5)dir='S';
+  else if(deg>202.5&&deg<=247.5)dir='SW';else if(deg>247.5&&deg<=292.5)dir='W';
+  else if(deg>292.5&&deg<=337.5)dir='NW';
+  document.getElementById('info').textContent='Bearing: '+Math.round(deg)+'° '+dir;
+});
+c.addEventListener('pointerup',()=>dragging=false);
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cx=W/2,cy=H/2,r=Math.min(W,H)*0.35;
+
+  // Compass ring
+  x.strokeStyle='#444';x.lineWidth=8;x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.stroke();
+  x.strokeStyle='#666';x.lineWidth=2;x.beginPath();x.arc(cx,cy,r+8,0,Math.PI*2);x.stroke();
+
+  // Cardinal Points
+  const dirs=['N','E','S','W'];
+  dirs.forEach((d,i)=>{
+    let a=-Math.PI/2+i*Math.PI/2;
+    x.fillStyle=d==='N'?'#FF5252':'#ccc';x.font='bold 20px Courier';x.textAlign='center';
+    x.fillText(d,cx+Math.cos(a)*(r+25),cy+Math.sin(a)*(r+25)+7);
+  });
+
+  // Tick marks
+  for(let i=0;i<360;i+=10){
+    let a=(i-90)*Math.PI/180,len=i%30===0?15:8;
+    x.strokeStyle=i%90===0?'#FF5252':'#555';x.lineWidth=i%30===0?2:1;
+    x.beginPath();x.moveTo(cx+Math.cos(a)*(r-len),cy+Math.sin(a)*(r-len));
+    x.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);x.stroke();
+  }
+
+  // Needle
+  x.save();x.translate(cx,cy);x.rotate(angle);
+  // Red (north)
+  x.fillStyle='#FF5252';x.beginPath();x.moveTo(0,-r*0.75);x.lineTo(-8,0);x.lineTo(8,0);x.fill();
+  // White (south)
+  x.fillStyle='#ccc';x.beginPath();x.moveTo(0,r*0.75);x.lineTo(-8,0);x.lineTo(8,0);x.fill();
+  // Center pin
+  x.fillStyle='#888';x.beginPath();x.arc(0,0,6,0,Math.PI*2);x.fill();
+  x.restore();
+
+  // Target bearing indicator
+  let tA=(target-90)*Math.PI/180;
+  x.fillStyle='#76FF03';x.beginPath();
+  x.arc(cx+Math.cos(tA)*(r-25),cy+Math.sin(tA)*(r-25),5,0,Math.PI*2);x.fill();
+  x.fillStyle='#76FF03';x.font='10px Courier';x.textAlign='center';
+  x.fillText('TARGET: '+Math.round(target)+'°',cx,cy+r+50);
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

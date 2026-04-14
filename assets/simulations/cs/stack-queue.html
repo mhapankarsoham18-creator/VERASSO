@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Stack & Queue</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #7C4DFF;color:#7C4DFF;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#7C4DFF;border:1px solid #7C4DFF;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#7C4DFF;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #7C4DFF;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>STACK & QUEUE</b><br>Push/Pop to see LIFO vs FIFO<div id="info">Stack (LIFO) | Queue (FIFO)</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="pushItem()">PUSH / ENQUEUE</button>
+<button onclick="popStack()">POP (Stack)</button>
+<button onclick="dequeue()">DEQUEUE (Queue)</button>
+<button onclick="stack=[];queue=[]">CLEAR</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,stack=[],queue=[],counter=1;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function pushItem(){let v=counter++;stack.push(v);queue.push(v)}
+function popStack(){stack.pop()}
+function dequeue(){queue.shift()}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let hw=W/2-20;
+  // Stack (left)
+  x.fillStyle='#fff';x.font='bold 14px Courier';x.textAlign='center';
+  x.fillText('STACK (LIFO)',hw/2+10,30);
+  stack.forEach((v,i)=>{
+    let y=H-80-i*35;if(y<50)return;
+    x.fillStyle='#7C4DFF';x.fillRect(30,y,hw-20,30);
+    x.fillStyle='#fff';x.font='bold 14px Courier';x.fillText(v.toString(),hw/2+10,y+20);
+  });
+  x.strokeStyle='#7C4DFF';x.strokeRect(30,50,hw-20,H-130);
+  x.fillStyle='#555';x.fillText('← POP from top',hw/2+10,45);
+  // Queue (right)
+  x.fillStyle='#fff';x.fillText('QUEUE (FIFO)',W-hw/2-10,30);
+  queue.forEach((v,i)=>{
+    let y=50+i*35;if(y>H-80)return;
+    x.fillStyle='#00BCD4';x.fillRect(W-hw+10,y,hw-20,30);
+    x.fillStyle='#fff';x.font='bold 14px Courier';x.fillText(v.toString(),W-hw/2-10,y+20);
+  });
+  x.strokeStyle='#00BCD4';x.strokeRect(W-hw+10,50,hw-20,H-130);
+  x.fillStyle='#555';x.fillText('DEQUEUE from front →',W-hw/2-10,H-65);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

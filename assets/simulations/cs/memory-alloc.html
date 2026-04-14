@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Memory Allocation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF6F00;color:#FF6F00;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF6F00;border:1px solid #FF6F00;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF6F00;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF6F00;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>MEMORY ALLOCATION</b><br>Allocate and free memory blocks<div id="info">Tap ALLOCATE to reserve memory</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="allocate(2)">ALLOC 2KB</button>
+<button onclick="allocate(4)">ALLOC 4KB</button>
+<button onclick="allocate(8)">ALLOC 8KB</button>
+<button onclick="freeRandom()">FREE RANDOM</button>
+<button onclick="blocks=[]">RESET</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,blocks=[],total=64,counter=1;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function used(){return blocks.reduce((s,b)=>s+b.size,0)}
+function allocate(size){if(used()+size>total){document.getElementById('info').textContent='OUT OF MEMORY!';return}
+  let pos=0;for(let b of blocks.sort((a,b)=>a.pos-b.pos)){if(pos+size<=b.pos)break;pos=b.pos+b.size}
+  blocks.push({id:counter++,pos:pos,size:size,color:`hsl(${Math.random()*360},70%,50%)`});
+  document.getElementById('info').textContent='Allocated '+size+'KB at offset '+pos+' | Used: '+used()+'/'+total+'KB';
+}
+function freeRandom(){if(blocks.length)blocks.splice(Math.floor(Math.random()*blocks.length),1)}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let bw=(W-40)/total,bh=H*0.5;
+  // Memory bar
+  x.fillStyle='#1a1a2e';x.fillRect(20,H*0.25,W-40,bh);
+  x.strokeStyle='#FF6F00';x.strokeRect(20,H*0.25,W-40,bh);
+  blocks.forEach(b=>{
+    x.fillStyle=b.color;x.fillRect(20+b.pos*bw,H*0.25,b.size*bw,bh);
+    x.strokeStyle='#000';x.strokeRect(20+b.pos*bw,H*0.25,b.size*bw,bh);
+    x.fillStyle='#fff';x.font='bold 10px Courier';x.textAlign='center';
+    x.fillText('#'+b.id,20+b.pos*bw+b.size*bw/2,H*0.25+bh/2+4);
+    x.fillText(b.size+'KB',20+b.pos*bw+b.size*bw/2,H*0.25+bh/2+18);
+  });
+  // Address labels
+  x.fillStyle='#555';x.font='9px Courier';x.textAlign='center';
+  for(let i=0;i<=total;i+=4)x.fillText(i+'',20+i*bw,H*0.25+bh+15);
+  x.fillStyle='#FF6F00';x.font='12px Courier';x.textAlign='center';
+  x.fillText('USED: '+used()+'/'+total+' KB | FRAGMENTATION: '+blocks.length+' blocks',W/2,H-30);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

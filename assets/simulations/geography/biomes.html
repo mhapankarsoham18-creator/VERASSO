@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Biomes Explorer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4CAF50;color:#4CAF50;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#4CAF50;border:1px solid #4CAF50;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#4CAF50;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4CAF50;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>BIOMES EXPLORER</b><br>Tap a biome tile to explore<div id="info">Select a biome</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,sel=-1;
+const biomes=[
+  {name:'TUNDRA',color:'#B3E5FC',temp:'-20°C to 0°C',rain:'<250mm',desc:'Permafrost, mosses, lichens. Arctic fox, snowy owl.',px:'❄'},
+  {name:'TAIGA',color:'#2E7D32',temp:'-10°C to 15°C',rain:'300-900mm',desc:'Largest biome. Coniferous forests. Moose, wolves.',px:'🌲'},
+  {name:'TEMPERATE FOREST',color:'#66BB6A',temp:'5°C to 20°C',rain:'750-1500mm',desc:'Four seasons. Deciduous trees. Deer, bears.',px:'🍂'},
+  {name:'GRASSLAND',color:'#CDDC39',temp:'10°C to 30°C',rain:'250-750mm',desc:'Prairies, savannas. Bison, lions, elephants.',px:'🌾'},
+  {name:'DESERT',color:'#FFB74D',temp:'20°C to 50°C',rain:'<250mm',desc:'Hot or cold. Cacti, camels, scorpions. 1/3 of land.',px:'🏜'},
+  {name:'TROPICAL RAINFOREST',color:'#1B5E20',temp:'25°C to 30°C',rain:'>2000mm',desc:'Highest biodiversity. Jaguars, macaws, orchids.',px:'🌴'},
+  {name:'SAVANNA',color:'#8BC34A',temp:'20°C to 30°C',rain:'500-1500mm',desc:'Wet/dry seasons. Grasslands with scattered trees.',px:'🦁'},
+  {name:'OCEAN',color:'#0277BD',temp:'-2°C to 30°C',rain:'N/A',desc:'71% of Earth. Coral reefs, whales, plankton.',px:'🌊'},
+];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{
+  let cols=2,rows=4,cw=W/cols,ch=(H-80)/rows;
+  let cc=Math.floor(e.clientX/cw),rr=Math.floor((e.clientY-40)/ch);
+  let idx=rr*cols+cc;if(idx>=0&&idx<biomes.length){sel=idx;
+    document.getElementById('info').innerHTML='<b>'+biomes[idx].name+'</b><br>Temp: '+biomes[idx].temp+'<br>Rain: '+biomes[idx].rain+'<br>'+biomes[idx].desc;
+  }
+});
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cols=2,rows=4,cw=W/cols,ch=(H-80)/rows;
+  biomes.forEach((b,i)=>{
+    let cc=i%cols,rr=Math.floor(i/cols);
+    let bx=cc*cw+4,by=rr*ch+44;
+    x.fillStyle=i===sel?b.color:b.color+'44';
+    x.fillRect(bx,by,cw-8,ch-8);
+    x.strokeStyle=i===sel?'#fff':b.color;x.lineWidth=2;x.strokeRect(bx,by,cw-8,ch-8);
+    x.font='28px serif';x.textAlign='center';x.fillText(b.px,bx+cw/2-4,by+ch/2-5);
+    x.fillStyle='#fff';x.font='bold 11px Courier';x.fillText(b.name,bx+cw/2-4,by+ch/2+18);
+  });
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

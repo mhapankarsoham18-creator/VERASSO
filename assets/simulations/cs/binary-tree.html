@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Binary Search Tree</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4CAF50;color:#4CAF50;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#4CAF50;border:1px solid #4CAF50;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#4CAF50;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4CAF50;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>BST VISUALIZER</b><br>Type a number and insert it<div id="info">Insert numbers to build the tree</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<input type="number" id="val" value="50" style="width:60px;background:#111;color:#4CAF50;border:1px solid #4CAF50;padding:6px;font-family:inherit">
+<button onclick="insert(+document.getElementById('val').value)">INSERT</button>
+<button onclick="root=null">CLEAR</button>
+<button onclick="for(let i=0;i<5;i++)insert(Math.floor(Math.random()*100))">RANDOM 5</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,root=null;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+class Node{constructor(v){this.v=v;this.l=null;this.r=null}}
+function insert(v){if(!root){root=new Node(v);return}let n=root;while(true){if(v<n.v){if(!n.l){n.l=new Node(v);return}n=n.l}else{if(!n.r){n.r=new Node(v);return}n=n.r}}}
+function drawNode(node,cx,cy,spread,depth){
+  if(!node)return;
+  if(node.l){x.strokeStyle='#4CAF50';x.lineWidth=1;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx-spread,cy+60);x.stroke();drawNode(node.l,cx-spread,cy+60,spread/2,depth+1)}
+  if(node.r){x.strokeStyle='#4CAF50';x.lineWidth=1;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+spread,cy+60);x.stroke();drawNode(node.r,cx+spread,cy+60,spread/2,depth+1)}
+  x.fillStyle='#111';x.beginPath();x.arc(cx,cy,18,0,Math.PI*2);x.fill();
+  x.strokeStyle='#4CAF50';x.lineWidth=2;x.beginPath();x.arc(cx,cy,18,0,Math.PI*2);x.stroke();
+  x.fillStyle='#fff';x.font='bold 12px Courier';x.textAlign='center';x.fillText(node.v.toString(),cx,cy+5);
+}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);if(root)drawNode(root,W/2,60,W/5,0);requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

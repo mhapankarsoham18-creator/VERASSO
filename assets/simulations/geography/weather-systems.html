@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d1117; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; }
+        canvas { display: block; }
+        .hud { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.85); padding: 12px; border: 2px solid #56c7f5; color: #56c7f5; z-index: 10; font-size: 12px; }
+        .controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; flex-wrap: wrap; justify-content: center; }
+        .controls button { background: #161b22; color: #56c7f5; border: 1px solid #56c7f5; padding: 8px 14px; font-family: inherit; font-size: 11px; cursor: pointer; }
+        .controls button.active { background: #56c7f5; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="hud">
+        <div>MODULE: WEATHER SYSTEMS</div>
+        <div id="info">Wind Speed: 0 km/h | Pressure: 1013 hPa</div>
+    </div>
+    <canvas id="c"></canvas>
+    <div class="controls">
+        <button class="active" onclick="setWeather('clear')">Clear</button>
+        <button onclick="setWeather('rain')">Rain</button>
+        <button onclick="setWeather('storm')">Storm</button>
+        <button onclick="setWeather('snow')">Snow</button>
+        <button onclick="setWeather('tornado')">Tornado</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        let weather = 'clear';
+        let particles = [];
+        let windSpeed = 0;
+        let pressure = 1013;
+        let lightning = 0;
+
+        class Drop {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * W;
+                this.y = -10;
+                this.speed = 2 + Math.random() * 8;
+                this.len = weather === 'snow' ? 0 : 5 + Math.random() * 15;
+                this.r = weather === 'snow' ? 2 + Math.random() * 3 : 1;
+                this.wind = windSpeed * 0.1;
+            }
+            update() {
+                this.y += this.speed;
+                this.x += this.wind + (weather === 'snow' ? Math.sin(this.y * 0.01) * 2 : 0);
+                if (this.y > H) this.reset();
+            }
+            draw() {
+                if (weather === 'snow') {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + this.wind, this.y + this.len);
+                    ctx.strokeStyle = 'rgba(174,194,224,0.6)';
+                    ctx.lineWidth = this.r;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        window.setWeather = function(w) {
+            weather = w;
+            particles = [];
+            let count = w === 'clear' ? 0 : w === 'rain' ? 200 : w === 'storm' ? 500 : w === 'snow' ? 300 : 400;
+            windSpeed = w === 'storm' ? 80 : w === 'tornado' ? 150 : w === 'rain' ? 20 : 5;
+            pressure = w === 'storm' ? 960 : w === 'tornado' ? 920 : w === 'rain' ? 1000 : 1013;
+            for (let i = 0; i < count; i++) { let d = new Drop(); d.y = Math.random() * H; particles.push(d); }
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        };
+
+        function drawLightning(x, y, depth) {
+            if (depth <= 0) return;
+            let endX = x + (Math.random() - 0.5) * 60;
+            let endY = y + 20 + Math.random() * 40;
+            ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(endX, endY);
+            ctx.strokeStyle = `rgba(255,255,200,${0.5+Math.random()*0.5})`;
+            ctx.lineWidth = depth; ctx.stroke();
+            if (Math.random() > 0.5) drawLightning(endX, endY, depth - 1);
+            drawLightning(endX, endY, depth - 1);
+        }
+
+        function loop() {
+            ctx.fillStyle = weather === 'clear' ? '#1a237e' : weather === 'snow' ? '#263238' : '#0d1117';
+            ctx.fillRect(0, 0, W, H);
+
+            // Ground
+            ctx.fillStyle = weather === 'snow' ? '#eceff1' : '#1b5e20';
+            ctx.fillRect(0, H * 0.85, W, H * 0.15);
+
+            // Clouds
+            if (weather !== 'clear') {
+                for (let i = 0; i < 5; i++) {
+                    let cx = (i * W / 4 + Date.now() * 0.01 * (windSpeed * 0.005)) % (W + 200) - 100;
+                    ctx.beginPath();
+                    ctx.arc(cx, 80, 60, 0, Math.PI * 2);
+                    ctx.arc(cx + 50, 70, 50, 0, Math.PI * 2);
+                    ctx.arc(cx - 40, 85, 45, 0, Math.PI * 2);
+                    ctx.fillStyle = weather === 'storm' || weather === 'tornado' ? 'rgba(30,30,30,0.9)' : 'rgba(100,100,100,0.7)';
+                    ctx.fill();
+                }
+            }
+
+            // Lightning
+            if ((weather === 'storm' || weather === 'tornado') && Math.random() > 0.97) {
+                drawLightning(Math.random() * W, 100, 5);
+                lightning = 5;
+            }
+            if (lightning > 0) {
+                ctx.fillStyle = `rgba(255,255,255,${lightning * 0.04})`;
+                ctx.fillRect(0, 0, W, H);
+                lightning--;
+            }
+
+            // Tornado funnel
+            if (weather === 'tornado') {
+                let tx = W / 2 + Math.sin(Date.now() * 0.001) * 50;
+                ctx.beginPath();
+                ctx.moveTo(tx - 60, 120);
+                ctx.quadraticCurveTo(tx - 10, H * 0.5, tx - 5, H * 0.85);
+                ctx.lineTo(tx + 5, H * 0.85);
+                ctx.quadraticCurveTo(tx + 10, H * 0.5, tx + 60, 120);
+                ctx.fillStyle = 'rgba(50,50,50,0.7)';
+                ctx.fill();
+            }
+
+            particles.forEach(p => { p.update(); p.draw(); });
+            document.getElementById('info').innerText = `Wind: ${windSpeed} km/h | Pressure: ${pressure} hPa`;
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+</html>

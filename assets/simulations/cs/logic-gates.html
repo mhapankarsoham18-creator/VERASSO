@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Logic Gates</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5252;color:#FF5252;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#FF5252;border:1px solid #FF5252;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#FF5252;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #FF5252;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>LOGIC GATES</b><br>Toggle inputs (A/B) to see outputs<div id="info">Select a gate type</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="gate='AND'" class="a">AND</button>
+<button onclick="gate='OR'">OR</button>
+<button onclick="gate='XOR'">XOR</button>
+<button onclick="gate='NOT'">NOT</button>
+<button onclick="gate='NAND'">NAND</button>
+<button onclick="gate='NOR'">NOR</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,gate='AND',inA=0,inB=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function getOutput(){
+  if(gate==='AND')return inA&inB;if(gate==='OR')return inA|inB;
+  if(gate==='XOR')return inA^inB;if(gate==='NOT')return inA?0:1;
+  if(gate==='NAND')return(inA&inB)?0:1;if(gate==='NOR')return(inA|inB)?0:1;return 0;
+}
+c.addEventListener('pointerdown',e=>{
+  // Toggle input A
+  if(e.clientY>H*0.3&&e.clientY<H*0.45&&e.clientX<W*0.3)inA=inA?0:1;
+  // Toggle input B
+  if(e.clientY>H*0.55&&e.clientY<H*0.7&&e.clientX<W*0.3)inB=inB?0:1;
+});
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let out=getOutput();
+  // Input A
+  x.fillStyle=inA?'#00e676':'#333';x.fillRect(W*0.05,H*0.3,W*0.18,H*0.12);
+  x.strokeStyle='#00e676';x.strokeRect(W*0.05,H*0.3,W*0.18,H*0.12);
+  x.fillStyle='#fff';x.font='bold 20px Courier';x.textAlign='center';
+  x.fillText('A = '+inA,W*0.14,H*0.38);
+  // Input B
+  if(gate!=='NOT'){
+    x.fillStyle=inB?'#00e676':'#333';x.fillRect(W*0.05,H*0.55,W*0.18,H*0.12);
+    x.strokeStyle='#00e676';x.strokeRect(W*0.05,H*0.55,W*0.18,H*0.12);
+    x.fillStyle='#fff';x.fillText('B = '+inB,W*0.14,H*0.63);
+  }
+  // Gate body
+  x.fillStyle='#222';x.strokeStyle='#FF5252';x.lineWidth=3;
+  x.fillRect(W*0.35,H*0.35,W*0.3,H*0.3);x.strokeRect(W*0.35,H*0.35,W*0.3,H*0.3);
+  x.fillStyle='#FF5252';x.font='bold 28px Courier';x.fillText(gate,W*0.5,H*0.53);
+  // Wires
+  x.strokeStyle=inA?'#00e676':'#555';x.lineWidth=3;
+  x.beginPath();x.moveTo(W*0.23,H*0.36);x.lineTo(W*0.35,H*0.45);x.stroke();
+  if(gate!=='NOT'){x.strokeStyle=inB?'#00e676':'#555';
+    x.beginPath();x.moveTo(W*0.23,H*0.61);x.lineTo(W*0.35,H*0.55);x.stroke()}
+  // Output wire
+  x.strokeStyle=out?'#00e676':'#555';
+  x.beginPath();x.moveTo(W*0.65,H*0.5);x.lineTo(W*0.8,H*0.5);x.stroke();
+  // Output LED
+  x.fillStyle=out?'#00e676':'#333';x.beginPath();x.arc(W*0.85,H*0.5,20,0,Math.PI*2);x.fill();
+  x.strokeStyle='#00e676';x.beginPath();x.arc(W*0.85,H*0.5,20,0,Math.PI*2);x.stroke();
+  x.fillStyle='#fff';x.font='bold 16px Courier';x.fillText('OUT='+out,W*0.85,H*0.5+5);
+  // Truth table
+  x.fillStyle='#888';x.font='11px Courier';x.textAlign='left';
+  let ty=H*0.78;x.fillText('TRUTH TABLE:',W*0.3,ty);
+  if(gate==='NOT'){x.fillText('A=0 → 1',W*0.3,ty+15);x.fillText('A=1 → 0',W*0.3,ty+28)}
+  else{
+    let vals=[[0,0],[0,1],[1,0],[1,1]];
+    vals.forEach((v,i)=>{let r;
+      if(gate==='AND')r=v[0]&v[1];else if(gate==='OR')r=v[0]|v[1];
+      else if(gate==='XOR')r=v[0]^v[1];else if(gate==='NAND')r=(v[0]&v[1])?0:1;else r=(v[0]|v[1])?0:1;
+      x.fillText('A='+v[0]+' B='+v[1]+' → '+r,W*0.3,ty+15+i*14);
+    });
+  }
+  document.getElementById('info').textContent=gate+' Gate | A='+inA+(gate==='NOT'?'':' B='+inB)+' → OUT='+out;
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

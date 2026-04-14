@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Terrain Engine</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00bcd4;color:#00bcd4;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#00bcd4;border:1px solid #00bcd4;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#00bcd4;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00bcd4;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>TERRAIN ENGINE</b><br>Drag to rotate | Scroll to zoom<div id="info">Altitude: 0m</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="seed()">NEW SEED</button>
+<button onclick="toggleWater()">TOGGLE WATER</button>
+<button onclick="toggleGrid()">GRID</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,grid=[],cols=80,rows=60,cellW,cellH,rot=0,zoom=1,showWater=true,showGrid=false;
+let dragX=0,dragY=0,dragging=false;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight;cellW=W/cols;cellH=H/rows}
+addEventListener('resize',resize);resize();
+
+// Simple value noise
+function noise(x,y){let n=Math.sin(x*12.9898+y*78.233)*43758.5453;return n-Math.floor(n)}
+function smoothNoise(x,y){
+  let ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy;
+  let a=noise(ix,iy),b=noise(ix+1,iy),c_=noise(ix,iy+1),d=noise(ix+1,iy+1);
+  let u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);
+  return a*(1-u)*(1-v)+b*u*(1-v)+c_*(1-u)*v+d*u*v;
+}
+function fbm(x,y){let v=0,a=0.5,f=1;for(let i=0;i<6;i++){v+=a*smoothNoise(x*f,y*f);f*=2;a*=0.5}return v}
+
+let seedX=Math.random()*100,seedY=Math.random()*100;
+function generateTerrain(){
+  grid=[];
+  for(let r=0;r<rows;r++){grid[r]=[];for(let c_=0;c_<cols;c_++){grid[r][c_]=fbm(c_*0.05+seedX,r*0.05+seedY)}}
+}
+function seed(){seedX=Math.random()*100;seedY=Math.random()*100;generateTerrain()}
+function toggleWater(){showWater=!showWater}
+function toggleGrid(){showGrid=!showGrid}
+generateTerrain();
+
+function getColor(v){
+  if(showWater&&v<0.35)return `rgb(20,60,${Math.floor(120+v*200)})`;
+  if(v<0.4)return `rgb(${Math.floor(194+v*40)},${Math.floor(178+v*30)},130)`;
+  if(v<0.55)return `rgb(${Math.floor(40+v*80)},${Math.floor(120+v*150)},${Math.floor(30+v*60)})`;
+  if(v<0.7)return `rgb(${Math.floor(80+v*60)},${Math.floor(100+v*40)},${Math.floor(40+v*30)})`;
+  if(v<0.85)return `rgb(${Math.floor(100+v*50)},${Math.floor(80+v*40)},${Math.floor(60+v*30)})`;
+  return `rgb(${Math.floor(200+v*55)},${Math.floor(200+v*55)},${Math.floor(210+v*45)})`;
+}
+
+c.addEventListener('pointerdown',e=>{dragging=true;dragX=e.clientX;dragY=e.clientY});
+c.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  rot+=(e.clientX-dragX)*0.003;
+  dragX=e.clientX;dragY=e.clientY;
+  let cr=Math.floor(e.clientY/cellH),cc=Math.floor(e.clientX/cellW);
+  if(grid[cr]&&grid[cr][cc])document.getElementById('info').textContent='Altitude: '+Math.floor(grid[cr][cc]*8848)+'m';
+});
+c.addEventListener('pointerup',()=>dragging=false);
+c.addEventListener('wheel',e=>{zoom=Math.max(0.5,Math.min(3,zoom-e.deltaY*0.001))});
+
+function draw(){
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  for(let r=0;r<rows;r++){for(let cc=0;cc<cols;cc++){
+    let dx=cc-cols/2,v=grid[r][cc];
+    let px=(cols/2+dx*Math.cos(rot))*cellW*zoom+(W/2-cols/2*cellW*zoom);
+    let py=r*cellH*zoom;
+    x.fillStyle=getColor(v);
+    x.fillRect(px,py,cellW*zoom+1,cellH*zoom+1);
+    if(showGrid){x.strokeStyle='rgba(255,255,255,0.08)';x.strokeRect(px,py,cellW*zoom,cellH*zoom)}
+  }}
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

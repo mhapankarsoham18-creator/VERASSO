@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Global Wind Patterns</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #81D4FA;color:#81D4FA;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#81D4FA;border:1px solid #81D4FA;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#81D4FA;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #81D4FA;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>GLOBAL WIND PATTERNS</b><br>Interactive wind circulation cells<div id="info">Coriolis effect deflects winds</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,particles=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight;initParticles()}addEventListener('resize',resize);resize();
+function initParticles(){particles=[];for(let i=0;i<200;i++)particles.push({x:Math.random()*W,y:Math.random()*H,age:Math.random()*100})}
+const cells=[
+  {name:'Polar Easterlies',y1:0,y2:0.17,dx:-1,color:'#B3E5FC'},
+  {name:'Westerlies',y1:0.17,y2:0.33,dx:1.5,color:'#64B5F6'},
+  {name:'NE Trade Winds',y1:0.33,y2:0.5,dx:-1.2,color:'#42A5F5'},
+  {name:'SE Trade Winds',y1:0.5,y2:0.67,dx:-1.2,color:'#42A5F5'},
+  {name:'Westerlies (S)',y1:0.67,y2:0.83,dx:1.5,color:'#64B5F6'},
+  {name:'Polar Easterlies (S)',y1:0.83,y2:1,dx:-1,color:'#B3E5FC'},
+];
+function getCell(y){let ny=y/H;for(let c of cells)if(ny>=c.y1&&ny<c.y2)return c;return cells[0]}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Zone backgrounds
+  cells.forEach(cl=>{x.fillStyle=cl.color+'22';x.fillRect(0,cl.y1*H,W,(cl.y2-cl.y1)*H);
+    x.fillStyle=cl.color;x.font='10px Courier';x.textAlign='center';x.fillText(cl.name,W/2,cl.y1*H+15);
+    x.strokeStyle=cl.color+'44';x.setLineDash([4,4]);x.beginPath();x.moveTo(0,cl.y1*H);x.lineTo(W,cl.y1*H);x.stroke();x.setLineDash([])});
+  // Particles
+  particles.forEach(p=>{let cl=getCell(p.y);p.x+=cl.dx+Math.random()*0.5-0.25;p.y+=Math.random()*0.4-0.2;p.age++;
+    if(p.x>W)p.x=0;if(p.x<0)p.x=W;if(p.y>H)p.y=0;if(p.y<0)p.y=H;
+    let a=Math.max(0,1-p.age/100);x.fillStyle=`rgba(255,255,255,${a})`;x.fillRect(p.x,p.y,2,2);
+    if(p.age>100){p.age=0;p.x=Math.random()*W;p.y=Math.random()*H}
+  });
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Erosion Simulator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4FC3F7;color:#4FC3F7;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#4FC3F7;border:1px solid #4FC3F7;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#4FC3F7;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #4FC3F7;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>EROSION SIM</b><br>Tap to place water sources<br>Long-press to add rock<div id="info">Particles: 0</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="clearAll()">CLEAR</button>
+<button onclick="toggleRain()">RAIN</button>
+<button onclick="toggleErosion()">EROSION: ON</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,terrain=[],particles=[],sources=[],raining=false,erosionOn=true,cols=120,rows=80;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight;initTerrain()}
+addEventListener('resize',resize);resize();
+
+function initTerrain(){
+  terrain=[];
+  for(let r=0;r<rows;r++){terrain[r]=[];for(let cc=0;cc<cols;cc++){
+    terrain[r][cc]=0.3+0.4*Math.sin(cc*0.08)*Math.cos(r*0.06)+Math.random()*0.1;
+  }}
+}
+function clearAll(){initTerrain();particles=[];sources=[]}
+function toggleRain(){raining=!raining}
+function toggleErosion(){erosionOn=!erosionOn;event.target.textContent='EROSION: '+(erosionOn?'ON':'OFF')}
+
+c.addEventListener('pointerdown',e=>{
+  let cc=Math.floor(e.clientX/(W/cols)),rr=Math.floor(e.clientY/(H/rows));
+  sources.push({c:cc,r:rr,life:300});
+});
+
+function step(){
+  // Spawn from sources
+  sources.forEach(s=>{
+    if(Math.random()<0.3)particles.push({x:s.c+Math.random()*2-1,y:s.r,vx:0,vy:0.5,sed:0});
+  });
+  // Rain
+  if(raining&&Math.random()<0.4)particles.push({x:Math.random()*cols,y:0,vx:0,vy:0.3,sed:0});
+
+  // Move particles
+  for(let i=particles.length-1;i>=0;i--){
+    let p=particles[i];
+    let cr=Math.floor(p.y),cc=Math.floor(p.x);
+    if(cr<0||cr>=rows-1||cc<0||cc>=cols-1){particles.splice(i,1);continue}
+
+    // Flow downhill
+    let h=terrain[cr][cc],hR=cc<cols-1?terrain[cr][cc+1]:h,hL=cc>0?terrain[cr][cc-1]:h;
+    let hD=cr<rows-1?terrain[cr+1][cc]:h;
+    p.vx+=(hL-hR)*0.5;p.vy+=(h-hD)*0.3+0.1;
+    p.vx*=0.9;p.vy*=0.9;
+    p.x+=p.vx;p.y+=p.vy;
+
+    // Erode
+    if(erosionOn&&terrain[cr][cc]>0.05){terrain[cr][cc]-=0.002;p.sed+=0.002}
+    // Deposit
+    if(p.sed>0.01&&Math.abs(p.vy)<0.15){terrain[cr][cc]+=p.sed*0.5;p.sed*=0.5}
+
+    if(p.y>rows||p.x<0||p.x>cols)particles.splice(i,1);
+  }
+  document.getElementById('info').textContent='Particles: '+particles.length;
+}
+
+function draw(){
+  step();
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cw=W/cols,ch=H/rows;
+
+  for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
+    let v=terrain[r][cc];
+    if(v<0.25)x.fillStyle=`rgb(20,${Math.floor(50+v*200)},${Math.floor(80+v*300)})`;
+    else if(v<0.5)x.fillStyle=`rgb(${Math.floor(100+v*100)},${Math.floor(140+v*120)},${Math.floor(60+v*60)})`;
+    else x.fillStyle=`rgb(${Math.floor(120+v*80)},${Math.floor(100+v*60)},${Math.floor(60+v*40)})`;
+    x.fillRect(cc*cw,r*ch,cw+1,ch+1);
+  }
+
+  // Water particles
+  x.fillStyle='rgba(100,180,255,0.8)';
+  particles.forEach(p=>{x.fillRect(p.x*cw,p.y*ch,3,3)});
+
+  // Sources
+  x.fillStyle='#4FC3F7';
+  sources.forEach(s=>{x.fillRect(s.c*cw-4,s.r*ch-4,8,8)});
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

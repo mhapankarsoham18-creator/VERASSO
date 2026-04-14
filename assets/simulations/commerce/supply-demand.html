@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #4caf50;color:#4caf50;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#4caf50;border:1px solid #4caf50;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#4caf50;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: SUPPLY & DEMAND</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,price=50,qty=50;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointermove',e=>{price=100-e.clientY/H*100;qty=e.clientX/W*100});
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);let ox=W*0.15,oy=H*0.1,gw=W*0.7,gh=H*0.7;
+x.strokeStyle='#333';x.strokeRect(ox,oy,gw,gh);x.strokeStyle='#f44336';x.lineWidth=2;x.beginPath();x.moveTo(ox,oy);x.lineTo(ox+gw,oy+gh);x.stroke();
+x.strokeStyle='#4caf50';x.beginPath();x.moveTo(ox,oy+gh);x.lineTo(ox+gw,oy);x.stroke();
+let ix=ox+gw*0.5,iy=oy+gh*0.5;x.beginPath();x.arc(ix,iy,8,0,Math.PI*2);x.fillStyle='#ffc107';x.fill();
+x.fillStyle='#f44336';x.font='12px Courier';x.fillText('DEMAND',ox+gw-60,oy+gh-10);x.fillStyle='#4caf50';x.fillText('SUPPLY',ox+gw-60,oy+20);
+x.fillStyle='#ffc107';x.font='bold 14px Courier';x.textAlign='center';x.fillText('EQUILIBRIUM',ix,iy-15);
+let cpx=ox+qty/100*gw,cpy=oy+(100-price)/100*gh;x.beginPath();x.arc(cpx,cpy,6,0,Math.PI*2);x.fillStyle='#fff';x.fill();
+x.fillStyle='#fff';x.font='12px Courier';x.fillText(`Price: $${price.toFixed(0)} | Qty: ${qty.toFixed(0)}`,W/2,H*0.92);
+x.fillStyle='#666';x.fillText('PRICE ↑',ox-30,oy+gh/2);x.fillText('QUANTITY →',ox+gw/2,oy+gh+25);requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

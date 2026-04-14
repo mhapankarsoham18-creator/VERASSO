@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Global Atlas 3D</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00BCD4;color:#00BCD4;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#00BCD4;border:1px solid #00BCD4;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#00BCD4;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00BCD4;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>GLOBAL ATLAS</b><br>Drag to rotate | Tap to identify<div id="info">Rotating globe with country outlines</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="autoRot=!autoRot">AUTO-ROTATE</button>
+<button onclick="rotX=0;rotY=0">RESET VIEW</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,rotX=0,rotY=0.3,autoRot=true;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+
+// Simplified country outlines as lat/lon polygon centroids
+const countries=[
+  {name:'Brazil',lat:-15,lon:-47,r:18,color:'#4CAF50'},
+  {name:'USA',lat:39,lon:-98,r:20,color:'#2196F3'},
+  {name:'China',lat:35,lon:103,r:18,color:'#F44336'},
+  {name:'India',lat:21,lon:78,r:14,color:'#FF9800'},
+  {name:'Russia',lat:60,lon:90,r:22,color:'#9C27B0'},
+  {name:'Australia',lat:-25,lon:134,r:16,color:'#FFEB3B'},
+  {name:'Canada',lat:56,lon:-106,r:20,color:'#E91E63'},
+  {name:'UK',lat:54,lon:-2,r:6,color:'#00BCD4'},
+  {name:'Japan',lat:36,lon:138,r:6,color:'#FF5722'},
+  {name:'Egypt',lat:27,lon:31,r:10,color:'#FFC107'},
+  {name:'S.Africa',lat:-29,lon:24,r:10,color:'#8BC34A'},
+  {name:'Mexico',lat:23,lon:-102,r:12,color:'#FF7043'},
+  {name:'Argentina',lat:-38,lon:-63,r:14,color:'#42A5F5'},
+  {name:'Nigeria',lat:10,lon:8,r:10,color:'#66BB6A'},
+  {name:'Indonesia',lat:-5,lon:120,r:12,color:'#AB47BC'},
+  {name:'Germany',lat:51,lon:10,r:7,color:'#BDBDBD'},
+  {name:'France',lat:47,lon:2,r:8,color:'#1565C0'},
+  {name:'Italy',lat:42,lon:12,r:6,color:'#4E342E'},
+  {name:'Spain',lat:40,lon:-4,r:7,color:'#E65100'},
+  {name:'Turkey',lat:39,lon:35,r:8,color:'#C62828'},
+];
+
+function project(lat,lon){
+  let la=lat*Math.PI/180,lo=lon*Math.PI/180;
+  let px=Math.cos(la)*Math.sin(lo+rotX);
+  let py=-Math.sin(la)*Math.cos(rotY)+Math.cos(la)*Math.sin(rotY)*Math.cos(lo+rotX);
+  let pz=Math.sin(la)*Math.sin(rotY)+Math.cos(la)*Math.cos(rotY)*Math.cos(lo+rotX);
+  return{x:px,y:py,z:pz,visible:pz>0};
+}
+
+let dragging=false,lastX=0,lastY=0;
+c.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;
+  // Check country click
+  let R=Math.min(W,H)*0.38;
+  countries.forEach(ct=>{
+    let p=project(ct.lat,ct.lon);if(!p.visible)return;
+    let sx=W/2+p.x*R,sy=H/2+p.y*R;
+    if(Math.abs(e.clientX-sx)<ct.r+5&&Math.abs(e.clientY-sy)<ct.r+5){
+      document.getElementById('info').textContent=ct.name+' | Lat: '+ct.lat+'° Lon: '+ct.lon+'°';
+      if(window.VerassoGlobe)window.VerassoGlobe.postMessage(JSON.stringify({type:'polygonClick',name:ct.name}));
+    }
+  });
+});
+c.addEventListener('pointermove',e=>{if(!dragging)return;rotX+=(e.clientX-lastX)*0.005;rotY+=(e.clientY-lastY)*0.005;
+  rotY=Math.max(-1.5,Math.min(1.5,rotY));lastX=e.clientX;lastY=e.clientY});
+c.addEventListener('pointerup',()=>dragging=false);
+
+function initGlobeData(){}
+function rotateToHome(){rotX=0;rotY=0.3}
+window.initGlobeData=initGlobeData;
+window.rotateToHome=rotateToHome;
+
+function draw(){
+  if(autoRot&&!dragging)rotX+=0.003;
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let R=Math.min(W,H)*0.38,cx=W/2,cy=H/2;
+
+  // Stars
+  for(let i=0;i<40;i++){x.fillStyle='rgba(255,255,255,'+(0.1+Math.random()*0.3)+')';x.fillRect(Math.random()*W,Math.random()*H,1,1)}
+
+  // Globe ocean
+  let grd=x.createRadialGradient(cx-R*0.2,cy-R*0.2,0,cx,cy,R);
+  grd.addColorStop(0,'#1565C0');grd.addColorStop(0.7,'#0D47A1');grd.addColorStop(1,'#01579B');
+  x.fillStyle=grd;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.fill();
+
+  // Grid lines (latitude)
+  for(let lat=-60;lat<=60;lat+=30){
+    let pts=[];
+    for(let lon=-180;lon<=180;lon+=5){let p=project(lat,lon);if(p.visible)pts.push({x:cx+p.x*R,y:cy+p.y*R})}
+    if(pts.length>1){x.strokeStyle='rgba(255,255,255,0.08)';x.lineWidth=1;x.beginPath();x.moveTo(pts[0].x,pts[0].y);
+      pts.forEach(p=>x.lineTo(p.x,p.y));x.stroke()}
+  }
+  // Grid lines (longitude)
+  for(let lon=-180;lon<180;lon+=30){
+    let pts=[];
+    for(let lat=-90;lat<=90;lat+=5){let p=project(lat,lon);if(p.visible)pts.push({x:cx+p.x*R,y:cy+p.y*R})}
+    if(pts.length>1){x.strokeStyle='rgba(255,255,255,0.08)';x.lineWidth=1;x.beginPath();x.moveTo(pts[0].x,pts[0].y);
+      pts.forEach(p=>x.lineTo(p.x,p.y));x.stroke()}
+  }
+
+  // Countries
+  countries.forEach(ct=>{
+    let p=project(ct.lat,ct.lon);if(!p.visible)return;
+    let sx=cx+p.x*R,sy=cy+p.y*R;
+    x.globalAlpha=0.5+p.z*0.5;
+    x.fillStyle=ct.color;x.beginPath();x.arc(sx,sy,ct.r*p.z,0,Math.PI*2);x.fill();
+    x.globalAlpha=1;
+    if(p.z>0.5){x.fillStyle='#fff';x.font='bold 8px Courier';x.textAlign='center';x.fillText(ct.name,sx,sy+ct.r+10)}
+  });
+
+  // Atmosphere glow
+  x.strokeStyle='rgba(100,181,246,0.15)';x.lineWidth=6;x.beginPath();x.arc(cx,cy,R+3,0,Math.PI*2);x.stroke();
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #040d21; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; }
+        canvas { display: block; }
+        .hud { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.85); padding: 12px; border: 2px solid #2ecc71; color: #2ecc71; z-index: 10; font-size: 12px; }
+        .controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+        .controls button { background: #1a1a2e; color: #2ecc71; border: 1px solid #2ecc71; padding: 10px 16px; font-family: inherit; cursor: pointer; }
+        .controls button.active { background: #2ecc71; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="hud">
+        <div>MODULE: WATER CYCLE</div>
+        <div id="info">Tap to add heat</div>
+    </div>
+    <canvas id="c"></canvas>
+    <div class="controls">
+        <button class="active" onclick="setTemp('normal')">Normal</button>
+        <button onclick="setTemp('hot')">Hot Climate</button>
+        <button onclick="setTemp('cold')">Cold Climate</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        let temp = 'normal', drops = [], vapors = [], clouds = [], rains = [];
+
+        class Vapor {
+            constructor(x, y) { this.x = x; this.y = y; this.vx = (Math.random()-0.5)*2; this.vy = -1-Math.random()*2; this.alpha = 0.8; this.r = 2+Math.random()*3; }
+            update() { this.y += this.vy; this.x += this.vx + Math.sin(this.y*0.02); this.alpha -= 0.003; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fillStyle=`rgba(200,220,255,${this.alpha})`; ctx.fill(); }
+        }
+        class Cloud {
+            constructor(x) { this.x = x; this.y = H*0.15+Math.random()*H*0.1; this.w = 80+Math.random()*60; this.water = 0; }
+            update() { this.x += 0.3; if(this.x > W+100) this.x = -100; }
+            draw() {
+                ctx.beginPath();
+                for(let i=0;i<3;i++) ctx.arc(this.x+i*30-30, this.y, 25+i*5, 0, Math.PI*2);
+                let gray = Math.max(100, 220 - this.water*5);
+                ctx.fillStyle = `rgb(${gray},${gray},${gray+10})`; ctx.fill();
+            }
+        }
+        class Rain {
+            constructor(x, y) { this.x = x; this.y = y; this.speed = 4+Math.random()*4; }
+            update() { this.y += this.speed; this.x += 0.5; }
+            draw() { ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y+10); ctx.strokeStyle='rgba(100,150,255,0.6)'; ctx.lineWidth=1.5; ctx.stroke(); }
+        }
+
+        for(let i=0;i<5;i++) clouds.push(new Cloud(Math.random()*W));
+
+        canvas.addEventListener('pointerdown', (e) => {
+            if(e.clientY > H*0.7) {
+                for(let i=0;i<15;i++) vapors.push(new Vapor(e.clientX+(Math.random()-0.5)*40, H*0.7));
+            }
+        });
+
+        window.setTemp = function(t) {
+            temp = t;
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        };
+
+        function loop() {
+            ctx.fillStyle = '#040d21'; ctx.fillRect(0, 0, W, H);
+
+            // Sun
+            ctx.beginPath(); ctx.arc(W*0.85, H*0.1, 40, 0, Math.PI*2);
+            ctx.fillStyle = temp==='hot'?'#ff9800':'#fdd835'; ctx.fill();
+
+            // Ocean
+            ctx.fillStyle = temp==='cold'?'#1565c0':'#0277bd';
+            ctx.fillRect(0, H*0.7, W, H*0.3);
+
+            // Waves
+            ctx.beginPath(); ctx.moveTo(0, H*0.7);
+            for(let x=0;x<W;x+=5) ctx.lineTo(x, H*0.7 + Math.sin(x*0.02+Date.now()*0.002)*5);
+            ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+            ctx.fillStyle = temp==='cold'?'#1976d2':'#0288d1'; ctx.fill();
+
+            // Auto-evaporation
+            let rate = temp==='hot'?0.15:temp==='cold'?0.02:0.06;
+            if(Math.random()<rate) vapors.push(new Vapor(Math.random()*W, H*0.7));
+
+            // Vapors rise -> condensation
+            for(let i=vapors.length-1;i>=0;i--) {
+                vapors[i].update(); vapors[i].draw();
+                if(vapors[i].alpha<=0) { vapors.splice(i,1); continue; }
+                if(vapors[i].y < H*0.25) {
+                    clouds.forEach(c => { if(Math.abs(vapors[i].x-c.x)<c.w) c.water++; });
+                    vapors.splice(i,1);
+                }
+            }
+
+            // Clouds
+            clouds.forEach(c => {
+                c.update(); c.draw();
+                if(c.water > 20 && Math.random() < 0.05) {
+                    rains.push(new Rain(c.x+(Math.random()-0.5)*60, c.y+30));
+                    c.water = Math.max(0, c.water-1);
+                }
+            });
+
+            // Rain
+            for(let i=rains.length-1;i>=0;i--) {
+                rains[i].update(); rains[i].draw();
+                if(rains[i].y > H*0.7) rains.splice(i,1);
+            }
+
+            // Labels
+            ctx.fillStyle='rgba(255,255,255,0.5)'; ctx.font='11px Courier New';
+            ctx.fillText('EVAPORATION ↑', 30, H*0.65);
+            ctx.fillText('CONDENSATION', W*0.4, H*0.12);
+            ctx.fillText('PRECIPITATION ↓', W*0.6, H*0.4);
+
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+</html>

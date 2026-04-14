@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #7c4dff;color:#7c4dff;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#7c4dff;border:1px solid #7c4dff;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#7c4dff;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: STARTUP SIMULATOR</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,funds=10000,revenue=0,month=0,employees=1,product=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{let col=Math.floor(e.clientX/(W/3));
+if(col===0&&funds>=2000){funds-=2000;product+=20}
+if(col===1&&funds>=3000){funds-=3000;employees++;revenue+=500}
+if(col===2){month++;revenue=employees*500*(1+product/100);funds+=revenue;product=Math.max(0,product-2)}});
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+x.fillStyle=funds>0?'#7c4dff':'#f44336';x.font='bold 28px Courier';x.textAlign='center';x.fillText('$'+funds.toFixed(0),W/2,50);
+x.fillStyle='#ccc';x.font='14px Courier';x.fillText(`Month ${month} | Team: ${employees} | Product: ${product}%`,W/2,80);x.fillText(`Monthly Revenue: $${revenue.toFixed(0)}`,W/2,100);
+let bw=W/3-20;['R&D\n$2000','HIRE\n$3000','NEXT\nMONTH'].forEach((label,i)=>{
+x.fillStyle='#1a1a2e';x.fillRect(10+i*(W/3),H*0.75,bw,60);x.strokeStyle='#7c4dff';x.strokeRect(10+i*(W/3),H*0.75,bw,60);
+x.fillStyle='#fff';x.font='12px Courier';x.textAlign='center';label.split('\n').forEach((l,j)=>x.fillText(l,10+i*(W/3)+bw/2,H*0.75+25+j*15))});
+if(funds<=0){x.fillStyle='#f44336';x.font='bold 40px Courier';x.fillText('BANKRUPT',W/2,H/2)}
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

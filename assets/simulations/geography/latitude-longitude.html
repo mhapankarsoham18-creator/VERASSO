@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Latitude & Longitude</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #26A69A;color:#26A69A;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#26A69A;border:1px solid #26A69A;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#26A69A;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #26A69A;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>LAT/LON GRID</b><br>Tap anywhere to get coordinates<div id="info">Tap the globe</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,markerLat=0,markerLon=0,hasMarker=false;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{
+  let cx=W/2,cy=H/2,r=Math.min(W,H)*0.35;
+  let dx=e.clientX-cx,dy=e.clientY-cy;
+  if(dx*dx+dy*dy<r*r){
+    markerLat=(-dy/r*90).toFixed(1);markerLon=(dx/r*180).toFixed(1);hasMarker=true;
+    document.getElementById('info').textContent='Lat: '+markerLat+'° | Lon: '+markerLon+'°';
+  }
+});
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cx=W/2,cy=H/2,r=Math.min(W,H)*0.35;
+  // Globe
+  x.fillStyle='#0D47A1';x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();
+  // Grid lines
+  for(let lat=-80;lat<=80;lat+=20){
+    let y=cy-lat/90*r;
+    x.strokeStyle=lat===0?'#F44336':'rgba(255,255,255,0.15)';x.lineWidth=lat===0?2:1;
+    let halfW=Math.sqrt(r*r-(lat/90*r)*(lat/90*r));
+    x.beginPath();x.moveTo(cx-halfW,y);x.lineTo(cx+halfW,y);x.stroke();
+    x.fillStyle='#888';x.font='8px Courier';x.textAlign='right';x.fillText(lat+'°',cx-halfW-5,y+3);
+  }
+  for(let lon=-160;lon<=160;lon+=40){
+    let xp=cx+lon/180*r;
+    x.strokeStyle=lon===0?'#4CAF50':'rgba(255,255,255,0.15)';x.lineWidth=lon===0?2:1;
+    x.beginPath();x.ellipse(xp,cy,Math.abs(lon/180)*r*0.1+2,r,0,0,Math.PI*2);x.stroke();
+  }
+  // Equator/Prime meridian labels
+  x.fillStyle='#F44336';x.font='10px Courier';x.textAlign='left';x.fillText('EQUATOR (0°)',cx+r+5,cy+3);
+  x.fillStyle='#4CAF50';x.fillText('PRIME MERIDIAN',cx+3,cy-r-5);
+  // Marker
+  if(hasMarker){
+    let mx=cx+markerLon/180*r,my=cy-markerLat/90*r;
+    x.fillStyle='#FF5252';x.beginPath();x.arc(mx,my,5,0,Math.PI*2);x.fill();
+    x.fillStyle='#fff';x.font='10px Courier';x.textAlign='center';
+    x.fillText(markerLat+'°, '+markerLon+'°',mx,my-10);
+  }
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

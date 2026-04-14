@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Graph Traversal (BFS/DFS)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #009688;color:#009688;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#009688;border:1px solid #009688;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#009688;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #009688;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>GRAPH TRAVERSAL</b><br>Tap nodes to set start, then run<div id="info">BFS explores level by level, DFS goes deep first</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="runBFS()">▶ BFS</button>
+<button onclick="runDFS()">▶ DFS</button>
+<button onclick="resetGraph()">RESET</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+let nodes=[],edges=[],visited=[],startNode=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight;resetGraph()}addEventListener('resize',resize);resize();
+function resetGraph(){visited=[];
+  nodes=[];for(let i=0;i<10;i++)nodes.push({x:W*0.2+Math.random()*W*0.6,y:H*0.15+Math.random()*H*0.6,id:i});
+  edges=[];for(let i=0;i<10;i++){let j=(i+1)%10;edges.push([i,j]);if(Math.random()>0.5){let k=Math.floor(Math.random()*10);if(k!==i)edges.push([i,k])}}}
+c.addEventListener('pointerdown',e=>{
+  nodes.forEach((n,i)=>{if(Math.abs(e.clientX-n.x)<20&&Math.abs(e.clientY-n.y)<20)startNode=i});
+});
+async function runBFS(){visited=[];let q=[startNode],seen=new Set([startNode]);
+  while(q.length){let n=q.shift();visited.push(n);await new Promise(r=>setTimeout(r,400));
+    edges.forEach(([a,b])=>{let nb=a===n?b:b===n?a:-1;if(nb>=0&&!seen.has(nb)){seen.add(nb);q.push(nb)}})}}
+async function runDFS(){visited=[];let stack=[startNode],seen=new Set([startNode]);
+  while(stack.length){let n=stack.pop();visited.push(n);await new Promise(r=>setTimeout(r,400));
+    edges.forEach(([a,b])=>{let nb=a===n?b:b===n?a:-1;if(nb>=0&&!seen.has(nb)){seen.add(nb);stack.push(nb)}})}}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  edges.forEach(([a,b])=>{x.strokeStyle='#333';x.lineWidth=1;x.beginPath();x.moveTo(nodes[a].x,nodes[a].y);x.lineTo(nodes[b].x,nodes[b].y);x.stroke()});
+  nodes.forEach((n,i)=>{
+    let vi=visited.indexOf(i);
+    x.fillStyle=i===startNode?'#FF5252':vi>=0?'#009688':'#333';
+    x.beginPath();x.arc(n.x,n.y,16,0,Math.PI*2);x.fill();
+    x.strokeStyle='#009688';x.lineWidth=2;x.beginPath();x.arc(n.x,n.y,16,0,Math.PI*2);x.stroke();
+    x.fillStyle='#fff';x.font='bold 11px Courier';x.textAlign='center';x.fillText(i.toString(),n.x,n.y+4);
+    if(vi>=0){x.fillStyle='#fff';x.font='9px Courier';x.fillText(vi+1+'',n.x,n.y-22)}
+  });
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

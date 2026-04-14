@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>River Delta Formation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #26C6DA;color:#26C6DA;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#26C6DA;border:1px solid #26C6DA;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#26C6DA;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #26C6DA;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>RIVER DELTA</b><br>Watch sediment deposit at the river mouth<div id="info">Tap to add sediment flow</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl"><button onclick="speed=speed===1?3:1">SPEED: 1x</button><button onclick="particles=[]">RESET</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,particles=[],deposits=[],speed=1;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{for(let i=0;i<20;i++)particles.push({x:W*0.5,y:0,vx:(Math.random()-0.5)*2,vy:1+Math.random(),sed:0.8+Math.random()*0.5})});
+function step(){
+  for(let s=0;s<speed;s++){
+    if(Math.random()<0.3)particles.push({x:W*0.5+(Math.random()-0.5)*40,y:0,vx:(Math.random()-0.5)*1.5,vy:1.5+Math.random(),sed:0.5+Math.random()*0.5});
+    for(let i=particles.length-1;i>=0;i--){
+      let p=particles[i];
+      p.x+=p.vx;p.y+=p.vy;p.vy*=0.99;p.vx+=(Math.random()-0.5)*0.3;
+      // Spread at delta mouth
+      if(p.y>H*0.6){p.vx+=(Math.random()-0.5)*0.8;p.vy*=0.95}
+      // Deposit
+      if(p.y>H*0.65&&Math.random()<0.05){
+        deposits.push({x:p.x,y:p.y,r:2+Math.random()*3,c:p.sed});
+        particles.splice(i,1);continue;
+      }
+      if(p.y>H||p.x<0||p.x>W)particles.splice(i,1);
+    }
+  }
+}
+function draw(){step();
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Water
+  x.fillStyle='#0D47A1';x.fillRect(0,H*0.6,W,H*0.4);
+  // Land
+  x.fillStyle='#3E2723';x.fillRect(0,0,W*0.4,H*0.65);x.fillRect(W*0.6,0,W*0.4,H*0.65);
+  // River channel
+  x.fillStyle='#1565C0';x.fillRect(W*0.45,0,W*0.1,H*0.6);
+  // Deposits
+  deposits.forEach(d=>{x.fillStyle=`rgb(${Math.floor(139+d.c*40)},${Math.floor(119+d.c*30)},${Math.floor(80+d.c*20)})`;x.beginPath();x.arc(d.x,d.y,d.r,0,Math.PI*2);x.fill()});
+  // Particles
+  x.fillStyle='rgba(121,85,72,0.8)';particles.forEach(p=>{x.fillRect(p.x-1,p.y-1,3,3)});
+  x.fillStyle='#fff';x.font='10px Courier';x.textAlign='center';
+  x.fillText('SEDIMENT PARTICLES: '+particles.length+' | DEPOSITS: '+deposits.length,W/2,H-15);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

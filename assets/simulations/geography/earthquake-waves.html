@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Seismic Waves</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #F44336;color:#F44336;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#F44336;border:1px solid #F44336;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#F44336;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #F44336;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>SEISMIC WAVES</b><br>Tap to create earthquake<div id="info">P-waves (blue) travel faster than S-waves (red)</div></div>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,waves=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{waves.push({x:e.clientX,y:e.clientY,rP:0,rS:0,t:0})});
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Earth layers
+  x.fillStyle='#3E2723';x.fillRect(0,H*0.7,W,H*0.3);
+  x.fillStyle='#4E342E';x.fillRect(0,H*0.5,W,H*0.2);
+  x.fillStyle='#5D4037';x.fillRect(0,H*0.3,W,H*0.2);
+  x.fillStyle='#2E7D32';x.fillRect(0,H*0.25,W,H*0.05);
+  x.fillStyle='#fff';x.font='10px Courier';x.textAlign='right';
+  x.fillText('CRUST',W-10,H*0.28);x.fillText('UPPER MANTLE',W-10,H*0.4);
+  x.fillText('LOWER MANTLE',W-10,H*0.6);x.fillText('CORE',W-10,H*0.8);
+  waves.forEach(w=>{w.rP+=4;w.rS+=2.5;w.t++;
+    x.strokeStyle='rgba(66,165,245,'+(1-w.rP/500)+')';x.lineWidth=3;
+    x.beginPath();x.arc(w.x,w.y,w.rP,0,Math.PI*2);x.stroke();
+    x.strokeStyle='rgba(244,67,54,'+(1-w.rS/500)+')';
+    x.beginPath();x.arc(w.x,w.y,w.rS,0,Math.PI*2);x.stroke();
+  });
+  waves=waves.filter(w=>w.rP<600);
+  x.fillStyle='#fff';x.font='11px Courier';x.textAlign='left';
+  x.fillText('🔵 P-WAVE (Primary, Compressional, Faster)',10,20);
+  x.fillText('🔴 S-WAVE (Secondary, Shear, Slower)',10,35);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

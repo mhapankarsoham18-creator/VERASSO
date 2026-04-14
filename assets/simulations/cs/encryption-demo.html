@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Encryption Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #9C27B0;color:#9C27B0;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#9C27B0;border:1px solid #9C27B0;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#9C27B0;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #9C27B0;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>ENCRYPTION DEMO</b><br>Type a message to encrypt<div id="info">Caesar Cipher | Shift: 3</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<input type="text" id="msg" value="HELLO WORLD" style="width:140px;background:#111;color:#9C27B0;border:1px solid #9C27B0;padding:6px;font-family:inherit">
+<button onclick="shift=Math.max(1,shift-1)">SHIFT -</button>
+<button onclick="shift=Math.min(25,shift+1)">SHIFT +</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,shift=3;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function encrypt(text,s){return text.split('').map(ch=>{
+  if(ch>='A'&&ch<='Z')return String.fromCharCode((ch.charCodeAt(0)-65+s)%26+65);
+  if(ch>='a'&&ch<='z')return String.fromCharCode((ch.charCodeAt(0)-97+s)%26+97);return ch}).join('')}
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let msg=document.getElementById('msg').value.toUpperCase();
+  let enc=encrypt(msg,shift);
+  document.getElementById('info').textContent='Caesar Cipher | Shift: '+shift;
+  // Plain text
+  x.fillStyle='#fff';x.font='bold 14px Courier';x.textAlign='center';
+  x.fillText('PLAINTEXT:',W/2,H*0.2);
+  x.fillStyle='#9C27B0';x.font='bold 24px Courier';
+  x.fillText(msg,W/2,H*0.28);
+  // Arrow
+  x.fillStyle='#555';x.font='40px Courier';x.fillText('↓',W/2,H*0.4);
+  x.fillStyle='#888';x.font='12px Courier';x.fillText('SHIFT +'+shift,W/2,H*0.46);
+  // Cipher text
+  x.fillStyle='#fff';x.font='bold 14px Courier';x.fillText('CIPHERTEXT:',W/2,H*0.55);
+  x.fillStyle='#00e676';x.font='bold 24px Courier';
+  x.fillText(enc,W/2,H*0.63);
+  // Alphabet mapping
+  x.font='12px Courier';x.fillStyle='#555';
+  let alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let mapped=encrypt(alpha,shift);
+  x.fillText(alpha,W/2,H*0.78);x.fillStyle='#9C27B0';x.fillText(mapped,W/2,H*0.82);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

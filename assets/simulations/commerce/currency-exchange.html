@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #ff9800;color:#ff9800;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#ff9800;border:1px solid #ff9800;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#ff9800;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: CURRENCY EXCHANGE</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,t=0;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const currencies=[{code:'USD',rate:1,color:'#4caf50'},{code:'EUR',rate:0.92,color:'#2196f3'},{code:'GBP',rate:0.79,color:'#9c27b0'},{code:'JPY',rate:149.5,color:'#f44336'},{code:'INR',rate:83.2,color:'#ff9800'},{code:'CNY',rate:7.24,color:'#e91e63'}];
+function loop(){t+=0.01;x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+x.fillStyle='#ff9800';x.font='bold 20px Courier';x.textAlign='center';x.fillText('FOREX EXCHANGE RATES',W/2,40);
+currencies.forEach((cur,i)=>{let y=80+i*65;let fluct=cur.rate*(1+Math.sin(t+i*1.5)*0.02);
+x.fillStyle='#1a1a2e';x.fillRect(20,y,W-40,50);x.strokeStyle=cur.color;x.strokeRect(20,y,W-40,50);
+x.fillStyle=cur.color;x.font='bold 18px Courier';x.textAlign='left';x.fillText(cur.code,40,y+32);
+x.textAlign='right';x.fillStyle=fluct>cur.rate?'#4caf50':'#f44336';x.fillText(fluct.toFixed(4),W-40,y+32);
+let change=((fluct-cur.rate)/cur.rate*100);x.font='11px Courier';x.fillText((change>=0?'+':'')+change.toFixed(2)+'%',W-140,y+32)});
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

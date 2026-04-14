@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #e91e63;color:#e91e63;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#e91e63;border:1px solid #e91e63;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#e91e63;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: POPULATION DENSITY</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+const regions=[{name:'Asia',pop:4700,x:0.65,y:0.35,r:50},{name:'Africa',pop:1400,x:0.45,y:0.55,r:35},{name:'Europe',pop:750,x:0.48,y:0.25,r:25},{name:'N.America',pop:580,x:0.2,y:0.3,r:22},{name:'S.America',pop:430,x:0.25,y:0.6,r:20},{name:'Oceania',pop:45,x:0.8,y:0.7,r:10}];
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);let t=Date.now()*0.001;
+regions.forEach(r=>{let px=r.x*W,py=r.y*H,sz=r.r*(W/400);
+x.beginPath();x.arc(px,py,sz+Math.sin(t*2)*3,0,Math.PI*2);let alpha=Math.min(1,r.pop/5000);
+x.fillStyle=`rgba(233,30,99,${alpha*0.6})`;x.fill();x.strokeStyle='#e91e63';x.lineWidth=2;x.stroke();
+x.fillStyle='#fff';x.font='bold 12px Courier New';x.textAlign='center';x.fillText(r.name,px,py-sz-10);x.font='10px Courier New';x.fillText(r.pop+'M',px,py+5)});
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>

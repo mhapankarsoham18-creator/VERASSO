@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Glacial Movement</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #B3E5FC;color:#B3E5FC;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#B3E5FC;border:1px solid #B3E5FC;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#B3E5FC;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #B3E5FC;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>GLACIAL MOVEMENT</b><br>Learn how glaciers shape terrain<div id="info">Glaciers move 1m to 30m per day. They carve U-shaped valleys, transport boulders (erratics), and deposit moraines.</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl"><button onclick="temp-=5">COOL -5°C</button><button onclick="temp+=5">WARM +5°C</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,glacierLen=0.3,temp=-10;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function draw(){
+  // Temperature affects glacier
+  if(temp<0)glacierLen=Math.min(0.8,glacierLen+0.001);
+  else glacierLen=Math.max(0.05,glacierLen-0.002);
+
+  x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  // Mountain
+  x.fillStyle='#5D4037';
+  x.beginPath();x.moveTo(0,H);x.lineTo(W*0.3,H*0.1);x.lineTo(W,H*0.6);x.lineTo(W,H);x.fill();
+  // Glacier
+  let gEnd=W*0.3+glacierLen*W*0.7;
+  x.fillStyle='rgba(179,229,252,0.7)';
+  x.beginPath();x.moveTo(W*0.3,H*0.1);
+  x.quadraticCurveTo(W*0.3+glacierLen*W*0.3,H*0.3,gEnd,H*0.5+glacierLen*H*0.1);
+  x.lineTo(gEnd,H*0.6+glacierLen*H*0.05);
+  x.quadraticCurveTo(W*0.3+glacierLen*W*0.3,H*0.45,W*0.3,H*0.2);x.fill();
+  // Moraine
+  x.fillStyle='#795548';
+  for(let i=0;i<15;i++){x.fillRect(gEnd-10+Math.random()*20,H*0.5+Math.random()*30+glacierLen*H*0.05,5+Math.random()*8,4+Math.random()*5)}
+  // U-valley scar
+  x.strokeStyle='rgba(255,255,255,0.15)';x.lineWidth=3;
+  x.beginPath();x.moveTo(W*0.3,H*0.2);x.quadraticCurveTo(gEnd*0.8,H*0.55,gEnd+50,H*0.65);x.stroke();
+  // Info
+  x.fillStyle='#fff';x.font='bold 14px Courier';x.textAlign='left';
+  x.fillText('TEMP: '+temp+'°C',15,H-60);
+  x.fillText('GLACIER LENGTH: '+Math.round(glacierLen*100)+'%',15,H-40);
+  x.fillStyle='#B3E5FC';x.font='11px Courier';
+  x.fillText(temp<0?'❄ ADVANCING — Ice accumulation > melt':'☀ RETREATING — Melt > accumulation',15,H-20);
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

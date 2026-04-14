@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Pathfinding A*</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00BCD4;color:#00BCD4;z-index:10;font-size:11px;max-width:260px;line-height:1.5}
+.ctrl{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#00BCD4;border:1px solid #00BCD4;padding:7px 12px;font-family:inherit;font-size:11px;cursor:pointer;border-radius:2px}
+.ctrl button:active,.ctrl button.a{background:#00BCD4;color:#000}
+.info{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.88);padding:8px 12px;border:2px solid #00BCD4;color:#ccc;z-index:10;font-size:10px;max-width:200px;line-height:1.4}
+</style></head><body>
+
+<div class="hud"><b>A* PATHFINDING</b><br>Draw walls → Set start/end → Run<div id="info">Draw walls, then tap RUN</div></div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<button onclick="mode='wall'" class="a">DRAW WALL</button>
+<button onclick="mode='start'">SET START</button>
+<button onclick="mode='end'">SET END</button>
+<button onclick="runAStar()">▶ RUN</button>
+<button onclick="clearGrid()">CLEAR</button>
+</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+let cols=30,rows=20,grid=[],mode='wall',startC=null,endC=null,path=[],visited=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+function clearGrid(){grid=[];for(let r=0;r<rows;r++){grid[r]=[];for(let cc=0;cc<cols;cc++)grid[r][cc]=0}startC=null;endC=null;path=[];visited=[]}
+clearGrid();
+
+let drawing=false;
+c.addEventListener('pointerdown',e=>{drawing=true;handleClick(e)});
+c.addEventListener('pointermove',e=>{if(drawing&&mode==='wall')handleClick(e)});
+c.addEventListener('pointerup',()=>drawing=false);
+
+function handleClick(e){
+  let cw=W/cols,ch=(H-80)/rows;
+  let cc=Math.floor(e.clientX/cw),rr=Math.floor((e.clientY-40)/ch);
+  if(rr<0||rr>=rows||cc<0||cc>=cols)return;
+  if(mode==='wall')grid[rr][cc]=grid[rr][cc]?0:1;
+  else if(mode==='start'){startC={r:rr,c:cc};grid[rr][cc]=0}
+  else if(mode==='end'){endC={r:rr,c:cc};grid[rr][cc]=0}
+}
+
+async function runAStar(){
+  if(!startC||!endC){document.getElementById('info').textContent='Set START and END first!';return}
+  path=[];visited=[];
+  let open=[{r:startC.r,c:startC.c,g:0,h:0,f:0,parent:null}];
+  let closed=new Set();
+  function h(r,cc){return Math.abs(r-endC.r)+Math.abs(cc-endC.c)}
+  while(open.length>0){
+    open.sort((a,b)=>a.f-b.f);let cur=open.shift();
+    let key=cur.r+','+cur.c;if(closed.has(key))continue;closed.add(key);
+    visited.push({r:cur.r,c:cur.c});
+    if(cur.r===endC.r&&cur.c===endC.c){
+      let n=cur;while(n){path.push({r:n.r,c:n.c});n=n.parent}
+      document.getElementById('info').textContent='Path found! Length: '+path.length+' | Visited: '+visited.length;return;
+    }
+    for(let[dr,dc]of[[-1,0],[1,0],[0,-1],[0,1]]){
+      let nr=cur.r+dr,nc=cur.c+dc;
+      if(nr<0||nr>=rows||nc<0||nc>=cols||grid[nr][nc]===1||closed.has(nr+','+nc))continue;
+      let g=cur.g+1,hv=h(nr,nc);
+      open.push({r:nr,c:nc,g:g,h:hv,f:g+hv,parent:cur});
+    }
+    await new Promise(r=>setTimeout(r,20));
+  }
+  document.getElementById('info').textContent='No path found!';
+}
+
+function draw(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+  let cw=W/cols,ch=(H-80)/rows;
+  for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
+    let bx=cc*cw,by=r*ch+40;
+    if(grid[r][cc])x.fillStyle='#444';
+    else x.fillStyle='#111';
+    x.fillRect(bx+1,by+1,cw-2,ch-2);
+  }
+  visited.forEach(v=>{x.fillStyle='rgba(0,188,212,0.3)';x.fillRect(v.c*cw+1,v.r*ch+41,cw-2,ch-2)});
+  path.forEach(p=>{x.fillStyle='#00e676';x.fillRect(p.c*cw+1,p.r*ch+41,cw-2,ch-2)});
+  if(startC){x.fillStyle='#4CAF50';x.fillRect(startC.c*cw+1,startC.r*ch+41,cw-2,ch-2)}
+  if(endC){x.fillStyle='#F44336';x.fillRect(endC.c*cw+1,endC.r*ch+41,cw-2,ch-2)}
+  requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

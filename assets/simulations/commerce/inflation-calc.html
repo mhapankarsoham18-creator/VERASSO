@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:'Courier New',monospace;overflow:hidden}
+canvas{display:block}
+.hud{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.85);padding:10px;border:2px solid #ef5350;color:#ef5350;z-index:10;font-size:12px;max-width:220px}
+.ctrl{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;flex-wrap:wrap;justify-content:center}
+.ctrl button{background:#111;color:#ef5350;border:1px solid #ef5350;padding:8px 14px;font-family:inherit;font-size:11px;cursor:pointer}
+.ctrl button.a{background:#ef5350;color:#000}
+</style>
+</head>
+<body>
+<div class="hud"><div>MODULE: INFLATION CALCULATOR</div><div id="info"></div></div>
+<canvas id="c"></canvas>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,rate=3,years=0,baseVal=100;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',resize);resize();
+c.addEventListener('pointerdown',e=>{if(e.clientY<H/2)rate=Math.min(15,rate+0.5);else years=Math.min(50,years+1)});
+function loop(){x.fillStyle='#0a0a1a';x.fillRect(0,0,W,H);
+let futureVal=baseVal*Math.pow(1+rate/100,years);let purchasingPower=baseVal/futureVal*100;
+x.fillStyle='#ef5350';x.font='bold 24px Courier';x.textAlign='center';x.fillText(`INFLATION: ${rate}% / year`,W/2,50);
+x.fillStyle='#fff';x.font='18px Courier';x.fillText(`After ${years} years:`,W/2,H*0.25);x.fillText(`$100 → needs $${futureVal.toFixed(2)}`,W/2,H*0.33);
+x.fillStyle=purchasingPower>70?'#4caf50':purchasingPower>40?'#ff9800':'#f44336';x.font='bold 40px Courier';x.fillText(`${purchasingPower.toFixed(1)}%`,W/2,H*0.5);x.font='14px Courier';x.fillStyle='#ccc';x.fillText('Purchasing Power Remaining',W/2,H*0.56);
+let barW=W*0.6;x.fillStyle='#333';x.fillRect(W*0.2,H*0.65,barW,30);x.fillStyle='#ef5350';x.fillRect(W*0.2,H*0.65,barW*(purchasingPower/100),30);
+x.fillStyle='#888';x.font='12px Courier';x.fillText('Tap top = +rate | Tap bottom = +year',W/2,H*0.9);
+requestAnimationFrame(loop)}loop();
+</script>
+</body>
+</html>
