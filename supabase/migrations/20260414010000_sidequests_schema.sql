@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS quest_completions (
 
 -- Prevent same quest completed twice in one day
 CREATE UNIQUE INDEX IF NOT EXISTS uq_quest_daily
-  ON quest_completions (profile_id, quest_id, (completed_at::date));
+  ON quest_completions (profile_id, quest_id, ((completed_at AT TIME ZONE 'UTC')::date));
 
 -- 3. XP & Streak increment function
 CREATE OR REPLACE FUNCTION add_sidequest_xp(p_profile_id uuid, p_xp int)

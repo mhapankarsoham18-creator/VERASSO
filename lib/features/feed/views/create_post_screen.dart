@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:verasso/core/widgets/verasso_snackbar.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import '../../../core/validators/input_validator.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});
@@ -50,7 +53,17 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   void _transmit() async {
-    if (_textController.text.isEmpty && _selectedMedia == null) return;
+    final rawText = _textController.text;
+    if (rawText.isEmpty && _selectedMedia == null) return;
+    
+    final validationError = InputValidator.validatePost(rawText);
+    if (validationError != null && rawText.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(validationError)));
+      return;
+    }
+    
+    final sanitizedText = InputValidator.sanitize(rawText);
+
     setState(() => _isTransmitting = true);
 
     try {
@@ -86,7 +99,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       await Supabase.instance.client.from('posts').insert({
         'author_id': authorId,
         'type': _mediaType ?? 'text',
-        'content': _textController.text,
+        'content': sanitizedText,
         'has_math': _hasMath,
         if (mediaUrl != null) 'media_url': mediaUrl,
       });
@@ -103,12 +116,12 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text('TRANSMIT SIGNAL', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
+        title: Text('TRANSMIT SIGNAL', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             Expanded(
@@ -123,7 +136,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                         controller: _textController,
                         maxLines: null,
                         expands: true,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Enter coordinates or text...',
                           border: InputBorder.none,
                         ),
@@ -131,23 +144,23 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                       ),
                     ),
                     if (_selectedMedia != null) ...[
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Container(
                         height: 150,
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.blockEdge, width: 2),
-                          color: AppColors.shadowDark,
+                          border: Border.all(color: context.colors.blockEdge, width: 2),
+                          color: context.colors.shadowDark,
                         ),
                         child: Stack(
                           children: [
                             if (_mediaType == 'image')
                                Image.file(_selectedMedia!, fit: BoxFit.cover, width: double.infinity, height: double.infinity)
                             else 
-                               const Center(child: Icon(Icons.videocam, size: 48, color: AppColors.primary)),
+                               Center(child: Icon(Icons.videocam, size: 48, color: context.colors.primary)),
                             Positioned(
                               top: 4, right: 4,
                               child: IconButton(
-                                icon: const Icon(Icons.close, color: Colors.white, shadows: [Shadow(blurRadius: 2)]),
+                                icon: Icon(Icons.close, color: context.colors.textPrimary, shadows: [Shadow(blurRadius: 2)]),
                                 onPressed: () => setState(() { _selectedMedia = null; _mediaType = null; }),
                               )
                             )
@@ -159,19 +172,19 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             // Has Math Toggle
             Row(
               children: [
                 Checkbox(
                   value: _hasMath,
-                  activeColor: AppColors.primary,
+                  activeColor: context.colors.primary,
                   onChanged: (val) => setState(() => _hasMath = val ?? false),
                 ),
-                const Text('Render as LaTeX Math', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                Text('Render as LaTeX Math', style: TextStyle(color: context.colors.textPrimary, fontWeight: FontWeight.bold)),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             // Media picker row
             Row(
               children: [
@@ -180,46 +193,46 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     padding: 12,
                     isButton: true,
                     onTap: () => _pickMedia(isVideo: false),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.image, color: AppColors.primary),
+                        Icon(Icons.image, color: context.colors.primary),
                         SizedBox(height: 4),
-                        Text('Gallery', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 10))
+                        Text('Gallery', style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.primary, fontSize: 10))
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 Expanded(
                   child: NeoPixelBox(
                     padding: 12,
                     isButton: true,
                     onTap: () => _captureMedia(isVideo: false),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.camera_alt, color: AppColors.primary),
+                        Icon(Icons.camera_alt, color: context.colors.primary),
                         SizedBox(height: 4),
-                        Text('Photo', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 10))
+                        Text('Photo', style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.primary, fontSize: 10))
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 Expanded(
                   child: NeoPixelBox(
                     padding: 12,
                     isButton: true,
                     onTap: () => _captureMedia(isVideo: true),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.videocam, color: AppColors.primary),
+                        Icon(Icons.videocam, color: context.colors.primary),
                         SizedBox(height: 4),
-                        Text('Record', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 10))
+                        Text('Record', style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.primary, fontSize: 10))
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 Expanded(
                   child: NeoPixelBox(
                     padding: 12,
@@ -228,22 +241,20 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                       setState(() {
                         _mediaType = 'audio';
                       });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Voice recording will use device mic in Phase 3. Post tagged as audio.')),
-                      );
+                      VerassoSnackbar.show(context, message: 'Voice recording will use device mic in Phase 3. Post tagged as audio.');
                     },
                     child: Column(
                       children: [
-                        Icon(Icons.mic, color: _mediaType == 'audio' ? AppColors.accent : AppColors.primary),
-                        const SizedBox(height: 4),
-                        Text('Voice', style: TextStyle(fontWeight: FontWeight.bold, color: _mediaType == 'audio' ? AppColors.accent : AppColors.primary, fontSize: 10))
+                        Icon(Icons.mic, color: _mediaType == 'audio' ? context.colors.accent : context.colors.primary),
+                        SizedBox(height: 4),
+                        Text('Voice', style: TextStyle(fontWeight: FontWeight.bold, color: _mediaType == 'audio' ? context.colors.accent : context.colors.primary, fontSize: 10))
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: NeoPixelBox(
@@ -252,8 +263,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 onTap: _isTransmitting ? null : _transmit,
                 child: Center(
                   child: _isTransmitting 
-                    ? const CircularProgressIndicator(color: AppColors.primary)
-                    : const Text('BROADCAST', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 2)),
+                    ? VerassoLoading()
+                    : Text('BROADCAST', style: TextStyle(color: context.colors.primary, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 2)),
                 ),
               ),
             ),

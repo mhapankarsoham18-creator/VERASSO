@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/widgets/verasso_snackbar.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:share_plus/share_plus.dart';
 import 'create_post_screen.dart';
+import 'comments_sheet.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../repositories/feed_repository.dart';
 import '../repositories/sync_engine.dart';
-import '../../../features/notifications/views/notifications_screen.dart';
-import '../../../features/doubts/views/doubts_list_screen.dart';
-import '../../../features/messaging/views/conversation_list_screen.dart';
-import '../../../features/education/views/simulations_directory.dart';
-import '../../../features/sidequests/views/quest_board_screen.dart';
+// Unused imports from phase 4 router swap removed
 
 // Uses the new Offline-First repository stream
 final feedStreamProvider = StreamProvider<List<Map<String, dynamic>>>((ref) {
@@ -37,35 +37,35 @@ class FeedScreen extends ConsumerWidget {
     final feedStream = ref.watch(feedStreamProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
         leading: Builder(
           builder: (ctx) => IconButton(
-            icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+            icon: Icon(Icons.menu, color: context.colors.textPrimary),
             onPressed: () => Scaffold.of(ctx).openDrawer(),
           ),
         ),
-        title: const Text('HOME', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
+        title: Text('HOME', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
+            icon: Icon(Icons.notifications_none, color: context.colors.textPrimary),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+              context.push('/notifications');
             },
           ),
           IconButton(
-            icon: const Icon(Icons.chat_bubble_outline, color: AppColors.textPrimary),
+            icon: Icon(Icons.chat_bubble_outline, color: context.colors.textPrimary),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const ConversationListScreen()));
+              context.push('/messages');
             },
           ),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
         ],
       ),
       drawer: Drawer(
-        backgroundColor: AppColors.neutralBg,
-        shape: const RoundedRectangleBorder(
+        backgroundColor: context.colors.neutralBg,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topRight: Radius.circular(24), bottomRight: Radius.circular(24)),
         ),
         child: SafeArea(
@@ -74,22 +74,22 @@ class FeedScreen extends ConsumerWidget {
             children: [
               // Drawer Header — retro pixel brand
               Container(
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: AppColors.blockEdge, width: 3)),
+                padding: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: context.colors.blockEdge, width: 3)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('▣ VERASSO', style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 26, letterSpacing: 3)),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.accent, width: 2),
+                        border: Border.all(color: context.colors.accent, width: 2),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text('P2P KNOWLEDGE GRID', style: TextStyle(color: AppColors.accent, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 2)),
+                      child: Text('P2P KNOWLEDGE GRID', style: TextStyle(color: context.colors.accent, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 2)),
                     ),
                   ],
                 ),
@@ -97,7 +97,7 @@ class FeedScreen extends ConsumerWidget {
               // Scrollable nav items — prevents overflow
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.only(top: 12),
+                  padding: EdgeInsets.only(top: 12),
                   children: [
                     // Main nav — functional
                     _pixelTile(context, '🏠', 'Home', () {
@@ -109,11 +109,11 @@ class FeedScreen extends ConsumerWidget {
                     }),
                     _pixelTile(context, '🎒', 'Study Tools', () {
                       Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const SimulationsDirectory()));
+                      context.go('/shell/science');
                     }),
                     _pixelTile(context, '⚔️', 'Sidequests', () {
                       Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const QuestBoardScreen()));
+                      context.push('/sidequests');
                     }),
                     _pixelTile(context, '🌌', 'Astro Hub', () {
                       Navigator.pop(context);
@@ -121,27 +121,27 @@ class FeedScreen extends ConsumerWidget {
                     }),
                     _pixelTile(context, '❓', 'Doubts', () {
                       Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const DoubtsListScreen()));
+                      context.push('/doubts');
                     }),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Container(height: 2, color: AppColors.blockEdge),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Container(height: 2, color: context.colors.blockEdge),
                     ),
                     _pixelTile(context, '💬', 'Messages', () {
                       Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const ConversationListScreen()));
+                      context.push('/messages');
                     }),
                     _pixelTile(context, '🔔', 'Notifications', () {
                       Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+                      context.push('/notifications');
                     }),
                     _pixelTile(context, '👤', 'Profile', () {
                       Navigator.pop(context);
                       context.go('/shell/profile');
                     }),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Container(height: 2, color: AppColors.blockEdge),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Container(height: 2, color: context.colors.blockEdge),
                     ),
                     _pixelTile(context, '⚙️', 'Settings', () {
                       Navigator.pop(context);
@@ -152,12 +152,12 @@ class FeedScreen extends ConsumerWidget {
                       showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                          backgroundColor: AppColors.neutralBg,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: const BorderSide(color: AppColors.blockEdge, width: 3)),
-                          title: const Text('▣ VERASSO', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
-                          content: const Text('A decentralized peer-to-peer knowledge grid for the next generation of explorers.\n\nPhase 2 — Social Feed Active\nv1.0.0', style: TextStyle(color: AppColors.textSecondary, height: 1.6)),
+                          backgroundColor: context.colors.neutralBg,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: context.colors.blockEdge, width: 3)),
+                          title: Text('▣ VERASSO', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
+                          content: Text('A decentralized peer-to-peer knowledge grid for the next generation of explorers.\n\nPhase 2 — Social Feed Active\nv1.0.0', style: TextStyle(color: context.colors.textSecondary, height: 1.6)),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context), child: const Text('CLOSE', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold))),
+                            TextButton(onPressed: () => Navigator.pop(context), child: Text('CLOSE', style: TextStyle(color: context.colors.primary, fontWeight: FontWeight.bold))),
                           ],
                         ),
                       );
@@ -166,18 +166,18 @@ class FeedScreen extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.shadowDark, width: 2),
+                    border: Border.all(color: context.colors.shadowDark, width: 2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle)),
-                      const SizedBox(width: 8),
-                      Text('v1.0.0 ▪ Phase 2', style: TextStyle(color: AppColors.textSecondary.withAlpha(140), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                      Container(width: 8, height: 8, decoration: BoxDecoration(color: context.colors.accent, shape: BoxShape.circle)),
+                      SizedBox(width: 8),
+                      Text('v1.0.0 ▪ Phase 2', style: TextStyle(color: context.colors.textSecondary.withAlpha(140), fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)),
                     ],
                   ),
                 ),
@@ -195,12 +195,12 @@ class FeedScreen extends ConsumerWidget {
               
               // Feed Content
               if (posts.isEmpty)
-                const SliverFillRemaining(
+                SliverFillRemaining(
                   child: Center(child: Text('The grid is quiet. Be the first to broadcast.')),
                 )
               else
                 SliverPadding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) => _PostCard(post: posts[index]),
@@ -211,36 +211,36 @@ class FeedScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(color: AppColors.primary)),
-        error: (err, stack) => Center(child: Text('Signal Lost: $err', style: const TextStyle(color: AppColors.error))),
+        loading: () => Center(child: VerassoLoading()),
+        error: (err, stack) => Center(child: Text('Signal Lost: $err', style: TextStyle(color: context.colors.error))),
       ),
       floatingActionButton: NeoPixelBox(
         padding: 16,
         isButton: true,
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CreatePostScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreatePostScreen()));
         },
-        child: const Icon(Icons.add, color: AppColors.primary),
+        child: Icon(Icons.add, color: context.colors.primary),
       ),
     );
   }
 
   Widget _pixelTile(BuildContext context, String emoji, String label, VoidCallback onTap) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 18)),
-              const SizedBox(width: 14),
-              Text(label.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppColors.textPrimary, letterSpacing: 1.5)),
+              Text(emoji, style: TextStyle(fontSize: 18)),
+              SizedBox(width: 14),
+              Text(label.toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: context.colors.textPrimary, letterSpacing: 1.5)),
             ],
           ),
         ),
@@ -283,13 +283,13 @@ class _StoriesBar extends ConsumerWidget {
 
     return Container(
       height: 110,
-      padding: const EdgeInsets.only(top: 12, bottom: 8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.shadowDark, width: 2)),
+      padding: EdgeInsets.only(top: 12, bottom: 8),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: context.colors.shadowDark, width: 2)),
       ),
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         children: [
           // "Your Story" add button
           _StoryAvatar(
@@ -297,9 +297,7 @@ class _StoriesBar extends ConsumerWidget {
             isAddStory: true,
             avatarUrl: null,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Stories broadcasting coming in Phase 3.')),
-              );
+              VerassoSnackbar.show(context, message: 'Stories broadcasting coming in Phase 3.');
             },
           ),
           // Only mutual follows appear in stories
@@ -323,7 +321,7 @@ class _AuthorStoryAvatar extends ConsumerWidget {
     final authorAsync = ref.watch(authorProfileProvider(authorId));
     return authorAsync.when(
       data: (profile) {
-        if (profile == null) return const SizedBox.shrink();
+        if (profile == null) return SizedBox.shrink();
         return _StoryAvatar(
           label: (profile['display_name'] ?? profile['username'] ?? '?').toString().split(' ').first,
           isAddStory: false,
@@ -331,8 +329,8 @@ class _AuthorStoryAvatar extends ConsumerWidget {
           onTap: () {},
         );
       },
-      loading: () => const SizedBox(width: 80),
-      error: (_, _) => const SizedBox.shrink(),
+      loading: () => SizedBox(width: 80),
+      error: (_, _) => SizedBox.shrink(),
     );
   }
 }
@@ -355,7 +353,7 @@ class _StoryAvatar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(right: 16),
+        padding: EdgeInsets.only(right: 16),
         child: Column(
           children: [
             Container(
@@ -364,7 +362,7 @@ class _StoryAvatar extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isAddStory ? AppColors.shadowDark : AppColors.primary,
+                  color: isAddStory ? context.colors.shadowDark : context.colors.primary,
                   width: 2.5,
                 ),
               ),
@@ -372,12 +370,12 @@ class _StoryAvatar extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundColor: AppColors.shadowDark,
+                    backgroundColor: context.colors.shadowDark,
                     backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
                     child: avatarUrl == null
                       ? Icon(
                           isAddStory ? Icons.add : Icons.person,
-                          color: isAddStory ? AppColors.primary : AppColors.neutralBg,
+                          color: isAddStory ? context.colors.primary : context.colors.neutralBg,
                           size: 28,
                         )
                       : null,
@@ -390,20 +388,20 @@ class _StoryAvatar extends StatelessWidget {
                         width: 20,
                         height: 20,
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.neutralBg, width: 2),
+                          border: Border.all(color: context.colors.neutralBg, width: 2),
                         ),
-                        child: const Icon(Icons.add, size: 12, color: AppColors.neutralBg),
+                        child: Icon(Icons.add, size: 12, color: context.colors.neutralBg),
                       ),
                     ),
                 ],
               ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               label,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: context.colors.textSecondary),
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -433,10 +431,10 @@ class _PostCard extends ConsumerWidget {
     final hasMath = post['has_math'] == true;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24.0),
+      padding: EdgeInsets.only(bottom: 24.0),
       child: NeoPixelBox(
         padding: 16,
-        backgroundColor: type == 'sidequest' ? const Color(0xFFE8D5A3) : AppColors.neutralBg, // Parchment for sidequests
+        backgroundColor: type == 'sidequest' ? Color(0xFFE8D5A3) : context.colors.neutralBg, // Parchment for sidequests
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -444,7 +442,7 @@ class _PostCard extends ConsumerWidget {
             if (authorAsync != null)
               authorAsync.when(
                 data: (profile) {
-                  if (profile == null) return const SizedBox.shrink();
+                  if (profile == null) return SizedBox.shrink();
                   final name = profile['display_name'] ?? profile['username'] ?? 'Anonymous Node';
                   final avatarUrl = profile['avatar_url'];
                   final role = profile['role'] ?? 'student';
@@ -455,79 +453,107 @@ class _PostCard extends ConsumerWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: AppColors.blockEdge,
+                          color: context.colors.blockEdge,
                           shape: BoxShape.rectangle,
-                          border: Border.all(color: AppColors.blockEdge, width: 2),
+                          border: Border.all(color: context.colors.blockEdge, width: 2),
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: avatarUrl != null 
-                          ? CachedNetworkImage(imageUrl: avatarUrl, fit: BoxFit.cover)
-                          : const Icon(Icons.person, color: AppColors.neutralBg),
+                          ? CachedNetworkImage(imageUrl: avatarUrl, fit: BoxFit.cover, memCacheWidth: 200, memCacheHeight: 200)
+                          : Icon(Icons.person, color: context.colors.neutralBg),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(name, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                            const SizedBox(height: 4),
-                            Text(role.toString().toUpperCase(), style: const TextStyle(fontSize: 10, color: AppColors.accent, fontWeight: FontWeight.bold)),
+                            Text(name, style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.textPrimary)),
+                            SizedBox(height: 4),
+                            Text(role.toString().toUpperCase(), style: TextStyle(fontSize: 10, color: context.colors.accent, fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
                     ],
                   );
                 },
-                loading: () => const SizedBox(height: 40, child: Align(alignment: Alignment.centerLeft, child: Text('Resolving Identity...'))),
-                error: (err, stack) => const SizedBox.shrink(),
+                loading: () => SizedBox(height: 40, child: Align(alignment: Alignment.centerLeft, child: Text('Resolving Identity...'))),
+                error: (err, stack) => SizedBox.shrink(),
               ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             // Body: Content Block
             if (content.toString().isNotEmpty)
               hasMath
                 ? Math.tex(content, textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: type == 'sidequest' ? Colors.black87 : null,
+                    color: type == 'sidequest' ? context.colors.neutralBg : null,
                   ))
                 : Text(
                     content,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: type == 'sidequest' ? Colors.black87 : null,
+                      color: type == 'sidequest' ? context.colors.neutralBg : null,
                       fontWeight: type == 'sidequest' ? FontWeight.bold : null,
                     ),
                   ),
             
             // Media Block (Images / Gifs / Video)
             if (mediaUrl != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Container(
-                constraints: const BoxConstraints(maxHeight: 300),
+                constraints: BoxConstraints(maxHeight: 300),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.blockEdge, width: 4),
+                  border: Border.all(color: context.colors.blockEdge, width: 4),
                 ),
                 child: type == 'video'
-                  ? const Center(child: Padding(padding: EdgeInsets.all(24), child: Icon(Icons.play_circle_fill, size: 56, color: AppColors.primary)))
-                  : CachedNetworkImage(imageUrl: mediaUrl, fit: BoxFit.cover, width: double.infinity, placeholder: (context, url) => const SizedBox(), errorWidget: (context, url, error)=>const Icon(Icons.error)),
+                  ? Center(child: Padding(padding: EdgeInsets.all(24), child: Icon(Icons.play_circle_fill, size: 56, color: context.colors.primary)))
+                  : CachedNetworkImage(imageUrl: mediaUrl, fit: BoxFit.cover, width: double.infinity, placeholder: (context, url) => SizedBox(), errorWidget: (context, url, error)=>Icon(Icons.error)),
               ),
             ],
 
-            const SizedBox(height: 16),
-            const Divider(color: AppColors.shadowDark, thickness: 3),
-            const SizedBox(height: 8),
+            SizedBox(height: 16),
+            Divider(color: context.colors.shadowDark, thickness: 3),
+            SizedBox(height: 8),
 
             // Footer: Interactions
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildActionButton(Icons.bolt, '$likes Volts${isPending ? ' ⏳' : ''}', () {
+                _buildActionButton(context, Icons.bolt, '$likes Volts${isPending ? ' ⏳' : ''}', () {
                    ref.read(syncEngineProvider).queueLike(postId, likes);
                 }, isPending),
-                _buildActionButton(Icons.comment, 'Connect', () {
-                   // Comment Logic
+                _buildActionButton(context, Icons.comment, 'Connect', () {
+                   showModalBottomSheet(
+                     context: context,
+                     isScrollControlled: true,
+                     backgroundColor: Colors.transparent,
+                     builder: (context) => CommentsSheet(postId: postId),
+                   );
                 }, false),
-                _buildActionButton(Icons.share, 'Relay', () {
-                   // Share Logic
+                _buildActionButton(context, Icons.bookmark_border, 'Save', () async {
+                   final user = FirebaseAuth.instance.currentUser;
+                   if (user != null) {
+                     try {
+                       await Supabase.instance.client.from('post_saves').upsert({
+                         'user_id': user.uid,
+                         'post_id': postId,
+                       });
+                       if (context.mounted) {
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Saved to your vault.')));
+                       }
+                     } catch (e) {
+                       if (context.mounted) {
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to save.')));
+                       }
+                     }
+                   } else {
+                     if (context.mounted) {
+                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please log in.')));
+                     }
+                   }
+                }, false),
+                _buildActionButton(context, Icons.share, 'Relay', () {
+                   final shareText = 'Check out this transmission on Verasso! verasso://post/$postId\n\n"${content.toString().length > 50 ? '${content.toString().substring(0, 50)}...' : content}"';
+                   SharePlus.instance.share(ShareParams(text: shareText));
                 }, false),
               ],
             )
@@ -537,7 +563,7 @@ class _PostCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, VoidCallback onTap, bool highlight) {
+  Widget _buildActionButton(BuildContext context, IconData icon, String label, VoidCallback onTap, bool highlight) {
     return NeoPixelBox(
       padding: 8,
       enableTilt: false,
@@ -545,9 +571,9 @@ class _PostCard extends ConsumerWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 16, color: highlight ? AppColors.primary : AppColors.textSecondary),
-          const SizedBox(width: 4),
-          Text(label, style: TextStyle(color: highlight ? AppColors.primary : AppColors.textSecondary, fontWeight: FontWeight.bold, fontSize: 12)),
+          Icon(icon, size: 16, color: highlight ? context.colors.primary : context.colors.textSecondary),
+          SizedBox(width: 4),
+          Text(label, style: TextStyle(color: highlight ? context.colors.primary : context.colors.textSecondary, fontWeight: FontWeight.bold, fontSize: 12)),
         ],
       ),
     );

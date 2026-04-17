@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/mesh_packet.dart';
 
 class MeshStore {
-  static const String boxName = 'offline_mesh_queue';
+  static String boxName = 'offline_mesh_queue';
   static const double maxQueueSizeMB = 50.0;
   static const int maxPacketsPerSender = 10;
   static const double maxSinglePacketSizeMB = 5.0;

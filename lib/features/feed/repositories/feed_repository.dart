@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,7 +44,8 @@ class FeedRepository {
         // No data anywhere
         yield [];
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
       debugPrint('Feed fetch error: $e');
       isOffline = true;
       // If we have no local data either, yield empty
@@ -59,7 +61,8 @@ class FeedRepository {
             .from('posts')
             .stream(primaryKey: ['id'])
             .order('created_at', ascending: false)
-            .handleError((e) {
+            .handleError((e, stackTrace) {
+              Sentry.captureException(e, stackTrace: stackTrace);
               debugPrint('Realtime stream async error: $e');
             })
             .map((data) {
@@ -68,7 +71,8 @@ class FeedRepository {
               }
               return data;
             });
-      } catch (e) {
+      } catch (e, stackTrace) {
+        Sentry.captureException(e, stackTrace: stackTrace);
         debugPrint('Realtime stream error: $e');
       }
     }

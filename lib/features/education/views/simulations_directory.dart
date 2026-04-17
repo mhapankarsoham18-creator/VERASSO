@@ -200,6 +200,15 @@ const _catalog = <_SubjectSection>[
     _SimEntry('Database Queries', 'assets/simulations/cs/database-query.html', Icons.table_chart),
     _SimEntry('Codemaster Odyssey RPG', 'assets/game/index.html', Icons.videogame_asset),
   ]),
+
+  // ╔══════════════════════════════════════════╗
+  // ║  PHARMACY  (3)                           ║
+  // ╚══════════════════════════════════════════╝
+  _SubjectSection('PHARMACY', Icons.medication, Color(0xFF9C27B0), [
+    _SimEntry('ADME Simulator', 'assets/simulations/pharmacy/adme-simulator.html', Icons.show_chart),
+    _SimEntry('Tablet Compression Lab', 'assets/simulations/pharmacy/tablet-press.html', Icons.precision_manufacturing),
+    _SimEntry('Clinical Dose Adjuster', 'assets/simulations/pharmacy/clinic-case.html', Icons.medical_services),
+  ]),
 ];
 
 // ─── MAIN DIRECTORY WIDGET ──────────────────────────────────
@@ -232,26 +241,26 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
-          color: const Color(0xFFD32F2F),
+          color: Color(0xFFD32F2F),
           child: Column(
             children: [
               // ── HEADER ──
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: NeoPixelBox(
                   padding: 10,
                   backgroundColor: Colors.black,
                   child: Row(
                     children: [
-                      const Icon(Icons.backpack, color: AppColors.primary, size: 22),
-                      const SizedBox(width: 10),
+                      Icon(Icons.backpack, color: context.colors.primary, size: 22),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           'STUDY_TOOLS  ($_totalSimCount modules)',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Courier',
                             fontWeight: FontWeight.w900,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             fontSize: 15,
                             letterSpacing: 1.5,
                           ),
@@ -264,18 +273,18 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
 
               // ── SEARCH BAR ──
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
                 child: NeoPixelBox(
                   padding: 0,
-                  backgroundColor: const Color(0xFFEEEEEE),
+                  backgroundColor: Color(0xFFEEEEEE),
                   child: TextField(
                     onChanged: (v) => setState(() => _search = v.toLowerCase()),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Courier',
                       fontSize: 14,
                       color: Colors.black,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Search simulations...',
                       hintStyle: TextStyle(fontFamily: 'Courier', color: Colors.black38),
                       prefixIcon: Icon(Icons.search, color: Colors.black45),
@@ -289,7 +298,7 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
               // ── SIMULATION LIST ──
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
                   itemCount: _catalog.length,
                   itemBuilder: (context, sectionIdx) {
                     final section = _catalog[sectionIdx];
@@ -300,7 +309,7 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
                             .toList();
 
                     if (filteredSims.isEmpty && _search.isNotEmpty) {
-                      return const SizedBox.shrink();
+                      return SizedBox.shrink();
                     }
 
                     final isExpanded = _search.isNotEmpty || _expanded[sectionIdx];
@@ -308,7 +317,7 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         // ── Subject Header (tap to expand/collapse) ──
                         GestureDetector(
                           onTap: () => setState(() =>
@@ -320,7 +329,7 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
                               children: [
                                 Icon(section.headerIcon,
                                     color: section.accent, size: 22),
-                                const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
                                     '${section.name}  (${filteredSims.length})',
@@ -347,7 +356,7 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
                         // ── Sim entries (when expanded) ──
                         if (isExpanded)
                           ...filteredSims.map((sim) => Padding(
-                                padding: const EdgeInsets.only(top: 6),
+                                padding: EdgeInsets.only(top: 6),
                                 child: _SimTile(
                                   sim: sim,
                                   accent: section.accent,
@@ -361,13 +370,13 @@ class _SimulationsDirectoryState extends State<SimulationsDirectory> {
 
               // ── BOTTOM LIGHTS ──
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding: EdgeInsets.only(bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _pokedexDot(Colors.yellow),
                     _pokedexDot(Colors.green),
-                    _pokedexDot(AppColors.primary),
+                    _pokedexDot(context.colors.primary),
                   ],
                 ),
               ),
@@ -401,7 +410,7 @@ class _SimTile extends StatelessWidget {
       isButton: true,
       onTap: () => _openSim(context),
       padding: 12,
-      backgroundColor: const Color(0xFFEEEEEE),
+      backgroundColor: Color(0xFFEEEEEE),
       child: Row(
         children: [
           Container(
@@ -413,11 +422,11 @@ class _SimTile extends StatelessWidget {
             ),
             child: Icon(sim.icon, color: accent, size: 18),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Text(
               sim.title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Courier',
                 fontWeight: FontWeight.w800,
                 color: Colors.black87,
@@ -437,13 +446,13 @@ class _SimTile extends StatelessWidget {
     // Special case for Codemaster RPG (uses its own screen)
     if (sim.asset == 'assets/game/index.html') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const CodemasterScreen()));
+          context, MaterialPageRoute(builder: (_) => CodemasterScreen()));
       return;
     }
     // Special case for Globe 3D
     if (sim.asset == 'assets/simulations/geography/index.html') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const GlobeScreen()));
+          context, MaterialPageRoute(builder: (_) => GlobeScreen()));
       return;
     }
     // Default: open in generic sim viewer

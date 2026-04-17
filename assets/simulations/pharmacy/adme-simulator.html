@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADME Pharmacokinetics</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --panel-bg: #111111;
+            --text-main: #00E676; /* Hacker Green / Verasso Style */
+            --text-dim: #777777;
+            --accent-1: #00BCD4; /* Plasma */
+            --accent-2: #E91E63; /* Elimination */
+            --border: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            border: 2px solid var(--text-main);
+            background: #052611;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 15px;
+        }
+
+        .graph-container {
+            flex: 1;
+            border: 2px solid var(--text-dim);
+            background: var(--panel-bg);
+            position: relative;
+            padding: 10px;
+            min-height: 250px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            border: 2px solid var(--border);
+            background: #0a0a0a;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 12px;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group span {
+            color: var(--accent-1);
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: var(--border);
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--text-main);
+            cursor: pointer;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px dashed var(--text-main);
+            font-size: 14px;
+        }
+        
+        .stat span {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>ADME: 1-Compartment Model</header>
+
+    <div class="container">
+        
+        <!-- Stats summary -->
+        <div class="stats-panel">
+            <div class="stat">C<sub>max</sub> <span id="val_cmax">0.0</span> mg/L</div>
+            <div class="stat">T<sub>max</sub> <span id="val_tmax">0.0</span> hr</div>
+            <div class="stat">Half-life <span id="val_t12">0.0</span> hr</div>
+        </div>
+
+        <div class="graph-container">
+            <canvas id="pkCanvas"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Dose (mg) <span id="lbl_dose">500</span></label>
+                <input type="range" id="param_dose" min="50" max="2000" step="50" value="500">
+            </div>
+            
+            <div class="control-group">
+                <label>Vol Dist (L) <span id="lbl_vd">25</span></label>
+                <input type="range" id="param_vd" min="5" max="100" step="1" value="25">
+            </div>
+
+            <div class="control-group">
+                <label>Absorption k<sub>a</sub> (h⁻¹) <span id="lbl_ka">1.2</span></label>
+                <input type="range" id="param_ka" min="0.1" max="5.0" step="0.1" value="1.2">
+            </div>
+
+            <div class="control-group">
+                <label>Elimination k<sub>e</sub> (h⁻¹) <span id="lbl_ke">0.2</span></label>
+                <input type="range" id="param_ke" min="0.05" max="1.5" step="0.05" value="0.2">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('pkCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // UI Elements
+        const iDose = document.getElementById('param_dose');
+        const iVd = document.getElementById('param_vd');
+        const iKa = document.getElementById('param_ka');
+        const iKe = document.getElementById('param_ke');
+
+        const lDose = document.getElementById('lbl_dose');
+        const lVd = document.getElementById('lbl_vd');
+        const lKa = document.getElementById('lbl_ka');
+        const lKe = document.getElementById('lbl_ke');
+
+        const sCmax = document.getElementById('val_cmax');
+        const sTmax = document.getElementById('val_tmax');
+        const sT12 = document.getElementById('val_t12');
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            drawChart();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Add listeners to sliders
+        [iDose, iVd, iKa, iKe].forEach(el => {
+            el.addEventListener('input', () => {
+                updateLabels();
+                drawChart();
+            });
+        });
+
+        function updateLabels() {
+            lDose.innerText = iDose.value;
+            lVd.innerText = iVd.value;
+            lKa.innerText = iKa.value;
+            lKe.innerText = iKe.value;
+        }
+
+        // The Bateman Equation
+        // C(t) = (Ka * F * Dose) / (Vd * (Ka - Ke)) * (e^(-Ke*t) - e^(-Ka*t))
+        // Assuming F (bioavailability) = 1 for simplicity in a visual sim
+        function calculateConcentration(t, dose, vd, ka, ke) {
+            if (ka === ke) ka += 0.0001; // Avoid divide by zero
+            const factor = (ka * dose) / (vd * (ka - ke));
+            return factor * (Math.exp(-ke * t) - Math.exp(-ka * t));
+        }
+
+        function drawChart() {
+            const dose = parseFloat(iDose.value);
+            const vd = parseFloat(iVd.value);
+            const ka = parseFloat(iKa.value);
+            const ke = parseFloat(iKe.value);
+
+            // Calculate peak values
+            const tmax = Math.log(ka / ke) / (ka - ke);
+            const cmax = calculateConcentration(tmax, dose, vd, ka, ke);
+            const t12 = 0.693 / ke;
+
+            // Update stats
+            sTmax.innerText = tmax.toFixed(2);
+            sCmax.innerText = cmax.toFixed(2);
+            sT12.innerText = t12.toFixed(2);
+
+            // Prepare Canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const w = canvas.width;
+            const h = canvas.height;
+            const padding = 30;
+
+            const maxTime = 24; // 24 hours
+            const maxConc = Math.max(cmax * 1.5, 10); // Dynamic Y axis padding
+
+            // Draw axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            
+            // Grid lines (X: Time)
+            for (let i = 0; i <= maxTime; i += 4) {
+                const x = padding + (i / maxTime) * (w - padding * 2);
+                ctx.moveTo(x, padding);
+                ctx.lineTo(x, h - padding);
+                ctx.fillStyle = '#777';
+                ctx.font = '10px Courier';
+                ctx.fillText(i + 'h', x - 5, h - padding + 15);
+            }
+
+            // Grid lines (Y: Conc)
+            const ySteps = 5;
+            for (let i = 0; i <= ySteps; i++) {
+                const yVal = (maxConc / ySteps) * i;
+                const y = (h - padding) - (yVal / maxConc) * (h - padding * 2);
+                ctx.moveTo(padding, y);
+                ctx.lineTo(w - padding, y);
+                if (i > 0) ctx.fillText(yVal.toFixed(0), 5, y + 4);
+            }
+            ctx.stroke();
+
+            // Draw Curve
+            ctx.strokeStyle = '#00BCD4'; // Plamsa Color
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            const points = 100;
+            for (let i = 0; i <= points; i++) {
+                const t = (i / points) * maxTime;
+                const c = calculateConcentration(t, dose, vd, ka, ke);
+
+                const x = padding + (t / maxTime) * (w - padding * 2);
+                const y = (h - padding) - (c / maxConc) * (h - padding * 2);
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Mark Cmax / Tmax
+            const peakX = padding + (tmax / maxTime) * (w - padding * 2);
+            const peakY = (h - padding) - (cmax / maxConc) * (h - padding * 2);
+
+            ctx.fillStyle = '#E91E63';
+            ctx.beginPath();
+            ctx.arc(peakX, peakY, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Init
+        updateLabels();
+        setTimeout(resizeCanvas, 100);
+
+    </script>
+</body>
+</html>

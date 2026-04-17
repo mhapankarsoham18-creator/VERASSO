@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/widgets/verasso_snackbar.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import 'chat_screen.dart';
+import 'mesh_radar_screen.dart';
+import '../services/mesh_network_service.dart';
 
 class ConversationListScreen extends StatefulWidget {
   const ConversationListScreen({super.key});
@@ -36,7 +40,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
           .select('conversation_id, conversations(id, updated_at, name, is_group)')
           .eq('user_id', myId)
           .order('conversation_id', ascending: false)
-          .timeout(const Duration(seconds: 8));
+          .timeout(Duration(seconds: 8));
 
       if (results.isEmpty) {
         if (mounted) setState(() => _isLoading = false);
@@ -65,7 +69,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
           .select('conversation_id, user_id, profiles(display_name, avatar_url)')
           .inFilter('conversation_id', convIds)
           .neq('user_id', myId)
-          .timeout(const Duration(seconds: 8));
+          .timeout(Duration(seconds: 8));
 
       // Index peers by conversation_id
       final peersByConv = <String, Map<String, dynamic>>{};
@@ -101,9 +105,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load conversations: $e')),
-        );
+        VerassoSnackbar.show(context, message: 'Failed to load conversations: $e');
       }
     }
   }
@@ -111,30 +113,42 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text(
-          'TRANSMISSIONS',
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-            letterSpacing: 3,
-            fontSize: 18,
-          ),
+        title: Column(
+          children: [
+            Text(
+              'TRANSMISSIONS',
+              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 3, fontSize: 18),
+            ),
+            ListenableBuilder(
+              listenable: MeshNetworkService(),
+              builder: (context, _) {
+                final mesh = MeshNetworkService();
+                if (mesh.state == MeshNodeState.connected) {
+                   return Text('[MESH SYNCING]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: Colors.blueAccent, fontWeight: FontWeight.w900));
+                }
+                if (mesh.state == MeshNodeState.disconnected) {
+                   return Text('[MESH OFFLINE]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: context.colors.error, fontWeight: FontWeight.w900));
+                }
+                return Text('[MESH ACTIVE]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: context.colors.primary, fontWeight: FontWeight.w900));
+              }
+            ),
+          ],
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.radar, color: AppColors.primary),
+            icon: Icon(Icons.radar, color: context.colors.primary),
             onPressed: () {
-              // Navigate to mesh radar
-              Navigator.pushNamed(context, '/mesh-radar');
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const MeshRadarScreen()));
             },
             tooltip: 'Mesh Radar',
           ),
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? Center(child: VerassoLoading())
           : _conversations.isEmpty
               ? _buildEmptyState()
               : _buildConversationList(),
@@ -148,24 +162,24 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.forum_outlined, size: 48, color: AppColors.textSecondary.withValues(alpha: 0.5)),
-            const SizedBox(height: 16),
-            const Text(
+            Icon(Icons.forum_outlined, size: 48, color: context.colors.textSecondary.withValues(alpha: 0.5)),
+            SizedBox(height: 16),
+            Text(
               'NO TRANSMISSIONS YET',
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 letterSpacing: 2,
                 fontSize: 14,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(
+            SizedBox(height: 8),
+            Text(
               'Start a conversation from a user profile\nor wait for incoming mesh packets.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -177,9 +191,9 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
 
   Widget _buildConversationList() {
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       itemCount: _conversations.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
+      separatorBuilder: (context, index) => SizedBox(height: 12),
       itemBuilder: (context, index) {
         final conv = _conversations[index];
         return NeoPixelBox(
@@ -203,15 +217,15 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  border: Border.all(color: AppColors.blockEdge, width: 2),
+                  color: context.colors.primary.withValues(alpha: 0.15),
+                  border: Border.all(color: context.colors.blockEdge, width: 2),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Center(
-                  child: Icon(Icons.person, color: AppColors.primary, size: 24),
+                child: Center(
+                  child: Icon(Icons.person, color: context.colors.primary, size: 24),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               // Name and E2E badge
               Expanded(
                 child: Column(
@@ -219,24 +233,24 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
                   children: [
                     Text(
                       (conv['peerName'] as String).toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: AppColors.textPrimary,
+                        color: context.colors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    const Row(
+                    SizedBox(height: 4),
+                    Row(
                       children: [
-                        Icon(Icons.lock, size: 10, color: AppColors.primary),
+                        Icon(Icons.lock, size: 10, color: context.colors.primary),
                         SizedBox(width: 4),
                         Text(
                           'ENCRYPTED',
                           style: TextStyle(
                             fontSize: 9,
                             letterSpacing: 1,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -249,10 +263,10 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
               if ((conv['lastTime'] as String).isNotEmpty)
                 Text(
                   conv['lastTime'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.shadowDark,
+                    color: context.colors.shadowDark,
                   ),
                 ),
             ],

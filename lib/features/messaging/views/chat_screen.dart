@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
-import 'mesh_network_screen.dart'; // To link radar
+import 'mesh_radar_screen.dart'; // To link radar
 import '../services/messaging_service.dart';
+import '../services/mesh_network_service.dart';
 
 class ChatScreen extends StatefulWidget {
   final String peerId;
@@ -70,8 +73,9 @@ class _ChatScreenState extends State<ChatScreen> {
         await _processMessages(messagesData);
         _subscribeToRealtime();
       }
-    } catch (e) {
-      debugPrint("Error loading chat: \$e");
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
+      debugPrint("Error loading chat: $e");
     } finally {
       if (mounted) setState(() => _isLoading = false);
       _scrollToBottom();
@@ -108,6 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
              'isMe': isMe,
              'time': DateFormat.jm().format(createdAt),
              'stamp': createdAt,
+             'isOffline': false, // Realtime means it's online
            });
            // sort
            _messages.sort((a, b) => (a['stamp'] as DateTime).compareTo(b['stamp'] as DateTime));
@@ -135,6 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
          'isMe': isMe,
          'time': DateFormat.jm().format(createdAt),
          'stamp': createdAt,
+         'isOffline': msg['is_offline'] == true,
        });
     }
     
@@ -150,7 +156,7 @@ class _ChatScreenState extends State<ChatScreen> {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       }
@@ -169,6 +175,7 @@ class _ChatScreenState extends State<ChatScreen> {
         'isMe': true,
         'time': DateFormat.jm().format(DateTime.now()),
         'stamp': DateTime.now(),
+        'isOffline': false,
       });
     });
     _scrollToBottom();
@@ -192,9 +199,9 @@ class _ChatScreenState extends State<ChatScreen> {
           SnackBar(
             content: Text(
               'Transmission Alert: \$errMsg', 
-              style: const TextStyle(color: AppColors.neutralBg, fontWeight: FontWeight.bold)
+              style: TextStyle(color: context.colors.neutralBg, fontWeight: FontWeight.bold)
             ),
-            backgroundColor: AppColors.primary,
+            backgroundColor: context.colors.primary,
           ),
         );
         // Remove optimistic bubble on fail
@@ -208,27 +215,41 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.peerName.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
-            const Row(
+            Text(widget.peerName.toUpperCase(), style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
+            Row(
               children: [
-                Icon(Icons.lock, size: 10, color: AppColors.primary),
+                Icon(Icons.lock, size: 10, color: context.colors.primary),
                 SizedBox(width: 4),
-                Text('E2E ENCRYPTED', style: TextStyle(fontSize: 8, letterSpacing: 1, color: AppColors.primary, fontWeight: FontWeight.w900)),
+                Text('E2E ENCRYPTED', style: TextStyle(fontSize: 8, letterSpacing: 1, color: context.colors.primary, fontWeight: FontWeight.w900)),
+                SizedBox(width: 8),
+                ListenableBuilder(
+                  listenable: MeshNetworkService(),
+                  builder: (context, _) {
+                    final mesh = MeshNetworkService();
+                    if (mesh.state == MeshNodeState.connected) {
+                       return Text('[MESH SYNCING]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: Colors.blueAccent, fontWeight: FontWeight.w900));
+                    }
+                    if (mesh.state == MeshNodeState.disconnected) {
+                       return Text('[MESH OFFLINE]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: context.colors.error, fontWeight: FontWeight.w900));
+                    }
+                    return Text('[MESH ACTIVE]', style: TextStyle(fontSize: 8, letterSpacing: 1, color: context.colors.primary, fontWeight: FontWeight.w900));
+                  }
+                ),
               ],
             )
           ],
         ),
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary), onPressed: () => Navigator.pop(context)),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: context.colors.textPrimary), onPressed: () => Navigator.pop(context)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.radar, color: AppColors.primary),
+            icon: Icon(Icons.radar, color: context.colors.primary),
             onPressed: () {
-               Navigator.push(context, MaterialPageRoute(builder: (_) => const MeshNetworkScreen()));
+               Navigator.push(context, MaterialPageRoute(builder: (_) => MeshRadarScreen()));
             },
             tooltip: 'View Mesh Radar',
           ),
@@ -239,16 +260,16 @@ class _ChatScreenState extends State<ChatScreen> {
           // E2E Security Banner
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            color: AppColors.shadowLight,
-            child: const Row(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            color: context.colors.shadowLight,
+            child: Row(
               children: [
-                Icon(Icons.shield_outlined, size: 14, color: AppColors.textSecondary),
+                Icon(Icons.shield_outlined, size: 14, color: context.colors.textSecondary),
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'Messages are end-to-end encrypted and completely unreadable by Verasso servers. Keys are securely backed up locally.',
-                    style: TextStyle(fontSize: 10, color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 10, color: context.colors.textSecondary, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
@@ -257,17 +278,17 @@ class _ChatScreenState extends State<ChatScreen> {
           
           Expanded(
             child: _isLoading 
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: VerassoLoading())
               : ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final msg = _messages[index];
                 final isMe = msg['isMe'] as bool;
                 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding: EdgeInsets.only(bottom: 16),
                   child: Row(
                     mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -276,10 +297,10 @@ class _ChatScreenState extends State<ChatScreen> {
                          // Avatar
                          NeoPixelBox(
                            padding: 8,
-                           backgroundColor: AppColors.shadowLight,
-                           child: const Icon(Icons.person, size: 16, color: AppColors.textSecondary),
+                           backgroundColor: context.colors.shadowLight,
+                           child: Icon(Icons.person, size: 16, color: context.colors.textSecondary),
                          ),
-                         const SizedBox(width: 8),
+                         SizedBox(width: 8),
                       ],
                       
                       // Message Bubble
@@ -289,28 +310,37 @@ class _ChatScreenState extends State<ChatScreen> {
                           children: [
                             NeoPixelBox(
                               padding: 12,
-                              backgroundColor: isMe ? AppColors.primary.withValues(alpha: 0.15) : AppColors.shadowLight,
+                              backgroundColor: isMe ? context.colors.primary.withValues(alpha: 0.15) : context.colors.shadowLight,
                               child: Text(
                                 msg['text'],
-                                style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary, fontSize: 14),
+                                style: TextStyle(fontWeight: FontWeight.w600, color: context.colors.textPrimary, fontSize: 14),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              msg['time'],
-                              style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: AppColors.shadowDark),
+                            SizedBox(height: 4),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (msg['isOffline'] == true) ...[
+                                  Icon(Icons.cell_tower, size: 10, color: context.colors.primary),
+                                  SizedBox(width: 4),
+                                ],
+                                Text(
+                                  msg['time'],
+                                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: context.colors.shadowDark),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
                       
                       if (isMe) ...[
-                         const SizedBox(width: 8),
+                         SizedBox(width: 8),
                          // Avatar
                          NeoPixelBox(
                            padding: 8,
-                           backgroundColor: AppColors.primary.withValues(alpha: 0.2),
-                           child: const Icon(Icons.person, size: 16, color: AppColors.primary),
+                           backgroundColor: context.colors.primary.withValues(alpha: 0.2),
+                           child: Icon(Icons.person, size: 16, color: context.colors.primary),
                          ),
                       ],
                     ],
@@ -322,10 +352,10 @@ class _ChatScreenState extends State<ChatScreen> {
           
           // Composition Bar
           Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              color: AppColors.shadowLight,
-              border: Border(top: BorderSide(color: AppColors.blockEdge, width: 2)),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: context.colors.shadowLight,
+              border: Border(top: BorderSide(color: context.colors.blockEdge, width: 2)),
             ),
             child: SafeArea(
               child: Row(
@@ -333,28 +363,28 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                         color: AppColors.shadowLight,
-                         border: Border.all(color: AppColors.blockEdge, width: 2),
+                         color: context.colors.shadowLight,
+                         border: Border.all(color: context.colors.blockEdge, width: 2),
                       ),
                       child: TextField(
                         controller: _messageController,
-                        style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary, fontSize: 14),
-                        decoration: const InputDecoration(
+                        style: TextStyle(fontWeight: FontWeight.w600, color: context.colors.textPrimary, fontSize: 14),
+                        decoration: InputDecoration(
                           hintText: 'Transmit secure message...',
-                          hintStyle: TextStyle(color: AppColors.shadowDark, fontWeight: FontWeight.w600),
+                          hintStyle: TextStyle(color: context.colors.shadowDark, fontWeight: FontWeight.w600),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   NeoPixelBox(
                     isButton: true,
                     onTap: _sendMessage,
                     padding: 12,
-                    backgroundColor: AppColors.primary,
-                    child: const Icon(Icons.send, color: AppColors.neutralBg, size: 20),
+                    backgroundColor: context.colors.primary,
+                    child: Icon(Icons.send, color: context.colors.neutralBg, size: 20),
                   ),
                 ],
               ),

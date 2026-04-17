@@ -80,7 +80,7 @@ class SkyPainter extends CustomPainter {
     }
 
     final paint = Paint()
-      ..color = color.withOpacity(opacity)
+      ..color = color.withValues(alpha: opacity)
       ..style = PaintingStyle.fill;
 
     // Draw as square pixel block (NOT circle — pixel aesthetic)
@@ -94,7 +94,7 @@ class SkyPainter extends CustomPainter {
     // Bright stars get a subtle glow pixel
     if (obj.magnitude < 1.0 && obj.type == 'star') {
       final glowPaint = Paint()
-        ..color = color.withOpacity(0.15)
+        ..color = color.withValues(alpha: 0.15)
         ..style = PaintingStyle.fill;
       final glowRect = Rect.fromCenter(
         center: Offset(x, y),
@@ -235,7 +235,7 @@ class SkyPainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: text,
-        style: const TextStyle(
+        style: TextStyle(
           color: PixelPalette.labelColor,
           fontSize: 8,
           fontFamily: 'PressStart2P', // Hardcode standard fallback or assume app level theme

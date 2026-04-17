@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -178,24 +179,24 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text('DISCOVERY', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
+        title: Text('DISCOVERY', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2)),
       ),
       body: Column(
         children: [
           // Search Bar
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: NeoPixelBox(
               padding: 8,
               enableTilt: false,
               child: TextField(
                 controller: _searchCtrl,
                 onChanged: _search,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Search users or posts...',
-                  prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
+                  prefixIcon: Icon(Icons.search, color: context.colors.textSecondary),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
@@ -205,27 +206,27 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
           // Tab Toggle
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 _tabButton('Suggested', 'suggested'),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 _tabButton('Users', 'users'),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 _tabButton('Posts', 'posts'),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Results
           Expanded(
             child: _isSearching
-                ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+                ? Center(child: VerassoLoading())
                 : _activeTab == 'suggested'
                     ? _buildSuggestions()
                     : _searchCtrl.text.isEmpty
-                        ? const Center(child: Text('Start typing to discover users and posts.', style: TextStyle(color: AppColors.textSecondary)))
+                        ? Center(child: Text('Start typing to discover users and posts.', style: TextStyle(color: context.colors.textSecondary)))
                         : _activeTab == 'users'
                             ? _buildUserResults()
                             : _buildPostResults(),
@@ -245,7 +246,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
         child: Center(
           child: Text(label, style: TextStyle(
             fontWeight: FontWeight.bold, fontSize: 12,
-            color: isActive ? AppColors.primary : AppColors.textSecondary,
+            color: isActive ? context.colors.primary : context.colors.textSecondary,
           )),
         ),
       ),
@@ -260,7 +261,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
     final status = _followStatuses[userId]; // null = not following, 'pending', 'accepted'
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12),
       child: GestureDetector(
         onTap: () => _openProfile(userId),
         child: NeoPixelBox(
@@ -270,25 +271,25 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
               Container(
                 width: 48, height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.blockEdge,
+                  color: context.colors.blockEdge,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.blockEdge, width: 2),
+                  border: Border.all(color: context.colors.blockEdge, width: 2),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: avatarUrl != null
                     ? Image.network(avatarUrl, fit: BoxFit.cover)
-                    : const Icon(Icons.person, color: AppColors.neutralBg),
+                    : Icon(Icons.person, color: context.colors.neutralBg),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 2),
-                    Text(role.toString().toUpperCase(), style: const TextStyle(fontSize: 11, color: AppColors.accent, fontWeight: FontWeight.bold)),
+                    Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 2),
+                    Text(role.toString().toUpperCase(), style: TextStyle(fontSize: 11, color: context.colors.accent, fontWeight: FontWeight.bold)),
                     if (user['_mutual_count'] != null && (user['_mutual_count'] as int) > 0)
-                      Text('${user['_mutual_count']} mutual(s)', style: const TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+                      Text('${user['_mutual_count']} mutual(s)', style: TextStyle(fontSize: 10, color: context.colors.textSecondary)),
                   ],
                 ),
               ),
@@ -307,7 +308,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
-                    color: status == null ? AppColors.primary : AppColors.textSecondary,
+                    color: status == null ? context.colors.primary : context.colors.textSecondary,
                   ),
                 ),
               ),
@@ -320,10 +321,10 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
   Widget _buildUserResults() {
     if (_userResults.isEmpty) {
-      return const Center(child: Text('No users found.', style: TextStyle(color: AppColors.textSecondary)));
+      return Center(child: Text('No users found.', style: TextStyle(color: context.colors.textSecondary)));
     }
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       itemCount: _userResults.length,
       itemBuilder: (context, index) => _buildUserCard(_userResults[index]),
     );
@@ -331,10 +332,10 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
   Widget _buildSuggestions() {
     if (_suggestions.isEmpty) {
-      return const Center(child: Text('No suggestions yet. Follow some people first!', style: TextStyle(color: AppColors.textSecondary)));
+      return Center(child: Text('No suggestions yet. Follow some people first!', style: TextStyle(color: context.colors.textSecondary)));
     }
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       itemCount: _suggestions.length,
       itemBuilder: (context, index) => _buildUserCard(_suggestions[index]),
     );
@@ -342,10 +343,10 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
   Widget _buildPostResults() {
     if (_postResults.isEmpty) {
-      return const Center(child: Text('No posts found.', style: TextStyle(color: AppColors.textSecondary)));
+      return Center(child: Text('No posts found.', style: TextStyle(color: context.colors.textSecondary)));
     }
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       itemCount: _postResults.length,
       itemBuilder: (context, index) {
         final post = _postResults[index];
@@ -353,7 +354,7 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
         final type = post['type'] ?? 'text';
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: EdgeInsets.only(bottom: 12),
           child: GestureDetector(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PostDetailScreen(post: post))),
             child: NeoPixelBox(
@@ -365,16 +366,16 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
                     children: [
                       Icon(
                         type == 'audio' ? Icons.mic : type == 'video' ? Icons.videocam : type == 'image' ? Icons.image : Icons.text_fields,
-                        size: 16, color: AppColors.accent,
+                        size: 16, color: context.colors.accent,
                       ),
-                      const SizedBox(width: 8),
-                      Text(type.toString().toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.accent)),
-                      const Spacer(),
-                      const Icon(Icons.open_in_new, size: 14, color: AppColors.textSecondary),
+                      SizedBox(width: 8),
+                      Text(type.toString().toUpperCase(), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: context.colors.accent)),
+                      Spacer(),
+                      Icon(Icons.open_in_new, size: 14, color: context.colors.textSecondary),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(content, maxLines: 3, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.textPrimary)),
+                  SizedBox(height: 8),
+                  Text(content, maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: context.colors.textPrimary)),
                 ],
               ),
             ),

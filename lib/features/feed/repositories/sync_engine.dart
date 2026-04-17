@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -77,7 +78,8 @@ class SyncEngine {
         }
         // Successfully flushed
         await _mutationBox.delete(key);
-      } catch (e) {
+      } catch (e, stackTrace) {
+        Sentry.captureException(e, stackTrace: stackTrace);
         debugPrint('Sync failed for task $key, retrying later. ($e)');
       }
     }

@@ -13,15 +13,15 @@ class AppShell extends StatelessWidget {
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       body: navigationShell,
-      bottomNavigationBar: isKeyboardOpen ? const SizedBox.shrink() : Container(
-        decoration: const BoxDecoration(
-          color: AppColors.neutralBg,
-          border: Border(top: BorderSide(color: AppColors.blockEdge, width: 2)),
+      bottomNavigationBar: isKeyboardOpen ? SizedBox.shrink() : Container(
+        decoration: BoxDecoration(
+          color: context.colors.neutralBg,
+          border: Border(top: BorderSide(color: context.colors.blockEdge, width: 2)),
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadowDark,
+              color: context.colors.shadowDark,
               offset: Offset(0, -4),
               blurRadius: 0,
             )
@@ -29,7 +29,7 @@ class AppShell extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -54,11 +54,11 @@ class AppShell extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isSelected ? AppColors.primary : AppColors.textSecondary, size: 24),
-          const SizedBox(height: 4),
+          Icon(icon, color: isSelected ? context.colors.primary : context.colors.textSecondary, size: 24),
+          SizedBox(height: 4),
           Text(label, style: TextStyle(
             fontSize: 10, 
-            color: isSelected ? AppColors.primary : AppColors.textSecondary, 
+            color: isSelected ? context.colors.primary : context.colors.textSecondary, 
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal
           )),
         ],

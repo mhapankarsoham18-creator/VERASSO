@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart' as google_sign_in_lib;
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
@@ -21,14 +22,25 @@ class AuthService {
     final credential = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     if (credential.user != null) {
-      await _syncProfile(credential.user!);
+      await credential.user!.sendEmailVerification();
+      // Profile sync is delayed until email verification (handled in signIn)
     }
     return credential;
   }
 
   Future<UserCredential> signInWithEmail(String email, String password) async {
-    return await _auth.signInWithEmailAndPassword(
+    final credential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
+    
+    if (credential.user != null) {
+      if (!credential.user!.emailVerified) {
+         // Prevent login until email is verified
+         await _auth.signOut();
+         throw FirebaseAuthException(code: 'email-unverified', message: 'Please verify your email address to log in.');
+      }
+      await _syncProfile(credential.user!);
+    }
+    return credential;
   }
 
   Future<UserCredential?> signInWithGoogle() async {
@@ -81,8 +93,8 @@ class AuthService {
       }, onConflict: 'firebase_uid');
       // Initialize Push Notifications so token is mapped to the new profile
       await NotificationService().initPushNotifications();
-    } catch (e) {
-      // Log to sentry ideally
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
       debugPrint('Supabase Profile Sync Error: $e');
     }
   }

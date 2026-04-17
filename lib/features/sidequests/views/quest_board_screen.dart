@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,8 +102,8 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
   void _showImageSourcePicker(Quest quest) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF2E2E3A),
-      shape: const RoundedRectangleBorder(
+      backgroundColor: Color(0xFF2E2E3A),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (ctx) {
@@ -110,16 +111,16 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
           child: Wrap(
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt, color: Colors.white),
-                title: const Text('Take Photo', style: TextStyle(color: Colors.white)),
+                leading: Icon(Icons.camera_alt, color: Colors.white),
+                title: Text('Take Photo', style: TextStyle(color: Colors.white)),
                 onTap: () {
                   Navigator.pop(ctx);
                   _completeQuest(quest, ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library, color: Colors.white),
-                title: const Text('Choose from Gallery', style: TextStyle(color: Colors.white)),
+                leading: Icon(Icons.photo_library, color: Colors.white),
+                title: Text('Choose from Gallery', style: TextStyle(color: Colors.white)),
                 onTap: () {
                   Navigator.pop(ctx);
                   _completeQuest(quest, ImageSource.gallery);
@@ -137,7 +138,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
     showDialog(
       context: context, 
       barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator())
+      builder: (_) => Center(child: VerassoLoading())
     );
 
     final result = await _questService.completeQuest(_profileId, quest, source);
@@ -173,13 +174,13 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          backgroundColor: const Color(0xFF2D2D3B),
-          title: Text('${quest.emoji} Quest Complete!', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          content: Text('You earned +${quest.xp} XP for verifying this quest.\n\nGreat job!', style: const TextStyle(color: Colors.white70)),
+          backgroundColor: Color(0xFF2D2D3B),
+          title: Text('${quest.emoji} Quest Complete!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          content: Text('You earned +${quest.xp} XP for verifying this quest.\n\nGreat job!', style: TextStyle(color: Colors.white70)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Awesome', style: TextStyle(color: Colors.amber)),
+              child: Text('Awesome', style: TextStyle(color: Colors.amber)),
             )
           ],
         )
@@ -190,9 +191,9 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: Color(0xFF1E1E28),
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(child: VerassoLoading()),
       );
     }
 
@@ -201,22 +202,22 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
     final progress = TitleSystem.getProgressToNextTier(_currentXp);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1E1E28), 
+      backgroundColor: Color(0xFF1E1E28), 
       appBar: AppBar(
-        title: const Text('⚔️ Sidequests', style: TextStyle(fontFamily: 'Pixel', letterSpacing: 2)),
-        backgroundColor: const Color(0xFF2E2E3A),
+        title: Text('⚔️ Sidequests', style: TextStyle(fontFamily: 'Pixel', letterSpacing: 2)),
+        backgroundColor: Color(0xFF2E2E3A),
         elevation: 4,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Headboard
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D2D3B),
+                color: Color(0xFF2D2D3B),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.white24, width: 2),
               ),
@@ -227,7 +228,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                     children: [
                       Text(
                         '${tier.emoji} ${_currentTitle.toUpperCase()}', 
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20, 
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -236,13 +237,13 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                       ),
                       Row(
                         children: [
-                          const Text('🔥 ', style: TextStyle(fontSize: 18)),
-                          Text('$_currentStreak', style: const TextStyle(fontSize: 18, color: Colors.orangeAccent, fontWeight: FontWeight.bold)),
+                          Text('🔥 ', style: TextStyle(fontSize: 18)),
+                          Text('$_currentStreak', style: TextStyle(fontSize: 18, color: Colors.orangeAccent, fontWeight: FontWeight.bold)),
                         ],
                       )
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   LinearProgressIndicator(
                     value: progress,
                     backgroundColor: Colors.black45,
@@ -250,23 +251,23 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                     minHeight: 8,
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     nextTier != null 
                         ? '$_currentXp / ${nextTier.xpThreshold} XP'
                         : 'MAX LEVEL',
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ],
               ),
             ),
             
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             
             // Quests List
             ..._dailyQuests.map((q) => _buildQuestScroll(q)),
             
-            const SizedBox(height: 60),
+            SizedBox(height: 60),
           ],
         ),
       ),
@@ -277,20 +278,20 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
     final isCompleted = _completedQuestIds.contains(quest.id);
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16),
       elevation: 6,
-      color: isCompleted ? const Color(0xFFD6C8A6) : const Color(0xFFF4E4C1), // Parchment colors
+      color: isCompleted ? Color(0xFFD6C8A6) : Color(0xFFF4E4C1), // Parchment colors
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          tilePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           title: Row(
             children: [
-              Text(quest.emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
+              Text(quest.emoji, style: TextStyle(fontSize: 24)),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +305,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                         decoration: isCompleted ? TextDecoration.lineThrough : null,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                        isCompleted ? 'COMPLETED • +${quest.xp} XP' : '+${quest.xp} XP • Tap to open', 
                        style: TextStyle(fontWeight: FontWeight.bold, color: isCompleted ? Colors.green.shade800 : Colors.brown, fontSize: 12)
@@ -317,38 +318,38 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
           // Removing custom trailing so the default dropdown arrow appears, signaling it's clickable
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     quest.description,
-                    style: const TextStyle(color: Colors.black87, fontSize: 16),
+                    style: TextStyle(color: Colors.black87, fontSize: 16),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: Colors.black12,
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.photo_camera, size: 16, color: Colors.black54),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text('Proof: ${quest.photoPrompt}', style: const TextStyle(color: Colors.black54, fontStyle: FontStyle.italic, fontSize: 12))),
+                        Icon(Icons.photo_camera, size: 16, color: Colors.black54),
+                        SizedBox(width: 8),
+                        Expanded(child: Text('Proof: ${quest.photoPrompt}', style: TextStyle(color: Colors.black54, fontStyle: FontStyle.italic, fontSize: 12))),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isCompleted ? Colors.black45 : Colors.brown.shade800,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14),
                     ),
                     onPressed: () => _showImageSourcePicker(quest),
-                    child: Text(isCompleted ? 'UPDATE PROOF PHOTO' : 'SUBMIT PROOF', style: const TextStyle(letterSpacing: 1, fontWeight: FontWeight.bold)),
+                    child: Text(isCompleted ? 'UPDATE PROOF PHOTO' : 'SUBMIT PROOF', style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),

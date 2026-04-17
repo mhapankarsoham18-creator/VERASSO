@@ -140,31 +140,31 @@ class _SimulationViewerState extends State<SimulationViewer> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
-          color: const Color(0xFFD32F2F),
+          color: Color(0xFFD32F2F),
           child: Column(
             children: [
               // ── HEADER ──
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 12, 16, 0),
+                padding: EdgeInsets.fromLTRB(8, 12, 16, 0),
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
+                      icon: Icon(Icons.arrow_back, color: Colors.white, size: 24),
                       onPressed: () => Navigator.pop(context),
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                      constraints: BoxConstraints(),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Expanded(
                       child: NeoPixelBox(
                         padding: 8,
                         backgroundColor: Colors.black,
                         child: Text(
                           widget.title.toUpperCase(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Courier',
                             fontWeight: FontWeight.w900,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             fontSize: 14,
                             letterSpacing: 1.5,
                           ),
@@ -174,12 +174,12 @@ class _SimulationViewerState extends State<SimulationViewer> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     IconButton(
-                      icon: const Icon(Icons.refresh, color: Colors.white, size: 22),
+                      icon: Icon(Icons.refresh, color: Colors.white, size: 22),
                       onPressed: _extractAndServe,
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                      constraints: BoxConstraints(),
                     ),
                   ],
                 ),
@@ -188,29 +188,29 @@ class _SimulationViewerState extends State<SimulationViewer> {
               // ── PROGRESS BAR ──
               if (_isExtracting || _isLoading)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(2),
                     child: _isExtracting
-                        ? const LinearProgressIndicator(
+                        ? LinearProgressIndicator(
                             backgroundColor: Colors.black26,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             minHeight: 4,
                           )
                         : LinearProgressIndicator(
                             value: _loadProgress / 100,
                             backgroundColor: Colors.black26,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                             minHeight: 4,
                           ),
                   ),
                 ),
-              if (!_isLoading && !_isExtracting) const SizedBox(height: 10),
+              if (!_isLoading && !_isExtracting) SizedBox(height: 10),
 
               // ── SIMULATION VIEWPORT ──
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
                   child: NeoPixelBox(
                     padding: 4,
                     backgroundColor: Colors.black,
@@ -229,18 +229,18 @@ class _SimulationViewerState extends State<SimulationViewer> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const CircularProgressIndicator(
-                                          color: AppColors.primary,
+                                        CircularProgressIndicator(
+                                          color: context.colors.primary,
                                           strokeWidth: 3,
                                         ),
-                                        const SizedBox(height: 16),
+                                        SizedBox(height: 16),
                                         Text(
                                           _isExtracting
                                               ? 'DECOMPRESSING MODULE...'
                                               : 'INJECTING ENVIRONMENT... $_loadProgress%',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontFamily: 'Courier',
-                                            color: AppColors.primary,
+                                            color: context.colors.primary,
                                             fontSize: 12,
                                             letterSpacing: 1,
                                           ),
@@ -266,9 +266,9 @@ class _SimulationViewerState extends State<SimulationViewer> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.error_outline, color: Colors.red, size: 48),
-          const SizedBox(height: 16),
-          const Text(
+          Icon(Icons.error_outline, color: Colors.red, size: 48),
+          SizedBox(height: 16),
+          Text(
             'MODULE LOAD FAILED',
             style: TextStyle(
               fontFamily: 'Courier',
@@ -277,8 +277,8 @@ class _SimulationViewerState extends State<SimulationViewer> {
               fontSize: 16,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8),
+          Text(
             'The simulation kernel panicked.\nTap COLD REBOOT to retry.',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -287,14 +287,14 @@ class _SimulationViewerState extends State<SimulationViewer> {
               fontSize: 12,
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           GestureDetector(
             onTap: _extractAndServe,
             child: NeoPixelBox(
               isButton: true,
               padding: 12,
-              backgroundColor: const Color(0xFFD32F2F),
-              child: const Text(
+              backgroundColor: Color(0xFFD32F2F),
+              child: Text(
                 'COLD REBOOT',
                 style: TextStyle(
                   fontFamily: 'Courier',

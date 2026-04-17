@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/widgets/verasso_snackbar.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,9 +63,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       builder: (ctx) {
         final resetEmailCtrl = TextEditingController(text: _emailCtrl.text);
         return AlertDialog(
-          backgroundColor: AppColors.neutralBg,
+          backgroundColor: context.colors.neutralBg,
           shape: RoundedRectangleBorder(
-            side: const BorderSide(color: AppColors.blockEdge, width: 2),
+            side: BorderSide(color: context.colors.blockEdge, width: 2),
             borderRadius: BorderRadius.circular(0),
           ),
           title: Text(
@@ -74,12 +76,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('Enter your email to reset your password.', style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               NeoPixelBox(
                 padding: 8,
                 child: TextField(
                   controller: resetEmailCtrl,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Email Address',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -91,7 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('CANCEL', style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
+              child: Text('CANCEL', style: TextStyle(color: context.colors.textSecondary, fontWeight: FontWeight.bold)),
             ),
             TextButton(
               onPressed: () async {
@@ -100,19 +102,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 try {
                   await ref.read(authServiceProvider).sendPasswordResetEmail(resetEmailCtrl.text);
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Password reset link sent!')),
-                    );
+                    VerassoSnackbar.show(context, message: 'Password reset link sent!');
                   }
                 } catch (e) {
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error: $e')),
-                    );
+                    VerassoSnackbar.show(context, message: 'Error: $e');
                   }
                 }
               },
-              child: const Text('SEND RESET LINK', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+              child: Text('SEND RESET LINK', style: TextStyle(color: context.colors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         );
@@ -123,11 +121,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(32.0),
+            padding: EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -138,33 +136,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge,
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
                   'P2P Knowledge Grid',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                const SizedBox(height: 60),
+                SizedBox(height: 60),
 
                 // Inputs
                 NeoPixelBox(
                   padding: 8,
                   child: TextField(
                     controller: _emailCtrl,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Email',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 NeoPixelBox(
                   padding: 8,
                   child: TextField(
                     controller: _passwordCtrl,
                     obscureText: true,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Password',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -176,10 +174,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _forgotPassword,
-                    child: const Text(
+                    child: Text(
                       'Forgot Password?',
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: context.colors.textPrimary,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),
@@ -187,7 +185,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 48),
+                SizedBox(height: 48),
 
                 // Login Buttons
                 NeoPixelBox(
@@ -196,14 +194,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   padding: 16,
                   child: Center(
                     child: _isLoading 
-                      ? const CircularProgressIndicator(color: AppColors.primary)
+                      ? VerassoLoading()
                       : Text('LOGIN', style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                          fontSize: 24, color: AppColors.primary,
+                          fontSize: 24, color: context.colors.primary,
                         )),
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 NeoPixelBox(
                   isButton: true,
@@ -211,15 +209,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   padding: 16,
                   child: Center(
                     child: Text('Login with Google', style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontSize: 24, color: AppColors.textPrimary,
+                      fontSize: 24, color: context.colors.textPrimary,
                     )),
                   ),
                 ),
 
-                const SizedBox(height: 48),
+                SizedBox(height: 48),
                 TextButton(
                   onPressed: () => context.push('/signup'),
-                  child: const Text('New Experience — Let\'s Sign Up', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                  child: Text('New Experience — Let\'s Sign Up', style: TextStyle(color: context.colors.textPrimary, fontWeight: FontWeight.bold)),
                 )
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/colors.dart';
@@ -45,17 +46,17 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text('❓ DOUBTS NETWORK', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary), onPressed: () => Navigator.pop(context)),
+        title: Text('❓ DOUBTS NETWORK', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: context.colors.textPrimary), onPressed: () => Navigator.pop(context)),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? Center(child: VerassoLoading())
           : _doubts.isEmpty
-              ? const Center(child: Text('No doubts found. Ask the Grid!', style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.bold)))
+              ? Center(child: Text('No doubts found. Ask the Grid!', style: TextStyle(color: context.colors.textSecondary, fontWeight: FontWeight.bold)))
               : ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   itemCount: _doubts.length,
                   itemBuilder: (context, index) {
                     final doubt = _doubts[index];
@@ -64,7 +65,7 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
                     final tags = doubt['tags'] as List<dynamic>? ?? [];
 
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
+                      padding: EdgeInsets.only(bottom: 16),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => DoubtDetailScreen(doubt: doubt)));
@@ -78,39 +79,39 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
                                 children: [
                                   if (isSolved)
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      margin: const EdgeInsets.only(right: 8),
-                                      decoration: BoxDecoration(color: AppColors.primary, border: Border.all(color: AppColors.blockEdge, width: 2)),
-                                      child: const Text('SOLVED', style: TextStyle(color: AppColors.neutralBg, fontSize: 10, fontWeight: FontWeight.bold)),
+                                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      margin: EdgeInsets.only(right: 8),
+                                      decoration: BoxDecoration(color: context.colors.primary, border: Border.all(color: context.colors.blockEdge, width: 2)),
+                                      child: Text('SOLVED', style: TextStyle(color: context.colors.neutralBg, fontSize: 10, fontWeight: FontWeight.bold)),
                                     ),
                                   Expanded(
                                     child: Text(
                                       doubt['subject']?.toUpperCase() ?? 'GENERAL',
-                                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1),
+                                      style: TextStyle(color: context.colors.textSecondary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8),
                                   Flexible(
                                     child: Text(
                                       '@${author?['username'] ?? 'unknown'}',
-                                      style: const TextStyle(color: AppColors.accent, fontSize: 11, fontWeight: FontWeight.w700),
+                                      style: TextStyle(color: context.colors.accent, fontSize: 11, fontWeight: FontWeight.w700),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
-                              Text(doubt['title'], style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: AppColors.textPrimary)),
+                              SizedBox(height: 8),
+                              Text(doubt['title'], style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: context.colors.textPrimary)),
                               if (tags.isNotEmpty) ...[
-                                const SizedBox(height: 12),
+                                SizedBox(height: 12),
                                 Wrap(
                                   spacing: 8,
                                   runSpacing: 8,
                                   children: tags.map((t) => Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(border: Border.all(color: AppColors.shadowDark, width: 2)),
-                                    child: Text('#$t', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+                                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(border: Border.all(color: context.colors.shadowDark, width: 2)),
+                                    child: Text('#$t', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: context.colors.textSecondary)),
                                   )).toList(),
                                 )
                               ],
@@ -125,13 +126,13 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
         padding: 16,
         isButton: true,
         onTap: () async {
-          final result = await Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateDoubtScreen()));
+          final result = await Navigator.push(context, MaterialPageRoute(builder: (_) => CreateDoubtScreen()));
           if (result == true) {
             setState(() => _isLoading = true);
             _fetchDoubts();
           }
         },
-        child: const Icon(Icons.add, color: AppColors.primary),
+        child: Icon(Icons.add, color: context.colors.primary),
       ),
     );
   }

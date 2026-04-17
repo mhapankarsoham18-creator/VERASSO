@@ -14,7 +14,7 @@ BEGIN
   DECLARE
     t_name text;
     tables text[] := ARRAY[
-      'profiles', 'posts', 'doubts', 'follows', 'follow_requests', 
+      'profiles', 'posts', 'doubts', 'follows', 
       'quest_completions', 'conversations', 'messages', 'comments', 
       'post_saves', 'poll_votes', 'user_badges', 'doubt_answers'
     ];

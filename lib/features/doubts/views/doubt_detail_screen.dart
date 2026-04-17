@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/colors.dart';
@@ -98,7 +99,7 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
       
       _fetchAnswers();
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Answer marked as solution! +10 Trust Score awarded.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Answer marked as solution! +10 Trust Score awarded.')));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
@@ -111,15 +112,15 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
     final isMyDoubt = _currentUserProfileId != null && _currentUserProfileId == widget.doubt['author_id'];
 
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text('THREAD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
+        title: Text('THREAD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
       ),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -133,30 +134,30 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                           children: [
                             if (_baseDoubtSolved)
                                Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                margin: const EdgeInsets.only(right: 8),
-                                decoration: BoxDecoration(color: AppColors.primary, border: Border.all(color: AppColors.blockEdge, width: 2)),
-                                child: const Text('SOLVED', style: TextStyle(color: AppColors.neutralBg, fontSize: 10, fontWeight: FontWeight.bold)),
+                                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                margin: EdgeInsets.only(right: 8),
+                                decoration: BoxDecoration(color: context.colors.primary, border: Border.all(color: context.colors.blockEdge, width: 2)),
+                                child: Text('SOLVED', style: TextStyle(color: context.colors.neutralBg, fontSize: 10, fontWeight: FontWeight.bold)),
                               ),
                             Expanded(
                               child: Text('@${author?['username'] ?? 'unknown'}', 
-                              style: const TextStyle(fontWeight: FontWeight.w900, color: AppColors.accent),
+                              style: TextStyle(fontWeight: FontWeight.w900, color: context.colors.accent),
                               overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
-                        Text(widget.doubt['title'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-                        const SizedBox(height: 16),
-                        Text(widget.doubt['body'], style: const TextStyle(height: 1.5, color: AppColors.textPrimary)),
+                        SizedBox(height: 12),
+                        Text(widget.doubt['title'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                        SizedBox(height: 16),
+                        Text(widget.doubt['body'], style: TextStyle(height: 1.5, color: context.colors.textPrimary)),
                       ],
                     ),
                   ),
                   
-                  const SizedBox(height: 24),
-                  const Text('ANSWERS', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, color: AppColors.textSecondary, fontSize: 12)),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 24),
+                  Text('ANSWERS', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, color: context.colors.textSecondary, fontSize: 12)),
+                  SizedBox(height: 12),
 
                   // Input Box
                   if (!_baseDoubtSolved)
@@ -165,13 +166,13 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: AppColors.shadowLight,
-                              border: Border.all(color: AppColors.blockEdge, width: 2),
+                              color: context.colors.shadowLight,
+                              border: Border.all(color: context.colors.blockEdge, width: 2),
                             ),
                             child: TextField(
                               controller: _answerController,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                              decoration: const InputDecoration(
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                              decoration: InputDecoration(
                                 hintText: 'Transmit answer...',
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -179,14 +180,14 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         NeoPixelBox(
                           isButton: true,
                           padding: 12,
                           onTap: _isSubmitting ? null : _postAnswer,
                           child: _isSubmitting 
-                            ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary))
-                            : const Icon(Icons.send, color: AppColors.primary, size: 20),
+                            ? SizedBox(width: 20, height: 20, child: VerassoLoading())
+                            : Icon(Icons.send, color: context.colors.primary, size: 20),
                         )
                       ],
                     ),
@@ -196,12 +197,12 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
           ),
           
           if (_isLoadingAnswers)
-            const SliverFillRemaining(child: Center(child: CircularProgressIndicator(color: AppColors.primary)))
+            SliverFillRemaining(child: Center(child: VerassoLoading()))
           else if (_answers.isEmpty)
-            const SliverFillRemaining(child: Center(child: Text('No answers yet.', style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.bold))))
+            SliverFillRemaining(child: Center(child: Text('No answers yet.', style: TextStyle(color: context.colors.textSecondary, fontWeight: FontWeight.bold))))
           else
             SliverPadding(
-              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 40),
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: 40),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -214,12 +215,12 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                       children: [
                         Container(
                           width: 24,
-                          margin: const EdgeInsets.only(right: 12, top: 16),
-                          decoration: BoxDecoration(border: Border(left: BorderSide(color: AppColors.blockEdge.withAlpha(50), width: 2)))
+                          margin: EdgeInsets.only(right: 12, top: 16),
+                          decoration: BoxDecoration(border: Border(left: BorderSide(color: context.colors.blockEdge.withAlpha(50), width: 2)))
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.only(bottom: 12),
                             child: NeoPixelBox(
                               padding: 16,
                               child: Column(
@@ -228,31 +229,31 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                                   Row(
                                     children: [
                                       if (isAccepted)
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(right: 8),
-                                          child: Icon(Icons.verified, size: 16, color: AppColors.primary),
+                                          child: Icon(Icons.verified, size: 16, color: context.colors.primary),
                                         ),
                                       Expanded(
                                         child: Text('@${ansProfile?['username'] ?? 'unknown'}', 
-                                          style: TextStyle(fontWeight: FontWeight.w900, color: isAccepted ? AppColors.primary : AppColors.textPrimary, fontSize: 13),
+                                          style: TextStyle(fontWeight: FontWeight.w900, color: isAccepted ? context.colors.primary : context.colors.textPrimary, fontSize: 13),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(ans['content'], style: const TextStyle(height: 1.4, color: AppColors.textSecondary)),
+                                  SizedBox(height: 8),
+                                  Text(ans['content'], style: TextStyle(height: 1.4, color: context.colors.textSecondary)),
                                   
                                   if (isMyDoubt && !_baseDoubtSolved && !isAccepted) ...[
-                                    const SizedBox(height: 12),
+                                    SizedBox(height: 12),
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: InkWell(
                                         onTap: () => _acceptAnswer(ans['id']),
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                          decoration: BoxDecoration(border: Border.all(color: AppColors.primary, width: 2)),
-                                          child: const Text('MARK SOLVED', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(border: Border.all(color: context.colors.primary, width: 2)),
+                                          child: Text('MARK SOLVED', style: TextStyle(color: context.colors.primary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1)),
                                         ),
                                       ),
                                     )

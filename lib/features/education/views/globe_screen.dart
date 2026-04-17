@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/theme/colors.dart';
@@ -24,7 +25,7 @@ class _GlobeScreenState extends State<GlobeScreen> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(AppColors.neutralBg)
+      ..setBackgroundColor(context.colors.neutralBg)
       ..addJavaScriptChannel(
         'VerassoGlobe',
         onMessageReceived: (JavaScriptMessage message) {
@@ -102,23 +103,23 @@ class _GlobeScreenState extends State<GlobeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "GLOBAL ATLAS",
           style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: Icon(Icons.arrow_back, color: context.colors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         elevation: 0,
-        backgroundColor: AppColors.neutralBg,
+        backgroundColor: context.colors.neutralBg,
       ),
       body: SafeArea(
         child: Container(
-          color: const Color(0xFFD32F2F), // Pokédex Red Bezel
-          padding: const EdgeInsets.all(16),
+          color: Color(0xFFD32F2F), // Pokédex Red Bezel
+          padding: EdgeInsets.all(16),
           child: Column(
             children: [
               // Top HUD
@@ -127,15 +128,15 @@ class _GlobeScreenState extends State<GlobeScreen> {
                 backgroundColor: Colors.black,
                 child: Row(
                   children: [
-                    const Icon(Icons.public, color: AppColors.primary),
-                    const SizedBox(width: 8),
+                    Icon(Icons.public, color: context.colors.primary),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'TARGET SCANNED: ${_selectedCountry.toUpperCase()}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Courier', // Monospace Pokédex feel
                           fontWeight: FontWeight.w900,
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                           fontSize: 14,
                         ),
                       ),
@@ -143,13 +144,13 @@ class _GlobeScreenState extends State<GlobeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               
               // The Embedded 3D Data layer wrapped in Pokédex screen border
               Expanded(
                 child: NeoPixelBox(
                   padding: 8,
-                  backgroundColor: const Color(0xFF9E9E9E), // Inner grey bezel
+                  backgroundColor: Color(0xFF9E9E9E), // Inner grey bezel
                   child: NeoPixelBox(
                     padding: 4,
                     backgroundColor: Colors.black,
@@ -160,8 +161,8 @@ class _GlobeScreenState extends State<GlobeScreen> {
                           child: WebViewWidget(controller: _controller),
                         ),
                         if (_isLoading)
-                          const Center(
-                            child: CircularProgressIndicator(color: AppColors.primary),
+                          Center(
+                            child: VerassoLoading(),
                           ),
                       ],
                     ),
@@ -173,15 +174,15 @@ class _GlobeScreenState extends State<GlobeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.colors.primary,
         onPressed: () {
           // Push a JS message down commanding the globe viewport to rotate or shift data layers
           _controller.runJavaScript("window.rotateToHome();");
         },
-        icon: const Icon(Icons.home, color: AppColors.neutralBg),
-        label: const Text(
+        icon: Icon(Icons.home, color: context.colors.neutralBg),
+        label: Text(
           "HOME", 
-          style: TextStyle(color: AppColors.neutralBg, fontWeight: FontWeight.w900)
+          style: TextStyle(color: context.colors.neutralBg, fontWeight: FontWeight.w900)
         ),
       ),
     );

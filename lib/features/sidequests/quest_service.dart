@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'quest_data.dart';
@@ -163,7 +164,8 @@ class QuestService {
       }
 
       return [didLevelUp, newXp];
-    } catch (e) {
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
       debugPrint('Sidequest Error: $e');
       return null;
     }

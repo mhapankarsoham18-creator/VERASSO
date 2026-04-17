@@ -22,9 +22,9 @@ class MeshPacket {
     DateTime? createdAt,
     DateTime? expiresAt,
     this.hopCount = 0,
-  })  : id = id ?? const Uuid().v4(),
+  })  : id = id ?? Uuid().v4(),
         createdAt = createdAt ?? DateTime.now(),
-        expiresAt = expiresAt ?? DateTime.now().add(const Duration(hours: 24)); // 24 hour TTL by default
+        expiresAt = expiresAt ?? DateTime.now().add(Duration(hours: 24)); // 24 hour TTL by default
 
   // Get size of payload in MB to enforce the 5MB QoS limit
   double get payloadSizeMB {
@@ -56,5 +56,39 @@ class MeshPacket {
       expiresAt: DateTime.parse(map['expiresAt'] as String),
       hopCount: map['hopCount'] as int,
     );
+  }
+
+  /// Creates a copy of this packet with optional field overrides.
+  /// Used to increment hop count before rebroadcast without mutating the original.
+  MeshPacket copyWith({
+    String? id,
+    String? senderId,
+    String? targetId,
+    PayloadType? type,
+    String? payload,
+    DateTime? createdAt,
+    DateTime? expiresAt,
+    int? hopCount,
+  }) {
+    return MeshPacket(
+      id: id ?? this.id,
+      senderId: senderId ?? this.senderId,
+      targetId: targetId ?? this.targetId,
+      type: type ?? this.type,
+      payload: payload ?? this.payload,
+      createdAt: createdAt ?? this.createdAt,
+      expiresAt: expiresAt ?? this.expiresAt,
+      hopCount: hopCount ?? this.hopCount,
+    );
+  }
+
+  /// Serializes the packet to a JSON-encoded UTF-8 byte list.
+  /// Used for BLE advertisement payload encoding.
+  List<int> toBytes() => utf8.encode(jsonEncode(toMap()));
+
+  /// Deserializes a packet from a JSON-encoded UTF-8 byte list.
+  factory MeshPacket.fromBytes(List<int> bytes) {
+    final json = jsonDecode(utf8.decode(bytes)) as Map<String, dynamic>;
+    return MeshPacket.fromMap(json);
   }
 }

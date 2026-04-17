@@ -13,7 +13,6 @@ import '../rendering/crt_overlay.dart';
 import '../rendering/pixel_palette.dart';
 import '../rendering/sky_painter.dart';
 import '../widgets/object_info_panel.dart';
-import '../widgets/sky_chat_bubble.dart';
 import '../data/discovery_log.dart';
 import '../widgets/discovery_hud.dart';
 
@@ -43,7 +42,6 @@ class _AstroHubScreenState extends State<AstroHubScreen>
   // AR Camera
   CameraController? _cameraController;
   bool _isArMode = false;
-  bool _hasCameraPermission = false;
 
   // Sensor subscriptions
   StreamSubscription? _compassSub;
@@ -88,7 +86,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
 
       try {
         final pos = await Geolocator.getCurrentPosition(
-          locationSettings: const LocationSettings(
+          locationSettings: LocationSettings(
             accuracy: LocationAccuracy.low,
             timeLimit: Duration(seconds: 5),
           ),
@@ -156,14 +154,12 @@ class _AstroHubScreenState extends State<AstroHubScreen>
         _selectedObject = tapped;
         if (tapped != null) {
           _discoveryLog.discover(tapped.name);
+          _showInfoPanel = true;
+        } else {
+          _showInfoPanel = false;
         }
       }
-      _showInfoPanel = false;
     });
-  }
-
-  void _openInfoPanel() {
-    setState(() => _showInfoPanel = true);
   }
 
   void _closeInfoPanel() {
@@ -174,7 +170,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
     if (_isArMode) {
       setState(() => _isArMode = false);
       // Wait a moment then stop camera to save battery
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(Duration(milliseconds: 500), () {
         if (!_isArMode && mounted) {
            // We keep it initialized but paused?
            // CameraController doesn't have pause, so we either dispose or just keep drawing.
@@ -215,7 +211,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
               Text(
                 'LOADING STAR MAP...',
                 style: GoogleFonts.pressStart2p(
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     color: PixelPalette.hudText,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
@@ -223,7 +219,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
                   )
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               SizedBox(
                 width: 120,
                 child: LinearProgressIndicator(
@@ -244,7 +240,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
         body: Center(
           child: Text(
             'ERROR: $_errorMsg',
-            style: const TextStyle(color: PixelPalette.hudText),
+            style: TextStyle(color: PixelPalette.hudText),
           ),
         ),
       );
@@ -289,15 +285,6 @@ class _AstroHubScreenState extends State<AstroHubScreen>
             ),
           ),
 
-          // Chat bubble (if an object is selected and panel not open)
-          if (_selectedObject != null && !_showInfoPanel)
-            SkyChatBubble(
-              object: _selectedObject!,
-              screenWidth: size.width,
-              onTap: () => setState(() => _selectedObject = null),
-              onAskMore: _openInfoPanel,
-            ),
-
           // HUD overlay
           _buildHUD(size),
 
@@ -338,15 +325,15 @@ class _AstroHubScreenState extends State<AstroHubScreen>
         children: [
           // Compass heading
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: PixelPalette.skyBlack.withOpacity(0.7),
+              color: PixelPalette.skyBlack.withValues(alpha: 0.7),
               border: Border.all(color: PixelPalette.hudDim, width: 1),
             ),
             child: Text(
               '${_engine.compassHeading.toStringAsFixed(0)}° ${_compassLabel(_engine.compassHeading)}',
               style: GoogleFonts.pressStart2p(
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   color: PixelPalette.hudText,
                   fontSize: 8,
                   fontWeight: FontWeight.bold,
@@ -355,18 +342,18 @@ class _AstroHubScreenState extends State<AstroHubScreen>
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           // Visible objects count
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: PixelPalette.skyBlack.withOpacity(0.7),
+              color: PixelPalette.skyBlack.withValues(alpha: 0.7),
               border: Border.all(color: PixelPalette.hudDim, width: 1),
             ),
             child: Text(
               '${_engine.visibleObjects.length} OBJECTS IN VIEW',
               style: GoogleFonts.pressStart2p(
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   color: PixelPalette.hudDim,
                   fontSize: 6,
                   fontWeight: FontWeight.bold,
@@ -375,14 +362,14 @@ class _AstroHubScreenState extends State<AstroHubScreen>
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           // AR Mode Toggle
           GestureDetector(
             onTap: _toggleArMode,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: _isArMode ? PixelPalette.hudText.withOpacity(0.2) : PixelPalette.skyBlack.withOpacity(0.7),
+                color: _isArMode ? PixelPalette.hudText.withValues(alpha: 0.2) : PixelPalette.skyBlack.withValues(alpha: 0.7),
                 border: Border.all(color: _isArMode ? PixelPalette.hudText : PixelPalette.hudDim, width: 1),
               ),
               child: Row(
@@ -393,7 +380,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
                     size: 14, 
                     color: _isArMode ? PixelPalette.hudText : PixelPalette.hudDim
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     _isArMode ? 'AR ON' : 'AR OFF',
                     style: GoogleFonts.pressStart2p(

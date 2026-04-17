@@ -4,15 +4,19 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
+  battery_plus
   connectivity_plus
   file_selector_windows
+  firebase_app_check
   firebase_auth
   firebase_core
   flutter_ble_peripheral
   flutter_blue_plus_winrt
+  flutter_secure_storage_windows
   geolocator_windows
   permission_handler_windows
   sentry_flutter
+  share_plus
   url_launcher_windows
 )
 

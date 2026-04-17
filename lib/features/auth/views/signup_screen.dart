@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   // Real-time strength trackers
   int _passwordStrength = 0;
   String _strengthLabel = "None";
-  Color _strengthColor = AppColors.neutralBg;
+  Color? _strengthColor;
 
   void _signup() async {
     final validationResult = PasswordValidator.validate(_passwordCtrl.text);
@@ -46,11 +47,17 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
     try {
       await ref.read(authServiceProvider).signUp(_emailCtrl.text, _passwordCtrl.text);
-      if (mounted) context.go('/profile_setup');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Account created! Please check your email to verify before logging in.'),
+          duration: Duration(seconds: 5),
+        ));
+        context.pop(); // Go back to login screen
+      }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User already exists! Please go back and Login.')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User already exists! Please go back and Login.')));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? e.toString())));
         }
@@ -79,32 +86,32 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const FittedBox(
+        title: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text('New Experience — Let\'s Sign Up'),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32.0),
+          padding: EdgeInsets.all(32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
               NeoPixelBox(
                 padding: 8,
                 child: TextField(
                   controller: _emailCtrl,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Email Address',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               NeoPixelBox(
                 padding: 8,
                 child: TextField(
@@ -116,19 +123,19 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       setState(() => _passwordError = PasswordValidator.validate(val));
                     }
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Secure Password',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               
               // Password strength indicator
               if (_passwordCtrl.text.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  padding: EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -140,19 +147,19 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                                   height: 8,
                                   margin: EdgeInsets.only(right: i < 3 ? 4 : 0),
                                   decoration: BoxDecoration(
-                                    color: i < _passwordStrength ? _strengthColor : AppColors.shadowDark,
-                                    border: Border.all(color: AppColors.blockEdge, width: 1),
+                                    color: i < _passwordStrength ? (_strengthColor ?? context.colors.neutralBg) : context.colors.shadowDark,
+                                    border: Border.all(color: context.colors.blockEdge, width: 1),
                                   ),
                                 ),
                               ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         _strengthLabel,
                         style: TextStyle(
-                          color: _strengthColor,
+                          color: _strengthColor ?? context.colors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -161,7 +168,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                 ),
               
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               NeoPixelBox(
                 padding: 8,
                 child: TextField(
@@ -172,7 +179,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       setState(() => _passwordError = null);
                     }
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Confirm Password',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -180,14 +187,14 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 ),
               ),
               if (_passwordError != null) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Text(
                   _passwordError!,
-                  style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: context.colors.error, fontWeight: FontWeight.bold),
                 ),
               ],
               
-              const SizedBox(height: 60),
+              SizedBox(height: 60),
 
               NeoPixelBox(
                 isButton: true,
@@ -195,27 +202,27 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 padding: 16,
                 child: Center(
                   child: _isLoading 
-                    ? const CircularProgressIndicator(color: AppColors.primary)
+                    ? VerassoLoading()
                     : Text('REGISTER', style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: 24, color: AppColors.primary,
+                        fontSize: 24, color: context.colors.primary,
                       )),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               NeoPixelBox(
                 isButton: true,
                 onTap: _isLoading ? null : _signupGoogle,
                 padding: 16,
                 child: Center(
                   child: Text('Sign up with Google', style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontSize: 24, color: AppColors.textPrimary,
+                    fontSize: 24, color: context.colors.textPrimary,
                   )),
                 ),
               ),
-              const SizedBox(height: 48),
+              SizedBox(height: 48),
               TextButton(
                 onPressed: () => context.pop(),
-                child: const Text('Already have an account? Login', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                child: Text('Already have an account? Login', style: TextStyle(color: context.colors.textPrimary, fontWeight: FontWeight.bold)),
               )
             ],
           ),
@@ -239,7 +246,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     if (password.contains(RegExp(r'[0-9]'))) strength++;
     if (password.contains(RegExp(r'[!@#\$&*~]'))) strength++;
 
-    Color sColor = AppColors.error;
+    Color sColor = context.colors.error;
     String sLabel = "Weak";
 
     if (strength == 2) {
@@ -249,7 +256,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       sColor = Colors.yellow.shade700;
       sLabel = "Good";
     } else if (strength == 4) {
-      sColor = AppColors.primary;
+      sColor = context.colors.primary;
       sLabel = "Strong";
     }
 

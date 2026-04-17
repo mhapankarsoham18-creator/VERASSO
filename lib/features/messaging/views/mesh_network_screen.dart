@@ -19,13 +19,13 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralBg,
+      backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: const Text('MESH RADAR', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary), onPressed: () => Navigator.pop(context)),
+        title: Text('MESH RADAR', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: context.colors.textPrimary), onPressed: () => Navigator.pop(context)),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -37,28 +37,28 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
                   Icon(
                     _connectedNodes > 0 ? Icons.radar : Icons.radar_outlined,
                     size: 64,
-                    color: _isRelayActive ? AppColors.primary : AppColors.shadowDark,
+                    color: _isRelayActive ? context.colors.primary : context.colors.shadowDark,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     _isRelayActive ? 'RADAR ACTIVE' : 'RADAR OFFLINE',
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      color: _isRelayActive ? AppColors.primary : AppColors.textSecondary,
+                      color: _isRelayActive ? context.colors.primary : context.colors.textSecondary,
                       letterSpacing: 2,
                       fontSize: 18,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     '$_connectedNodes LOCAL NODES IN RANGE',
-                    style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary, fontSize: 12),
+                    style: TextStyle(fontWeight: FontWeight.w600, color: context.colors.textPrimary, fontSize: 12),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // Statistics Box
             Row(
@@ -68,20 +68,20 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
                     padding: 16,
                     child: Column(
                       children: [
-                        Text('$_packetsRelayed', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 32, color: AppColors.textPrimary)),
-                        const Text('PACKETS RELAYED', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10, color: AppColors.shadowDark)),
+                        Text('$_packetsRelayed', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 32, color: context.colors.textPrimary)),
+                        Text('PACKETS RELAYED', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10, color: context.colors.shadowDark)),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Expanded(
                   child: NeoPixelBox(
                     padding: 16,
                     child: Column(
                       children: [
-                        const Text('10 / 50', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 32, color: AppColors.textPrimary)),
-                        const Text('MB DEVICE CACHE', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10, color: AppColors.shadowDark)),
+                        Text('10 / 50', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 32, color: context.colors.textPrimary)),
+                        Text('MB DEVICE CACHE', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10, color: context.colors.shadowDark)),
                       ],
                     ),
                   ),
@@ -89,19 +89,19 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
               ],
             ),
 
-            const SizedBox(height: 48),
+            SizedBox(height: 48),
 
             // Toggle Box
             NeoPixelBox(
               padding: 16,
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('BACKGROUND RELAY', style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.textPrimary, fontSize: 14)),
-                        Text('Energy Cost: ~1% per day', style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.shadowDark, fontSize: 11)),
+                        Text('BACKGROUND RELAY', style: TextStyle(fontWeight: FontWeight.w900, color: context.colors.textPrimary, fontSize: 14)),
+                        Text('Energy Cost: ~1% per day', style: TextStyle(fontWeight: FontWeight.w600, color: context.colors.shadowDark, fontSize: 11)),
                       ],
                     ),
                   ),
@@ -117,8 +117,8 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
                          }
                       });
                     },
-                    activeThumbColor: AppColors.primary,
-                    activeTrackColor: AppColors.primary.withValues(alpha: 0.3),
+                    activeThumbColor: context.colors.primary,
+                    activeTrackColor: context.colors.primary.withValues(alpha: 0.3),
                   ),
                 ],
               ),

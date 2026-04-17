@@ -3,11 +3,11 @@ class TitleTier {
   final int xpThreshold;
   final String emoji;
 
-  const TitleTier(this.title, this.xpThreshold, this.emoji);
+  TitleTier(this.title, this.xpThreshold, this.emoji);
 }
 
 class TitleSystem {
-  static const List<TitleTier> tiers = [
+  static List<TitleTier> tiers = [
     TitleTier('Wanderer', 0, '🚶‍♂️'),
     TitleTier('Explorer', 500, '🗺️'),
     TitleTier('Adventurer', 1500, '⚔️'),

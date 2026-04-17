@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablet Compression Lab</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #FF9800; /* Amber for industrial */
+            --border: #444;
+            --punch: #ccc;
+            --die: #555;
+            --powder: #FFF3E0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            padding: 10px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .lab-area {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+        }
+
+        .machine-viz {
+            flex: 1;
+            border: 2px dashed var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: #111;
+        }
+
+        /* The Machine Parts */
+        .punch-upper {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(to right, #aaa, #ddd, #aaa);
+            position: absolute;
+            top: 20px;
+            border-radius: 2px;
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .punch-lower {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(to right, #aaa, #ddd, #aaa);
+            position: absolute;
+            bottom: 20px;
+            border-radius: 2px;
+        }
+
+        .die-cavity {
+            width: 120px;
+            height: 60px;
+            border-left: 20px solid var(--die);
+            border-right: 20px solid var(--die);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-sizing: border-box;
+        }
+
+        .powder-fill {
+            width: 80px;
+            height: 60px; /* Base fill */
+            background: repeating-linear-gradient(
+                45deg,
+                #FFE0B2,
+                #FFE0B2 5px,
+                #FFCC80 5px,
+                #FFCC80 10px
+            );
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+        }
+
+        .controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .slider-group {
+            background: #1a1a1a;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .slider-group span {
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--text);
+        }
+
+        .dash-meters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .meter {
+            background: #000;
+            border: 2px solid var(--text);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .meter-title {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .meter-val {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .btn-compress {
+            padding: 15px;
+            background: var(--text);
+            color: #000;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-compress:active {
+            background: #E65100;
+        }
+
+        /* Quality Warnings */
+        .status-ok { color: #4CAF50; }
+        .status-warn { color: #f44336; }
+
+    </style>
+</head>
+<body>
+
+    <header>ROTARY TABLET PRESS SIMULATOR</header>
+
+    <div class="lab-area">
+        <div class="machine-viz">
+            <div class="punch-upper" id="punchUpper"></div>
+            <div class="die-cavity">
+                <div class="powder-fill" id="powderFill"></div>
+            </div>
+            <div class="punch-lower"></div>
+        </div>
+
+        <div class="controls">
+            
+            <div class="slider-group">
+                <label>Main Compression Force (kN) <span id="lbl_force">15</span></label>
+                <input type="range" id="param_force" min="2" max="40" step="1" value="15">
+            </div>
+
+            <div class="slider-group">
+                <label>Binder Concentration (%) <span id="lbl_binder">5</span></label>
+                <input type="range" id="param_binder" min="0" max="15" step="0.5" value="5">
+            </div>
+
+            <div class="dash-meters">
+                <div class="meter">
+                    <div class="meter-title">HARDNESS (N)</div>
+                    <div class="meter-val" id="val_hardness">0</div>
+                </div>
+                <div class="meter">
+                    <div class="meter-title">FRIABILITY (%)</div>
+                    <div class="meter-val" id="val_friability">0.0</div>
+                </div>
+                <div class="meter" style="grid-column: span 2">
+                    <div class="meter-title">DISINTEGRATION TIME (mins)</div>
+                    <div class="meter-val" id="val_disintegration">0.0</div>
+                </div>
+            </div>
+
+            <button class="btn-compress" id="btnCompress">COMPRESS TABLET</button>
+        </div>
+    </div>
+
+    <script>
+        const iForce = document.getElementById('param_force');
+        const iBinder = document.getElementById('param_binder');
+        
+        const lForce = document.getElementById('lbl_force');
+        const lBinder = document.getElementById('lbl_binder');
+
+        const vHardness = document.getElementById('val_hardness');
+        const vFriability = document.getElementById('val_friability');
+        const vDisintegration = document.getElementById('val_disintegration');
+
+        const btnCompress = document.getElementById('btnCompress');
+        const punchUpper = document.getElementById('punchUpper');
+        const powderFill = document.getElementById('powderFill');
+
+        // Live update labels
+        [iForce, iBinder].forEach(el => {
+            el.addEventListener('input', () => {
+                lForce.innerText = iForce.value;
+                lBinder.innerText = iBinder.value;
+            });
+        });
+
+        // The Simulation Engine
+        function runCompression() {
+            const F = parseFloat(iForce.value); // Force in kN
+            const B = parseFloat(iBinder.value); // Binder %
+
+            // Visual Animation
+            // Max travel = 100px. Force maps to how deep it goes.
+            // Die top is at 50% screen height minus 30px
+            const maxTravel = 135; 
+            const travel = 50 + (F / 40) * 80; // 50 to 130px
+            
+            punchUpper.style.top = travel + 'px';
+            
+            // Compress powder height inversely
+            const powderHeight = Math.max(10, 60 - (F / 40) * 50);
+            powderFill.style.height = powderHeight + 'px';
+
+            // Simulate compacting by darkening colors
+            const densityShade = Math.floor(255 - (F/40)*100);
+            powderFill.style.background = `rgb(${densityShade}, ${densityShade-30}, ${densityShade-50})`;
+
+            // Physics / Pharma Logic Model
+            
+            // Hardness roughly scales with Force^0.8 and Binder^0.5
+            // Base hardness for ideal granulate at 15kN with 5% binder is ~80 N
+            let hardness = (Math.pow(F, 0.8) * 10) + (Math.pow(B, 0.5) * 15);
+            
+            // Capping / Lamination occurs if force is too high without enough binder
+            let isCapping = false;
+            if (F > 25 && B < 3) {
+                // Brittle fracture
+                hardness *= 0.3; 
+                isCapping = true;
+            }
+
+            // Friability (Weight loss during tumbling) < 1% is passing.
+            // Declines exponentially with hardness.
+            let friability = 5.0 * Math.exp(-0.05 * hardness);
+            if (isCapping) friability += 5.0;
+
+            // Disintegration Time (mins) - Increases linearly with hardness and binder
+            let dt = (hardness * 0.05) + (B * 1.2);
+            
+            // Update Dashboard
+            vHardness.innerText = Math.round(hardness) + (isCapping ? ' ⚠ CAPPED' : '');
+            vHardness.className = isCapping ? 'meter-val status-warn' : 'meter-val status-ok';
+
+            vFriability.innerText = friability.toFixed(2);
+            vFriability.className = (friability > 1.0) ? 'meter-val status-warn' : 'meter-val status-ok';
+
+            vDisintegration.innerText = dt.toFixed(1);
+            vDisintegration.className = (dt > 15) ? 'meter-val status-warn' : 'meter-val status-ok';
+
+            // Reset animation after 500ms
+            setTimeout(() => {
+                punchUpper.style.top = '20px'; // Retract punch
+            }, 600);
+            
+            // Eject tablet (visual only, let it uncompress for next hit)
+            setTimeout(() => {
+                powderFill.style.height = '60px'; // fill frame again
+                powderFill.style.background = 'repeating-linear-gradient(45deg, #FFE0B2, #FFE0B2 5px, #FFCC80 5px, #FFCC80 10px)';
+            }, 1000);
+        }
+
+        btnCompress.addEventListener('click', runCompression);
+
+    </script>
+</body>
+</html>

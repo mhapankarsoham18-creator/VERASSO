@@ -50,9 +50,24 @@ class MockMessagingService implements MessagingService {
 // Let's create a better mock using Mockito? No, let's just override subscribeToMessages to throw OR return something if needed. Wait, RealtimeChannel can be instantiated possibly.
 // Or we can just change ChatScreen to not crash if subscribeToMessages throws in test.
 
+class MockRealtimeChannel extends RealtimeChannel {
+  MockRealtimeChannel() : super('mock', Supabase.instance.client.realtime);
+  
+  @override
+  RealtimeChannel subscribe([void Function(RealtimeSubscribeStatus status, Object? error)? callback, Duration? timeout]) {
+    if (callback != null) callback(RealtimeSubscribeStatus.subscribed, null);
+    return this;
+  }
+
+  @override
+  Future<String> unsubscribe([Duration? timeout]) async {
+    return 'ok';
+  }
+}
+
 class SimpleMockMessagingService implements MessagingService {
   @override
-  Future<String> decryptMessageRow(Map<String, dynamic> messageRow, String peerPublicKey) async => 'fake';
+  Future<String> decryptMessageRow(Map<String, dynamic> messageRow, String peerPublicKey) async => 'decrypted text';
 
   @override
   Future<void> ensureKeysExist() async {}
@@ -71,9 +86,7 @@ class SimpleMockMessagingService implements MessagingService {
 
   @override
   RealtimeChannel subscribeToMessages(String conversationId, void Function(Map<String, dynamic> p1) onMessage) {
-     // Because we cannot instantiate RealtimeChannel easily, we throw an exception that ChatScreen catches or we just return an instance using an empty dummy.
-     // To avoid the error, since we don't strictly need to mock it, let's just let it be. But wait, Dart requires returning RealtimeChannel!
-     throw UnimplementedError("Mocking RealtimeChannel is hard, let's see if we catch this in ChatScreen._initChat!");
+     return MockRealtimeChannel();
   }
 }
 

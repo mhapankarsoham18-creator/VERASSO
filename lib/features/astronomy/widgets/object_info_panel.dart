@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/celestial_object.dart';
-import '../rendering/pixel_palette.dart';
 
 /// Expandable bottom sheet for detailed object info + AI chat.
 class ObjectInfoPanel extends StatefulWidget {
@@ -44,7 +43,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
     });
 
     // Simulate AI response (replace with real AI later)
-    Future.delayed(const Duration(milliseconds: 800), () {
+    Future.delayed(Duration(milliseconds: 800), () {
       if (!mounted) return;
       setState(() {
         _isTyping = false;
@@ -102,7 +101,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
     if (q.contains('see') || q.contains('find') || q.contains('where')) {
       return '${obj.name} is currently at altitude ${obj.altitude.toStringAsFixed(1)}° '
           'and azimuth ${obj.azimuth.toStringAsFixed(1)}°. '
-          '${obj.altitude > 30 ? "It\'s high in the sky — easy to spot!" : obj.altitude > 0 ? "Look closer to the horizon." : "It\'s below the horizon right now."}';
+          '${obj.altitude > 30 ? "It's high in the sky — easy to spot!" : obj.altitude > 0 ? "Look closer to the horizon." : "It's below the horizon right now."}';
     }
 
     // Default educational response
@@ -114,37 +113,42 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
-      decoration: const BoxDecoration(
-        color: PixelPalette.skyDeepBlue,
-        border: Border(
-          top: BorderSide(color: PixelPalette.bubbleBorder, width: 2),
-          left: BorderSide(color: PixelPalette.bubbleBorder, width: 2),
-          right: BorderSide(color: PixelPalette.bubbleBorder, width: 2),
+      decoration: BoxDecoration(
+        color: Color(0xFF8BAC0F), // Classic LCD Green
+        border: Border.all(
+          color: Color(0xFF0F380F), 
+          width: 3,
         ),
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFE0E0E0),
+            blurRadius: 10,
+          )
+        ]
       ),
       child: Column(
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: PixelPalette.hudDim, width: 1),
+                bottom: BorderSide(color: Color(0xFF0F380F), width: 2),
               ),
             ),
             child: Row(
               children: [
-                Text(widget.object.emoji, style: const TextStyle(fontSize: 20)),
-                const SizedBox(width: 10),
+                Text(widget.object.emoji, style: TextStyle(fontSize: 20)),
+                SizedBox(width: 10),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.object.name.toUpperCase(),
-                        style: const TextStyle(
-                          color: PixelPalette.hudText,
+                        style: TextStyle(
+                          color: Color(0xFF0F380F),
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 2,
@@ -153,7 +157,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
                       Text(
                         widget.object.typeLabel,
                         style: TextStyle(
-                          color: PixelPalette.hudText.withOpacity(0.5),
+                          color: Color(0xFF0F380F).withValues(alpha: 0.7),
                           fontSize: 10,
                           letterSpacing: 1.5,
                         ),
@@ -164,12 +168,12 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
                 GestureDetector(
                   onTap: widget.onClose,
                   child: Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      border: Border.all(color: PixelPalette.hudDim),
+                      border: Border.all(color: Color(0xFF0F380F)),
                     ),
-                    child: const Icon(Icons.close,
-                        color: PixelPalette.hudText, size: 18),
+                    child: Icon(Icons.close,
+                        color: Color(0xFF0F380F), size: 18),
                   ),
                 ),
               ],
@@ -179,7 +183,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
           // Chat messages
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               itemCount: _chatMessages.length + (_isTyping ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == _chatMessages.length && _isTyping) {
@@ -192,10 +196,10 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
 
           // Input field
           Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
               border: Border(
-                top: BorderSide(color: PixelPalette.hudDim, width: 1),
+                top: BorderSide(color: Color(0xFF0F380F), width: 2),
               ),
             ),
             child: Row(
@@ -203,20 +207,20 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
                 Expanded(
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
-                      border: Border.all(color: PixelPalette.hudDim),
-                      color: PixelPalette.skyBlack,
+                      border: Border.all(color: Color(0xFF0F380F)),
+                      color: Color(0xFF9BBC0F),
                     ),
                     child: TextField(
                       controller: _chatController,
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 13),
+                      style: TextStyle(
+                          color: Color(0xFF0F380F), fontSize: 13, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
                         hintText:
                             'Ask about ${widget.object.name}...',
                         hintStyle: TextStyle(
-                            color: PixelPalette.hudDim, fontSize: 12),
+                            color: Color(0xFF0F380F).withValues(alpha: 0.5), fontSize: 12),
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.zero,
@@ -225,16 +229,17 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 GestureDetector(
                   onTap: _sendMessage,
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      border: Border.all(color: PixelPalette.bubbleBorder),
+                      border: Border.all(color: Color(0xFF0F380F)),
+                      color: Color(0xFF9BBC0F),
                     ),
-                    child: const Icon(Icons.send,
-                        color: PixelPalette.hudText, size: 18),
+                    child: Icon(Icons.send,
+                        color: Color(0xFF0F380F), size: 18),
                   ),
                 ),
               ],
@@ -247,7 +252,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
 
   Widget _buildMessageBubble(_ChatMessage msg) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Align(
         alignment:
             msg.isAI ? Alignment.centerLeft : Alignment.centerRight,
@@ -255,23 +260,22 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.75,
           ),
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: msg.isAI
-                ? PixelPalette.skyBlack
-                : PixelPalette.hudDim.withOpacity(0.3),
+                ? Color(0xFF8BAC0F)
+                : Color(0xFF9BBC0F),
             border: Border.all(
-              color: msg.isAI
-                  ? PixelPalette.hudDim
-                  : PixelPalette.bubbleBorder,
+              color: Color(0xFF0F380F),
               width: 1,
             ),
           ),
           child: Text(
             msg.text,
             style: TextStyle(
-              color: msg.isAI ? Colors.white : PixelPalette.hudText,
+              color: Color(0xFF0F380F),
               fontSize: 12,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),
@@ -282,22 +286,22 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
 
   Widget _buildTypingIndicator() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: PixelPalette.skyBlack,
-            border: Border.all(color: PixelPalette.hudDim),
+            color: Color(0xFF8BAC0F),
+            border: Border.all(color: Color(0xFF0F380F)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               _dot(0),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               _dot(1),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               _dot(2),
             ],
           ),
@@ -315,7 +319,7 @@ class _ObjectInfoPanelState extends State<ObjectInfoPanel> {
         child: Container(
           width: 6,
           height: 6,
-          color: PixelPalette.hudText,
+          color: Color(0xFF0F380F),
         ),
       ),
     );

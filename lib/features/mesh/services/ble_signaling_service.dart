@@ -5,7 +5,7 @@ import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 
 class BleSignalingService {
   // A custom UUID so Verasso devices only discover each other
-  static const String verassoServiceUuid = '5A48F796-0A0C-4A2D-A1EB-FF1B11AC160B';
+  static String verassoServiceUuid = '5A48F796-0A0C-4A2D-A1EB-FF1B11AC160B';
 
   final FlutterBlePeripheral _blePeripheral = FlutterBlePeripheral();
   StreamSubscription? _scanSubscription;

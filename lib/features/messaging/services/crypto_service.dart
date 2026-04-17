@@ -1,22 +1,34 @@
 import 'dart:convert';
 import 'package:cryptography/cryptography.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CryptoService {
   final _keyExchange = X25519();
   final _cipher = AesGcm.with256bits();
+  final _storage = FlutterSecureStorage();
 
-  /// Generates a new X25519 key pair, returning the raw bytes encoded to Base64 strings.
-  /// Map contains 'publicKey' and 'privateKey'.
-  Future<Map<String, String>> generateKeyPair() async {
+  /// Generates a new X25519 key pair.
+  /// Stores the private key securely on device, and returns the public key encoded to Base64 strings.
+  Future<Map<String, String>> generateKeyPairAndStorePrivate(String userId) async {
     final keyPair = await _keyExchange.newKeyPair();
     
     final publicKey = await keyPair.extractPublicKey();
     final privateKey = await keyPair.extractPrivateKeyBytes();
 
+    final privateKeyB64 = base64Encode(privateKey);
+    final publicKeyB64 = base64Encode(publicKey.bytes);
+
+    // Securely store private key locally, linked to this user
+    await _storage.write(key: 'private_key_$userId', value: privateKeyB64);
+
     return {
-      'publicKey': base64Encode(publicKey.bytes),
-      'privateKey': base64Encode(privateKey),
+      'publicKey': publicKeyB64,
     };
+  }
+
+  /// Retrieves the stored private key for a user.
+  Future<String?> getStoredPrivateKey(String userId) async {
+    return await _storage.read(key: 'private_key_$userId');
   }
 
   /// Derives the shared secret and encrypts the plaintext.

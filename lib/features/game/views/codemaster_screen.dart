@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
@@ -65,18 +66,18 @@ class _CodemasterScreenState extends State<CodemasterScreen> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
-          color: const Color(0xFFD32F2F), // Pokédex Red
-          padding: const EdgeInsets.all(16),
+          color: Color(0xFFD32F2F), // Pokédex Red
+          padding: EdgeInsets.all(16),
           child: Column(
             children: [
               // Top Pokédex camera/LED array
               Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white, size: 30),
+                    icon: Icon(Icons.close, color: Colors.white, size: 30),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Container(
                     width: 24,
                     height: 24,
@@ -84,23 +85,23 @@ class _CodemasterScreenState extends State<CodemasterScreen> {
                       shape: BoxShape.circle,
                       color: Colors.blueAccent,
                       border: Border.all(color: Colors.white, width: 2),
-                      boxShadow: const [BoxShadow(color: Colors.blue, blurRadius: 10)],
+                      boxShadow: [BoxShadow(color: Colors.blue, blurRadius: 10)],
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Container(width: 10, height: 10, decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red)),
-                  const SizedBox(width: 4),
-                  Container(width: 10, height: 10, decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.yellow)),
-                  const SizedBox(width: 4),
-                  Container(width: 10, height: 10, decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green)),
+                  SizedBox(width: 8),
+                  Container(width: 10, height: 10, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red)),
+                  SizedBox(width: 4),
+                  Container(width: 10, height: 10, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.yellow)),
+                  SizedBox(width: 4),
+                  Container(width: 10, height: 10, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.green)),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Expanded(
                 child: NeoPixelBox(
                   padding: 12,
-                  backgroundColor: const Color(0xFFEEEEEE),
+                  backgroundColor: Color(0xFFEEEEEE),
                   child: NeoPixelBox(
                     padding: 4,
                     backgroundColor: Colors.black,
@@ -111,8 +112,8 @@ class _CodemasterScreenState extends State<CodemasterScreen> {
                           child: WebViewWidget(controller: _controller),
                         ),
                         if (_isLoading)
-                          const Center(
-                            child: CircularProgressIndicator(color: AppColors.primary),
+                          Center(
+                            child: VerassoLoading(),
                           ),
                       ],
                     ),
@@ -141,27 +142,27 @@ class _ChallengeSheet extends StatelessWidget {
     // This sheet acts as the bridge interpreting the challenge ID 
     // into actual code evaluation sequences (to be linked to Dart evaluator).
     return Container(
-      padding: const EdgeInsets.all(24) + MediaQuery.of(context).viewInsets,
-      decoration: const BoxDecoration(
-        color: AppColors.neutralBg,
-        border: Border(top: BorderSide(color: AppColors.blockEdge, width: 4)),
+      padding: EdgeInsets.all(24) + MediaQuery.of(context).viewInsets,
+      decoration: BoxDecoration(
+        color: context.colors.neutralBg,
+        border: Border(top: BorderSide(color: context.colors.blockEdge, width: 4)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
+          Text(
             "CODEMASTER CHALLENGE",
-            style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.textPrimary, fontSize: 18, letterSpacing: 2),
+            style: TextStyle(fontWeight: FontWeight.w900, color: context.colors.textPrimary, fontSize: 18, letterSpacing: 2),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             "Intercepted Challenge ID: \$challengeId",
-            style: const TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+            style: TextStyle(color: context.colors.textSecondary, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           
           // Placeholder controls returning pass/fail to HTML5 instance
           Row(
@@ -174,15 +175,15 @@ class _ChallengeSheet extends StatelessWidget {
                     onResolve(false);
                   },
                   padding: 16,
-                  backgroundColor: AppColors.shadowLight,
-                  child: const Text(
+                  backgroundColor: context.colors.shadowLight,
+                  child: Text(
                     "FAIL / RETREAT",
-                    style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                    style: TextStyle(fontWeight: FontWeight.w900, color: context.colors.textPrimary),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
                 child: NeoPixelBox(
                   isButton: true,
@@ -191,17 +192,17 @@ class _ChallengeSheet extends StatelessWidget {
                     onResolve(true);
                   },
                   padding: 16,
-                  backgroundColor: AppColors.primary,
-                  child: const Text(
+                  backgroundColor: context.colors.primary,
+                  child: Text(
                     "EXECUTE (PASS)",
-                    style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.neutralBg),
+                    style: TextStyle(fontWeight: FontWeight.w900, color: context.colors.neutralBg),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
         ],
       ),
     );

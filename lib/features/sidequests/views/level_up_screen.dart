@@ -26,7 +26,7 @@ class LevelUpScreen extends StatefulWidget {
       transitionBuilder: (context, a1, a2, child) {
         return FadeTransition(opacity: a1, child: child);
       },
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: Duration(milliseconds: 500),
     );
   }
 
@@ -44,11 +44,11 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController = ConfettiController(duration: Duration(seconds: 3));
     
     _animController = AnimationController(
        vsync: this,
-       duration: const Duration(milliseconds: 800),
+       duration: Duration(milliseconds: 800),
     );
 
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
@@ -59,11 +59,11 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
   }
 
   Future<void> _startSequence() async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(Duration(milliseconds: 300));
     _confettiController.play();
     _animController.forward();
     
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2));
     if (mounted) {
       setState(() {
         _canDismiss = true;
@@ -116,7 +116,7 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'RANK UP!',
                   style: TextStyle(
                     fontFamily: 'Pixel', // Assuming a pixel font or coarse sans exists
@@ -125,7 +125,7 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
                     letterSpacing: 4,
                   ),
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
                 
                 ScaleTransition(
                   scale: _scaleAnimation,
@@ -133,12 +133,12 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
                     children: [
                       Text(
                         widget.newTier.emoji,
-                        style: const TextStyle(fontSize: 80),
+                        style: TextStyle(fontSize: 80),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Text(
                         widget.newTier.title.toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -149,33 +149,33 @@ class _LevelUpScreenState extends State<LevelUpScreen> with SingleTickerProvider
                   ),
                 ),
                 
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
                 
                 Text(
                   'Farewell, ${widget.oldTier.title}...',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     color: Colors.white60,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
                 
-                const SizedBox(height: 60),
+                SizedBox(height: 60),
                 
                 AnimatedOpacity(
                   opacity: _canDismiss ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 500),
                   child: GestureDetector(
                     onTap: () {
                       if (_canDismiss) Navigator.of(context).pop();
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white38, width: 2),
                         color: Colors.white10,
                       ),
-                      child: const Text(
+                      child: Text(
                         'TAP TO CONTINUE',
                         style: TextStyle(
                           color: Colors.white,

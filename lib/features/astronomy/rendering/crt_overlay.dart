@@ -27,7 +27,7 @@ class CrtOverlay extends CustomPainter {
     // Subtle moving bright band (old CRT scan)
     final bandY = (frame * 4.0) % size.height;
     final bandPaint = Paint()
-      ..color = Colors.white.withOpacity(0.015)
+      ..color = const Color(0x04FFFFFF) // Subtle bright band
       ..style = PaintingStyle.fill;
     canvas.drawRect(
       Rect.fromLTWH(0, bandY, size.width, 8),

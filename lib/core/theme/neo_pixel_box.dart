@@ -13,7 +13,8 @@ class NeoPixelBox extends StatefulWidget {
   final VoidCallback? onTap;
   final bool isButton;
   final bool enableTilt;
-  final Color backgroundColor;
+  final Color? backgroundColor;
+  final String? semanticLabel;
 
   const NeoPixelBox({
     super.key,
@@ -22,7 +23,8 @@ class NeoPixelBox extends StatefulWidget {
     this.onTap,
     this.isButton = false,
     this.enableTilt = true,
-    this.backgroundColor = AppColors.neutralBg,
+    this.backgroundColor,
+    this.semanticLabel,
   });
 
   @override
@@ -64,15 +66,19 @@ class _NeoPixelBoxState extends State<NeoPixelBox> {
     final xOffset = _isPressed ? 0.0 : _tiltX;
     final yOffset = _isPressed ? 0.0 : max(2.0, _tiltY); // Maintain slight bottom gravity minimum
 
-    return GestureDetector(
-      onTapDown: widget.onTap != null ? (_) => setState(() => _isPressed = true) : null,
-      onTapUp: widget.onTap != null ? (_) {
-        setState(() => _isPressed = false);
-        widget.onTap!();
+    return Semantics(
+      label: widget.semanticLabel,
+      button: widget.isButton || widget.onTap != null,
+      container: true,
+      child: GestureDetector(
+        onTapDown: widget.onTap != null ? (_) => setState(() => _isPressed = true) : null,
+        onTapUp: widget.onTap != null ? (_) {
+          setState(() => _isPressed = false);
+          widget.onTap!();
       } : null,
       onTapCancel: widget.onTap != null ? () => setState(() => _isPressed = false) : null,
       child: AnimatedContainer(
-        duration: widget.enableTilt ? const Duration(milliseconds: 100) : const Duration(milliseconds: 150),
+        duration: widget.enableTilt ? Duration(milliseconds: 100) : Duration(milliseconds: 150),
         curve: Curves.easeOutCirc,
         padding: EdgeInsets.all(widget.padding),
         transform: Matrix4.translationValues(
@@ -81,10 +87,10 @@ class _NeoPixelBoxState extends State<NeoPixelBox> {
           0.0
         ),
         decoration: BoxDecoration(
-          color: widget.backgroundColor,
+          color: widget.backgroundColor ?? context.colors.neutralBg,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: widget.isButton ? AppColors.primary : AppColors.textPrimary, // Hard pixel borders
+            color: widget.isButton ? context.colors.primary : context.colors.textPrimary, // Hard pixel borders
             width: 3 
           ),
           // Hard 3D pixel shadow dynamically shifting
@@ -92,14 +98,14 @@ class _NeoPixelBoxState extends State<NeoPixelBox> {
               ? []
               : [
                   BoxShadow(
-                    color: widget.isButton ? AppColors.primary.withAlpha(204) : AppColors.shadowDark,
+                    color: widget.isButton ? context.colors.primary.withAlpha(204) : context.colors.shadowDark,
                     offset: Offset(xOffset, yOffset),
                     blurRadius: 0,
                     spreadRadius: 0,
                   ),
                   // Secondary high-contrast highlight to enforce the blocky voxel illusion
                   BoxShadow(
-                    color: AppColors.shadowLight,
+                    color: context.colors.shadowLight,
                     offset: Offset(-xOffset.clamp(-3.0, 3.0), -yOffset.clamp(-3.0, 3.0)),
                     blurRadius: 0,
                     spreadRadius: 0,
@@ -107,6 +113,7 @@ class _NeoPixelBoxState extends State<NeoPixelBox> {
                 ],
         ),
         child: widget.child,
+      ),
       ),
     );
   }
