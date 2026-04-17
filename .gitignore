@@ -52,6 +52,11 @@ app.*.map.json
 .env
 *.jks
 *.keystore
+*.pem
+*.p8
+*.p12
+*.cer
+*.mobileprovision
 android/key.properties
 android/local.properties
 ios/Flutter/Generated.xcconfig
