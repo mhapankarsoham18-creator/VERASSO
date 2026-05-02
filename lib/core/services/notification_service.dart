@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:verasso/core/utils/logger.dart';
+import 'package:verasso/core/router/app_router.dart';
 
 /// Top-level background handler required by firebase_messaging.
 /// Must be a top-level function, NOT inside a class.
@@ -57,7 +58,14 @@ class NotificationService {
         android: androidSettings,
         iOS: iosSettings,
       );
-      await _localNotif.initialize(settings: initSettings);
+      await _localNotif.initialize(
+        settings: initSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse response) {
+          appLogger.d('Notification tapped: ${response.payload}');
+          // Route to notifications screen when tapped
+          appRouter.push('/notifications');
+        },
+      );
 
       // Register background handler
       FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);

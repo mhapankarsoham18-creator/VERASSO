@@ -121,7 +121,6 @@ flutter:
     - assets/simulations/history/
     - assets/simulations/commerce/
     - assets/simulations/cs/
-    - assets/game/
     - assets/astro/
     - assets/simulations/pharmacy/
     - assets/study_buddy/backgrounds/

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import 'globe_screen.dart';
-import '../../game/views/codemaster_screen.dart';
 import 'simulation_viewer.dart';
 
 /// Data model for a single simulation entry.
@@ -198,7 +197,6 @@ const _catalog = <_SubjectSection>[
     _SimEntry('Regex Tester', 'assets/simulations/cs/regex-tester.html', Icons.text_fields),
     _SimEntry('HTTP Request Flow', 'assets/simulations/cs/http-flow.html', Icons.cloud_sync),
     _SimEntry('Database Queries', 'assets/simulations/cs/database-query.html', Icons.table_chart),
-    _SimEntry('Codemaster Odyssey RPG', 'assets/game/index.html', Icons.videogame_asset),
   ]),
 
   // ╔══════════════════════════════════════════╗
@@ -443,12 +441,6 @@ class _SimTile extends StatelessWidget {
   }
 
   void _openSim(BuildContext context) {
-    // Special case for Codemaster RPG (uses its own screen)
-    if (sim.asset == 'assets/game/index.html') {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => CodemasterScreen()));
-      return;
-    }
     // Special case for Globe 3D
     if (sim.asset == 'assets/simulations/geography/index.html') {
       Navigator.push(
