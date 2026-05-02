@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -8,9 +8,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cryptography/cryptography.dart';
 
+import '../../../core/services/app_lifecycle_guard.dart';
 import 'crypto_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 enum MeshNodeState { disconnected, discovering, advertising, connected }
+enum MeshPowerMode { foreground, background }
 
 class MeshPeer {
   final String endpointId;
@@ -23,7 +26,7 @@ class MeshPeer {
         isTransferring = false;
 }
 
-class MeshNetworkService extends ChangeNotifier {
+class MeshNetworkService extends ChangeNotifier implements LifecycleAwareService {
   static final MeshNetworkService _instance = MeshNetworkService._internal();
   factory MeshNetworkService() => _instance;
   MeshNetworkService._internal();
@@ -44,12 +47,19 @@ class MeshNetworkService extends ChangeNotifier {
   Box? _offlineBox;
   Box? _ledgerBox; // Persistent packet ledger
 
-  // -- Pulse Scanning --
+  // -- Pulse Scanning & Power Modes --
+  MeshPowerMode _powerMode = MeshPowerMode.foreground;
+  MeshPowerMode get powerMode => _powerMode;
+  
   Timer? _pulseTimer;
   Timer? _scanWindowTimer;
   bool _isScanningActive = false;
-  static const int _pulseScanSeconds = 15;
-  static const int _pulseIntervalSeconds = 180; // 3 minutes
+  
+  static const int _fgPulseScanSeconds = 15;
+  static const int _fgPulseIntervalSeconds = 180; // 3 minutes
+  
+  static const int _bgPulseScanSeconds = 10;
+  static const int _bgPulseIntervalSeconds = 900; // 15 minutes
 
   // -- Connection Churning --
   static const int _maxPeers = 8;
@@ -93,8 +103,12 @@ class MeshNetworkService extends ChangeNotifier {
   /// otherwise uses a duty cycle to conserve battery.
   void startPulseScanning() {
     _pulseTimer?.cancel();
+    final interval = _powerMode == MeshPowerMode.foreground 
+        ? _fgPulseIntervalSeconds 
+        : _bgPulseIntervalSeconds;
+        
     _pulseTimer = Timer.periodic(
-      const Duration(seconds: _pulseIntervalSeconds),
+      Duration(seconds: interval),
       (_) => _executeScanPulse(),
     );
     // Immediately execute first pulse
@@ -118,14 +132,38 @@ class MeshNetworkService extends ChangeNotifier {
       // Urgent mode: stay scanning until outbox clears
       _startScanWindow();
     } else {
-      // Idle mode: scan for _pulseScanSeconds then stop
+      // Idle mode: scan for duration based on power mode
       _startScanWindow();
       _scanWindowTimer?.cancel();
+      final scanDuration = _powerMode == MeshPowerMode.foreground 
+          ? _fgPulseScanSeconds 
+          : _bgPulseScanSeconds;
+          
       _scanWindowTimer = Timer(
-        const Duration(seconds: _pulseScanSeconds),
+        Duration(seconds: scanDuration),
         () => _stopScanWindow(),
       );
     }
+  }
+
+  // ===== LIFECYCLE MANAGEMENT =====
+
+  @override
+  void onAppBackgrounded() {
+    appLogger.d('MeshNetworkService: Entering POWER SAVER background mode.');
+    _powerMode = MeshPowerMode.background;
+    notifyListeners();
+    // Restart pulse with relaxed interval
+    startPulseScanning();
+  }
+
+  @override
+  void onAppResumed() {
+    appLogger.d('MeshNetworkService: Entering FULL POWER foreground mode.');
+    _powerMode = MeshPowerMode.foreground;
+    notifyListeners();
+    // Restart pulse with aggressive interval
+    startPulseScanning();
   }
 
   Future<void> _startScanWindow() async {
@@ -143,7 +181,7 @@ class MeshNetworkService extends ChangeNotifier {
       await Nearby().stopAdvertising();
       await Nearby().stopDiscovery();
     } catch (e) {
-      debugPrint("Stop scan window: $e");
+      appLogger.d("Stop scan window: $e");
     }
     if (_connectedPeers.isEmpty) {
       _state = MeshNodeState.disconnected;
@@ -176,7 +214,7 @@ class MeshNetworkService extends ChangeNotifier {
       _state = MeshNodeState.advertising;
       notifyListeners();
     } catch (e) {
-      debugPrint("Advertising failed: $e");
+      appLogger.d("Advertising failed: $e");
     }
   }
 
@@ -198,7 +236,7 @@ class MeshNetworkService extends ChangeNotifier {
       _state = MeshNodeState.discovering;
       notifyListeners();
     } catch (e) {
-      debugPrint("Discovery failed: $e");
+      appLogger.d("Discovery failed: $e");
     }
   }
 
@@ -233,7 +271,7 @@ class MeshNetworkService extends ChangeNotifier {
         },
       );
     } catch (e) {
-      debugPrint("Request connection failed: $e");
+      appLogger.d("Request connection failed: $e");
     }
   }
 
@@ -290,7 +328,7 @@ class MeshNetworkService extends ChangeNotifier {
     if (mostIdleId != null) {
       Nearby().disconnectFromEndpoint(mostIdleId);
       _connectedPeers.remove(mostIdleId);
-      debugPrint("Churned idle peer: $mostIdleId");
+      appLogger.d("Churned idle peer: $mostIdleId");
     }
   }
 
@@ -321,7 +359,7 @@ class MeshNetworkService extends ChangeNotifier {
     for (final key in keysToDelete) {
       _ledgerBox!.delete(key);
     }
-    debugPrint("Purged ${keysToDelete.length} stale ledger entries.");
+    appLogger.d("Purged ${keysToDelete.length} stale ledger entries.");
   }
 
   // ===== SIGNED ENVELOPE VERIFICATION =====
@@ -366,7 +404,7 @@ class MeshNetworkService extends ChangeNotifier {
     // is the ultimate proof of identity.
     final crypto = CryptoService();
     final cachedKey = await crypto.getStoredPrivateKey(senderId);
-    // If we have no cached relationship, we can't verify — but we still
+    // If we have no cached relationship, we can't verify â€” but we still
     // accept the message (it's E2E encrypted, content is safe regardless)
     return cachedKey != null || senderPublicKeyB64.isNotEmpty;
   }
@@ -380,7 +418,7 @@ class MeshNetworkService extends ChangeNotifier {
       if (data['type'] == 'offline_message') {
         final packetId = data['nonce'] as String;
 
-        // Persistent deduplication — survives app restarts
+        // Persistent deduplication â€” survives app restarts
         if (_hasSeenPacket(packetId)) return;
         _recordPacket(packetId);
 
@@ -402,7 +440,7 @@ class MeshNetworkService extends ChangeNotifier {
               senderPublicKeyB64: senderPubKey,
             );
             if (!isValid) {
-              debugPrint('SECURITY: Dropped mesh packet — envelope signature verification failed for ${data['senderId']}');
+              appLogger.d('SECURITY: Dropped mesh packet â€” envelope signature verification failed for ${data['senderId']}');
               return; // Silently drop spoofed packet
             }
           }
@@ -428,7 +466,7 @@ class MeshNetworkService extends ChangeNotifier {
         }
       }
     } catch (e) {
-      debugPrint("Failed to parse mesh payload: $e");
+      appLogger.d("Failed to parse mesh payload: $e");
     }
   }
 
@@ -487,3 +525,4 @@ class MeshNetworkService extends ChangeNotifier {
     super.dispose();
   }
 }
+

@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../../../core/validators/input_validator.dart';
+import '../../../core/utils/file_validator.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -55,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       }
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      debugPrint('Error loading profile: $e');
+      appLogger.d('Error loading profile: $e');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -65,6 +67,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
     if (pickedFile != null) {
+      final error = await FileValidator.validateImage(pickedFile);
+      if (error != null) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+        return;
+      }
       setState(() => _newAvatar = File(pickedFile.path));
     }
   }
@@ -228,3 +235,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
+

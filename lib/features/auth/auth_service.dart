@@ -3,8 +3,9 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart' as google_sign_in_lib;
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
-import 'package:flutter/foundation.dart';
+
 import '../../core/services/notification_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
@@ -23,7 +24,7 @@ class AuthService {
         email: email, password: password);
     if (credential.user != null) {
       await credential.user!.sendEmailVerification();
-      // Profile sync is delayed until email verification (handled in signIn)
+      await _syncProfile(credential.user!);
     }
     return credential;
   }
@@ -88,14 +89,15 @@ class AuthService {
         'firebase_uid': firebaseUser.uid,
         if (firebaseUser.displayName != null) 'display_name': firebaseUser.displayName,
         if (firebaseUser.photoURL != null) 'avatar_url': firebaseUser.photoURL,
-        if (firebaseUser.email != null) 'username': firebaseUser.email!.split('@')[0],
         if (firebaseUser.email != null) 'email': firebaseUser.email,
+        // We no longer set 'username' here so that ProfileSetupScreen is triggered.
       }, onConflict: 'firebase_uid');
       // Initialize Push Notifications so token is mapped to the new profile
       await NotificationService().initPushNotifications();
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      debugPrint('Supabase Profile Sync Error: $e');
+      appLogger.d('Supabase Profile Sync Error: $e');
     }
   }
 }
+

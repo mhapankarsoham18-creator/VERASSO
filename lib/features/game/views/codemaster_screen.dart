@@ -1,9 +1,10 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class CodemasterScreen extends StatefulWidget {
   const CodemasterScreen({super.key});
@@ -31,7 +32,7 @@ class _CodemasterScreenState extends State<CodemasterScreen> {
               _showChallengeSheet(data['challengeId']);
             }
           } catch (e) {
-            debugPrint("Game payload exception: \$e");
+            appLogger.d("Game payload exception: \$e");
           }
         },
       )
@@ -66,11 +67,11 @@ class _CodemasterScreenState extends State<CodemasterScreen> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
-          color: Color(0xFFD32F2F), // Pokédex Red
+          color: Color(0xFFD32F2F), // PokÃ©dex Red
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              // Top Pokédex camera/LED array
+              // Top PokÃ©dex camera/LED array
               Row(
                 children: [
                   IconButton(
@@ -208,3 +209,4 @@ class _ChallengeSheet extends StatelessWidget {
     );
   }
 }
+

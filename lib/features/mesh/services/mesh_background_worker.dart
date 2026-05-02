@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:ui';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +7,7 @@ import '../models/mesh_packet.dart';
 import 'mesh_security.dart';
 import 'mesh_store.dart';
 import 'ble_signaling_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 @pragma("vm:entry-point")
 void onBackgroundStart(ServiceInstance service) async {
@@ -42,17 +43,17 @@ void onBackgroundStart(ServiceInstance service) async {
     );
   }
 
-  // Battery Guard — real device battery monitoring
+  // Battery Guard â€” real device battery monitoring
   final battery = Battery();
 
   // Background loop
   Timer.periodic(Duration(seconds: 15), (timer) async {
-    // 1. Check Battery Guard — real battery level via battery_plus
+    // 1. Check Battery Guard â€” real battery level via battery_plus
     final batteryLevel = await battery.batteryLevel;
     final isBatteryCritical = batteryLevel <= 20;
 
     if (isBatteryCritical) {
-      debugPrint('[ENERGY MANAGER] Battery at $batteryLevel% (<= 20%). Mesh Relay sleeping.');
+      appLogger.d('[ENERGY MANAGER] Battery at $batteryLevel% (<= 20%). Mesh Relay sleeping.');
       await bleSignaling.stopAdvertising();
       // Only SOS packets theoretically bypass this, but we sleep normal relay.
       return;
@@ -64,12 +65,12 @@ void onBackgroundStart(ServiceInstance service) async {
     if (currentPacket != null) {
       // Validate the packet passes all security checks before rebroadcasting
       if (MeshSecurity.exceedsHopLimit(currentPacket)) {
-        debugPrint('[MESH] Dropping packet ${currentPacket.id}: hop limit exceeded');
+        appLogger.d('[MESH] Dropping packet ${currentPacket.id}: hop limit exceeded');
         return;
       }
 
       if (MeshSecurity.isExpired(currentPacket)) {
-        debugPrint('[MESH] Dropping packet ${currentPacket.id}: expired');
+        appLogger.d('[MESH] Dropping packet ${currentPacket.id}: expired');
         return;
       }
 
@@ -83,7 +84,7 @@ void onBackgroundStart(ServiceInstance service) async {
 
       // Enforce BLE advertisement size limit
       if (packetBytes.length > MeshSecurity.maxPacketSize) {
-        debugPrint('[MESH] Packet ${relayedPacket.id} exceeds ${MeshSecurity.maxPacketSize} bytes, skipping BLE broadcast');
+        appLogger.d('[MESH] Packet ${relayedPacket.id} exceeds ${MeshSecurity.maxPacketSize} bytes, skipping BLE broadcast');
         return;
       }
 
@@ -95,7 +96,7 @@ void onBackgroundStart(ServiceInstance service) async {
 
   // Keep scanning passively 24/7
   await bleSignaling.startScanning((List<int> payload) {
-    debugPrint('Background scan caught packet: $payload');
+    appLogger.d('Background scan caught packet: $payload');
 
     // Parse received BLE advertisement bytes back into a MeshPacket
     try {
@@ -105,12 +106,12 @@ void onBackgroundStart(ServiceInstance service) async {
       // Validate with MeshSecurity before inserting
       if (MeshSecurity.isPacketValid(packet, rawData)) {
         meshStore.insertPacket(packet);
-        debugPrint('[MESH] Accepted packet ${packet.id} from ${packet.senderId}');
+        appLogger.d('[MESH] Accepted packet ${packet.id} from ${packet.senderId}');
       } else {
-        debugPrint('[MESH] Rejected invalid packet from scan');
+        appLogger.d('[MESH] Rejected invalid packet from scan');
       }
     } catch (e) {
-      debugPrint('[MESH] Error parsing scanned packet: $e');
+      appLogger.d('[MESH] Error parsing scanned packet: $e');
     }
   });
 }
@@ -145,3 +146,4 @@ class MeshBackgroundWorker {
     return true;
   }
 }
+

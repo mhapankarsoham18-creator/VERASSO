@@ -20,6 +20,7 @@ import '../../features/sidequests/views/quest_board_screen.dart' as quests_ui;
 import '../../features/notifications/views/notifications_screen.dart' as notifs_ui;
 import '../../features/profile/views/edit_profile_screen.dart' as edit_prof_ui;
 import '../../features/profile/views/privacy_settings_screen.dart' as privacy_ui;
+import '../../features/education/views/ira_conversation_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -41,8 +42,8 @@ final GoRouter appRouter = GoRouter(
     }
     
     if (isLoggedIn && goingToAuth) {
-      // Assuming shell is the main authenticated view
-      return '/shell/feed';
+      // Send to splash to perform profile completeness check
+      return '/splash';
     }
 
     return null; // let them go where they were going
@@ -110,6 +111,10 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/ira',
+      builder: (context, state) => const IraConversationScreen(),
     ),
     GoRoute(
       path: '/settings',

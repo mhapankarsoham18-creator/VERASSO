@@ -28,3 +28,7 @@
 -keep class * implements java.io.Serializable {
     *;
 }
+
+# Android Play Core (Fixes missing SplitCompatApplication during R8)
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.** { *; }

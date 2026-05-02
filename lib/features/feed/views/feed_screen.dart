@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:verasso/core/widgets/verasso_snackbar.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,11 +8,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:share_plus/share_plus.dart';
 import 'create_post_screen.dart';
+import 'create_story_screen.dart';
+import 'view_story_screen.dart';
+import 'audio_player_widget.dart';
 import 'comments_sheet.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../repositories/feed_repository.dart';
 import '../repositories/sync_engine.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../education/widgets/offline_brain_sheet.dart';
 // Unused imports from phase 4 router swap removed
 
 // Uses the new Offline-First repository stream
@@ -111,6 +115,10 @@ class FeedScreen extends ConsumerWidget {
                       Navigator.pop(context);
                       context.go('/shell/science');
                     }),
+                    _pixelTile(context, '✨', 'Study Buddy', () {
+                      Navigator.pop(context);
+                      context.push('/ira');
+                    }),
                     _pixelTile(context, '⚔️', 'Sidequests', () {
                       Navigator.pop(context);
                       context.push('/sidequests');
@@ -143,6 +151,15 @@ class FeedScreen extends ConsumerWidget {
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: Container(height: 2, color: context.colors.blockEdge),
                     ),
+                    _pixelTile(context, '🧠', 'Offline Brain', () {
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        builder: (_) => const OfflineBrainSheet(),
+                      );
+                    }),
                     _pixelTile(context, '⚙️', 'Settings', () {
                       Navigator.pop(context);
                       context.push('/settings');
@@ -218,7 +235,11 @@ class FeedScreen extends ConsumerWidget {
         padding: 16,
         isButton: true,
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreatePostScreen()));
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (ctx) => _FeedFabMenu(),
+          );
         },
         child: Icon(Icons.add, color: context.colors.primary),
       ),
@@ -275,6 +296,17 @@ final mutualFollowsProvider = FutureProvider<List<String>>((ref) async {
   return iFollowIds.intersection(followMeIds).toList();
 });
 
+// Provider: Fetch active stories for a specific user
+final userStoriesProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, userId) async {
+  final res = await Supabase.instance.client
+      .from('stories')
+      .select()
+      .eq('author_id', userId)
+      .gte('expires_at', DateTime.now().toUtc().toIso8601String())
+      .order('created_at', ascending: true);
+  return res;
+});
+
 // Instagram-style Stories Bar — only shows mutual follows
 class _StoriesBar extends ConsumerWidget {
   @override
@@ -297,7 +329,7 @@ class _StoriesBar extends ConsumerWidget {
             isAddStory: true,
             avatarUrl: null,
             onTap: () {
-              VerassoSnackbar.show(context, message: 'Stories broadcasting coming in Phase 3.');
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateStoryScreen()));
             },
           ),
           // Only mutual follows appear in stories
@@ -319,14 +351,26 @@ class _AuthorStoryAvatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authorAsync = ref.watch(authorProfileProvider(authorId));
+    final storiesAsync = ref.watch(userStoriesProvider(authorId));
+    
     return authorAsync.when(
       data: (profile) {
         if (profile == null) return SizedBox.shrink();
-        return _StoryAvatar(
-          label: (profile['display_name'] ?? profile['username'] ?? '?').toString().split(' ').first,
-          isAddStory: false,
-          avatarUrl: profile['avatar_url'],
-          onTap: () {},
+        
+        return storiesAsync.when(
+          data: (stories) {
+            if (stories.isEmpty) return SizedBox.shrink();
+            return _StoryAvatar(
+              label: (profile['display_name'] ?? profile['username'] ?? '?').toString().split(' ').first,
+              isAddStory: false,
+              avatarUrl: profile['avatar_url'],
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewStoryScreen(stories: stories)));
+              },
+            );
+          },
+          loading: () => SizedBox(width: 80),
+          error: (_, _) => SizedBox.shrink(),
         );
       },
       loading: () => SizedBox(width: 80),
@@ -473,6 +517,29 @@ class _PostCard extends ConsumerWidget {
                           ],
                         ),
                       ),
+                      // Delete button — only visible to the author
+                      if (_isCurrentUserAuthor(authorId))
+                        PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: context.colors.textSecondary, size: 20),
+                          color: context.colors.neutralBg,
+                          onSelected: (value) {
+                            if (value == 'delete') {
+                              _confirmDelete(context, ref, postId);
+                            }
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              value: 'delete',
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete_outline, color: context.colors.error, size: 18),
+                                  SizedBox(width: 8),
+                                  Text('Delete Post', style: TextStyle(color: context.colors.error, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   );
                 },
@@ -499,15 +566,17 @@ class _PostCard extends ConsumerWidget {
             // Media Block (Images / Gifs / Video)
             if (mediaUrl != null) ...[
               SizedBox(height: 16),
-              Container(
-                constraints: BoxConstraints(maxHeight: 300),
-                decoration: BoxDecoration(
-                  border: Border.all(color: context.colors.blockEdge, width: 4),
-                ),
-                child: type == 'video'
-                  ? Center(child: Padding(padding: EdgeInsets.all(24), child: Icon(Icons.play_circle_fill, size: 56, color: context.colors.primary)))
-                  : CachedNetworkImage(imageUrl: mediaUrl, fit: BoxFit.cover, width: double.infinity, placeholder: (context, url) => SizedBox(), errorWidget: (context, url, error)=>Icon(Icons.error)),
-              ),
+              type == 'audio'
+                ? AudioPlayerWidget(audioUrl: mediaUrl)
+                : Container(
+                    constraints: BoxConstraints(maxHeight: 300),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: context.colors.blockEdge, width: 4),
+                    ),
+                    child: type == 'video'
+                      ? Center(child: Padding(padding: EdgeInsets.all(24), child: Icon(Icons.play_circle_fill, size: 56, color: context.colors.primary)))
+                      : CachedNetworkImage(imageUrl: mediaUrl, fit: BoxFit.cover, width: double.infinity, placeholder: (context, url) => SizedBox(), errorWidget: (context, url, error)=>Icon(Icons.error)),
+                  ),
             ],
 
             SizedBox(height: 16),
@@ -533,10 +602,18 @@ class _PostCard extends ConsumerWidget {
                    final user = FirebaseAuth.instance.currentUser;
                    if (user != null) {
                      try {
+                       // Look up profile ID (UUID) — post_saves expects this, not Firebase UID
+                       final profile = await Supabase.instance.client
+                           .from('profiles')
+                           .select('id')
+                           .eq('firebase_uid', user.uid)
+                           .maybeSingle();
+                       if (profile == null) return;
+                       
                        await Supabase.instance.client.from('post_saves').upsert({
-                         'user_id': user.uid,
+                         'user_id': profile['id'],
                          'post_id': postId,
-                       });
+                       }, onConflict: 'user_id,post_id');
                        if (context.mounted) {
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Saved to your vault.')));
                        }
@@ -574,6 +651,108 @@ class _PostCard extends ConsumerWidget {
           Icon(icon, size: 16, color: highlight ? context.colors.primary : context.colors.textSecondary),
           SizedBox(width: 4),
           Text(label, style: TextStyle(color: highlight ? context.colors.primary : context.colors.textSecondary, fontWeight: FontWeight.bold, fontSize: 12)),
+        ],
+      ),
+    );
+  }
+
+  /// Checks if the currently logged-in Firebase user is the author of this post.
+  bool _isCurrentUserAuthor(String? authorId) {
+    if (authorId == null) return false;
+    // We cache this lookup in the provider, but for a quick synchronous check
+    // we compare using a simple heuristic: the profile was loaded with authorId.
+    // A more robust approach would be to pass the current user's profile ID down.
+    // For now, we rely on the profile provider cache.
+    final firebaseUid = FirebaseAuth.instance.currentUser?.uid;
+    if (firebaseUid == null) return false;
+    // We need to check asynchronously, but since this is a build method,
+    // we use a synchronous workaround: store the user's profile ID.
+    // The safest quick approach: check if post's author_id matches
+    // the user's Supabase profile cached in Hive.
+    try {
+      final profileBox = Hive.box('profile_cache');
+      final cachedId = profileBox.get('my_profile_id');
+      return cachedId == authorId;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void _confirmDelete(BuildContext context, WidgetRef ref, String postId) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: context.colors.neutralBg,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: context.colors.blockEdge, width: 3),
+        ),
+        title: Text('DELETE TRANSMISSION', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, color: context.colors.textPrimary)),
+        content: Text('This action is irreversible. The post will be permanently erased from the grid.', style: TextStyle(color: context.colors.textSecondary)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('CANCEL', style: TextStyle(color: context.colors.textSecondary, fontWeight: FontWeight.bold)),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              try {
+                await ref.read(feedRepositoryProvider).deletePost(postId);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Transmission erased.', style: TextStyle(fontWeight: FontWeight.bold))),
+                  );
+                }
+                // Invalidate the feed to refresh
+                ref.invalidate(feedStreamProvider);
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to delete: $e', style: TextStyle(fontWeight: FontWeight.bold))),
+                  );
+                }
+              }
+            },
+            child: Text('DELETE', style: TextStyle(color: context.colors.error, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FeedFabMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.colors.neutralBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.colors.blockEdge, width: 3),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.bolt, color: context.colors.primary),
+            title: Text('Broadcast Post', style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.textPrimary)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreatePostScreen()));
+            },
+          ),
+          Divider(color: context.colors.blockEdge, height: 1, thickness: 2),
+          ListTile(
+            leading: Icon(Icons.auto_awesome, color: context.colors.primary),
+            title: Text('Study with Ira ✨', style: TextStyle(fontWeight: FontWeight.bold, color: context.colors.textPrimary)),
+            subtitle: Text('Enter the VN Study Room', style: TextStyle(fontSize: 12, color: context.colors.textSecondary)),
+            onTap: () {
+              Navigator.pop(context);
+              context.push('/ira');
+            },
+          ),
         ],
       ),
     );

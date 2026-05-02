@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../../core/network/connectivity_provider.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {
   final engine = SyncEngine(ref);
@@ -80,8 +81,9 @@ class SyncEngine {
         await _mutationBox.delete(key);
       } catch (e, stackTrace) {
         Sentry.captureException(e, stackTrace: stackTrace);
-        debugPrint('Sync failed for task $key, retrying later. ($e)');
+        appLogger.d('Sync failed for task $key, retrying later. ($e)');
       }
     }
   }
 }
+

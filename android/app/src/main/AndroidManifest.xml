@@ -26,6 +26,7 @@
 
     <!-- Hardware -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     
     <!-- Background Execution -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />

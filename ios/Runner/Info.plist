@@ -34,6 +34,10 @@
 	<string>Verasso requires Bluetooth to relay offline study doubts and SOS signals to nearby students without internet.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Verasso uses local Wi-Fi to rapidly transfer images and PDFs to nearby students while offline.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Verasso requires microphone access to record voice transmissions for the grid.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Verasso requires camera access to capture images and videos for transmissions and stories.</string>
 	
 	<key>UIApplicationSceneManifest</key>
 	<dict>

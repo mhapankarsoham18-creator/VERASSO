@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "781051158662",
+    "project_id": "verasso-d4aea",
+    "storage_bucket": "verasso-d4aea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781051158662:android:fa6fef642444f710bc7107",
+        "android_client_info": {
+          "package_name": "com.verasso.verasso_grid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781051158662-ra9bb72d4olvurlb3j0derv8tqnrei5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG0e7UhGZGMjrYwwlf9DW1NKRpB6bdgNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781051158662-ra9bb72d4olvurlb3j0derv8tqnrei5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

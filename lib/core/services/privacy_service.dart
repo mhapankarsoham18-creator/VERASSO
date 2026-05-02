@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class PrivacyService {
   final SupabaseClient _supabase;
@@ -73,7 +74,7 @@ class PrivacyService {
       );
 
     } catch (e) {
-      debugPrint("Data Export Failed: \$e");
+      appLogger.d("Data Export Failed: \$e");
       rethrow;
     }
   }
@@ -112,7 +113,7 @@ class PrivacyService {
       await user.delete();
 
     } catch (e) {
-      debugPrint("Account Deletion Failed: \$e");
+      appLogger.d("Account Deletion Failed: \$e");
       // If FirebaseAuthRequiresRecentLoginException occurs, it will be thrown to the UI
       // where we should ask the user to sign in again.
       rethrow;
@@ -127,3 +128,4 @@ class PrivacyService {
     }
   }
 }
+

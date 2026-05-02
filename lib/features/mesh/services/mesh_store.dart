@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/mesh_packet.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class MeshStore {
   static String boxName = 'offline_mesh_queue';
@@ -30,7 +31,7 @@ class MeshStore {
 
     // 2. QoS Check: Max Single Packet Size
     if (packet.payloadSizeMB > maxSinglePacketSizeMB) {
-      debugPrint('Mesh QoS Rejected: Packet exceeds 5MB limit');
+      appLogger.d('Mesh QoS Rejected: Packet exceeds 5MB limit');
       return false;
     }
 
@@ -39,7 +40,7 @@ class MeshStore {
     final senderCount = existingPackets.where((p) => p.senderId == packet.senderId).length;
     
     if (senderCount >= maxPacketsPerSender) {
-      debugPrint('Mesh QoS Rejected: Sender ${packet.senderId} reached 10 packet queue limit');
+      appLogger.d('Mesh QoS Rejected: Sender ${packet.senderId} reached 10 packet queue limit');
       return false;
     }
 
@@ -71,7 +72,7 @@ class MeshStore {
       }
 
       if (!freedEnoughSpace) {
-         debugPrint('Mesh QoS Rejected: Queue is full and no non-emergency packets left to evict.');
+         appLogger.d('Mesh QoS Rejected: Queue is full and no non-emergency packets left to evict.');
          return false; // Box is full of SOS or we just couldn't clear enough
       }
     }
@@ -119,3 +120,4 @@ class MeshStore {
     return nextPacket;
   }
 }
+

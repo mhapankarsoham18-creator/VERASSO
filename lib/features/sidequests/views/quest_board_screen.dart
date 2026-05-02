@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,6 +9,8 @@ import '../quest_data.dart';
 import '../quest_service.dart';
 import '../title_system.dart';
 import 'level_up_screen.dart';
+import '../../education/widgets/ar_guide_camera.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 /// The Zelda-style Quest Board hub
 class QuestBoardScreen extends StatefulWidget {
@@ -91,7 +93,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
         box.put('completions_$_profileId', _completedQuestIds.toList());
       }
     } catch (e) {
-      debugPrint('Sidequests offline sync failed: $e');
+      appLogger.d('Sidequests offline sync failed: $e');
     }
 
     if (mounted) {
@@ -124,6 +126,23 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                 onTap: () {
                   Navigator.pop(ctx);
                   _completeQuest(quest, ImageSource.gallery);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.view_in_ar, color: Colors.cyanAccent),
+                title: Text('AR Guided Task', style: TextStyle(color: Colors.cyanAccent)),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => ArGuideCamera(
+                    taskTitle: quest.title,
+                    overlays: [
+                       ArGhostOverlay(left: 80, top: 200, label: quest.photoPrompt),
+                    ],
+                    onTaskComplete: () {
+                       Navigator.pop(context); // Close AR camera
+                       _completeQuest(quest, ImageSource.camera); // Still capture proof
+                    }
+                  )));
                 },
               ),
             ],
@@ -204,7 +223,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF1E1E28), 
       appBar: AppBar(
-        title: Text('⚔️ Sidequests', style: TextStyle(fontFamily: 'Pixel', letterSpacing: 2)),
+        title: Text('âš”ï¸ Sidequests', style: TextStyle(fontFamily: 'Pixel', letterSpacing: 2)),
         backgroundColor: Color(0xFF2E2E3A),
         elevation: 4,
       ),
@@ -237,7 +256,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                       ),
                       Row(
                         children: [
-                          Text('🔥 ', style: TextStyle(fontSize: 18)),
+                          Text('ðŸ”¥ ', style: TextStyle(fontSize: 18)),
                           Text('$_currentStreak', style: TextStyle(fontSize: 18, color: Colors.orangeAccent, fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -307,7 +326,7 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                       isCompleted ? 'COMPLETED • +${quest.xp} XP' : '+${quest.xp} XP • Tap to open', 
+                       isCompleted ? 'COMPLETED â€¢ +${quest.xp} XP' : '+${quest.xp} XP â€¢ Tap to open', 
                        style: TextStyle(fontWeight: FontWeight.bold, color: isCompleted ? Colors.green.shade800 : Colors.brown, fontSize: 12)
                     ),
                   ],
@@ -360,3 +379,4 @@ class _QuestBoardScreenState extends State<QuestBoardScreen> {
     );
   }
 }
+

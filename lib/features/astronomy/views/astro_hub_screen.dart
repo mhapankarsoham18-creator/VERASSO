@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -15,8 +15,9 @@ import '../rendering/sky_painter.dart';
 import '../widgets/object_info_panel.dart';
 import '../data/discovery_log.dart';
 import '../widgets/discovery_hud.dart';
+import 'package:verasso/core/utils/logger.dart';
 
-/// Main Astro Hub screen — the pixel sky RPG.
+/// Main Astro Hub screen â€” the pixel sky RPG.
 class AstroHubScreen extends StatefulWidget {
   const AstroHubScreen({super.key});
 
@@ -110,7 +111,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
           );
         }
       } catch (e) {
-        debugPrint('Camera error: $e');
+        appLogger.d('Camera error: $e');
       }
 
       setState(() => _isLoading = false);
@@ -133,8 +134,8 @@ class _AstroHubScreenState extends State<AstroHubScreen>
     // Accelerometer for device pitch
     _accelSub = accelerometerEventStream().listen((event) {
       // Rough pitch estimate from accelerometer
-      // When phone is pointed at horizon: y ≈ 9.8, z ≈ 0
-      // When phone is pointed at zenith: y ≈ 0, z ≈ 9.8
+      // When phone is pointed at horizon: y â‰ˆ 9.8, z â‰ˆ 0
+      // When phone is pointed at zenith: y â‰ˆ 0, z â‰ˆ 9.8
       final pitch = event.z.clamp(-9.8, 9.8) / 9.8 * 90;
       _engine.devicePitch = pitch.clamp(0, 90);
     });
@@ -331,7 +332,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
               border: Border.all(color: PixelPalette.hudDim, width: 1),
             ),
             child: Text(
-              '${_engine.compassHeading.toStringAsFixed(0)}° ${_compassLabel(_engine.compassHeading)}',
+              '${_engine.compassHeading.toStringAsFixed(0)}Â° ${_compassLabel(_engine.compassHeading)}',
               style: GoogleFonts.pressStart2p(
                 textStyle: TextStyle(
                   color: PixelPalette.hudText,
@@ -410,3 +411,4 @@ class _AstroHubScreenState extends State<AstroHubScreen>
     return 'NW';
   }
 }
+

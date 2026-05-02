@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
@@ -9,6 +9,7 @@ import '../../../core/theme/neo_pixel_box.dart';
 import 'mesh_radar_screen.dart'; // To link radar
 import '../services/messaging_service.dart';
 import '../services/mesh_network_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class ChatScreen extends StatefulWidget {
   final String peerId;
@@ -75,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      debugPrint("Error loading chat: $e");
+      appLogger.d("Error loading chat: $e");
     } finally {
       if (mounted) setState(() => _isLoading = false);
       _scrollToBottom();
@@ -93,7 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
        // For this simple version, we'll just process it.
        final isMe = newRecord['sender_id'] != widget.peerId;
        
-       String text = "🔒 Encrypted";
+       String text = "ðŸ”’ Encrypted";
        if (isMe) {
           // If we sent it just now, we already added it optimistically to the UI
           // So we skip it unless it's genuinely missing.
@@ -127,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
     
     for (var msg in data) {
        final isMe = msg['sender_id'] != widget.peerId;
-       String text = "🔒 Encrypted";
+       String text = "ðŸ”’ Encrypted";
        
        if (_peerPublicKey != null) {
            text = await _messagingService.decryptMessageRow(msg, _peerPublicKey!);
@@ -198,7 +199,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Transmission Alert: \$errMsg', 
+              'Transmission Alert: $errMsg', 
               style: TextStyle(color: context.colors.neutralBg, fontWeight: FontWeight.bold)
             ),
             backgroundColor: context.colors.primary,
@@ -395,3 +396,4 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
+

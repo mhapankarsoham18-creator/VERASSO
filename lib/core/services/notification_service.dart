@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 /// Top-level background handler required by firebase_messaging.
 /// Must be a top-level function, NOT inside a class.
@@ -71,7 +72,7 @@ class NotificationService {
 
       // Handle foreground messages — spawn a visible local notification
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        debugPrint('Foreground message received: ${message.notification?.title}');
+        appLogger.d('Foreground message received: ${message.notification?.title}');
         _showLocalNotification(message);
       });
     }
@@ -103,7 +104,8 @@ class NotificationService {
       await _supabase.from('profiles').update({'fcm_token': token})
           .eq('firebase_uid', user.uid);
     } catch (e) {
-      debugPrint('Failed to save FCM token: $e');
+      appLogger.d('Failed to save FCM token: $e');
     }
   }
 }
+

@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class GlobeScreen extends StatefulWidget {
   const GlobeScreen({super.key});
@@ -35,7 +36,7 @@ class _GlobeScreenState extends State<GlobeScreen> {
               setState(() => _selectedCountry = data['name'] ?? 'Unknown');
             }
           } catch (e) {
-            debugPrint("VerassoGlobe payload exception: $e");
+            appLogger.d("VerassoGlobe payload exception: $e");
           }
         },
       )
@@ -89,14 +90,14 @@ class _GlobeScreenState extends State<GlobeScreen> {
         try {
           await tempFile.openRead().pipe(request.response);
         } catch (e) {
-          debugPrint('HTTP Server Pipe error: $e');
+          appLogger.d('HTTP Server Pipe error: $e');
         }
       });
 
       final localUrl = 'http://127.0.0.1:${_localServer!.port}';
       await _controller.loadRequest(Uri.parse(localUrl));
     } catch (e) {
-      debugPrint('Globe Extraction Error: $e');
+      appLogger.d('Globe Extraction Error: $e');
     }
   }
 
@@ -118,7 +119,7 @@ class _GlobeScreenState extends State<GlobeScreen> {
       ),
       body: SafeArea(
         child: Container(
-          color: Color(0xFFD32F2F), // Pokédex Red Bezel
+          color: Color(0xFFD32F2F), // PokÃ©dex Red Bezel
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
@@ -134,7 +135,7 @@ class _GlobeScreenState extends State<GlobeScreen> {
                       child: Text(
                         'TARGET SCANNED: ${_selectedCountry.toUpperCase()}',
                         style: TextStyle(
-                          fontFamily: 'Courier', // Monospace Pokédex feel
+                          fontFamily: 'Courier', // Monospace PokÃ©dex feel
                           fontWeight: FontWeight.w900,
                           color: context.colors.primary,
                           fontSize: 14,
@@ -146,7 +147,7 @@ class _GlobeScreenState extends State<GlobeScreen> {
               ),
               SizedBox(height: 16),
               
-              // The Embedded 3D Data layer wrapped in Pokédex screen border
+              // The Embedded 3D Data layer wrapped in PokÃ©dex screen border
               Expanded(
                 child: NeoPixelBox(
                   padding: 8,
@@ -188,3 +189,4 @@ class _GlobeScreenState extends State<GlobeScreen> {
     );
   }
 }
+

@@ -1,12 +1,16 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../../profile/views/user_profile_screen.dart';
 import '../../feed/views/post_detail_screen.dart';
+import '../../../core/services/follow_service.dart';
+import '../../../core/services/profile_lookup_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class DiscoveryScreen extends ConsumerStatefulWidget {
   const DiscoveryScreen({super.key});
@@ -25,6 +29,14 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   String? _myProfileId;
   bool _isSearching = false;
   String _activeTab = 'suggested';
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -33,19 +45,14 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   }
 
   Future<void> _loadMyProfile() async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return;
-
-    final profile = await Supabase.instance.client
-        .from('profiles')
-        .select('id')
-        .eq('firebase_uid', uid)
-        .maybeSingle();
-
-    if (profile != null && mounted) {
-      _myProfileId = profile['id'];
-      await _loadFollowStatuses();
-      await _loadSuggestions();
+    try {
+      _myProfileId = await ref.read(profileLookupProvider).getMyProfileId();
+      if (mounted) {
+        await _loadFollowStatuses();
+        await _loadSuggestions();
+      }
+    } catch (e) {
+      appLogger.d('Not logged in or profile missing.');
     }
   }
 
@@ -67,55 +74,31 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   Future<void> _loadSuggestions() async {
     if (_myProfileId == null) return;
 
-    // Get people I already follow or requested
-    final myFollowingIds = _followStatuses.keys.toSet();
+    try {
+      final List<dynamic> rpcResults = await Supabase.instance.client
+          .rpc('get_friend_suggestions', params: {'viewer_id': _myProfileId});
 
-    // Get all profiles except me
-    final allProfiles = await Supabase.instance.client
-        .from('profiles')
-        .select()
-        .neq('id', _myProfileId!)
-        .limit(50);
-
-    // For each non-followed profile, count mutual follows
-    final scored = <Map<String, dynamic>>[];
-    final acceptedIds = _followStatuses.entries
-        .where((e) => e.value == 'accepted')
-        .map((e) => e.key)
-        .toSet();
-
-    for (final profile in allProfiles) {
-      final pid = profile['id'] as String;
-      if (myFollowingIds.contains(pid)) continue; // Already following/requested
-
-      int mutualCount = 0;
-      for (final fid in acceptedIds) {
-        final check = await Supabase.instance.client
-            .from('follows')
-            .select('id')
-            .eq('follower_id', fid)
-            .eq('following_id', pid)
-            .eq('status', 'accepted')
-            .maybeSingle();
-        if (check != null) mutualCount++;
+      if (mounted) {
+        setState(() {
+          _suggestions = List<Map<String, dynamic>>.from(rpcResults.map((r) => {
+                'id': r['id'],
+                'username': r['username'],
+                'display_name': r['display_name'],
+                'avatar_url': r['avatar_url'],
+                'bio': r['bio'],
+                '_mutual_count': r['mutual_count'] ?? 0,
+              }));
+        });
       }
-      final copy = Map<String, dynamic>.from(profile);
-      copy['_mutual_count'] = mutualCount;
-      scored.add(copy);
+    } catch (e) {
+      appLogger.d('Error loading suggestions RPC: $e');
     }
-
-    scored.sort((a, b) => (b['_mutual_count'] as int).compareTo(a['_mutual_count'] as int));
-    if (mounted) setState(() => _suggestions = scored.take(20).toList());
   }
 
   Future<void> _sendFollowRequest(String targetId) async {
     if (_myProfileId == null) return;
     try {
-      await Supabase.instance.client.from('follows').insert({
-        'follower_id': _myProfileId!,
-        'following_id': targetId,
-        'status': 'pending',
-      });
+      await ref.read(followServiceProvider).sendFollowRequest(targetId);
       setState(() => _followStatuses[targetId] = 'pending');
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
@@ -124,11 +107,12 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
 
   Future<void> _cancelOrUnfollow(String targetId) async {
     if (_myProfileId == null) return;
-    await Supabase.instance.client.from('follows')
-        .delete()
-        .eq('follower_id', _myProfileId!)
-        .eq('following_id', targetId);
-    setState(() => _followStatuses.remove(targetId));
+    try {
+      await ref.read(followServiceProvider).cancelOrUnfollow(targetId);
+      setState(() => _followStatuses.remove(targetId));
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
   }
 
   void _openProfile(String profileId) {
@@ -140,40 +124,45 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
   }
 
   void _search(String query) async {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    
     if (query.trim().isEmpty) {
-      setState(() { _userResults = []; _postResults = []; });
+      setState(() { _userResults = []; _postResults = []; _isSearching = false; });
       return;
     }
-    setState(() => _isSearching = true);
 
-    try {
-      final users = await Supabase.instance.client
-          .from('profiles')
-          .select()
-          .or('display_name.ilike.%$query%,username.ilike.%$query%,email.ilike.%$query%')
-          .limit(20);
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      if (!mounted) return;
+      setState(() => _isSearching = true);
 
-      // Filter out self from user results
-      final filteredUsers = List<Map<String, dynamic>>.from(users)
-        ..removeWhere((u) => u['id'] == _myProfileId);
+      try {
+        // Optimized RPC search for 2B+ users
+        final List<dynamic> users = await Supabase.instance.client
+            .rpc('search_profiles', params: {'search_query': query, 'limit_val': 20});
 
-      final posts = await Supabase.instance.client
-          .from('posts')
-          .select()
-          .ilike('content', '%$query%')
-          .order('created_at', ascending: false)
-          .limit(20);
+        // Filter out self from user results
+        final filteredUsers = List<Map<String, dynamic>>.from(users)
+          ..removeWhere((u) => u['id'] == _myProfileId);
 
-      if (mounted) {
-        setState(() {
-          _userResults = filteredUsers;
-          _postResults = List<Map<String, dynamic>>.from(posts);
-          _isSearching = false;
-        });
+        // Posts still use ilike for now, but also limited
+        final posts = await Supabase.instance.client
+            .from('posts')
+            .select()
+            .ilike('content', '%$query%')
+            .order('created_at', ascending: false)
+            .limit(20);
+
+        if (mounted) {
+          setState(() {
+            _userResults = filteredUsers;
+            _postResults = List<Map<String, dynamic>>.from(posts);
+            _isSearching = false;
+          });
+        }
+      } catch (e) {
+        if (mounted) setState(() => _isSearching = false);
       }
-    } catch (e) {
-      if (mounted) setState(() => _isSearching = false);
-    }
+    });
   }
 
   @override
@@ -385,3 +374,4 @@ class _DiscoveryScreenState extends ConsumerState<DiscoveryScreen> {
     );
   }
 }
+

@@ -1,7 +1,8 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class BleSignalingService {
   // A custom UUID so Verasso devices only discover each other
@@ -13,7 +14,7 @@ class BleSignalingService {
   Future<void> init() async {
     // Wait for Bluetooth to be available
     if (await FlutterBluePlus.isSupported == false) {
-      debugPrint("Bluetooth not supported by this device");
+      appLogger.d("Bluetooth not supported by this device");
       return;
     }
     
@@ -41,9 +42,9 @@ class BleSignalingService {
         withServices: [Guid(verassoServiceUuid)], // Mandatory for iOS background
         continuousUpdates: true,
       );
-      debugPrint('Started BLE Passive Scanning');
+      appLogger.d('Started BLE Passive Scanning');
     } catch (e) {
-      debugPrint('Error starting BLE scan: $e');
+      appLogger.d('Error starting BLE scan: $e');
     }
   }
 
@@ -55,7 +56,7 @@ class BleSignalingService {
   /// Broadcasts a tiny 24-byte payload using connectionless advertisement
   Future<void> startAdvertising(List<int> compressedPayload) async {
     if (compressedPayload.length > 24) {
-      debugPrint('WARNING: Payload exceeds 24-bytes. May be truncated.');
+      appLogger.d('WARNING: Payload exceeds 24-bytes. May be truncated.');
     }
 
     final advertiseData = AdvertiseData(
@@ -75,9 +76,9 @@ class BleSignalingService {
         advertiseData: advertiseData,
         advertiseSettings: advertiseSettings,
       );
-      debugPrint('Started BLE Advertising payload');
+      appLogger.d('Started BLE Advertising payload');
     } catch (e) {
-      debugPrint('Error starting BLE advertising: $e');
+      appLogger.d('Error starting BLE advertising: $e');
     }
   }
 
@@ -85,3 +86,4 @@ class BleSignalingService {
     await _blePeripheral.stop();
   }
 }
+

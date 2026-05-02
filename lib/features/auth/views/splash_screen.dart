@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:verasso/core/theme/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../astronomy/rendering/crt_overlay.dart';
+import '../../legal/views/data_consent_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,30 +42,34 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigateToNext() async {
     if (!mounted) return;
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Check if profile exists and has a username
-      try {
-        final profile = await Supabase.instance.client
-            .from('profiles')
-            .select('username')
-            .eq('firebase_uid', user.uid)
-            .maybeSingle();
-            
-        if (!mounted) return;
-        
-        if (profile != null && profile['username'] != null) {
-          context.go('/shell/feed');
-        } else {
-          // If profile was wiped or not completely set up
-          context.go('/profile_setup');
+    
+    DataConsentDialog.showIfNeeded(context, () async {
+      if (!mounted) return;
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Check if profile exists and has a username
+        try {
+          final profile = await Supabase.instance.client
+              .from('profiles')
+              .select('username')
+              .eq('firebase_uid', user.uid)
+              .maybeSingle();
+              
+          if (!mounted) return;
+          
+          if (profile != null && profile['username'] != null) {
+            context.go('/shell/feed');
+          } else {
+            // If profile was wiped or not completely set up
+            context.go('/profile_setup');
+          }
+        } catch (e) {
+          if (mounted) context.go('/profile_setup');
         }
-      } catch (e) {
-        if (mounted) context.go('/profile_setup');
+      } else {
+        context.go('/login');
       }
-    } else {
-      context.go('/login');
-    }
+    });
   }
 
   @override

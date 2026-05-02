@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:verasso/core/widgets/verasso_snackbar.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import 'chat_screen.dart';
@@ -27,14 +28,23 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
   }
 
   Future<void> _loadConversations() async {
-    final myId = _supabase.auth.currentUser?.id;
-    if (myId == null) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) {
       if (mounted) setState(() => _isLoading = false);
       return;
     }
 
     try {
-      // Single query: fetch all my conversations with participant + profile data joined
+      // 1. Resolve internal profile UUID using Firebase UID
+      final profile = await _supabase
+          .from('profiles')
+          .select('id')
+          .eq('firebase_uid', firebaseUser.uid)
+          .single();
+      
+      final myId = profile['id'] as String;
+
+      // 2. Fetch all my conversations
       final results = await _supabase
           .from('conversation_participants')
           .select('conversation_id, conversations(id, updated_at, name, is_group)')

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../../../core/validators/input_validator.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class CommentsSheet extends StatefulWidget {
   final String postId;
@@ -54,7 +55,7 @@ class _CommentsSheetState extends State<CommentsSheet> {
       }
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      debugPrint('Error fetching comments: $e');
+      appLogger.d('Error fetching comments: $e');
       if (mounted) setState(() => _isLoading = false);
     }
   }
@@ -226,3 +227,4 @@ class _CommentsSheetState extends State<CommentsSheet> {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class SimulationViewer extends StatefulWidget {
   final String simPath;
@@ -46,7 +47,7 @@ class _SimulationViewerState extends State<SimulationViewer> {
             if (mounted) setState(() => _isLoading = false);
           },
           onWebResourceError: (WebResourceError error) {
-            debugPrint('WebView Error [${error.errorCode}]: ${error.description}');
+            appLogger.d('WebView Error [${error.errorCode}]: ${error.description}');
             // Filter out ERR_FAILED unhandled errors if they aren't critical
             if (error.errorCode == -999) return;
             // IMPORTANT: If we are offline, sub-resources (fonts, external CSS) will fail.
@@ -113,17 +114,17 @@ class _SimulationViewerState extends State<SimulationViewer> {
         try {
           await tempFile.openRead().pipe(request.response);
         } catch (e) {
-          debugPrint('HTTP Server Pipe error: $e');
+          appLogger.d('HTTP Server Pipe error: $e');
         }
       });
 
       if (mounted) setState(() => _isExtracting = false);
 
       final localUrl = 'http://127.0.0.1:${_localServer!.port}';
-      debugPrint('Serving simulation at $localUrl');
+      appLogger.d('Serving simulation at $localUrl');
       await _controller.loadRequest(Uri.parse(localUrl));
     } catch (e) {
-      debugPrint('Simulation Extraction Error: $e');
+      appLogger.d('Simulation Extraction Error: $e');
       if (mounted) {
         setState(() {
           _isExtracting = false;
@@ -143,7 +144,7 @@ class _SimulationViewerState extends State<SimulationViewer> {
           color: Color(0xFFD32F2F),
           child: Column(
             children: [
-              // ── HEADER ──
+              // â”€â”€ HEADER â”€â”€
               Padding(
                 padding: EdgeInsets.fromLTRB(8, 12, 16, 0),
                 child: Row(
@@ -185,7 +186,7 @@ class _SimulationViewerState extends State<SimulationViewer> {
                 ),
               ),
 
-              // ── PROGRESS BAR ──
+              // â”€â”€ PROGRESS BAR â”€â”€
               if (_isExtracting || _isLoading)
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -207,7 +208,7 @@ class _SimulationViewerState extends State<SimulationViewer> {
                 ),
               if (!_isLoading && !_isExtracting) SizedBox(height: 10),
 
-              // ── SIMULATION VIEWPORT ──
+              // â”€â”€ SIMULATION VIEWPORT â”€â”€
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -309,3 +310,4 @@ class _SimulationViewerState extends State<SimulationViewer> {
     );
   }
 }
+

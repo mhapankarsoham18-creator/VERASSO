@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../../core/validators/input_validator.dart';
@@ -9,9 +10,17 @@ class MessagingService {
   final CryptoService _crypto = CryptoService();
 
   Future<String> _getMyId() async {
-    final myId = _supabase.auth.currentUser?.id;
-    if (myId == null) throw Exception('Not logged in to Supabase');
-    return myId;
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) throw Exception('Not logged in to Verasso');
+    
+    // Resolve internal profile UUID using Firebase UID
+    final profile = await _supabase
+        .from('profiles')
+        .select('id')
+        .eq('firebase_uid', firebaseUser.uid)
+        .single();
+        
+    return profile['id'] as String;
   }
 
   /// Ensures profiles.public_key is populated for the current user and private key is in device storage
@@ -49,11 +58,12 @@ class MessagingService {
      return peerResp?['public_key'] as String?;
   }
 
-  Future<List<Map<String,dynamic>>> fetchMessages(String conversationId) async {
+  Future<List<Map<String,dynamic>>> fetchMessages(String conversationId, {int offset = 0, int limit = 50}) async {
      final dbMessages = await _supabase.from('messages')
          .select('*')
          .eq('conversation_id', conversationId)
-         .order('created_at', ascending: true) as List<dynamic>;
+         .order('created_at', ascending: false)
+         .range(offset, offset + limit - 1) as List<dynamic>;
          
      final List<Map<String,dynamic>> merged = List<Map<String,dynamic>>.from(dbMessages);
      

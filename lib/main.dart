@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'firebase_options.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,9 +14,16 @@ import 'core/theme/theme_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/router/app_router.dart';
 import 'core/widgets/error_boundary.dart';
+import 'core/services/app_lifecycle_guard.dart';
+import 'features/messaging/services/mesh_network_service.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Register lifecycle guard
+  WidgetsBinding.instance.addObserver(AppLifecycleGuard.instance);
+  AppLifecycleGuard.instance.registerService(MeshNetworkService());
 
   // Initialize Hive for Offline Data Storage
   await Hive.initFlutter();
@@ -28,7 +36,7 @@ Future<void> main() async {
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
-    debugPrint('dotenv loading error (using defaults): $e');
+    appLogger.d('dotenv loading error (using defaults): $e');
   }
 
   // Initialize Firebase explicit configuration to bypass Recaptcha anomalies
@@ -43,7 +51,7 @@ Future<void> main() async {
       appleProvider: kReleaseMode ? AppleProvider.deviceCheck : AppleProvider.debug,
     );
   } catch (e) {
-    debugPrint('Firebase initialization pending configuration: $e');
+    appLogger.d('Firebase initialization pending configuration: $e');
   }
 
   // Initialize Supabase
@@ -55,10 +63,13 @@ Future<void> main() async {
       await Supabase.initialize(
         url: supabaseUrl,
         anonKey: supabaseAnonKey,
+        accessToken: () async {
+          return await FirebaseAuth.instance.currentUser?.getIdToken();
+        },
       );
     }
   } catch (e) {
-    debugPrint('Supabase initialization error: $e');
+    appLogger.d('Supabase initialization error: $e');
   }
 
   // Initialize Sentry and run the app
@@ -91,3 +102,4 @@ class VerassoApp extends ConsumerWidget {
     );
   }
 }
+

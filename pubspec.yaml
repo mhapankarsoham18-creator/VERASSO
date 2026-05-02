@@ -50,7 +50,7 @@ dependencies:
   sensors_plus: ^7.0.0
   permission_handler: ^12.0.1
   go_router: ^17.2.0
-  flutter_dotenv: ^6.0.0
+  flutter_dotenv: ^6.0.1
   google_fonts: ^8.0.2
   google_sign_in: ^6.2.1
   image_picker: ^1.2.1
@@ -75,6 +75,16 @@ dependencies:
   battery_plus: ^6.2.1
   flutter_secure_storage: ^9.2.2
   firebase_app_check: ^0.4.3
+  speech_to_text: ^7.3.0
+  just_audio: ^0.10.5
+  flutter_tts: ^4.2.5
+  http: ^1.6.0
+  crypto: ^3.0.7
+  google_mlkit_text_recognition: ^0.15.1
+  llama_cpp_dart: ^0.2.2
+  record: ^6.2.0
+  logger: ^2.5.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -86,7 +96,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  mocktail: ^1.0.3
+  mocktail: ^1.0.5
   build_runner: ^2.13.1
   riverpod_generator: ^4.0.3
   flutter_launcher_icons: ^0.14.4
@@ -103,7 +113,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
     - assets/images/
     - assets/simulations/physics/
     - assets/simulations/chemistry/
@@ -115,6 +124,12 @@ flutter:
     - assets/game/
     - assets/astro/
     - assets/simulations/pharmacy/
+    - assets/study_buddy/backgrounds/
+    - assets/study_buddy/sprites/Casual/
+    - assets/study_buddy/sprites/Gym Uniform/
+    - assets/study_buddy/sprites/Summer Uniform/
+    - assets/study_buddy/sprites/Winter Uniform/
+    - assets/study_buddy/sprites/Work/
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package

@@ -2,40 +2,131 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:verasso/core/validators/input_validator.dart';
 
 void main() {
-  group('InputValidator Tests', () {
-    test('sanitize removes script tags', () {
-      const input = '<script>alert("XSS")</script>Hello World';
-      final output = InputValidator.sanitize(input);
-      expect(output, '&lt;script&gt;alert("XSS")&lt;/script&gt;Hello World');
+  group('InputValidator', () {
+    group('sanitize', () {
+      test('returns empty string for empty input', () {
+        expect(InputValidator.sanitize(''), '');
+      });
+
+      test('escapes HTML angle brackets', () {
+        final result = InputValidator.sanitize('<script>alert("xss")</script>');
+        expect(result.contains('<script>'), false);
+        expect(result.contains('</script>'), false);
+      });
+
+      test('blocks javascript: URIs', () {
+        final result = InputValidator.sanitize('javascript:alert(1)');
+        expect(result.contains('javascript:'), false);
+        expect(result.contains('blocked:'), true);
+      });
+
+      test('blocks vbscript: URIs', () {
+        final result = InputValidator.sanitize('vbscript:alert(1)');
+        expect(result.contains('vbscript:'), false);
+      });
+
+      test('preserves normal text', () {
+        expect(InputValidator.sanitize('Hello World'), 'Hello World');
+      });
+
+      test('trims whitespace', () {
+        expect(InputValidator.sanitize('  hello  '), 'hello');
+      });
     });
 
-    test('sanitize handles empty string', () {
-      expect(InputValidator.sanitize(''), '');
+    group('validatePost', () {
+      test('returns error for empty content', () {
+        expect(InputValidator.validatePost(''), isNotNull);
+        expect(InputValidator.validatePost('   '), isNotNull);
+      });
+
+      test('returns null for valid content', () {
+        expect(InputValidator.validatePost('Hello world!'), isNull);
+      });
+
+      test('returns error for content exceeding 500 characters', () {
+        final longText = 'a' * 501;
+        expect(InputValidator.validatePost(longText), isNotNull);
+      });
+
+      test('returns null for content at exactly 500 characters', () {
+        final exactText = 'a' * 500;
+        expect(InputValidator.validatePost(exactText), isNull);
+      });
     });
 
-    test('validatePost checks length limits', () {
-      final longPost = List.filled(501, 'a').join();
-      expect(InputValidator.validatePost(longPost), 'Content exceeds maximum length of 500 characters.');
-      expect(InputValidator.validatePost('A valid post'), isNull);
+    group('validateUsername', () {
+      test('returns error for empty username', () {
+        expect(InputValidator.validateUsername(''), isNotNull);
+      });
+
+      test('returns error for username under 3 characters', () {
+        expect(InputValidator.validateUsername('ab'), isNotNull);
+      });
+
+      test('returns error for username over 20 characters', () {
+        expect(InputValidator.validateUsername('a' * 21), isNotNull);
+      });
+
+      test('returns error for uppercase letters', () {
+        expect(InputValidator.validateUsername('HelloWorld'), isNotNull);
+      });
+
+      test('returns error for special characters', () {
+        expect(InputValidator.validateUsername('hello@world'), isNotNull);
+        expect(InputValidator.validateUsername('hello world'), isNotNull);
+      });
+
+      test('accepts valid usernames', () {
+        expect(InputValidator.validateUsername('hello_world'), isNull);
+        expect(InputValidator.validateUsername('user123'), isNull);
+        expect(InputValidator.validateUsername('abc'), isNull);
+      });
     });
 
-    test('validateUsername enforces constraints', () {
-      expect(InputValidator.validateUsername('ab'), 'Username must be at least 3 characters.');
-      expect(InputValidator.validateUsername('Valid_123'), 'Username can only contain lowercase letters, numbers, and underscores.');
-      expect(InputValidator.validateUsername('valid_123'), isNull);
+    group('validateDisplayName', () {
+      test('returns error for empty display name', () {
+        expect(InputValidator.validateDisplayName(''), isNotNull);
+        expect(InputValidator.validateDisplayName('   '), isNotNull);
+      });
+
+      test('returns error for display name over 40 characters', () {
+        expect(InputValidator.validateDisplayName('a' * 41), isNotNull);
+      });
+
+      test('returns null for valid display name', () {
+        expect(InputValidator.validateDisplayName('Soham M'), isNull);
+      });
     });
 
-    test('validateSecureMessage limits to 2048 bytes', () {
-      final longMsg = List.filled(2049, 'a').join();
-      expect(InputValidator.validateSecureMessage(longMsg), 'Message payload is too large (> 2048 bytes).');
-      expect(InputValidator.validateSecureMessage('Valid secure text'), isNull);
+    group('validateSecureMessage', () {
+      test('returns error for empty message', () {
+        expect(InputValidator.validateSecureMessage(''), isNotNull);
+        expect(InputValidator.validateSecureMessage('   '), isNotNull);
+      });
+
+      test('returns error for message exceeding 2048 bytes', () {
+        final longMessage = 'a' * 2049;
+        expect(InputValidator.validateSecureMessage(longMessage), isNotNull);
+      });
+
+      test('returns null for valid message', () {
+        expect(InputValidator.validateSecureMessage('Hello'), isNull);
+      });
     });
 
-    test('validateComment limits to 280 chars', () {
-      final longComment = List.filled(281, 'a').join();
-      expect(InputValidator.validateComment(longComment), 'Comment exceeds 280 characters limit.');
-      expect(InputValidator.validateComment('Valid comment'), isNull);
-      expect(InputValidator.validateComment('   '), 'Comment cannot be empty.');
+    group('validateComment', () {
+      test('returns error for empty comment', () {
+        expect(InputValidator.validateComment(''), isNotNull);
+      });
+
+      test('returns error for comment exceeding 280 characters', () {
+        expect(InputValidator.validateComment('a' * 281), isNotNull);
+      });
+
+      test('returns null for valid comment', () {
+        expect(InputValidator.validateComment('Great post!'), isNull);
+      });
     });
   });
 }

@@ -4,6 +4,7 @@ import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
@@ -25,7 +26,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = true);
     try {
       await ref.read(authServiceProvider).signInWithEmail(_emailCtrl.text.trim(), _passwordCtrl.text);
-      if (mounted) context.go('/shell/feed'); // Ensure dynamic feed mounting
+      if (mounted) await _navigateAfterAuth();
     } on FirebaseAuthException catch (e) {
       String msg = e.message ?? 'Authentication failed';
       if (e.code == 'user-not-found') {
@@ -49,11 +50,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = true);
     try {
       await ref.read(authServiceProvider).signInWithGoogle();
-      if (mounted) context.go('/shell/feed');
+      if (mounted) await _navigateAfterAuth();
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  /// Checks if a profile with a username exists; routes to profile_setup if not.
+  Future<void> _navigateAfterAuth() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null || !mounted) return;
+    try {
+      final profile = await Supabase.instance.client
+          .from('profiles')
+          .select('username')
+          .eq('firebase_uid', user.uid)
+          .maybeSingle();
+
+      if (!mounted) return;
+      if (profile != null && profile['username'] != null) {
+        context.go('/shell/feed');
+      } else {
+        context.go('/profile_setup');
+      }
+    } catch (_) {
+      if (mounted) context.go('/profile_setup');
     }
   }
 

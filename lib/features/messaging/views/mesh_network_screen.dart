@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
-
+import '../services/mesh_network_service.dart';
 
 class MeshNetworkScreen extends StatefulWidget {
   const MeshNetworkScreen({super.key});
@@ -12,12 +12,32 @@ class MeshNetworkScreen extends StatefulWidget {
 
 class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
   bool _isRelayActive = false;
-  int _connectedNodes = 0;
   // ignore: prefer_final_fields
   int _packetsRelayed = 0;
 
   @override
+  void initState() {
+    super.initState();
+    MeshNetworkService().addListener(_updateState);
+    _isRelayActive = MeshNetworkService().state != MeshNodeState.disconnected;
+  }
+
+  @override
+  void dispose() {
+    MeshNetworkService().removeListener(_updateState);
+    super.dispose();
+  }
+
+  void _updateState() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final meshService = MeshNetworkService();
+    final connectedNodes = meshService.connectedPeers.length;
+    final isPowerSaver = meshService.powerMode == MeshPowerMode.background;
+
     return Scaffold(
       backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
@@ -35,13 +55,15 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
               child: Column(
                 children: [
                   Icon(
-                    _connectedNodes > 0 ? Icons.radar : Icons.radar_outlined,
+                    connectedNodes > 0 ? Icons.radar : Icons.radar_outlined,
                     size: 64,
                     color: _isRelayActive ? context.colors.primary : context.colors.shadowDark,
                   ),
                   SizedBox(height: 16),
                   Text(
-                    _isRelayActive ? 'RADAR ACTIVE' : 'RADAR OFFLINE',
+                    _isRelayActive 
+                      ? (isPowerSaver ? '🔋 POWER SAVER' : '⚡ FULL POWER') 
+                      : 'RADAR OFFLINE',
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
                       color: _isRelayActive ? context.colors.primary : context.colors.textSecondary,
@@ -51,7 +73,7 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '$_connectedNodes LOCAL NODES IN RANGE',
+                    '$connectedNodes LOCAL NODES IN RANGE',
                     style: TextStyle(fontWeight: FontWeight.w600, color: context.colors.textPrimary, fontSize: 12),
                   ),
                 ],
@@ -111,9 +133,9 @@ class _MeshNetworkScreenState extends State<MeshNetworkScreen> {
                       setState(() {
                          _isRelayActive = val;
                          if (val) {
-                            // BleSignalingService().startScanning(...) 
+                            meshService.startPulseScanning();
                          } else {
-                            _connectedNodes = 0;
+                            meshService.stopAll();
                          }
                       });
                     },

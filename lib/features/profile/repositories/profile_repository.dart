@@ -146,6 +146,11 @@ class ProfileRepository {
   }
 
   Future<void> deletePost(String postId) async {
-    await _supabase.from('posts').delete().eq('id', postId);
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    await _supabase.rpc('delete_post_safe', params: {
+      'p_post_id': postId,
+      'p_firebase_uid': user.uid,
+    });
   }
 }

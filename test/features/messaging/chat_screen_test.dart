@@ -20,7 +20,7 @@ class MockMessagingService implements MessagingService {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> fetchMessages(String conversationId) async {
+  Future<List<Map<String, dynamic>>> fetchMessages(String conversationId, {int offset = 0, int limit = 50}) async {
     return []; // Start with no messages
   }
 
@@ -73,7 +73,7 @@ class SimpleMockMessagingService implements MessagingService {
   Future<void> ensureKeysExist() async {}
 
   @override
-  Future<List<Map<String, dynamic>>> fetchMessages(String conversationId) async => [];
+  Future<List<Map<String, dynamic>>> fetchMessages(String conversationId, {int offset = 0, int limit = 50}) async => [];
 
   @override
   Future<String?> getConversationIdWithPeer(String peerId) async => 'conv-id';

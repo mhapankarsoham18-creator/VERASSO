@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class DoubtDetailScreen extends StatefulWidget {
   final Map<String, dynamic> doubt;
@@ -56,7 +57,7 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
         });
       }
     } catch (e) {
-      debugPrint('Error fetching answers: $e');
+      appLogger.d('Error fetching answers: $e');
       if (mounted) setState(() => _isLoadingAnswers = false);
     }
   }
@@ -275,3 +276,4 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
     );
   }
 }
+

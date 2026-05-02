@@ -22,6 +22,52 @@ class GamificationService {
     });
   }
 
+  /// Awards XP to a user based on Ira's study task evaluation.
+  /// Tier 1 (Easy): 50 XP — Quick recall, vocabulary, simple Q&A.
+  /// Tier 2 (Medium): 100 XP — Problem solving, multi-step math, paragraph answers.
+  /// Tier 3 (Hard): 200 XP — Deep analysis, research tasks, lab simulations.
+  Future<void> awardStudyXp(String userId, int tier) async {
+    final xpMap = {1: 50, 2: 100, 3: 200};
+    final xp = xpMap[tier] ?? 50;
+
+    try {
+      final existing = await _supabase
+          .from('user_xp')
+          .select('total_xp')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (existing != null) {
+        final currentXp = (existing['total_xp'] ?? 0) as int;
+        await _supabase
+            .from('user_xp')
+            .update({'total_xp': currentXp + xp})
+            .eq('user_id', userId);
+      } else {
+        await _supabase.from('user_xp').insert({
+          'user_id': userId,
+          'total_xp': xp,
+        });
+      }
+    } catch (e) {
+      // Silently fail — XP is non-critical
+    }
+  }
+
+  /// Fetches the user's current total XP.
+  Future<int> fetchUserXp(String userId) async {
+    try {
+      final result = await _supabase
+          .from('user_xp')
+          .select('total_xp')
+          .eq('user_id', userId)
+          .maybeSingle();
+      return (result?['total_xp'] ?? 0) as int;
+    } catch (_) {
+      return 0;
+    }
+  }
+
   /// Compute user trust score metrics
   Future<int> computeTrustScore(String userId) async {
      // A simple initial heuristic:

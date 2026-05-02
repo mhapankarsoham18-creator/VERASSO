@@ -4,9 +4,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/profile_provider.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
-import '../repositories/profile_repository.dart';
+
 import '../../feed/views/post_detail_screen.dart';
 import '../../messaging/views/chat_screen.dart';
+import '../../feed/views/view_story_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../core/services/follow_service.dart';
+
+final profileHighlightsProvider = FutureProvider.family<Map<String, List<Map<String, dynamic>>>, String>((ref, profileId) async {
+  final data = await Supabase.instance.client
+      .from('story_highlights')
+      .select('title, stories(*)')
+      .eq('profile_id', profileId);
+
+  final Map<String, List<Map<String, dynamic>>> grouped = {};
+  for (final row in data) {
+    final title = row['title'] as String;
+    if (row['stories'] != null) {
+      grouped.putIfAbsent(title, () => []).add(row['stories']);
+    }
+  }
+  return grouped;
+});
 
 /// Screen for viewing another user's profile
 class UserProfileScreen extends ConsumerStatefulWidget {
@@ -24,6 +43,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     final postsAsync = ref.watch(profilePostsProvider(widget.profileId));
     final followCountsAsync = ref.watch(followCountsProvider(widget.profileId));
     final followStatusAsync = ref.watch(followStatusProvider(widget.profileId));
+    final highlightsAsync = ref.watch(profileHighlightsProvider(widget.profileId));
     final myId = ref.watch(myProfileIdProvider).asData?.value;
 
     if (profileAsync.isLoading || postsAsync.isLoading || followCountsAsync.isLoading) {
@@ -114,12 +134,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       child: NeoPixelBox(
                         padding: 14, isButton: true,
                         onTap: () async {
-                          final repo = ref.read(profileRepositoryProvider);
-                          final myId = ref.read(myProfileIdProvider).value ?? 'unknown';
+                          final followSvc = ref.read(followServiceProvider);
                           if (followStatus == 'none') {
-                            await repo.sendFollowRequest(myId, widget.profileId);
+                            await followSvc.sendFollowRequest(widget.profileId);
                           } else {
-                            await repo.unfollow(myId, widget.profileId);
+                            await followSvc.cancelOrUnfollow(widget.profileId);
                           }
                           ref.invalidate(followStatusProvider(widget.profileId));
                         },
@@ -166,6 +185,65 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ),
           SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+          // Highlights Section
+          highlightsAsync.when(
+            data: (highlights) {
+              if (highlights.isEmpty) return SliverToBoxAdapter(child: SizedBox.shrink());
+              return SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      child: Text('HIGHLIGHTS', style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(height: 12),
+                    SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        itemCount: highlights.keys.length,
+                        itemBuilder: (context, index) {
+                          final title = highlights.keys.elementAt(index);
+                          final stories = highlights[title]!;
+                          final coverUrl = stories.isNotEmpty ? stories.first['media_url'] : null;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => ViewStoryScreen(stories: stories)));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 64, height: 64,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: context.colors.primary, width: 2),
+                                      image: coverUrl != null ? DecorationImage(image: NetworkImage(coverUrl), fit: BoxFit.cover) : null,
+                                      color: context.colors.shadowDark,
+                                    ),
+                                    child: coverUrl == null ? Icon(Icons.bookmark, color: context.colors.primary) : null,
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(title, style: TextStyle(color: context.colors.textPrimary, fontSize: 12, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
+              );
+            },
+            loading: () => SliverToBoxAdapter(child: SizedBox.shrink()),
+            error: (err, stack) => SliverToBoxAdapter(child: SizedBox.shrink()),
+          ),
 
           // Posts header
           SliverToBoxAdapter(

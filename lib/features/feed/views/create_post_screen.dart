@@ -1,14 +1,18 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:verasso/core/widgets/verasso_snackbar.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:record/record.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import '../../../core/validators/input_validator.dart';
+import '../../../core/utils/file_validator.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});
@@ -22,9 +26,18 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   bool _isTransmitting = false;
   bool _hasMath = false;
   File? _selectedMedia;
-  String? _mediaType; // 'image' or 'video'
+  String? _mediaType; // 'image', 'video', 'audio'
+  
+  final AudioRecorder _audioRecorder = AudioRecorder();
+  bool _isRecording = false;
 
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void dispose() {
+    _audioRecorder.dispose();
+    super.dispose();
+  }
 
   Future<void> _pickMedia({required bool isVideo}) async {
     final XFile? file = isVideo 
@@ -32,6 +45,13 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         : await _picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
     
     if (file != null) {
+      final error = isVideo
+          ? await FileValidator.validateVideo(file)
+          : await FileValidator.validateImage(file);
+      if (error != null) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+        return;
+      }
       setState(() {
         _selectedMedia = File(file.path);
         _mediaType = isVideo ? 'video' : 'image';
@@ -45,10 +65,48 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         : await _picker.pickImage(source: ImageSource.camera, imageQuality: 70);
 
     if (file != null) {
+      final error = isVideo
+          ? await FileValidator.validateVideo(file)
+          : await FileValidator.validateImage(file);
+      if (error != null) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+        return;
+      }
       setState(() {
         _selectedMedia = File(file.path);
         _mediaType = isVideo ? 'video' : 'image';
       });
+    }
+  }
+
+  Future<void> _startRecording() async {
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        final directory = await getApplicationDocumentsDirectory();
+        final path = '${directory.path}/audio_${const Uuid().v4()}.m4a';
+        await _audioRecorder.start(const RecordConfig(), path: path);
+        setState(() {
+          _isRecording = true;
+          _mediaType = 'audio';
+          _selectedMedia = null;
+        });
+      }
+    } catch (e) {
+      appLogger.d('Error starting record: $e');
+    }
+  }
+
+  Future<void> _stopRecording() async {
+    try {
+      final path = await _audioRecorder.stop();
+      if (path != null) {
+        setState(() {
+          _isRecording = false;
+          _selectedMedia = File(path);
+        });
+      }
+    } catch (e) {
+      appLogger.d('Error stopping record: $e');
     }
   }
 
@@ -155,8 +213,29 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                           children: [
                             if (_mediaType == 'image')
                                Image.file(_selectedMedia!, fit: BoxFit.cover, width: double.infinity, height: double.infinity)
-                            else 
-                               Center(child: Icon(Icons.videocam, size: 48, color: context.colors.primary)),
+                            else if (_mediaType == 'video')
+                               Center(child: Icon(Icons.videocam, size: 48, color: context.colors.primary))
+                            else if (_mediaType == 'audio')
+                               Center(
+                                 child: GestureDetector(
+                                   onTap: _isRecording ? _stopRecording : _startRecording,
+                                   child: Column(
+                                     mainAxisSize: MainAxisSize.min,
+                                     children: [
+                                       Icon(
+                                         _isRecording ? Icons.stop_circle : Icons.mic,
+                                         size: 64,
+                                         color: _isRecording ? context.colors.error : context.colors.primary,
+                                       ),
+                                       SizedBox(height: 8),
+                                       Text(
+                                         _isRecording ? 'Recording... Tap to stop' : 'Recorded. Tap to re-record',
+                                         style: TextStyle(color: context.colors.textPrimary, fontWeight: FontWeight.bold),
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               ),
                             Positioned(
                               top: 4, right: 4,
                               child: IconButton(
@@ -240,8 +319,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     onTap: () {
                       setState(() {
                         _mediaType = 'audio';
+                        _selectedMedia = null;
                       });
-                      VerassoSnackbar.show(context, message: 'Voice recording will use device mic in Phase 3. Post tagged as audio.');
                     },
                     child: Column(
                       children: [
@@ -274,3 +353,4 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     );
   }
 }
+

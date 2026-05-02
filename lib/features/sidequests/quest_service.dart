@@ -1,16 +1,22 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'quest_data.dart';
 import 'title_system.dart';
+import '../../core/utils/file_validator.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class QuestService {
-  final SupabaseClient _supabase = Supabase.instance.client;
-  final ImagePicker _picker = ImagePicker();
+  final SupabaseClient _supabase;
+  final ImagePicker _picker;
+
+  QuestService({SupabaseClient? supabaseClient, ImagePicker? imagePicker}) 
+      : _supabase = supabaseClient ?? Supabase.instance.client,
+        _picker = imagePicker ?? ImagePicker();
 
   /// Gets 10 deterministic daily quests for a user based on their ID and the date.
   List<Quest> getDailyQuests(String userId) {
@@ -87,6 +93,12 @@ class QuestService {
       );
 
       if (photo == null) return null; // User cancelled
+
+      // Validate file size and type
+      final validationError = await FileValidator.validateImage(photo);
+      if (validationError != null) {
+        throw validationError;
+      }
 
       // 1. Upload photo to quest-photos bucket
       final fileExtension = '.${photo.path.split('.').last}';
@@ -166,8 +178,9 @@ class QuestService {
       return [didLevelUp, newXp];
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      debugPrint('Sidequest Error: $e');
+      appLogger.d('Sidequest Error: $e');
       return null;
     }
   }
 }
+

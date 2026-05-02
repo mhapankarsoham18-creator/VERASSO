@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:nearby_connections/nearby_connections.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class NearbyTransferService {
   final Strategy strategy = Strategy.P2P_POINT_TO_POINT;
@@ -8,7 +9,7 @@ class NearbyTransferService {
 
   Future<void> init() async {
     // In a real app we'd request NEARBY_WIFI_DEVICES permissions here
-    debugPrint('Nearby Transfer Service Initialized');
+    appLogger.d('Nearby Transfer Service Initialized');
   }
 
   /// Called when the BLE Signaling layer detects a 'FILE_BEACON'
@@ -25,7 +26,7 @@ class NearbyTransferService {
             onPayLoadRecieved: (endid, payload) {
               if (payload.type == PayloadType.FILE) {
                 // File received!
-                debugPrint('Received file payload from Mesh: ${payload.id}');
+                appLogger.d('Received file payload from Mesh: ${payload.id}');
                 // In production, save to getApplicationDocumentsDirectory()
               } else if (payload.type == PayloadType.BYTES) {
                  // Text/JSON fallback
@@ -39,19 +40,19 @@ class NearbyTransferService {
         onConnectionResult: (id, status) {
           if (status == Status.CONNECTED) {
             currentEndpointId = id;
-            debugPrint('Mesh Wi-Fi Direct Connected!');
+            appLogger.d('Mesh Wi-Fi Direct Connected!');
           } else {
-            debugPrint('Mesh Wi-Fi Connection failed');
+            appLogger.d('Mesh Wi-Fi Connection failed');
           }
         },
         onDisconnected: (String id) {
-          debugPrint('Mesh Wi-Fi Direct Disconnected.');
+          appLogger.d('Mesh Wi-Fi Direct Disconnected.');
           currentEndpointId = '';
         },
       );
-      debugPrint('Started Wi-Fi Direct Hotspot: $a');
+      appLogger.d('Started Wi-Fi Direct Hotspot: $a');
     } catch (e) {
-      debugPrint('Error starting Wi-Fi direct: $e');
+      appLogger.d('Error starting Wi-Fi direct: $e');
     }
   }
 
@@ -72,7 +73,7 @@ class NearbyTransferService {
             onConnectionResult: (id, status) {
                if (status == Status.CONNECTED) {
                  currentEndpointId = id;
-                 debugPrint('Mesh Wi-Fi Direct Connected as Client!');
+                 appLogger.d('Mesh Wi-Fi Direct Connected as Client!');
                }
             },
             onDisconnected: (id) {},
@@ -80,21 +81,21 @@ class NearbyTransferService {
         },
         onEndpointLost: (String? id) {},
       );
-      debugPrint('Started Wi-Fi Direct Discovery: $a');
+      appLogger.d('Started Wi-Fi Direct Discovery: $a');
     } catch (e) {
-      debugPrint('Error starting Wi-Fi discovery: $e');
+      appLogger.d('Error starting Wi-Fi discovery: $e');
     }
   }
 
   /// Send the actual >1MB file
   Future<void> sendLargeFile(File file) async {
     if (currentEndpointId.isEmpty) {
-      debugPrint('Cannot send file: No Wi-Fi Direct active connection');
+      appLogger.d('Cannot send file: No Wi-Fi Direct active connection');
       return;
     }
     
     int payloadId = await Nearby().sendFilePayload(currentEndpointId, file.path);
-    debugPrint('Queued file payload $payloadId over High-Bandwidth channel');
+    appLogger.d('Queued file payload $payloadId over High-Bandwidth channel');
   }
 
   Future<void> shutdown() async {
@@ -103,3 +104,4 @@ class NearbyTransferService {
     await Nearby().stopAllEndpoints();
   }
 }
+

@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class CreateDoubtScreen extends StatefulWidget {
   const CreateDoubtScreen({super.key});
@@ -46,7 +47,7 @@ class _CreateDoubtScreenState extends State<CreateDoubtScreen> {
         Navigator.pop(context, true);
       }
     } catch (e) {
-      debugPrint('Error creating doubt: $e');
+      appLogger.d('Error creating doubt: $e');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
     } finally {
@@ -147,3 +148,4 @@ class _CreateDoubtScreenState extends State<CreateDoubtScreen> {
     );
   }
 }
+

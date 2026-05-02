@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:verasso/core/theme/verasso_loading.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,6 +6,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/neo_pixel_box.dart';
 import 'create_doubt_screen.dart';
 import 'doubt_detail_screen.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 class DoubtsListScreen extends StatefulWidget {
   const DoubtsListScreen({super.key});
@@ -38,7 +39,7 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
         });
       }
     } catch (e) {
-      debugPrint('Error fetching doubts: $e');
+      appLogger.d('Error fetching doubts: $e');
       if (mounted) setState(() => _isLoading = false);
     }
   }
@@ -48,7 +49,7 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
     return Scaffold(
       backgroundColor: context.colors.neutralBg,
       appBar: AppBar(
-        title: Text('❓ DOUBTS NETWORK', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
+        title: Text('â“ DOUBTS NETWORK', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 16)),
         leading: IconButton(icon: Icon(Icons.arrow_back, color: context.colors.textPrimary), onPressed: () => Navigator.pop(context)),
       ),
       body: _isLoading
@@ -137,3 +138,4 @@ class _DoubtsListScreenState extends State<DoubtsListScreen> {
     );
   }
 }
+

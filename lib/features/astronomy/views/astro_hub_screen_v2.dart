@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -23,6 +23,7 @@ import '../widgets/discovery_hud.dart';
 import '../widgets/object_info_panel.dart';
 import '../widgets/sky_visibility_overlay.dart';
 import '../../../core/theme/colors.dart';
+import 'package:verasso/core/utils/logger.dart';
 
 /// Main Astro Hub screen with offline sky visibility gating.
 class AstroHubScreen extends StatefulWidget {
@@ -260,7 +261,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
       await _cameraController!.initialize();
       await _startCameraAnalysis();
     } catch (e) {
-      debugPrint('Camera error: $e');
+      appLogger.d('Camera error: $e');
       _hasCameraAnalysis = false;
     } finally {
       _refreshVisibilityReport();
@@ -281,7 +282,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
       });
       _hasCameraAnalysis = true;
     } catch (e) {
-      debugPrint('Camera analysis error: $e');
+      appLogger.d('Camera analysis error: $e');
       _hasCameraAnalysis = false;
     }
   }
@@ -301,7 +302,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
       _visibilityEstimator.updateCameraMetrics(metrics);
       _refreshVisibilityReport();
     } catch (e) {
-      debugPrint('Camera frame parse error: $e');
+      appLogger.d('Camera frame parse error: $e');
     } finally {
       _isProcessingFrame = false;
     }
@@ -596,7 +597,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            // ── TOP HALF: Retro Screen Bezel ──
+            // â”€â”€ TOP HALF: Retro Screen Bezel â”€â”€
             Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Container(
@@ -698,7 +699,7 @@ class _AstroHubScreenState extends State<AstroHubScreen>
               ),
             ),
 
-            // ── BOTTOM HALF: Controls & LCD ──
+            // â”€â”€ BOTTOM HALF: Controls & LCD â”€â”€
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -986,3 +987,4 @@ class _CrosshairPainter extends CustomPainter {
   @override
   bool shouldRepaint(_CrosshairPainter old) => false;
 }
+
