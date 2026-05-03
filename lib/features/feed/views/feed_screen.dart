@@ -125,7 +125,7 @@ class FeedScreen extends ConsumerWidget {
                     }),
                     _pixelTile(context, '🌌', 'Astro Hub', () {
                       Navigator.pop(context);
-                      // User will implement Astro here later
+                      context.go('/shell/astro');
                     }),
                     _pixelTile(context, '❓', 'Doubts', () {
                       Navigator.pop(context);

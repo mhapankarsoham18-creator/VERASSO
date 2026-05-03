@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'firebase_options.dart';
@@ -54,10 +54,17 @@ Future<void> main() async {
     appLogger.d('Firebase initialization pending configuration: $e');
   }
 
-  // Initialize Supabase
+  // Initialize Supabase — dart-define (CI/CD) takes priority over .env (local dev)
   try {
-    final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
-    final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+    const dartDefineSupabaseUrl = String.fromEnvironment('SUPABASE_URL');
+    const dartDefineAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+
+    final supabaseUrl = dartDefineSupabaseUrl.isNotEmpty
+        ? dartDefineSupabaseUrl
+        : (dotenv.env['SUPABASE_URL'] ?? '');
+    final supabaseAnonKey = dartDefineAnonKey.isNotEmpty
+        ? dartDefineAnonKey
+        : (dotenv.env['SUPABASE_ANON_KEY'] ?? '');
     
     if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
       await Supabase.initialize(
@@ -72,13 +79,16 @@ Future<void> main() async {
     appLogger.d('Supabase initialization error: $e');
   }
 
-  // Initialize Sentry and run the app
-  final sentryDsn = dotenv.env['SENTRY_DSN'] ?? '';
+  // Initialize Sentry and run the app — dart-define > .env
+  const dartDefineSentryDsn = String.fromEnvironment('SENTRY_DSN');
+  final sentryDsn = dartDefineSentryDsn.isNotEmpty
+      ? dartDefineSentryDsn
+      : (dotenv.env['SENTRY_DSN'] ?? '');
   if (sentryDsn.isNotEmpty) {
     await SentryFlutter.init(
       (options) {
         options.dsn = sentryDsn;
-        options.tracesSampleRate = 1.0; 
+        options.tracesSampleRate = kDebugMode ? 1.0 : 0.1;
       },
       appRunner: () => runApp(ProviderScope(child: ErrorBoundary(child: VerassoApp()))),
     );

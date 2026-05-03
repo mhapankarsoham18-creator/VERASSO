@@ -23,7 +23,48 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          
+
+      # --- Inject secrets that are gitignored ---
+
+      - name: Generate Firebase Options
+        run: |
+          cat > lib/firebase_options.dart << 'DART'
+          import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+          import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
+          class DefaultFirebaseOptions {
+            static FirebaseOptions get currentPlatform {
+              if (kIsWeb) throw UnsupportedError('Web not configured');
+              switch (defaultTargetPlatform) {
+                case TargetPlatform.android:
+                  return android;
+                default:
+                  throw UnsupportedError('Platform not configured for Firebase');
+              }
+            }
+
+            static const FirebaseOptions android = FirebaseOptions(
+              apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
+              appId: String.fromEnvironment('FIREBASE_APP_ID'),
+              messagingSenderId: String.fromEnvironment('FIREBASE_MESSAGING_SENDER_ID'),
+              projectId: String.fromEnvironment('FIREBASE_PROJECT_ID'),
+              storageBucket: String.fromEnvironment('FIREBASE_STORAGE_BUCKET'),
+            );
+          }
+          DART
+
+      - name: Setup Signing Keys
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/release-key.jks
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=release-key.jks
+          EOF
+
+      # --- Build pipeline ---
+
       - name: Get Dependencies
         run: flutter pub get
         
@@ -34,10 +75,30 @@ jobs:
         run: flutter test
         
       - name: Build APK
-        run: flutter build apk --release --build-number=${{ github.run_number }} --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+        run: >
+          flutter build apk --release
+          --build-number=${{ github.run_number }}
+          --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          --dart-define=FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}
+          --dart-define=FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
+          --dart-define=FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          --dart-define=FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
+          --dart-define=FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}
         
       - name: Build AppBundle
-        run: flutter build appbundle --release --build-number=${{ github.run_number }} --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+        run: >
+          flutter build appbundle --release
+          --build-number=${{ github.run_number }}
+          --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          --dart-define=FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}
+          --dart-define=FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
+          --dart-define=FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          --dart-define=FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
+          --dart-define=FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}
         
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

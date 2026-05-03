@@ -69,3 +69,8 @@ lib/firebase_options.dart
 /supabase/.temp/
 /supabase/.branches/
 /supabase/logs/
+
+# Stray files
+google-services*.json
+!android/app/google-services.json
+signing_output.txt

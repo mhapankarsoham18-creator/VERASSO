@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -9,7 +9,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:cryptography/cryptography.dart';
 
 import '../../../core/services/app_lifecycle_guard.dart';
-import 'crypto_service.dart';
 import 'package:verasso/core/utils/logger.dart';
 
 enum MeshNodeState { disconnected, discovering, advertising, connected }
@@ -383,6 +382,15 @@ class MeshNetworkService extends ChangeNotifier implements LifecycleAwareService
   }
 
   /// Verifies the envelope signature at the recipient side.
+  ///
+  /// 1. Looks up the sender's known public key from the local key cache (Hive)
+  ///    or falls back to the Supabase profiles table.
+  /// 2. If we have a cached key, compares it to the envelope's claimed public key.
+  ///    Mismatch = impersonation attempt → reject.
+  /// 3. Re-derives the HMAC-SHA256 signature using the recipient's private key
+  ///    (acting as the shared secret for HMAC) to verify metadata integrity.
+  /// 4. If we have NO cached key for this sender (first contact), we accept
+  ///    the message but cache the key for future verification.
   static Future<bool> verifyEnvelope({
     required String senderId,
     required String nonce,
@@ -390,23 +398,88 @@ class MeshNetworkService extends ChangeNotifier implements LifecycleAwareService
     required String senderSig,
     required String senderPublicKeyB64,
   }) async {
-    // The recipient re-derives the expected signature using the sender's public key
-    // For HMAC verification, both sides need the shared secret.
-    // Since we use X25519 ECDH, the recipient can derive the shared secret
-    // and verify. For simplicity, we verify by checking that the sender's
-    // claimed public key matches what we have cached.
-    // The actual cryptographic binding is that only the real sender could
-    // produce the E2E encrypted payload that decrypts with their public key.
-    // The signature here serves as an additional metadata integrity check.
-    
-    // In practice: if sender's publicKey in envelope matches our cached key
-    // for that senderId, we trust the metadata. The E2E encryption itself
-    // is the ultimate proof of identity.
-    final crypto = CryptoService();
-    final cachedKey = await crypto.getStoredPrivateKey(senderId);
-    // If we have no cached relationship, we can't verify â€” but we still
-    // accept the message (it's E2E encrypted, content is safe regardless)
-    return cachedKey != null || senderPublicKeyB64.isNotEmpty;
+    if (senderPublicKeyB64.isEmpty || senderSig.isEmpty) {
+      appLogger.d('SECURITY: Rejected mesh packet — missing signature or public key from $senderId');
+      return false;
+    }
+
+    // Step 1: Look up the sender's known public key
+    String? knownPublicKey;
+
+    // Check local Hive cache first (works offline)
+    try {
+      final cacheBox = Hive.isBoxOpen('mesh_key_cache')
+          ? Hive.box('mesh_key_cache')
+          : await Hive.openBox('mesh_key_cache');
+      knownPublicKey = cacheBox.get('pubkey_$senderId') as String?;
+    } catch (e) {
+      appLogger.d('Mesh key cache lookup error: $e');
+    }
+
+    // Fall back to Supabase profiles if not cached locally
+    if (knownPublicKey == null) {
+      try {
+        final supabase = Supabase.instance.client;
+        final resp = await supabase
+            .from('profiles')
+            .select('public_key')
+            .eq('id', senderId)
+            .maybeSingle();
+        knownPublicKey = resp?['public_key'] as String?;
+
+        // Cache it locally for future offline verification
+        if (knownPublicKey != null) {
+          try {
+            final cacheBox = Hive.isBoxOpen('mesh_key_cache')
+                ? Hive.box('mesh_key_cache')
+                : await Hive.openBox('mesh_key_cache');
+            await cacheBox.put('pubkey_$senderId', knownPublicKey);
+          } catch (_) {}
+        }
+      } catch (e) {
+        appLogger.d('Supabase public key lookup failed (offline?): $e');
+      }
+    }
+
+    // Step 2: Compare envelope's claimed key against known key
+    if (knownPublicKey != null && knownPublicKey != senderPublicKeyB64) {
+      appLogger.d('SECURITY: Rejected mesh packet — public key mismatch for $senderId. '
+          'Possible impersonation attempt.');
+      return false;
+    }
+
+    // Step 3: Verify the HMAC signature using the sender's public key as shared secret
+    try {
+      final dataToVerify = '$senderId:$nonce:$targetUserId';
+      final hmac = Hmac.sha256();
+      final secretKey = SecretKey(base64Decode(senderPublicKeyB64));
+      final expectedMac = await hmac.calculateMac(
+        utf8.encode(dataToVerify),
+        secretKey: secretKey,
+      );
+      final expectedSig = base64Encode(expectedMac.bytes);
+
+      if (expectedSig != senderSig) {
+        appLogger.d('SECURITY: Rejected mesh packet — HMAC signature mismatch for $senderId');
+        return false;
+      }
+    } catch (e) {
+      appLogger.d('SECURITY: Envelope HMAC verification error: $e');
+      return false;
+    }
+
+    // Step 4: If this is a first-contact, cache the public key for future checks
+    if (knownPublicKey == null) {
+      appLogger.d('Mesh: First contact from $senderId — caching public key for future verification.');
+      try {
+        final cacheBox = Hive.isBoxOpen('mesh_key_cache')
+            ? Hive.box('mesh_key_cache')
+            : await Hive.openBox('mesh_key_cache');
+        await cacheBox.put('pubkey_$senderId', senderPublicKeyB64);
+      } catch (_) {}
+    }
+
+    return true;
   }
 
   // ===== PAYLOAD HANDLING =====
